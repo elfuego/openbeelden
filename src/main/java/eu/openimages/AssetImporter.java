@@ -66,6 +66,7 @@ public class AssetImporter implements Runnable, LoggerAccepter {
         Handler(Cloud cloud, File file) {
             this.cloud = cloud;
             this.cloud.setProperty(org.mmbase.streams.CreateCachesProcessor.NOT, "no");
+            this.cloud.setProperty(org.mmbase.streams.DeleteCachesProcessor.NOT, "no");
             this.file = file;
         }
 
@@ -165,6 +166,8 @@ public class AssetImporter implements Runnable, LoggerAccepter {
                     mediaFragment.setStringValue("coverage", Casting.toString(coverage));
                     mediaFragment.setStringValue("title", fields.get("title"));
                     mediaFragment.setStringValue("intro", fields.get("description"));
+                    mediaFragment.setStringValue("language", "nl");
+
                     {
                         String[] entries = fields.get("format").split(":");
                         long length = 1000 * ( Integer.parseInt(entries[2]) + 60 * ( Integer.parseInt(entries[1]) + 60 * Integer.parseInt(entries[0])));
@@ -282,7 +285,20 @@ public class AssetImporter implements Runnable, LoggerAccepter {
 
     }
 
-
+    protected void deleteImport(Cloud cloud, String dir) {
+        NodeManager mediasources = cloud.getNodeManager("mediasources");
+        NodeQuery q = mediasources.createQuery();
+        Queries.addConstraint(q, Queries.createConstraint(q, "url", Queries.getOperator("LIKE"), dir + "%"));
+        for (Node source : mediasources.getList(q)) {
+            Node mediaFragment =  source.getNodeValue("mediafragment");
+            if (mediaFragment != null) {
+                mediaFragment.delete(true);
+            }
+            source.delete(true);
+        }
+        
+        
+    }
 
     /**
      * Uses RMMCI to test this class on a running instance. Normally the run() method is scheduled
@@ -297,6 +313,7 @@ public class AssetImporter implements Runnable, LoggerAccepter {
             assets.setFile(argv[0]);
         }
         assets.read(cloud);
+        //assets.deleteImport(cloud, "B&G");
     }
 
 }
