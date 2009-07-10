@@ -1,0 +1,220 @@
+﻿<jsp:root
+    version="2.0"
+    xmlns:c="http://java.sun.com/jsp/jstl/core"
+    xmlns:fmt="http://java.sun.com/jsp/jstl/fmt"
+    xmlns:os="http://www.opensymphony.com/oscache"
+    xmlns:jsp="http://java.sun.com/JSP/Page"
+    xmlns:oip="urn:jsptagdir:/WEB-INF/tags/oip"
+    xmlns:mm="http://www.mmbase.org/mmbase-taglib-2.0">
+  <oip:html styleClass="home">
+    <jsp:attribute name="head">
+      <script src="${mm:link('/style/js/play.js.jsp')}" type="text/javascript"><!-- help ie --></script>
+      <script src="${mm:link('/player/flowplayer-3.1.1.min.js')}" type="text/javascript"><!-- help ie --></script>
+      <script src="${mm:link('/style/js/player.js')}" type="text/javascript"><!-- help ie --></script>
+      <link href="${mm:link('/style/css/player.css')}" rel="stylesheet" type="text/css" />
+      <link href="${mm:link('/api/atom/')}" rel="alternate" type="application/atom+xml" title="Open Images latest uploads" />
+    </jsp:attribute>
+    <jsp:attribute name="left"><jsp:text>  </jsp:text></jsp:attribute>
+
+    <jsp:attribute name="body">
+
+      <mm:escaper id="wrapper" type="substring">
+        <mm:param name="from" value="0" />
+        <mm:param name="to" value="24" />
+        <mm:param name="ellipsis" value="..." />
+      </mm:escaper>
+
+      <mm:import id="langpostfix">
+        <!-- a bit of a hack, should use fw-parmas -->
+        <c:if test="${! empty requestScope['org.mmbase.mmsite.language']}">
+          <jsp:text>.${requestScope['org.mmbase.mmsite.language']}</jsp:text>
+        </c:if>
+      </mm:import>
+
+      <div class="main-column">
+        <oip:h2><fmt:message key="media.featured" /></oip:h2>
+
+        <mm:time time="now" id="today" precision="days" write="false" />
+        <mm:node number="page_home">
+          <mm:relatednodescontainer type="mediafragments" role="posrel" searchdirs="destination">
+            <mm:constraint field="show" value="true" operator="EQUAL" />
+            <!-- <mm:constraint field="online" value="$today" operator="GREATER" /> -->
+            <!-- <mm:constraint field="offline" value="$today" operator="LESS" /> -->
+            <mm:maxnumber value="1" />
+            <mm:relatednodes id="featured_node">
+              <oip:video />
+              <h3 class="subtitle">
+                <mm:link>
+                  <mm:frameworkparam name="component">oip</mm:frameworkparam>
+                  <mm:frameworkparam name="block">mediafragment</mm:frameworkparam>
+                  <mm:frameworkparam name="media">${_node}</mm:frameworkparam>
+                  <a href="${_}">
+                    <mm:nodefunction name="translation">
+                      <mm:field name="title">
+                        <mm:isnotempty>${_}</mm:isnotempty>
+                        <mm:isempty>Media item</mm:isempty>
+                      </mm:field>
+                    </mm:nodefunction>                    
+                  </a>
+                </mm:link>
+              </h3>
+            </mm:relatednodes>
+          </mm:relatednodescontainer>
+        </mm:node>
+      </div>
+
+      <div class="right-column">
+        <div class="related">
+          <oip:h2><fmt:message key="media.latest_uploads" /></oip:h2>
+          <mm:listnodescontainer type="mediafragments">
+            <mm:constraint field="number" value="$featured_node" operator="EQUAL" inverse="true" />
+            <mm:constraint field="show" value="true" operator="EQUAL" />
+            <mm:sortorder field="number" direction="DOWN" />
+            <mm:maxnumber value="6" />
+            <mm:listnodes varStatus="status">
+              <mm:link>
+                <mm:frameworkparam name="component">oip</mm:frameworkparam>
+                <mm:frameworkparam name="block">mediafragment</mm:frameworkparam>
+                <mm:frameworkparam name="media">${_node}</mm:frameworkparam>
+                <c:choose>
+                  <c:when test="${(status.index + 2) % 3 == 0}"><c:set var="gridclass" value="grid first" /></c:when>
+                  <c:otherwise><c:set var="gridclass" value="grid" /></c:otherwise>
+                </c:choose>
+                <dl class="${gridclass}">
+                  <dt>
+                    <a title="${_node.subtitle}" href="${_}"><oip:thumb alt="${_node.title}" /></a>
+                  </dt>
+                  <dd> <mm:field name="title" escape="wrapper" /> </dd>
+                </dl>
+              </mm:link>
+            </mm:listnodes>
+          </mm:listnodescontainer>
+          <p class="more"><a href="${mm:link('/media')}${langpostfix}"><fmt:message key="media.more" /> »</a></p>
+        </div>
+      </div>
+      <div class="wrap">
+        <div class="left-column">
+          <oip:search advanced="false" language="${_lang}" />
+
+          <p class="logobeng">
+            <fmt:message key="head.initiative" />
+            <a href="http://www.beeldengeluid.nl"><img src="${mm:link('/style/images/logo-beng.png')}" alt="Nederlands Instituut voor Beeld en Geluid" width="149" height="38" /></a>
+          </p>
+        </div>
+
+        <!-- import the rss feed in a variable 'rss' -->
+        <c:choose>
+          <c:when test="${requestScope['javax.servlet.jsp.jstl.fmt.locale.request'].language eq 'nl'}">
+            <c:set var="rsslink">http://openbeelden.nl/blog/feed/</c:set>
+          </c:when>
+          <c:otherwise>
+            <c:set var="rsslink">http://openimages.eu/blog/feed/</c:set>
+          </c:otherwise>
+        </c:choose>
+        <div class="main-column">
+          <oip:h2><fmt:message key="service.latest_news" /></oip:h2>
+          <os:cache key="blog.feed.rss.${requestScope['javax.servlet.jsp.jstl.fmt.locale.request']}">
+            <mm:import id="rss"><mm:include page="${rsslink}" timeout="10000" /></mm:import>
+            <c:catch var="ex1">
+              <mm:content escaper="none">
+                <!-- just displaying the rss items with some xsl and java magic -->
+                <ul class="blog">
+                  <mm:formatter escape="tagstripper(xss)">
+                    <mm:write referid="rss" />
+                    <mm:xslt>
+
+                      <xsl:stylesheet version="1.0"
+                                      xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
+                                      xmlns:oip="eu.openimages.RssDateFormat"
+                                      exclude-result-prefixes="oip">
+
+                        <xsl:output method="html" encoding="UTF-8" indent="yes" />
+                        <xsl:variable name="format" select="'E, dd MMM yyyy hh:mm:ss Z'" />
+                        <xsl:variable name="newformat" select="'d MMMM yyyy'" />
+
+                        <xsl:template match="channel">
+                          <xsl:variable name="max" select="2" />
+                          <xsl:for-each select="item">
+                            <xsl:if test="position() lt $max">
+                              <xsl:variable name="rssdate" select="pubDate" />
+                              <h4><a href="{link}"><xsl:value-of select="title" /></a></h4>
+                              <p><xsl:value-of select="oip:reformatDate($rssdate,$format,$newformat)" /></p>
+                              <p>
+                                <xsl:value-of select="description" />
+                                <br /><a href="{link}"><fmt:message key="service.readmore" /> »</a>
+                            </p>
+                            </xsl:if>
+                          </xsl:for-each>
+                        </xsl:template>
+
+                      </xsl:stylesheet>
+                    </mm:xslt>
+                  </mm:formatter>
+                </ul>
+              </mm:content>
+            </c:catch>
+            <c:if test="${! empty ex1}">
+              <os:usecached />
+            </c:if>
+          </os:cache>
+          <c:if test="${! empty ex1}">
+            <p class="err"><mm:escape escape="text/xml,links">${rsslink}: ${ex1.cause.message}</mm:escape></p>
+          </c:if>
+        </div>
+        <div class="right-column">
+          <oip:h2>Blog</oip:h2>
+          <os:cache key="blog.feed.rss2.${requestScope['javax.servlet.jsp.jstl.fmt.locale.request']}">
+            <mm:notpresent referid="rss">
+              <mm:import id="rss"><mm:include page="${rsslink}" timeout="1000" /></mm:import>
+            </mm:notpresent>
+            <c:catch var="ex2">
+              <mm:content escaper="none">
+                <!-- just displaying the rss items with some xsl and java magic -->
+                <ul class="blog">
+                  <mm:formatter escape="tagstripper(xss)">
+                    <mm:write referid="rss" />
+                    <mm:xslt>
+
+                      <xsl:stylesheet version="1.0"
+                                      xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
+                                      xmlns:oip="eu.openimages.RssDateFormat"
+                                      exclude-result-prefixes="oip">
+
+                        <xsl:output method="html" encoding="UTF-8" indent="yes" />
+                        <xsl:variable name="format" select="'E, dd MMM yyyy hh:mm:ss Z'" />
+                        <xsl:variable name="newformat" select="'d MMMM yyyy'" />
+
+                        <xsl:template match="channel">
+                          <xsl:variable name="max" select="5" />
+                          <xsl:for-each select="item">
+                            <xsl:variable name="pos" select="position()" />
+                            <xsl:if test="$pos lt $max and $pos gt 1">
+                              <li>
+                                <xsl:variable name="rssdate" select="pubDate" />
+                            <strong><a href="{link}"><xsl:value-of select="title" /></a></strong>
+                            <xsl:value-of select="oip:reformatDate($rssdate,$format,$newformat)" />
+                              </li>
+                            </xsl:if>
+                          </xsl:for-each>
+                        </xsl:template>
+
+                      </xsl:stylesheet>
+                    </mm:xslt>
+                  </mm:formatter>
+                </ul>
+              </mm:content>
+            </c:catch>
+            <c:if test="${! empty ex2}">
+              <os:usecached />
+            </c:if>
+          </os:cache>
+          <c:if test="${! empty ex2}">
+            <p class="err"><mm:escape escape="text/xml,links">${rsslink}: ${ex2.cause.message}</mm:escape></p>
+          </c:if>
+
+        </div>
+      </div>
+
+    </jsp:attribute>
+  </oip:html>
+</jsp:root>

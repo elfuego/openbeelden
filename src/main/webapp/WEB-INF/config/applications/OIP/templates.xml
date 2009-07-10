@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<templates exportsource="mmbase://grgrijze.toly.net/oip/oi" timestamp="20090610233953">
+	<node number="346" owner="default">
+		<title>Article</title>
+		<description>Template for an article page, like f.e. about</description>
+		<url>article.jspx</url>
+		<mimetype></mimetype>
+	</node>
+
+	<node number="348" owner="admin">
+		<title>Media</title>
+		<description>Template for the media overview page</description>
+		<url>media.jspx</url>
+		<mimetype></mimetype>
+	</node>
+
+	<node number="350" owner="admin">
+		<title>Login</title>
+		<description>Template for login page</description>
+		<url>login.jspx</url>
+		<mimetype>text/html</mimetype>
+	</node>
+
+	<node number="352" owner="admin">
+		<title>Register</title>
+		<description>Template for register</description>
+		<url>register.jspx</url>
+		<mimetype>text/html</mimetype>
+	</node>
+
+	<node number="354" owner="admin">
+		<title>Upload</title>
+		<description>Template for upload</description>
+		<url>upload.jspx</url>
+		<mimetype>text/html</mimetype>
+	</node>
+
+	<node number="1000" owner="admin">
+		<title>Contribute</title>
+		<description>Template for contribute</description>
+		<url>contribute.jspx</url>
+		<mimetype>text/html</mimetype>
+	</node>
+
+	<node number="418" owner="179">
+		<title>Users</title>
+		<description>Users overview</description>
+		<url>users.jspx</url>
+		<mimetype>text/html</mimetype>
+	</node>
+
+	<node number="458" owner="179">
+		<title>Contact</title>
+		<description></description>
+		<url>contact.jspx</url>
+		<mimetype>text/html</mimetype>
+	</node>
+
+</templates>

@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<pages exportsource="mmbase://grgrijze.toly.net/oip/oi" timestamp="20090610233953">
+	<node number="305" owner="default" alias="page_home">
+		<title>Home</title>
+		<description>Offering online access to a selection of archive material to stimulate creative reuse.</description>
+		<template></template>
+		<path>/</path>
+		<expires>-1</expires>
+	</node>
+
+	<node number="308" owner="default">
+		<title>About</title>
+		<description></description>
+		<template>346</template>
+		<path>/about</path>
+		<expires>-1</expires>
+	</node>
+
+	<node number="310" owner="default">
+		<title>Media</title>
+		<description>OK, the overview media page.</description>
+		<template>348</template>
+		<path>/media</path>
+		<expires>120</expires>
+	</node>
+
+	<node number="312" owner="default">
+		<title>Contribute</title>
+		<description></description>
+		<template>1000</template>
+		<path>/contribute</path>
+		<expires>-1</expires>
+	</node>
+
+	<node number="314" owner="default">
+		<title>Users</title>
+		<description></description>
+		<template>418</template>
+		<path>/users</path>
+		<expires>0</expires>
+	</node>
+
+	<node number="316" owner="default" alias="page_register">
+		<title>Register</title>
+		<description></description>
+		<template>352</template>
+		<path>/register</path>
+		<expires>-1</expires>
+	</node>
+
+	<node number="319" owner="admin" alias="page_login">
+		<title>Login</title>
+		<description></description>
+		<template>350</template>
+		<path>/login</path>
+		<expires>-1</expires>
+	</node>
+
+	<node number="322" owner="admin">
+		<title>Help</title>
+		<description></description>
+		<template>346</template>
+		<path>/help</path>
+		<expires>-1</expires>
+	</node>
+
+	<node number="324" owner="admin">
+		<title>Feeds</title>
+		<description></description>
+		<template>346</template>
+		<path>/feeds</path>
+		<expires>-1</expires>
+	</node>
+
+	<node number="326" owner="admin">
+		<title>API</title>
+		<description></description>
+		<template>346</template>
+		<path>/api</path>
+		<expires>-1</expires>
+	</node>
+
+	<node number="328" owner="admin">
+		<title>Proclaimer</title>
+		<description></description>
+		<template>346</template>
+		<path>/proclaimer</path>
+		<expires>-1</expires>
+	</node>
+
+	<node number="330" owner="admin">
+		<title>Contact</title>
+		<description></description>
+		<template>458</template>
+		<path>/contact</path>
+		<expires>-1</expires>
+	</node>
+
+	<node number="332" owner="default" alias="page_upload">
+		<title>Upload</title>
+		<description></description>
+		<template>354</template>
+		<path>/upload</path>
+		<expires>-1</expires>
+	</node>
+
+</pages>

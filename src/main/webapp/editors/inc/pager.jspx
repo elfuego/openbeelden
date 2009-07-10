@@ -1,0 +1,50 @@
+<jsp:root 
+  xmlns:jsp="http://java.sun.com/JSP/Page"
+  xmlns:c="http://java.sun.com/jsp/jstl/core"
+  xmlns:mm="http://www.mmbase.org/mmbase-taglib-2.0"
+  version="2.0">
+  
+  <c:if test="${total > max}">
+  <c:if test="${offset != 0}">
+    <mm:link referid="baseurl">
+      <mm:param name="offset">0</mm:param>
+      <mm:param name="max">${max}</mm:param>
+      <a href="${_}" class="first">eerste</a>
+    </mm:link> - 
+    <mm:link referid="baseurl">
+      <mm:param name="offset">${offset - max}</mm:param>
+      <mm:param name="max">${max}</mm:param>
+      <a href="${_}" class="previous">vorige</a>
+    </mm:link> -
+  </c:if>
+  
+  <c:forEach var="index" begin="0" end="${(total / max)}">
+    <c:choose>
+      <c:when test="${(index * max) == offset}">
+        ${(index + 1)} -
+      </c:when>
+      <c:otherwise>
+        <mm:link referid="baseurl">
+          <mm:param name="offset">${(index * max)}</mm:param>
+          <mm:param name="max">${max}</mm:param>
+          <a href="${_}">${(index + 1)}</a> -
+        </mm:link>
+      </c:otherwise>
+    </c:choose>
+  </c:forEach>
+  
+  <c:if test="${(total - offset) > max}">
+     - <mm:link referid="baseurl">
+     <mm:param name="offset">${offset + max}</mm:param>
+     <mm:param name="max">${max}</mm:param>
+     <a href="${_}" class="next">volgende</a>
+   </mm:link> -
+   <mm:link referid="baseurl">
+     <mm:param name="offset">${total - (total mod max)}</mm:param>
+     <mm:param name="max">${max}</mm:param>
+     <a href="${_}" class="last">laatste</a>
+   </mm:link>
+  </c:if>
+</c:if>
+
+</jsp:root>

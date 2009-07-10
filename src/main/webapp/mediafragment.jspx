@@ -1,0 +1,279 @@
+<jsp:root version="2.0"
+    xmlns:jsp="http://java.sun.com/JSP/Page"
+    xmlns:c="http://java.sun.com/jsp/jstl/core"
+    xmlns:fmt="http://java.sun.com/jsp/jstl/fmt"
+    xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+    xmlns:mm="http://www.mmbase.org/mmbase-taglib-2.0"
+    xmlns:oip="urn:jsptagdir:/WEB-INF/tags/oip">
+
+  <oip:html
+      cacheable="false"
+      styleClass="media-item"
+      >
+
+    <jsp:attribute name="head">
+      <script src="${mm:link('/style/js/typewatch.js')}" type="text/javascript"><!-- help ie --></script>
+      <script src="${mm:link('/style/js/mmtag.js')}" type="text/javascript"><!-- help ie --></script>
+      <script src="${mm:link('/player/flowplayer-3.1.1.min.js')}" type="text/javascript"><!-- help ie --></script>
+      <script src="${mm:link('/style/js/player.js')}" type="text/javascript"><!-- help ie --></script>
+      <link href="${mm:link('/style/css/player.css')}" rel="stylesheet" type="text/css" />
+      <script src="${mm:link('/style/js/play.js.jsp')}" type="text/javascript"><!-- help ie --></script>
+    </jsp:attribute>
+    <jsp:attribute name="body">
+
+      <mm:escaper id="wrapper" type="substring">
+        <mm:param name="from" value="0" />
+        <mm:param name="to" value="24" />
+        <mm:param name="ellipsis" value="..." />
+      </mm:escaper>
+
+      <div class="main-column">
+        <oip:h2><fmt:message key="media.item" /></oip:h2>
+
+        <oip:media />
+
+        <mm:nodefunction name="translation">
+          <h3 class="mediatitle"><mm:field name="title" /></h3>
+          <h4><mm:field name="subtitle" /></h4>
+        </mm:nodefunction>
+
+        <!-- toolbar -->
+        <div class="toolbar">
+          <ul class="toolbar">
+            <li class="license"><a href="#popup-license">license</a></li>
+            <li class="download todo"><a href="#popup-download">download</a></li>
+            <li class="embed todo"><a href="#popup-embed">embed</a></li>
+            <li class="share todo"><a href="#popup-share">share</a></li>
+            <mm:maycreate type="ratingrel">
+              <oip:favorite />
+              <li class="favorite">
+                <mm:link referids="_node@favorite"><a class="${favselected}" href="${_}">favorite</a></mm:link>
+              </li>
+            </mm:maycreate>
+            <mm:maycreate type="tags">
+              <li class="tag"><a href="#popup-tags">tag</a></li>
+            </mm:maycreate>
+            <mm:maywrite>
+              <li class="edit">
+                <mm:cloudinfo type="usernode" id="iam" write="false" />
+                <mm:link referids="_node@media">
+                  <mm:frameworkparam name="component">oip</mm:frameworkparam>
+                  <mm:frameworkparam name="block">user-media</mm:frameworkparam>
+                  <mm:frameworkparam name="user">${iam}</mm:frameworkparam>
+                  <a href="${_}">edit</a>
+                </mm:link>
+              </li>
+            </mm:maywrite>
+          </ul>
+        </div>
+
+        <oip:tag />
+
+        <!-- popups (pop-up tag?) -->
+        <div class="popup" id="popup-share">
+          <h4><a class="close" href="#toolbar">close</a> Share</h4>
+          <p>
+            <label for="inputshare">Link</label>
+            <mm:link absolute="true">
+              <input name="share" id="inputshare" type="text" value="${_}" />
+            </mm:link>
+          </p>
+        </div>
+
+        <div class="popup" id="popup-embed">
+          <h4><a class="close" href="#toolbar">close</a> Embed</h4>
+          <p>
+            <label for="inputembed">Video tag to copy</label>
+            <input name="share" id="inputembed" type="text" value="${videotag}" />
+          </p>
+        </div>
+
+        <div class="popup" id="popup-download">
+          <h4><a class="close" href="#toolbar">close</a> Download</h4>
+          <p>
+            Download links (and instructions?).
+          </p>
+          <ul>
+            <mm:listfunction name="filteredurls">
+              <li class="${_.state}" title="${_.state}">
+                <c:if test="${_.main}">
+                  <jsp:text> *</jsp:text>
+                </c:if>
+                <strong>${_.format}:</strong>
+                <jsp:text> (${_.dimension}, ${_.info.bitrate}) </jsp:text>
+                <c:choose>
+                  <c:when test="${_.available}">
+                    <a href="${mm:escape('text/xml', _.URL)}">
+                      <jsp:text><mm:escape>${_.URL}</mm:escape></jsp:text>
+                      <jsp:text> (${_.format.mimeType})</jsp:text>
+                    </a>
+                  </c:when>
+                  <c:otherwise>
+                    <jsp:text><mm:escape>${_.URL}</mm:escape></jsp:text>
+                    <jsp:text> (${_.format.mimeType})</jsp:text>
+                  </c:otherwise>
+                </c:choose>
+              </li>
+            </mm:listfunction>
+          </ul>
+        </div>
+
+        <div class="popup" id="popup-license">
+          <h4><a class="close" href="#toolbar">close</a> License</h4>
+          <mm:relatednodescontainer type="licenses" role="related" searchdirs="destination">
+            <mm:relatednodes>
+            <mm:relatednodescontainer type="images" role="related" searchdirs="destination">
+              <mm:relatednodes>
+                <mm:image width="88" mode="img" />
+              </mm:relatednodes>
+              </mm:relatednodescontainer>
+              <h5><mm:field name="name" /></h5>
+              <p>
+                <mm:field name="url"><a rel="license" href="${_}">${_}</a></mm:field>
+                <mm:field name="description"><mm:isnotempty><br />${_}</mm:isnotempty></mm:field>
+              </p>
+            </mm:relatednodes>
+          </mm:relatednodescontainer>
+        </div>
+
+        <mm:nodefunction name="translation">
+          <mm:field name="intro" escape="paragraph(media-intro)" />
+        </mm:nodefunction>
+
+        <dl class="media-info">
+          <dt>type:</dt>
+          <dd>
+            <mm:nodeinfo type="type" id="nodetype" write="false" />
+            <c:choose>
+              <c:when test="${nodetype eq 'audiofragments'}"> audio </c:when>
+              <c:when test="${nodetype eq 'images'}"> image </c:when>
+              <c:otherwise> video </c:otherwise>
+            </c:choose>
+          </dd>
+          <dt>length:</dt>
+          <dd>
+            <mm:field name="length"><mm:time inputformat="S" format="mm:ss" /></mm:field>
+          </dd>
+          <dt>uploaded:</dt>
+          <dd>
+            <mm:field name="created"><mm:time format="d MMMM yyyy" /></mm:field>
+          </dd>
+          <dt>by user:</dt>
+          <dd>
+            <mm:field name="owner" id="owner" write="false" />
+            <mm:hasnode number="$owner">
+              <mm:node number="$owner">
+                <oip:user />
+              </mm:node>
+            </mm:hasnode>
+            <mm:hasnode number="$owner" inverse="true">
+              unknown
+              <mm:remove referid="owner" />
+            </mm:hasnode>
+          </dd>
+          <mm:field name="source">
+            <mm:isnotempty>
+              <dt>source:</dt>
+              <dd>${_}</dd>
+            </mm:isnotempty>
+          </mm:field>
+          <dt>tags:</dt>
+          <dd>
+            <mm:listrelationscontainer type="tags" role="related" searchdir="destination">
+              <mm:maxnumber value="99" />
+              <mm:listrelations id="tagrel">
+                <mm:maydelete>
+                  <mm:link referids="tagrel@delete">
+                    <a href="${_}" class="tag delete"><mm:relatednode><mm:field name="name" /></mm:relatednode></a>
+                  </mm:link>
+                </mm:maydelete>
+                <mm:maydelete inverse="true">
+                  <mm:relatednode><mm:field name="name" /></mm:relatednode><mm:last inverse="true">, </mm:last>
+                </mm:maydelete>
+                <jsp:text> </jsp:text>
+              </mm:listrelations>
+            </mm:listrelationscontainer>
+          </dd>
+        </dl>
+
+        <mm:nodefunction name="translation">
+          <mm:field name="body" escape="paragraph" />
+        </mm:nodefunction>
+
+      </div>
+
+      <div class="right-column">
+        <div class="related">
+          <oip:h3><fmt:message key="media.related_items" /></oip:h3>
+          <mm:functioncontainer>
+            <mm:param name="type">mediafragments</mm:param>
+            <mm:param name="max">3</mm:param>
+            <mm:function set="relatedcontent" name="hits" referids="_node@node" id="hits">
+              <c:forEach var="hit" items="${hits}" varStatus="status">
+                <mm:node number="${hit.value}">
+                  <c:if test="${_node.show eq true}">
+                    <mm:link page="mediafragment">
+                      <mm:frameworkparam name="component">oip</mm:frameworkparam>
+                      <mm:frameworkparam name="media">${_node}</mm:frameworkparam>
+                      <c:choose>
+                        <c:when test="${status.index % 3 == 0}"><c:set var="gridclass" value="grid first" /></c:when>
+                        <c:otherwise><c:set var="gridclass" value="grid" /></c:otherwise>
+                      </c:choose>
+                      <dl class="${gridclass}">
+                        <dt>
+                          <a href="${_}"><oip:thumb /></a>
+                        </dt>
+                        <dd> <mm:field name="title" escape="wrapper" /> </dd>
+                      </dl>
+                    </mm:link>
+                  </c:if>
+                  <jsp:text> </jsp:text>
+                </mm:node>
+              </c:forEach>
+              <c:if test="${empty hits}">
+                <p>This item has no tags and therefore not any related items yet.</p>
+              </c:if>
+            </mm:function>
+          </mm:functioncontainer>
+        </div>
+
+        <div class="related-grey-border">
+          <c:choose>
+            <c:when test="${!empty owner}">
+              <oip:h3><fmt:message key="media.more_from_user" /></oip:h3>
+            </c:when>
+            <c:otherwise>
+              <oip:h3><fmt:message key="media.latest_uploads" /></oip:h3>
+            </c:otherwise>
+          </c:choose>
+          <mm:listnodescontainer type="mediafragments">
+            <mm:constraint field="number" value="$_node" operator="EQUAL" inverse="true" />
+            <mm:constraint field="show" value="true" operator="EQUAL" />
+            <c:if test="${!empty owner}">
+              <mm:constraint field="owner" value="$owner" operator="EQUAL" />
+            </c:if>
+            <mm:sortorder field="number" direction="DOWN" />
+            <mm:maxnumber value="6" />
+            <mm:listnodes varStatus="status">
+              <mm:link>
+                <mm:frameworkparam name="component">oip</mm:frameworkparam>
+                <mm:frameworkparam name="block">mediafragment</mm:frameworkparam>
+                <mm:frameworkparam name="media">${_node}</mm:frameworkparam>
+                <c:choose>
+                  <c:when test="${(status.index + 2) % 3 == 0}"><c:set var="gridclass" value="grid first" /></c:when>
+                  <c:otherwise><c:set var="gridclass" value="grid" /></c:otherwise>
+                </c:choose>
+                <dl class="${gridclass}">
+                  <dt>
+                    <a href="${_}" title="${_node.title}"><oip:thumb /></a>
+                  </dt>
+                  <dd> <mm:field name="title" escape="wrapper" /> </dd>
+                </dl>
+              </mm:link>
+            </mm:listnodes>
+          </mm:listnodescontainer>
+        </div>
+      </div>
+    </jsp:attribute>
+  </oip:html>
+</jsp:root>

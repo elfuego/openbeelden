@@ -1,0 +1,69 @@
+<mm:content
+    type="application/xml"
+    xmlns:c="http://java.sun.com/jsp/jstl/core"
+    xmlns:jsp="http://java.sun.com/JSP/Page"
+    xmlns:fmt="http://java.sun.com/jsp/jstl/fmt"
+    xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+    xmlns:mm="http://www.mmbase.org/mmbase-taglib-2.0"
+    xmlns:oip="urn:jsptagdir:/WEB-INF/tags/oip"
+    >
+  <jsp:output omit-xml-declaration="true" />
+    <div
+        class="mm_c c_oip b_user-medialist ${requestScope.className}"
+        id="${requestScope['org.mmbase.componentId']}">
+
+      <oip:h2><fmt:message key="media.my_contributions" /></oip:h2>
+
+      <mm:import externid="n" />
+      <mm:import externid="max">10</mm:import>
+      <mm:import externid="offset">0</mm:import>
+
+      <mm:escaper id="wrapper" type="substring">
+        <mm:param name="from" value="0" />
+        <mm:param name="to" value="32" />
+        <mm:param name="ellipsis" value="..." />
+      </mm:escaper>
+
+      <mm:listnodescontainer type="mediafragments">
+        <mm:sortorder field="number" direction="DOWN" />
+        <mm:constraint field="owner" value="$n" operator="EQUAL" />
+        <mm:size id="total" write="false" />
+        <mm:maxnumber value="$max" />
+        <mm:offset value="$offset" />
+        <mm:listnodes>
+          <mm:link>
+            <mm:frameworkparam name="media">${_node}</mm:frameworkparam>
+            <mm:frameworkparam name="block">mediafragment</mm:frameworkparam>
+            <mm:frameworkparam name="component">oip</mm:frameworkparam>
+            <dl class="list">
+              <dt>
+                <mm:maywrite>
+                  <mm:link referids="_node@media">
+                    <mm:frameworkparam name="component">oip</mm:frameworkparam>
+                    <mm:frameworkparam name="block">user-media</mm:frameworkparam>
+                    <a href="${_}" class="edit">edit</a>
+                  </mm:link>
+                </mm:maywrite>
+                <a href="${_}"><mm:field name="title" /></a>
+              </dt>
+              <dd class="img">
+                <a href="${_}"><oip:thumb /></a>
+              </dd>
+              <dd>
+                <strong><mm:field name="subtitle" /></strong>
+                <mm:field name="intro" escape="wrapper" />
+              </dd>
+            </dl>
+          </mm:link>
+        </mm:listnodes>
+      </mm:listnodescontainer>
+
+      <p class="page">
+        <mm:url absolute="true" id="baseurl" write="false" />
+        <oip:pager total="${total}" offset="${offset}" max="${max}" baseurl="${baseurl}" />
+      </p>
+
+      <mm:notpresent referid="n"><p class="err">No usernode!</p></mm:notpresent>
+
+    </div>
+</mm:content>

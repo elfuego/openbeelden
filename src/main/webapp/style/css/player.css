@@ -1,0 +1,127 @@
+/**
+* @author   Open Images Platform
+* @since    May 2009
+* @name     Stylesheet to style the player
+* @version  0.1
+*/
+
+
+#playercontrols { width: 320px; }
+
+#vplayer
+{
+	display: block;
+	width: 320px;
+	height: 240px;
+	margin-bottom: 4px;
+}
+
+#vplayer img { border: 1px solid #efefef; }
+
+div#playercontrols
+{
+	height: 25px;
+	margin-bottom: 6px;
+	margin: 10px 0;
+}
+div#playercontrols ul
+{
+	height: 25px;
+	list-style: none;
+	display: inline;
+	overflow: hidden;
+}
+
+#vplayer.inavailable
+{
+	font-weight: bold;
+	font-size: 1.1em;
+	background-image: url(../images/preview_video.png);
+}
+
+#vplayer.inavailable p
+{
+	width: 80%;
+	padding-top: 90px;
+	text-align: center;
+	font-size: 1.4em;
+	margin: 0 auto;
+}
+
+
+div#playercontrols li
+{
+	margin: 0;
+	padding: 0;
+	list-style: none;
+	display: inline;
+}
+
+div#playercontrols a
+{
+	float: left;
+	padding: 25px 0 0 0;
+	overflow: hidden;
+	height: 0 !important;
+    height /**/: 25px;  /* for IE5/Win */
+}
+
+div#playercontrols a:hover { background-position: 0 -25px; }
+
+div#playercontrols li#play a
+{
+	background-image: url(../images/controls-play.png);
+	width: 21px;
+	margin-left: 0;
+}
+
+div#playercontrols li#play.pause a
+{
+	background-image: url(../images/controls-pause.png);
+	width: 21px;
+	margin-left: 0;
+}
+
+
+/*
+div#playercontrols li.pause a
+{
+	background-image: url(../images/controls-pause.png);
+	width: 21px;
+	margin-left: 4px;
+}
+*/
+
+div#playercontrols li#position
+{
+	width: 24px;
+	margin: 0 0 0 10px;
+	font-family: Monaco, Courier, monospaced;
+	line-height: 2em;
+}
+
+div#playercontrols li.playerinfo
+{
+	margin: 0 0 0 10px;
+	font-family: Monaco, Courier, monospaced;
+	font-size: 0.5em;
+}
+
+div#playercontrols li#sound a
+{
+	background-image: url(../images/controls-soundon.png);
+	width: 23px;
+	background-repeat: no-repeat;
+	float: right;
+	margin: 0 4px;
+}
+
+div#playercontrols li#screen a
+{
+	background-image: url(../images/controls-fullscreen.png);
+	width: 23px;
+	margin: 0 4px;
+	background-repeat: no-repeat;
+	float: right;
+}
+

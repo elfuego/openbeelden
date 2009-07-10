@@ -1,0 +1,75 @@
+<mm:content
+    type="application/xml"
+    xmlns:c="http://java.sun.com/jsp/jstl/core"
+    xmlns:jsp="http://java.sun.com/JSP/Page"
+    xmlns:fmt="http://java.sun.com/jsp/jstl/fmt"
+    xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+    xmlns:mm="http://www.mmbase.org/mmbase-taglib-2.0"
+    xmlns:oip="urn:jsptagdir:/WEB-INF/tags/oip"
+    >
+  <jsp:output omit-xml-declaration="true" />
+  <mm:cloud method="asis">
+    <div
+        class="mm_c c_oip b_user-mediatranslations ${requestScope.className}"
+        id="${requestScope['org.mmbase.componentId']}">
+  
+      <mm:import externid="media" required="true" />
+      <mm:hasnode number="$media" inverse="true"><mm:remove referid="media" /></mm:hasnode>
+      <mm:present referid="media">
+        
+        <mm:node number="$media">
+          <mm:import id="type"><mm:nodeinfo type="type" /></mm:import>
+          <mm:import id="ttype"><mm:property nodemanager="$type" name="translations.builder" /></mm:import>
+          <mm:isempty referid="ttype"><mm:import id="ttype" reset="true">${type}_translations</mm:import></mm:isempty>
+          
+          <mm:hasrelationmanager sourcemanager="$type" destinationmanager="$ttype" role="langrel">
+            
+            <oip:h2 block="user-mediatranslations" />
+            
+            <mm:import externid="msg" />
+            <mm:present referid="msg">
+              <p class="msg">${msg}</p>
+            </mm:present>            
+            
+            <ul>
+              <mm:maycreate type="$ttype">
+                <li id="create_${ttype}">
+                  <mm:link page="/editors/inc/form-create.jspx">
+                    <mm:param name="nr">${media}</mm:param>
+                    <mm:param name="type">${ttype}</mm:param>
+                    <mm:param name="role">langrel</mm:param>
+                    <mm:param name="dir">destination</mm:param>
+                    <a class="mmajaxeditor" href="${_}#create_${ttype}">New translation</a>
+                  </mm:link>
+                </li>       
+              </mm:maycreate>
+              <mm:relatednodescontainer type="$ttype" role="langrel" searchdirs="destination">
+                <mm:relatednodes id="translation">
+                    <li id="node_${translation}">
+                      
+                      <mm:link page="/editors/inc/form-edit.jspx" referids="translation@nr">
+                        <a href="${_}#node_${translation}" class="mmajaxeditor">
+                          <mm:field name="language"><mm:fieldinfo type="guivalue" /></mm:field>
+                          - <mm:function name="gui" />
+                        </a>
+                      </mm:link>
+                      
+                      <mm:maydelete> -
+                        <mm:link page="/editors/inc/form-delete.jspx" referids="translation@nr">
+                          <a href="${_}#node_${translation}" class="mmajaxeditor">delete</a>
+                        </mm:link>
+                      </mm:maydelete>
+                      
+                    </li>
+                </mm:relatednodes>
+              </mm:relatednodescontainer>
+            </ul>
+            
+          </mm:hasrelationmanager>
+        
+        </mm:node>
+      </mm:present>
+  
+    </div>
+  </mm:cloud>
+</mm:content>

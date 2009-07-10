@@ -1,0 +1,18 @@
+<jsp:root
+    version="2.0"
+    xmlns:c="http://java.sun.com/jsp/jstl/core"
+    xmlns:fmt="http://java.sun.com/jsp/jstl/fmt"
+    xmlns:jsp="http://java.sun.com/JSP/Page"
+    xmlns:mm="http://www.mmbase.org/mmbase-taglib-2.0"
+    >
+  <jsp:directive.attribute name="items" type="java.lang.String" />
+  <jsp:directive.attribute name="var" type="java.lang.String" required="true" rtexprvalue="false" />
+  <jsp:directive.variable  name-from-attribute="var" alias="letter" />
+  <jsp:scriptlet>
+    String items = (String) jspContext.getAttribute("items");
+    for (int i = 0; i &lt; items.length(); i++) {
+      jspContext.setAttribute("letter", items.charAt(i));
+  </jsp:scriptlet>
+  <jsp:doBody />
+  <jsp:scriptlet>}</jsp:scriptlet>
+</jsp:root>

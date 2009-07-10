@@ -1,0 +1,134 @@
+<jsp:root
+    version="2.0"
+    xmlns:c="http://java.sun.com/jsp/jstl/core"
+    xmlns:jsp="http://java.sun.com/JSP/Page"
+    xmlns:fmt="http://java.sun.com/jsp/jstl/fmt"
+    xmlns:oip="urn:jsptagdir:/WEB-INF/tags/oip"
+    xmlns:mm="http://www.mmbase.org/mmbase-taglib-2.0">
+  <oip:html styleClass="users">
+
+    <jsp:attribute name="body">
+
+      <div class="main-column">
+        <oip:h2><mm:field name="title" /></oip:h2>
+        <mm:nodefunction name="translation">
+          <mm:field name="description" escape="paragraph" />
+        </mm:nodefunction>        
+
+        <mm:import externid="qu" />
+        <mm:import id="index">users</mm:import><!-- the lucene index -->
+        <mm:import externid="max">15</mm:import>
+        <mm:import externid="offset">0</mm:import>
+
+        <form action="${mm:link('/users')}" method="post" id="usersearch">
+          <fieldset>
+            <label for="seachuser"><fmt:message key="users.search" /></label>
+            <input name="qu" id="searchuser" type="text" tabindex="5" value="${qu}" />
+            <input type="submit" value="Search" class="hidden" />
+          </fieldset>
+        </form>
+
+        <c:choose>
+          <c:when test="${empty qu}"><!-- not searched, display latest -->
+            <c:set var="emptysearch" value="true" />
+            <mm:import id="value" reset="true">${index}*</mm:import>
+            <mm:import id="fields" reset="true">indexId</mm:import>
+          </c:when>
+          <c:otherwise>
+            <mm:import id="value" reset="true">${qu}</mm:import>
+          </c:otherwise>
+        </c:choose>
+        
+        <mm:import id="extraconstraints">status:EQ:1</mm:import>
+        
+        <mm:function 
+            write="false"
+            id="total"
+            module="lucene" 
+            name="searchsize" 
+            referids="index,value,fields?,extraconstraints" />
+
+        <!-- sorting -->
+        <mm:import externid="sf" />
+        <mm:import externid="d">down</mm:import>
+        <mm:import externid="t">down</mm:import>
+        <!-- sf: ${sf} d: ${d} t: ${t} -->
+        <mm:functioncontainer>
+          <c:if test="${!empty sf}">
+            <c:choose>
+              <c:when test="${sf eq 'name'}">
+                <mm:param name="sortfields">${t eq 'down'  ? 'REVERSE:' : ''}${sf}</mm:param>
+              </c:when>
+              <c:otherwise>
+                <mm:param name="sortfields">${d eq 'down'  ? 'REVERSE:' : ''}${sf}</mm:param>
+              </c:otherwise>
+            </c:choose>
+          </c:if>
+          <mm:nodelistfunction
+              id="results"
+              module="lucene" name="search"
+              referids="index,value,offset,max,fields?,extraconstraints" />
+
+        </mm:functioncontainer>
+
+        <c:if test="${empty emptysearch}">
+          <p>Searched with <strong>${value}</strong>: ${total} found.</p>
+        </c:if>
+        
+        <!-- when lucene is 'empty' -->
+        <c:if test="${empty qu and total == 0}">
+          <mm:remove referid="results" />
+          <mm:listnodescontainer type="mmbaseusers">
+            <mm:constraint field="status" value="1" operator="EQUAL" />
+            <mm:listnodes id="results" />
+          </mm:listnodescontainer>
+        </c:if>
+
+        <mm:listnodes referid="results" varStatus="status">
+
+          <mm:link page="user">
+            <mm:frameworkparam name="component">oip</mm:frameworkparam>
+            <mm:frameworkparam name="user" referid="_node" />
+            <c:choose>
+              <c:when test="${(status.index + 2) % 3 == 0}"><c:set var="gridclass" value="grid first" /></c:when>
+              <c:otherwise><c:set var="gridclass" value="grid" /></c:otherwise>
+            </c:choose>
+            <dl class="${gridclass}">
+              <dt> <a href="${_}"><oip:thumb /></a> </dt>
+              <dd> <mm:field name="username" /> </dd>
+            </dl>
+          </mm:link>
+        </mm:listnodes>
+
+        <p class="pager">
+          <mm:url absolute="true" id="baseurl" write="false" referids="qu?" />
+          <oip:pager total="${total}" offset="${offset}" max="${max}" baseurl="${baseurl}" />
+        </p>
+      </div>
+
+      <div class="right-column">
+        <div class="related-grey">
+          <oip:h3><fmt:message key="media.sortby" /></oip:h3>
+          
+          <ul class="sortby">
+            <li>
+              <mm:link referid="baseurl">
+                <mm:param name="sf">date</mm:param>
+                <mm:param name="d">${d eq 'up' ? 'down' : 'up'}</mm:param>
+                <a class="${empty sf or sf eq 'date' ? d : ''}" href="${_}">Join date</a>
+              </mm:link>
+            </li>
+            <li>
+              <mm:link referid="baseurl">
+                <mm:param name="sf">name</mm:param>
+                <mm:param name="t">${t eq 'up' ? 'down' : 'up'}</mm:param>
+                <a class="${sf eq 'name' ? t : ''}" href="${_}">Username</a>
+              </mm:link>
+            </li>
+          </ul>
+        </div>
+      </div>
+
+    </jsp:attribute>
+  </oip:html>
+</jsp:root>

@@ -1,0 +1,82 @@
+<jsp:root
+    version="2.0"
+    xmlns:c="http://java.sun.com/jsp/jstl/core"
+    xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+    xmlns:jsp="http://java.sun.com/JSP/Page"
+    xmlns:mm="http://www.mmbase.org/mmbase-taglib-2.0"
+    >
+  <jsp:directive.attribute name="width"
+      description="Width of player">320</jsp:directive.attribute>
+  <jsp:directive.attribute name="height"
+      description="Height of player">240</jsp:directive.attribute>
+  <jsp:directive.variable name-given="videotag" scope="AT_END" />
+
+  <c:set var="w" value="${empty width ? '320' : width}" />
+  <c:set var="h" value="${empty height ? '240' : height}" />
+
+  <c:set var="path"><jsp:expression>org.mmbase.module.core.MMBaseContext.getHtmlRoot()</jsp:expression>/style/images/startoverlay.png</c:set>
+  <c:set var="template">s(${w}!x${h}!)+adjoin(${path})+flatten</c:set>
+  <c:set var="basictemplate">s(${w}!x${h}!)</c:set>
+
+  <mm:import id="poster">${mm:link('/style/images/preview_video.png')}</mm:import>
+  <mm:relatednodescontainer type="images" role="related" searchdirs="destination">
+    <mm:maxnumber value="1" />
+    <mm:relatednodes>
+      <mm:import id="poster" reset="true"><mm:image template="$template" /></mm:import>
+      <mm:import id="imgnr" reset="true"><mm:field name="number" /></mm:import>
+    </mm:relatednodes>
+  </mm:relatednodescontainer>
+
+  <mm:import id="mediaurls">
+    <mm:listfunction name="filteredurls">
+      <c:if test="${_.available}">
+        <source src="${mm:escape('text/xml', _.URL)}" type="${_.format.mimeType}; codecs=${mm:escape('lowercase', _.codec)}"><jsp:text> </jsp:text></source>
+      </c:if>
+    </mm:listfunction>
+  </mm:import>
+
+  <c:choose>
+    <c:when test="${empty mediaurls}">
+      <div id="vplayer" class="inavailable">
+        <p>No video links available (yet).</p>
+      </div>
+    </c:when>
+    <c:otherwise>
+      <div id="vplayer">
+        <video
+               controls="false"
+               width="${w}"
+               height="${h}"
+               poster="${poster}"
+               autobuffer="false">
+          <mm:write referid="mediaurls" escape="none" />
+          <p>
+            Your need a browser that understands the html5 video tag to play this media item.
+            Firefox 3.1 nightly builds, Opera experimental builds and Safari (with XiphQT for Ogg)
+            installed can understand the video tag with varying degrees of success.
+          </p>
+        </video>
+      </div>
+      <div id="playercontrols">
+        <ul>
+          <li id="play"><a href="#">play</a></li>
+          <li id="position"> 00:00 </li>
+          <li class="playerinfo"> <!-- empty --> </li>
+        </ul>
+      </div>
+    </c:otherwise>
+  </c:choose>
+
+<!--
+  <ol>
+    <mm:listfunction name="filteredurls">
+      <li>
+        ${_.URL} type: ${_.format} av: ${_.available} s: ${_.source}
+      </li>
+    </mm:listfunction>
+  </ol>
+-->
+  <!-- videotag to share -->
+  <mm:import id="videotag"><video controls="controls"><mm:write referid="mediaurls" escape="none" /></video></mm:import>
+
+</jsp:root>
