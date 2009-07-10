@@ -146,6 +146,7 @@
             <mm:nodeinfo type="type" id="nodetype" write="false" />
             <c:choose>
               <c:when test="${nodetype eq 'audiofragments'}"> audio </c:when>
+              <c:when test="${nodetype eq 'imagefragments'}"> image </c:when>
               <c:when test="${nodetype eq 'images'}"> image </c:when>
               <c:otherwise> video </c:otherwise>
             </c:choose>
