@@ -15,17 +15,17 @@
   </names>
   <descriptions>
     <description xml:lang="en">
-      A location like in KML. KML (formerly Keyhole Markup Language) is a standard to store, 
+      A location like in KML. KML (formerly Keyhole Markup Language) is a standard to store,
       display and model geographic data.
     </description>
     <description xml:lang="nl">
-      Een locatie zoals beschreven in KML. KML (voorheen Keyhole Markup Language) is een standaard 
+      Een locatie zoals beschreven in KML. KML (voorheen Keyhole Markup Language) is een standaard
       voor het opslaan, weergeven en modelleren van geografische data.
     </description>
   </descriptions>
   <properties />
   <fieldlist>
-  
+
     <field name="name">
       <descriptions>
         <description xml:lang="en">Name of location</description>
@@ -65,8 +65,8 @@
       </editor>
 
       <datatype base="string" xmlns="http://www.mmbase.org/xmlns/datatypes">
-        <maxLength value="255" />
         <default value="earth" />
+        <maxLength value="255" />
         <enumeration>
           <entry value="earth" xml:lang="en" display="Earth" />
           <entry value="earth" xml:lang="nl" display="Aarde" />
@@ -100,7 +100,7 @@
         <scale     value="6" />
       </datatype>
     </field>
-    
+
     <field name="latitude">
       <descriptions>
         <description xml:lang="en">Latitude</description>
@@ -144,7 +144,7 @@
         <scale     value="3" />
       </datatype>
     </field>
-    
+
     <field name="heading">
       <descriptions>
         <description xml:lang="en">Heading</description>
@@ -166,7 +166,7 @@
         <scale     value="6" />
       </datatype>
     </field>
-    
+
     <field name="tilt">
       <descriptions>
         <description xml:lang="en">Tilt in degrees</description>
@@ -187,8 +187,8 @@
         <precision value="9" />
         <scale     value="6" />
       </datatype>
-    </field>    
-    
+    </field>
+
   </fieldlist>
 
 
