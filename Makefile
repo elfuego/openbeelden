@@ -11,4 +11,4 @@ export CLASSPATH = target/classes:$(MM2)/mmbase/$(mmbase)/mmbase-$(mmbase).jar:$
 
 .PHONY:
 import:
-	java eu.openimages.AssetImporter importfiles
+	java eu.openimages.AssetImporter /share/oip/test/files/BG
