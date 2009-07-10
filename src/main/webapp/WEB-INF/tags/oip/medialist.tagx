@@ -34,7 +34,12 @@
             </c:choose>
             <dl class="${gridclass}">
               <dt>
-                <a title="${mediafragment.title} ${mediafragment.subtitle}" href="${_}"><oip:thumb alt="${mediafragment.title}" /></a>
+                <a title="${mediafragment.title} ${mediafragment.subtitle}" href="${_}">
+                  <c:catch>
+                    <oip:thumb alt="${mediafragment.title}" />
+                  </c:catch>
+                </a>
+
               </dt>
               <!-- dd> <mm:field name="title" escape="wrapper" /> </dd -->
             </dl>
@@ -44,15 +49,29 @@
             <dl class="list">
               <dt><a href="${_}"><mm:field name="title" /></a></dt>
               <dd class="img">
-                <a title="${mediafragment.title} ${mediafragment.subtitle}" href="${_}"><oip:thumb alt="${mediafragment.title}" /></a>
+                
+                <a title="${mediafragment.title} ${mediafragment.subtitle}" href="${_}">
+                  <c:catch>
+                    <oip:thumb alt="${mediafragment.title}" />
+                  </c:catch>
+                </a>
               </dd>
               <dd>
                 <strong><mm:field name="subtitle" /></strong>
                 <em> 
                   <mm:field name="intro"  /> <jsp:text> </jsp:text>
-                  <mm:field name="length"><mm:time inputformat="S" format="m:ss" /></mm:field>
+                  <mm:field name="length">
+                    <mm:isnotempty>
+                      <mm:time inputformat="S" format="m:ss" />
+                    </mm:isnotempty>
+                  </mm:field>
                 </em>
-                <br /><mm:field name="created"><mm:time format="dd-MM-yyyy hh:mm" /></mm:field>
+                <br />
+                <mm:field name="created">
+                  <mm:isnotempty>
+                    <mm:time format="dd-MM-yyyy hh:mm" />
+                  </mm:isnotempty>
+                </mm:field>
               </dd>
             </dl>
           </c:otherwise>
