@@ -1,0 +1,106 @@
+<jsp:root
+    version="2.0"
+    xmlns:c="http://java.sun.com/jsp/jstl/core"
+    xmlns:fmt="http://java.sun.com/jsp/jstl/fmt"
+    xmlns:jsp="http://java.sun.com/JSP/Page"
+    xmlns:oip="urn:jsptagdir:/WEB-INF/tags/oip"
+    xmlns:mm="http://www.mmbase.org/mmbase-taglib-2.0"
+    >
+  <jsp:directive.tag
+      display-name="HTML"
+      description="The HTML tag defines the basic HTML structure of this site
+                   " />
+  <jsp:directive.attribute
+      name="title"
+      description="See oip:head title"
+      />
+  <jsp:directive.attribute
+      name="styleClass"
+      description="Extra style class with will be added on the body"
+      />
+  <jsp:directive.attribute name="cacheable" type="java.lang.Boolean" />
+
+  <jsp:directive.attribute name="body"  fragment="true" required="true" />
+  <jsp:directive.attribute name="right" fragment="true" />
+  <jsp:directive.attribute name="left"  fragment="true" />
+  <jsp:directive.attribute name="head"  fragment="true" />
+
+
+  <mm:content
+      expires="${empty cacheable || cacheable ? 120 : -1}"
+      type="application/xhtml+xml" 
+      encoding="UTF-8"
+      varies="${empty requestScope['org.mmbase.mmsite.language'] ? 'Accept-Language' : ''}"
+      unacceptable="CRIPPLE"
+      postprocessor="none">
+
+    <jsp:output doctype-root-element="html"
+                doctype-public="-//W3C//DTD XHTML 1.0 Strict//EN"
+                doctype-system="http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"/>
+
+
+
+    <fmt:setBundle basename="eu.openimages.messages" scope="request" />
+    <mm:cloud method="${cacheable ? 'anonymous' : 'asis'}">
+
+      <html
+          xml:lang="${requestScope['javax.servlet.jsp.jstl.fmt.locale.request']}"
+          xmlns="http://www.w3.org/1999/xhtml">
+
+        <mm:import id="page" externid="n" />
+
+        <c:if test="${! empty page}">
+          <mm:node id="page" referid="page" />
+        </c:if>
+
+        <oip:head>
+          <jsp:attribute name="title">
+            <c:choose>
+              <c:when test="${empty title and !empty page}">
+                <mm:node referid="page">
+                  <mm:hasfield name="username"><mm:field name="username" /></mm:hasfield>
+                  <mm:hasfield name="title"><mm:field name="title" /></mm:hasfield>
+                </mm:node>
+              </c:when>
+              <c:otherwise>${title}</c:otherwise>
+            </c:choose>
+          </jsp:attribute>
+          <jsp:invoke fragment="head" />
+        </oip:head>
+
+        <body class="${styleClass}">
+          <jsp:include page="/inc/header.div.jspx" />
+
+          <jsp:include page="/inc/menu.div.jspx" />
+
+          <div class="left-column">
+            <c:choose>
+              <c:when test="${!empty left}">
+                <jsp:invoke fragment="left" />
+              </c:when>
+              <c:otherwise>
+                <oip:search advanced="false" language="${_lang}" />
+              </c:otherwise>
+            </c:choose>
+          </div>
+
+          <c:choose>
+            <c:when test="${empty page}">
+              <jsp:invoke fragment="body"  />
+            </c:when>
+            <c:otherwise>
+              <mm:node referid="page">
+                <jsp:invoke fragment="body"  />
+              </mm:node>
+            </c:otherwise>
+          </c:choose>
+
+          <jsp:include page="/inc/footer.div.jspx" />
+
+          <oip:googleanalytics />
+
+        </body>
+      </html>
+    </mm:cloud>
+  </mm:content>
+</jsp:root>

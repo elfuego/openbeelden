@@ -1,0 +1,78 @@
+<jsp:root
+    version="2.0"
+    xmlns:c="http://java.sun.com/jsp/jstl/core"
+    xmlns:jsp="http://java.sun.com/JSP/Page"
+    xmlns:oip="urn:jsptagdir:/WEB-INF/tags/oip"
+    xmlns:mm="http://www.mmbase.org/mmbase-taglib-2.0">
+  <oip:html styleClass="article">
+    <jsp:attribute name="body">
+
+      <div class="main-column">
+        <mm:relatednodescontainer type="articles" role="posrel" searchdirs="destination">
+          <mm:maxnumber value="1" />
+          <mm:relatednodes>
+
+            <mm:nodefunction name="translation">
+              <oip:h2><mm:field name="title" /></oip:h2>
+            </mm:nodefunction>
+
+            <mm:relatednodescontainer type="images" role="posrel" searchdirs="destination">
+              <mm:relatednodes>
+                <div class="image">
+                  <mm:image width="118" mode="img" />
+                  <!-- <mm:field name="title"><mm:isnotempty><p><mm:write /></p></mm:isnotempty></mm:field> -->
+                </div>
+              </mm:relatednodes>
+            </mm:relatednodescontainer>
+
+            <mm:nodefunction name="translation">
+              <mm:field name="subtitle"><mm:isnotempty><h3 class="subtitle"><mm:write /></h3></mm:isnotempty></mm:field>
+              <mm:field name="intro" escape="paragraph" />
+              <mm:field name="body" escape="paragraph" />
+            </mm:nodefunction>
+
+          </mm:relatednodes>
+        </mm:relatednodescontainer>
+      </div>
+      <div class="right-column">
+        <div class="related-grey">
+          <mm:relatednodescontainer type="articles" role="posrel" searchdirs="destination">
+            <mm:maxnumber value="1" />
+            <mm:relatednodes>
+              
+              <mm:relatednodescontainer type="urls" role="posrel" searchdirs="destination">
+                <mm:size>
+                  <mm:isgreaterthan value="0">
+                    <oip:h3>Links</oip:h3>
+                    <ul>
+                      <mm:relatednodes>
+                        <li>
+                          <mm:field name="url"><a href="${_}"><mm:field name="name" /></a></mm:field>
+                        </li>
+                      </mm:relatednodes>
+                    </ul>
+                  </mm:isgreaterthan>
+                </mm:size>
+              </mm:relatednodescontainer>
+      
+              <mm:relatednodescontainer type="attachments" role="posrel" searchdirs="destination">
+                <mm:size>
+                  <mm:isgreaterthan value="0">
+                    <oip:h3>Documents</oip:h3>
+                    <ul>
+                    <mm:relatednodes>
+                      <li class="TODO">
+                        <mm:attachment />
+                      </li>
+                    </mm:relatednodes>
+                    </ul>
+                  </mm:isgreaterthan>
+                </mm:size>
+              </mm:relatednodescontainer>
+            </mm:relatednodes>
+          </mm:relatednodescontainer>
+        </div>
+      </div>
+    </jsp:attribute>
+  </oip:html>
+</jsp:root>

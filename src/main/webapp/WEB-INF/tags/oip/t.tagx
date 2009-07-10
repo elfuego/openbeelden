@@ -1,0 +1,28 @@
+<jsp:root
+    version="2.0"
+    xmlns:c="http://java.sun.com/jsp/jstl/core"
+    xmlns:fmt="http://java.sun.com/jsp/jstl/fmt"
+    xmlns:jsp="http://java.sun.com/JSP/Page"
+    xmlns:oip="urn:jsptagdir:/WEB-INF/tags/oip"
+    xmlns:mm="http://www.mmbase.org/mmbase-taglib-2.0"
+    >
+  <jsp:directive.attribute name="imageescape" />
+  <mm:import id="text"><jsp:doBody /></mm:import>
+
+  <mm:cloud method="delegate" authenticate="class">
+    <mm:node number="org.mmbase.resources.transparentpixel">
+      <!--
+      <span title="${text}" class="text">
+        <oip:letters items="${text}" var="t">
+          <mm:image template="s(200x20!)+background(red)+font(mm:fonts/DINEngschriftStd.ttf)+fill(a5a5a5)+pointsize(24)+gravity(NorthWest)+undercolor(transparent)+text(0,1,'${t}')+trim">
+            <span style="background-image: url('${_}'); width: ${dimension.width}px; height: ${dimension.height}px; ">${t}</span>
+          </mm:image>
+        </oip:letters>
+      </span>
+      -->
+      <mm:image template="s(400x20!)+background(white)+font(mm:fonts/DINEngschriftStd.ttf)+fill(a5a5a5)+pointsize(24)+gravity(NorthWest)+undercolor(transparent)+text(0,1,'${mm:escape(empty imageescape ? 'text/xml' : imageescape, text)}')+trim">
+        <span class="text" style="background-image: url('${_}'); width: ${dimension.width}px; height: ${dimension.height}px; "><span>${text}</span></span>
+      </mm:image>
+    </mm:node>
+  </mm:cloud>
+</jsp:root>

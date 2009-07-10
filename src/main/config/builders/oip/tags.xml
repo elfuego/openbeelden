@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<builder
+    xmlns="http://www.mmbase.org/xmlns/builder"
+    xmlns:xi="http://www.w3.org/2001/XInclude"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.mmbase.org/xmlns/builder
+                        http://www.mmbase.org/xmlns/builder.xsd"
+    name="tags" maintainer="mmbase.org" version="0" extends="object">
+  <searchage>999</searchage>
+  <names>
+    <singular xml:lang="en">Tag</singular>
+    <singular xml:lang="nl">Tag</singular>
+    <plural xml:lang="en">Tags</plural>
+    <plural xml:lang="nl">Tags</plural>
+  </names>
+  <descriptions>
+    <description xml:lang="en">A tag or keyword.</description>
+    <description xml:lang="nl">Een tag of trefwoord.</description>
+  </descriptions>
+  <properties />
+  <fieldlist>
+  
+    <field name="name">
+      <descriptions>
+        <description xml:lang="en">The tag, name of the tag.</description>
+        <description xml:lang="nl">De tag, naam van de tag.</description>
+      </descriptions>
+      <gui>
+        <guiname xml:lang="en">Name</guiname>
+        <guiname xml:lang="nl">Naam</guiname>
+      </gui>
+      <editor>
+        <positions>
+          <input>1</input>
+          <list>1</list>
+          <search>1</search>
+        </positions>
+      </editor>
+      <datatype base="line" xmlns="http://www.mmbase.org/xmlns/datatypes">
+        <required value="true">
+          <description xml:lang="nl">Dit is een verplicht veld</description>
+          <description xml:lang="en">This is a required field</description>
+        </required>
+        <maxLength value="255" />
+      </datatype>
+    </field>
+
+    <xi:include href="http://www.mmbase.org/builders/oip/language.field.xml" />
+    
+  </fieldlist>
+
+
+</builder>

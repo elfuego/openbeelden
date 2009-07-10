@@ -1,0 +1,56 @@
+<mm:content
+    type="application/xml"
+    postprocessor="none"
+    expires="1800"
+    xmlns:c="http://java.sun.com/jsp/jstl/core"
+    xmlns:fmt="http://java.sun.com/jsp/jstl/fmt"
+    xmlns:jsp="http://java.sun.com/JSP/Page"
+    xmlns:mm="http://www.mmbase.org/mmbase-taglib-2.0">
+  <jsp:directive.page session="false" />
+  
+  <feed xmlns="http://www.w3.org/2005/Atom">
+    <title>Open Images latest uploads</title>
+    <subtitle>Latest uploads on the Open Images Platform</subtitle>
+    <mm:link absolute="true" page="/feeds/atom"><link href="${_}" rel="self" /></mm:link>
+    <mm:link absolute="true" page="/"><link href="${_}" /></mm:link>
+    <updated><mm:time format="yyyy-MM-dd" time="${_}" />T<mm:time format="HH:mm:ssZ" time="${_}" /></updated>
+    <author>
+      <name>Open Images Platform</name>
+      <email>info@openimages.eu</email>
+    </author>
+    <id><mm:url absolute="true" /></id>
+    <icon><mm:url absolute="true" page="/favicon.ico" /></icon>
+    <logo><mm:url absolute="true" page="/style/images/logo-oip.png" /></logo>
+
+    <mm:listnodescontainer type="mediafragments">
+      <mm:sortorder field="number" direction="DOWN" />
+      <mm:maxnumber value="12" />
+      <mm:listnodes varStatus="status">
+        <mm:link absolute="true">
+          <mm:frameworkparam name="component">oip</mm:frameworkparam>
+          <mm:frameworkparam name="block">mediafragment</mm:frameworkparam>
+          <mm:frameworkparam name="media">${_node}</mm:frameworkparam>
+          <entry>
+            <title><mm:field name="title"><mm:isnotempty>${_}</mm:isnotempty><mm:isempty>no title</mm:isempty></mm:field></title>
+            <link href="${_}" />
+            <id><mm:url page="/" absolute="true" />/mmbase/nr/<mm:nodeinfo type="type" />/${_node}</id>
+            <updated>
+              <mm:field name="lastmodified"><mm:time format="yyyy-MM-dd" time="${_}" />T<mm:time format="HH:mm:ssZ" time="${_}" /></mm:field>
+            </updated>
+            <published>
+              <mm:field name="online"><mm:time format="yyyy-MM-dd" time="${_}" />T<mm:time format="HH:mm:ssZ" time="${_}" /></mm:field>
+            </published> 
+            <summary><mm:field name="intro" /></summary>
+            <mm:import id="length" reset="true"><mm:field name="length" /></mm:import>
+            <mm:listfunction name="filteredurls">
+              <c:if test="${_.available}">
+                <link type="${_.format.mimeType}" href="${_.URL}" length="${length}" rel="enclosure" />
+              </c:if>
+            </mm:listfunction>
+          </entry>
+        </mm:link>
+      </mm:listnodes>
+    </mm:listnodescontainer>
+  </feed>
+
+</mm:content>

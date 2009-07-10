@@ -1,0 +1,71 @@
+<mm:content
+    type="application/xml"
+    xmlns:c="http://java.sun.com/jsp/jstl/core"
+    xmlns:jsp="http://java.sun.com/JSP/Page"
+    xmlns:fmt="http://java.sun.com/jsp/jstl/fmt"
+    xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+    xmlns:mm="http://www.mmbase.org/mmbase-taglib-2.0"
+    xmlns:oip="urn:jsptagdir:/WEB-INF/tags/oip"
+    >
+  <jsp:output omit-xml-declaration="true" />
+  <mm:cloud method="asis">
+    <div
+        class="mm_c c_oip b_user-picture ${requestScope.className}"
+        id="${requestScope['org.mmbase.componentId']}">
+
+      <mm:import externid="n" required="true" />
+      <mm:import externid="edit" />
+
+      <oip:h2 block="user-picture" />
+
+      <mm:node number="$n" id="user">
+
+        <c:choose>
+          <c:when test="${!empty edit}">
+          
+            <mm:maywrite>
+              <mm:relatednodescontainer type="images" role="posrel" searchdirs="destination">
+                <mm:maxnumber value="1" />
+                <mm:relatednodes>
+                  <mm:node id="img" />
+                </mm:relatednodes>
+              </mm:relatednodescontainer>
+    
+              <c:choose>
+                <c:when test="${empty img}">
+                  <h4><fmt:message key="users.create_new_image" /></h4>
+                  <oip:form fields="title,handle" create="images" source="${n}" />
+                </c:when>
+                <c:otherwise>
+                  <h4>
+                    <fmt:message key="users.edit_image">
+                      <fmt:param value="${img}" />
+                    </fmt:message>
+                  </h4>
+                  <mm:node referid="img">
+                    <oip:form fields="title,handle" />
+                  </mm:node>
+                </c:otherwise>
+              </c:choose>
+            </mm:maywrite>
+          
+          </c:when>
+          <c:otherwise>
+
+            <oip:thumb />
+            <h3 class="subtitle"><oip:user /></h3>
+            <p>
+              <mm:import id="editme" reset="true">ja</mm:import>
+              <mm:link page="user-picture" referids="n,editme@edit">
+                <mm:frameworkparam name="component">oip</mm:frameworkparam>
+                <a href="${_}">change picture »</a>
+              </mm:link>
+            </p>
+
+          </c:otherwise>
+        </c:choose>
+
+      </mm:node>
+    </div>
+  </mm:cloud>
+</mm:content>

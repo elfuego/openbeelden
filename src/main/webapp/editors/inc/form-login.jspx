@@ -1,0 +1,36 @@
+<mm:content 
+    xmlns:jsp="http://java.sun.com/JSP/Page"
+    xmlns:c="http://java.sun.com/jsp/jstl/core"
+    xmlns:mm="http://www.mmbase.org/mmbase-taglib-2.0"
+    expires="0" type="text/html" language="client" postprocessor="none">
+  <jsp:output omit-xml-declaration="true" />
+    
+  <mm:import externid="username" from="parameters" />
+  <mm:import externid="reason">please</mm:import>
+  <mm:import externid="referrer">index.jspx</mm:import>
+  
+  <form id="loginbox" name="loginbox" method="post" action="${referrer}">
+    <fieldset>
+      <input type="hidden" name="command" value="login" />
+      <input type="hidden" name="authenticate" value="name/password" />
+      <div class="first">
+        <h2>editors</h2>
+      </div>
+      <mm:compare referid="reason" value="failed">
+        <div class="msg">Het inloggen is niet gelukt.</div>
+      </mm:compare>
+      <div>
+        <label for="username">Naam</label>
+        <input type="text" id="username" name="username" tabindex="1" />
+      </div>
+      <div>
+        <label for="password">Wachtwoord</label>
+        <input type="password" id="password" name="password" tabindex="2" />
+      </div>
+      <div class="last">
+        <input type="submit" name="Login" value="login" />
+      </div>
+    </fieldset>
+  </form>
+
+</mm:content>

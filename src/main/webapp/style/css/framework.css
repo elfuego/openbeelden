@@ -1,0 +1,297 @@
+/**
+* @author   Open Images Platform
+* @since    May 2009
+* @name     Stylesheet with the page lay-out stuff
+* @version  0.1
+*/
+
+#menu a:link
+{
+	text-decoration: none;
+	color: #333;
+}
+
+#menu a:visited
+{
+	text-decoration: none;
+	color: #333;
+}
+
+#menu a:hover
+{
+	text-decoration: underline;
+	color: #c00;
+}
+
+#menu a:active
+{
+	text-decoration: underline;
+	color: #e00120;
+}
+
+#menu li.active a { color: #aaa; }
+
+#header
+{
+	position: absolute;
+	top: 20px;
+	left: 0;
+	padding-left: 45px;
+	width: 340px;	/* for IE5/Win */
+	voice-family: "\"}\"";
+	voice-family: inherit;
+	width: 290px;
+}
+
+#header img { margin-bottom: 45px; }
+#header p { font-style: italic; }
+
+#menu
+{
+	position: relative;
+	top: 0;
+	left: 353px;
+	width: 640px;
+	height: 32px;
+	border-bottom: 3px #666 dotted;
+	font-size: 1.1em;
+}
+
+#menu ul.main
+{
+	float: left;
+	height: 25px;
+	padding-top: 8px;
+	list-style: none;
+	width: 340px;
+}
+
+#menu ul.meta
+{
+	float: left;
+	height: 25px;
+	padding-top: 8px;
+	list-style: none;
+	width: 300px;
+}
+
+#menu ul.main li
+{
+	float: left;
+	padding: 0 32px 0 4px;
+}
+
+#menu ul.meta li
+{
+	float: right;
+	display: inline;
+	text-align: right;
+}
+
+#menu ul.meta li#you
+{
+	white-space: nowrap;
+	word-spacing: 2px;
+	padding-right: 8px;
+	text-transform: lowercase;
+}
+
+
+#menu ul.meta li form,
+#menu ul.meta li fieldset
+{
+	margin: 0;
+	padding: 0;
+	width: 120px;
+}
+
+#menu ul.meta li a { color: #c00; }
+
+#menu select
+{
+	padding: 2px;
+	font-size: 0.95em;
+}
+
+div#footer
+{
+	clear: both;
+	height: 32px;
+	margin-top: 20px;
+}
+
+div#footer div
+{
+	position: fixed;
+	bottom: 0;
+	left: 0;
+	width: 100%;
+	color: #fff;
+	height: 24px;
+	font-size: 0.95em;
+	background: #666;
+}
+
+#footer div ul
+{
+	margin-left: 355px;
+	padding: 2px 0 8px 0;
+	list-style: none;
+}
+
+#footer li
+{
+	float: left;
+	margin: 0 18px 0 0;
+	padding: 0;
+	list-style: none;
+	text-transform: lowercase;
+}
+
+#footer a:link, 
+#footer a:visited 
+{
+	color: #fff;
+	text-decoration: none;
+}
+#footer a:hover, 
+#footer a:active { text-decoration: underline; }
+
+
+/* columns */
+div.wrap
+{
+	width: 100%;
+	clear: both;
+	border-top: 3px #666 dotted;
+	background-image: url(images/bg-gr.png);
+	background-repeat: repeat-x;
+	background-position: 0 8px;
+	min-height: 266px;
+	overflow: hidden; /* http://www.quirksmode.org/css/clearing.html */
+}
+
+div.left-column
+{
+	float: left;
+	padding-top: 16px;
+	padding-left: 45px;
+	width: 335px;	/* for IE5/Win */
+	voice-family: "\"}\"";
+	voice-family: inherit;
+	width: 290px;
+}
+
+div.main-column
+{
+	float: left;
+	display: inline;	/* IE6/Win fix */
+	padding-top: 10px;
+	margin-left: 355px;
+	margin-bottom: 8px;
+	width: 320px;
+}
+
+div.right-column
+{
+	float: left;
+	display: inline;    /* IE6/Win fix */
+	padding-top: 0;
+	margin-bottom: 8px;
+	margin-left: 10px;
+	padding-left: 5px;
+	width: 310px;   /* for IE5/Win */
+	voice-family: "\"}\"";
+	voice-family: inherit;
+	width: 305px;
+}
+
+body > div.left-column
+{
+	position: absolute;
+	top: 340px;
+	left: 0;
+	border-top: 3px #666 dotted;
+	background-image: url(images/bg-gr.png);
+	background-repeat: repeat-x;
+	background-position: 0 8px;
+	min-height: 266px;
+}
+
+body > div.main-column { margin-top: 0px; }
+body > div.right-column { margin-top: 10px; }
+
+/* differences per page */
+body.home > div.left-column { display: none; }
+body.home div.wrap div.left-column
+{
+	padding-top: 16px;
+	margin-top: 0;
+	border: 0;
+}
+
+body.home div.wrap div.main-column
+{
+	padding-top: 16px;
+	margin-left: 20px;
+}
+
+body.home div.wrap div.right-column
+{
+	padding-top: 16px;
+	padding-left: 8px;
+}
+
+body.media > div.left-column { top: 230px; }
+
+body.error div.main-column
+{
+	padding-top: 10px;
+	margin-left: 20px;
+	margin-bottom: 8px;
+	width: auto;
+	margin-left: 355px;
+}
+body.error div.main-column h2,
+body.error div.main-column h3
+{
+	font-family: Helvetica, sans-serif;
+	text-transform: none;
+}
+
+div.related-grey-border
+{
+	/*border: 1px solid #000;*/
+	border-top: 3px #666 dotted;
+	background-image: url(images/bg-gr.png);
+	background-repeat: repeat-x;
+	background-position: 0 8px;
+	min-height: 266px;
+	padding: 8px;
+	clear: both;
+	margin-bottom: 1em;
+}
+
+div.related-grey
+{
+	/* border: 1px solid #000; */
+	background-image: url(images/bg-gr.png);
+	background-repeat: repeat-x;
+	background-position: 0 0;
+	min-height: 266px;
+	padding: 8px;
+	clear: both;
+	margin-bottom: 1em;
+}
+
+div.related
+{
+	min-height: 266px;
+	padding: 8px;
+	clear: both;
+	margin-bottom: 1em;
+}
+
+div.related h2, div.related-grey h2 { margin-top: 0; }
+div.related h3, div.related-grey h3 { margin-top: 0; }
+

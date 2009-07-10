@@ -1,0 +1,21 @@
+<jsp:root
+    version="2.0"
+    xmlns:c="http://java.sun.com/jsp/jstl/core"
+    xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+    xmlns:jsp="http://java.sun.com/JSP/Page"
+    xmlns:oip="urn:jsptagdir:/WEB-INF/tags/oip"
+    xmlns:mm="http://www.mmbase.org/mmbase-taglib-2.0"
+    >
+  <mm:nodeinfo type="nodemanager">
+    <c:choose>
+      <c:when test="${_ eq 'imagefragments'}">
+        <mm:relatednodes type="imagesources">
+          <mm:image mode="img" template="s(320x240&gt;)" />
+        </mm:relatednodes>
+      </c:when>
+      <c:otherwise>
+        <oip:video />
+      </c:otherwise>
+    </c:choose>
+  </mm:nodeinfo>
+</jsp:root>

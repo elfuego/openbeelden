@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<tags exportsource="mmbase://grgrijze.toly.net/oip/oi" timestamp="20090610233953">
+	<node number="338" owner="196">
+		<language>en</language>
+		<name>mooi</name>
+	</node>
+
+	<node number="340" owner="196">
+		<language>en</language>
+		<name>och</name>
+	</node>
+
+	<node number="342" owner="196">
+		<language>en</language>
+		<name>abnormaal</name>
+	</node>
+
+	<node number="344" owner="196">
+		<language>en</language>
+		<name>helemaal</name>
+	</node>
+
+</tags>

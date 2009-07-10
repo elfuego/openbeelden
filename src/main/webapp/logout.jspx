@@ -1,0 +1,28 @@
+<?xml version="1.0" ?>
+<jsp:root version="2.0"
+    xmlns:jsp="http://java.sun.com/JSP/Page"
+    xmlns:c="http://java.sun.com/jsp/jstl/core"
+    xmlns:fmt="http://java.sun.com/jsp/jstl/fmt"
+    xmlns:mm="http://www.mmbase.org/mmbase-taglib-2.0"
+    xmlns:oip="urn:jsptagdir:/WEB-INF/tags/oip">
+  <mm:import externid="locale">client</mm:import>
+  <mm:cloud method="logout" />
+  <oip:html
+      cacheable="false"
+      title="Logout"
+      styleClass="login">
+    <jsp:attribute name="body">
+
+      <mm:import externid="referrer">
+        <mm:url page="/login${locale ne 'client' ? '.' : ''}${locale ne 'client' ? locale : ''}">
+        </mm:url>
+      </mm:import>
+      <script type="text/javascript">
+        $(document).ready(function() {
+        document.location = "${referrer}";
+        });
+      </script>
+    </jsp:attribute>
+
+  </oip:html>
+</jsp:root>
