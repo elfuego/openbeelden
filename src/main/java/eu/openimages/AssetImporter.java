@@ -164,7 +164,15 @@ public class AssetImporter implements Runnable, LoggerAccepter {
                 if (mediaFragment != null) {
                     mediaFragment.setStringValue("keywords", Casting.toString(subjects));
                     mediaFragment.setStringValue("coverage", Casting.toString(coverage));
-                    mediaFragment.setStringValue("title", fields.get("title"));
+                    String title = fields.get("title");
+                    Pattern pattern = Pattern.compile("(.*?):\\s*(Weeknummer.*)");
+                    Matcher matcher = pattern.matcher(title);
+                    if (matcher.matches()) {
+                        mediaFragment.setStringValue("title", matcher.group(1));
+                        mediaFragment.setStringValue("subtitle", matcher.group(2));
+                    } else {
+                        mediaFragment.setStringValue("title", title);
+                    }
                     mediaFragment.setStringValue("intro", fields.get("description"));
                     mediaFragment.setStringValue("language", "nl");
 
