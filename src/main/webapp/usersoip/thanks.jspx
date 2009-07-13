@@ -14,7 +14,7 @@
         <p class="msg">
           <mm:setfield name="status">INUSE</mm:setfield>
           <fmt:message key="register.verified">
-          <fmt:param><mm:field name="username" /></fmt:param>
+            <fmt:param><mm:field name="username" /></fmt:param>
           </fmt:message>
         </p>
       </mm-sec:verifyEmail>

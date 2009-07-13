@@ -43,7 +43,10 @@
               });
             </script>
             <p class="msg">
-              You are logged in as ${username} (rank <mm:cloudinfo type="rank" />)
+              <fmt:message key="login.message">
+                <fmt:param value="${username}" />
+                <mm:cloudinfo type="rank"><fmt:param value="${_}" /></mm:cloudinfo>
+              </fmt:message>
               <a href="${referrer}">${referrer}</a>.
             </p>
           </mm:cloud>
@@ -63,7 +66,7 @@
             <fmt:message key="login.login" var="login" />
             <p>
               <input name="submit" type="submit" value="${login}" class="submit" />
-              <a class="TODO" href="#">forgot your password?</a>
+              <a class="TODO" href="#"><fmt:message key="login.forgot_password" /></a>
             </p>
           </fieldset>
         </form>
