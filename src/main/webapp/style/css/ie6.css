@@ -1,8 +1,15 @@
 /**
 * @author   Open Images Platform
-* @since    May 2009
- * @name	IE6 only stylesheet
+* @since    July 2009
+* @name	IE6 only stylesheet
 * @version  0.1
 */
 
-body.home > div.main-column { margin-left: 15px; }
+/*
+body.home div#main div.main-column { margin-left: 330px; }
+
+body.home div#main div.right-column {
+	width: 305px;
+}
+*/
+

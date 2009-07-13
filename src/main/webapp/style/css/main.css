@@ -60,7 +60,7 @@ h1, h2, h3
 	clear: both;
 }
 div.error h1, div.error h2 div.error.h3 {
-    font-family: sans-serif;
+    font-family: Helvetica, sans-serif;
     text-transform: none;
 }
 

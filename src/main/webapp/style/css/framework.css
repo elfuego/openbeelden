@@ -5,7 +5,7 @@
 * @version  0.1
 */
 
-#main
+div#main
 {
 	width: 975px;
 	margin: 0;
@@ -57,7 +57,7 @@
 {
 	position: relative;
 	top: 0;
-	left: 335px;
+	left: 330px;
 	width: 640px;
 	height: 32px;
 	border-bottom: 3px #666 dotted;
@@ -120,39 +120,36 @@
 	font-size: 0.95em;
 }
 
-div#footer
+#footer
 {
+	width: 100%;
+	padding-top: 40px;
 	clear: both;
-	height: 32px;
-	margin-top: 20px;
 }
 
-div#footer div
+#footer div
 {
 	position: fixed;
 	bottom: 0;
 	left: 0;
 	width: 100%;
-	color: #fff;
 	height: 24px;
-	font-size: 0.95em;
 	background: #666;
 }
 
-#footer div ul
+#footer ul
 {
-	margin-left: 355px;
-	padding: 2px 0 8px 0;
 	list-style: none;
+	padding-left: 330px;
 }
 
 #footer li
 {
 	float: left;
-	margin: 0 18px 0 0;
-	padding: 0;
+	margin: 2px 18px 0 0;
 	list-style: none;
 	text-transform: lowercase;
+	font-size: 0.85em;
 }
 
 #footer a:link, 
@@ -195,7 +192,7 @@ div.main-column
 	float: left;
 	display: inline;	/* IE6/Win fix */
 	padding-top: 10px;
-	margin-left: 15px;
+	margin-left: 10px;
 	margin-bottom: 8px;
 	width: 320px;
 }
@@ -214,38 +211,25 @@ div.right-column
 	width: 305px;
 }
 
-/*
-body > div.left-column
-{
-	position: absolute;
-	top: 340px;
-	left: 0;
-	border-top: 3px #666 dotted;
-	background-image: url(images/bg-gr.png);
-	background-repeat: repeat-x;
-	background-position: 0 8px;
-	min-height: 266px;
-}
-
-body > div.main-column { margin-top: 0px; }
-body > div.right-column { margin-top: 10px; }
-*/
 
 /* differences per page */
-body.home > div.left-column { display: none; }
-body.home > div.main-column { margin-left: 340px; }
+body.home div#main div.left-column { display: none; }
+body.home div#main div.main-column { margin-left: 330px; }
+body.home div#main div.right-column div.related { padding-top: 16px; }
+body.home div#main div.wrap div.main-column { margin-left: 10px; }
 
-div.wrap div.left-column
+body.home div#main div.wrap div.left-column
 {
 	padding-top: 16px;
 	margin-top: 0;
 	border: 0;
+	display: block;
 }
 
 body.home div.wrap div.main-column
 {
 	padding-top: 16px;
-	margin-left: 15px;
+	margin-left: 10px;
 }
 
 body.home div.wrap div.right-column
@@ -254,8 +238,9 @@ body.home div.wrap div.right-column
 	padding-left: 8px;
 }
 
-body.media > div.left-column { top: 230px; }
+body.media div.left-column { top: 230px; }
 
+/* error pages */
 body.error div.main-column
 {
 	padding-top: 10px;
@@ -264,13 +249,13 @@ body.error div.main-column
 	width: auto;
 	margin-left: 355px;
 }
+
 body.error div.main-column h2,
 body.error div.main-column h3
 {
 	font-family: Helvetica, sans-serif;
 	text-transform: none;
 }
-
 
 /* the bordered and grey background divs */
 div.related-grey-border
