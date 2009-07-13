@@ -92,12 +92,10 @@
           <p class="more"><a href="${mm:link('/media')}${langpostfix}"><fmt:message key="media.more" /> »</a></p>
         </div>
       </div>
+      
       <div class="wrap">
-        <![CDATA[<!--[if IE 6]><link href="${mm:link('/style/css/ie6.css')}" rel="stylesheet" type="text/css"/><![endif]-->]]>
-
         <div class="left-column">
           <oip:search advanced="false" language="${_lang}" />
-
           <p class="logobeng">
             <fmt:message key="head.initiative" />
             <a href="http://www.beeldengeluid.nl"><img src="${mm:link('/style/images/logo-beng.png')}" alt="Nederlands Instituut voor Beeld en Geluid" width="149" height="38" /></a>
@@ -163,6 +161,7 @@
             <p class="err"><mm:escape escape="text/xml,links">${rsslink}: ${ex1.cause.message}</mm:escape></p>
           </c:if>
         </div>
+        
         <div class="right-column">
           <oip:h2>Blog</oip:h2>
           <os:cache key="blog.feed.rss2.${requestScope['javax.servlet.jsp.jstl.fmt.locale.request']}">
