@@ -24,6 +24,7 @@
           <fmt:message key="head.title" />
         </title>
         <link href="${mm:link('/style/css/main.css')}" rel="stylesheet" type="text/css" />
+        <!--[if IE 6]><link href="${mm:link('/style/css/ie6.css')}" rel="stylesheet" type="text/css"/><![endif]-->
         <link href="${mm:link('/style/images/favicon.ico')}" rel="shortcut icon" />
         <jsp:directive.include file="/mmbase/jquery/jquery.jspx" />
         <script src="${mm:link('/mmbase/validation/Widgets.js')}" type="text/javascript"> </script>
