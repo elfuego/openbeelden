@@ -69,36 +69,36 @@
         </oip:head>
 
         <body class="${styleClass}">
-          <jsp:include page="/inc/header.div.jspx" />
-
-          <jsp:include page="/inc/menu.div.jspx" />
-
-          <div class="left-column">
+          <div id="main">
+            <jsp:include page="/inc/header.div.jspx" />
+  
+            <jsp:include page="/inc/menu.div.jspx" />
+  
+            <div class="left-column">
+              <c:choose>
+                <c:when test="${!empty left}">
+                  <jsp:invoke fragment="left" />
+                </c:when>
+                <c:otherwise>
+                  <oip:search advanced="false" language="${_lang}" />
+                </c:otherwise>
+              </c:choose>
+            </div>
+  
             <c:choose>
-              <c:when test="${!empty left}">
-                <jsp:invoke fragment="left" />
+              <c:when test="${empty page}">
+                <jsp:invoke fragment="body"  />
               </c:when>
               <c:otherwise>
-                <oip:search advanced="false" language="${_lang}" />
+                <mm:node referid="page">
+                  <jsp:invoke fragment="body"  />
+                </mm:node>
               </c:otherwise>
             </c:choose>
+  
+            <jsp:include page="/inc/footer.div.jspx" />
           </div>
-
-          <c:choose>
-            <c:when test="${empty page}">
-              <jsp:invoke fragment="body"  />
-            </c:when>
-            <c:otherwise>
-              <mm:node referid="page">
-                <jsp:invoke fragment="body"  />
-              </mm:node>
-            </c:otherwise>
-          </c:choose>
-
-          <jsp:include page="/inc/footer.div.jspx" />
-
           <oip:googleanalytics />
-
         </body>
       </html>
     </mm:cloud>
