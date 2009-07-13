@@ -93,6 +93,8 @@
         </div>
       </div>
       <div class="wrap">
+        <![CDATA[<!--[if IE 6]><link href="${mm:link('/style/css/ie6.css')}" rel="stylesheet" type="text/css"/><![endif]-->]]>
+
         <div class="left-column">
           <oip:search advanced="false" language="${_lang}" />
 
