@@ -1,0 +1,8 @@
+/**
+* @author   Open Images Platform
+* @since    May 2009
+ * @name	IE6 only stylesheet
+* @version  0.1
+*/
+
+body.home > div.main-column { margin-left: 15px; }
