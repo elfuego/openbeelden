@@ -5,6 +5,13 @@
 * @version  0.1
 */
 
+#main
+{
+	width: 975px;
+	margin: 0;
+	padding: 0;
+}
+
 #menu a:link
 {
 	text-decoration: none;
@@ -36,8 +43,8 @@
 	position: absolute;
 	top: 20px;
 	left: 0;
-	padding-left: 45px;
-	width: 340px;	/* for IE5/Win */
+	padding-left: 30px;
+	width: 320px;	/* for IE5/Win */
 	voice-family: "\"}\"";
 	voice-family: inherit;
 	width: 290px;
@@ -50,7 +57,7 @@
 {
 	position: relative;
 	top: 0;
-	left: 353px;
+	left: 335px;
 	width: 640px;
 	height: 32px;
 	border-bottom: 3px #666 dotted;
@@ -174,9 +181,10 @@ div.wrap
 div.left-column
 {
 	float: left;
-	padding-top: 16px;
-	padding-left: 45px;
-	width: 335px;	/* for IE5/Win */
+	/*padding-top: 16px;*/
+	margin-top: 300px; 
+	padding-left: 30px;
+	width: 320px;	/* for IE5/Win */
 	voice-family: "\"}\"";
 	voice-family: inherit;
 	width: 290px;
@@ -187,7 +195,7 @@ div.main-column
 	float: left;
 	display: inline;	/* IE6/Win fix */
 	padding-top: 10px;
-	margin-left: 355px;
+	margin-left: 15px;
 	margin-bottom: 8px;
 	width: 320px;
 }
@@ -206,6 +214,7 @@ div.right-column
 	width: 305px;
 }
 
+/*
 body > div.left-column
 {
 	position: absolute;
@@ -220,10 +229,13 @@ body > div.left-column
 
 body > div.main-column { margin-top: 0px; }
 body > div.right-column { margin-top: 10px; }
+*/
 
 /* differences per page */
 body.home > div.left-column { display: none; }
-body.home div.wrap div.left-column
+body.home > div.main-column { margin-left: 340px; }
+
+div.wrap div.left-column
 {
 	padding-top: 16px;
 	margin-top: 0;
@@ -233,7 +245,7 @@ body.home div.wrap div.left-column
 body.home div.wrap div.main-column
 {
 	padding-top: 16px;
-	margin-left: 20px;
+	margin-left: 15px;
 }
 
 body.home div.wrap div.right-column
@@ -259,6 +271,8 @@ body.error div.main-column h3
 	text-transform: none;
 }
 
+
+/* the bordered and grey background divs */
 div.related-grey-border
 {
 	/*border: 1px solid #000;*/
