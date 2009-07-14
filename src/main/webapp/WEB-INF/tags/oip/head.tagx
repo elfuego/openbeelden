@@ -26,9 +26,8 @@
       <![CDATA[<!--[if IE 6]><link href="${mm:link('/style/css/ie6.css')}" rel="stylesheet" type="text/css"/><![endif]-->]]>
       <link href="${mm:link('/style/images/favicon.ico')}" rel="shortcut icon" />
       <jsp:directive.include file="/mmbase/jquery/jquery.jspx" />
-      <script src="${mm:link('/mmbase/validation/Widgets.js')}" type="text/javascript"> </script>
       <script src="${mm:link('/style/js/main.js.jsp')}" type="text/javascript"><!-- help ie --></script>
-      <script src="${mm:link('/style/js/mmtag.js')}" type="text/javascript"><!-- help ie --></script>
+      <script src="${mm:link('/mmbase/validation/Widgets.js')}" type="text/javascript"><!-- help ie --></script>
       <jsp:doBody />
     </head>
   </fmt:bundle>
