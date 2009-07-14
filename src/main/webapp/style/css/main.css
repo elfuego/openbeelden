@@ -121,6 +121,12 @@ p { margin-bottom: 1em; }
 	clear: both;
 }
 
+.err em, .msg em
+{
+	font-size: 0.8em;
+	display: block;
+}
+
 .msg
 {
 	border: 2px solid #679911;
@@ -158,22 +164,18 @@ fieldset
 
 input, select
 {
-	width: 314px;
 	padding: 3px;
-	font-size: 1em;
 	margin: 0 0 6px 0;
-	color: #888;
+	color: #555;
 	border: 1px solid #cfcfcf;
 }
 
-select
+input
 {
-	width: 100%;
-	font-size: 0.95em;
+	width: 312px;
+	font-size: 1em;
 }
-
-select option { margin: 4px 0; }
-
+/*select option { margin: 4px 0; }*/
 
 textarea
 {

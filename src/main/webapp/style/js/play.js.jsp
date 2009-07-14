@@ -78,8 +78,8 @@ function initPlayer() {
 
 function showInfo(id) {
     var text = "" + player.url;
-    $('#playercontrols li.playerinfo').show();
-    $('#playercontrols li.playerinfo').text(text);
+    //$('#playercontrols li.playerinfo').show();
+    //$('#playercontrols li.playerinfo').text(text);
 }
 
 function followProgress() {
