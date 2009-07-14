@@ -20,6 +20,14 @@
         <mm:component name="oip" block="user-mediapreview" render="head"/>
         <mm:component name="oip" block="user-mediatranslations" render="head" />
       </c:if>
+      <mm:link page="/api/atom/">
+        <mm:hasnode number="$n">
+          <mm:node number="$n">
+            <mm:param name="user"><mm:field name="username" /></mm:param>
+          </mm:node>
+        </mm:hasnode>
+        <link href="${_}" rel="alternate" type="application/atom+xml" title="Open Images latest uploads" />
+      </mm:link>
       <link type="text/css" href="${mm:link('/style/css/jquery.ui.tabs.css')}" rel="stylesheet" />
       <script type="text/javascript" src="${mm:link('/style/js/jquery-ui-1.7.2.custom.min.js')}"><!-- help ie --></script>
     </jsp:attribute>
