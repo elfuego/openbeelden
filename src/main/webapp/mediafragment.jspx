@@ -208,7 +208,7 @@
           <oip:h3><fmt:message key="media.related_items" /></oip:h3>
           <mm:functioncontainer>
             <mm:param name="type">mediafragments</mm:param>
-            <mm:param name="max">3</mm:param>
+            <mm:param name="max">6</mm:param>
             <mm:function set="relatedcontent" name="hits" referids="_node@node" id="hits">
               <c:forEach var="hit" items="${hits}" varStatus="status">
                 <mm:node number="${hit.value}">
