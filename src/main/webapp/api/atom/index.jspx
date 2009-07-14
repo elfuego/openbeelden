@@ -13,7 +13,7 @@
     <subtitle>Latest uploads on the Open Images Platform</subtitle>
     <mm:link absolute="true" page="/feeds/atom"><link href="${_}" rel="self" /></mm:link>
     <mm:link absolute="true" page="/"><link href="${_}" /></mm:link>
-    <updated><mm:time format="yyyy-MM-dd" time="${_}" />T<mm:time format="HH:mm:ssZ" time="${_}" /></updated>
+    <updated><mm:time format="yyyy-MM-dd" time="${_}" />T<mm:time format="HH:mm:ss" time="${_}" />Z</updated>
     <author>
       <name>Open Images Platform</name>
       <email>info@openimages.eu</email>
@@ -35,12 +35,12 @@
             <link href="${_}" />
             <id><mm:url page="/" absolute="true" />/mmbase/nr/<mm:nodeinfo type="type" />/${_node}</id>
             <updated>
-              <mm:field name="lastmodified"><mm:time format="yyyy-MM-dd" time="${_}" />T<mm:time format="HH:mm:ssZ" time="${_}" /></mm:field>
+              <mm:field name="lastmodified"><mm:time format="yyyy-MM-dd" time="${_}" />T<mm:time format="HH:mm:ss" time="${_}" />Z</mm:field>
             </updated>
             <published>
-              <mm:field name="online"><mm:time format="yyyy-MM-dd" time="${_}" />T<mm:time format="HH:mm:ssZ" time="${_}" /></mm:field>
+              <mm:field name="online"><mm:time format="yyyy-MM-dd" time="${_}" />T<mm:time format="HH:mm:ss" time="${_}" />Z</mm:field>
             </published> 
-            <summary><mm:field name="intro" /></summary>
+            <mm:field name="intro"><mm:isnotempty><summary>${_}</summary></mm:isnotempty></mm:field>
             <mm:import id="length" reset="true"><mm:field name="length" /></mm:import>
             <mm:listfunction name="filteredurls">
               <c:if test="${_.available}">
