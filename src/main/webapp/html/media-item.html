@@ -70,7 +70,7 @@
       <a href="#">favorite</a>
     </li>
     <li class="tag">
-      <a href="#">tag</a>
+      <a href="#popup-tags">tag</a>
     </li>
     <li class="comment">
       <a href="#">comment</a>
@@ -79,19 +79,19 @@
       <a href="#">edit</a>
     </li>
   </ul>
-  <p class="media-intro">Proin consectetur viverra dolor. Aenean ac sem et turpis adipiscing egestas. Nunc mattis tempus mi. Aliquam ornare. Suspendisse potenti. Nunc tellus. Morbi sollicitudin mauris fermentum dolor. Nunc eget metus sed orci pellentesque dapibus. Aliquam sed velit sed est iaculis imperdiet. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.</p>
-  
-  <div class="popup">
+  <div class="popup" id="popup-tags">
     <h4><a class="close" href="#">close</a> Add tags</h4>
     <form method="post" action="/oip/media/381/This_is_the_end">
       <fieldset>
           <label for="tagsuggest">Find tags</label>
           <input type="text" class="tagsuggest" id="tagsuggest" value="" name="tag" />
           <input type="submit" class="submit" value="Add" name="add" />
-          <div id="tagsuggestions"> </div>
       </fieldset>
     </form>
+    <div id="tagsuggestions"> </div>
   </div>
+  
+  <p class="media-intro">Proin consectetur viverra dolor. Aenean ac sem et turpis adipiscing egestas. Nunc mattis tempus mi. Aliquam ornare. Suspendisse potenti. Nunc tellus. Morbi sollicitudin mauris fermentum dolor. Nunc eget metus sed orci pellentesque dapibus. Aliquam sed velit sed est iaculis imperdiet. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.</p>
   
   <dl class="media-info">
     <dt>type:</dt>
