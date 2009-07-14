@@ -22,7 +22,8 @@
       <mm:import externid="n" vartype="integer" />
       <ul class="main">
         <mm:relatednodes>
-          <li class="${n eq _node.number ? 'active' :''}">
+          <mm:last><c:set var="lastclass" value="last" /></mm:last>
+          <li class="${n eq _node.number ? 'active ' :''}${lastclass}">
             <mm:link page="page" referids="_node@n">
               <mm:frameworkparam name="component">mmsite</mm:frameworkparam>
               <a href="${_}"><mm:field name="title" /></a>
