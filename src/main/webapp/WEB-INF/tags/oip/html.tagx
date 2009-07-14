@@ -97,7 +97,7 @@
             </c:choose>
           </div>
   
-            <jsp:include page="/inc/footer.div.jspx" />
+          <jsp:include page="/inc/footer.div.jspx" />
           
           <oip:googleanalytics />
           
