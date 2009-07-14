@@ -8,6 +8,7 @@
 @import url("framework.css");
 @import url("specific-styles.css");
 @import url("components.css");
+@import url("smallscreen.css");
 
 /* General elements */
 *
@@ -59,6 +60,7 @@ h1, h2, h3
 	color: #777;
 	clear: both;
 }
+
 div.error h1, div.error h2 div.error.h3 {
     font-family: Helvetica, sans-serif;
     text-transform: none;

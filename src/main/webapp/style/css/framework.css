@@ -88,6 +88,9 @@ div#main
 	padding: 0 32px 0 4px;
 }
 
+#menu ul.main li.last { padding-right: 0; }
+
+
 #menu ul.meta li
 {
 	float: right;
@@ -179,7 +182,7 @@ div.wrap
 div.left-column
 {
 	float: left;
-	margin-top: 300px; 
+	margin-top: 306px; 
 	padding-left: 35px;
     padding-top: 16px;
 	border-top: 3px #666 dotted;
@@ -244,7 +247,8 @@ body.home div#main div.wrap div.right-column
 	width: 300px;
 }
 
-body.media div.left-column { top: 230px; }
+body.media div#main div.left-column { margin-top: 186px; }
+body.media div#main div#header p { display: none; }
 
 /* error pages */
 body.error div.main-column
