@@ -18,7 +18,7 @@
 
   <table summary="my streams" border="0">
     <caption>${mm:string(requestScope['org.mmbase.framework.state'].renderer.block.description)}</caption>
-
+    <tbody>
     <mm:listnodescontainer type="mediafragments">
       <mm:constraint field="owner" value="${requestScope['org.mmbase.cloud'].user.ownerField}" />
       <mm:present referid="media">
@@ -104,6 +104,7 @@
         </mm:listfunction>
       </mm:listnodes>
     </mm:listnodescontainer>
+    </tbody>
   </table>
 
 

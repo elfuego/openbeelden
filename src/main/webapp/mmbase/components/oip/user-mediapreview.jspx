@@ -57,7 +57,7 @@
               </c:when>
               <c:otherwise>
                 
-                <oip:video width="285" height="214" />
+                <oip:video width="284" height="213" />
                 <dl class="media-info">
                   <dt>page:</dt>
                   <dd>
