@@ -7,11 +7,8 @@
     xmlns:mm="http://www.mmbase.org/mmbase-taglib-2.0">
   <oip:html cacheable="false" styleClass="media">
     <jsp:attribute name="head">
-      <script type="text/javascript">
-        // Widgets.prototype.labelsToInputs("form#search label");
-      </script>
       <link type="text/css" href="${mm:link('/style/css/jquery.ui.tabs.css')}" rel="stylesheet" />
-      <script type="text/javascript" src="${mm:link('/style/js/jquery-ui-1.7.2.custom.min.js')}"></script>
+      <script type="text/javascript" src="${mm:link('/style/js/jquery-ui-1.7.2.custom.min.js')}"><!-- help ie --></script>
     </jsp:attribute>
     <jsp:attribute name="left"><oip:search advanced="true" /></jsp:attribute>
     <jsp:attribute name="body">

@@ -53,7 +53,12 @@
         </mm:present>
       </c:catch>
       <c:if test="${! empty error}">
-        <p class="err"><jsp:text> </jsp:text>${error.message}</p>
+        <p class="err">
+          <fmt:message key="login.error">
+            <fmt:param value="${username}" />
+          </fmt:message>
+          <em>${error.message}</em>
+        </p>
       </c:if>
       <c:if test="${empty submit or ! empty error}">
         <form method="post" id="loginform">
