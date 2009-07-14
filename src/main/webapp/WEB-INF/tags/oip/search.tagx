@@ -115,7 +115,7 @@
          <label for="license">License</label>
          <mm:listnodescontainer type="licenses">
            <select id="license" name="license">
-             <option value="" label="License" selected="${sel}">License</option>
+             <option value="" label="License">License</option>
            <mm:listnodes>
              <c:if test="${license eq _node.number}">
                <option value="${_node.number}" label="${_node.name}" selected="selected">${_node.name}</option>
