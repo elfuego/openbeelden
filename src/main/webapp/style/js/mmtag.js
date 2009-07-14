@@ -42,6 +42,7 @@ $.fn.mmTagsuggest = function(o) {
                             return $(resultEl).append( $(tagLink(i)).addClass('add') );
                         });
                         $(resultEl).click(function(ev) {   // bind click on one of the tags in this div
+                            ev.preventDefault();
                             $(inputbox).val( $(ev.target).text() );
                         });
                     }
