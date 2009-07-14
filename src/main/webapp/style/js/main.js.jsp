@@ -83,7 +83,7 @@ $(document).ready(function() {
     initLangSwitch();
     initClearMsg();
     initToolbar();
-    initTagsuggest();
+    if ($("input.tagsuggest").length) initTagsuggest();
     initClose();
     if ($("#tabs").length) {
         var $tabs = $("#tabs").tabs();   // the jquery-ui.js for this has to be included in the page
