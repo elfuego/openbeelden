@@ -3,7 +3,7 @@
 
 .ui-tabs
 {
-	padding: .2em;
+	padding: 0;
 	zoom: 1;
 }
 
@@ -11,7 +11,6 @@
 {
 	list-style: none;
 	position: relative;
-	/*padding: .2em .2em 0;*/
 }
 
 .ui-tabs .ui-tabs-nav li
@@ -27,7 +26,6 @@
 {
 	float: left;
 	text-decoration: none;
-	padding: .5em 1em;
 }
 
 .ui-tabs .ui-tabs-nav li.ui-tabs-selected
@@ -42,10 +40,8 @@
 /* first selector in group seems obsolete, but required to overcome bug in Opera applying cursor: text overall if defined elsewhere... */
 .ui-tabs .ui-tabs-panel
 {
-	/* padding: 1em 1.4em; */
 	display: block;
 	border-width: 0;
-	/* background: none; */
 }
 
 .ui-tabs .ui-tabs-hide { display: none !important; }
