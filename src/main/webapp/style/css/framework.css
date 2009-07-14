@@ -233,15 +233,15 @@ body.home div#main div.wrap div.left-column
 
 body.home div#main div.wrap div.main-column
 {
-	margin-left: 15px;
 	padding-top: 16px;
+	margin-left: 15px;
 }
 
 body.home div#main div.wrap div.right-column
 {
+	padding-top: 16px;
 	margin-left: 15px;
 	width: 300px;
-	padding-top: 16px;
 }
 
 body.media div.left-column { top: 230px; }

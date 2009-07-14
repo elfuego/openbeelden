@@ -39,10 +39,11 @@ div.b_user-mediapreview p img
 }
 
 div.b_user-mediapreview #vplayer {
-    width: 285px;
-    height: 214px;
+    width: 284px;
+    height: 213px;
 }
-div.b_user-mediapreview #playercontrols { width: 285px; }
+div.b_user-mediapreview #playercontrols { width: 284px; }
+div.b_user-mediapreview dl.media-info { width: 284px; }
 
 fieldset.confirm-registration input { width: auto; }
 fieldset.confirm-registration label
@@ -58,7 +59,6 @@ fieldset.licenses label
 	display: inline;
 	margin-left: 8px;
 }
-
 
 div.b_user-streams table
 {

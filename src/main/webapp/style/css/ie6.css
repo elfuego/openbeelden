@@ -11,3 +11,12 @@ body.home div#main div.main-column { margin-left: 340px; }
 
 body.home div#main div.right-column { margin-left: 0; }
 
+body.media div#main div.right-column,
+body.media-item div#main div.right-column,
+body.user div#main div.right-column { margin-left: 0; }
+
+div.b_user-streams
+{
+	overflow-x: scroll;
+	width: 284px;
+}
