@@ -45,9 +45,9 @@
             <fieldset class="confirm-registration">
               <textarea rows="12" cols="42">${legaltext}</textarea>
               <input type="checkbox" name="confirm" value="yes" /> 
-              <label for="confirm"> I agree. </label>
+              <label for="confirm"><fmt:message key="register.confirm" />.</label>
               <c:if test="${!empty submit_registration and empty confirm}">
-                <div class="mm_check_error">You need to confirm.</div>
+                <div class="mm_check_error"><fmt:message key="register.confirm.error" />.</div>
               </c:if>
             </fieldset>
             <fieldset>
@@ -66,7 +66,7 @@
             <c:set var="errortext">You need to confirm.</c:set>
           </c:if>
           <mm:valid inverse="true">
-            <c:set var="errortext">Form incomplete. ${errortext}</c:set>
+            <c:set var="errortext"><fmt:message key="register.imcomplete" /> ${errortext}</c:set>
           </mm:valid>
           
           <c:choose>
