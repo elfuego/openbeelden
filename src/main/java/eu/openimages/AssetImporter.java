@@ -132,10 +132,10 @@ public class AssetImporter implements Runnable, LoggerAccepter {
 
                                 mediaFragment = cloud.getNodeManager("videofragments").createNode();
                                 mediaFragment.commit();
-                                mediaSource.setNodeValue("mediafragment", mediaFragment);
                             }
                         }
                     }
+                    mediaSource.setNodeValue("mediafragment", mediaFragment);
                     log.info("Found " + mediaSource);
                     if (subFile.getName().endsWith(".ogg")) {
                         // They mean theora (.ogv)
@@ -147,7 +147,7 @@ public class AssetImporter implements Runnable, LoggerAccepter {
                     mediaSource.setLongValue("filesize", subFile.length());
                     mediaSource.commit();
 
-                    if (mediaSource.isNull("width")) {
+                    if (mediaSource.isNull("width")) {// || ! file.isDirectory()) {
                         try {
                             Recognizer recognizer = new FFMpegRecognizer().clone();
                             Analyzer a = new FFMpegAnalyzer();
@@ -168,10 +168,10 @@ public class AssetImporter implements Runnable, LoggerAccepter {
                     Pattern pattern = Pattern.compile("(.*?):\\s*(Weeknummer.*)");
                     Matcher matcher = pattern.matcher(title);
                     if (matcher.matches()) {
-                        mediaFragment.setStringValue("title", matcher.group(1));
-                        mediaFragment.setStringValue("subtitle", matcher.group(2));
+                        mediaFragment.setStringValue("title", matcher.group(1).trim());
+                        mediaFragment.setStringValue("subtitle", matcher.group(2).trim());
                     } else {
-                        mediaFragment.setStringValue("title", title);
+                        mediaFragment.setStringValue("title", title.trim());
                     }
                     mediaFragment.setStringValue("intro", fields.get("description"));
                     mediaFragment.setStringValue("language", "nl");
