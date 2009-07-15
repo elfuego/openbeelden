@@ -169,11 +169,13 @@ public class AssetImporter implements Runnable, LoggerAccepter {
                     Pattern pattern = Pattern.compile("(.*?):\\s*(Weeknummer.*)");
                     Matcher matcher = pattern.matcher(title);
                     if (matcher.matches()) {
-                        mediaFragment.setStringValue("title", matcher.group(1).trim());
+                        title = matcher.group(1).trim();
                         mediaFragment.setStringValue("subtitle", matcher.group(2).trim());
                     } else {
-                        mediaFragment.setStringValue("title", title.trim());
+                        title = title.trim();
                     }
+                    title = title.charAt(0) + title.substring(1).toLowerCase();
+                    mediaFragment.setStringValue("title", title);
                     mediaFragment.setStringValue("intro", fields.get("description"));
                     mediaFragment.setStringValue("language", "nl");
 
