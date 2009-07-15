@@ -164,6 +164,7 @@ public class AssetImporter implements Runnable, LoggerAccepter {
                 if (mediaFragment != null) {
                     mediaFragment.setStringValue("keywords", Casting.toString(subjects));
                     mediaFragment.setStringValue("coverage", Casting.toString(coverage));
+                    mediaFragment.setStringValue("source", "Beeld en Geluid/NOS");
                     String title = fields.get("title");
                     Pattern pattern = Pattern.compile("(.*?):\\s*(Weeknummer.*)");
                     Matcher matcher = pattern.matcher(title);
