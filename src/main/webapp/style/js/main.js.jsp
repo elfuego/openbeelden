@@ -79,26 +79,21 @@ function initClose() {
     });
 }
 
-$(document).ready(function() {
-    initLangSwitch();
-    initClearMsg();
-    initToolbar();
-    if ($("input.tagsuggest").length) initTagsuggest();
-    initClose();
-    if ($("#tabs").length) {
-        var $tabs = $("#tabs").tabs();   // the jquery-ui.js for this has to be included in the page
+function initTabs(el) {
+    if ($('#' + el).length) {
+        var $tabs = $('#' + el).tabs();   // the jquery-ui.js for this has to be included in the page
         var loc = document.location.href;
         var anchorIndex = loc.indexOf('#');
         if (anchorIndex > 0) {
             var anchor = loc.substring(anchorIndex);
             if (anchor.indexOf("#t_") == 0) {
-                $("#tabs").tabs('select', '#' + anchor.substring(3));
+                $('#' + el).tabs('select', '#' + anchor.substring(3));
             } else {
-                $("#tabs").tabs('select', '#t_' + anchor.substring(1));
+                $('#' + el).tabs('select', '#t_' + anchor.substring(1));
             }
         }
         
-        $('#tabs').bind('tabsshow', function(event, ui) {
+        $('#' + el).bind('tabsshow', function(event, ui) {
                 var a = ui.tab.href;
                 a = a.substring(a.indexOf('#'));
                 if (a.indexOf('#t_') == 0) {
@@ -119,8 +114,17 @@ $(document).ready(function() {
                 $tabs.tabs('select', 3); // switch to fourth
                 return false;
             });
-        
     }
+}
+
+$(document).ready(function() {
+    initLangSwitch();
+    initClearMsg();
+    initToolbar();
+    if ($("input.tagsuggest").length) initTagsuggest();
+    initClose();
+    initTabs('tabs');
+    initTabs('usertabs');
 });
 
 </mm:content>

@@ -49,7 +49,7 @@
         </c:if>
 
         <c:if test="${block eq 'user-media'}">
-          <div id="tabs">
+          <div id="usertabs">
             <ul class="list-tabs">
               <li><a href="#fragment-1"><span>Preview</span></a></li>
               <li><a href="#fragment-2"><span>Translations</span></a></li>
@@ -69,7 +69,7 @@
 
         <c:if test="${block eq 'user'}">
           <mm:maywrite>
-            <div id="tabs">
+            <div id="usertabs">
               <ul class="list-tabs">
                 <li><a href="#fragment-1"><span>Upload</span></a></li>
                 <li><a href="#fragment-2"><span>Streams</span></a></li>
