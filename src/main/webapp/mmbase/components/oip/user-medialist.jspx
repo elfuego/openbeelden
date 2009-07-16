@@ -24,44 +24,66 @@
         <mm:param name="ellipsis" value="..." />
       </mm:escaper>
 
-      <mm:listnodescontainer type="mediafragments">
+      <mm:listnodescontainer type="videofragments">
         <mm:sortorder field="number" direction="DOWN" />
         <mm:constraint field="owner" value="$n" operator="EQUAL" />
-        <mm:size id="total" write="false" />
+        <mm:size id="total_video" write="false" />
         <mm:maxnumber value="$max" />
         <mm:offset value="$offset" />
-        <mm:listnodes>
-          <mm:link>
-            <mm:frameworkparam name="media">${_node}</mm:frameworkparam>
-            <mm:frameworkparam name="block">mediafragment</mm:frameworkparam>
-            <mm:frameworkparam name="component">oip</mm:frameworkparam>
-            <dl class="list">
-              <dt>
-                <mm:maywrite>
-                  <mm:link referids="_node@media">
-                    <mm:frameworkparam name="component">oip</mm:frameworkparam>
-                    <mm:frameworkparam name="block">user-media</mm:frameworkparam>
-                    <a href="${_}" class="edit">edit</a>
-                  </mm:link>
-                </mm:maywrite>
-                <a href="${_}"><mm:field name="title" /></a>
-              </dt>
-              <dd class="img">
-                <a href="${_}"><oip:thumb /></a>
-              </dd>
-              <dd>
-                <strong><mm:field name="subtitle" /></strong>
-                <mm:field name="intro" escape="wrapper" />
-              </dd>
-            </dl>
-          </mm:link>
-        </mm:listnodes>
+        <mm:listnodes id="videolist" />
       </mm:listnodescontainer>
 
-      <p class="page">
+      <mm:listnodescontainer type="audiofragments">
+        <mm:sortorder field="number" direction="DOWN" />
+        <mm:constraint field="owner" value="$n" operator="EQUAL" />
+        <mm:size id="total_audio" write="false" />
+        <mm:maxnumber value="$max" />
+        <mm:offset value="$offset" />
+        <mm:listnodes id="audiolist" />
+      </mm:listnodescontainer>
+
+      <mm:listnodescontainer type="imagefragments">
+        <mm:sortorder field="number" direction="DOWN" />
+        <mm:constraint field="owner" value="$n" operator="EQUAL" />
+        <mm:size id="total_images" write="false" />
+        <mm:maxnumber value="$max" />
+        <mm:offset value="$offset" />
+        <mm:listnodes id="imageslist" />
+      </mm:listnodescontainer>
+
+      <div id="tabs">
+        <ul class="list-tabs">
+          <li><a href="#t_video"><span>Video (${total_video})</span></a></li>
+          <li><a href="#t_images"><span>Images (${total_images})</span></a></li>
+          <li><a href="#t_audio"><span>Audio (${total_audio})</span></a></li>
+        </ul>
+
         <mm:url absolute="true" id="baseurl" write="false" />
-        <oip:pager total="${total}" offset="${offset}" max="${max}" baseurl="${baseurl}" />
-      </p>
+        <div id="t_video">
+          <oip:medialist list="${videolist}" />
+          <p class="pager">
+            <oip:pager total="${total_video}" offset="${offset}" max="${max}" 
+              baseurl="${baseurl}" fragment="#video" />
+          </p>
+        </div>
+
+        <div id="t_images">
+          <oip:medialist list="${imageslist}" />
+          <p class="pager">
+            <oip:pager total="${total_images}" offset="${offset}" max="${max}" 
+              baseurl="${baseurl}" fragment="#images" />
+          </p>
+        </div>
+        
+        <div id="t_audio">
+          <oip:medialist list="${audiolist}" />
+          <p class="pager">
+            <oip:pager total="${total_audio}" offset="${offset}" max="${max}" 
+              baseurl="${baseurl}" fragment="#audio" />
+          </p>
+        </div>
+        
+      </div><!-- /#tabs -->
 
       <mm:notpresent referid="n"><p class="err">No usernode!</p></mm:notpresent>
 
