@@ -40,7 +40,7 @@
       <mm:import externid="submit$nr" />
       <mm:present referid="submit$nr">
         <mm:valid>
-          <p class="msg">Your edits to <mm:nodeinfo type="guitype" escape="lowercase" /> '<mm:function name="gui" />' are saved.</p>
+          <p class="msg">Your changes to <mm:nodeinfo type="guitype" escape="lowercase" /> '<mm:function name="gui" />' are saved.</p>
           <mm:commit />
           <mm:import id="saved">OK</mm:import>
         </mm:valid>
