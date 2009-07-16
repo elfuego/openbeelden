@@ -9,6 +9,7 @@
     <description>Lucene index for media in OIP</description>
     
     <list type="mediafragments">
+      <mmsq:constraint field="show" value="true" />
       <mmsq:field name="otype" alias="otype" />
       <mmsq:field name="title" boost="3" />
       <mmsq:field name="title" keyword="true" escape="lowercase" alias="sorttitle" store="true" />
@@ -48,6 +49,7 @@
     <description>Lucene index for users in OIP</description>
     
     <list type="mmbaseusers">
+      <mmsq:constraint field="status" value="1" /><!-- in use -->
       <mmsq:field name="number"   alias="date" keyword="true" />
       <mmsq:field name="username" alias="name" keyword="true" />
       <mmsq:field name="username" />
