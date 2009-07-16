@@ -70,7 +70,7 @@
         <mm:present referid="submit">
           <!-- not valid -->
           <mm:valid inverse="true">
-            <p class="err">Error!</p>
+            <p class="err">The form contains an error.</p>
             <mm:write referid="buffer" escape="none" />
           </mm:valid>
           <!-- valid -->
@@ -90,7 +90,7 @@
               </c:choose>
             </c:if>
             <mm:commit />
-            <p class="msg">Saved!</p>
+            <p class="msg">Your changes are saved.</p>
             <!--
                 Repeating the form, and not the buffer, just because of images
                 (this icache will be deleted by now).
