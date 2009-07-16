@@ -68,7 +68,7 @@
       <mm:link>
         <form action="${_}" method="post">
           <fieldset>
-            <label for="tagsuggest">Find tags</label>
+            <label for="tagsuggest">Find a tag or create a new one</label>
             <input type="text" name="tag" value="" id="tagsuggest" class="tagsuggest" />
             <input type="submit" name="add" value="Add" class="submit" />
           </fieldset>
