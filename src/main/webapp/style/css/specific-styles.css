@@ -123,14 +123,16 @@ dl.list
     float: left;
     margin: 10px 0;
     width: 320px;
-    line-height: 18px;
+    line-height: 14px;
 }
 
-dl.list dt {
-    float: right;
-    font-size: 1.1em;
-    font-weight: bold;
-    width: 230px;
+dl.list dt
+{
+	float: right;
+	font-size: 1em;
+	font-weight: bold;
+	width: 230px;
+	line-height: normal;
 }
 
 dl.list dd.img { margin-left: 0;}
@@ -138,13 +140,13 @@ dl.list dd.img { margin-left: 0;}
 dl.list dd
 {
     margin-left: 90px;
-    font-size: 0.9em;
+    font-size: 0.85em;
 }
 
 dl.list dd strong
 {
     display: block;
-    font-size: 1.2em;
+    font-size: 1.1em;
     font-weight: normal;
 }
 

@@ -12,9 +12,20 @@
   <jsp:directive.attribute name="type" 
         description="Type of list, possible options are 'list' (default) and 'thumbs'"  />
           
-    <mm:escaper id="wrapper" type="substring">
+    <mm:cloudinfo type="usernode" id="iam" write="false" />
+    <mm:escaper id="wrap_title" type="substring">
       <mm:param name="from" value="0" />
-      <mm:param name="to" value="32" />
+      <mm:param name="to" value="34" />
+      <mm:param name="ellipsis" value="..." />
+    </mm:escaper>
+    <mm:escaper id="wrap_subtitle" type="substring">
+      <mm:param name="from" value="0" />
+      <mm:param name="to" value="38" />
+      <mm:param name="ellipsis" value="..." />
+    </mm:escaper>
+    <mm:escaper id="wrap_intro" type="substring">
+      <mm:param name="from" value="0" />
+      <mm:param name="to" value="56" />
       <mm:param name="ellipsis" value="..." />
     </mm:escaper>
     
@@ -23,7 +34,6 @@
         <mm:frameworkparam name="component">oip</mm:frameworkparam>
         <mm:frameworkparam name="block">mediafragment</mm:frameworkparam>
         <mm:frameworkparam name="media">${_node}</mm:frameworkparam>
-        
 
         <c:choose>
           
@@ -47,9 +57,18 @@
           
           <c:otherwise>
             <dl class="list">
-              <dt><a href="${_}"><mm:field name="title" /></a></dt>
+              <dt>
+                <mm:maywrite>
+                  <mm:link referids="_node@media">
+                    <mm:frameworkparam name="component">oip</mm:frameworkparam>
+                    <mm:frameworkparam name="block">user-media</mm:frameworkparam>
+                    <mm:frameworkparam name="user">${iam}</mm:frameworkparam>
+                    <a href="${_}" class="edit">edit</a><jsp:text> </jsp:text>
+                  </mm:link>
+                </mm:maywrite>
+                <a href="${_}"><mm:field name="title" escape="wrap_title" /></a>
+              </dt>
               <dd class="img">
-                
                 <a title="${mediafragment.title} ${mediafragment.subtitle}" href="${_}">
                   <c:catch>
                     <oip:thumb alt="${mediafragment.title}" />
@@ -57,19 +76,20 @@
                 </a>
               </dd>
               <dd>
-                <strong><mm:field name="subtitle" /></strong>
+                <strong><mm:field name="subtitle" escape="wrap_subtitle" /></strong>
                 <em> 
-                  <mm:field name="intro"  /> <jsp:text> </jsp:text>
-                  <mm:field name="length">
-                    <mm:isnotempty>
-                      <mm:time inputformat="S" format="m:ss" />
-                    </mm:isnotempty>
-                  </mm:field>
+                  <mm:field name="intro" escape="wrap_intro" />
                 </em>
-                <br />
+                <mm:field name="length">
+                  <mm:isnotempty>
+                    <jsp:text> </jsp:text>
+                    <mm:time inputformat="S" format="m:ss" />
+                  </mm:isnotempty>
+                </mm:field>
                 <mm:field name="created">
                   <mm:isnotempty>
-                    <mm:time format="dd-MM-yyyy hh:mm" />
+                    <jsp:text> </jsp:text>
+                    <mm:time format="dd-MM-yyyy" />
                   </mm:isnotempty>
                 </mm:field>
               </dd>
