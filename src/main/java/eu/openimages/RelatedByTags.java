@@ -28,7 +28,7 @@ public class RelatedByTags {
     
     // nodes:hits
     public Map<Integer, Integer> getNodes(Node node, String type, String max) {
-        NodeList l = relatedTags(node);
+        NodeList l = relatedTags(node, -1);
         return relatedContent(node, l, type, max);
     }
     public Map<Integer, Integer> getNodes(Node node, String type) {
@@ -63,15 +63,35 @@ public class RelatedByTags {
     }
     
     /**
-     * Finds all tags related to a node.
-     * TODO: Needs maximum?
+     * Finds the tags related to a node with a maximum number of related tags.
      *
-     * @param node      Content node to return related nodes of
+     * @param node  Content node to return related nodes of
+     * @param max   Maximum nr of tags to return, defaults to 99
      * @return tags or null when no NodeList could be made with the specified parameters
      */
-    public static NodeList relatedTags(Node node) {
+    public static NodeList relatedTags(Node node, int max) {
+        //return node.getRelatedNodes(cloud.getNodeManager("tags"), "related", "destination");
+        if (max == -1) max = 99;
         Cloud cloud = node.getCloud();
-        return node.getRelatedNodes(cloud.getNodeManager("tags"), "related", "destination");
+        NodeList tags = cloud.createNodeList();
+        try {
+            Query query = Queries.createRelatedNodesQuery(node, cloud.getNodeManager("tags"), "related", "destination");
+            query.setMaxNumber(max);
+            
+            NodeList nl = cloud.getList(query);
+            NodeIterator ni = nl.nodeIterator();
+            while (ni.hasNext()) {
+                Node n = ni.next(); //clusternode
+                Node tag = cloud.getNode(n.getIntValue("tags.number"));
+                if (log.isDebugEnabled()) log.debug("Found node: " + tag);
+                tags.add(tag);
+            }
+
+        } catch (Exception e) {
+            log.error("Exception while building query: " + e);
+        }
+
+        return tags;
     }
     
     /**
