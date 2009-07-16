@@ -67,27 +67,26 @@
           </ul>
         </div>
 
-        <oip:tag />
-
         <!-- popups (pop-up tag?) -->
-        <div class="popup" id="popup-share">
-          <h4><a class="close" href="#toolbar">close</a> Share</h4>
-          <p>
-            <label for="inputshare">Link</label>
-            <mm:link absolute="true">
-              <input name="share" id="inputshare" type="text" value="${_}" />
-            </mm:link>
-          </p>
+        <div class="popup" id="popup-license">
+          <h4><a class="close" href="#toolbar">close</a> License</h4>
+          <mm:relatednodescontainer type="licenses" role="related" searchdirs="destination">
+            <mm:relatednodes>
+            <mm:import id="license_url" reset="true"><mm:field name="url" /></mm:import>
+            <mm:relatednodescontainer type="images" role="related" searchdirs="destination">
+              <mm:relatednodes>
+                <a href="${license_url}"><mm:image width="88" mode="img" /></a>
+              </mm:relatednodes>
+              </mm:relatednodescontainer>
+              <h5><mm:field name="name" /></h5>
+              <p>
+                <a rel="license" href="${license_url}">${license_url}</a>
+                <mm:field name="description"><mm:isnotempty><br />${_}</mm:isnotempty></mm:field>
+              </p>
+            </mm:relatednodes>
+          </mm:relatednodescontainer>
         </div>
-
-        <div class="popup" id="popup-embed">
-          <h4><a class="close" href="#toolbar">close</a> Embed</h4>
-          <p>
-            <label for="inputembed">Video tag to copy</label>
-            <input name="share" id="inputembed" type="text" value="${videotag}" />
-          </p>
-        </div>
-
+        
         <div class="popup" id="popup-download">
           <h4><a class="close" href="#toolbar">close</a> Download</h4>
           <p>
@@ -117,24 +116,26 @@
             </mm:listfunction>
           </ul>
         </div>
-
-        <div class="popup" id="popup-license">
-          <h4><a class="close" href="#toolbar">close</a> License</h4>
-          <mm:relatednodescontainer type="licenses" role="related" searchdirs="destination">
-            <mm:relatednodes>
-            <mm:relatednodescontainer type="images" role="related" searchdirs="destination">
-              <mm:relatednodes>
-                <mm:image width="88" mode="img" />
-              </mm:relatednodes>
-              </mm:relatednodescontainer>
-              <h5><mm:field name="name" /></h5>
-              <p>
-                <mm:field name="url"><a rel="license" href="${_}">${_}</a></mm:field>
-                <mm:field name="description"><mm:isnotempty><br />${_}</mm:isnotempty></mm:field>
-              </p>
-            </mm:relatednodes>
-          </mm:relatednodescontainer>
+        
+        <div class="popup" id="popup-embed">
+          <h4><a class="close" href="#toolbar">close</a> Embed</h4>
+          <p>
+            <label for="inputembed">Video tag to copy</label>
+            <input name="share" id="inputembed" type="text" value="${videotag}" />
+          </p>
         </div>
+
+        <div class="popup" id="popup-share">
+          <h4><a class="close" href="#toolbar">close</a> Share</h4>
+          <p>
+            <label for="inputshare">Link</label>
+            <mm:link absolute="true">
+              <input name="share" id="inputshare" type="text" value="${_}" />
+            </mm:link>
+          </p>
+        </div>
+
+        <oip:tag />
 
         <mm:nodefunction name="translation">
           <mm:field name="intro" escape="paragraph(media-intro)" />

@@ -6,16 +6,16 @@
     xmlns:mm="http://www.mmbase.org/mmbase-taglib-2.0"
     >
   <jsp:directive.attribute name="width"
-      description="Width of player">320</jsp:directive.attribute>
+          description="Width of player" />
   <jsp:directive.attribute name="height"
-      description="Height of player">240</jsp:directive.attribute>
+          description="Height of player" />
   <jsp:directive.variable name-given="videotag" scope="AT_END" />
 
   <c:set var="w" value="${empty width ? '320' : width}" />
   <c:set var="h" value="${empty height ? '240' : height}" />
 
-  <c:set var="path"><jsp:expression>org.mmbase.module.core.MMBaseContext.getHtmlRoot()</jsp:expression>/style/images/startoverlay.png</c:set>
-  <c:set var="template">s(${w}!x${h}!)+adjoin(${path})+flatten</c:set>
+  <c:set var="overlay"><jsp:expression>org.mmbase.module.core.MMBaseContext.getHtmlRoot()</jsp:expression>/style/images/startoverlay.png</c:set>
+  <c:set var="template">s(${w}!x${h}!)+adjoin(${overlay})+flatten</c:set>
   <c:set var="basictemplate">s(${w}!x${h}!)</c:set>
 
   <mm:import id="poster">${mm:link('/style/images/preview_video.png')}</mm:import>

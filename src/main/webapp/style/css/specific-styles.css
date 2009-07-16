@@ -498,6 +498,7 @@ a.tag.delete
 div.popup
 {
     display: none;
+    font-size: 0.95em;
     clear: both;
 }
 div.main-column div.popup { width: 320px; }
@@ -529,6 +530,8 @@ div.popup form, div.popup p, div.popup ul
 	padding: 6px 6px 0 6px;
 	margin-bottom: 0;
 }
+
+div.popup p, div.popup ul {  }
 
 div.popup form input.submit,
 div.popup form input.submit
