@@ -53,7 +53,7 @@
         <entry>
           <title><mm:field name="title"><mm:isnotempty>${_}</mm:isnotempty><mm:isempty>no title</mm:isempty></mm:field></title>
           <link href="${_}" />
-          <id><mm:url page="/" absolute="true" />/mmbase/nr/<mm:nodeinfo type="type" />/${_node}</id>
+          <id><mm:url page="/" absolute="true" />mmbase/nr/<mm:nodeinfo type="type" />/${_node}</id>
           <updated>
             <mm:field name="lastmodified"><mm:time format="yyyy-MM-dd" time="${_}" />T<mm:time format="HH:mm:ss" time="${_}" />Z</mm:field>
           </updated>
