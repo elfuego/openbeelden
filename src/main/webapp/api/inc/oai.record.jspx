@@ -2,16 +2,10 @@
     xmlns:jsp="http://java.sun.com/JSP/Page"
     xmlns:c="http://java.sun.com/jsp/jstl/core"
     xmlns:fn="http://java.sun.com/jsp/jstl/functions"
-    xmlns:mm="http://www.mmbase.org/mmbase-taglib-2.0"
-    id="menu">
-  
+    xmlns:mm="http://www.mmbase.org/mmbase-taglib-2.0">
   <jsp:output omit-xml-declaration="true" />
   
-  <header>
-    <identifier><mm:url page="/" absolute="true" />mmbase/nr/<mm:nodeinfo type="type" />/${_node}</identifier>
-    <datestamp><mm:field name="date"><mm:time format="yyyy-MM-dd" time="${_}" />T<mm:time format="HH:mm:ss" time="${_}" />Z</mm:field></datestamp>
-    <!-- <setSpec>  </setSpec> -->
-  </header>
+  <jsp:include page="/api/inc/oai.record.header.jspx" />
   
   <metadata>
      <oai_qdc:qdc xmlns:oai_qdc="http://www.surfmedia.nl/oai/xsd/" 

@@ -8,7 +8,15 @@
     xmlns:mm="http://www.mmbase.org/mmbase-taglib-2.0">
   <jsp:directive.page session="false" />
   
-  <mm:import externid="verb">ListRecords</mm:import>
+  <mm:import id="requesturl"><c:out value="${pageContext.request.requestURL}" /><c:if test="${!empty pageContext.request.queryString}">?<c:out value="${pageContext.request.queryString}" /></c:if></mm:import>
+
+  <mm:import externid="verb">Identify</mm:import>
+  <mm:import externid="identifier" />
+  <mm:import externid="metadataPrefix" />
+  
+  <mm:import externid="from" />
+  <mm:import externid="until" />
+  <mm:import externid="set" />
   
   <OAI-PMH 
     xmlns="http://www.openarchives.org/OAI/2.0/" 
@@ -18,21 +26,71 @@
     <responseDate>
       <mm:time format="yyyy-MM-dd" time="now" />T<mm:time format="HH:mm:ss" time="now" />Z
     </responseDate>
-    <request verb="${verb}" metadataPrefix="oai_qdc" set="mostrecent"><mm:url absolute="true" /></request>
 
-    <mm:listnodescontainer type="mediafragments">
-      <mm:constraint field="show" value="true" operator="EQUAL" />
-      <mm:sortorder field="number" direction="DOWN" />
-      <mm:maxnumber value="9" />
-      <mm:listnodes id="entries" />
-    </mm:listnodescontainer>
-
-    <ListRecords>
-
-      <mm:listnodes referid="entries" varStatus="status">
-        <jsp:include page="/api/inc/oai.record.jspx" />
-      </mm:listnodes>
+    <c:choose>
+      <c:when test="${verb eq 'Identify'}">
+        <request verb="${verb}" metadataPrefix="oai_qdc">${requesturl}</request>
+        <Identify>
+          <repositoryName>Open Images</repositoryName>
+          <baseURL><mm:url page="/" absolute="true" /></baseURL>
+          <protocolVersion>2.0</protocolVersion>
+          <earliestDatestamp>1921-01-01</earliestDatestamp>
+          <deleteRecords>no</deleteRecords>
+          <granularity>YYYY-MM-DDThh:mm:ssZ</granularity>
+          <adminEmail>info@openimages.eu</adminEmail>
+        </Identify>
+      </c:when>
       
-    </ListRecords>
+      <c:when test="${verb eq 'ListSets'}">
+        <request verb="${verb}" metadataPrefix="oai_qdc">${requesturl}</request>
+        <ListSets>
+        </ListSets>
+      </c:when>
+      
+      <c:when test="${verb eq 'ListIdentifiers'}">
+        <request verb="${verb}" metadataPrefix="oai_qdc">${requesturl}</request>
+        
+        <ListIdentifiers>
+
+          <mm:listnodescontainer type="mediafragments">
+            <mm:constraint field="show" value="true" operator="EQUAL" />
+            <mm:sortorder field="number" direction="DOWN" />
+            <mm:maxnumber value="9" />
+            <mm:listnodes>
+              <jsp:include page="/api/inc/oai.record.header.jspx" />
+            </mm:listnodes>
+          </mm:listnodescontainer>
+          
+        </ListIdentifiers>
+      </c:when>
+      
+      <c:when test="${verb eq 'ListRecords'}">
+        <request verb="${verb}" metadataPrefix="oai_qdc">${requesturl}</request>
+        
+        <ListRecords>
+          
+          <mm:listnodescontainer type="mediafragments">
+            <mm:constraint field="show" value="true" operator="EQUAL" />
+            <mm:sortorder field="number" direction="DOWN" />
+            <mm:maxnumber value="9" />
+            <mm:listnodes>
+              <jsp:include page="/api/inc/oai.record.jspx" />
+            </mm:listnodes>
+          </mm:listnodescontainer>
+          
+        </ListRecords>
+      </c:when>
+      
+      <c:when test="${verb eq 'GetRecord'}">
+        <request verb="${verb}" metadataPrefix="oai_qdc">${requesturl}</request>
+      </c:when>
+      
+      <c:otherwise>
+        <request verb="${verb}" metadataPrefix="oai_qdc">${requesturl}</request>
+        
+      </c:otherwise>
+    </c:choose>
+
+    
   </OAI-PMH>
 </mm:content>
