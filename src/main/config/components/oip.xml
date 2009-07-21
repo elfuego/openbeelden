@@ -136,6 +136,8 @@
     <description xml:lang="nl">Bewaarde favorieten</description>
     <body jsp="user-favorites.jspx">
       <param name="n" type="org.mmbase.bridge.Node" />
+      <param name="favorite" type="String" />
+      <param name="remove" type="String" />
     </body>
   </block>
 
@@ -215,7 +217,7 @@
   </block>
 
   <block name="user-streams"
-         classification="mmbase.oip"
+         classification="oip"
          mimetype="text/html">
     <title xml:lang="en">Media transcoding</title>
     <title xml:lang="nl">Media transcodering</title>
