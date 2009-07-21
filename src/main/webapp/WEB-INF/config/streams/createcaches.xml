@@ -55,7 +55,7 @@
       <param name="audioChannels">2</param>
       <param name="async">1</param>
     </class>
-    <loganalyzer name="org.mmbase.streams.transcoders.FFMpeg2TheoraAnalyzer" />
+    <loganalyzer name="org.mmbase.streams.transcoders.FFMpegAnalyzer" />
   </transcoder>
 
   <transcoder mimetype="audio/*"  id="a1">
