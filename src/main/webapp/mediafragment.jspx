@@ -179,6 +179,8 @@
               <dd>${_}</dd>
             </mm:isnotempty>
           </mm:field>
+          <dt><fmt:message key="media.keywords" />:</dt>
+          <dd><mm:field name="keywords" /><jsp:text> </jsp:text></dd>
           <dt><fmt:message key="media.tags" />:</dt>
           <dd>
             <mm:listrelationscontainer type="tags" role="related" searchdir="destination">
@@ -192,7 +194,7 @@
                 <mm:maydelete inverse="true">
                   <mm:relatednode><mm:field name="name" /></mm:relatednode><mm:last inverse="true">, </mm:last>
                 </mm:maydelete>
-                <jsp:text> </jsp:text>
+                <jsp:text> </jsp:text>
               </mm:listrelations>
             </mm:listrelationscontainer>
           </dd>
