@@ -80,13 +80,16 @@
                 <em> 
                   <mm:field name="intro" escape="wrap_intro" />
                 </em>
-                <mm:field name="length">
-                  <mm:isnotempty>
-                    <jsp:text> </jsp:text>
-                    <mm:time inputformat="S" format="m:ss" />
-                  </mm:isnotempty>
-                </mm:field>
-                <mm:field name="created">
+                <mm:nodeinfo type="type" id="nodetype" write="false" />
+                <c:if test="${nodetype ne 'imagefragments' and nodetype ne 'images'}">
+                  <mm:field name="length">
+                    <mm:isnotempty>
+                      <jsp:text> </jsp:text>
+                      <mm:time inputformat="S" format="m:ss" />
+                    </mm:isnotempty>
+                  </mm:field>
+                </c:if>
+                <mm:field name="date">
                   <mm:isnotempty>
                     <jsp:text> </jsp:text>
                     <mm:time format="dd-MM-yyyy" />
