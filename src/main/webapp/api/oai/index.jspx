@@ -82,6 +82,7 @@
       </c:when>
       
       <c:when test="${verb eq 'GetRecord'}">
+        <!-- identifier=oai:openimages.eu:videofragments:746 -->
         <request verb="${verb}" metadataPrefix="oai_qdc">${requesturl}</request>
       </c:when>
       

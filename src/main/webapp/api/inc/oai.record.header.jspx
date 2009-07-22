@@ -5,7 +5,8 @@
     xmlns:mm="http://www.mmbase.org/mmbase-taglib-2.0">
   <jsp:output omit-xml-declaration="true" />
     
-    <identifier><mm:url page="/" absolute="true" />mmbase/nr/<mm:nodeinfo type="type" />/${_node}</identifier>
+    <!-- oai:HUBerlin.de:3000218 -->
+    <identifier>oai:openimages.eu:<mm:nodeinfo type="type" />:${_node}</identifier>
     <datestamp><mm:field name="date"><mm:time format="yyyy-MM-dd" time="${_}" />T<mm:time format="HH:mm:ss" time="${_}" />Z</mm:field></datestamp>
     <!-- <setSpec>  </setSpec> -->
 
