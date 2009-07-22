@@ -10,7 +10,7 @@
   <jsp:output omit-xml-declaration="true" />
   <mm:cloud method="asis">
     <div
-        class="mm_c c_oip b_user-profile ${requestScope.className}"
+        class="mm_c c_oip b_user-media ${requestScope.className}"
         id="${requestScope['org.mmbase.componentId']}">
 
       <script type="text/javascript">
@@ -35,19 +35,21 @@
           <jsp:attribute name="action"><mm:url page="user-media" referids="n,media" absolute="true" /></jsp:attribute>
         </oip:form>
 
-        <!--
-        <mm:link page="mediafragment" referids="_node@n" absolute="true">
-          <mm:frameworkparam name="block">mediafragment</mm:frameworkparam>
-          <p>link to this item <a href="${_}">${_}</a> ?</p>
-        </mm:link>
-        -->
-        
+        <!-- license stuff -->
         <mm:present referid="license">
           <mm:node number="$license" id="lic_node" />
           <mm:createrelation source="_node" destination="lic_node" role="related" />
-          <p class="msg">Related to license ${license}.</p>
         </mm:present>
-        
+        <mm:notpresent referid="license">
+          <mm:relatednodescontainer type="licenses" role="related" searchdirs="destination">
+            <mm:relatednodes>
+              <mm:import id="license_nr" reset="true"><mm:field name="number" /></mm:import>
+            </mm:relatednodes>
+          </mm:relatednodescontainer>
+        </mm:notpresent>
+        <c:if test="${empty license_nr}">
+          <p class="err">This item has no license.</p>
+        </c:if>
       </mm:node>
 
     </div>
