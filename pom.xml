@@ -17,6 +17,7 @@
      <mmbase.version.number>1.9</mmbase.version.number>
      <mmbase.version.postfix>-SNAPSHOT</mmbase.version.postfix>
      <mmbase.version>${mmbase.version.number}${mmbase.version.postfix}</mmbase.version>
+     <base.version>${mmbase.version.number}${mmbase.version.postfix}</base.version>
      <saxon.version>9.1.0.6</saxon.version>
      <netbeans.hint.deploy.server>Tomcat60</netbeans.hint.deploy.server>
      <netbeans.hint.jdkPlatform>JDK_1.6</netbeans.hint.jdkPlatform>
@@ -109,6 +110,12 @@
   </build>
 
   <dependencies>
+    <dependency>
+      <groupId>org.mmbase</groupId>
+      <artifactId>base-webapp</artifactId>
+      <version>${base.version}</version>
+      <type>war</type>
+    </dependency>
     <dependency>
       <groupId>org.mmbase</groupId>
       <artifactId>mmbase-streams</artifactId>
@@ -291,13 +298,6 @@
         <activeByDefault>true</activeByDefault>
       </activation>
       <dependencies>
-        <dependency>
-          <groupId>org.mmbase</groupId>
-          <artifactId>base-webapp</artifactId>
-          <version>${mmbase.version}</version>
-          <type>war</type>
-        </dependency>
-
         <!-- only needed for tomcat 5.5
              What goes wrong then?
         -->
@@ -310,14 +310,9 @@
     </profile>
     <profile>
       <id>servlet25</id>
-      <dependencies>
-        <dependency>
-          <groupId>org.mmbase</groupId>
-          <artifactId>base-webapp</artifactId>
-          <version>${mmbase.version.number}-servlet25${mmbase.version.postfix}</version>
-          <type>war</type>
-        </dependency>
-      </dependencies>
+      <properties>
+        <base.version>${mmbase.version.number}-servlet25${mmbase.version.postfix}</base.version>
+      </properties>
     </profile>
     <profile>
       <id>development</id>
