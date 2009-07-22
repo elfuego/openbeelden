@@ -12,7 +12,7 @@
   <jsp:directive.attribute name="height"
           description="Height of player" />
   <jsp:directive.attribute name="length"
-          description="Length of video fragment in seconds" />
+          description="Length of video fragment in milliseconds" />
   <jsp:directive.variable name-given="embedtag" scope="AT_END" />
   
   <mm:nodeinfo type="nodemanager">
@@ -24,7 +24,7 @@
         </mm:relatednodes>
       </c:when>
       <c:otherwise>
-        <oip:video length="${length}" />
+        <oip:video length="${length}" width="${width}" height="${height}" />
       </c:otherwise>
     </c:choose>
   </mm:nodeinfo>

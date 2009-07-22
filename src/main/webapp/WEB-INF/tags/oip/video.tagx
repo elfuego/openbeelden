@@ -10,7 +10,7 @@
   <jsp:directive.attribute name="height"
           description="Height of player" />
   <jsp:directive.attribute name="length"
-          description="Length of video fragment in seconds" />
+          description="Length of video fragment in milliseconds" />
   <jsp:directive.variable name-given="embedtag" scope="AT_END" />
 
   <c:set var="w" value="${empty width ? '320' : width}" />
@@ -65,7 +65,7 @@
           <li id="position"> 
             <c:choose>
               <c:when test="${!empty length}">
-                <mm:time time="$length" inputformat="s" format="mm:ss" />
+                <mm:time time="$length" inputformat="S" format="mm:ss" />
               </c:when>
               <c:otherwise>00:00</c:otherwise>
             </c:choose>
