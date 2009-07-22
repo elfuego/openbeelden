@@ -26,8 +26,10 @@
     </config>
     <config filter="format">
       <preferredSource>
+        <source format="mp3" />
         <source format="ogv" />
         <source format="ogg" />
+        <source format="mp4" />
         <source format="avi" />
       </preferredSource>
     </config>
