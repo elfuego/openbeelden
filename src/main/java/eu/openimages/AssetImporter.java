@@ -164,7 +164,9 @@ public class AssetImporter implements Runnable, LoggerAccepter {
                 if (mediaFragment != null) {
                     mediaFragment.setStringValue("keywords", Casting.toString(subjects));
                     mediaFragment.setStringValue("coverage", Casting.toString(coverage));
-                    mediaFragment.setStringValue("source", "Beeld en Geluid/NOS");
+                    //mediaFragment.setStringValue("source", "Nederlands Instituut voor Beeld en Geluid / NOS");
+                    mediaFragment.setStringValue("source", identifier);
+                    
                     String title = fields.get("title");
                     Pattern pattern = Pattern.compile("(.*?):\\s*(Weeknummer.*)");
                     Matcher matcher = pattern.matcher(title);
@@ -176,7 +178,16 @@ public class AssetImporter implements Runnable, LoggerAccepter {
                     }
                     title = title.charAt(0) + title.substring(1).toLowerCase();
                     mediaFragment.setStringValue("title", title);
-                    mediaFragment.setStringValue("intro", fields.get("description"));
+                    
+                    String text = fields.get("description");
+                    String sentence = "Bioscoopjournaals waarin Nederlandse onderwerpen van een bepaalde week worden gepresenteerd.";
+                    String pattern2 = ".*" + sentence + ".*";
+                    if (text.matches(pattern2)) {
+                        text = text.replaceAll(sentence, "");
+                        mediaFragment.setStringValue("intro", sentence);
+                    }
+                    
+                    mediaFragment.setStringValue("body", text);
                     mediaFragment.setStringValue("language", "nl");
 
                     {
@@ -185,14 +196,15 @@ public class AssetImporter implements Runnable, LoggerAccepter {
                         mediaFragment.setLongValue("length", length);
                     }
                     try {
-                        mediaFragment.setValueWithoutProcess("created", DATEFORMAT.parse(fields.get("date")));
+                        //mediaFragment.setValueWithoutProcess("created", DATEFORMAT.parse(fields.get("date")));
+                        mediaFragment.setValueWithoutProcess("date", DATEFORMAT.parse(fields.get("date")));
                     } catch (ParseException pe) {
                         log.error(pe);
                     }
                     mediaFragment.commit();
                     log.info("Created mf " + mediaFragment);
                 } else {
-                    log.warn("No files found, ignoreing this");
+                    log.warn("No files found, ignoring this");
                 }
                 } catch (Exception e) {
                     log.error(e);
