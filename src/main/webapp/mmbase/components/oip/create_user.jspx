@@ -51,7 +51,8 @@
               </c:if>
             </fieldset>
             <fieldset>
-              <input id="submit_registration" type="submit" name="submit_registration" value="Register" class="submit" />
+              <mm:import id="register_msg" reset="true"><fmt:message key="register" /></mm:import>
+              <input id="submit_registration" type="submit" name="submit_registration" value="${register_msg}" class="submit" />
             </fieldset>
           </mm:createnode>
         </mm:import>
@@ -63,7 +64,7 @@
         <mm:present referid="submit_registration">
           
           <c:if test="${confirm ne 'yes'}">
-            <c:set var="errortext">You need to confirm.</c:set>
+            <c:set var="errortext"><fmt:message key="register.confirm.error" /></c:set>
           </c:if>
           <mm:valid inverse="true">
             <c:set var="errortext"><fmt:message key="register.imcomplete" /> ${errortext}</c:set>
@@ -78,7 +79,12 @@
                   <mm:setfield name="rank">cloudcontextsecurity_rank_site_user</mm:setfield>
                   <mm:setfield name="groups">${defaultusergroup}</mm:setfield>
                 </mm:node>
-                <p class="msg">Created user ${newuser.username}</p>
+                <p class="msg">
+                  <fmt:message key="register.complete">
+                    <fmt:param value="${newuser.username}" />
+                    <fmt:param value="${newuser.email}" />
+                  </fmt:message>
+                </p>
               </mm:valid>
             </c:when>
             <c:otherwise>
