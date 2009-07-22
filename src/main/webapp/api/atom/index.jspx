@@ -17,13 +17,25 @@
       </mm:listnodes>
     </mm:listnodescontainer>
   </c:if>
+
+  <mm:listnodescontainer type="mediafragments">
+    <c:if test="${!empty usernode}">
+      <mm:constraint field="owner" value="$usernode" operator="EQUAL" />
+    </c:if>
+    <mm:constraint field="show" value="true" operator="EQUAL" />
+    <mm:sortorder field="number" direction="DOWN" />
+    <mm:maxnumber value="12" />
+    <mm:listnodes id="entries" />
+  </mm:listnodescontainer>
+  
+  <mm:import id="requesturl"><c:out value="${pageContext.request.requestURL}" /><c:if test="${!empty pageContext.request.queryString}">?<c:out value="${pageContext.request.queryString}" /></c:if></mm:import>
   
   <feed xmlns="http://www.w3.org/2005/Atom">
     <title>
       Latest uploads <c:if test="${!empty usernode}">of ${user}</c:if>
     </title>
     <subtitle>Latest uploads on the Open Images Platform</subtitle>
-    <mm:link absolute="true" page="/feeds/atom"><link href="${_}" rel="self" /></mm:link>
+    <link href="${requesturl}" rel="self"  type="application/atom+xml" />
     <mm:link absolute="true" page="/"><link href="${_}" /></mm:link>
     <updated><mm:time format="yyyy-MM-dd" time="${_}" />T<mm:time format="HH:mm:ss" time="${_}" />Z</updated>
     <author>
@@ -34,42 +46,8 @@
     <icon><mm:url absolute="true" page="/favicon.ico" /></icon>
     <logo><mm:url absolute="true" page="/style/images/logo-oip.png" /></logo>
 
-    <mm:listnodescontainer type="mediafragments">
-      <c:if test="${!empty usernode}">
-        <mm:constraint field="owner" value="$usernode" operator="EQUAL" />
-      </c:if>
-      <mm:constraint field="show" value="true" operator="EQUAL" />
-      <mm:sortorder field="number" direction="DOWN" />
-      <mm:maxnumber value="12" />
-      <mm:listnodes id="entries" />
-    </mm:listnodescontainer>
-    
     <mm:listnodes referid="entries" varStatus="status">
-      <mm:link absolute="true">
-        <mm:frameworkparam name="component">oip</mm:frameworkparam>
-        <mm:frameworkparam name="block">mediafragment</mm:frameworkparam>
-        <mm:frameworkparam name="media">${_node}</mm:frameworkparam>
-        
-        <entry>
-          <title><mm:field name="title"><mm:isnotempty>${_}</mm:isnotempty><mm:isempty>no title</mm:isempty></mm:field></title>
-          <link href="${_}" />
-          <id><mm:url page="/" absolute="true" />mmbase/nr/<mm:nodeinfo type="type" />/${_node}</id>
-          <updated>
-            <mm:field name="lastmodified"><mm:time format="yyyy-MM-dd" time="${_}" />T<mm:time format="HH:mm:ss" time="${_}" />Z</mm:field>
-          </updated>
-          <published>
-            <mm:field name="online"><mm:time format="yyyy-MM-dd" time="${_}" />T<mm:time format="HH:mm:ss" time="${_}" />Z</mm:field>
-          </published> 
-          <mm:field name="intro"><mm:isnotempty><summary>${_}</summary></mm:isnotempty></mm:field>
-          <mm:import id="length" reset="true"><mm:field name="length" /></mm:import>
-          <mm:listfunction name="filteredurls">
-            <c:if test="${_.available}">
-              <link type="${_.format.mimeType}" href="${_.URL}" length="${length}" rel="enclosure" />
-            </c:if>
-          </mm:listfunction>
-        </entry>
-        
-      </mm:link>
+      <jsp:include page="/api/inc/atom.entry.jspx" />
     </mm:listnodes>
     
   </feed>
