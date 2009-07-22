@@ -79,6 +79,14 @@ function initClose() {
     });
 }
 
+/* Makes input type contents easier to copy */
+function initCopyInput() {
+    $('input.copyvalue').click(function(ev) {
+        $(this).focus();
+        $(this).select();
+    });
+}
+
 function initTabs(el) {
     if ($('#' + el).length) {
         var $tabs = $('#' + el).tabs();   // the jquery-ui.js for this has to be included in the page
@@ -121,6 +129,7 @@ $(document).ready(function() {
     initLangSwitch();
     initClearMsg();
     initToolbar();
+    initCopyInput();
     if ($("input.tagsuggest").length) initTagsuggest();
     initClose();
     initTabs('tabs');
