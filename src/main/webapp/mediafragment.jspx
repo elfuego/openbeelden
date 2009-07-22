@@ -30,9 +30,7 @@
       <div class="main-column">
         <oip:h2><fmt:message key="media.item" /></oip:h2>
 
-        <mm:field name="length">
-          <mm:import id="len" reset="true"><mm:time inputformat="S" format="s" /></mm:import>
-        </mm:field>
+        <mm:import id="len" reset="true"><mm:field name="length" /></mm:import>
         <oip:media length="${len}" />
 
         <mm:nodefunction name="translation">
@@ -161,11 +159,11 @@
               <mm:field name="length"><mm:time inputformat="S" format="mm:ss" /></mm:field>
             </dd>
           </c:if>
-          <dt><fmt:message key="media.uploaded" />:</dt>
+          <dt><fmt:message key="media.date" />:</dt>
           <dd>
-            <mm:field name="created"><mm:time format="d MMMM yyyy" /></mm:field>
+            <mm:field name="date"><mm:time format="d MMMM yyyy" /></mm:field>
           </dd>
-          <dt><fmt:message key="media.by_user" />:</dt>
+          <dt><fmt:message key="media.user" />:</dt>
           <dd>
             <mm:field name="owner" id="owner" write="false" />
             <mm:hasnode number="$owner">

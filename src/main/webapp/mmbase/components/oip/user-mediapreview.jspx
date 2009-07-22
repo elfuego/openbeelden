@@ -57,9 +57,10 @@
               </c:when>
               <c:otherwise>
                 
-                <oip:video width="284" height="213" />
+                <mm:import id="len" reset="true"><mm:field name="length" /></mm:import>
+                <oip:media width="284" height="213" length="${len}" />
                 <dl class="media-info">
-                  <dt>page:</dt>
+                  <dt><fmt:message key="media.page" />:</dt>
                   <dd>
                     <mm:link>
                       <mm:frameworkparam name="media">${_node}</mm:frameworkparam>
@@ -68,7 +69,7 @@
                       <a href="${_}">${_}</a>
                     </mm:link>
                   </dd>
-                  <dt>type:</dt>
+                  <dt><fmt:message key="media.type" />:</dt>
                   <dd>
                     <mm:nodeinfo type="type" id="nodetype" write="false" />
                     <c:choose>
@@ -79,19 +80,19 @@
                   </dd>
                   <mm:relatednodescontainer type="licenses" role="related" searchdirs="destination">
                     <mm:relatednodes>
-                      <dt>license:</dt>
+                      <dt><fmt:message key="media.license" />:</dt>
                       <dd> <mm:field name="name" /> </dd>
                     </mm:relatednodes>
                   </mm:relatednodescontainer>
-                  <dt>length:</dt>
+                  <dt><fmt:message key="media.length" />:</dt>
                   <dd>
                     <mm:field name="length"><mm:time inputformat="S" format="mm:ss" /></mm:field>
                   </dd>
-                  <dt>uploaded:</dt>
+                  <dt><fmt:message key="media.date" />:</dt>
                   <dd>
-                    <mm:field name="created"><mm:time format="d MMMM yyyy" /></mm:field>
+                    <mm:field name="date"><mm:time format="d MMMM yyyy" /></mm:field>
                   </dd>
-                  <dt>tags:</dt>
+                  <dt><fmt:message key="media.tags" />:</dt>
                   <dd>
                     <mm:listrelationscontainer type="tags" role="related" searchdir="destination">
                       <mm:maxnumber value="99" />
