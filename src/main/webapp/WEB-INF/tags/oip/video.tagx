@@ -62,7 +62,14 @@
       <div id="playercontrols">
         <ul>
           <li id="play"><a href="#">play</a></li>
-          <li id="position"> <mm:time time="$length" inputformat="s" format="mm:ss" /> </li>
+          <li id="position"> 
+            <c:choose>
+              <c:when test="${!empty length}">
+                <mm:time time="$length" inputformat="s" format="mm:ss" />
+              </c:when>
+              <c:otherwise>00:00</c:otherwise>
+            </c:choose>
+          </li>
           <li class="playerinfo">  <!-- empty --> </li>
         </ul>
         
