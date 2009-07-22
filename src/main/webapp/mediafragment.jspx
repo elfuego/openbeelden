@@ -30,7 +30,10 @@
       <div class="main-column">
         <oip:h2><fmt:message key="media.item" /></oip:h2>
 
-        <oip:media />
+        <mm:field name="length">
+          <mm:import id="len" reset="true"><mm:time inputformat="S" format="s" /></mm:import>
+        </mm:field>
+        <oip:media length="${len}" />
 
         <mm:nodefunction name="translation">
           <h3 class="mediatitle"><mm:field name="title" /></h3>
@@ -120,8 +123,8 @@
         <div class="popup" id="popup-embed">
           <h4><a class="close" href="#toolbar">close</a> Embed</h4>
           <p>
-            <label for="inputembed">Video tag to copy</label>
-            <input name="share" id="inputembed" type="text" value="${videotag}" />
+            <label for="inputembed">HTML tag to copy</label>
+            <input name="share" id="inputembed" class="copyvalue" type="text" value="${embedtag}" />
           </p>
         </div>
 
@@ -130,7 +133,7 @@
           <p>
             <label for="inputshare">Link</label>
             <mm:link absolute="true">
-              <input name="share" id="inputshare" type="text" value="${_}" />
+              <input name="share" id="inputshare" class="copyvalue" type="text" value="${_}" />
             </mm:link>
           </p>
         </div>
@@ -152,10 +155,12 @@
               <c:otherwise> video </c:otherwise>
             </c:choose>
           </dd>
-          <dt><fmt:message key="media.length" />:</dt>
-          <dd>
-            <mm:field name="length"><mm:time inputformat="S" format="mm:ss" /></mm:field>
-          </dd>
+          <c:if test="${nodetype ne 'imagefragments' and nodetype ne 'images'}">
+            <dt><fmt:message key="media.length" />:</dt>
+            <dd>
+              <mm:field name="length"><mm:time inputformat="S" format="mm:ss" /></mm:field>
+            </dd>
+          </c:if>
           <dt><fmt:message key="media.uploaded" />:</dt>
           <dd>
             <mm:field name="created"><mm:time format="d MMMM yyyy" /></mm:field>

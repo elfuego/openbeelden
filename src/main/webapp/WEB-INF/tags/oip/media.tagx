@@ -6,16 +6,27 @@
     xmlns:oip="urn:jsptagdir:/WEB-INF/tags/oip"
     xmlns:mm="http://www.mmbase.org/mmbase-taglib-2.0"
     >
+  
+  <jsp:directive.attribute name="width"
+          description="Width of player" />
+  <jsp:directive.attribute name="height"
+          description="Height of player" />
+  <jsp:directive.attribute name="length"
+          description="Length of video fragment in seconds" />
+  <jsp:directive.variable name-given="embedtag" scope="AT_END" />
+  
   <mm:nodeinfo type="nodemanager">
     <c:choose>
       <c:when test="${_ eq 'imagefragments'}">
         <mm:relatednodes type="imagesources">
-          <mm:image mode="img" template="s(320x240&gt;)" />
+          <mm:import id="embedtag" reset="true"><mm:image mode="img" template="s(320x240&gt;)" /></mm:import>
+          <mm:write referid="embedtag" escape="none" />
         </mm:relatednodes>
       </c:when>
       <c:otherwise>
-        <oip:video />
+        <oip:video length="${length}" />
       </c:otherwise>
     </c:choose>
   </mm:nodeinfo>
+  
 </jsp:root>

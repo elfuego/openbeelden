@@ -9,7 +9,9 @@
           description="Width of player" />
   <jsp:directive.attribute name="height"
           description="Height of player" />
-  <jsp:directive.variable name-given="videotag" scope="AT_END" />
+  <jsp:directive.attribute name="length"
+          description="Length of video fragment in seconds" />
+  <jsp:directive.variable name-given="embedtag" scope="AT_END" />
 
   <c:set var="w" value="${empty width ? '320' : width}" />
   <c:set var="h" value="${empty height ? '240' : height}" />
@@ -60,9 +62,10 @@
       <div id="playercontrols">
         <ul>
           <li id="play"><a href="#">play</a></li>
-          <li id="position"> 00:00 </li>
-          <li class="playerinfo"> <!-- empty --> </li>
+          <li id="position"> <mm:time time="$length" inputformat="s" format="mm:ss" /> </li>
+          <li class="playerinfo">  <!-- empty --> </li>
         </ul>
+        
       </div>
     </c:otherwise>
   </c:choose>
@@ -77,6 +80,6 @@
   </ol>
 -->
   <!-- videotag to share -->
-  <mm:import id="videotag"><video controls="controls"><mm:write referid="mediaurls" escape="none" /></video></mm:import>
+  <mm:import id="embedtag"><video controls="controls"><mm:write referid="mediaurls" escape="none" /></video></mm:import>
 
 </jsp:root>
