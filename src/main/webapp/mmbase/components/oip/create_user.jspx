@@ -47,7 +47,7 @@
               <input type="checkbox" name="confirm" value="yes" /> 
               <label for="confirm"><fmt:message key="register.confirm" />.</label>
               <c:if test="${!empty submit_registration and empty confirm}">
-                <div class="mm_check_error"><fmt:message key="register.confirm.error" />.</div>
+                <div class="mm_check_error"><fmt:message key="register.confirm.error" /></div>
               </c:if>
             </fieldset>
             <fieldset>
