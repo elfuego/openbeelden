@@ -74,7 +74,7 @@
                     <mm:nodeinfo type="type" id="nodetype" write="false" />
                     <c:choose>
                       <c:when test="${nodetype eq 'audiofragments'}"> audio </c:when>
-                      <c:when test="${nodetype eq 'images'}"> image </c:when>
+                      <c:when test="${nodetype eq 'images' or nodetype eq 'imagefragments'}"> image </c:when>
                       <c:otherwise> video </c:otherwise>
                     </c:choose>
                   </dd>
@@ -84,10 +84,12 @@
                       <dd> <mm:field name="name" /> </dd>
                     </mm:relatednodes>
                   </mm:relatednodescontainer>
-                  <dt><fmt:message key="media.length" />:</dt>
-                  <dd>
-                    <mm:field name="length"><mm:time inputformat="S" format="mm:ss" /></mm:field>
-                  </dd>
+                  <c:if test="${nodetype ne 'images' and nodetype ne 'imagefragments'}">
+                    <dt><fmt:message key="media.length" />:</dt>
+                    <dd>
+                      <mm:field name="length"><mm:time inputformat="S" format="mm:ss" /></mm:field>
+                    </dd>
+                  </c:if>
                   <dt><fmt:message key="media.date" />:</dt>
                   <dd>
                     <mm:field name="date"><mm:time format="d MMMM yyyy" /></mm:field>
