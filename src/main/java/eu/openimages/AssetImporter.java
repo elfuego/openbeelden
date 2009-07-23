@@ -132,7 +132,9 @@ public class AssetImporter implements Runnable, LoggerAccepter {
                         } else {
                             if (mediaFragment == null) {
                                 mediaFragment = mediaSource.getNodeValue("mediafragment");
-                                log.info("Found mediafragment " + mediaFragment.getNumber());
+                                if (mediaFragment != null) {
+                                    log.info("Found mediafragment " + mediaFragment.getNodeManager().getName() + " " + mediaFragment.getNumber());
+                                }
                             }
                         }
                         if (mediaFragment == null) {
@@ -179,7 +181,7 @@ public class AssetImporter implements Runnable, LoggerAccepter {
 
                         // according to http://dublincore.org/documents/dcmi-terms/#terms-source
                         // The described resource may be derived from the related resource in whole or in part. Recommended best practice is to identify the related resource by means of a string conforming to a formal identification system.
-                        mediaFragment.setStringValue("source", file.toString());
+                        mediaFragment.setStringValue("source", file.getName());
 
                         String title = fields.get("title");
                         Pattern pattern = Pattern.compile("(.*?):\\s*(Weeknummer.*)");
@@ -216,7 +218,7 @@ public class AssetImporter implements Runnable, LoggerAccepter {
                             log.error(pe.getMessage());
                         }
                         mediaFragment.commit();
-                        log.info("Created mf " + mediaFragment);
+                        log.info("Matched mediafragment " + mediaFragment.getNumber() + " " + mediaFragment.getStringValue("title"));
                     } else {
                         log.warn("No files found, ignoring this");
                     }
