@@ -20,8 +20,8 @@
 var player;
 
 function createPlayer(id, config) {
-    var videotag = $('#' + id + ' video')[0];
-    var sources = $(videotag).find('source');
+    var videotag = $('#' + id + ' video:first');
+    var sources = $('#' + id).find('source');
     var types = $.map(sources, function(i) {
         return $(i).attr('type');
     });
@@ -299,8 +299,8 @@ function canPlayVideo(types, urls) {
         //console.log("No source elements found");
 
         // last fall back, the 'src' attribute itself.
-        if ($('<video />').length) {
-            var url = $('<video />').attr('src');
+        if ($('video').length) {
+            var url = $('video').attr('src');
             if (url != undefined &&
                 (url.lastIndexOf('.mp4') > -1 || url.lastIndexOf('.h264') > -1
                  )) {
