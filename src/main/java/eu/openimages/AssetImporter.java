@@ -118,24 +118,27 @@ public class AssetImporter implements Runnable, LoggerAccepter {
                         log.info("Importing  " + subFile.getName());
 
                         Node mediaSource = getMediaSource(subFile.getName());
+                        if (mediaSource != null && recreate) {
+                            log.info("Deleting " + mediaSource.getNumber());
+                            mediaSource.delete(true);
+                            mediaSource = null;
+                        }
                         if (mediaSource == null) {
                             mediaSource   = cloud.getNodeManager("videostreamsources").createNode();
                             mediaSource.setValueWithoutProcess("url", getUrl(dirNames[0], subFile.getName()));
-                            if (mediaFragment == null) {
-                                mediaFragment = cloud.getNodeManager("videofragments").createNode();
-                                mediaFragment.commit();
-                            }
-                            mediaSource.setNodeValue("mediafragment", mediaFragment);
+                            mediaSource.commit();
                         } else {
                             if (mediaFragment == null) {
                                 mediaFragment = mediaSource.getNodeValue("mediafragment");
-                                if (mediaFragment == null) {
-
-                                    mediaFragment = cloud.getNodeManager("videofragments").createNode();
-                                    mediaFragment.commit();
-                                }
+                                log.info("Found mediafragment " + mediaFragment.getNumber());
                             }
                         }
+                        if (mediaFragment == null) {
+                            mediaFragment = cloud.getNodeManager("videofragments").createNode();
+                            mediaFragment.commit();
+                            log.info("Created mediafragment " + mediaFragment.getNumber());
+                        }
+
                         mediaSource.setNodeValue("mediafragment", mediaFragment);
                         log.info("Found " + mediaSource);
                         if (subFile.getName().endsWith(".ogg")) {
@@ -166,11 +169,14 @@ public class AssetImporter implements Runnable, LoggerAccepter {
                         mediaFragment.setStringValue("keywords", Casting.toString(subjects));
                         mediaFragment.setStringValue("coverage", Casting.toString(coverage));
 
-                        //mediaFragment.setStringValue("publisher", "Nederlands Instituut voor Beeld en Geluid NOS");
+                        mediaFragment.setStringValue("publisher", "Nederlands Instituut voor Beeld en Geluid NOS");
 
                         // Should we not use the dc:source field?
                         //mediaFragment.setStringValue("source",   Casting.toString(source));
-                        mediaFragment.setStringValue("source", identifier);
+
+                        // according to http://dublincore.org/documents/dcmi-terms/#terms-source
+                        // The described resource may be derived from the related resource in whole or in part. Recommended best practice is to identify the related resource by means of a string conforming to a formal identification system.
+                        mediaFragment.setStringValue("source", file.toString());
 
                         String title = fields.get("title");
                         Pattern pattern = Pattern.compile("(.*?):\\s*(Weeknummer.*)");
@@ -275,6 +281,12 @@ public class AssetImporter implements Runnable, LoggerAccepter {
         fileName = f;
     }
 
+    private boolean recreate = false;
+
+    public void setRecreate(boolean r) {
+        recreate = r;
+    }
+
     Pattern XML_PATTERN = Pattern.compile(".*\\.xml$");
     public void read(Cloud cloud) throws IOException, SAXException,java.net.URISyntaxException {
         File file = fileName == null ? new File(FileServlet.getDirectory(), dirNames[0]) : new File(fileName);
@@ -341,7 +353,9 @@ public class AssetImporter implements Runnable, LoggerAccepter {
         AssetImporter assets = new AssetImporter();
         if (argv.length > 0) {
             assets.setFile(argv[0]);
+            assets.setRecreate(true);
         }
+
         assets.read(cloud);
         //assets.deleteImport(cloud, "B&G");
     }

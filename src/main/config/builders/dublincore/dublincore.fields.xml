@@ -1,0 +1,121 @@
+<?xml version="1.0" ?>
+<fieldlist
+    xmlns="http://www.mmbase.org/xmlns/builder"
+    xmlns:xi="http://www.w3.org/2001/XInclude"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.mmbase.org/xmlns/builder
+                        http://www.mmbase.org/xmlns/builder.xsd">
+
+  <!-- Relavant subset of dublin core fields -->
+  <field name="source">
+    <descriptions>
+      <description xml:lang="en">Author or source of this item</description>
+      <description xml:lang="nl">Auteur of bron van dit item</description>
+    </descriptions>
+    <gui>
+      <guiname xml:lang="en">Source</guiname>
+      <guiname xml:lang="nl">Bron</guiname>
+    </gui>
+    <editor>
+      <positions>
+        <input>9</input>
+        <search>9</search>
+      </positions>
+    </editor>
+    <datatype base="eline" xmlns="http://www.mmbase.org/xmlns/datatypes">
+      <maxLength value="255" />
+    </datatype>
+  </field>
+
+  <field name="publisher">
+    <descriptions>
+      <description xml:lang="en">An entity responsible for making the resource available.</description>
+      <description xml:lang="nl">De voor dit object verantwoordelijk entiteit</description>
+    </descriptions>
+    <gui>
+      <guiname xml:lang="en">Publisher</guiname>
+      <guiname xml:lang="nl">Uitgever</guiname>
+    </gui>
+    <editor>
+      <positions>
+        <input>9</input>
+        <search>9</search>
+      </positions>
+    </editor>
+    <datatype base="eline" xmlns="http://www.mmbase.org/xmlns/datatypes">
+      <maxLength value="255" />
+    </datatype>
+  </field>
+
+  <field name="keywords">
+    <descriptions>
+      <description xml:lang="en">Comma separated list with keywords</description>
+      <description xml:lang="nl">Komma gescheiden lijst met trefwoorden</description>
+    </descriptions>
+    <gui>
+      <guiname xml:lang="en">Keywords</guiname>
+      <guiname xml:lang="nl">Trefwoorden</guiname>
+    </gui>
+    <editor>
+      <positions>
+        <input>10</input>
+        <search>10</search>
+      </positions>
+    </editor>
+    <datatype base="line" xmlns="http://www.mmbase.org/xmlns/datatypes">
+      <maxLength value="511" />
+    </datatype>
+  </field>
+
+  <field name="coverage">
+    <descriptions>
+      <description xml:lang="en">Comma separated list</description>
+      <description xml:lang="nl">Komma gescheiden lijst</description>
+    </descriptions>
+    <gui>
+      <guiname xml:lang="en">Coverage</guiname>
+      <guiname xml:lang="nl">Coverage</guiname>
+    </gui>
+    <editor>
+      <positions>
+        <input>11</input>
+        <search>11</search>
+      </positions>
+    </editor>
+    <datatype base="line" xmlns="http://www.mmbase.org/xmlns/datatypes">
+      <maxLength value="511" />
+    </datatype>
+  </field>
+
+  <field name="date">
+    <descriptions>
+      <description xml:lang="nl">Generiek datum veld, normaal gesproken de creatiedatum maar dit veld kan worden aangepast.</description>
+      <description xml:lang="en">Generic date field, in principle the creation date but it can be adapted.</description>
+    </descriptions>
+    <gui>
+      <guiname xml:lang="nl">Datum</guiname>
+      <guiname xml:lang="en">Date</guiname>
+    </gui>
+    <editor>
+      <positions>
+        <input>91</input>
+        <list>91</list>
+        <search>91</search>
+      </positions>
+    </editor>
+    <datatype base="datetime" xmlns="http://www.mmbase.org/xmlns/datatypes">
+      <default value="now" />
+      <minInclusive enforce="never" value="today - 99 year" />
+      <maxInclusive enforce="never" value="today + 10 year" />
+    </datatype>
+  </field>
+
+
+  <!--
+      <field name="origin_trace" state="system">
+      <datatype base="origin-trace" xmlns="http://www.mmbase.org/xmlns/datatypes" />
+      </field>
+  -->
+
+</fieldlist>
+
