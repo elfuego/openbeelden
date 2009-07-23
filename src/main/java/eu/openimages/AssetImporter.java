@@ -127,6 +127,7 @@ public class AssetImporter implements Runnable, LoggerAccepter {
                             mediaSource   = cloud.getNodeManager("videostreamsources").createNode();
                             mediaSource.setValueWithoutProcess("url", getUrl(dirNames[0], subFile.getName()));
                             mediaSource.commit();
+                            log.info("Created " + mediaSource.getNodeManager().getName() + " " + mediaSource.getNumber());
                         } else {
                             if (mediaFragment == null) {
                                 mediaFragment = mediaSource.getNodeValue("mediafragment");
