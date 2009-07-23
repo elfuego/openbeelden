@@ -99,7 +99,7 @@
                         or nodetype eq 'imagefragments' 
                         or nodetype eq 'images'
                         }">
-                    Related media of <mm:field name="title" />
+                    Related items of <mm:field name="title" />
                   </c:when>
                   <c:otherwise>No such media item.</c:otherwise>
                 </c:choose>
