@@ -68,6 +68,7 @@ public class AssetImporter implements Runnable, LoggerAccepter {
             this.cloud = cloud;
             this.cloud.setProperty(org.mmbase.streams.CreateCachesProcessor.NOT, "no");
             this.cloud.setProperty(org.mmbase.streams.DeleteCachesProcessor.NOT, "no");
+            this.cloud.setProperty(org.mmbase.datatypes.processors.BinaryFile.DISABLE_DELETE, "disable");
             this.file = file;
         }
 
@@ -361,7 +362,9 @@ public class AssetImporter implements Runnable, LoggerAccepter {
         AssetImporter assets = new AssetImporter();
         if (argv.length > 0) {
             assets.setFile(argv[0]);
-            assets.setRecreate(true);
+            if (! new File(argv[0]).isDirectory()) {
+                assets.setRecreate(true);
+            }
             assets.setPublisher("Nederlands Instituut voor Beeld en Geluid / NOS");
         }
 
