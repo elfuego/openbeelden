@@ -5,15 +5,21 @@
     xmlns:fmt="http://java.sun.com/jsp/jstl/fmt"
     xmlns:oip="urn:jsptagdir:/WEB-INF/tags/oip"
     xmlns:mm="http://www.mmbase.org/mmbase-taglib-2.0">
+  <mm:import externid="q" />
   <oip:html cacheable="false" styleClass="media">
     <jsp:attribute name="head">
       <link type="text/css" href="${mm:link('/style/css/jquery.ui.tabs.css')}" rel="stylesheet" />
       <script type="text/javascript" src="${mm:link('/style/js/jquery-ui-1.7.2.custom.min.js')}"><!-- help ie --></script>
+      <c:if test="${!empty q}">
+        <mm:link page="/api/atom/">
+          <mm:param name="search">${q}</mm:param>
+          <link href="${_}" rel="alternate" type="application/atom+xml" title="Open Image Platform search results for ${q}" />
+        </mm:link>
+      </c:if>
     </jsp:attribute>
     <jsp:attribute name="left"><oip:search advanced="true" /></jsp:attribute>
     <jsp:attribute name="body">
 
-      <mm:import externid="q" />
       <mm:import externid="user" />
       <mm:import externid="source" />
       <mm:import externid="uploaded" />

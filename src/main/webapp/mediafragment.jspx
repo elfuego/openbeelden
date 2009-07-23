@@ -18,6 +18,10 @@
       <script src="${mm:link('/style/js/player.js')}" type="text/javascript"><!-- help ie --></script>
       <script src="${mm:link('/style/js/play.js.jsp')}" type="text/javascript"><!-- help ie --></script>
       <link href="${mm:link('/style/css/player.css')}" rel="stylesheet" type="text/css" />
+      <mm:link page="/api/atom/">
+        <mm:param name="related"><mm:field name="number" /></mm:param>
+        <link href="${_}" rel="alternate" type="application/atom+xml" title="Open Image Platform related items of ${_node.title}" />
+      </mm:link>
     </jsp:attribute>
     <jsp:attribute name="body">
 
@@ -100,7 +104,7 @@
                   <jsp:text> *</jsp:text>
                 </c:if>
                 <strong>${_.format}:</strong>
-                <jsp:text> (${_.dimension}, ${_.info.bitrate}) </jsp:text>
+                <jsp:text> (<c:if test="${!empty _.dimension}">${_.dimension}, </c:if>${_.info.bitrate}) </jsp:text>
                 <c:choose>
                   <c:when test="${_.available}">
                     <a href="${mm:escape('text/xml', _.URL)}">
@@ -148,8 +152,7 @@
             <mm:nodeinfo type="type" id="nodetype" write="false" />
             <c:choose>
               <c:when test="${nodetype eq 'audiofragments'}"> audio </c:when>
-              <c:when test="${nodetype eq 'imagefragments'}"> image </c:when>
-              <c:when test="${nodetype eq 'images'}"> image </c:when>
+              <c:when test="${nodetype eq 'imagefragments' or nodetype eq 'images'}"> image </c:when>
               <c:otherwise> video </c:otherwise>
             </c:choose>
           </dd>

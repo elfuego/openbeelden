@@ -66,6 +66,16 @@
   <logger name="org.mmbase.mmsite" >
     <level class="&mmlevel;" value="info" />
   </logger>
+  
+<!-- 
+  <logger name="org.mmbase.streams" >
+    <level class="&mmlevel;" value="debug" />
+  </logger>
+  
+  <logger name="org.mmbase.streams.transcoders" >
+    <level class="&mmlevel;" value="debug" />
+  </logger>
+ -->
 
   <logger name="org.mmbase.util.xml.URIResolver" >
     <level class="&mmlevel;" value ="info" />

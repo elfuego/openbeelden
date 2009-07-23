@@ -12,7 +12,7 @@
       <script src="${mm:link('/player/flowplayer-3.1.1.min.js')}" type="text/javascript"><!-- help ie --></script>
       <script src="${mm:link('/style/js/player.js')}" type="text/javascript"><!-- help ie --></script>
       <link href="${mm:link('/style/css/player.css')}" rel="stylesheet" type="text/css" />
-      <link href="${mm:link('/api/atom/')}" rel="alternate" type="application/atom+xml" title="Open Images latest uploads" />
+      <link href="${mm:link('/api/atom/')}" rel="alternate" type="application/atom+xml" title="Open Image Platform latest uploads" />
     </jsp:attribute>
     <jsp:attribute name="left"><jsp:text>  </jsp:text></jsp:attribute>
 
