@@ -54,16 +54,16 @@
        <mm:relatednodescontainer type="licenses" role="related" searchdirs="destination">
          <mm:relatednodes>
            <dc:rights>
-             <mm:field name="name" />, 
-             <mm:field name="url" /><mm:field name="description"><mm:isnotempty>, ${_}</mm:isnotempty></mm:field>
+             <mm:field name="name" />, <mm:field name="url" /><mm:field name="description"><mm:isnotempty>, ${_}</mm:isnotempty></mm:field>
            </dc:rights>
          </mm:relatednodes>
        </mm:relatednodescontainer>
        <dc:language><mm:field name="language" /></dc:language>
        <dc:coverage><mm:field name="coverage" /></dc:coverage>
-       <dc:source>
+       <dc:source><mm:field name="source" /></dc:source>
+       <dc:publisher>
          Netherlands Institute for Sound and Vision / Nederlands Instituut voor Beeld en Geluid
-       </dc:source>
+       </dc:publisher>
        <dcterms:abstract><mm:field name="subtitle" /></dcterms:abstract>
        <dcterms:created><mm:field name="created"><mm:time time="${_}" /></mm:field></dcterms:created>
        <dcterms:extent><mm:field name="length"><mm:time inputformat="S" format="HH:mm:ss" /></mm:field></dcterms:extent>
