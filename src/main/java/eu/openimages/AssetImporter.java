@@ -169,8 +169,9 @@ public class AssetImporter implements Runnable, LoggerAccepter {
                     if (mediaFragment != null) {
                         mediaFragment.setStringValue("keywords", Casting.toString(subjects));
                         mediaFragment.setStringValue("coverage", Casting.toString(coverage));
-
-                        mediaFragment.setStringValue("publisher", "Nederlands Instituut voor Beeld en Geluid NOS");
+                        if (mediaFragment.getNodeManager().hasField("publisher")) {
+                            mediaFragment.setStringValue("publisher", AssetImporter.this.publisher);
+                        }
 
                         // Should we not use the dc:source field?
                         //mediaFragment.setStringValue("source",   Casting.toString(source));
@@ -288,6 +289,12 @@ public class AssetImporter implements Runnable, LoggerAccepter {
         recreate = r;
     }
 
+    private String publisher = null;
+
+    public void setPublisher(String p) {
+        publisher = p;
+    }
+
     Pattern XML_PATTERN = Pattern.compile(".*\\.xml$");
     public void read(Cloud cloud) throws IOException, SAXException,java.net.URISyntaxException {
         File file = fileName == null ? new File(FileServlet.getDirectory(), dirNames[0]) : new File(fileName);
@@ -355,6 +362,7 @@ public class AssetImporter implements Runnable, LoggerAccepter {
         if (argv.length > 0) {
             assets.setFile(argv[0]);
             assets.setRecreate(true);
+            assets.setPublisher("Nederlands Instituut voor Beeld en Geluid / NOS");
         }
 
         assets.read(cloud);
