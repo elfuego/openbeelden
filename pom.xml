@@ -74,28 +74,28 @@
           <showDeprecation>true</showDeprecation>
         </configuration>
       </plugin>
+
       <plugin>
        <artifactId>maven-war-plugin</artifactId>
-       <version>2.1-beta-1</version>
+       <!-- this is a version of the war plugin compiled by Michiel. See http://jira.codehaus.org/browse/MWAR-205 -->
+       <version>2.1-beta-2-20090723.092931-2</version>
        <configuration>
          <archiveClasses>true</archiveClasses>
-         <!-- damn it -->
-         <warSourceExcludes></warSourceExcludes>
-         <warSourceIncludes>**</warSourceIncludes>
-         <packagingIncludes>**</packagingIncludes>
        </configuration>
       </plugin>
 
       <plugin>
-       <artifactId>maven-war-plugin</artifactId>
-       <version>2.1-beta-1</version>
-       <configuration>
-         <archiveClasses>true</archiveClasses>
-         <!-- damn it -->
-         <warSourceExcludes></warSourceExcludes>
-         <warSourceIncludes>**</warSourceIncludes>
-         <packagingIncludes>**</packagingIncludes>
-       </configuration>
+        <groupId>org.mmbase.maven</groupId>
+        <artifactId>maven-mmbase-plugin</artifactId>
+        <version>1.9-SNAPSHOT</version>
+        <executions>
+          <execution>
+            <id>create-index-files</id>
+            <goals>
+              <goal>create-index-files</goal>
+            </goals>
+          </execution>
+        </executions>
       </plugin>
 
       <plugin>
@@ -316,29 +316,9 @@
     </profile>
     <profile>
       <id>development</id>
-      <build>
-        <plugins>
-          <plugin>
-            <groupId>org.mmbase.maven</groupId>
-            <artifactId>maven-mmbase-plugin</artifactId>
-            <version>1.9-SNAPSHOT</version>
-            <executions>
-              <execution>
-                <id>create-index-files</id>
-                <goals>
-                  <goal>create-index-files</goal>
-                </goals>
-              </execution>
-              <execution>
-                <id>include-default-excludes</id>
-                <goals>
-                  <goal>include-default-excludes</goal>
-                </goals>
-              </execution>
-            </executions>
-          </plugin>
-        </plugins>
-      </build>
+      <properties>
+        <maven.war.useDefaultExcludes>false</maven.war.useDefaultExcludes>
+      </properties>
       <dependencies>
         <dependency>
           <groupId>org.mmbase</groupId>
