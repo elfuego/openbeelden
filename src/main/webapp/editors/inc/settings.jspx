@@ -22,7 +22,7 @@
   <!-- fields: 1st (default) ones are from mediafragments  -->
   <mm:import id="listfields">title,subtitle,language,show</mm:import>
   <mm:import id="searchfields">${listfields},keywords,intro,body</mm:import>
-  <mm:import id="editfields">${searchfields},length,source,coverage,date,offline,online,creator,created,lastmodifier,lastmodified</mm:import>
+  <mm:import id="editfields">${searchfields},length,source,coverage,publisher,date,offline,online,creator,created,lastmodifier,lastmodified</mm:import>
 
   <mm:compare referid="type" value="mediafragments_translations">
     <mm:import id="editfields" reset="true">title,subtitle,language,intro,body</mm:import>
