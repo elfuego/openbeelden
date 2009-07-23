@@ -103,116 +103,116 @@ public class AssetImporter implements Runnable, LoggerAccepter {
         public void endElement(String namespaceURI, String localName, String qName)  {
             if (localName.equals("dc")) {
                 try {
-                final String identifier = fields.get("identifier");
+                    final String identifier = fields.get("identifier");
 
-                File directory = file.getParentFile();
-                log.info("Looking in " + directory + " for " + identifier);
-                FilenameFilter filter = new FilenameFilter() {
-                        public boolean accept(File dir, String name) {
-                            File f = new File(dir, name);
-                            return ! file.equals(f) && ResourceLoader.getName(name).equals(identifier);
-                        }
-                    };
-                Node mediaFragment = null;
-                for (File subFile : directory.listFiles(filter)) {
-                    log.info("Importing  " + subFile.getName());
+                    File directory = file.getParentFile();
+                    log.info("Looking in " + directory + " for " + identifier);
+                    FilenameFilter filter = new FilenameFilter() {
+                            public boolean accept(File dir, String name) {
+                                File f = new File(dir, name);
+                                return ! file.equals(f) && ResourceLoader.getName(name).equals(identifier);
+                            }
+                        };
+                    Node mediaFragment = null;
+                    for (File subFile : directory.listFiles(filter)) {
+                        log.info("Importing  " + subFile.getName());
 
-                    Node mediaSource = getMediaSource(subFile.getName());
-                    if (mediaSource == null) {
-                        mediaSource   = cloud.getNodeManager("videostreamsources").createNode();
-                        mediaSource.setValueWithoutProcess("url", getUrl(dirNames[0], subFile.getName()));
-                        if (mediaFragment == null) {
-                            mediaFragment = cloud.getNodeManager("videofragments").createNode();
-                            mediaFragment.commit();
-                        }
-                        mediaSource.setNodeValue("mediafragment", mediaFragment);
-                    } else {
-                        if (mediaFragment == null) {
-                            mediaFragment = mediaSource.getNodeValue("mediafragment");
+                        Node mediaSource = getMediaSource(subFile.getName());
+                        if (mediaSource == null) {
+                            mediaSource   = cloud.getNodeManager("videostreamsources").createNode();
+                            mediaSource.setValueWithoutProcess("url", getUrl(dirNames[0], subFile.getName()));
                             if (mediaFragment == null) {
-
                                 mediaFragment = cloud.getNodeManager("videofragments").createNode();
                                 mediaFragment.commit();
                             }
-                        }
-                    }
-                    mediaSource.setNodeValue("mediafragment", mediaFragment);
-                    log.info("Found " + mediaSource);
-                    if (subFile.getName().endsWith(".ogg")) {
-                        // They mean theora (.ogv)
-                        mediaSource.setIntValue("format", Format.OGV.getValue());
-                    }
-                    Node mediaProvider = cloud.getNode("default.provider");
-                    log.info("mppp " + mediaProvider);
-                    mediaSource.setNodeValue("mediaprovider", mediaProvider);
-                    mediaSource.setLongValue("filesize", subFile.length());
-                    mediaSource.commit();
+                            mediaSource.setNodeValue("mediafragment", mediaFragment);
+                        } else {
+                            if (mediaFragment == null) {
+                                mediaFragment = mediaSource.getNodeValue("mediafragment");
+                                if (mediaFragment == null) {
 
-                    if (mediaSource.isNull("width")) {// || ! file.isDirectory()) {
+                                    mediaFragment = cloud.getNodeManager("videofragments").createNode();
+                                    mediaFragment.commit();
+                                }
+                            }
+                        }
+                        mediaSource.setNodeValue("mediafragment", mediaFragment);
+                        log.info("Found " + mediaSource);
+                        if (subFile.getName().endsWith(".ogg")) {
+                            // They mean theora (.ogv)
+                            mediaSource.setIntValue("format", Format.OGV.getValue());
+                        }
+                        Node mediaProvider = cloud.getNode("default.provider");
+                        log.info("mppp " + mediaProvider);
+                        mediaSource.setNodeValue("mediaprovider", mediaProvider);
+                        mediaSource.setLongValue("filesize", subFile.length());
+                        mediaSource.commit();
+
+                        if (mediaSource.isNull("width")) {// || ! file.isDirectory()) {
+                            try {
+                                Recognizer recognizer = new FFMpegRecognizer().clone();
+                                Analyzer a = new FFMpegAnalyzer();
+                                ChainedLogger chain = new ChainedLogger(log);
+                                chain.addLogger(new AnalyzerLogger(a, mediaSource, null));
+                                recognizer.analyze(subFile.toURI(), chain);
+                                a.ready(mediaSource, null);
+                            } catch (Exception e) {
+                                log.error(e.getMessage(), e);
+                            }
+                        }
+
+                    }
+                    if (mediaFragment != null) {
+                        mediaFragment.setStringValue("keywords", Casting.toString(subjects));
+                        mediaFragment.setStringValue("coverage", Casting.toString(coverage));
+
+                        //mediaFragment.setStringValue("publisher", "Nederlands Instituut voor Beeld en Geluid NOS");
+
+                        // Should we not use the dc:source field?
+                        //mediaFragment.setStringValue("source",   Casting.toString(source));
+                        mediaFragment.setStringValue("source", identifier);
+
+                        String title = fields.get("title");
+                        Pattern pattern = Pattern.compile("(.*?):\\s*(Weeknummer.*)");
+                        Matcher matcher = pattern.matcher(title);
+                        if (matcher.matches()) {
+                            title = matcher.group(1).trim();
+                            mediaFragment.setStringValue("subtitle", matcher.group(2).trim());
+                        } else {
+                            title = title.trim();
+                        }
+                        title = title.charAt(0) + title.substring(1).toLowerCase();
+                        mediaFragment.setStringValue("title", title);
+
+                        String text = fields.get("description");
+                        String sentence = "Bioscoopjournaals waarin Nederlandse onderwerpen van een bepaalde week worden gepresenteerd.";
+                        String pattern2 = ".*" + sentence + ".*";
+                        if (text.matches(pattern2)) {
+                            text = text.replaceAll(sentence, "");
+                            mediaFragment.setStringValue("intro", sentence);
+                        }
+
+                        mediaFragment.setStringValue("body", text);
+                        mediaFragment.setStringValue("language", "nl");
+
+                        {
+                            String[] entries = fields.get("format").split(":");
+                            long length = 1000 * ( Integer.parseInt(entries[2]) + 60 * ( Integer.parseInt(entries[1]) + 60 * Integer.parseInt(entries[0])));
+                            mediaFragment.setLongValue("length", length);
+                        }
                         try {
-                            Recognizer recognizer = new FFMpegRecognizer().clone();
-                            Analyzer a = new FFMpegAnalyzer();
-                            ChainedLogger chain = new ChainedLogger(log);
-                            chain.addLogger(new AnalyzerLogger(a, mediaSource, null));
-                            recognizer.analyze(subFile.toURI(), chain);
-                            a.ready(mediaSource, null);
-                        } catch (Exception e) {
-                            log.error(e);
+                            //mediaFragment.setValueWithoutProcess("created", DATEFORMAT.parse(fields.get("date")));
+                            mediaFragment.setValueWithoutProcess("date", DATEFORMAT.parse(fields.get("date")));
+                        } catch (ParseException pe) {
+                            log.error(pe.getMessage());
                         }
-                    }
-
-                }
-                if (mediaFragment != null) {
-                    mediaFragment.setStringValue("keywords", Casting.toString(subjects));
-                    mediaFragment.setStringValue("coverage", Casting.toString(coverage));
-
-                    //mediaFragment.setStringValue("publisher", "Nederlands Instituut voor Beeld en Geluid NOS");
-
-                    // Should we not use the dc:source field?
-                    //mediaFragment.setStringValue("source",   Casting.toString(source));
-                    mediaFragment.setStringValue("source", identifier);
-                    
-                    String title = fields.get("title");
-                    Pattern pattern = Pattern.compile("(.*?):\\s*(Weeknummer.*)");
-                    Matcher matcher = pattern.matcher(title);
-                    if (matcher.matches()) {
-                        title = matcher.group(1).trim();
-                        mediaFragment.setStringValue("subtitle", matcher.group(2).trim());
+                        mediaFragment.commit();
+                        log.info("Created mf " + mediaFragment);
                     } else {
-                        title = title.trim();
+                        log.warn("No files found, ignoring this");
                     }
-                    title = title.charAt(0) + title.substring(1).toLowerCase();
-                    mediaFragment.setStringValue("title", title);
-                    
-                    String text = fields.get("description");
-                    String sentence = "Bioscoopjournaals waarin Nederlandse onderwerpen van een bepaalde week worden gepresenteerd.";
-                    String pattern2 = ".*" + sentence + ".*";
-                    if (text.matches(pattern2)) {
-                        text = text.replaceAll(sentence, "");
-                        mediaFragment.setStringValue("intro", sentence);
-                    }
-                    
-                    mediaFragment.setStringValue("body", text);
-                    mediaFragment.setStringValue("language", "nl");
-
-                    {
-                        String[] entries = fields.get("format").split(":");
-                        long length = 1000 * ( Integer.parseInt(entries[2]) + 60 * ( Integer.parseInt(entries[1]) + 60 * Integer.parseInt(entries[0])));
-                        mediaFragment.setLongValue("length", length);
-                    }
-                    try {
-                        //mediaFragment.setValueWithoutProcess("created", DATEFORMAT.parse(fields.get("date")));
-                        mediaFragment.setValueWithoutProcess("date", DATEFORMAT.parse(fields.get("date")));
-                    } catch (ParseException pe) {
-                        log.error(pe);
-                    }
-                    mediaFragment.commit();
-                    log.info("Created mf " + mediaFragment);
-                } else {
-                    log.warn("No files found, ignoring this");
-                }
-                } catch (Exception e) {
-                    log.error(e);
+                } catch (Throwable e) {
+                    log.error(e.getMessage(), e);
                 }
                 subjects.clear();
                 coverage.clear();
@@ -306,11 +306,11 @@ public class AssetImporter implements Runnable, LoggerAccepter {
             Cloud cloud = ContextProvider.getDefaultCloudContext().getCloud("mmbase", "class", null);
             read(cloud);
         } catch (IOException ioe) {
-            log.error(ioe);
+            log.error(ioe.getMessage(), ioe);
         } catch (SAXException se) {
-            log.error(se);
+            log.error(se.getMessage(), se);
         } catch (java.net.URISyntaxException u) {
-            log.error(u);
+            log.error(u.getMessage(), u);
         }
 
     }
@@ -326,8 +326,8 @@ public class AssetImporter implements Runnable, LoggerAccepter {
             }
             source.delete(true);
         }
-        
-        
+
+
     }
 
     /**
