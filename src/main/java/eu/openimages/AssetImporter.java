@@ -61,6 +61,7 @@ public class AssetImporter implements Runnable, LoggerAccepter {
         final StringBuilder buf = new StringBuilder();
         final List<String> subjects = new ArrayList<String>();
         final List<String> coverage = new ArrayList<String>();
+        final List<String> source   = new ArrayList<String>();
         final Map<String, String> fields  = new HashMap<String, String>();
 
         Handler(Cloud cloud, File file) {
@@ -164,7 +165,11 @@ public class AssetImporter implements Runnable, LoggerAccepter {
                 if (mediaFragment != null) {
                     mediaFragment.setStringValue("keywords", Casting.toString(subjects));
                     mediaFragment.setStringValue("coverage", Casting.toString(coverage));
-                    //mediaFragment.setStringValue("source", "Nederlands Instituut voor Beeld en Geluid / NOS");
+
+                    //mediaFragment.setStringValue("publisher", "Nederlands Instituut voor Beeld en Geluid NOS");
+
+                    // Should we not use the dc:source field?
+                    //mediaFragment.setStringValue("source",   Casting.toString(source));
                     mediaFragment.setStringValue("source", identifier);
                     
                     String title = fields.get("title");
@@ -218,6 +223,8 @@ public class AssetImporter implements Runnable, LoggerAccepter {
                 subjects.add(buf.toString());
             } else if (localName.equals("coverage")) {
                 coverage.add(buf.toString());
+            } else if (localName.equals("source")) {
+                source.add(buf.toString());
             } else {
                 log.warn("Unrecognized tag " + localName);
             }
