@@ -9,8 +9,8 @@
   <!-- Relavant subset of dublin core fields -->
   <field name="source">
     <descriptions>
-      <description xml:lang="en">Author or source of this item</description>
-      <description xml:lang="nl">Auteur of bron van dit item</description>
+      <description xml:lang="en">Reference to a resource from which the present item is derived</description>
+      <description xml:lang="nl">Referentie naar (oorspronkelijke) bron van dit item</description>
     </descriptions>
     <gui>
       <guiname xml:lang="en">Source</guiname>
@@ -18,8 +18,8 @@
     </gui>
     <editor>
       <positions>
-        <input>9</input>
-        <search>9</search>
+        <input>19</input>
+        <search>19</search>
       </positions>
     </editor>
     <datatype base="eline" xmlns="http://www.mmbase.org/xmlns/datatypes">
@@ -30,7 +30,7 @@
   <field name="publisher">
     <descriptions>
       <description xml:lang="en">An entity responsible for making the resource available.</description>
-      <description xml:lang="nl">De voor dit object verantwoordelijk entiteit</description>
+      <description xml:lang="nl">De voor dit item verantwoordelijk entiteit</description>
     </descriptions>
     <gui>
       <guiname xml:lang="en">Publisher</guiname>
@@ -38,8 +38,8 @@
     </gui>
     <editor>
       <positions>
-        <input>9</input>
-        <search>9</search>
+        <input>19</input>
+        <search>19</search>
       </positions>
     </editor>
     <datatype base="eline" xmlns="http://www.mmbase.org/xmlns/datatypes">
@@ -49,8 +49,8 @@
 
   <field name="keywords">
     <descriptions>
-      <description xml:lang="en">Comma separated list with keywords</description>
-      <description xml:lang="nl">Komma gescheiden lijst met trefwoorden</description>
+      <description xml:lang="en">Comma separated list of subjects or keywords</description>
+      <description xml:lang="nl">Kommagescheiden lijst van onderwerpen of trefwoorden</description>
     </descriptions>
     <gui>
       <guiname xml:lang="en">Keywords</guiname>
@@ -69,8 +69,8 @@
 
   <field name="coverage">
     <descriptions>
-      <description xml:lang="en">Comma separated list</description>
-      <description xml:lang="nl">Komma gescheiden lijst</description>
+      <description xml:lang="en">Comma seperated list with coverage: typically a patial location, temporal period or jurisdiction</description>
+      <description xml:lang="nl">Kommageschieden lijst met 'coverage': over het algemeen een geografische locatie, periode of jurisdictie</description>
     </descriptions>
     <gui>
       <guiname xml:lang="en">Coverage</guiname>
@@ -78,8 +78,8 @@
     </gui>
     <editor>
       <positions>
-        <input>11</input>
-        <search>11</search>
+        <input>19</input>
+        <search>19</search>
       </positions>
     </editor>
     <datatype base="line" xmlns="http://www.mmbase.org/xmlns/datatypes">
