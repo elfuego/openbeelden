@@ -18,6 +18,14 @@
   <mm:import externid="until" />
   <mm:import externid="set" />
   
+  <!-- get the nodenumber from the identifier, f.e. oai:openimages.eu:videofragments:746 -->
+  <mm:import id="record" />
+  <c:if test="${!empty identifier}">
+    <c:set var="pieces" value="${fn:split(identifier, ':')}" />
+    <c:set var="len" value="${fn:length(pieces)}" />
+    <mm:import id="record" reset="true">${pieces[len - 1]}</mm:import>
+  </c:if>
+
   <OAI-PMH 
     xmlns="http://www.openarchives.org/OAI/2.0/" 
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
@@ -31,7 +39,7 @@
       <c:when test="${verb eq 'Identify'}">
         <request verb="${verb}" metadataPrefix="oai_qdc">${requesturl}</request>
         <Identify>
-          <repositoryName>Open Images</repositoryName>
+          <repositoryName>Open Images Platform</repositoryName>
           <baseURL><mm:url page="/" absolute="true" /></baseURL>
           <protocolVersion>2.0</protocolVersion>
           <earliestDatestamp>1921-01-01</earliestDatestamp>
@@ -44,35 +52,58 @@
       <c:when test="${verb eq 'ListSets'}">
         <request verb="${verb}" metadataPrefix="oai_qdc">${requesturl}</request>
         <ListSets>
+          <set>
+            <setSpec>lastuploaded</setSpec>
+            <setName>Last uploaded media items</setName>
+          </set>
         </ListSets>
       </c:when>
       
       <c:when test="${verb eq 'ListIdentifiers'}">
-        <request verb="${verb}" metadataPrefix="oai_qdc">${requesturl}</request>
+        <c:choose>
+          <c:when test="${!empty identifier}">
+            <request verb="${verb}" set="${set}" identifier="${identifier}" metadataPrefix="oai_qdc">${requesturl}</request>
+          </c:when>
+          <c:otherwise>
+            <request verb="${verb}" set="${set}" metadataPrefix="oai_qdc">${requesturl}</request>
+          </c:otherwise>
+        </c:choose>
         
         <ListIdentifiers>
-
           <mm:listnodescontainer type="mediafragments">
             <mm:constraint field="show" value="true" operator="EQUAL" />
+            <c:if test="${!empty identifier}">
+              <mm:constraint field="number" value="$record" operator="EQUAL" />
+            </c:if>
             <mm:sortorder field="number" direction="DOWN" />
-            <mm:maxnumber value="9" />
+            <mm:maxnumber value="25" />
             <mm:listnodes>
               <jsp:include page="/api/inc/oai.record.header.jspx" />
             </mm:listnodes>
           </mm:listnodescontainer>
-          
         </ListIdentifiers>
+
       </c:when>
       
       <c:when test="${verb eq 'ListRecords'}">
-        <request verb="${verb}" metadataPrefix="oai_qdc">${requesturl}</request>
+        <c:choose>
+          <c:when test="${!empty identifier}">
+            <request verb="${verb}" set="${set}" identifier="${identifier}" metadataPrefix="oai_qdc">${requesturl}</request>
+          </c:when>
+          <c:otherwise>
+            <request verb="${verb}" set="${set}" metadataPrefix="oai_qdc">${requesturl}</request>
+          </c:otherwise>
+        </c:choose>
         
         <ListRecords>
           
           <mm:listnodescontainer type="mediafragments">
             <mm:constraint field="show" value="true" operator="EQUAL" />
+            <c:if test="${!empty identifier}">
+              <mm:constraint field="number" value="$record" operator="EQUAL" />
+            </c:if>
             <mm:sortorder field="number" direction="DOWN" />
-            <mm:maxnumber value="9" />
+            <mm:maxnumber value="25" />
             <mm:listnodes>
               <jsp:include page="/api/inc/oai.record.jspx" />
             </mm:listnodes>
@@ -82,14 +113,35 @@
       </c:when>
       
       <c:when test="${verb eq 'GetRecord'}">
-        <!-- identifier=oai:openimages.eu:videofragments:746 -->
-        <request verb="${verb}" metadataPrefix="oai_qdc">${requesturl}</request>
+       
+        <request verb="${verb}" metadataPrefix="oai_qdc" identifier="${identifier}">${requesturl}</request>
+        
+        <mm:hasnode number="${record}">
+          <mm:node number="${record}">
+            <mm:nodeinfo type="type" id="nodetype" write="false" />
+            <c:if test="${nodetype eq 'mediafragments'
+                  or nodetype eq 'audiofragments' 
+                  or nodetype eq 'videofragments'
+                  or nodetype eq 'imagefragments' 
+                  or nodetype eq 'images'
+                  }">
+              <GetRecord>
+                <jsp:include page="/api/inc/oai.record.jspx" />
+              </GetRecord>
+              <c:set var="foundone" value="yes" />
+            </c:if>
+          </mm:node>
+        </mm:hasnode>
+
+        <c:if test="${empty foundone}">
+          <error code="idDoesNotExist">No matching identifier</error>
+        </c:if>
       </c:when>
       
       <c:otherwise>
         <request verb="${verb}" metadataPrefix="oai_qdc">${requesturl}</request>
-        
       </c:otherwise>
+    
     </c:choose>
 
     
