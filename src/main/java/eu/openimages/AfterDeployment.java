@@ -29,6 +29,7 @@ public class AfterDeployment implements Runnable {
 
     public void run() {
         Cloud cloud = ContextProvider.getDefaultCloudContext().getCloud("mmbase", "class", null);
+        CloudThreadLocal.bind(cloud);
         log.info("Running " + this + " with " + cloud);
         Node adminNode = SearchUtil.findNode(cloud, "mmbaseusers", "username", "admin");
         Node adminContext = SearchUtil.findNode(cloud, "mmbasecontexts", "name", "admin");
@@ -54,6 +55,7 @@ public class AfterDeployment implements Runnable {
         for (String nm : SITEUSER_OBJECTS) {
             cloud.getNodeManager(nm).setContext("siteusers");
         }
+        CloudThreadLocal.unbind();
 
     }
 }
