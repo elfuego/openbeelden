@@ -246,6 +246,12 @@
       </exclusions>
     </dependency>
 
+    <dependency>
+      <groupId>org.mmbase</groupId>
+      <artifactId>mmbase-rmmci</artifactId>
+      <version>${mmbase.version}</version>
+    </dependency>
+    
 
     <!--
         These jars are needed by jetty-env.xml
@@ -319,13 +325,6 @@
       <properties>
         <maven.war.useDefaultExcludes>false</maven.war.useDefaultExcludes>
       </properties>
-      <dependencies>
-        <dependency>
-          <groupId>org.mmbase</groupId>
-          <artifactId>mmbase-rmmci</artifactId>
-          <version>${mmbase.version}</version>
-        </dependency>
-      </dependencies>
     </profile>
   </profiles>
 
