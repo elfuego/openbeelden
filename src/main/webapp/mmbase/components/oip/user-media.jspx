@@ -40,16 +40,6 @@
           <mm:node number="$license" id="lic_node" />
           <mm:createrelation source="_node" destination="lic_node" role="related" />
         </mm:present>
-        <mm:notpresent referid="license">
-          <mm:relatednodescontainer type="licenses" role="related" searchdirs="destination">
-            <mm:relatednodes>
-              <mm:import id="license_nr" reset="true"><mm:field name="number" /></mm:import>
-            </mm:relatednodes>
-          </mm:relatednodescontainer>
-        </mm:notpresent>
-        <c:if test="${empty license_nr}">
-          <p class="err">This item has no license.</p>
-        </c:if>
       </mm:node>
 
     </div>
