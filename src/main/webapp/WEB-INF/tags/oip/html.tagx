@@ -65,9 +65,16 @@
               <c:otherwise>${title}</c:otherwise>
             </c:choose>
           </jsp:attribute>
-          <mm:node referid="page">
-            <jsp:invoke fragment="head" />
-          </mm:node>
+          <c:choose>
+            <c:when test="${empty page}">
+              <jsp:invoke fragment="head" />
+            </c:when>
+            <c:otherwise>
+              <mm:node referid="page">
+                <jsp:invoke fragment="head" />
+              </mm:node>
+            </c:otherwise>
+          </c:choose>
         </oip:head>
 
         <body class="${styleClass}">
