@@ -1,0 +1,98 @@
+<jsp:root
+    version="2.0"
+    xmlns:c="http://java.sun.com/jsp/jstl/core"
+    xmlns:jsp="http://java.sun.com/JSP/Page"
+    xmlns:oip="urn:jsptagdir:/WEB-INF/tags/oip"
+    xmlns:mm="http://www.mmbase.org/mmbase-taglib-2.0">
+
+  <mm:import externid="block"     required="true" />
+  <mm:import externid="n"         required="true" />
+  <mm:import externid="cacheable"  />
+
+  <oip:html
+      cacheable="${cacheable}"
+      styleClass="user ${block}">
+
+    <jsp:attribute name="head">
+      <mm:component name="oip" block="${block}" render="head" />
+      <mm:component name="oip" block="user-mediaupload" render="head"/>
+      <c:if test="${block eq 'user-media'}">
+        <mm:component name="oip" block="user-mediapreview" render="head"/>
+        <mm:component name="oip" block="user-mediatranslations" render="head" />
+      </c:if>
+      <mm:link page="/api/atom/">
+        <mm:hasnode number="$n">
+          <mm:node number="$n">
+            <mm:param name="user"><mm:field name="username" /></mm:param>
+          </mm:node>
+        </mm:hasnode>
+        <link href="${_}" rel="alternate" type="application/atom+xml" title="Open Image Platform latest uploads" />
+      </mm:link>
+      <link type="text/css" href="${mm:link('/style/css/jquery.ui.tabs.css')}" rel="stylesheet" />
+      <script type="text/javascript" src="${mm:link('/style/js/jquery-ui-1.7.2.custom.min.js')}"><!-- help ie --></script>
+    </jsp:attribute>
+
+    <jsp:attribute name="body">
+      <div class="main-column">
+        <mm:component name="oip" block="${block}" />
+        
+        <c:if test="${block eq 'user' or block eq 'user-edit'}">
+          <mm:component name="oip" block="user-medialist" />
+        </c:if>
+      </div>
+      <div class="right-column">
+      
+        <c:if test="${block eq 'user-edit'}">
+          <div class="related">
+            <mm:component name="oip" block="user-picture" />
+          </div>
+        </c:if>
+
+        <c:if test="${block eq 'user-media'}">
+          <div id="usertabs">
+            <ul class="list-tabs">
+              <li><a href="#fragment-1"><span>Preview</span></a></li>
+              <li><a href="#fragment-2"><span>Translations</span></a></li>
+              <li><a href="#fragment-3"><span>Streams</span></a></li>
+            </ul>
+            <div class="related-grey" id="fragment-1">
+              <mm:component name="oip" block="user-mediapreview" />
+            </div>
+            <div class="related-grey" id="fragment-2">
+              <mm:component name="oip" block="user-mediatranslations" />
+            </div>
+            <div class="related-grey" id="fragment-3">
+              <mm:component name="oip" block="user-streams" />
+            </div>
+          </div>
+        </c:if>
+
+        <c:if test="${block eq 'user'}">
+          <mm:maywrite>
+            <div id="usertabs">
+              <ul class="list-tabs">
+                <li><a href="#fragment-1"><span>Upload</span></a></li>
+                <li><a href="#fragment-2"><span>Streams</span></a></li>
+              </ul>
+              <div class="related-grey" id="fragment-1">
+                <mm:component name="oip" block="user-mediaupload" />
+              </div>
+              <div class="related-grey" id="fragment-2">
+                <mm:component name="oip" block="user-streams" />
+              </div>
+            </div>
+          </mm:maywrite>
+        </c:if>
+
+        <c:if test="${block eq 'user' or block eq 'user-edit'}">
+          <div class="related-grey">
+            <mm:component name="oip" block="user-favorites" />
+          </div>
+        </c:if>
+
+      </div>
+    </jsp:attribute>
+
+
+  </oip:html>
+</jsp:root>

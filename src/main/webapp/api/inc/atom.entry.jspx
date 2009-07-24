@@ -1,0 +1,79 @@
+﻿<entry
+    xmlns:jsp="http://java.sun.com/JSP/Page"
+    xmlns:c="http://java.sun.com/jsp/jstl/core"
+    xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+    xmlns:mm="http://www.mmbase.org/mmbase-taglib-2.0"
+    xmlns:media="http://search.yahoo.com/mrss">
+  <jsp:output omit-xml-declaration="true" />
+  
+  <mm:link absolute="true">
+    <mm:frameworkparam name="component">oip</mm:frameworkparam>
+    <mm:frameworkparam name="block">mediafragment</mm:frameworkparam>
+    <mm:frameworkparam name="media">${_node}</mm:frameworkparam>
+
+    <title>
+      <mm:field name="title"><mm:isnotempty>${_}</mm:isnotempty><mm:isempty>no title</mm:isempty></mm:field>
+    </title>
+    <link href="${_}" />
+    <id><mm:url page="/" absolute="true" />mmbase/nr/<mm:nodeinfo type="type" />/${_node}</id>
+    <updated>
+      <mm:field name="lastmodified"><mm:time format="yyyy-MM-dd" time="${_}" />T<mm:time format="HH:mm:ss" time="${_}" />Z</mm:field>
+    </updated>
+    <published>
+      <mm:field name="online"><mm:time format="yyyy-MM-dd" time="${_}" />T<mm:time format="HH:mm:ss" time="${_}" />Z</mm:field>
+    </published> 
+    <mm:field name="intro">
+      <mm:isnotempty><summary type="text"><mm:write /></summary></mm:isnotempty>
+    </mm:field>
+    <mm:field name="body">
+      <mm:isnotempty><content type="html"><mm:write /></content></mm:isnotempty>
+    </mm:field>
+
+    <!-- thumbnail -->
+    <mm:relatednodescontainer type="images" role="related" searchdirs="destination">
+      <mm:maxnumber value="1" />
+      <mm:import id="hasimage" reset="true"><mm:size /></mm:import>
+      <mm:relatednodes>
+        <mm:image mode="url" width="81" height="60" crop="middle" absolute="true" id="img" write="false" />
+        <media:thumbnail url="${img}" />
+      </mm:relatednodes>
+    </mm:relatednodescontainer>
+      
+    <mm:field name="length">
+      <c:choose>
+        <c:when test="${_ gt -1}"><mm:import id="length"><mm:time inputformat="S" format="s" time="$_" /></mm:import></c:when>
+        <c:otherwise><mm:import id="length">0</mm:import></c:otherwise>
+      </c:choose>
+    </mm:field>
+    
+    <mm:listfunction name="filteredurls">
+      <c:if test="${_.available}">
+        <link type="${_.format.mimeType}" href="${_.URL}" length="${length}" rel="enclosure" />
+
+        <format xmlns="http://xmlns.transmission.cc/">   
+          <!-- <size>175255078</size>  -->
+          <duration>${length}</duration> 
+<!--          <video_codec>Theora</video_codec> 
+          <framerate>25</framerate> 
+          <video_bitrate>394.570050</video_bitrate> 
+          <width>320</width> 
+          <height>240</height> 
+          <pixel_aspect_ratio>1/1</pixel_aspect_ratio> 
+          <audio_codec>Vorbis</audio_codec> 
+          <samplerate>48000</samplerate> 
+          <channels>2</channels> 
+          <audio_bitrate>73.261261</audio_bitrate> -->
+        </format> 
+      </c:if>
+    </mm:listfunction>
+
+    <mm:relatednodescontainer type="licenses" role="related" searchdirs="destination">
+      <mm:relatednodes>
+        <mm:import id="license_url" reset="true"><mm:field name="url" /></mm:import>
+        <rights><mm:field name="name" /></rights>
+        <link rel="license" type="text/html" href="${license_url}" />
+      </mm:relatednodes>
+    </mm:relatednodescontainer>    
+
+  </mm:link>
+</entry>

@@ -1,0 +1,105 @@
+<mm:content
+    type="application/xml"
+    xmlns:c="http://java.sun.com/jsp/jstl/core"
+    xmlns:jsp="http://java.sun.com/JSP/Page"
+    xmlns:fmt="http://java.sun.com/jsp/jstl/fmt"
+    xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+    xmlns:mm="http://www.mmbase.org/mmbase-taglib-2.0"
+    >
+  <jsp:output omit-xml-declaration="true" />
+  <jsp:directive.page import="org.mmbase.util.*,java.util.concurrent.*" />
+  <mm:cloud method="delegate" authenticate="class" id="cloud">
+    <div
+        class="mm_c c_oip b_createuser ${requestScope.className} TODO"
+        id="${requestScope['org.mmbase.componentId']}">
+
+      <script type="text/javascript">
+        var validator = new MMBaseValidator();
+        validator.prefetchNodeManager('mmbaseusers');
+        validator.lang = "${requestScope['javax.servlet.jsp.jstl.fmt.locale.request']}";
+        validator.validateHook = function(valid) {
+        document.getElementById('submit_registration').disabled = this.invalidElements != 0;
+        }
+        validator.setup(document.getElementById("${requestScope['org.mmbase.componentId']}"));
+        Widgets.prototype.labelsToInputs(".c_oip.b_createuser label", {emptyisuntouched: true});
+      </script>
+      
+      <mm:import externid="submit_registration" />
+      <mm:import externid="confirm" />
+      <mm:import externid="eu.openimages.legaltext" from="request" id="legaltext" />
+      
+
+      <mm:form styleClass="${empty submit_registration ? 'notsubmitted' : 'submitted'}">
+
+        <mm:import id="form">
+          <mm:createnode id="newuser" type="mmbaseusers" commitonclose="false">
+            <fieldset>
+              <mm:fieldlist fields="username,password,confirmpassword,email">
+                <mm:fieldinfo type="forid">
+                  <label for="${_}"><mm:fieldinfo type="guiname" /></label>
+                </mm:fieldinfo>
+                <mm:fieldinfo type="input" />
+                <mm:fieldinfo type="errors" />
+              </mm:fieldlist>
+            </fieldset>
+            <fieldset class="confirm-registration">
+              <textarea rows="12" cols="42">${legaltext}</textarea>
+              <input type="checkbox" name="confirm" id="confirm" value="yes" /> 
+              <label for="confirm"><fmt:message key="register.confirm" /></label>
+              <c:if test="${!empty submit_registration and empty confirm}">
+                <div class="mm_check_error"><fmt:message key="register.confirm.error" /></div>
+              </c:if>
+            </fieldset>
+            <fieldset>
+              <mm:import id="register_msg" reset="true"><fmt:message key="register" /></mm:import>
+              <input id="submit_registration" type="submit" name="submit_registration" value="${register_msg}" class="submit" />
+            </fieldset>
+          </mm:createnode>
+        </mm:import>
+        
+        <mm:notpresent referid="submit_registration">
+          <mm:write referid="form" escape="none" />
+        </mm:notpresent>
+        
+        <mm:present referid="submit_registration">
+          
+          <c:if test="${confirm ne 'yes'}">
+            <c:set var="errortext"><fmt:message key="register.confirm.error" /></c:set>
+          </c:if>
+          <mm:valid inverse="true">
+            <c:set var="errortext"><fmt:message key="register.imcomplete" /> ${errortext}</c:set>
+          </mm:valid>
+          
+          <c:choose>
+            <c:when test="${empty errortext}">
+              <mm:valid>
+                <mm:commit />
+                <mm:node cloud="cloud" number="defaultusergroup" id="defaultusergroup" />
+                <mm:node number="${newuser}" cloud="cloud">
+                  <mm:setfield name="rank">cloudcontextsecurity_rank_site_user</mm:setfield>
+                  <mm:setfield name="groups">${defaultusergroup}</mm:setfield>
+                </mm:node>
+                <p class="msg">
+                  <fmt:message key="register.complete">
+                    <fmt:param value="${newuser.username}" />
+                    <fmt:param value="${newuser.email}" />
+                  </fmt:message>
+                </p>
+              </mm:valid>
+            </c:when>
+            <c:otherwise>
+              <p class="err">${errortext}</p>
+              <mm:write referid="form" escape="none" />
+              <mm:valid inverse="true">
+                <mm:cancel />
+              </mm:valid>
+            </c:otherwise>
+          </c:choose>
+          
+        </mm:present>
+        
+      </mm:form>
+    </div>
+
+  </mm:cloud>
+</mm:content>

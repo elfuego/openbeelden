@@ -1,0 +1,139 @@
+<mm:content
+    type="application/xml"
+    postprocessor="none"
+    expires="1800"
+    xmlns:c="http://java.sun.com/jsp/jstl/core"
+    xmlns:fmt="http://java.sun.com/jsp/jstl/fmt"
+    xmlns:jsp="http://java.sun.com/JSP/Page"
+    xmlns:mm="http://www.mmbase.org/mmbase-taglib-2.0">
+  <jsp:directive.page session="false" />
+  <mm:cloud>  
+    
+    <mm:import externid="user" />
+    <mm:import externid="search" />
+    <mm:import externid="related" />
+    
+    <c:choose>
+      <c:when test="${!empty related}">
+        <mm:hasnode number="$related">
+          <mm:import vartype="List" jspvar="entries" id="entries" />
+          <mm:node number="$related">
+            <mm:nodeinfo type="type" id="nodetype" write="false" />
+            <c:if test="${nodetype eq 'mediafragments'
+                  or nodetype eq 'audiofragments' 
+                  or nodetype eq 'videofragments'
+                  or nodetype eq 'imagefragments' 
+                  or nodetype eq 'images'
+                  }">
+              <mm:functioncontainer>
+                <mm:param name="type">mediafragments</mm:param>
+                <mm:param name="max">10</mm:param>
+                <mm:function set="relatedcontent" name="hits" referids="_node@node" id="hits" write="false">
+                  <c:forEach var="hit" items="${hits}">
+                    <mm:node number="${hit.value}" jspvar="n">
+                      <c:if test="${_node.show eq true}">
+                        <jsp:scriptlet>entries.add(n);</jsp:scriptlet>
+                      </c:if>
+                    </mm:node>
+                  </c:forEach>
+                </mm:function>
+              </mm:functioncontainer>
+            </c:if>
+          </mm:node>
+        </mm:hasnode>
+      </c:when>
+      <c:otherwise><!-- search, user, last -->
+        <mm:import id="index">media</mm:import>
+        <mm:import id="max">25</mm:import>
+        <mm:import id="offset">0</mm:import>
+        <mm:import id="extraconstraints">show:EQ:1
+          <c:if test="${!empty user}">user:EQ:${user}</c:if>
+        </mm:import>
+        <mm:import id="filter">
+        </mm:import>
+  
+        <c:choose>
+          <c:when test="${empty search}"><!-- not searched, display latest -->
+            <c:set var="searched" value="empty" />
+            <mm:import id="value" reset="true">${index}*</mm:import>
+            <mm:import id="fields" reset="true">indexId</mm:import>
+          </c:when>
+          <c:otherwise>
+            <mm:import id="value" reset="true">${search}</mm:import>
+          </c:otherwise>
+        </c:choose>
+
+        <mm:function
+            write="false"
+            id="total"
+            module="lucene"
+            name="searchsize"
+            referids="index,value,fields?,filter,extraconstraints" />
+            
+        <mm:nodelistfunction
+            module="lucene" name="search" id="entries"
+            referids="index,value,fields?,filter,offset,max,extraconstraints" />
+      
+      </c:otherwise>
+    </c:choose>
+    
+    <mm:import id="requesturl"><c:out value="${pageContext.request.requestURL}" /><c:if test="${!empty pageContext.request.queryString}">?<c:out value="${pageContext.request.queryString}" /></c:if></mm:import>
+    
+    <feed xmlns="http://www.w3.org/2005/Atom" xmlns:media="http://search.yahoo.com/mrss">
+      <title>The Open Images Platform</title>
+      <subtitle>
+        <c:choose>
+          <c:when test="${!empty search}">
+            ${total} searchresults for '${search}' on the Open Images Platform
+          </c:when>
+          <c:when test="${!empty user}">
+            Latest uploads of ${user} on the Open Images Platform
+          </c:when>
+          <c:when test="${!empty related}">
+            <mm:hasnode number="$related">
+              <mm:node number="$related">
+                <c:choose>
+                  <c:when test="${nodetype eq 'mediafragments'
+                        or nodetype eq 'audiofragments' 
+                        or nodetype eq 'videofragments'
+                        or nodetype eq 'imagefragments' 
+                        or nodetype eq 'images'
+                        }">
+                    Related items of <mm:field name="title" />
+                  </c:when>
+                  <c:otherwise>No such media item.</c:otherwise>
+                </c:choose>
+              </mm:node>
+            </mm:hasnode>
+            <mm:hasnode number="$related" inverse="true">
+              No such media item.
+            </mm:hasnode>
+          </c:when>
+          <c:otherwise>
+            Latest uploads on the Open Images Platform
+          </c:otherwise>
+        </c:choose>
+      </subtitle>
+      <link href="${requesturl}" rel="self" type="application/atom+xml" />
+      <mm:link absolute="true" page="/"><link href="${_}" /></mm:link>
+      <id><mm:url absolute="true" /></id>
+      <updated><mm:time format="yyyy-MM-dd" time="${_}" />T<mm:time format="HH:mm:ss" time="${_}" />Z</updated>
+      <author>
+        <name>Open Images Platform</name>
+        <uri><mm:url page="/" absolute="true" /></uri>
+        <email>info@openimages.eu</email>
+      </author>
+      <rights>Creative Commons Attribution 2.5</rights>
+      <generator uri="http://www.mmbase.org/" version="1.9.2">MMBase</generator>
+      <icon><mm:url absolute="true" page="/favicon.ico" /></icon>
+      <logo><mm:url absolute="true" page="/style/images/oip-logo-sm_en.png" /></logo>
+      
+      <mm:present referid="entries">
+        <mm:listnodes referid="entries" varStatus="status">
+          <jsp:include page="/api/inc/atom.entry.jspx" />
+        </mm:listnodes>
+      </mm:present>
+      
+    </feed>
+  </mm:cloud>
+</mm:content>

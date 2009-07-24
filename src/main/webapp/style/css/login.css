@@ -1,0 +1,72 @@
+/* ### ### ### ### loginbox ### ### ### ### ### ### */
+body.login
+{
+	font-family: Helvetica, sans-serif;
+	border: 0;
+	background-color: #efefef;
+	font-size: 0.9em;
+}
+
+#loginbox
+{
+	margin: 6em auto 2em auto;
+	width: 24em;
+}
+
+#loginbox div
+{
+	clear: both;
+	padding: 0.2em 0.8em 0.8em 0;
+}
+
+#loginbox div.first
+{
+	clear: both;
+    padding: 32px 0 0 8.4em;
+    height: 35px;
+	background-image: url(../images/oip-logo.png);
+	background-repeat: no-repeat;
+	background-position: 34px 10px;
+}
+
+#loginbox div.last
+{
+	clear: both;
+    padding: 0 0 0.8em 8.4em;
+}
+
+#loginbox div label
+{
+	float: left;
+	width: 8em;
+	text-align: right;
+	font-weight: bold;
+	margin-right: 0.5em;
+}
+
+#loginbox fieldset
+{
+	width: 320px;
+	border: 1px solid #c8cfd9;
+	background-color: #fff;
+	padding: 0;
+}
+
+#username, #password { width: 12em; }
+
+#loginbox h2, #loginbox h4, #loginbox p
+{
+	padding: 2px 0 0 0;
+	margin: 0;
+}
+
+div.msg
+{
+	font-family: Helvetica, sans-serif;
+	text-align: center;
+	border: 2px solid #002828;
+	background-color: #d6e44b;
+	margin: 0 auto 4px auto;
+	padding: 0.7em;
+}
+

@@ -1,0 +1,226 @@
+<jsp:root
+    version="2.0"
+    xmlns:c="http://java.sun.com/jsp/jstl/core"
+    xmlns:jsp="http://java.sun.com/JSP/Page"
+    xmlns:fmt="http://java.sun.com/jsp/jstl/fmt"
+    xmlns:oip="urn:jsptagdir:/WEB-INF/tags/oip"
+    xmlns:mm="http://www.mmbase.org/mmbase-taglib-2.0">
+  <mm:import externid="q" />
+  <oip:html cacheable="false" styleClass="media">
+    <jsp:attribute name="head">
+      <link type="text/css" href="${mm:link('/style/css/jquery.ui.tabs.css')}" rel="stylesheet" />
+      <script type="text/javascript" src="${mm:link('/style/js/jquery-ui-1.7.2.custom.min.js')}"><!-- help ie --></script>
+      <c:if test="${!empty q}">
+        <mm:link page="/api/atom/">
+          <mm:param name="search">${q}</mm:param>
+          <link href="${_}" rel="alternate" type="application/atom+xml" title="Open Image Platform search results for ${q}" />
+        </mm:link>
+      </c:if>
+    </jsp:attribute>
+    <jsp:attribute name="left"><oip:search advanced="true" /></jsp:attribute>
+    <jsp:attribute name="body">
+
+      <mm:import externid="user" />
+      <mm:import externid="source" />
+      <mm:import externid="uploaded" />
+      <mm:import externid="length" />
+      <mm:import externid="_language" />
+      <mm:import externid="license" />
+
+      <mm:import id="index">media</mm:import>
+      <mm:import externid="max">10</mm:import>
+      <mm:import externid="thumbsmax">15</mm:import>
+      <mm:import externid="offset">0</mm:import>
+
+      <div class="main-column">
+        <oip:h2><mm:field name="title" /></oip:h2>
+        <mm:nodefunction name="translation">
+          <mm:field name="description" escape="paragraph" />
+        </mm:nodefunction>
+
+        <c:choose>
+          <c:when test="${empty q}"><!-- not searched, display latest -->
+            <c:set var="searched" value="empty" />
+            <mm:import id="value" reset="true">${index}*</mm:import>
+            <mm:import id="fields" reset="true">indexId</mm:import>
+          </c:when>
+          <c:otherwise>
+            <mm:import id="value" reset="true">${q}</mm:import>
+          </c:otherwise>
+        </c:choose>
+
+        <c:if test="${!empty _language}"><c:set var="searched" value="advanced" /></c:if>
+        <c:if test="${!empty user}"><c:set var="searched" value="advanced" /></c:if>
+        <c:if test="${!empty source}"><c:set var="searched" value="advanced" /></c:if>
+        <c:if test="${!empty license}"><c:set var="searched" value="advanced" /></c:if>
+
+        <!-- filter the results -->
+        <mm:import id="extraconstraints">show:EQ:1</mm:import>
+        <mm:import id="video">${extraconstraints} otype:EQ:<mm:nodeinfo type="number" nodetype="videofragments" /></mm:import>
+        <mm:import id="images">${extraconstraints} otype:EQ:<mm:nodeinfo type="number" nodetype="imagefragments" /></mm:import>
+        <mm:import id="audio">${extraconstraints} otype:EQ:<mm:nodeinfo type="number" nodetype="audiofragments" /></mm:import>
+        <mm:import id="filter">
+          <c:if test="${!empty uploaded and uploaded eq 'day'}">created:LTE:<mm:time format="yyyyMMddHHmm" time="now - 24 hours" precision="minutes" />00</c:if>
+          <c:if test="${!empty uploaded and uploaded eq 'week'}">created:GTE:<mm:time format="yyyyMMddHHmm" time="now - 7 day"  precision="minutes" />00</c:if>
+          <c:if test="${!empty uploaded and uploaded eq 'month'}">created:GTE:<mm:time format="yyyyMMddHHmm" time="now - 30 day" precision="minutes" />00</c:if>
+          <c:if test="${!empty length and length eq 'short'}">length:LTE:120000 </c:if>
+          <c:if test="${!empty length and length eq 'average'}">length:GT:120000 length:LTE:240000 </c:if>
+          <c:if test="${!empty length and length eq 'long'}">length:GT:240000 </c:if>
+          <c:if test="${!empty user}">user:EQ:${user} </c:if>
+          <c:if test="${!empty source}">source:EQ:${source} </c:if>
+          <c:if test="${!empty _language}">language:EQ:${_language} </c:if>
+          <c:if test="${!empty license}">licensenr:EQ:${license} </c:if>
+        </mm:import>
+
+        <mm:function
+            write="false"
+            id="total"
+            module="lucene"
+            name="searchsize"
+            referids="index,value,fields?,filter,extraconstraints" />
+        <mm:function
+            write="false"
+            id="total_video"
+            module="lucene"
+            name="searchsize"
+            referids="index,value,fields?,filter,video@extraconstraints" />
+        <mm:function
+            write="false"
+            id="total_audio"
+            module="lucene"
+            name="searchsize"
+            referids="index,value,fields?,filter,audio@extraconstraints" />
+        <mm:function
+            write="false"
+            id="total_images"
+            module="lucene"
+            name="searchsize"
+            referids="index,value,fields?,filter,images@extraconstraints" />
+
+        <!-- sorting -->
+        <mm:import externid="sf"><c:if test="${empty q}">created</c:if></mm:import>
+        <mm:import externid="c">down</mm:import>
+        <mm:import externid="s">down</mm:import>
+        <mm:import externid="t">down</mm:import>
+        <mm:import externid="u">down</mm:import>
+        <c:if test="${!empty sf}">
+          <mm:import id="sortfields">
+            <c:choose>
+              <c:when test="${sf eq 'sorttitle'}">${t eq 'down' ? 'REVERSE:' : ''}${sf}</c:when>
+              <c:when test="${sf eq 'source'}">${s eq 'down' ? 'REVERSE:' : ''}${sf}</c:when>
+              <c:when test="${sf eq 'user'}">${u eq 'down' ? 'REVERSE:' : ''}${sf}</c:when>
+              <c:otherwise>${c eq 'down' ? 'REVERSE:' : ''}${sf}</c:otherwise>
+            </c:choose>
+          </mm:import>
+        </c:if>
+        <mm:nodelistfunction
+            module="lucene" name="search" id="results"
+            referids="index,value,offset,thumbsmax@max,fields?,sortfields?,filter,extraconstraints" />
+        <mm:nodelistfunction
+            module="lucene" name="search" id="results_video"
+            referids="index,value,offset,max,fields?,sortfields?,filter,video@extraconstraints" />
+        <mm:nodelistfunction
+            module="lucene" name="search" id="results_audio"
+            referids="index,value,offset,max,fields?,sortfields?,filter,audio@extraconstraints" />
+        <mm:nodelistfunction
+            module="lucene" name="search" id="results_images"
+            referids="index,value,offset,max,fields?,sortfields?,filter,images@extraconstraints" />
+
+        <p>
+          <c:if test="${!empty q}">Searched  with <strong>${value}</strong>:</c:if>
+          ${total} found.
+        </p>
+
+        <div id="tabs">
+          <ul class="list-tabs">
+            <li><a href="#t_video"><span>Video (${total_video})</span></a></li>
+            <li><a href="#t_images"><span>Images (${total_images})</span></a></li>
+            <li><a href="#t_audio"><span>Audio (${total_audio})</span></a></li>
+            <li class="hidden"><a href="#t_thumbs"><span>Thumbs (${total})</span></a></li>
+          </ul>
+
+          <mm:url absolute="true" referids="q" id="baseurl" write="false" />
+          <div id="t_video">
+            <oip:medialist list="${results_video}" />
+            <p class="pager">
+              <oip:pager total="${total_video}" offset="${offset}" max="${max}" 
+                baseurl="${baseurl}" fragment="#video" />
+            </p>
+          </div>
+
+          <div id="t_images">
+            <oip:medialist list="${results_images}" />
+            <p class="pager">
+              <oip:pager total="${total_images}" offset="${offset}" max="${max}" 
+                baseurl="${baseurl}" fragment="#images" />
+            </p>
+          </div>
+          
+          <div id="t_audio">
+            <oip:medialist list="${results_audio}" />
+            <p class="pager">
+              <oip:pager total="${total_audio}" offset="${offset}" max="${max}" 
+                baseurl="${baseurl}" fragment="#audio" />
+            </p>
+          </div>
+
+          <div id="t_thumbs">
+            <oip:medialist list="${results}" type="thumbs" />
+            <p class="pager">
+              <oip:pager total="${total}" offset="${offset}" max="${thumbsmax}" 
+                baseurl="${baseurl}" fragment="#thumbs" />
+            </p>
+          </div>
+          
+        </div><!-- /#tabs -->
+      </div><!-- /.main-column -->
+
+      <div class="right-column">
+        <div class="related-grey">
+          <oip:h3><fmt:message key="media.sortby" /></oip:h3>
+          <ul class="sortby">
+            <li>
+              <mm:link referid="baseurl">
+                <a class="${(empty sf and !empty q) ? 'down' : ''}" href="${_}">Relevance</a>
+              </mm:link>
+            </li>
+            <li>
+              <mm:link referid="baseurl">
+                <mm:param name="sf">sorttitle</mm:param>
+                <mm:param name="t">${t eq 'up' ? 'down' : 'up'}</mm:param>
+                <a class="${sf eq 'sorttitle' ? t : ''}" href="${_}">Title</a>
+              </mm:link>
+            </li>
+            <li>
+              <mm:link referid="baseurl">
+                <mm:param name="sf">created</mm:param>
+                <mm:param name="c">${c eq 'up' ? 'down' : 'up'}</mm:param>
+                <a class="${sf eq 'created' ? c : ''}" href="${_}">Date uploaded</a>
+              </mm:link>
+            </li>
+            <li>
+              <mm:link referid="baseurl">
+                <mm:param name="sf">user</mm:param>
+                <mm:param name="u">${u eq 'up' ? 'down' : 'up'}</mm:param>
+                <a class="${sf eq 'user' ? u : ''}" href="${_}">User</a>
+              </mm:link>
+            </li>
+            <li>
+              <mm:link referid="baseurl">
+                <mm:param name="sf">source</mm:param>
+                <mm:param name="s">${s eq 'up' ? 'down' : 'up'}</mm:param>
+                <a class="${sf eq 'source' ? s : ''}" href="${_}">Source</a>
+              </mm:link>
+            </li>
+            <li class="thumbsonly">
+              <mm:link>
+                <a href="${_}#t_thumbs">Show me thumbs only</a>
+              </mm:link>
+            </li>
+          </ul>
+        </div>
+      </div>
+
+    </jsp:attribute>
+  </oip:html>
+</jsp:root>

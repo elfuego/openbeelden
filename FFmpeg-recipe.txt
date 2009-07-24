@@ -1,0 +1,85 @@
+﻿Recipe for building FFmpeg
+--------------------------
+I build FFmpeg with the goal to be able to create OGG audio from mp3 files, OGV video files from mpeg and H264 video from mpeg. But of course it can do a lot more. I did this on Mac OS X, but I think it will apply to other Unix flavors as well. A lot of systems, like Ubuntu already have FFmpeg installed. I found a lot of information about doing this in:
+
+http://www.ffmpeg.org/
+http://juliensimon.blogspot.com/2008/12/howto-compiling-ffmpeg-x264-mp3-xvid.html
+http://howto-pages.org/ffmpeg/
+
+You can get information about the abilities of your version by typing 'ffmpeg -version' or 'ffmpeg -formats' to get a complete list. The result of my current build for example:
+  
+  ffmpeg -version
+  FFmpeg version SVN-r19314, Copyright (c) 2000-2009 Fabrice Bellard, et al.
+    configuration: --prefix=/usr/local --enable-gpl --enable-nonfree --enable-shared --enable-postproc --enable-avfilter --enable-avfilter-lavf --enable-pthreads --enable-x11grab --enable-bzlib --enable-libmp3lame --enable-libtheora --enable-libvorbis --enable-libx264 --enable-zlib --enable-libfaac --enable-libfaad
+    libavutil     50. 3. 0 / 50. 3. 0
+    libavcodec    52.32. 0 / 52.32. 0
+    libavformat   52.36. 0 / 52.36. 0
+    libavdevice   52. 2. 0 / 52. 2. 0
+    libavfilter    0. 5. 0 /  0. 5. 0
+    libswscale     0. 7. 1 /  0. 7. 1
+    libpostproc   51. 2. 0 / 51. 2. 0
+    built on Jul  1 2009 15:02:58, gcc: 4.0.1 (Apple Inc. build 5493)
+ 
+Notice that this command reports on the second line the exact configuration with which FFmpeg was build. This is what we aim at. 
+ 
+   ./configure --prefix=/usr/local --enable-gpl --enable-nonfree --enable-shared --enable-postproc --enable-avfilter --enable-avfilter-lavf --enable-pthreads --enable-x11grab --enable-bzlib --enable-libmp3lame --enable-libtheora --enable-libvorbis --enable-libx264 --enable-zlib --enable-libfaac --enable-libfaad
+
+When your run that while missing one of the libraries you specifiy you get an error, something like:
+
+  FAAD test failed.
+  If you think configure made a mistake, make sure etc.
+
+When you have them all you can do the following commands tho install 
+
+   make
+   sudo make install
+   
+I download and installed several sources. Notice that several of them are non-free. You can query FFmpeg to check the status of yours.
+
+  ffmpeg -L
+  FFmpeg version SVN-r19314, Copyright (c) 2000-2009 Fabrice Bellard, et al.
+    configuration: --prefix=/usr/local --enable-gpl --enable-nonfree --enable-shared --enable-postproc --enable-avfilter --enable-avfilter-lavf --enable-pthreads --enable-x11grab --enable-bzlib --enable-libmp3lame --enable-libtheora --enable-libvorbis --enable-libx264 --enable-zlib --enable-libfaac --enable-libfaad
+    libavutil     50. 3. 0 / 50. 3. 0
+    libavcodec    52.32. 0 / 52.32. 0
+    libavformat   52.36. 0 / 52.36. 0
+    libavdevice   52. 2. 0 / 52. 2. 0
+    libavfilter    0. 5. 0 /  0. 5. 0
+    libswscale     0. 7. 1 /  0. 7. 1
+    libpostproc   51. 2. 0 / 51. 2. 0
+    built on Jul  1 2009 15:02:58, gcc: 4.0.1 (Apple Inc. build 5493)
+  This version of FFmpeg has nonfree parts compiled in.
+  Therefore it is not legally redistributable.
+
+
+Download libfaac en libfaad, you can find these via http://www.audiocoding.com/downloads.html
+
+Download libx24, the daily tarball at http://www.videolan.org/developers/x264.html
+
+Download libogg, libtheora, libvorbis from
+http://www.xiph.org/downloads/
+
+Download Lame http://lame.sourceforge.net/download.php
+
+I installed libx24 with:
+  
+  ./configure --prefix=/usr/local --enable-shared --disable-asm
+  make 
+  sudo make install
+
+And I installed each of the others with the following commands. Move to each of their directories and type:
+
+  ./configure
+  make
+  sudo make install
+
+
+Configure FFmpeg to build it.
+
+  ./configure --prefix=/usr/local --enable-gpl --enable-nonfree --enable-shared --enable-postproc --enable-avfilter --enable-avfilter-lavf --enable-pthreads --enable-x11grab --enable-bzlib --enable-libmp3lame --enable-libtheora --enable-libvorbis --enable-libx264 --enable-zlib --enable-libfaac --enable-libfaad
+
+And then:
+  
+  make
+  sudo make install
+
+--André

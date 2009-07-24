@@ -1,0 +1,128 @@
+<jsp:root
+    version="2.0"
+    xmlns:c="http://java.sun.com/jsp/jstl/core"
+    xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+    xmlns:fmt="http://java.sun.com/jsp/jstl/fmt"
+    xmlns:jsp="http://java.sun.com/JSP/Page"
+    xmlns:mm="http://www.mmbase.org/mmbase-taglib-2.0"
+    >
+  <jsp:directive.attribute name="action"
+                           description="Link for form" />
+  <jsp:directive.attribute name="create"
+                           description="Nodetype to create" />
+  <jsp:directive.attribute name="source"
+                           description="Node a new created node should be related to" />
+  <jsp:directive.attribute name="role"
+                           description="Kind of relation between source node and newly created node">related</jsp:directive.attribute>
+  <jsp:directive.attribute name="fields"
+                           description="Fields to edit, when empty type='edit' will be used" />
+
+  <jsp:directive.attribute name="commit" fragment="true" />
+
+  <mm:import externid="submit" />
+  <mm:cloud method="asis">
+    
+    <mm:maywrite>
+      <mm:form page="${action}">
+        <c:choose>
+          
+          <!-- edit -->
+          <c:when test="${empty create}">
+            <mm:import id="buffer">
+              <mm:node number="${_node}" id="node">
+                <fieldset>
+                  <mm:fieldlist type="${empty fields ? 'edit' : ''}" fields="${fields}">
+                    <mm:fieldinfo type="forid">
+                      <label for="${_}"><mm:fieldinfo type="guiname" /></label>
+                    </mm:fieldinfo>
+                    <mm:fieldinfo type="input" />
+                    <mm:fieldinfo type="errors" />
+                  </mm:fieldlist>
+                </fieldset>
+              </mm:node>
+            </mm:import>
+          </c:when>
+          
+          <!-- create -->
+          <c:otherwise>
+            <mm:import id="buffer">
+              <mm:createnode id="node" type="${create}" commitonclose="false">
+                <fieldset>
+                  <mm:fieldlist type="${empty fields ? 'edit' : ''}" fields="${fields}">
+                    <mm:fieldinfo type="forid">
+                      <label for="${_}"><mm:fieldinfo type="guiname" /></label>
+                    </mm:fieldinfo>
+                    <mm:fieldinfo type="input" />
+                    <mm:fieldinfo type="errors" />
+                  </mm:fieldlist>
+                </fieldset>
+              </mm:createnode>
+            </mm:import>
+          </c:otherwise>
+          
+        </c:choose> 
+       
+       <mm:notpresent referid="submit">
+         <mm:write referid="buffer" escape="none" />
+         <mm:cancel />
+       </mm:notpresent>
+        
+        <mm:present referid="submit">
+          <!-- not valid -->
+          <mm:valid inverse="true">
+            <p class="err">The form contains an error.</p>
+            <mm:write referid="buffer" escape="none" />
+          </mm:valid>
+          <!-- valid -->
+          <mm:valid>
+            <c:if test="${! empty source}">
+              <mm:node referid="node"     id="this_node" />
+              <mm:node number="${source}" id="source" />
+              <c:choose>
+                <c:when test="${role eq posrel}">
+                  <mm:createrelation source="source" destination="this_node" role="posrel">
+                    <mm:setfield name="pos">1</mm:setfield>
+                  </mm:createrelation>
+                </c:when>
+                <c:otherwise>
+                  <mm:createrelation source="source" destination="this_node" role="$role" />
+                </c:otherwise>
+              </c:choose>
+            </c:if>
+            <mm:commit />
+            <p class="msg">Your changes are saved.</p>
+            <!--
+                Repeating the form, and not the buffer, just because of images
+                (this icache will be deleted by now).
+                TODO: This should be fixed.
+                There would be more issues with that (invalid fields should e.g. not required the blob to be reuploaded)
+            -->
+            <mm:node referid="node">
+              <fieldset>
+                <mm:fieldlist type="${empty fields ? 'edit' : ''}" fields="${fields}">
+                  <mm:fieldinfo type="forid">
+                    <label for="${_}"><mm:fieldinfo type="guiname" /></label>
+                  </mm:fieldinfo>
+                  <mm:fieldinfo type="input" />
+                  <mm:fieldinfo type="errors" />
+                </mm:fieldlist>
+              </fieldset>
+            </mm:node>
+          </mm:valid>
+          <!-- not valid -->
+          <mm:valid inverse="true">
+            <mm:cancel />
+          </mm:valid>
+        </mm:present>
+
+        <fieldset>
+          <input name="submit" type="submit" value="Save" id="submit" class="submit" />
+        </fieldset>
+        
+      </mm:form>
+    </mm:maywrite>
+    <mm:maywrite inverse="true">
+      <p class="err"><mm:cloudinfo type="user" /> <fmt:message key="user.disallowed" /></p>
+    </mm:maywrite>
+  </mm:cloud>
+</jsp:root>

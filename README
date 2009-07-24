@@ -1,0 +1,6 @@
+Open Images Platform
+
+This is the Open Images Platform Web Application, you can build it with maven2. Standing in this directory:
+
+$ mvn clean install
+

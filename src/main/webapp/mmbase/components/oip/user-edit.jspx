@@ -1,0 +1,40 @@
+<mm:content
+    type="application/xml"
+    xmlns:c="http://java.sun.com/jsp/jstl/core"
+    xmlns:jsp="http://java.sun.com/JSP/Page"
+    xmlns:fmt="http://java.sun.com/jsp/jstl/fmt"
+    xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+    xmlns:mm="http://www.mmbase.org/mmbase-taglib-2.0"
+    xmlns:oip="urn:jsptagdir:/WEB-INF/tags/oip"
+    >
+  <jsp:output omit-xml-declaration="true" />
+    <mm:cloud method="asis">
+      <div
+          class="mm_c c_oip b_user-profile ${requestScope.className}"
+          id="${requestScope['org.mmbase.componentId']}">
+
+        <script type="text/javascript">
+          var validator = new MMBaseValidator();
+          validator.prefetchNodeManager('mmbaseusers');
+          validator.lang = "${requestScope['javax.servlet.jsp.jstl.fmt.locale.request']}";
+          validator.validateHook = function(valid) {
+          document.getElementById('submit').disabled = this.invalidElements != 0;
+          }
+          validator.setup(document.getElementById("${requestScope['org.mmbase.componentId']}"));
+        </script>
+
+        <mm:import externid="component">oip</mm:import>
+        <mm:import externid="block">user-edit</mm:import>
+        <mm:import externid="n" required="true" />
+
+        <oip:h2 block="user-edit" />
+        
+        <mm:node referid="n">
+          <oip:form fields="firstname,suffix,lastname,description,email,password,confirmpassword,wantmail" />
+        </mm:node>
+      </div>
+      
+      <mm:component name="oip" block="user-medialist" />
+      
+    </mm:cloud>
+</mm:content>

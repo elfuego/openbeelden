@@ -1,0 +1,50 @@
+<mm:content
+    type="application/xml"
+    xmlns:c="http://java.sun.com/jsp/jstl/core"
+    xmlns:jsp="http://java.sun.com/JSP/Page"
+    xmlns:fmt="http://java.sun.com/jsp/jstl/fmt"
+    xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+    xmlns:mm="http://www.mmbase.org/mmbase-taglib-2.0"
+    xmlns:oip="urn:jsptagdir:/WEB-INF/tags/oip"
+    >
+  <jsp:output omit-xml-declaration="true" />
+    <div
+        class="mm_c c_oip b_user-favorites ${requestScope.className}"
+        id="${requestScope['org.mmbase.componentId']}">
+
+      <mm:maywrite>
+        <oip:h2><fmt:message key="users.my_favorites" /></oip:h2>
+
+        <oip:favorite messages="true" />
+
+        <mm:import externid="n" required="true" />
+        <mm:node referid="n">
+          <mm:relatednodescontainer type="mediafragments" role="ratingrel" searchdirs="destination">
+            <mm:relatednodes varStatus="status" id="favorite">
+              <mm:link>
+                <mm:frameworkparam name="component">oip</mm:frameworkparam>
+                <mm:frameworkparam name="block">mediafragment</mm:frameworkparam>
+                <mm:frameworkparam name="media">${_node}</mm:frameworkparam>
+
+                <c:choose>
+                  <c:when test="${(status.index + 2) % 3 == 0}"><c:set var="gridclass" value="grid first" /></c:when>
+                  <c:otherwise><c:set var="gridclass" value="grid" /></c:otherwise>
+                </c:choose>
+
+                <dl class="${gridclass}">
+                  <dt>
+                    <a href="${_}"><oip:thumb /></a>
+                    <mm:link referids="favorite">
+                      <mm:param name="remove">please</mm:param>
+                      <a class="remove" href="${_}">remove</a>
+                    </mm:link>
+                  </dt>
+                </dl>
+              </mm:link>
+            </mm:relatednodes>
+          </mm:relatednodescontainer>
+        </mm:node>
+
+      </mm:maywrite>
+    </div>
+</mm:content>
