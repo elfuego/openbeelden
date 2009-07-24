@@ -71,7 +71,7 @@
         <mm:node number="${newsource}">
           <p class="msg">Submitted ${_node} URL: ${_node.url} FS: ${_node.filesize}</p>
           
-          <mm:url id="editlink" absolute="true">
+          <mm:url id="editlink" absolute="true" write="false">
             <mm:frameworkparam name="component">oip</mm:frameworkparam>
             <mm:frameworkparam name="block">user-media</mm:frameworkparam>
             <mm:frameworkparam name="user"><mm:cloudinfo type="usernode" /></mm:frameworkparam>
