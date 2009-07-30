@@ -100,6 +100,7 @@ public class AssetImporter implements Runnable, LoggerAccepter {
 
         }
 
+
         @Override
         public void endElement(String namespaceURI, String localName, String qName)  {
             if (localName.equals("dc")) {
@@ -111,10 +112,27 @@ public class AssetImporter implements Runnable, LoggerAccepter {
                     FilenameFilter filter = new FilenameFilter() {
                             public boolean accept(File dir, String name) {
                                 File f = new File(dir, name);
-                                return ! file.equals(f) && ResourceLoader.getName(name).equals(identifier);
+                                String fileName = ResourceLoader.getName(name);
+                                if (file.equals(f) //  the XML itself
+                                    || fileName.length() < identifier.length()) return false;
+
+                                if (identifier.equals(fileName)) return true;
+
+                                String postfix = fileName.substring(identifier.length());
+                                String prefix  = fileName.substring(0, identifier.length());
+                                return identifier.equals(prefix) && Pattern.compile("-[0-9]+").matcher(postfix).matches();
                             }
                         };
                     Node mediaFragment = null;
+                    for (Node mf : SearchUtil.findNodeList(cloud, "mediafragments", "source", file.getName())) {
+                        if (mediaFragment == null) {
+                            mediaFragment = mf;
+                        } else {
+                            log.warn("Found a duplicate mediafragement with source " + file.getName() + ". Deleting " + mf.getNumber());
+                            mf.delete(true);
+                        }
+                    }
+                    
                     for (File subFile : directory.listFiles(filter)) {
                         log.info("Importing  " + subFile.getName());
 
@@ -183,27 +201,37 @@ public class AssetImporter implements Runnable, LoggerAccepter {
                         // The described resource may be derived from the related resource in whole or in part. Recommended best practice is to identify the related resource by means of a string conforming to a formal identification system.
                         mediaFragment.setStringValue("source", file.getName());
 
-                        String title = fields.get("title");
-                        Pattern pattern = Pattern.compile("(.*?):\\s*(Weeknummer.*)");
-                        Matcher matcher = pattern.matcher(title);
-                        if (matcher.matches()) {
-                            title = matcher.group(1).trim();
-                            mediaFragment.setStringValue("subtitle", matcher.group(2).trim());
-                        } else {
-                            title = title.trim();
-                        }
-                        title = title.charAt(0) + title.substring(1).toLowerCase();
-                        mediaFragment.setStringValue("title", title);
-
-                        String text = fields.get("description");
-                        String sentence = "Bioscoopjournaals waarin Nederlandse onderwerpen van een bepaalde week worden gepresenteerd.";
-                        String pattern2 = ".*" + sentence + ".*";
-                        if (text.matches(pattern2)) {
-                            text = text.replaceAll(sentence, "");
-                            mediaFragment.setStringValue("intro", sentence);
+                        {
+                            String title = fields.get("title");
+                            Pattern pattern = Pattern.compile("(.*?):\\s*(Weeknummer.*)"); // Horrible hack
+                            Matcher matcher = pattern.matcher(title);
+                            if (matcher.matches()) {
+                                title = matcher.group(1).trim();
+                                mediaFragment.setStringValue("subtitle", matcher.group(2).trim());
+                            } else {
+                                title = title.trim();
+                            }
+                            title = title.charAt(0) + title.substring(1).toLowerCase(); // Another horrible hack 
+                            mediaFragment.setStringValue("title", title);
                         }
 
-                        mediaFragment.setStringValue("body", text);
+                        {
+                            String text = fields.get("description");
+                            // Yet anoter horrible hack
+                            final String sentence = "Bioscoopjournaals waarin Nederlandse onderwerpen van een bepaalde week worden gepresenteerd.";
+                            String pattern2 = "(?ms)" + sentence + ".*";
+                            if (text.matches(pattern2)) {
+                                log.info("" + text + " does match " + pattern2);
+                                text = text.replaceAll(sentence, "");
+                                mediaFragment.setStringValue("intro", sentence);
+                            } else {
+                                log.info("'" + text + "' does not match " + pattern2);
+                                mediaFragment.setStringValue("intro", "");
+                            }
+                            
+                            mediaFragment.setStringValue("body", text);
+                        }
+
                         mediaFragment.setStringValue("language", "nl");
 
                         {
