@@ -5,4 +5,9 @@
 		<description>Typedefs of this type can be created by site users</description>
 	</node>
 
+	<node number="1003" owner="security">
+		<name>beeldengeluid</name>
+		<description></description>
+	</node>
+
 </mmbasecontexts>

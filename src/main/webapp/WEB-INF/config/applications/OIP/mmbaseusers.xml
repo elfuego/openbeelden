@@ -18,4 +18,15 @@
 		<email>andre@toly.nl</email>
 	</node>
 
+	<node number="1500" owner="179">
+		<validfrom>1244325600</validfrom>
+		<validto>4399999200</validto>
+		<wantmail>true</wantmail>
+		<defaultcontext></defaultcontext>
+		<username>beeldengeluid</username>
+		<password>e630ca6c39b6b6faf56b64fc3527124c</password>
+		<status>1</status>
+		<email>info@beeldengeluid.nl</email>
+	</node>
+
 </mmbaseusers>

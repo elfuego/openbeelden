@@ -31,7 +31,7 @@ public class AfterDeployment implements Runnable {
         Cloud cloud = ContextProvider.getDefaultCloudContext().getCloud("mmbase", "class", null);
         CloudThreadLocal.bind(cloud);
         log.info("Running " + this + " with " + cloud);
-        Node adminNode = SearchUtil.findNode(cloud, "mmbaseusers", "username", "admin");
+        Node adminNode    = SearchUtil.findNode(cloud, "mmbaseusers", "username", "admin");
         Node adminContext = SearchUtil.findNode(cloud, "mmbasecontexts", "name", "admin");
 
         log.info("Changing default context and password of admin user");
@@ -41,10 +41,10 @@ public class AfterDeployment implements Runnable {
 
 
         log.info("Revoking some rights of 'Users' on the 'default' context.");
-        Node defaultContext = SearchUtil.findNode(cloud, "mmbasecontexts", "name", "default");
-        Node systemContext = SearchUtil.findNode(cloud, "mmbasecontexts", "name",  "system");
+        Node defaultContext   = SearchUtil.findNode(cloud, "mmbasecontexts", "name", "default");
+        Node systemContext    = SearchUtil.findNode(cloud, "mmbasecontexts", "name",  "system");
         Node siteusersContext = SearchUtil.findNode(cloud, "mmbasecontexts", "name",  "siteusers");
-        Node usersGroup     = SearchUtil.findNode(cloud, "mmbasegroups",   "name", "Users");
+        Node usersGroup       = SearchUtil.findNode(cloud, "mmbasegroups",   "name", "Users");
 
         ContextBuilderFunctions.revoke(defaultContext,  usersGroup, Operation.WRITE,  cloud.getUser());
         ContextBuilderFunctions.revoke(defaultContext,  usersGroup, Operation.DELETE, cloud.getUser());
@@ -55,6 +55,12 @@ public class AfterDeployment implements Runnable {
         for (String nm : SITEUSER_OBJECTS) {
             cloud.getNodeManager(nm).setContext("siteusers");
         }
+
+
+        Node begNode    = SearchUtil.findNode(cloud, "mmbaseusers", "username", "beeldengeluid");
+        Node begContext = SearchUtil.findNode(cloud, "mmbasecontexts", "name", "beeldengeluid");
+        
+        
         CloudThreadLocal.unbind();
 
     }
