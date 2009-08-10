@@ -29,7 +29,7 @@
     <loganalyzer name="org.mmbase.streams.transcoders.FFMpegAnalyzer" />
   </recognizer>
 
-  <!-- % ffmpeg -i video.mpg -f mpeg -vcodec mpeg2video -r 25 b 1024k -acodec libmp3lame -ab 128k -ac 2 video.flv -->
+  <!-- % ffmpeg -i video.mpg -f mpeg -vcodec mpeg2video -r 25 -b 1024k -acodec libmp3lame -ab 128k -ac 2 video.flv -->
   <transcoder mimetype="video/*" id="v1">
     <class name="org.mmbase.streams.transcoders.FFMpegTranscoder">
       <param name="format">mpeg</param>
