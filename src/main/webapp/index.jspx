@@ -20,7 +20,7 @@
 
       <mm:escaper id="wrapper" type="substring">
         <mm:param name="from" value="0" />
-        <mm:param name="to" value="36" />
+        <mm:param name="to" value="32" />
         <mm:param name="ellipsis" value="..." />
       </mm:escaper>
 
