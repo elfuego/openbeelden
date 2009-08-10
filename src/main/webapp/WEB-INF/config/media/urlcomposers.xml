@@ -7,21 +7,23 @@
   <urlcomposer mimetype="image/*"
                format="*"
                protocol="http" class="org.mmbase.streams.urlcomposers.ImagesURLComposer">
-    <param name="template">s(100)</param>
+    <param name="template">s(81)+part(0,0,81,60)</param>
     <param name="description">thumbnail</param>
   </urlcomposer>
 
+<!-- 
   <urlcomposer mimetype="image/*"
                format="*"
                protocol="http" class="org.mmbase.streams.urlcomposers.ImagesURLComposer">
     <param name="template">colorspace(Gray)</param>
     <param name="description">black/white</param>
   </urlcomposer>
+ -->
 
   <urlcomposer mimetype="image/*"
                format="*"
                protocol="http" class="org.mmbase.streams.urlcomposers.ImagesURLComposer">
-    <param name="template">s(320x240)</param>
+    <param name="template">s(320)+part(0,0,320,240)</param>
     <param name="description">preview</param>
   </urlcomposer>
 
