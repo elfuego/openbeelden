@@ -57,7 +57,7 @@ function Player() {
 }
 
 Player.prototype._init = function(id, url, config) {
-    this.player = $('#' + id + ' video')[0];        // the first video tag it finds
+    this.player = $('#' + id + ' video:first');     // the first video tag it finds
     this.url = url;
     /* if (this.urls.length == 0) this.urls[0] = $(this.player).attr('src'); */
     this.poster = $(this.player).attr('poster');
