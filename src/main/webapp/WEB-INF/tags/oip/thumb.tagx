@@ -40,10 +40,10 @@
         </c:when>
         <c:when test="${nodetype eq 'imagefragments'}">
           <mm:relatednodes type="imagesources" max="1">
-            <mm:import id="found" />
-            <mm:image template="s(81x60&gt;)+modulate(150,150)+colorspace(Gray)" mode="img" />
+            <mm:image mode="url" width="81" height="60" crop="end" id="img" write="false" />
+            <img src="${img}" alt="${alt}" width="81" height="60" />
           </mm:relatednodes>
-          <mm:notpresent referid="found">
+          <mm:notpresent referid="img">
             <img src="${mm:link('/style/images/thumb_image.png')}" alt="${empty alt ? 'image' : alt}" width="81" height="60" />
           </mm:notpresent>
         </c:when>
