@@ -42,8 +42,8 @@ public class AfterDeployment implements Runnable {
 
         log.info("Revoking some rights of 'Users' on the 'default' context.");
         Node defaultContext   = SearchUtil.findNode(cloud, "mmbasecontexts", "name", "default");
-        Node systemContext    = SearchUtil.findNode(cloud, "mmbasecontexts", "name",  "system");
-        Node siteusersContext = SearchUtil.findNode(cloud, "mmbasecontexts", "name",  "siteusers");
+        Node systemContext    = SearchUtil.findNode(cloud, "mmbasecontexts", "name", "system");
+        Node siteusersContext = SearchUtil.findNode(cloud, "mmbasecontexts", "name", "siteusers");
         Node usersGroup       = SearchUtil.findNode(cloud, "mmbasegroups",   "name", "Users");
 
         ContextBuilderFunctions.revoke(defaultContext,  usersGroup, Operation.WRITE,  cloud.getUser());
