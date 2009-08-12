@@ -8,11 +8,11 @@
       When using jetty:run use an hsql database in the directory 'data'.
   -->
 
-	<New  class="org.mortbay.jetty.plus.naming.EnvEntry">
+  <New  class="org.mortbay.jetty.plus.naming.EnvEntry">
     <Arg type="java.lang.String">mmbase/mmbaseroot/database</Arg>
     <Arg type="java.lang.String">hsqldb_csv</Arg>
     <Arg type="boolean">true</Arg>
-	</New>
+  </New>
 
   <New class="org.mortbay.jetty.plus.naming.Resource">
     <Arg>jdbc/MMBase</Arg>
@@ -30,11 +30,24 @@
    <!--
        Put all mmbase date files there too.
    -->
-	<New  class="org.mortbay.jetty.plus.naming.EnvEntry">
+  <New  class="org.mortbay.jetty.plus.naming.EnvEntry">
     <Arg type="java.lang.String">mmbase/mmbaseroot/datadir</Arg>
     <Arg type="java.lang.String">data</Arg>
     <Arg type="boolean">true</Arg>
-	</New>
+  </New>
+
+  <New  class="org.mortbay.jetty.plus.naming.EnvEntry">
+    <Arg type="java.lang.String">org.mmbase.streams.transcoders.FFMpeg2TheoraTranscoder/path</Arg>
+    <Arg type="java.lang.String">/usr/local/bin</Arg>
+    <Arg type="boolean">true</Arg>
+  </New>
+
+
+  <New  class="org.mortbay.jetty.plus.naming.EnvEntry">
+    <Arg type="java.lang.String">mmbase/rmmci/port</Arg>
+    <Arg type="java.lang.String">-1</Arg>
+    <Arg type="boolean">true</Arg>
+  </New>
 
 
   <!--
@@ -42,11 +55,11 @@
       When using jetty log everything on the console.
   -->
 
-	<New  class="org.mortbay.jetty.plus.naming.EnvEntry">
+  <New  class="org.mortbay.jetty.plus.naming.EnvEntry">
     <Arg type="java.lang.String">mmbase-config/log/log4j.xml</Arg>
     <Arg type="java.lang.String">/WEB-INF/config/log/console.xml</Arg>
     <Arg type="boolean">true</Arg>
-	</New>
+  </New>
 
 
 

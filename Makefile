@@ -15,4 +15,4 @@ import:
 #	java eu.openimages.AssetImporter /share/oip/test/files/BG/WEEKNUMMER491-HRE00016B4E.xml
 #	java eu.openimages.AssetImporter /share/oip/test/files/BG/
 #	java eu.openimages.AssetImporter /share/oip/test/files/BG/BG_5771.xml
-	java eu.openimages.AssetImporter /share/oip/test/files/BG/WEEKNUMMER742-HRE0001B823.xml
+	java eu.openimages.AssetImporter importfiles/WEEKNUMMER742-HRE0001B823.xml
