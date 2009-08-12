@@ -53,7 +53,7 @@
             <ul class="list-tabs">
               <li><a href="#fragment-1"><span>Preview</span></a></li>
               <li><a href="#fragment-2"><span>Translations</span></a></li>
-              <li><a href="#fragment-3"><span>Streams</span></a></li>
+              <li><a href="#fragment-3"><span>Files</span></a></li>
             </ul>
             <div class="related-grey" id="fragment-1">
               <mm:component name="oip" block="user-mediapreview" />
@@ -69,17 +69,8 @@
 
         <c:if test="${block eq 'user'}">
           <mm:maywrite>
-            <div id="usertabs">
-              <ul class="list-tabs">
-                <li><a href="#fragment-1"><span>Upload</span></a></li>
-                <li><a href="#fragment-2"><span>Streams</span></a></li>
-              </ul>
-              <div class="related-grey" id="fragment-1">
-                <mm:component name="oip" block="user-mediaupload" />
-              </div>
-              <div class="related-grey" id="fragment-2">
-                <mm:component name="oip" block="user-streams" />
-              </div>
+            <div class="related-grey">
+              <mm:component name="oip" block="user-mediaupload" />
             </div>
           </mm:maywrite>
         </c:if>
