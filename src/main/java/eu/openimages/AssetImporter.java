@@ -188,8 +188,12 @@ public class AssetImporter implements Runnable, LoggerAccepter {
 
                     }
                     if (mediaFragment != null) {
-                        mediaFragment.setStringValue("keywords", Casting.toString(subjects));
-                        mediaFragment.setStringValue("coverage", Casting.toString(coverage));
+                        String keywords = Casting.toString(subjects);
+                        keywords = keywords.replaceAll(",", ", ");
+                        mediaFragment.setStringValue("keywords", keywords);
+                        String covs = Casting.toString(coverage);
+                        covs = covs.replaceAll(",", ", ");
+                        mediaFragment.setStringValue("coverage", covs);
                         if (mediaFragment.getNodeManager().hasField("publisher")) {
                             mediaFragment.setStringValue("publisher", AssetImporter.this.publisher);
                         }
