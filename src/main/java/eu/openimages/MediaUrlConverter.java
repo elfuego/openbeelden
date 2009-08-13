@@ -113,8 +113,14 @@ public class MediaUrlConverter extends DirectoryUrlConverter {
                 return Url.NOT;
             }
             Cloud cloud = frameworkParameters.get(Parameter.CLOUD);
-            frameworkParameters.set(MEDIA, cloud.getNode(nr));
-            result.append(nr);
+            String nmName = cloud.getNode(nr).getNodeManager().getName();
+            if (nmName.equals("mediafragments") || nmName.equals("videofragments") ||
+                    nmName.equals("imagefragments") || nmName.equals("audiofragments")) {
+                frameworkParameters.set(MEDIA, cloud.getNode(nr));
+                result.append(nr);
+            } else {
+                return Url.NOT;
+            }
         }
 
         if (log.isDebugEnabled()) log.debug("returning: " + result.toString());
