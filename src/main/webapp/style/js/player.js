@@ -279,6 +279,7 @@ function selectPlayer(types, urls) {
             proposal.type = "flash";
             var flash_url;
             for (var i = 0; i < types.length; i++) {
+                //console.log(urls[i])
                 if (types[i].indexOf("video/mp4") > -1 || types[i].indexOf("video/flv") > -1 || types[i].indexOf("video/mpeg") > -1) {
                     flash_url = urls[i];
                 }
