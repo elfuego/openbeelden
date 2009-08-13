@@ -6,7 +6,7 @@
   a multitude of players: http://footage.stealthisfilm.com/
 
   @author: André van Toly
-  @version: 0.1
+  @version: 0.2
   @params:
     id - id of the element that contains the video-tag
     config - configuration parameters
@@ -14,7 +14,7 @@
         'jar' : JAR file of Cortado
         'flash' : location of flowplayer.swf
 
-  @changes: initial version
+  @changes: support for msie
 */
 
 var player;
@@ -41,6 +41,8 @@ function createPlayer(id, config) {
             player = new VideoPlayer();
         } else if (selectedPlayer.type == 'cortado') {
             player = new CortadoPlayer();
+        } else if (selectedPlayer.type == 'msie_cortado') {
+            player = new MSCortadoPlayer();
         } else if (selectedPlayer.type == 'flash') {
             player = new FlowPlayer();
         } else {
@@ -57,7 +59,10 @@ function Player() {
 }
 
 Player.prototype._init = function(id, url, config) {
-    this.player = $('#' + id + ' video:first');     // the first video tag it finds
+    this.player = $('#' + id + ' video')[0];  // the first video tag it finds
+    if (this.player == undefined) {
+        this.player = $('#' + id + ' video:first'); // help ie
+    }
     this.url = url;
     /* if (this.urls.length == 0) this.urls[0] = $(this.player).attr('src'); */
     this.poster = $(this.player).attr('poster');
@@ -73,7 +78,7 @@ Player.prototype._init = function(id, url, config) {
 }
 
 Player.prototype.init = function(id, url, config) {
-    return this._init(id, config);
+    return this._init(id, url, config);
 }
 Player.prototype.play = function() {
     this.state = 'play';
@@ -89,14 +94,14 @@ function VideoPlayer() {
 }
 VideoPlayer.prototype = new Player();
 VideoPlayer.prototype.init = function(id, url, config) {
-    this._init(id, config); // just init and pass it along
+    this._init(id, url, config); // just init and pass it along
     this.url = url;
-    //console.log("video!" + url + ", img: " + this.poster);
+    //console.log("video! " + url + ", img: " + this.poster);
     this.player.controls = false;
     return this.player;
 }
 VideoPlayer.prototype.play = function() {
-    this.player.autoplay = true;
+    //this.player.autoplay = true;
     this.player.play();
     this.state = 'play';
 }
@@ -123,14 +128,13 @@ function CortadoPlayer() {
 }
 CortadoPlayer.prototype = new Player();
 CortadoPlayer.prototype.init = function(id, url, config) {
-    this._init(id, config);
+    this._init(id, url, config);
     this.url = url;
-    //console.log("cortado! " + url + ", img: " + this.poster);
     var jar = config.dir + "/" + config.jar;
     this.player = document.createElement('object'); // create new element!
     $(this.player).attr('classid', 'java:com.fluendo.player.Cortado.class');
     $(this.player).attr('style', 'display:block;width:' + this.width + 'px;height:' + this.height + 'px;');
-    this.player.type = 'application/x-java-applet';
+    $(this.player).attr('type', 'application/x-java-applet');
     $(this.player).attr('archive', jar);
     $(this.player).attr('width', this.width);
     $(this.player).attr('height', this.height);
@@ -179,12 +183,47 @@ CortadoPlayer.prototype.info = function() {
     //return "Playing: " + this.url";
 }
 
+function MSCortadoPlayer() {
+    this.myname = "msie_cortadoplayer";
+}
+MSCortadoPlayer.prototype = new CortadoPlayer();
+MSCortadoPlayer.prototype.init = function(id, url, config) {
+    this._init(id, url, config);
+    this.url = url;
+    /* msie (or windows java) has issues with just a dir, and will not run with a port like f.e. 8080 */
+    var jar = config.server + config.dir + "/" + config.jar; 
+    //var jar = "http://www.toly.net/cortado.jar"
+    //var jar = "http://openbeelden1.tuxic.nl/beta/player/" + config.jar;
+    var element = document.createElement('div');
+    var obj_html = '' +
+    '<object classid="clsid:8AD9C840-044E-11D1-B3E9-00805F499D93" '+
+    '  codebase="http://java.sun.com/update/1.5.0/jinstall-1_5_0-windows-i586.cab" '+
+    '  id="msie_cortadoplayer_' + id + '" '+
+    '  allowscriptaccess="always" width="' + this.width + '" height="' + this.height + '">'+
+    ' <param name="code" value="com.fluendo.player.Cortado" />'+
+    ' <param name="archive" value="' + jar + '" />'+
+    ' <param name="url" value="' + url + '" /> '+
+    ' <param name="local" value="true" /> '+
+    ' <param name="keepAspect" value="false" /> '+
+    ' <param name="video" value="true" /> '+
+    ' <param name="audio" value="true" /> '+
+    ' <param name="seekable" value="auto" /> '+
+    ' <param name="showStatus" value="hide" /> '+
+    ' <param name="bufferSize" value="200" /> '+
+    ' <param name="autoPlay" value="' + this.autoplay + '" /> '+
+    ' <strong>Your browser does not have a Java Plug-in. <a href="http://java.com/download">Get the latest Java Plug-in here</a>.</strong>' +
+    '</object>';
+    $(element).html(obj_html);
+    this.player = element.firstChild;
+    return this.player;
+}
+
 function FlowPlayer() {
     this.myname = "flowplayer";
 }
 FlowPlayer.prototype = new Player();
 FlowPlayer.prototype.init = function(id, url, config) {
-    this._init(id, config);
+    this._init(id, url, config);
     //console.log("flash! " + url);
     this.url = url;
     var flwplayer = config.dir + "/" + config.flash;
@@ -230,16 +269,18 @@ function selectPlayer(types, urls) {
     if (proposal.type == undefined) {
         probably = canPlayCortado(types, urls);
         if (probably != undefined && (supportMimetype('application/x-java-applet') || navigator.javaEnabled())) {
-            proposal.type = "cortado";
+            if ($.browser.msie) {       // Argh! A browser check!
+                proposal.type = "msie_cortado";
+            } else {
+                proposal.type = "cortado";
+            }
             proposal.url = probably;
         } else {
             proposal.type = "flash";
             var flash_url;
             for (var i = 0; i < types.length; i++) {
-                //console.log("testing 4 f: " + types[i]);
                 if (types[i].indexOf("video/mp4") > -1 || types[i].indexOf("video/flv") > -1 || types[i].indexOf("video/mpeg") > -1) {
                     flash_url = urls[i];
-                    //console.log("4f: " + flash_url);
                 }
             }
 
@@ -247,7 +288,6 @@ function selectPlayer(types, urls) {
 
         }
     }
-    //console.log("prop: " + proposal.type + ":" + proposal.url);
     return proposal;
 }
 
@@ -265,7 +305,6 @@ function canPlayCortado(types, urls) {
             break;
         }
     }
-    //console.log("canPlayCortado: " + url);
     return url;
 }
 
@@ -277,16 +316,12 @@ function canPlayVideo(types, urls) {
     var el = document.createElement("video");
     if (el.canPlayType) {
         for (var i = 0; i < types.length; i++) {
-            //console.log("testing v: " + types[i] + ": " + el.canPlayType(types[i])+ ":" + urls[i]);
             /*
              http://www.whatwg.org/specs/web-apps/current-work/multipage/video.html#dom-navigator-canplaytype
              Firefox 3.5 is very strict about this and does not return 'probably', but does on 'maybe'.
             */
-            //console.log(el.canPlayType( types[i] ));
             if (el.canPlayType( types[i] ) == "probably") {
                 return urls[i]; // this is the best we can do
-
-                //console.log("found one: " + probably);
             }
             if (el.canPlayType( types[i] ) == "maybe") {
                 probably = urls[i]; // if we find nothing better
@@ -295,8 +330,6 @@ function canPlayVideo(types, urls) {
         if (probably != undefined) {
             return probably;
         }
-
-        //console.log("No source elements found");
 
         // last fall back, the 'src' attribute itself.
         if ($('video').length) {
