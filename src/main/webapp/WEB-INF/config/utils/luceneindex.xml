@@ -22,8 +22,9 @@
       <mmsq:field name="online"  alias="online" />
       <mmsq:field name="offline" alias="offline" />
       <mmsq:field name="length"  alias="length" keyword="true" />
-      <mmsq:field name="creator" alias="user"    />
+      <mmsq:field name="creator" alias="user" />
       <mmsq:field name="created" alias="created" />
+      <mmsq:field name="date"    alias="date" />
       <mmsq:field name="keywords" boost="4" />
       <mmsq:relatednodes type="tags">
         <mmsq:field name="name" boost="2" />
