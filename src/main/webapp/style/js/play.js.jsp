@@ -97,7 +97,7 @@ function followProgress() {
             $('li#position').text(text);
         }
         if (player.state == "play" && pos != oldpos) {
-            setTimeout(progress, 300);
+            setTimeout(progress, 100);
         }
     };
     progress();
