@@ -5,14 +5,15 @@
 /*
   Javascript to init the player
   @author: André van Toly
-  @version: 0.1
-  @changes: initial version
+  @version: 0.2
+  @changes: support for msie
 */
 
 function initPlayer() {
     var id = "vplayer";
     /* these files (jar, flash) need to be in that directory */
     var config = { 
+        'server' : '<mm:url page="/" absolute="true" />',   /* msie (or windows java) has issues with just a dir, even with ports like 8080 */
         'dir' : '${mm:link('/player')}',
         'jar' : 'cortado-ovt-stripped-wm_r38710.jar',
         'flash' : 'flowplayer-3.1.1.swf'
