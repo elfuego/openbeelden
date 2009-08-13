@@ -22,7 +22,7 @@
     <jsp:attribute name="body">
 
       <div class="main-column">
-        <mm:node number="552">
+        <mm:node number="498">
 
   <mm:import id="mediaurls">
     <mm:listfunction name="filteredurls">
@@ -44,7 +44,7 @@
         <source src="${mm:escape('text/xml', _.URL)}" type="${_.format.mimeType}; codecs=${mm:escape('lowercase', _.codec)}"><jsp:text> </jsp:text></source>
       </c:if>
     </mm:listfunction -->
-    <source src="http://grgrijze.toly.net:8080/oip/player/presto.mp4" type="video/mp4" ><jsp:text> </jsp:text></source>
+    <source src="http://grgrijze.toly.net:8080/oip/player/543.518.presto.mp4" type="video/mp4" ><jsp:text> </jsp:text></source>
     <!-- source src="http://openbeelden1.tuxic.nl/beta/files//011049.848.WEEKNUMMER303-HRE0000CC8E.ogv" type="video/ogg" ><jsp:text> </jsp:text></source -->
           <p>
             Your need a browser that understands the html5 video tag to play this media item.

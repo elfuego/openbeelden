@@ -388,18 +388,20 @@ input.untouched {
 
 /* search form */
 form#search { width: 250px; }
-form#search input, form#search select
+form#search fieldset { width: 256px; }
+form#search label { text-transform: lowercase; }
+form#search input
 {
 	width: 250px;
 	padding: 2px;
 	margin: 0 0 8px 0;
-	font-size: 1em;
 }
 
 form#search select
 {
 	width: 100%;
-	font-size: 0.95em;
+	margin-bottom: 8px;
+	text-transform: lowercase;
 }
 
 form#search input.submit

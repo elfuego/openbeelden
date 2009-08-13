@@ -15,7 +15,6 @@
 {
 	padding: 0;
 	margin: 0;
-	font-family: Helvetica, sans-serif;
 }
 
 html
@@ -27,6 +26,7 @@ html
 body
 {
 	line-height: 1.5em;
+	font-family: Helvetica, sans-serif;
 	font-size: 0.85em;
 }
 
@@ -164,20 +164,30 @@ fieldset
 	margin-bottom: 1em;
 }
 
-input, select
+input
 {
 	padding: 3px;
 	margin: 0 0 6px 0;
 	color: #555;
+	width: 312px;
+	font-size: 1em;
 	border: 1px solid #cfcfcf;
 }
 
-input
+/*
+select
 {
-	width: 312px;
-	font-size: 1em;
+	margin-bottom: 6px;
+	padding: 2px;
 }
-/*select option { margin: 4px 0; }*/
+
+select option
+{
+	padding: 2px;
+	margin: 0;
+}
+*/
+
 
 textarea
 {

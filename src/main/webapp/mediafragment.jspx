@@ -241,7 +241,7 @@
                 </mm:node>
               </c:forEach>
               <c:if test="${empty hits}">
-                <p>This item has no tags and therefore not any related items yet.</p>
+                <p>This item has no tags and therefore no related items yet.</p>
               </c:if>
             </mm:function>
           </mm:functioncontainer>

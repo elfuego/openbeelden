@@ -57,7 +57,7 @@ div#main
 {
 	position: relative;
 	top: 0;
-	left: 340px;
+	left: 335px;
 	width: 640px;
 	height: 32px;
 	border-bottom: 3px #666 dotted;
@@ -103,7 +103,6 @@ div#main
 	white-space: nowrap;
 	word-spacing: 2px;
 	padding-right: 8px;
-	text-transform: lowercase;
 }
 
 
@@ -117,12 +116,6 @@ div#main
 }
 
 #menu ul.meta li a { color: #c00; }
-
-#menu select
-{
-	padding: 2px;
-	font-size: 0.85em;
-}
 
 #footer
 {
