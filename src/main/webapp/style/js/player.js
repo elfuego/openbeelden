@@ -3,7 +3,7 @@
   the use of three players in a generic way: video-tag, java player cortado (for ogg) and flash.
   Sifts through the sources provided by the video-tag to find a suitable player.
   This script borrows heavily from the rather brilliant one used at Steal This Footage which enables
-  a multitude of players: http://footage.stealthisfilm.com/
+  a multitude of players (but defies MSIE ;-): http://footage.stealthisfilm.com/
 
   @author: André van Toly
   @version: 0.2
@@ -30,7 +30,6 @@ function createPlayer(id, config) {
     });
 
     if (urls.length == 0) {
-        //console.log("No source elements found");
         urls[0] = $(videotag).attr('src');
         types[0] = "unknown";
     }
@@ -276,16 +275,14 @@ function selectPlayer(types, urls) {
             }
             proposal.url = probably;
         } else {
-            proposal.type = "flash";
             var flash_url;
             for (var i = 0; i < types.length; i++) {
                 //console.log(urls[i])
                 if (types[i].indexOf("video/mp4") > -1 || types[i].indexOf("video/flv") > -1 || types[i].indexOf("video/mpeg") > -1) {
-                    flash_url = urls[i];
+                    proposal.url = urls[i];
+                    proposal.type = "flash";
                 }
             }
-
-            proposal.url = flash_url;
 
         }
     }
@@ -331,20 +328,16 @@ function canPlayVideo(types, urls) {
         if (probably != undefined) {
             return probably;
         }
-
         // last fall back, the 'src' attribute itself.
         if ($('video').length) {
             var url = $('video').attr('src');
             if (url != undefined &&
                 (url.lastIndexOf('.mp4') > -1 || url.lastIndexOf('.h264') > -1
                  )) {
-                //probably = "video/mp4";
                 probably = url;
             }
         }
-
     }
-    
     return probably;
 }
 
