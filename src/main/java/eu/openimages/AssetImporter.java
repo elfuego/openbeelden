@@ -171,6 +171,9 @@ public class AssetImporter implements Runnable, LoggerAccepter {
                         log.info("mppp " + mediaProvider);
                         mediaSource.setNodeValue("mediaprovider", mediaProvider);
                         mediaSource.setLongValue("filesize", subFile.length());
+                        if (owner != null) {
+                            mediaSource.setValue("owner", owner);
+                        }
                         mediaSource.commit();
 
                         if (mediaSource.isNull("width")) {// || ! file.isDirectory()) {
@@ -203,7 +206,7 @@ public class AssetImporter implements Runnable, LoggerAccepter {
 
                         // according to http://dublincore.org/documents/dcmi-terms/#terms-source
                         // The described resource may be derived from the related resource in whole or in part. Recommended best practice is to identify the related resource by means of a string conforming to a formal identification system.
-                        mediaFragment.setStringValue("source", file.getName());
+                        mediaFragment.setStringValue("source", identifier);
 
                         {
                             String title = fields.get("title");
@@ -248,6 +251,9 @@ public class AssetImporter implements Runnable, LoggerAccepter {
                             mediaFragment.setValueWithoutProcess("date", DATEFORMAT.parse(fields.get("date")));
                         } catch (ParseException pe) {
                             log.error(pe.getMessage());
+                        }
+                        if (owner != null) {
+                            mediaFragment.setValue("owner", owner);
                         }
                         mediaFragment.commit();
                         log.info("Matched mediafragment " + mediaFragment.getNumber() + " " + mediaFragment.getStringValue("title"));
@@ -330,8 +336,30 @@ public class AssetImporter implements Runnable, LoggerAccepter {
         publisher = p;
     }
 
+    private String user = null;
+
+    public void setUser(String u) {
+        user = u;
+    }
+    
+    private Node owner = null;
+
+    public void setOwner(Node n) {
+        owner = n;
+    }
+    
+    private void findOwner(Cloud cloud, String username) {
+        final Node node = SearchUtil.findNode(cloud, "mmbaseusers", "username", username);
+        if (node == null) {
+            log.error("No user with name" + username);
+        }
+        setOwner(node);
+    }
+
     Pattern XML_PATTERN = Pattern.compile(".*\\.xml$");
     public void read(Cloud cloud) throws IOException, SAXException,java.net.URISyntaxException {
+        findOwner(cloud, user);
+        
         File file = fileName == null ? new File(FileServlet.getDirectory(), dirNames[0]) : new File(fileName);
         if (file.isDirectory()) {
             FilenameFilter filter = new FilenameFilter() {
@@ -400,6 +428,7 @@ public class AssetImporter implements Runnable, LoggerAccepter {
                 assets.setRecreate(true);
             }
             assets.setPublisher("Nederlands Instituut voor Beeld en Geluid / NOS");
+            assets.setUser("beeldengeluid");
         }
 
         assets.read(cloud);
