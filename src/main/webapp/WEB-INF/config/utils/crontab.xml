@@ -3,6 +3,6 @@
 <util>
   <properties>
     <property name="memory">0 */2 * * *|org.mmbase.applications.crontab.MemoryWarner||0.8;Michiel.Meeuwissen@omroep.nl</property>
-    <property name="import">0 0 * * *|eu.openimages.AssetImporter||publisher=Nederlands Instituut voor Beeld en Geluid / NOS</property>
+    <property name="import">0 0 * * *|eu.openimages.AssetImporter||publisher=Nederlands Instituut voor Beeld en Geluid / NOS,user=beeldengeluid</property>
   </properties>
 </util>
