@@ -221,7 +221,7 @@ input.submit, input.cancel
 	font-size: 1.1em;
 	margin-left: 16px;
 }
-
+input[disabled] { cursor: auto; } 
 
 span.text, span.text span {
   display: inline-block;
