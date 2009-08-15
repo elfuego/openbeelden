@@ -7,6 +7,9 @@
     xmlns:mm="http://www.mmbase.org/mmbase-taglib-2.0">
   <!--
       Used by /style/js/upload.js
+      <div style="width: 2%;" class="PROGRESS">
+        <p><span class="percentage">2%</span><span class="speed">(40 MiB/1832 MiB, 40 MiB/s)</span></p>
+      </div>
   -->
   <jsp:output omit-xml-declaration="true" />
   <mm:import externid="length" vartype="integer">100</mm:import>
