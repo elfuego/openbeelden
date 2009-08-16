@@ -61,20 +61,7 @@
         </p>
       </c:if>
       <c:if test="${empty submit or ! empty error}">
-        <form method="post" id="loginform">
-          <fieldset>
-            <input type="hidden" name="referrer" value="${referrer}" />
-            <label for="username"><fmt:message key="login.account_name" /></label>
-            <input id="username" name="username" value="${username}" />
-            <label for="password"><fmt:message key="login.password" /></label>
-            <input id="password" name="password" value="${password}" type="password" />
-            <fmt:message key="login.login" var="login" />
-            <p>
-              <input name="submit" type="submit" value="${login}" class="submit" />
-              <a class="TODO" href="#"><fmt:message key="login.forgot_password" /></a>
-            </p>
-          </fieldset>
-        </form>
+        <mm:component name="oip" block="user-login" />
       </c:if>
     </div>
     <div class="right-column">
