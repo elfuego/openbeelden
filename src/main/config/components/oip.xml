@@ -162,6 +162,7 @@
     <title xml:lang="nl">Upload media</title>
     <description xml:lang="en">Includes stream upload</description>
     <description xml:lang="nl">Includes stream upload</description>
+    <xi:include href="http://www.mmbase.org/components/validation.head.xml" />
     <head>
       <class name="org.mmbase.framework.StringRenderer">
         <param name="string"><![CDATA[<script src="{REQUEST.getContextPath}/style/js/upload.js" type="text/javascript"> </script>]]></param>
