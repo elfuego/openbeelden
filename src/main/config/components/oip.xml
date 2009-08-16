@@ -71,6 +71,18 @@
     </body>
   </block>
   
+  <block name="user-resetpassword"
+         classification="oip"
+         mimetype="text/html">
+    <title xml:lang="en">Forgot password</title>
+    <title xml:lang="nl">Wachtwoord vergeten</title>
+    <description xml:lang="en">Forgot password of Open Images</description>
+    <description xml:lang="nl">Wachtwoord vergeten van Open Beelden</description>
+    <xi:include href="http://www.mmbase.org/components/validation.head.xml" />
+    <body jsp="user-resetpassword.jspx">
+    </body>
+  </block>
+  
   <block name="user"
          classification="oip"
          mimetype="text/html">
