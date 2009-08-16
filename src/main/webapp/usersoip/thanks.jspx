@@ -9,6 +9,7 @@
   <jsp:attribute name="body">
 
     <div class="main-column">
+      <oip:h3>Verified</oip:h3>
       <mm-sec:verifyEmail
           signature="${param.signature}">
         <p class="msg">
@@ -18,6 +19,12 @@
           </fmt:message>
         </p>
       </mm-sec:verifyEmail>
+    </div>
+    <div class="right-column">
+      <div class="related">
+        <oip:h3>Login</oip:h3>
+        <mm:component name="oip" block="user-login" />
+      </div>
     </div>
   </jsp:attribute>
 </oip:html>
