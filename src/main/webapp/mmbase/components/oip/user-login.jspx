@@ -58,7 +58,11 @@
             <fmt:message key="login.login" var="login" />
             <p>
               <input name="submit_login" type="submit" value="${login}" class="submit" />
-              <a class="TODO" href="#">forgot your password?</a>
+              <!-- mm:node number="page_resetpassword">
+                <mm:link page="${_node.path}">
+                  <a class="TODO" href="${_}"><fmt:message key="login.forgot_password" /></a>
+                </mm:link>
+              </mm:node -->
             </p>
           </fieldset>
         </form>
