@@ -10,7 +10,7 @@
   <jsp:directive.page import="org.mmbase.util.*,java.util.concurrent.*" />
   <mm:cloud method="delegate" authenticate="class" id="cloud">
     <div
-        class="mm_c c_oip b_createuser ${requestScope.className} TODO"
+        class="mm_c c_oip b_createuser ${requestScope.className}"
         id="${requestScope['org.mmbase.componentId']}">
 
       <script type="text/javascript">
@@ -67,7 +67,7 @@
             <c:set var="errortext"><fmt:message key="register.confirm.error" /></c:set>
           </c:if>
           <mm:valid inverse="true">
-            <c:set var="errortext"><fmt:message key="register.imcomplete" /> ${errortext}</c:set>
+            <c:set var="errortext"><fmt:message key="register.incomplete" /> ${errortext}</c:set>
           </mm:valid>
           
           <c:choose>
