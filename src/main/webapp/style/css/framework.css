@@ -247,10 +247,9 @@ body.media div#main div#header p { display: none; }
 body.error div.main-column
 {
 	padding-top: 10px;
-	margin-left: 20px;
 	margin-bottom: 8px;
-	width: auto;
-	margin-left: 355px;
+	width: 640px;
+	margin-left: 335px;
 }
 
 body.error div.main-column h2,
