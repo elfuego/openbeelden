@@ -12,15 +12,21 @@
   <div
       class="mm_c c_oip b_upload ${requestScope.className}"
       id="${requestScope['org.mmbase.componentId']}">
+      
     <script type="text/javascript">
+      var validator = new MMBaseValidator();
+      validator.prefetchNodeManager('streamsources');
+      validator.lang = "${requestScope['javax.servlet.jsp.jstl.fmt.locale.request']}";
+      validator.validateHook = function(valid) {
+          document.getElementById('submit_upload').disabled = this.invalidElements != 0;
+      }
+      validator.setup(document.getElementById("${requestScope['org.mmbase.componentId']}"));
       Widgets.prototype.labelsToInputs("form#upload_form label");
     </script>
-    
     
     <oip:h3>Upload</oip:h3>
     
     <mm:cloud method="asis">
-      <mm:import externid="fields">title</mm:import>
       
       <mm:import id="buffer">
         <mm:form id="upload_form">
@@ -30,9 +36,9 @@
                 <mm:fieldinfo type="input" />
                 <mm:fieldinfo type="errors" />
               </mm:fieldlist>
-              <mm:fieldlist fields="${fields}" id="field">
+              <mm:fieldlist fields="title" id="field">
                 <mm:fieldinfo type="forid">
-                  <label for="${_}">${mm:string(field.localizedDescription)}</label>
+                  <label for="${_}"><mm:fieldinfo type="guiname" /></label>
                 </mm:fieldinfo>
                 <mm:fieldinfo type="input" />
                 <mm:fieldinfo type="errors" />
@@ -46,12 +52,12 @@
             </fieldset>
           </mm:createnode>
 
-          <div class="progressInfo">
+          <div class="progressInfo" id="progressInfo">
             <p>No upload started yet.</p>
           </div>
 
           <fieldset>
-            <input type="submit" name="submit_upload" value="Upload" class="submit" />
+            <input type="submit" name="submit_upload" id="submit_upload" value="Upload" class="submit" />
           </fieldset>
           
           <mm:import externid="submit_upload" />
