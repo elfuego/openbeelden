@@ -37,8 +37,16 @@
 
         <!-- license stuff -->
         <mm:present referid="license">
-          <mm:node number="$license" id="lic_node" />
-          <mm:createrelation source="_node" destination="lic_node" role="related" />
+          <mm:node number="licenses_attributionsharealike">
+            <c:set var="pref_license"><mm:field name="number" /></c:set>
+          </mm:node>
+          <c:if test="${license ne pref_license}">
+            <mm:relation to="licenses_attributionsharealike">
+              <mm:deletenode />
+            </mm:relation> 
+            <mm:node number="$license" id="lic_node" />
+            <mm:createrelation source="_node" destination="lic_node" role="related" />
+          </c:if>
         </mm:present>
       </mm:node>
 

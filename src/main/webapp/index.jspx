@@ -82,7 +82,7 @@
                 </c:choose>
                 <dl class="${gridclass}">
                   <dt>
-                    <a title="${_node.subtitle}" href="${_}"><oip:thumb alt="${_node.title}" /></a>
+                    <a title="${_node.title}" href="${_}"><oip:thumb alt="${_node.title}" /></a>
                   </dt>
                   <dd> <mm:field name="title" escape="wrapper" /> </dd>
                 </dl>

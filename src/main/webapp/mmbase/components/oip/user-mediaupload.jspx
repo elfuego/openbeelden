@@ -75,7 +75,7 @@
       
       <mm:present referid="committed">
         <mm:node number="${newsource}">
-          <p class="msg">Submitted ${_node} URL: ${_node.url} FS: ${_node.filesize}</p>
+          <!-- p class="msg">Submitted ${_node} URL: ${_node.url} FS: ${_node.filesize}</p -->
           
           <mm:url id="editlink" absolute="true" write="false">
             <mm:frameworkparam name="component">oip</mm:frameworkparam>
@@ -85,7 +85,7 @@
           </mm:url>
 
           <mm:form page="$editlink">
-            <mm:node number="$media">
+            <mm:node number="$media" id="medianode">
               <fieldset>
                 <mm:fieldlist fields="title,language,subtitle,intro">
                   <mm:fieldinfo type="forid">
@@ -95,30 +95,39 @@
                   <mm:fieldinfo type="errors" />
                 </mm:fieldlist>
               </fieldset>
+              
+              <!-- make sure there is always a license related (also when user leaves form without saving) -->
+              <mm:node number="licenses_attributionsharealike" id="lic" />
+              <mm:createrelation source="medianode" destination="lic" role="related" />
             </mm:node>
             
-            <mm:listnodescontainer type="licenses">
-              <fieldset class="licenses">
-                <ul>
-                <mm:listnodes varStatus="status">
+            <fieldset class="licenses">
+              <ul>
+                <mm:node number="licenses_attributionsharealike">
                   <li>
-                    <mm:first>
-                      <input name="license" id="lic_${status.index}" type="radio" value="${_node}" checked="checked" />
-                    </mm:first>
-                    <mm:first inverse="true">
-                      <input name="license" id="lic_${status.index}" type="radio" value="${_node}" />
-                    </mm:first>
-                    <label for="lic_${status.index}">
-                      <mm:field name="url"><a href="${_}"><mm:field name="name" /></a></mm:field>
+                    <input name="license" id="lic_0" type="radio" value="${_node}" checked="checked" />
+                    <label for="lic_0">
+                      <span title="${_node.url} ${_node.description}"><mm:field name="name" /></span>
                     </label>
                   </li>
-                </mm:listnodes>
-                </ul>
-              </fieldset>
-            </mm:listnodescontainer>
+                </mm:node>
+                <mm:listnodescontainer type="licenses">
+                  <mm:constraint field="number" value="licenses_attributionsharealike" operator="EQUAL" inverse="true" />
+                    <mm:listnodes varStatus="status">
+                      <li>
+                        <input name="license" id="lic_${status.index}" type="radio" value="${_node}" />
+                        <label for="lic_${status.index}">
+                          <span title="${_node.url} ${_node.description}"><mm:field name="name" /></span>
+                        </label>
+                      </li>
+                    </mm:listnodes>
+                </mm:listnodescontainer>
+              </ul>
+            </fieldset>
             
             <fieldset>
-              <input type="submit" name="submit" value="Save" class="submit" />
+              <c:set var="button_save"><fmt:message key="users.save" /></c:set>
+              <input type="submit" name="submit" value="${button_save}" class="submit" />
             </fieldset> 
           </mm:form>
           
