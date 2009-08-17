@@ -15,7 +15,7 @@
     <mm:cloudinfo type="usernode" id="iam" write="false" />
     <mm:escaper id="wrap_title" type="substring">
       <mm:param name="from" value="0" />
-      <mm:param name="to" value="34" />
+      <mm:param name="to" value="30" />
       <mm:param name="ellipsis" value="..." />
     </mm:escaper>
     <mm:escaper id="wrap_subtitle" type="substring">
@@ -44,14 +44,12 @@
             </c:choose>
             <dl class="${gridclass}">
               <dt>
-                <a title="${mediafragment.title} ${mediafragment.subtitle}" href="${_}">
+                <a title="${mediafragment.title}" href="${_}">
                   <c:catch>
                     <oip:thumb alt="${mediafragment.title}" />
                   </c:catch>
                 </a>
-
               </dt>
-              <!-- dd> <mm:field name="title" escape="wrapper" /> </dd -->
             </dl>
           </c:when>
           
@@ -66,10 +64,10 @@
                     <a href="${_}" title="edit" class="edit">edit</a><jsp:text> </jsp:text>
                   </mm:link>
                 </mm:maywrite>
-                <a href="${_}"><mm:field name="title" escape="wrap_title" /></a>
+                <a title="${mediafragment.title}" href="${_}"><mm:field name="title" escape="wrap_title" /></a>
               </dt>
               <dd class="img">
-                <a title="${mediafragment.title} ${mediafragment.subtitle}" href="${_}">
+                <a title="${mediafragment.title}" href="${_}">
                   <c:catch>
                     <oip:thumb alt="${mediafragment.title}" />
                   </c:catch>

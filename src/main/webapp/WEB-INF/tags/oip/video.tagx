@@ -20,11 +20,21 @@
   <c:set var="template">s(${w}!x${h}!)+adjoin(${overlay})+flatten</c:set>
   <c:set var="basictemplate">s(${w}!x${h}!)</c:set>
 
-  <mm:import id="poster">${mm:link('/style/images/preview_video.png')}</mm:import>
+  <mm:nodeinfo type="nodemanager" write="false">
+    <c:choose>
+      <c:when test="${_ eq 'audiofragments'}">
+        <c:set var="poster">${mm:link('/style/images/preview_audio.png')}</c:set>
+      </c:when>
+      <c:otherwise>
+        <c:set var="poster">${mm:link('/style/images/preview_video.png')}</c:set>
+      </c:otherwise>
+    </c:choose>
+  </mm:nodeinfo>
+
   <mm:relatednodescontainer type="images" role="related" searchdirs="destination">
     <mm:maxnumber value="1" />
     <mm:relatednodes>
-      <mm:import id="poster" reset="true"><mm:image template="$template" /></mm:import>
+      <c:set var="poster"><mm:image template="$template" /></c:set>
       <mm:import id="imgnr" reset="true"><mm:field name="number" /></mm:import>
     </mm:relatednodes>
   </mm:relatednodescontainer>

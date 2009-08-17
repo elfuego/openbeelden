@@ -33,7 +33,7 @@
 
                 <dl class="${gridclass}">
                   <dt>
-                    <a title="${favorite.title} ${favorite.subtitle}" href="${_}"><oip:thumb /></a>
+                    <a title="${favorite.title}" href="${_}"><oip:thumb /></a>
                     <mm:link referids="favorite">
                       <mm:param name="remove">please</mm:param>
                       <a title="remove favorite" class="remove" href="${_}">remove</a>
