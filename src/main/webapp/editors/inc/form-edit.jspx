@@ -1,4 +1,4 @@
-<jsp:root 
+<jsp:root
   xmlns:jsp="http://java.sun.com/JSP/Page"
   xmlns:c="http://java.sun.com/jsp/jstl/core"
   xmlns:mm="http://www.mmbase.org/mmbase-taglib-2.0"
@@ -6,13 +6,13 @@
 
 <mm:content expires="0" type="application/xml">
 <mm:cloud method="asis">
-  
+
   <mm:import externid="nr"   required="true" />
   <jsp:directive.include file="settings.jspx" />
   <mm:import externid="mmajaxeditor" />
 
   <mm:form id="edit_$nr">
-    <mm:node number="$nr">
+    <mm:node number="$nr" commitonclose="false">
       <mm:import id="buffer">
         <fieldset>
           <mm:fieldlist fields="$editfields">
@@ -36,7 +36,7 @@
           </fieldset>
         </mm:maywrite>
       </mm:import>
-      
+
       <mm:import externid="submit$nr" />
       <mm:present referid="submit$nr">
         <mm:valid>
@@ -49,21 +49,21 @@
           <mm:cancel />
         </mm:valid>
       </mm:present>
-      
+
       <c:if test="${empty mmajaxeditor}">
         <mm:write referid="buffer" escape="none" />
       </c:if>
       <c:if test="${!empty mmajaxeditor and empty saved}">
         <mm:write referid="buffer" escape="none" />
       </c:if>
-      
+
     </mm:node>
   </mm:form>
-  
+
   <!-- put all mmajaxeditor msg stuff outside form -->
   <c:if test="${!empty saved and !empty mmajaxeditor}">
     <mm:node number="$nr">
-      
+
       <mm:link page="/editors/inc/form-edit.jspx" referids="nr">
         <a href="${_}#node_${nr}" class="mmajaxeditor">
           <mm:field name="language"><mm:fieldinfo type="guivalue" /></mm:field>
@@ -76,14 +76,14 @@
           <a href="${_}#node_${nr}" class="mmajaxeditor">delete</a>
         </mm:link>
       </mm:maydelete>
-      
+
       <mm:haspage page="/editors/inc/node.jspx">
         <mm:include page="/editors/inc/node.jspx" referids="nr" />
-      </mm:haspage>  
+      </mm:haspage>
     </mm:node>
   </c:if>
-  
-  
+
+
 </mm:cloud>
 </mm:content>
 </jsp:root>
