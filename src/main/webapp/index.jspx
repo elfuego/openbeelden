@@ -42,7 +42,8 @@
             <!-- <mm:constraint field="offline" value="$today" operator="LESS" /> -->
             <mm:maxnumber value="1" />
             <mm:relatednodes id="featured_node">
-              <oip:video />
+              <mm:import id="len" reset="true"><mm:field name="length" /></mm:import>
+              <oip:media length="${len}" />
               <h3 class="subtitle">
                 <mm:link>
                   <mm:frameworkparam name="component">oip</mm:frameworkparam>
