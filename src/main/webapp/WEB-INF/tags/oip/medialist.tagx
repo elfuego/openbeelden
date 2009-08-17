@@ -63,7 +63,7 @@
                     <mm:frameworkparam name="component">oip</mm:frameworkparam>
                     <mm:frameworkparam name="block">user-media</mm:frameworkparam>
                     <mm:frameworkparam name="user">${iam}</mm:frameworkparam>
-                    <a href="${_}" class="edit">edit</a><jsp:text> </jsp:text>
+                    <a href="${_}" title="edit" class="edit">edit</a><jsp:text> </jsp:text>
                   </mm:link>
                 </mm:maywrite>
                 <a href="${_}"><mm:field name="title" escape="wrap_title" /></a>
@@ -85,14 +85,14 @@
                   <mm:field name="length">
                     <mm:isnotempty>
                       <jsp:text> </jsp:text>
-                      <mm:time inputformat="S" format="m:ss" />
+                      (<mm:time inputformat="S" format="m:ss" />)
                     </mm:isnotempty>
                   </mm:field>
                 </c:if>
                 <mm:field name="date">
                   <mm:isnotempty>
                     <jsp:text> </jsp:text>
-                    <mm:time format="dd-MM-yyyy" />
+                    <mm:time format="dd MMMM yyyy" />
                   </mm:isnotempty>
                 </mm:field>
               </dd>

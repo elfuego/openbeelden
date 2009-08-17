@@ -389,7 +389,7 @@ input.untouched {
 /* search form */
 form#search { width: 250px; }
 form#search fieldset { width: 256px; }
-form#search label { text-transform: lowercase; }
+/*form#search label { text-transform: lowercase; }*/
 form#search input
 {
 	width: 250px;
@@ -400,8 +400,7 @@ form#search input
 form#search select
 {
 	width: 100%;
-	margin-bottom: 8px;
-	text-transform: lowercase;
+	margin-bottom: 4px;
 }
 
 form#search input.submit

@@ -116,7 +116,8 @@
         </mm:present>
 
         <fieldset>
-          <input name="submit" type="submit" value="Save" id="submit" class="submit" />
+          <c:set var="button_save"><fmt:message key="users.save" /></c:set>
+          <input name="submit" type="submit" value="${button_save}" id="submit" class="submit" />
         </fieldset>
         
       </mm:form>

@@ -45,18 +45,18 @@
         <!-- toolbar -->
         <div class="toolbar">
           <ul class="toolbar">
-            <li class="license"><a href="#popup-license">license</a></li>
-            <li class="download todo"><a href="#popup-download">download</a></li>
-            <li class="embed todo"><a href="#popup-embed">embed</a></li>
-            <li class="share todo"><a href="#popup-share">share</a></li>
+            <li class="license"><a title="license" href="#popup-license">license</a></li>
+            <li class="download todo"><a title="download" href="#popup-download">download</a></li>
+            <li class="embed todo"><a title="embed" href="#popup-embed">embed</a></li>
+            <li class="share todo"><a title="share" href="#popup-share">share</a></li>
             <mm:maycreate type="ratingrel">
               <oip:favorite />
               <li class="favorite">
-                <mm:link referids="_node@favorite"><a class="${favselected}" href="${_}">favorite</a></mm:link>
+                <mm:link referids="_node@favorite"><a title="favorite" class="${favselected}" href="${_}">favorite</a></mm:link>
               </li>
             </mm:maycreate>
             <mm:maycreate type="tags">
-              <li class="tag"><a href="#popup-tags">tag</a></li>
+              <li class="tag"><a title="tag" href="#popup-tags">tag</a></li>
             </mm:maycreate>
             <mm:maywrite>
               <li class="edit">
@@ -65,7 +65,7 @@
                   <mm:frameworkparam name="component">oip</mm:frameworkparam>
                   <mm:frameworkparam name="block">user-media</mm:frameworkparam>
                   <mm:frameworkparam name="user">${iam}</mm:frameworkparam>
-                  <a href="${_}">edit</a>
+                  <a title="edit" href="${_}">edit</a>
                 </mm:link>
               </li>
             </mm:maywrite>

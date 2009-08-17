@@ -36,7 +36,7 @@
                     <a title="${favorite.title} ${favorite.subtitle}" href="${_}"><oip:thumb /></a>
                     <mm:link referids="favorite">
                       <mm:param name="remove">please</mm:param>
-                      <a class="remove" href="${_}">remove</a>
+                      <a title="remove favorite" class="remove" href="${_}">remove</a>
                     </mm:link>
                   </dt>
                 </dl>
