@@ -22,9 +22,9 @@ import org.mmbase.util.logging.*;
 /**
  * Imports  all mediafragments which are described with set of XML. Default this ready all XML from
  * the directory 'B&amp;G' in the files directory. This is the location where the files must be
- * present any way.
+ * present anyway.
  *
- * This can be scheduled in crontab, which will autoamaticly add the new files to the system. (It
+ * This can be scheduled in crontab, which will automatically add the new files to the system. (It
  * would _remove_ fragments though).
  *
  * @author Michiel Meeuwissen;
@@ -257,6 +257,12 @@ public class AssetImporter implements Runnable, LoggerAccepter {
                         }
                         mediaFragment.commit();
                         log.info("Matched mediafragment " + mediaFragment.getNumber() + " " + mediaFragment.getStringValue("title"));
+                        
+                        RelationManager rm = cloud.getRelationManager(cloud.getNodeManager("mediafragments"), cloud.getNodeManager("licenses"), "related"); 
+                        Node licenseNode = cloud.getNodeByAlias("licenses_attributionsharealike");
+                        mediaFragment.createRelation(licenseNode, rm).commit();
+                        log.info("Related mediafragment " + mediaFragment.getNumber() + " to license " + licenseNode.getStringValue("name"));
+                        
                     } else {
                         log.warn("No files found, ignoring this");
                     }
