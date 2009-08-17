@@ -26,10 +26,10 @@
       </mm:present>
       <mm:maxnumber value="99" />
       <mm:listnodes id="mediafragment">
-        <mm:link>
-          <mm:frameworkparam name="media">${_node}</mm:frameworkparam>
-          <mm:frameworkparam name="block">mediafragment</mm:frameworkparam>
+        <mm:link referids="_node@media">
           <mm:frameworkparam name="component">oip</mm:frameworkparam>
+          <mm:frameworkparam name="block">user-media</mm:frameworkparam>
+          <mm:frameworkparam name="media">${_node}</mm:frameworkparam>
           <tr class="title">
             <th><jsp:text> </jsp:text></th>
             <th><a href="${_}"><mm:field name="title" /></a></th>
