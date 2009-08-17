@@ -34,7 +34,5 @@
         </mm:node>
       </div>
       
-      <mm:component name="oip" block="user-medialist" />
-      
     </mm:cloud>
 </mm:content>
