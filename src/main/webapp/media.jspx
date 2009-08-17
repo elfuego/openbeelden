@@ -134,7 +134,7 @@
 
         <p>
           <c:if test="${!empty q}">
-            <fmt:message key="search.searched_with" /> <strong>${value}</strong>
+            <fmt:message key="search.searched_with" /><jsp:text> </jsp:text><strong>${value}</strong>
           </c:if>
         </p>
 
