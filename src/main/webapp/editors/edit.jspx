@@ -67,6 +67,17 @@
               <jsp:include page="inc/form-edit.jspx" />
 
               <mm:node number="$nr">
+                <mm:hasrelationmanager sourcemanager="$type" destinationmanager="articles" role="posrel">
+                  <p>
+                    <mm:include page="inc/searchrelate.jspx" referids="nr">
+                      <mm:param name="type">articles</mm:param>
+                      <mm:param name="role">posrel</mm:param>
+                      <mm:param name="searchdirs">destination</mm:param>
+                      <mm:param name="sortorder">posrel.pos</mm:param>
+                      <mm:param name="listfields">title,subtitle,language</mm:param>
+                    </mm:include>
+                  </p>
+                </mm:hasrelationmanager>
                 <mm:hasrelationmanager sourcemanager="$type" destinationmanager="mediafragments" role="posrel">
                   <p>
                     <mm:include page="inc/searchrelate.jspx" referids="nr">
@@ -86,17 +97,6 @@
                       <mm:param name="searchdirs">destination</mm:param>
                       <mm:param name="sortorder">posrel.pos</mm:param>
                       <mm:param name="listfields">title,path</mm:param>
-                    </mm:include>
-                  </p>
-                </mm:hasrelationmanager>
-                <mm:hasrelationmanager sourcemanager="$type" destinationmanager="articles" role="posrel">
-                  <p>
-                    <mm:include page="inc/searchrelate.jspx" referids="nr">
-                      <mm:param name="type">articles</mm:param>
-                      <mm:param name="role">posrel</mm:param>
-                      <mm:param name="searchdirs">destination</mm:param>
-                      <mm:param name="sortorder">posrel.pos</mm:param>
-                      <mm:param name="listfields">title,subtitle,language</mm:param>
                     </mm:include>
                   </p>
                 </mm:hasrelationmanager>
