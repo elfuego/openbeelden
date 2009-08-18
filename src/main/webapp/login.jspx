@@ -1,83 +1,45 @@
-<?xml version="1.0" ?>
-<oip:html
-    cacheable="false"
-    styleClass="login"
+<jsp:root
+    version="2.0"
     xmlns:jsp="http://java.sun.com/JSP/Page"
     xmlns:c="http://java.sun.com/jsp/jstl/core"
     xmlns:fmt="http://java.sun.com/jsp/jstl/fmt"
     xmlns:mm="http://www.mmbase.org/mmbase-taglib-2.0"
     xmlns:oip="urn:jsptagdir:/WEB-INF/tags/oip">
 
+  <oip:html
+    cacheable="false"
+    styleClass="login">
 
-  <jsp:attribute name="body">
+    <jsp:attribute name="head">
+      <mm:component name="oip" block="user-login" render="head" />
+    </jsp:attribute>
 
-    <div class="main-column">
-      
-      <oip:h2><mm:field name="title" /></oip:h2>
-      <mm:nodefunction name="translation">
-        <mm:field name="description" escape="paragraph" />
-      </mm:nodefunction>        
-
-      <script type="text/javascript">
-        Widgets.prototype.labelsToInputs("#loginform label");
-      </script>
-      <mm:import externid="username" />
-      <mm:import externid="password" />
-      <mm:import externid="submit" />
-      <mm:import externid="referrer" />
-
-
-      <c:catch var="error">
-
-        <mm:present referid="submit">
-          <p>Submitting...</p>
-          <mm:cloud username="${username}" password="${password}">
-            <mm:url id="userpage">
-              <mm:frameworkparam name="component">oip</mm:frameworkparam>
-              <mm:frameworkparam name="block">user</mm:frameworkparam>
-              <mm:frameworkparam name="user"><mm:cloudinfo type="usernode" /></mm:frameworkparam>
-            </mm:url>
-            <script type="text/javascript">
-              $(document).ready(function() {
-                 document.location = "${empty referrer ? userpage : referrer}";
-              });
-            </script>
-            <p class="msg">
-              <fmt:message key="login.message">
-                <fmt:param value="${username}" />
-                <mm:cloudinfo type="rank"><fmt:param value="${_}" /></mm:cloudinfo>
-              </fmt:message>
-              <a href="${referrer}">${referrer}</a>.
-            </p>
-          </mm:cloud>
-        </mm:present>
-      </c:catch>
-      <c:if test="${! empty error}">
-        <p class="err">
-          <fmt:message key="login.error">
-            <fmt:param value="${username}" />
-          </fmt:message>
-          <em>${error.message}</em>
-        </p>
-      </c:if>
-      <c:if test="${empty submit or ! empty error}">
+    <jsp:attribute name="body">
+  
+      <div class="main-column">
+        <oip:h2><mm:field name="title" /></oip:h2>
+        <mm:nodefunction name="translation">
+          <mm:field name="description" escape="paragraph" />
+        </mm:nodefunction>        
         <mm:component name="oip" block="user-login" />
-      </c:if>
-    </div>
-    <div class="right-column">
-      <mm:cloud method="asis">
-        <mm:hasrank minvalue="basic user">
-          <fmt:message key="you_are" />
-          <jsp:text> </jsp:text>
-          <p><mm:include page="/you.jspx" /></p>
-        </mm:hasrank>
-        <mm:node number="page_register">
-          <mm:link page="${_node.path}">
-            <p><a href="${_}"><mm:field name="title" /></a></p>
-          </mm:link>
-        </mm:node>
-      </mm:cloud>
-    </div>
-  </jsp:attribute>
-
-</oip:html>
+      </div>
+      
+      <div class="right-column">
+        <mm:cloud method="asis">
+          <mm:hasrank minvalue="basic user">
+            <fmt:message key="you_are" />
+            <jsp:text> </jsp:text>
+            <p><mm:include page="/you.jspx" /></p>
+          </mm:hasrank>
+          <mm:node number="page_register">
+            <mm:link page="${_node.path}">
+              <p><a href="${_}"><mm:field name="title" /></a></p>
+            </mm:link>
+          </mm:node>
+        </mm:cloud>
+      </div>
+      
+    </jsp:attribute>
+  
+  </oip:html>
+</jsp:root>

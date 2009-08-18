@@ -19,12 +19,14 @@
           </fmt:message>
         </p>
       </mm-sec:verifyEmail>
+      <p>
+        <mm:node number="page_login">
+          <mm:link absolute="true" page="${_node.path}">
+            <a href="${_}">Login</a>
+          </mm:link>
+        </mm:node>      
+      </p>
     </div>
-    <div class="right-column">
-      <div class="related">
-        <oip:h3>Login</oip:h3>
-        <mm:component name="oip" block="user-login" />
-      </div>
-    </div>
+    <div class="right-column"> </div>
   </jsp:attribute>
 </oip:html>

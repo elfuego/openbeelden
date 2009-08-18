@@ -23,7 +23,6 @@
 
       <c:catch var="error">
         <mm:present referid="submit_login">
-          <p>Submitting...</p>
           <mm:cloud username="${username}" password="${password}">
             <mm:url id="userpage">
               <mm:frameworkparam name="component">oip</mm:frameworkparam>
@@ -35,10 +34,10 @@
                  document.location = "${empty referrer ? userpage : referrer}";
               });
             </script>
-            <p class="msg">
+            <!-- p class="msg">
               You are logged in as ${username} (rank <mm:cloudinfo type="rank" />)
               <a href="${referrer}">${referrer}</a>.
-            </p>
+            </p -->
           </mm:cloud>
         </mm:present>
       </c:catch>
@@ -48,7 +47,8 @@
       </c:if>
       
       <c:if test="${empty submit_login or ! empty error}">
-        <form method="post" id="loginform">
+        <mm:url id="link" write="false" />
+        <form method="post" action="${link}" id="loginform">
           <fieldset>
             <input type="hidden" name="referrer" value="${referrer}" />
             <label for="username"><fmt:message key="login.account_name" /></label>
@@ -58,11 +58,11 @@
             <fmt:message key="login.login" var="login" />
             <p>
               <input name="submit_login" type="submit" value="${login}" class="submit" />
-              <!-- mm:node number="page_resetpassword">
+              <mm:node number="page_resetpassword">
                 <mm:link page="${_node.path}">
-                  <a class="TODO" href="${_}"><fmt:message key="login.forgot_password" /></a>
+                  <a href="${_}"><fmt:message key="login.forgot_password" /></a>
                 </mm:link>
-              </mm:node -->
+              </mm:node>
             </p>
           </fieldset>
         </form>
