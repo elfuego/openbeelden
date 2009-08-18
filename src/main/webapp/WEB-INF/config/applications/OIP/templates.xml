@@ -7,52 +7,59 @@
 		<mimetype></mimetype>
 	</node>
 
-	<node number="348" owner="admin">
+	<node number="348" owner="default">
 		<title>Media</title>
 		<description>Template for the media overview page</description>
 		<url>media.jspx</url>
 		<mimetype></mimetype>
 	</node>
 
-	<node number="350" owner="admin">
+	<node number="350" owner="default">
 		<title>Login</title>
-		<description>Template for login page</description>
+		<description>Template for the login page</description>
 		<url>login.jspx</url>
 		<mimetype>text/html</mimetype>
 	</node>
 
-	<node number="352" owner="admin">
+	<node number="352" owner="default">
 		<title>Register</title>
-		<description>Template for register</description>
+		<description>Template for the register page</description>
 		<url>register.jspx</url>
 		<mimetype>text/html</mimetype>
 	</node>
 
-	<node number="354" owner="admin">
+	<node number="354" owner="default">
 		<title>Upload</title>
-		<description>Template for upload</description>
+		<description>Template for uploading media</description>
 		<url>upload.jspx</url>
 		<mimetype>text/html</mimetype>
 	</node>
 
-	<node number="1000" owner="admin">
+	<node number="1000" owner="default">
 		<title>Contribute</title>
-		<description>Template for contribute</description>
+		<description>Template for the contribute page</description>
 		<url>contribute.jspx</url>
 		<mimetype>text/html</mimetype>
 	</node>
 
-	<node number="418" owner="179">
+	<node number="418" owner="default">
 		<title>Users</title>
-		<description>Users overview</description>
+		<description>Template for the users overview page</description>
 		<url>users.jspx</url>
 		<mimetype>text/html</mimetype>
 	</node>
 
-	<node number="458" owner="179">
+	<node number="458" owner="default">
 		<title>Contact</title>
-		<description></description>
+		<description>Template to create a contact page</description>
 		<url>contact.jspx</url>
+		<mimetype>text/html</mimetype>
+	</node>
+	
+	<node number="1001" owner="default">
+		<title>Reset password</title>
+		<description>Template for the reset password page</description>
+		<url>reset-password.jspx</url>
 		<mimetype>text/html</mimetype>
 	</node>
 

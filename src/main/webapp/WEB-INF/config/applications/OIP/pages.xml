@@ -5,7 +5,7 @@
 		<description>Offering online access to a selection of archive material to stimulate creative reuse.</description>
 		<template></template>
 		<path>/</path>
-		<expires>-1</expires>
+		<expires>120</expires>
 	</node>
 
 	<node number="308" owner="default">
@@ -13,7 +13,7 @@
 		<description></description>
 		<template>346</template>
 		<path>/about</path>
-		<expires>-1</expires>
+		<expires>120</expires>
 	</node>
 
 	<node number="310" owner="default">
@@ -29,7 +29,7 @@
 		<description></description>
 		<template>1000</template>
 		<path>/contribute</path>
-		<expires>-1</expires>
+		<expires>120</expires>
 	</node>
 
 	<node number="314" owner="default">
@@ -45,55 +45,55 @@
 		<description></description>
 		<template>352</template>
 		<path>/register</path>
-		<expires>-1</expires>
+		<expires>120</expires>
 	</node>
 
-	<node number="319" owner="admin" alias="page_login">
+	<node number="319" owner="default" alias="page_login">
 		<title>Login</title>
 		<description></description>
 		<template>350</template>
 		<path>/login</path>
-		<expires>-1</expires>
+		<expires>120</expires>
 	</node>
 
-	<node number="322" owner="admin">
+	<node number="322" owner="default">
 		<title>Help</title>
 		<description></description>
 		<template>346</template>
 		<path>/help</path>
-		<expires>-1</expires>
+		<expires>120</expires>
 	</node>
 
-	<node number="324" owner="admin">
+	<node number="324" owner="default">
 		<title>Feeds</title>
 		<description></description>
 		<template>346</template>
 		<path>/feeds</path>
-		<expires>-1</expires>
+		<expires>120</expires>
 	</node>
 
-	<node number="326" owner="admin">
+	<node number="326" owner="default">
 		<title>API</title>
 		<description></description>
 		<template>346</template>
 		<path>/api</path>
-		<expires>-1</expires>
+		<expires>120</expires>
 	</node>
 
-	<node number="328" owner="admin">
+	<node number="328" owner="default">
 		<title>Proclaimer</title>
 		<description></description>
 		<template>346</template>
 		<path>/proclaimer</path>
-		<expires>-1</expires>
+		<expires>120</expires>
 	</node>
 
-	<node number="330" owner="admin">
+	<node number="330" owner="default">
 		<title>Contact</title>
 		<description></description>
 		<template>458</template>
 		<path>/contact</path>
-		<expires>-1</expires>
+		<expires>120</expires>
 	</node>
 
 	<node number="332" owner="default" alias="page_upload">
@@ -101,7 +101,15 @@
 		<description></description>
 		<template>354</template>
 		<path>/upload</path>
-		<expires>-1</expires>
+		<expires>120</expires>
+	</node>
+
+	<node number="1002" owner="default" alias="page_resetpassword">
+		<title>Forgot password</title>
+		<description></description>
+		<template>1001</template>
+		<path>/forgot_password</path>
+		<expires>120</expires>
 	</node>
 
 </pages>
