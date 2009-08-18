@@ -49,6 +49,21 @@
             </mm:notpresent>
 
             <mm:present referid="nr">
+              
+              <mm:node number="$nr">
+                <mm:hasrelationmanager sourcemanager="pools" destinationmanager="$type" role="posrel">
+                  <p>
+                    <mm:include page="inc/searchrelate.jspx" referids="nr">
+                      <mm:param name="type">pools</mm:param>
+                      <mm:param name="role">posrel</mm:param>
+                      <mm:param name="searchdirs">source</mm:param>
+                      <mm:param name="sortorder">posrel.pos</mm:param>
+                      <mm:param name="listfields">name,description</mm:param>
+                    </mm:include>
+                  </p>
+                </mm:hasrelationmanager>
+              </mm:node>
+              
               <jsp:include page="inc/form-edit.jspx" />
 
               <mm:node number="$nr">
@@ -60,6 +75,17 @@
                       <mm:param name="searchdirs">destination</mm:param>
                       <mm:param name="sortorder">posrel.pos</mm:param>
                       <mm:param name="listfields">title,subtitle,language</mm:param>
+                    </mm:include>
+                  </p>
+                </mm:hasrelationmanager>
+                <mm:hasrelationmanager sourcemanager="$type" destinationmanager="pages" role="posrel">
+                  <p>
+                    <mm:include page="inc/searchrelate.jspx" referids="nr">
+                      <mm:param name="type">pages</mm:param>
+                      <mm:param name="role">posrel</mm:param>
+                      <mm:param name="searchdirs">destination</mm:param>
+                      <mm:param name="sortorder">posrel.pos</mm:param>
+                      <mm:param name="listfields">title,path</mm:param>
                     </mm:include>
                   </p>
                 </mm:hasrelationmanager>
@@ -107,7 +133,7 @@
                   </p>
                 </mm:hasrelationmanager>
               </mm:node>
-
+            
             </mm:present><!-- /nr -->
 
           </div><!-- /#content -->

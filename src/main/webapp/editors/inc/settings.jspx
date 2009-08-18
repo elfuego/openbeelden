@@ -34,6 +34,12 @@
     <mm:import id="editfields" reset="true">${searchfields},description,email</mm:import>
   </mm:compare>
 
+  <mm:compare referid="type" value="pools">
+    <mm:import id="listfields" reset="true">name,description</mm:import>
+    <mm:import id="searchfields" reset="true">${listfields}</mm:import>
+    <mm:import id="editfields" reset="true">${searchfields}</mm:import>
+  </mm:compare>
+
   <mm:compare referid="type" value="pages">
     <mm:import id="listfields" reset="true">title,path</mm:import>
     <mm:import id="searchfields" reset="true">${listfields},template,description</mm:import>
