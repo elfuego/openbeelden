@@ -5,6 +5,10 @@
     xsi:schemaLocation="http://www.mmbase.org/xmlns/builder
                         http://www.mmbase.org/xmlns/builder.xsd"
     name="language">
+    <descriptions>
+      <description xml:lang="nl">Taal waarin dit item of deze vertaling is gemaakt</description>
+      <description xml:lang="en">Language in which this item or translation is made</description>
+    </descriptions>
     <gui>
       <guiname xml:lang="nl">Taal</guiname>
       <guiname xml:lang="en">Language</guiname>
