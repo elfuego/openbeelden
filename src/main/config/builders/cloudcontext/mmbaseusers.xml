@@ -10,6 +10,7 @@
     defaultcontextintypedef="security"
     >
   <fieldlist>
+    
     <field name="defaultcontext" readonly="true">
       <datatype base="node" xmlns="http://www.mmbase.org/xmlns/datatypes">
         <getprocessor>
@@ -19,7 +20,8 @@
         </getprocessor>
       </datatype>
     </field>
-    <field  name="password">
+    
+    <field name="password">
       <gui>
         <guiname xml:lang="nl">Wachtwoord</guiname>
         <guiname xml:lang="eo">Pasvorto</guiname>
@@ -56,6 +58,7 @@
         <maxLength value="1024" />
       </datatype>
     </field>
+    
     <field name="suffix">
       <gui>
         <guiname xml:lang="nl">Tussenvoegsel</guiname>
@@ -128,11 +131,9 @@
       </datatype>
     </field>
 
-
-
     <field name="email">
       <gui>
-        <guiname xml:lang="nl">Email</guiname>
+        <guiname xml:lang="nl">E-mail</guiname>
         <guiname xml:lang="en">Email</guiname>
       </gui>
       <datatype base="internetaddress" xmlns="http://www.mmbase.org/xmlns/datatypes" >
@@ -144,8 +145,8 @@
 
     <field name="verify_email" state="system">
       <gui>
-        <guiname xml:lang="nl">Controleveld Email</guiname>
-        <guiname xml:lang="en">Verify Email</guiname>
+        <guiname xml:lang="nl">Controleveld e-mail</guiname>
+        <guiname xml:lang="en">Verify email</guiname>
       </gui>
       <datatype base="eline" xmlns="http://www.mmbase.org/xmlns/datatypes">
         <maxLength value="1024" />
