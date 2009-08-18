@@ -26,7 +26,7 @@
         <mm:import externid="component">oip</mm:import>
         <mm:import externid="block">user-edit</mm:import>
         <mm:import externid="n" required="true" />
-
+        
         <oip:h2 block="user-edit" />
         
         <mm:node referid="n">

@@ -35,7 +35,7 @@
       </div>
       
       <div class="right-column">
-        <div class="related">
+        <div class="related-grey">
           <oip:h3>Login</oip:h3>
           <mm:component name="oip" block="user-login" />
         </div>
