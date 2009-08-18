@@ -1,0 +1,194 @@
+<mm:content
+    xmlns:jsp="http://java.sun.com/JSP/Page"
+    xmlns:c="http://java.sun.com/jsp/jstl/core"
+    xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+    xmlns:mm="http://www.mmbase.org/mmbase-taglib-2.0"
+    xmlns:sr="http://www.mmbase.org/tags/mm/searchrelate"
+    expires="0" type="text/html" language="client" postprocessor="none">
+  <jsp:output doctype-root-element="html"
+              doctype-public="-//W3C//DTD XHTML 1.0 Strict//EN"
+              doctype-system="http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd" />
+  <mm:cloud loginpage="login.jspx" rank="project manager">
+
+    <mm:import externid="nr" />
+    <mm:import externid="msg" />
+    <mm:import id="pagetitle" />
+
+    <mm:present referid="nr">
+      <mm:hasnode number="$nr" inverse="true"><mm:redirect referids="type" /></mm:hasnode>
+      <mm:node number="$nr">
+        <mm:import id="pagetitle" reset="true">
+          <mm:nodeinfo type="plural_guitype" escape="lowercase" />
+          <mm:import id="type" reset="true"><mm:nodeinfo type="type" /></mm:import>
+        </mm:import>
+        <mm:import id="pagetitle" reset="true">
+          <mm:hasfield name="title"><mm:field name="title" escape="inline" /></mm:hasfield>
+          <mm:hasfield name="title" inverse="true"><mm:function name="gui" escape="tagstripper" /></mm:hasfield>
+          : ${pagetitle}
+        </mm:import>
+      </mm:node>
+    </mm:present>
+
+    <jsp:directive.include file="inc/settings.jspx" />
+
+    <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="${requestScope['javax.servlet.jsp.jstl.fmt.locale.request']}">
+      <mm:include page="inc/head.jspx" referids="type,pagetitle" />
+      <!--  <%@ include file="inc/htmleditor.jsp" %> -->
+      <body class="${type}">
+        <jsp:include page="inc/navigation.jspx" />
+        <div id="wrap">
+          <div id="content">
+            
+            <div id="mmajaxeditor-msg"> <!-- target for mmajaxeditor --> </div>
+            <mm:present referid="msg">
+              <p class="msg">${msg}</p>
+            </mm:present>
+
+            <mm:notpresent referid="nr">
+              <jsp:include page="inc/list.jspx" />
+            </mm:notpresent>
+
+            <mm:present referid="nr">
+              
+              <mm:node number="$nr">
+                <mm:hasrelationmanager sourcemanager="pools" destinationmanager="$type" role="posrel">
+                  <p>
+                    <mm:include page="inc/searchrelate.jspx" referids="nr">
+                      <mm:param name="type">pools</mm:param>
+                      <mm:param name="role">posrel</mm:param>
+                      <mm:param name="searchdirs">source</mm:param>
+                      <mm:param name="sortorder">posrel.pos</mm:param>
+                      <mm:param name="listfields">name,description</mm:param>
+                    </mm:include>
+                  </p>
+                </mm:hasrelationmanager>
+              </mm:node>
+              
+              <jsp:include page="inc/form-edit.jspx" />
+
+              <mm:node number="$nr">
+                <mm:hasrelationmanager sourcemanager="$type" destinationmanager="articles" role="posrel">
+                  <p>
+                    <mm:include page="inc/searchrelate.jspx" referids="nr">
+                      <mm:param name="type">articles</mm:param>
+                      <mm:param name="role">posrel</mm:param>
+                      <mm:param name="searchdirs">destination</mm:param>
+                      <mm:param name="sortorder">posrel.pos</mm:param>
+                      <mm:param name="listfields">title,subtitle,language</mm:param>
+                    </mm:include>
+                  </p>
+                </mm:hasrelationmanager>
+                <mm:hasrelationmanager sourcemanager="$type" destinationmanager="mediafragments" role="posrel">
+                  <p>
+                    <mm:include page="inc/searchrelate.jspx" referids="nr">
+                      <mm:param name="type">mediafragments</mm:param>
+                      <mm:param name="role">posrel</mm:param>
+                      <mm:param name="searchdirs">destination</mm:param>
+                      <mm:param name="sortorder">posrel.pos</mm:param>
+                      <mm:param name="listfields">title,subtitle,language</mm:param>
+                    </mm:include>
+                  </p>
+                </mm:hasrelationmanager>
+                <mm:hasrelationmanager sourcemanager="$type" destinationmanager="pages" role="posrel">
+                  <p>
+                    <mm:include page="inc/searchrelate.jspx" referids="nr">
+                      <mm:param name="type">pages</mm:param>
+                      <mm:param name="role">posrel</mm:param>
+                      <mm:param name="searchdirs">destination</mm:param>
+                      <mm:param name="sortorder">posrel.pos</mm:param>
+                      <mm:param name="listfields">title,path</mm:param>
+                    </mm:include>
+                  </p>
+                </mm:hasrelationmanager>
+                <mm:hasrelationmanager sourcemanager="$type" destinationmanager="images" role="posrel">
+                  <p>
+                    <mm:include page="inc/searchrelate.jspx" referids="nr">
+                      <mm:param name="type">images</mm:param>
+                      <mm:param name="role">posrel</mm:param>
+                      <mm:param name="searchdirs">destination</mm:param>
+                      <mm:param name="sortorder">posrel.pos</mm:param>
+                      <mm:param name="listfields">handle,title</mm:param>
+                    </mm:include>
+                  </p>
+                </mm:hasrelationmanager>
+                <mm:hasrelationmanager sourcemanager="$type" destinationmanager="images" role="related">
+                  <p>
+                    <mm:include page="inc/searchrelate.jspx" referids="nr">
+                      <mm:param name="type">images</mm:param>
+                      <mm:param name="role">related</mm:param>
+                      <mm:param name="searchdirs">destination</mm:param>
+                      <mm:param name="listfields">handle,title</mm:param>
+                    </mm:include>
+                  </p>
+                </mm:hasrelationmanager>
+                <mm:hasrelationmanager sourcemanager="$type" destinationmanager="urls" role="posrel">
+                  <p>
+                    <mm:include page="inc/searchrelate.jspx" referids="nr">
+                      <mm:param name="type">urls</mm:param>
+                      <mm:param name="role">posrel</mm:param>
+                      <mm:param name="searchdirs">destination</mm:param>
+                      <mm:param name="sortorder">posrel.pos</mm:param>
+                      <mm:param name="listfields">name,url</mm:param>
+                    </mm:include>
+                  </p>
+                </mm:hasrelationmanager>
+              </mm:node>
+            
+            </mm:present><!-- /nr -->
+
+          </div><!-- /#content -->
+          <div id="sidebar">
+            <mm:present referid="nr">
+              <mm:node number="$nr">
+                <mm:hasnodemanager name="${type}_translations">
+                  <mm:hasrelationmanager sourcemanager="$type" destinationmanager="${type}_translations" role="langrel">
+                    <h3>Translations</h3>
+  
+                    <ul>
+                      <li id="create_translation">
+                        <mm:link page="inc/form-create.jspx" referids="nr">
+                          <mm:param name="type">${type}_translations</mm:param>
+                          <mm:param name="role">langrel</mm:param>
+                          <mm:param name="dir">destination</mm:param>
+                          <a class="mmajaxeditor" href="${_}#create_translation">New translation</a>
+                        </mm:link>
+                      </li>                      
+                      <mm:relatednodescontainer type="${type}_translations" role="langrel" searchdirs="destination">
+                        <mm:relatednodes>
+                          <li id="node_${_node}">
+                          
+                            <mm:link page="inc/form-edit.jspx" referids="_node@nr">
+                              <a href="${_}#node_${_node}" class="mmajaxeditor">
+                                <mm:field name="language"><mm:fieldinfo type="guivalue" /></mm:field>
+                                - <mm:function name="gui" />
+                              </a>
+                            </mm:link>
+                            
+                            <mm:maydelete> -
+                              <mm:link page="inc/form-delete.jspx" referids="_node@nr">
+                                <a href="${_}#node_${_node}" class="mmajaxeditor">delete</a>
+                              </mm:link>
+                            </mm:maydelete>
+
+                          </li>
+                        </mm:relatednodes>
+                      </mm:relatednodescontainer>
+                      
+                      </ul>
+                    <div id="create_translation" class="displaynone">  </div>
+                  </mm:hasrelationmanager>
+                </mm:hasnodemanager>
+              </mm:node>
+            </mm:present><!-- /nr -->
+          </div><!-- /#sidebar -->
+        </div><!-- /#wrap -->
+
+        <mm:link page="/editors/sr/searchrelate.js.jsp">
+          <mm:param name="editor">/editors/edit.jspx</mm:param>
+          <script type="text/javascript" src="${_}"><!-- for ie --></script>
+        </mm:link>
+
+      </body>
+    </html>
+  </mm:cloud>
+</mm:content>

@@ -1,0 +1,172 @@
+<jsp:root
+    version="2.0"
+    xmlns:c="http://java.sun.com/jsp/jstl/core"
+    xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+    xmlns:fmt="http://java.sun.com/jsp/jstl/fmt"
+    xmlns:oip="urn:jsptagdir:/WEB-INF/tags/oip"
+    xmlns:jsp="http://java.sun.com/JSP/Page"
+    xmlns:mm="http://www.mmbase.org/mmbase-taglib-2.0"
+    >
+  <jsp:directive.attribute name="advanced" type="java.lang.Boolean"
+          description="If this is an advanced search or not">false</jsp:directive.attribute>
+  <jsp:directive.attribute name="language"
+          description="Prefered language of user" />
+    
+    <mm:import externid="q" />
+    <mm:import externid="user" />
+    <mm:import externid="source" />
+    <mm:import externid="date" />
+    <mm:import externid="length" />
+    <mm:import externid="uploaded" />
+    <mm:import externid="_searchlang"></mm:import>
+    <mm:import externid="license" />
+
+    <mm:import id="langpostfix">
+      <!-- a bit of a hack, should use fw-parmas -->
+      <c:if test="${! empty requestScope['org.mmbase.mmsite.language']}">
+        <jsp:text>.${requestScope['org.mmbase.mmsite.language']}</jsp:text>
+      </c:if>
+    </mm:import>
+
+    <c:set var="classhidden" value="hidden" />
+    <c:set var="searchlink">${mm:link('/media')}${langpostfix}</c:set>
+
+   <form action="${searchlink}" method="post" id="search">
+     <oip:h2><fmt:message key="search.media_items" /></oip:h2>
+     <fieldset>
+       <input name="q" value="${q}" type="text" id="searchinput" tabindex="2" />
+       <c:if test="${advanced eq false}">
+         <p><a href="${searchlink}"><fmt:message key="search.advanced" /></a></p>
+       </c:if>
+     </fieldset>
+     <c:if test="${advanced eq true}">
+       <fieldset class="advanced">
+
+         <label for="user"><fmt:message key="media.user" /></label>
+         <input name="user" id="user" value="${user}" type="text" />
+
+         <label for="source"><fmt:message key="media.source" /></label>
+         <input name="source" id="source" value="${source}" type="text" />
+<!--
+         <c:set var="label_date"><fmt:message key="media.date" /></c:set>
+         <label for="date"><fmt:message key="media.date" /></label>
+         <select id="date" name="date">
+           <option label="${label_date}" value="">${label_date}</option>
+           <c:choose>
+             <c:when test="${date eq 'today'}">
+               <option label="Today" value="today" selected="selected">Today</option>
+             </c:when>
+             <c:otherwise>
+               <option label="Today" value="today">Today</option>
+             </c:otherwise>
+           </c:choose>
+           <c:choose>
+             <c:when test="${date eq 'week'}">
+               <option label="Last week" value="week" selected="selected">Last week</option>
+             </c:when>
+             <c:otherwise>
+               <option label="Last week" value="week">Last week</option>
+             </c:otherwise>
+           </c:choose>
+           <c:choose>
+             <c:when test="${date eq 'month'}">
+               <option label="Last month" value="month" selected="selected">Last month</option>
+             </c:when>
+             <c:otherwise>
+               <option label="Last month" value="month">Last month</option>
+             </c:otherwise>
+           </c:choose>
+         </select>
+-->         
+         <c:set var="label_uploaded"><fmt:message key="media.uploaded" /></c:set>
+         <label for="uploaded"><fmt:message key="media.uploaded" /></label>
+         <select id="uploaded" name="uploaded">
+           <option label="${label_uploaded}" value="">${label_uploaded}</option>
+           <c:choose>
+             <c:when test="${uploaded eq 'today'}">
+               <option label="Today" value="today" selected="selected">Today</option>
+             </c:when>
+             <c:otherwise>
+               <option label="Today" value="today">Today</option>
+             </c:otherwise>
+           </c:choose>
+           <c:choose>
+             <c:when test="${uploaded eq 'week'}">
+               <option label="Last week" value="week" selected="selected">Last week</option>
+             </c:when>
+             <c:otherwise>
+               <option label="Last week" value="week">Last week</option>
+             </c:otherwise>
+           </c:choose>
+           <c:choose>
+             <c:when test="${uploaded eq 'month'}">
+               <option label="Last month" value="month" selected="selected">Last month</option>
+             </c:when>
+             <c:otherwise>
+               <option label="Last month" value="month">Last month</option>
+             </c:otherwise>
+           </c:choose>
+         </select>
+        
+         <c:set var="label_length"><fmt:message key="media.length" /></c:set>
+         <label for="length"><fmt:message key="media.length" /></label>
+         <select id="length" name="length">
+           <option label="${label_length}" value="">${label_length}</option>
+           <c:choose>
+             <c:when test="${length eq 'short'}">
+               <option label="Short (&amp;lt; 2 minutes)" value="short" selected="selected">Short (&amp;lt; 2 minutes)</option>
+             </c:when>
+             <c:otherwise>
+               <option label="Short (&amp;lt; then 2 minutes)" value="short">Short (&amp;lt; 2 minutes)</option>
+             </c:otherwise>
+           </c:choose>
+           <c:choose>
+             <c:when test="${length eq 'average'}">
+               <option label="Average (2 - 4 minutes)" value="average" selected="selected">Average (2 - 4 minutes)</option>
+             </c:when>
+             <c:otherwise>
+               <option label="Average (2 - 4 minutes)" value="average">Average (2 - 4 minutes)</option>
+             </c:otherwise>
+           </c:choose>
+           <c:choose>
+             <c:when test="${length eq 'long'}">
+               <option label="Long (&amp;gt; 4 minutes)" value="long" selected="selected">Long (&amp;gt; 4 minutes)</option>
+             </c:when>
+             <c:otherwise>
+               <option label="Long (&amp;gt; 4 minutes)" value="long">Long (&amp;gt; 4 minutes)</option>
+             </c:otherwise>
+           </c:choose>
+         </select>
+
+         <label for="mm_searchlang"><fmt:message key="media.language" /></label>
+         <mm:datatype nodemanager="articles" field="language" id="searchlang">
+           <default value="" />
+           <required value="false" />
+         </mm:datatype>
+         <mm:fieldinfo datatype="searchlang" node="" type="input" />
+
+         <c:set var="label_license"><fmt:message key="media.license" /></c:set>
+         <label for="license"><fmt:message key="media.license" /></label>
+         <mm:listnodescontainer type="licenses">
+           <select id="license" name="license">
+             <option value="" label="${label_license}">${label_license}</option>
+           <mm:listnodes>
+             <c:if test="${license eq _node.number}">
+               <option value="${_node.number}" label="${_node.name}" selected="selected">${_node.name}</option>
+             </c:if>
+             <option value="${_node.number}" label="${_node.name}">${_node.name}</option>
+           </mm:listnodes>
+           </select>
+         </mm:listnodescontainer>
+
+       </fieldset>
+       <c:set var="classhidden" value="" />
+     </c:if>
+
+     <fieldset class="${classhidden}">
+       <fmt:message key="search.button" var="button" />
+       <input type="submit" name="action" value="${button}" class="submit" />
+     </fieldset>
+   </form>
+
+</jsp:root>

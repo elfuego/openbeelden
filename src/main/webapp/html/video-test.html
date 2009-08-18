@@ -1,0 +1,48 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN"
+        "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<title>Javascript test</title>
+
+</head>
+<body>
+
+<h1>Video test in Javascript</h1>
+
+<script type="text/javascript">
+
+    var el = document.createElement("video");
+    var types = ['video/mp4', 'video/mpeg', 'audio/ogg', 'video/ogg'];
+    if (el.canPlayType) {
+        document.write("This browser '");
+        document.write(navigator.appName + ' - ' +  navigator.appVersion );
+        document.write("' can render the &lt;video /&gt; tag, but what can it play?<br />");
+        for (var i = 0; i < types.length; i++) {
+            document.write("<br />" + types[i]);
+            /*
+             http://www.whatwg.org/specs/web-apps/current-work/multipage/video.html#dom-navigator-canplaytype
+             Firefox 3.5 is very strict about this and does not return 'probably', but does on 'maybe'.
+            */
+            if (el.canPlayType( types[i] ) == "probably") {  // or 'maybe' for FF 3.5 ?
+                //var probably = urls[i];
+                document.write(" - probably: " + types[i]);
+            }
+            if (el.canPlayType( types[i] ) == "maybe") {  // or 'maybe' for FF 3.5 ?
+                //var probably = urls[i];
+                document.write(" - maybe: " + types[i]);
+            }
+            if (el.canPlayType( types[i] ) == "no") {  // or 'maybe' for FF 3.5 ?
+                //var probably = urls[i];
+                document.write(" - not: " + types[i]);
+            }
+        }
+        
+        
+    } else {
+        document.write("This browser does not recognize the video tag.");
+    }
+
+</script>
+
+</body>
+</html>

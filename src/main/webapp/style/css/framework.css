@@ -1,0 +1,295 @@
+/**
+* @author   Open Images Platform
+* @since    May 2009
+* @name     Stylesheet with the page lay-out stuff
+* @version  0.1
+*/
+
+div#main
+{
+	width: 980px;
+	margin: 0;
+	padding: 0;
+}
+
+#menu a:link
+{
+	text-decoration: none;
+	color: #333;
+}
+
+#menu a:visited
+{
+	text-decoration: none;
+	color: #333;
+}
+
+#menu a:hover
+{
+	text-decoration: underline;
+	color: #c00;
+}
+
+#menu a:active
+{
+	text-decoration: underline;
+	color: #e00120;
+}
+
+#menu li.active a { color: #aaa; }
+
+#header
+{
+	position: absolute;
+	top: 20px;
+	left: 0;
+	padding-left: 35px;
+	width: 320px;	/* for IE5/Win */
+	voice-family: "\"}\"";
+	voice-family: inherit;
+	width: 290px;
+}
+
+#header img { margin-bottom: 45px; }
+#header p { font-style: italic; }
+
+#menu
+{
+	position: relative;
+	top: 0;
+	left: 335px;
+	width: 640px;
+	height: 32px;
+	border-bottom: 3px #666 dotted;
+	font-size: 1.1em;
+}
+
+#menu ul.main
+{
+	float: left;
+	height: 25px;
+	padding-top: 8px;
+	list-style: none;
+	width: 340px;
+}
+
+#menu ul.meta
+{
+	float: left;
+	height: 25px;
+	padding-top: 8px;
+	list-style: none;
+	width: 300px;
+}
+
+#menu ul.main li
+{
+	float: left;
+	padding: 0 32px 0 4px;
+}
+
+#menu ul.main li.last { padding-right: 0; }
+
+
+#menu ul.meta li
+{
+	float: right;
+	display: inline;
+	text-align: right;
+}
+
+#menu ul.meta li#you
+{
+	white-space: nowrap;
+	word-spacing: 2px;
+	padding-right: 8px;
+}
+
+
+#menu ul.meta li form,
+#menu ul.meta li fieldset,
+#menu select
+{
+	margin: 0;
+	padding: 0;
+	width: 120px;
+}
+
+#menu ul.meta li a { color: #c00; }
+
+#footer
+{
+	width: 100%;
+	padding-top: 40px;
+	clear: both;
+}
+
+#footer div
+{
+	position: fixed;
+	bottom: 0;
+	left: 0;
+	width: 100%;
+	height: 24px;
+	background: #9c9c9c;
+}
+
+#footer ul
+{
+	list-style: none;
+	padding-left: 340px;
+}
+
+#footer li
+{
+	float: left;
+	margin: 2px 18px 0 0;
+	list-style: none;
+	text-transform: lowercase;
+	font-size: 0.85em;
+}
+
+#footer a:link, 
+#footer a:visited 
+{
+	color: #fff;
+	text-decoration: none;
+}
+#footer a:hover, 
+#footer a:active { text-decoration: underline; }
+
+
+/* columns */
+div.wrap
+{
+	width: 100%;
+	clear: both;
+	border-top: 3px #666 dotted;
+	background-image: url(images/bg-gr.png);
+	background-repeat: repeat-x;
+	background-position: 0 8px;
+	min-height: 266px;
+	overflow: hidden; /* http://www.quirksmode.org/css/clearing.html */
+}
+
+div.left-column
+{
+	float: left;
+	margin-top: 306px; 
+	padding-left: 35px;
+    padding-top: 16px;
+	border-top: 3px #666 dotted;
+	background-image: url(images/bg-gr.png);
+	background-repeat: repeat-x;
+	background-position: 0 8px;
+	min-height: 266px;
+	width: 320px;	/* for IE5/Win */
+	voice-family: "\"}\"";
+	voice-family: inherit;
+	width: 290px;
+}
+
+div.main-column
+{
+	float: left;
+	display: inline;	/* IE6/Win fix */
+	padding-top: 10px;
+	margin-left: 15px;
+	margin-bottom: 8px;
+	width: 320px;
+}
+
+div.right-column
+{
+	float: left;
+	display: inline;    /* IE6/Win fix */
+	padding-top: 10px;
+	padding-left: 5px;
+	margin-bottom: 8px;
+	margin-left: 10px;
+	width: 310px;   /* for IE5/Win */
+	voice-family: "\"}\"";
+	voice-family: inherit;
+	width: 305px;
+}
+
+
+/* differences per page */
+body.home div#main div.left-column { display: none; }
+body.home div#main div.main-column { margin-left: 340px; }
+body.home div#main div.right-column div.related { /*padding-top: 18px;*/ }
+
+body.home div#main div.wrap div.left-column
+{
+	padding-top: 16px;
+	margin-top: 0;
+	border: 0;
+	display: block;
+}
+
+body.home div#main div.wrap div.main-column
+{
+	padding-top: 16px;
+	margin-left: 15px;
+}
+
+body.home div#main div.wrap div.right-column
+{
+	padding-top: 16px;
+	margin-left: 15px;
+	width: 300px;
+}
+
+body.media div#main div.left-column { margin-top: 186px; }
+body.media div#main div#header p { display: none; }
+
+/* error pages */
+body.error div.main-column
+{
+	padding-top: 10px;
+	margin-bottom: 8px;
+	width: 640px;
+	margin-left: 335px;
+}
+
+body.error div.main-column h2,
+body.error div.main-column h3
+{
+	font-family: Helvetica, sans-serif;
+	text-transform: none;
+}
+
+/* the bordered and grey background divs */
+div.related-grey-border
+{
+	border-top: 3px #666 dotted;
+	background-image: url(images/bg-gr.png);
+	background-repeat: repeat-x;
+	background-position: 0 8px;
+	min-height: 266px;
+	padding: 8px;
+	clear: both;
+	margin-bottom: 1em;
+}
+
+div.related-grey
+{
+	background-image: url(images/bg-gr.png);
+	background-repeat: repeat-x;
+	background-position: 0 0;
+	min-height: 266px;
+	padding: 8px;
+	clear: both;
+	margin-bottom: 1em;
+}
+
+div.related
+{
+	min-height: 266px;
+	padding: 8px;
+	clear: both;
+	margin-bottom: 1em;
+}
+
+div.related h2, div.related-grey h2 { margin-top: 0; }
+div.related h3, div.related-grey h3 { margin-top: 0; }

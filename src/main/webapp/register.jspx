@@ -1,0 +1,46 @@
+<?xml version="1.0"?>
+<jsp:root
+    version="2.0"
+    xmlns:jsp="http://java.sun.com/JSP/Page"
+    xmlns:c="http://java.sun.com/jsp/jstl/core"
+    xmlns:fmt="http://java.sun.com/jsp/jstl/fmt"
+    xmlns:mm="http://www.mmbase.org/mmbase-taglib-2.0"
+    xmlns:oip="urn:jsptagdir:/WEB-INF/tags/oip">
+  <oip:html cacheable="false" styleClass="createuser">
+    <jsp:attribute name="head">
+      <mm:component name="oip" block="createuser" render="head" />
+    </jsp:attribute>
+    <jsp:attribute name="body">
+      
+      <div class="main-column">
+        
+        <oip:h2><mm:field name="title" /></oip:h2>
+        <mm:nodefunction name="translation">
+          <mm:field name="description" escape="paragraph" />
+        </mm:nodefunction>        
+        
+        <mm:relatednodescontainer type="articles" role="posrel" searchdirs="destination">
+          <mm:sortorder field="posrel.pos" direction="UP" />
+          <mm:maxnumber value="1" />
+          <mm:relatednodes>
+            <!-- disclaimer text above registration -->
+            <mm:nodefunction name="translation">
+              <mm:import id="legaltext" reset="true"><mm:field name="body" /></mm:import>
+            </mm:nodefunction>
+            <mm:write request="eu.openimages.legaltext" referid="legaltext" />
+          </mm:relatednodes>
+        </mm:relatednodescontainer>
+
+        <mm:component name="oip" block="createuser" />
+      </div>
+      
+      <div class="right-column">
+        <div class="related-grey">
+          <oip:h3>Login</oip:h3>
+          <mm:component name="oip" block="user-login" />
+        </div>
+      </div>
+
+    </jsp:attribute>
+  </oip:html>
+</jsp:root>

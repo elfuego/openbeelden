@@ -1,0 +1,74 @@
+<mm:content
+    type="application/xml"
+    xmlns:c="http://java.sun.com/jsp/jstl/core"
+    xmlns:jsp="http://java.sun.com/JSP/Page"
+    xmlns:fmt="http://java.sun.com/jsp/jstl/fmt"
+    xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+    xmlns:mm="http://www.mmbase.org/mmbase-taglib-2.0"
+    xmlns:oip="urn:jsptagdir:/WEB-INF/tags/oip"
+    >
+  <jsp:output omit-xml-declaration="true" />
+  <div
+      class="mm_c c_oip b_user-login ${requestScope.className}"
+      id="${requestScope['org.mmbase.componentId']}">
+
+      <script type="text/javascript">
+        Widgets.prototype.labelsToInputs("#loginform label");
+      </script>
+      
+      <mm:import externid="username" />
+      <mm:import externid="password" />
+      <mm:import externid="submit_login" />
+      <mm:import externid="referrer" />
+
+      <c:catch var="error">
+        <mm:present referid="submit_login">
+          <mm:cloud username="${username}" password="${password}">
+            <mm:url id="userpage">
+              <mm:frameworkparam name="component">oip</mm:frameworkparam>
+              <mm:frameworkparam name="block">user</mm:frameworkparam>
+              <mm:frameworkparam name="user"><mm:cloudinfo type="usernode" /></mm:frameworkparam>
+            </mm:url>
+            <script type="text/javascript">
+              $(document).ready(function() {
+                 document.location = "${empty referrer ? userpage : referrer}";
+              });
+            </script>
+            <!-- p class="msg">
+              You are logged in as ${username} (rank <mm:cloudinfo type="rank" />)
+              <a href="${referrer}">${referrer}</a>.
+            </p -->
+          </mm:cloud>
+        </mm:present>
+      </c:catch>
+      
+      <c:if test="${! empty error}">
+        <p class="err"><jsp:text> </jsp:text>${error.message}</p>
+      </c:if>
+      
+      <c:if test="${empty submit_login or ! empty error}">
+        <mm:url id="link" write="false" />
+        <form method="post" action="${link}" id="loginform">
+          <fieldset>
+            <input type="hidden" name="referrer" value="${referrer}" />
+            <label for="username"><fmt:message key="login.account_name" /></label>
+            <input id="username" name="username" value="${username}" />
+            <label for="password"><fmt:message key="login.password" /></label>
+            <input id="password" name="password" value="${password}" type="password" />
+            <fmt:message key="login.login" var="login" />
+            <p>
+              <input name="submit_login" type="submit" value="${login}" class="submit" />
+              <mm:node number="page_resetpassword">
+                <mm:link page="page" referids="_node@n">
+                  <mm:frameworkparam name="component">mmsite</mm:frameworkparam>
+                  <a href="${_}"><fmt:message key="login.forgot_password" /></a>
+                </mm:link>
+              </mm:node>
+            </p>
+
+          </fieldset>
+        </form>
+      </c:if>
+
+  </div>
+</mm:content>

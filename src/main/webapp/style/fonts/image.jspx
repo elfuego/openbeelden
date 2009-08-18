@@ -1,0 +1,17 @@
+<jsp:root
+    version="2.0"
+    xmlns:jsp="http://java.sun.com/JSP/Page"
+    xmlns:mm="http://www.mmbase.org/mmbase-taglib-2.0">
+  <jsp:output omit-xml-declaration="true" />
+  <mm:content expires="120" type="application/xhtml+xml" escaper="none">
+    <mm:import externid="text" />
+    <mm:cloud method="delegate" authenticate="class">
+      <mm:import id="t"><mm:write escape="tagstripper" referid="text" /></mm:import>
+      <mm:node number="org.mmbase.resources.transparentpixel">
+        <mm:image
+            xmlnamespace="http://www.w3.org/1999/xhtml"
+            mode="img" alt="${t}" template="s(200x20!)+font(mm:fonts/DINEngschriftStd.ttf)+fill(a5a5a5)+pointsize(24)+gravity(NorthWest)+text(0,1,'$t')" />
+      </mm:node>
+    </mm:cloud>
+  </mm:content>
+</jsp:root>

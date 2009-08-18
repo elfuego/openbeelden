@@ -1,0 +1,122 @@
+<createcaches
+    xmlns="http://www.mmbase.org/xmlns/createcaches"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.mmbase.org/xmlns/createcaches http://www.mmbase.org/xmlns/createcaches.xsd"
+    >
+
+  <!--
+     Example configuration
+    -->
+  <!--
+  <server max_simultaneous_transcoders="2" host="localhost" port="1679" />
+  -->
+  <localhost max_simultaneous_transcoders="1" />
+  <!--
+  <server max_simultaneous_transcoders="2" host="openbeelden2.tuxic.nl" port="1679" />
+  -->
+
+  <!--
+  <transcoder>
+    <class name="org.mmbase.streams.transcoders.InfiniteTranscoder">
+
+    </class>
+  </transcoder>
+  -->
+
+  <recognizer id="recognizer">
+    <class name="org.mmbase.streams.transcoders.FFMpegRecognizer">
+    </class>
+    <loganalyzer name="org.mmbase.streams.transcoders.FFMpegAnalyzer" />
+  </recognizer>
+
+  <!-- ffmpeg -i video.mpg -f mpeg -vcodec mpeg2video -r 25 -b 1024k -acodec libmp3lame -ab 128k -ac 2 video.flv -->
+<!-- 
+  <transcoder mimetype="video/*" id="v1">
+    <class name="org.mmbase.streams.transcoders.FFMpegTranscoder">
+      <param name="format">mpeg</param>
+      <param name="vcodec">mpeg2video</param>
+      <param name="bitrate">1024k</param>
+      <param name="r">25</param>
+      <param name="acodec">libmp3lame</param>
+      <param name="abitrate">128k</param>
+      <param name="audioChannels">2</param>
+      <param name="async">1</param>
+    </class>
+    <loganalyzer name="org.mmbase.streams.transcoders.FFMpegAnalyzer" />
+  </transcoder>
+ -->
+  
+  <transcoder mimetype="video/*" id="v2">
+    <class name="org.mmbase.streams.transcoders.FFMpeg2TheoraTranscoder">
+      <param name="videoQuality">5</param>
+      <param name="width">320</param>
+      <param name="height">240</param>
+    </class>
+    <loganalyzer name="org.mmbase.streams.transcoders.FFMpeg2TheoraAnalyzer" />
+  </transcoder>
+
+  <transcoder mimetype="video/*" id="v3">
+    <class name="org.mmbase.streams.transcoders.FFMpeg2TheoraTranscoder">
+      <param name="videoQuality">8</param>
+    </class>
+    <loganalyzer name="org.mmbase.streams.transcoders.FFMpeg2TheoraAnalyzer" />
+  </transcoder>
+
+  <transcoder mimetype="video/*" id="v4">
+    <class name="org.mmbase.streams.transcoders.FFMpegTranscoder">
+      <param name="format">mp4</param>
+      <param name="vcodec">libx264</param>
+      <param name="framesPerSecond">25</param>
+      <param name="bitrate">1024k</param>
+      <param name="acodec">libfaac</param>
+      <param name="abitrate">128k</param>
+      <param name="audioChannels">2</param>
+      <param name="async">1</param>
+    </class>
+    <loganalyzer name="org.mmbase.streams.transcoders.FFMpegAnalyzer" />
+  </transcoder>
+
+  <transcoder mimetype="audio/*" id="a1">
+    <class name="org.mmbase.streams.transcoders.FFMpegTranscoder">
+      <param name="format">ogg</param>
+      <param name="acodec">libvorbis</param>
+      <param name="ab">192k</param>
+    </class>
+    <loganalyzer name="org.mmbase.streams.transcoders.FFMpegAnalyzer" />
+  </transcoder>
+
+  <!-- ffmpeg -i audio.wav -acodec libmp3lame -ab 192k audio.mp3 -->
+  <transcoder mimetype="audio/*" id="a2">
+    <class name="org.mmbase.streams.transcoders.FFMpegTranscoder">
+      <param name="format">mp3</param>
+      <param name="acodec">libmp3lame</param>
+      <param name="ab">192k</param>
+    </class>
+    <loganalyzer name="org.mmbase.streams.transcoders.FFMpegAnalyzer" />
+  </transcoder>
+  <!--
+
+  <transcoder mimetype="image/*" id="i1">
+    <class name="org.mmbase.streams.transcoders.FFMpeg2TheoraTranscoder">
+      <param name="videoQuality">8</param>
+    </class>
+    <loganalyzer name="org.mmbase.streams.transcoders.FFMpeg2TheoraAnalyzer" />
+  </transcoder>
+  -->
+  <!--
+  <transcoder>
+    <class name="org.mmbase.streams.transcoders.FFMpegTranscoder">
+      <param name="codec">mp4</param>
+    </class>
+
+    <loganalyzer name="org.mmbase.streams.transcoders.FFMpegAnalyzer" />
+  </transcoder>
+  -->
+  <!--
+  <transcoder>
+    <class name="org.mmbase.streams.transcoders.InfiniteTranscoder">
+
+    </class>
+  </transcoder>
+  -->
+</createcaches>

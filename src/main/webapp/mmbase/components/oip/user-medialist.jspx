@@ -1,0 +1,91 @@
+<mm:content
+    type="application/xml"
+    xmlns:c="http://java.sun.com/jsp/jstl/core"
+    xmlns:jsp="http://java.sun.com/JSP/Page"
+    xmlns:fmt="http://java.sun.com/jsp/jstl/fmt"
+    xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+    xmlns:mm="http://www.mmbase.org/mmbase-taglib-2.0"
+    xmlns:oip="urn:jsptagdir:/WEB-INF/tags/oip"
+    >
+  <jsp:output omit-xml-declaration="true" />
+    <div
+        class="mm_c c_oip b_user-medialist ${requestScope.className}"
+        id="${requestScope['org.mmbase.componentId']}">
+
+      <oip:h2><fmt:message key="media.my_contributions" /></oip:h2>
+
+      <mm:import externid="n" />
+      <mm:import externid="max">10</mm:import>
+      <mm:import externid="offset">0</mm:import>
+
+      <mm:escaper id="wrapper" type="substring">
+        <mm:param name="from" value="0" />
+        <mm:param name="to" value="32" />
+        <mm:param name="ellipsis" value="..." />
+      </mm:escaper>
+
+      <mm:listnodescontainer type="videofragments">
+        <mm:sortorder field="number" direction="DOWN" />
+        <mm:constraint field="owner" value="$n" operator="EQUAL" />
+        <mm:size id="total_video" write="false" />
+        <mm:maxnumber value="$max" />
+        <mm:offset value="$offset" />
+        <mm:listnodes id="videolist" />
+      </mm:listnodescontainer>
+
+      <mm:listnodescontainer type="audiofragments">
+        <mm:sortorder field="number" direction="DOWN" />
+        <mm:constraint field="owner" value="$n" operator="EQUAL" />
+        <mm:size id="total_audio" write="false" />
+        <mm:maxnumber value="$max" />
+        <mm:offset value="$offset" />
+        <mm:listnodes id="audiolist" />
+      </mm:listnodescontainer>
+
+      <mm:listnodescontainer type="imagefragments">
+        <mm:sortorder field="number" direction="DOWN" />
+        <mm:constraint field="owner" value="$n" operator="EQUAL" />
+        <mm:size id="total_images" write="false" />
+        <mm:maxnumber value="$max" />
+        <mm:offset value="$offset" />
+        <mm:listnodes id="imageslist" />
+      </mm:listnodescontainer>
+
+      <div id="tabs">
+        <ul class="list-tabs">
+          <li><a href="#t_video"><span>Video (${total_video})</span></a></li>
+          <li><a href="#t_images"><span>Images (${total_images})</span></a></li>
+          <li><a href="#t_audio"><span>Audio (${total_audio})</span></a></li>
+        </ul>
+
+        <mm:url absolute="true" id="baseurl" write="false" />
+        <div id="t_video">
+          <oip:medialist list="${videolist}" />
+          <p class="pager">
+            <oip:pager total="${total_video}" offset="${offset}" max="${max}" 
+              baseurl="${baseurl}" fragment="#video" />
+          </p>
+        </div>
+
+        <div id="t_images">
+          <oip:medialist list="${imageslist}" />
+          <p class="pager">
+            <oip:pager total="${total_images}" offset="${offset}" max="${max}" 
+              baseurl="${baseurl}" fragment="#images" />
+          </p>
+        </div>
+        
+        <div id="t_audio">
+          <oip:medialist list="${audiolist}" />
+          <p class="pager">
+            <oip:pager total="${total_audio}" offset="${offset}" max="${max}" 
+              baseurl="${baseurl}" fragment="#audio" />
+          </p>
+        </div>
+        
+      </div><!-- /#tabs -->
+
+      <mm:notpresent referid="n"><p class="err">No usernode!</p></mm:notpresent>
+
+    </div>
+</mm:content>

@@ -1,0 +1,64 @@
+<?xml version="1.0"?>
+<luceneindex
+    xmlns="http://www.mmbase.org/xmlns/luceneindex"
+    xmlns:mmsq="http://www.mmbase.org/xmlns/searchquery"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.mmbase.org/xmlns/luceneindex http://www.mmbase.org/xmlns/luceneindex.xsd">
+   
+  <index name="media">
+    <description>Lucene index for media in OIP</description>
+    
+    <list type="mediafragments">
+      <mmsq:constraint field="show" value="true" />
+      <mmsq:field name="otype" alias="otype" />
+      <mmsq:field name="title" boost="3" />
+      <mmsq:field name="title" keyword="true" escape="lowercase" alias="sorttitle" store="true" />
+      <mmsq:field name="language" alias="language" keyword="true" store="true" />
+      <mmsq:field name="subtitle" boost="2" />
+      <mmsq:field name="intro" />
+      <mmsq:field name="body" />
+      <mmsq:field name="source"  alias="source" />
+      <mmsq:field name="show"    alias="show"   keyword="true" store="true" />
+      <mmsq:field name="online"  alias="online" />
+      <mmsq:field name="offline" alias="offline" />
+      <mmsq:field name="length"  alias="length" keyword="true" />
+      <mmsq:field name="creator" alias="user" />
+      <mmsq:field name="created" alias="created" />
+      <mmsq:field name="date"    alias="date" />
+      <mmsq:field name="keywords" boost="4" />
+      <mmsq:relatednodes type="tags">
+        <mmsq:field name="name" boost="2" />
+      </mmsq:relatednodes>
+      <mmsq:relatednodes type="licenses">
+        <mmsq:field name="number" alias="licensenr" store="true" />
+        <mmsq:field name="name" />
+        <mmsq:field name="url" />
+      </mmsq:relatednodes>
+      <mmsq:relatednodes type="mediafragments_translations">
+        <mmsq:field name="language" alias="translation" keyword="true" store="true" />
+        <mmsq:field name="title" boost="2" />
+        <mmsq:field name="subtitle" boost="2" />
+        <mmsq:field name="intro" />
+        <mmsq:field name="body" />
+        <mmsq:field name="source" />
+      </mmsq:relatednodes>
+    </list>
+    
+  </index>
+  
+  <index name="users">
+    <description>Lucene index for users in OIP</description>
+    
+    <list type="mmbaseusers">
+      <mmsq:constraint field="status" value="1" /><!-- in use -->
+      <mmsq:field name="number"   alias="date" keyword="true" />
+      <mmsq:field name="username" alias="name" keyword="true" />
+      <mmsq:field name="username" />
+      <mmsq:field name="firstname" />
+      <mmsq:field name="lastname" />
+      <mmsq:field name="status" keyword="true" alias="status" store="true" />
+    </list>
+  
+  </index>
+	
+</luceneindex>

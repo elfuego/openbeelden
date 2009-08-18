@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<pools exportsource="mmbase://grgrijze.toly.net/oip/oi" timestamp="20090610233953">
+	<node number="335" owner="default" alias="pool_oip">
+		<description>Open Images Platform</description>
+		<name>Open Images Platform</name>
+	</node>
+
+</pools>

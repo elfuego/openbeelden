@@ -1,0 +1,20 @@
+<mm:content 
+    type="text/javascript"
+    expires="120"
+    language="client"
+    xmlns:c="http://java.sun.com/jsp/jstl/core"
+    xmlns:jsp="http://java.sun.com/JSP/Page"
+    xmlns:mm="http://www.mmbase.org/mmbase-taglib-2.0">
+  <jsp:output omit-xml-declaration="true" />
+  <mm:cloud>
+    <mm:import externid="tag" required="true" />
+    <mm:listnodescontainer type="tags">
+      <mm:constraint field="name" value="${tag}%" operator="LIKE" />
+      <mm:sortorder field="name" direction="UP" />
+      <mm:maxnumber value="25" />
+      <mm:listnodes>
+        <mm:first>[</mm:first>"<mm:field name="name" />"<mm:last inverse="true">, </mm:last><mm:last>]</mm:last>
+      </mm:listnodes>
+    </mm:listnodescontainer>
+  </mm:cloud>
+</mm:content>

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mmbasecontexts exportsource="mmbase://grgrijze.toly.net/oip/oi" timestamp="20090610233953">
+	<node number="1002" owner="security">
+		<name>siteusers</name>
+		<description>Typedefs of this type can be created by site users</description>
+	</node>
+
+	<node number="1003" owner="security">
+		<name>beeldengeluid</name>
+		<description></description>
+	</node>
+
+</mmbasecontexts>

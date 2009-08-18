@@ -1,0 +1,27 @@
+<mm:content
+    type="application/xml"
+    xmlns:c="http://java.sun.com/jsp/jstl/core"
+    xmlns:jsp="http://java.sun.com/JSP/Page"
+    xmlns:fmt="http://java.sun.com/jsp/jstl/fmt"
+    xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+    xmlns:oip="urn:jsptagdir:/WEB-INF/tags/oip"
+    xmlns:mm="http://www.mmbase.org/mmbase-taglib-2.0"
+    >
+  <jsp:output omit-xml-declaration="true" />
+    <div
+        class="mm_c c_oip b_users ${requestScope.className}"
+        id="${requestScope['org.mmbase.componentId']}">
+
+        <mm:listnodescontainer type="mmbaseusers">
+          <ul>
+            <mm:listnodes>
+              <mm:link page="user" referids="_node@n">
+                <li><oip:user /></li>
+            </mm:link>
+          </mm:listnodes>
+          </ul>
+        </mm:listnodescontainer>
+
+    </div>
+
+</mm:content>

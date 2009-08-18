@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE application PUBLIC "-//MMBase//DTD application config 1.1//EN" "http://www.mmbase.org/dtd/application_1_1.dtd">
+<application name="MultiLanguage" maintainer="openimages.eu" version="2" auto-deploy="true">
+
+  <requirements>
+  </requirements>
+
+  <neededbuilderlist>
+    <builder maintainer="mmbase.org" version="1">articles</builder>
+    <builder maintainer="mmbase.org" version="1">articles_translations</builder>
+    <builder maintainer="mmbase.org" version="1">mediafragments</builder>
+    <builder maintainer="mmbase.org" version="1">mediafragments_translations</builder>
+    <builder maintainer="mmbase.org" version="1">pages</builder>
+    <builder maintainer="mmbase.org" version="1">pages_translations</builder>
+    <builder maintainer="mmbase.org" version="1">langrel</builder>
+  </neededbuilderlist>
+
+  <neededreldeflist>
+    <reldef source="langrel" target="langrel" direction="bidirectional" guisourcename="LangRel" guitargetname="LangRel" builder="langrel" />
+ </neededreldeflist>
+
+  <allowedrelationlist>
+    <relation from="articles"       to="articles_translations" type="langrel" />
+    <relation from="mediafragments" to="mediafragments_translations" type="langrel" />
+    <relation from="pages"          to="pages_translations" type="langrel" />
+  </allowedrelationlist>
+
+  <datasourcelist>
+    <datasource builder="articles"              path="MultiLanguage/articles.xml" />
+    <datasource builder="articles_translations" path="MultiLanguage/articles_translations.xml" />
+  </datasourcelist>
+
+  <relationsourcelist>
+	<relationsource builder="langrel" path="MultiLanguage/langrel.xml" />
+  </relationsourcelist>
+
+  <contextsourcelist>
+	<!-- <contextsource path="MultiLanguage/backup.xml" type="depth" goal="backup" /> -->
+  </contextsourcelist>
+
+  <description>
+    This is the MMBase application for the multi-language functionality of the Open Images Platform.
+  </description>
+
+  <install-notice>
+    The application MultiLanguage is installed.
+  </install-notice>
+</application>

@@ -1,0 +1,32 @@
+<oip:html
+    cacheable="false"
+    xmlns:c="http://java.sun.com/jsp/jstl/core"
+    xmlns:jsp="http://java.sun.com/JSP/Page"
+    xmlns:fmt="http://java.sun.com/jsp/jstl/fmt"
+    xmlns:oip="urn:jsptagdir:/WEB-INF/tags/oip"
+    xmlns:mm-sec="http://www.mmbase.org/tags/mm/security"
+    xmlns:mm="http://www.mmbase.org/mmbase-taglib-2.0">
+  <jsp:attribute name="body">
+
+    <div class="main-column">
+      <oip:h3>Verified</oip:h3>
+      <mm-sec:verifyEmail
+          signature="${param.signature}">
+        <p class="msg">
+          <mm:setfield name="status">INUSE</mm:setfield>
+          <fmt:message key="register.verified">
+            <fmt:param><mm:field name="username" /></fmt:param>
+          </fmt:message>
+        </p>
+      </mm-sec:verifyEmail>
+      <p>
+        <mm:node number="page_login">
+          <mm:link absolute="true" page="${_node.path}">
+            <a href="${_}">Login</a>
+          </mm:link>
+        </mm:node>      
+      </p>
+    </div>
+    <div class="right-column"> </div>
+  </jsp:attribute>
+</oip:html>

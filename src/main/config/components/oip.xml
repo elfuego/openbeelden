@@ -1,0 +1,264 @@
+<?xml version="1.0"?>
+<component
+    name="oip"
+    defaultblock="media"
+    version="1"
+    xmlns="http://www.mmbase.org/xmlns/component"
+    xmlns:xi="http://www.w3.org/2001/XInclude"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.mmbase.org/xmlns/component
+                        http://www.mmbase.org/xmlns/component.xsd">
+
+  <description xml:lang="en">OIP</description>
+  <description xml:lang="nl">OIP</description>
+
+  <bundle name="eu.openimages.messages" />
+
+  <block name="media"
+         classification="mmbase.oip"
+         mimetype="text/html">
+    <title xml:lang="en">Media</title>
+    <title xml:lang="nl">Media</title>
+    <description xml:lang="en">List with media</description>
+    <description xml:lang="nl">Lijst met media items.</description>
+    <body jsp="media.jspx">
+    </body>
+  </block>
+
+  <block name="mediafragment"
+         classification="oip"
+         mimetype="text/html">
+    <title xml:lang="en">Media item</title>
+    <title xml:lang="nl">Mediaitem</title>
+    <description xml:lang="en"></description>
+    <description xml:lang="nl">Mediaitem: video, audio, images</description>
+    <body jsp="mediafragment.jspx">
+      <param name="n"     type="org.mmbase.bridge.Node" />
+    </body>
+  </block>
+
+  <block name="users"
+         classification="mmbase.oip"
+         mimetype="text/html">
+    <title xml:lang="en">Users</title>
+    <title xml:lang="nl">Gebruikers</title>
+    <description xml:lang="en">List with users</description>
+    <description xml:lang="nl">Lijst met gebruikers</description>
+    <body jsp="users.jspx">
+    </body>
+  </block>
+
+  <block name="createuser"
+         classification="mmbase.oip"
+         mimetype="text/html">
+    <title xml:lang="en">New user</title>
+    <title xml:lang="nl">Nieuwe gebruiker</title>
+    <xi:include href="http://www.mmbase.org/components/validation.head.xml" />
+    <xi:include href="http://www.mmbase.org/components/widgets.head.xml" />
+    <body jsp="create_user.jspx" />
+  </block>
+
+  <block name="user-login"
+         classification="oip"
+         mimetype="text/html">
+    <title xml:lang="en">Login</title>
+    <title xml:lang="nl">Login</title>
+    <description xml:lang="en">Login to Open Images</description>
+    <description xml:lang="nl">Login bij Open Beelden</description>
+    <xi:include href="http://www.mmbase.org/components/validation.head.xml" />
+    <xi:include href="http://www.mmbase.org/components/widgets.head.xml" />
+    <body jsp="user-login.jspx">
+    </body>
+  </block>
+  
+  <block name="user-resetpassword"
+         classification="oip"
+         mimetype="text/html">
+    <title xml:lang="en">Forgot password</title>
+    <title xml:lang="nl">Wachtwoord vergeten</title>
+    <description xml:lang="en">Forgot password of Open Images</description>
+    <description xml:lang="nl">Wachtwoord vergeten van Open Beelden</description>
+    <xi:include href="http://www.mmbase.org/components/widgets.head.xml" />
+    <body jsp="user-resetpassword.jspx">
+    </body>
+  </block>
+  
+  <block name="user"
+         classification="oip"
+         mimetype="text/html">
+    <title xml:lang="en">My profile</title>
+    <title xml:lang="nl">Mijn profiel</title>
+    <description xml:lang="en">A user</description>
+    <description xml:lang="nl">Een gebruiker</description>
+    <head>
+      <class name="org.mmbase.framework.StringRenderer">
+        <param name="string"><![CDATA[<link rel="stylesheet" href="{REQUEST.getContextPath}/style/css/specific-styles.css" type="text/css" />]]></param>
+      </class>
+    </head>
+    <body jsp="user.jspx">
+      <param name="n"     type="org.mmbase.bridge.Node" />
+    </body>
+  </block>
+
+  <block name="user-edit"
+         classification="oip"
+         mimetype="text/html">
+    <title xml:lang="en">Edit my profile</title>
+    <title xml:lang="nl">Bewerk mijn profiel</title>
+    <description xml:lang="en">Edit your user information</description>
+    <description xml:lang="nl">Bewerk je gebruikersinformatie</description>
+    <xi:include href="http://www.mmbase.org/components/validation.head.xml" />
+    <body jsp="user-edit.jspx">
+      <param name="n" type="org.mmbase.bridge.Node" />
+    </body>
+  </block>
+
+  <block name="user-picture"
+         classification="oip"
+         mimetype="text/html">
+    <title xml:lang="en">User picture</title>
+    <title xml:lang="nl">Gebruikers afbeelding</title>
+    <description xml:lang="en"></description>
+    <description xml:lang="nl"></description>
+    <xi:include href="http://www.mmbase.org/components/validation.head.xml" />
+    <body jsp="user-picture.jspx">
+      <param name="n"    type="org.mmbase.bridge.Node" />
+      <param name="edit" />
+    </body>
+  </block>
+
+  <block name="user-medialist"
+         classification="oip"
+         mimetype="text/html">
+    <title xml:lang="en">My contributions</title>
+    <title xml:lang="nl">Mijn bijdragen</title>
+    <description xml:lang="en">User contributions</description>
+    <description xml:lang="nl">Bijdragen van een gebruiker</description>
+    <body jsp="user-medialist.jspx">
+      <param name="n" type="org.mmbase.bridge.Node" />
+    </body>
+  </block>
+
+  <block name="user-favorites"
+         classification="mmbase.oip"
+         mimetype="text/html">
+    <title xml:lang="en">My favorites</title>
+    <title xml:lang="nl">Mijn favorieten</title>
+    <description xml:lang="en">User favorites</description>
+    <description xml:lang="nl">Bewaarde favorieten</description>
+    <body jsp="user-favorites.jspx">
+      <param name="n" type="org.mmbase.bridge.Node" />
+      <param name="favorite" type="String" />
+      <param name="remove" type="String" />
+    </body>
+  </block>
+
+  <block name="user-media"
+         classification="oip"
+         mimetype="text/html">
+    <title xml:lang="en">Edit medadata</title>
+    <title xml:lang="nl">Edit metadata</title>
+    <description xml:lang="en">Edit one of the media contributions</description>
+    <description xml:lang="nl">Edit een van de media bijdragen</description>
+    <xi:include href="http://www.mmbase.org/components/validation.head.xml" />
+    <body jsp="user-media.jspx">
+      <param name="n" type="org.mmbase.bridge.Node" />
+      <param name="media" type="String" />
+    </body>
+  </block>
+
+  <block name="user-mediaupload"
+         classification="oip"
+         mimetype="text/html">
+    <title xml:lang="en">Upload media</title>
+    <title xml:lang="nl">Upload media</title>
+    <description xml:lang="en">Includes stream upload</description>
+    <description xml:lang="nl">Includes stream upload</description>
+    <xi:include href="http://www.mmbase.org/components/validation.head.xml" />
+    <head>
+      <class name="org.mmbase.framework.StringRenderer">
+        <param name="string"><![CDATA[<script src="{REQUEST.getContextPath}/style/js/upload.js" type="text/javascript"> </script>]]></param>
+      </class>
+    </head>
+    <body jsp="user-mediaupload.jspx">
+      <param name="n" type="org.mmbase.bridge.Node" />
+    </body>
+  </block>
+
+  <block name="user-mediatranslations"
+         classification="oip"
+         mimetype="text/html">
+    <title xml:lang="en">Translations</title>
+    <title xml:lang="nl">Vertalingen</title>
+    <description xml:lang="en">Translations of a media item's meta data</description>
+    <description xml:lang="nl">Vertalingen van de metadata van een media item</description>
+    <head>
+      <class name="org.mmbase.framework.StringRenderer">
+        <param name="string"><![CDATA[
+          <script src="{REQUEST.getContextPath}/mmbase/jquery/jquery.form.js" type="text/javascript"> </script>
+          <script src="{REQUEST.getContextPath}/style/js/mmajaxeditor.js" type="text/javascript"> </script>
+        ]]></param>
+      </class>
+    </head>
+    <body jsp="user-mediatranslations.jspx">
+      <param name="n" type="org.mmbase.bridge.Node" />
+    </body>
+  </block>
+  
+  <block name="user-mediapreview"
+         classification="oip"
+         mimetype="text/html">
+    <title xml:lang="en">Preview</title>
+    <title xml:lang="nl">Preview</title>
+    <description xml:lang="en">Media item preview</description>
+    <description xml:lang="nl">Preview van een mediaitem</description>
+    <head>
+      <class name="org.mmbase.framework.StringRenderer">
+        <param name="string"><![CDATA[
+          <script src="{REQUEST.getContextPath}/style/js/play.js.jsp" type="text/javascript"> </script>
+          <script src="{REQUEST.getContextPath}/style/js/player.js" type="text/javascript"> </script>
+          <script src="{REQUEST.getContextPath}/player/flowplayer-3.1.1.min.js" type="text/javascript"> </script>
+          <link href="{REQUEST.getContextPath}/style/css/player.css" type="text/css" rel="stylesheet" />
+        ]]></param>
+      </class>
+    </head>
+    <body jsp="user-mediapreview.jspx">
+      <param name="n" type="org.mmbase.bridge.Node" />
+      <param name="media" type="String" />
+      <param name="edit"  type="String" />
+    </body>
+  </block>
+
+  <block name="user-streams"
+         classification="oip"
+         mimetype="text/html">
+    <title xml:lang="en">Media transcoding</title>
+    <title xml:lang="nl">Media transcodering</title>
+    <description xml:lang="en">Status of your media transcodings.</description>
+    <description xml:lang="nl">Status van je media transcoderingen.</description>
+    <head>
+    </head>
+    <body jsp="user-streams.jspx">
+      <param name="n" type="org.mmbase.bridge.Node" />
+      <param name="media"     type="String" />
+      <param name="trigger"   type="String" />
+      <param name="interrupt" type="String" />
+    </body>
+  </block>
+
+  <block name="user-streamjobs"
+         classification="oip"
+         mimetype="text/html">
+    <title xml:lang="en">Streamjobs</title>
+    <title xml:lang="nl">Stream jobs</title>
+    <description xml:lang="en">Your jobs</description>
+    <description xml:lang="nl">Je jobs</description>
+    <head>
+    </head>
+    <body jsp="user-streamjobs.jspx">
+      <param name="n" type="org.mmbase.bridge.Node" />
+      <param name="media" type="String" />
+    </body>
+  </block>
+
+</component>
