@@ -207,6 +207,19 @@ public class UsersUrlConverter extends DirectoryUrlConverter {
                     log.debug("No user with name" + username);
                     return Url.NOT;
                 }
+                
+                // checks dates and stuff
+                Date today = new Date();
+                int status = node.getIntValue("status");
+                Date validfrom = node.getDateValue("validfrom");
+                Date validto = node.getDateValue("validto");
+                if (status < 1 || validfrom.after(today) || validto.before(today)) {
+                    if (log.isServiceEnabled()) {
+                        log.service("user offline because status: " + status + ", validfrom: " + validfrom + ", validto: " + validto);
+                    }
+                    return Url.NOT;
+                }
+                
                 frameworkParameters.set(USER, node);
                 String nr = "" + node.getNumber();
                 result.append(nr);

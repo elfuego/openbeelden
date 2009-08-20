@@ -113,14 +113,35 @@ public class MediaUrlConverter extends DirectoryUrlConverter {
                 return Url.NOT;
             }
             Cloud cloud = frameworkParameters.get(Parameter.CLOUD);
-            String nmName = cloud.getNode(nr).getNodeManager().getName();
-            if (nmName.equals("mediafragments") || nmName.equals("videofragments") ||
-                    nmName.equals("imagefragments") || nmName.equals("audiofragments")) {
-                frameworkParameters.set(MEDIA, cloud.getNode(nr));
-                result.append(nr);
+            if (cloud.hasNode(nr)) {
+                Node mediafragment = cloud.getNode(nr);
+                
+                Date today = new Date();
+                boolean show = mediafragment.getBooleanValue("show");
+                Date online = mediafragment.getDateValue("online");
+                Date offline = mediafragment.getDateValue("offline");
+                String nmName = mediafragment.getNodeManager().getName();
+                
+                if (!nmName.equals("mediafragments") && 
+                        !nmName.equals("videofragments") &&
+                        !nmName.equals("imagefragments") && 
+                        !nmName.equals("audiofragments")) {
+                    if (log.isDebugEnabled()) log.debug("not a mediafragment");
+                    return Url.NOT;
+                } else if (!show || online.after(today) || offline.before(today)) {
+                    if (log.isServiceEnabled()) {
+                        log.service("mediafragment not shown: " + show + ", online: " + online + ", offline: " + offline);
+                    }
+                    return Url.NOT;
+                } else {
+                    frameworkParameters.set(MEDIA, mediafragment);
+                    result.append(nr);
+                }
             } else {
+                // node not found
                 return Url.NOT;
             }
+
         }
 
         if (log.isDebugEnabled()) log.debug("returning: " + result.toString());
