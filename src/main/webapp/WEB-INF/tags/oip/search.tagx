@@ -22,7 +22,7 @@
     <mm:import externid="license" />
 
     <mm:import id="langpostfix">
-      <!-- a bit of a hack, should use fw-parmas -->
+      <!-- a bit of a hack, should use fw-params -->
       <c:if test="${! empty requestScope['org.mmbase.mmsite.language']}">
         <jsp:text>.${requestScope['org.mmbase.mmsite.language']}</jsp:text>
       </c:if>
@@ -48,7 +48,7 @@
          <label for="source"><fmt:message key="media.source" /></label>
          <input name="source" id="source" value="${source}" type="text" />
 <!--
-         <c:set var="label_date"><fmt:message key="media.date" /></c:set>
+         <c:set var="label_date"><fmt:message key="search.any_period" /></c:set>
          <label for="date"><fmt:message key="media.date" /></label>
          <select id="date" name="date">
            <option label="${label_date}" value="">${label_date}</option>
@@ -78,7 +78,7 @@
            </c:choose>
          </select>
 -->         
-         <c:set var="label_uploaded"><fmt:message key="media.uploaded" /></c:set>
+         <c:set var="label_uploaded"><fmt:message key="search.any_period" /></c:set>
          <label for="uploaded"><fmt:message key="media.uploaded" /></label>
          <select id="uploaded" name="uploaded">
            <option label="${label_uploaded}" value="">${label_uploaded}</option>
@@ -108,7 +108,7 @@
            </c:choose>
          </select>
         
-         <c:set var="label_length"><fmt:message key="media.length" /></c:set>
+         <c:set var="label_length"><fmt:message key="search.any_length" /></c:set>
          <label for="length"><fmt:message key="media.length" /></label>
          <select id="length" name="length">
            <option label="${label_length}" value="">${label_length}</option>
@@ -144,8 +144,9 @@
            <required value="false" />
          </mm:datatype>
          <mm:fieldinfo datatype="searchlang" node="" type="input" />
+         <input name="hiddensearchlang" id="hiddensearchlang" type="hidden" value="${_searchlang}" />
 
-         <c:set var="label_license"><fmt:message key="media.license" /></c:set>
+         <c:set var="label_license"><fmt:message key="search.any_license" /></c:set>
          <label for="license"><fmt:message key="media.license" /></label>
          <mm:listnodescontainer type="licenses">
            <select id="license" name="license">

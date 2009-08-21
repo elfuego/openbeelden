@@ -115,6 +115,7 @@ div#main
 	width: 120px;
 }
 
+#menu ul.meta label { display: none; }
 #menu ul.meta li a { color: #c00; }
 
 #footer

@@ -1,11 +1,14 @@
 // -*- mode: javascript; -*-
-<%@ taglib uri="http://www.mmbase.org/mmbase-taglib-2.0" prefix="mm" %>
-<mm:content type="text/javascript" expires="300">
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" 
+%><%@ taglib uri="http://www.mmbase.org/mmbase-taglib-2.0" prefix="mm" %>
+<mm:content encoding="UTF-8" type="text/javascript" expires="300">
+<fmt:setBundle basename="eu.openimages.messages" scope="request" />
+<mm:import id="any_lang"><fmt:message key="search.any_language" /></mm:import>
 
 /*
   Main javascript file for the Open Images Platform
-  @author: André van Toly
-  @version: 0.1
+  @author: Andre van Toly
+  @version: 0.2
   @changes: initial version
 */
 
@@ -21,8 +24,14 @@ function initLangSwitch() {
         }
         var newUrl = action.join("/");
         document.location = newUrl;
-        //form.submit();
     });
+    // change the empty language options
+    var choose_lang = $("#menu label[for='mm_org.mmbase.mmsite.language']").text();
+    $("select[id='mm_org.mmbase.mmsite.language'] option[value='']").text(choose_lang);
+    $("select[id='mm_searchlang'] option[value='']").text("${any_lang}");
+    // change selected language in adv. search
+    var la = $("#hiddensearchlang").val()
+    $("select[id='mm_searchlang'] option[value='" + la + "']").attr("selected", "selected");
 }
 
 function initClearMsg() {
@@ -45,25 +54,25 @@ function initToolbar() {
     });
     $('li.license a').click(function(ev) {
         ev.preventDefault();
-        var link = ev.target.href;  // id of el. to show is in fragment
+        var link = ev.target.href;
         var id = link.substring(link.indexOf("#") + 1);
         $('#' + id).toggle('fast');
     });
     $('li.share a').click(function(ev) {
         ev.preventDefault();
-        var link = ev.target.href;  // id of el. to show is in fragment
+        var link = ev.target.href;
         var id = link.substring(link.indexOf("#") + 1);
         $('#' + id).toggle('fast');
     });
     $('li.download a').click(function(ev) {
         ev.preventDefault();
-        var link = ev.target.href;  // id of el. to show is in fragment
+        var link = ev.target.href;
         var id = link.substring(link.indexOf("#") + 1);
         $('#' + id).toggle('fast');
     });
     $('li.embed a').click(function(ev) {
         ev.preventDefault();
-        var link = ev.target.href;  // id of el. to show is in fragment
+        var link = ev.target.href;
         var id = link.substring(link.indexOf("#") + 1);
         $('#' + id).toggle('fast');
     });

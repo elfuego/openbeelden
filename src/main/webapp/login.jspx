@@ -35,7 +35,7 @@
             <mm:node number="page_register">
               <mm:link page="page" referids="_node@n">
                 <mm:frameworkparam name="component">mmsite</mm:frameworkparam>
-                <p><a href="${_}"><mm:field name="title" /></a></p>
+                <p><a href="${_}"><fmt:message key="users.register" /></a></p>
               </mm:link>
             </mm:node>
           </mm:cloud>

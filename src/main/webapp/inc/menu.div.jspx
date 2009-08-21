@@ -1,6 +1,7 @@
 <div
-    xmlns:c="http://java.sun.com/jsp/jstl/core"
     xmlns:jsp="http://java.sun.com/JSP/Page"
+    xmlns:c="http://java.sun.com/jsp/jstl/core"
+    xmlns:fmt="http://java.sun.com/jsp/jstl/fmt"
     xmlns:oip="urn:jsptagdir:/WEB-INF/tags/oip"
     xmlns:mm="http://www.mmbase.org/mmbase-taglib-2.0"
     id="menu">
@@ -44,6 +45,9 @@
           <form method="post" action="${_}">
             <fieldset>
               <mm:field name="org.mmbase.mmsite.language">
+                <mm:fieldinfo type="forid">
+                  <label for="${_}"><fmt:message key="service.choose_language" /></label>
+                </mm:fieldinfo>
                 <mm:fieldinfo datatype="language_selector" type="input" />
               </mm:field>
               <input name="action" type="submit" value="OK" class="hidden" />
