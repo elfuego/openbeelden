@@ -24,7 +24,7 @@
       <c:catch var="error">
         <mm:present referid="submit_login">
           <mm:cloud username="${username}" password="${password}">
-            <mm:url id="userpage">
+            <mm:url id="userpage" write="false">
               <mm:frameworkparam name="component">oip</mm:frameworkparam>
               <mm:frameworkparam name="block">user</mm:frameworkparam>
               <mm:frameworkparam name="user"><mm:cloudinfo type="usernode" /></mm:frameworkparam>
