@@ -260,8 +260,10 @@ public class AssetImporter implements Runnable, LoggerAccepter {
                         
                         RelationManager rm = cloud.getRelationManager(cloud.getNodeManager("mediafragments"), cloud.getNodeManager("licenses"), "related"); 
                         Node licenseNode = cloud.getNodeByAlias("licenses_attributionsharealike");
-                        mediaFragment.createRelation(licenseNode, rm).commit();
-                        log.info("Related mediafragment " + mediaFragment.getNumber() + " to license " + licenseNode.getStringValue("name"));
+                        if (SearchUtil.findRelatedNode(mediaFragment, "licenses", "related") == null) {
+                            mediaFragment.createRelation(licenseNode, rm).commit();
+                            log.info("Related mediafragment " + mediaFragment.getNumber() + " to license " + licenseNode.getStringValue("name"));
+                        }
                         
                     } else {
                         log.warn("No files found, ignoring this");
