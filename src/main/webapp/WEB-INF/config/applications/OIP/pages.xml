@@ -104,10 +104,10 @@
 		<expires>120</expires>
 	</node>
 
-	<node number="1002" owner="default" alias="page_resetpassword">
+	<node number="803" owner="default" alias="page_resetpassword">
 		<title>Forgot password</title>
 		<description></description>
-		<template>1001</template>
+		<template>801</template>
 		<path>/forgot_password</path>
 		<expires>120</expires>
 	</node>

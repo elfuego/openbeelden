@@ -52,12 +52,12 @@
 		<pos>15</pos>
 	</node>
 
-	<node number="1003" owner="admin" snumber="335" dnumber="1002" rtype="posrel" dir="bidirectional">
-		<pos>15</pos>
-	</node>
-
 	<node number="436" owner="414" snumber="414" dnumber="434" rtype="posrel" dir="bidirectional">
 		<pos>1</pos>
+	</node>
+	
+	<node number="804" owner="admin" snumber="335" dnumber="803" rtype="posrel" dir="bidirectional">
+		<pos>-1</pos>
 	</node>
 
 </posrel>

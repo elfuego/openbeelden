@@ -56,7 +56,7 @@
 		<mimetype>text/html</mimetype>
 	</node>
 	
-	<node number="1001" owner="default">
+	<node number="801" owner="default">
 		<title>Reset password</title>
 		<description>Template for the reset password page</description>
 		<url>reset-password.jspx</url>
