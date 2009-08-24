@@ -5,6 +5,11 @@
 * @version  0.1
 */
 
+#clientcaps	/* used by MSIE Java plugin detection, sigh :-( */
+{
+	behavior: url(#default#clientCaps);
+	display: none;
+}
 
 #playercontrols { width: 320px; }
 

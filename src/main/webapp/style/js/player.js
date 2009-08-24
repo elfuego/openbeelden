@@ -6,7 +6,7 @@
   a multitude of players (but defies MSIE ;-): http://footage.stealthisfilm.com/
 
   @author: André van Toly
-  @version: 0.2
+  @version: 0.2.1
   @params:
     id - id of the element that contains the video-tag
     config - configuration parameters
@@ -14,7 +14,7 @@
         'jar' : JAR file of Cortado
         'flash' : location of flowplayer.swf
 
-  @changes: support for msie
+  @changes: support for msie and Java applet detection in IE
 */
 
 var player;
@@ -189,10 +189,8 @@ MSCortadoPlayer.prototype = new CortadoPlayer();
 MSCortadoPlayer.prototype.init = function(id, url, config) {
     this._init(id, url, config);
     this.url = url;
-    /* msie (or windows java) has issues with just a dir, and will not run with a port like f.e. 8080 */
+    /* msie (or windows java) can only load an applet from the root of a site, not a directory or context */
     var jar = config.server + config.dir + "/" + config.jar; 
-    //var jar = "http://www.toly.net/cortado.jar"
-    //var jar = "http://openbeelden1.tuxic.nl/beta/player/" + config.jar;
     var element = document.createElement('div');
     var obj_html = '' +
     '<object classid="clsid:8AD9C840-044E-11D1-B3E9-00805F499D93" '+
@@ -256,7 +254,10 @@ FlowPlayer.prototype.info = function() {
     //return "Playing: " + this.url;
 }
 
-/* Selects which player to use. Adapt this to change the prefered order, in this video, cortado, flash. */
+/* 
+   Selects which player to use and returns a proposal.type and proposal.url. 
+   Adapt this to change the prefered order, here the order is: video, cortado, msie_cortado flash.
+*/
 function selectPlayer(types, urls) {
     var proposal = new Object();
     var probably = canPlayVideo(types, urls);
@@ -264,33 +265,37 @@ function selectPlayer(types, urls) {
         proposal.type = "video";
         proposal.url = probably;
     }
-
+    
     if (proposal.type == undefined) {
         probably = canPlayCortado(types, urls);
         if (probably != undefined && (supportMimetype('application/x-java-applet') || navigator.javaEnabled())) {
-            if ($.browser.msie) {       // Argh! A browser check!
-                proposal.type = "msie_cortado";
+            if ($.browser.msie) {   // Argh! A browser check!
+                /* IE always reports true on navigator.javaEnabled() */
+                var javaVersionIE = clientcaps.getComponentVersion("{08B0E5C0-4FCB-11CF-AAA5-00401C608500}", "ComponentID");
+                if (javaVersionIE) {
+                    proposal.type = "msie_cortado";
+                    proposal.url = probably;
+                }
             } else {
                 proposal.type = "cortado";
+                proposal.url = probably;
             }
-            proposal.url = probably;
-        } else {
-            var flash_url;
-            for (var i = 0; i < types.length; i++) {
-                //console.log(urls[i])
-                if (types[i].indexOf("video/mp4") > -1 || types[i].indexOf("video/flv") > -1 || types[i].indexOf("video/mpeg") > -1) {
-                    proposal.url = urls[i];
-                    proposal.type = "flash";
-                }
+        }
+    }
+    if (proposal.type == undefined) {
+        var flash_url;
+        for (var i = 0; i < types.length; i++) {
+            if (types[i].indexOf("video/mp4") > -1 || types[i].indexOf("video/flv") > -1 || types[i].indexOf("video/mpeg") > -1) {
+                proposal.url = urls[i];
+                proposal.type = "flash";
             }
-
         }
     }
     return proposal;
 }
 
 /*
- * Returns url it expects to be able to play
+ * Returns Ogg url it expects to be able to play
 */
 function canPlayCortado(types, urls) {
     var url;
@@ -342,7 +347,7 @@ function canPlayVideo(types, urls) {
 }
 
 function supportMimetype(mt) {
-	var support = false;
+	var support = false;    /* navigator.mimeTypes is unsupported by MSIE ! */
     if (navigator.mimeTypes && navigator.mimeTypes.length > 0) {
 		for (var i = 0; i < navigator.mimeTypes.length; i++) {
 			if (navigator.mimeTypes[i].type.indexOf(mt) > -1) {

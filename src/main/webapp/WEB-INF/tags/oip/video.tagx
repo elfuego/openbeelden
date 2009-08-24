@@ -46,7 +46,8 @@
       </c:if>
     </mm:listfunction>
   </mm:import>
-
+  
+  <div id="clientcaps"><jsp:text> </jsp:text></div>
   <c:choose>
     <c:when test="${empty mediaurls}">
       <div id="vplayer" class="inavailable">
