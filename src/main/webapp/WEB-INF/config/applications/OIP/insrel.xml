@@ -57,7 +57,7 @@
 	<node number="478" owner="179" snumber="335" dnumber="303" rtype="related" dir="bidirectional">
 	</node>
 
-	<node number="1005" owner="179" snumber="335" dnumber="1001" rtype="related" dir="bidirectional">
+	<node number="805" owner="179" snumber="335" dnumber="801" rtype="related" dir="bidirectional">
 	</node>
 
 </insrel>
