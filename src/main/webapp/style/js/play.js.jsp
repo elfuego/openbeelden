@@ -92,8 +92,8 @@ function followProgress() {
         oldpos = pos;
         pos = player.position();
         if (pos > 0) {
-            var min = Math.round(pos / 60);
-            var sec = Math.round(pos % 60);
+            var min = Math.floor(pos / 60);
+            var sec = pos - (min * 60);
             text = (min < 10 ? '0' + min : min) + ":" + (sec < 10 ? '0' + sec : sec);
             $('li#position').text(text);
         }
