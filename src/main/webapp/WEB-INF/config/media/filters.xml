@@ -30,6 +30,7 @@
         <source format="ogv" />
         <source format="ogg" />
         <source format="mp4" />
+        <source format="flv" />
         <source format="avi" />
       </preferredSource>
     </config>
