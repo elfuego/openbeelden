@@ -50,7 +50,7 @@
       </gui>
       <editor>
         <positions>
-          <list>1</list>
+          <list>2</list>
         </positions>
       </editor>
       <datatype base="eline" xmlns="http://www.mmbase.org/xmlns/datatypes" >
@@ -66,7 +66,7 @@
       </gui>
       <editor>
         <positions>
-          <list>2</list>
+          <list>3</list>
         </positions>
       </editor>
       <datatype base="eline" xmlns="http://www.mmbase.org/xmlns/datatypes" >
@@ -82,7 +82,7 @@
       </gui>
       <editor>
         <positions>
-          <list>3</list>
+          <list>4</list>
         </positions>
       </editor>
       <datatype base="eline" xmlns="http://www.mmbase.org/xmlns/datatypes" >
