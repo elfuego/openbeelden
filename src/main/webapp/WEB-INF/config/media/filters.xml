@@ -20,8 +20,8 @@
   <filterConfigs>
     <config filter="bitrate">
       <bitrates>
-        <bitrate name="lo" min="-1" max="800000" />
-        <bitrate name="hi" min="800001" />
+        <bitrate name="lo" min="-1"     max="800000" />
+        <bitrate name="hi" min="800001" max="" />
       </bitrates>
     </config>
     <config filter="format">
