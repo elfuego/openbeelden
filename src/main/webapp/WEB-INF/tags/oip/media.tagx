@@ -11,8 +11,6 @@
           description="Width of player" />
   <jsp:directive.attribute name="height"
           description="Height of player" />
-  <jsp:directive.attribute name="length"
-          description="Length of video fragment in milliseconds" />
   <jsp:directive.variable name-given="embedtag" scope="AT_END" />
   
   <c:set var="w" value="${empty width ? '320' : width}" />
@@ -27,7 +25,7 @@
         </mm:relatednodes>
       </c:when>
       <c:otherwise>
-        <oip:video length="${length}" width="${w}" height="${h}" />
+        <oip:video width="${w}" height="${h}" />
       </c:otherwise>
     </c:choose>
   </mm:nodeinfo>
