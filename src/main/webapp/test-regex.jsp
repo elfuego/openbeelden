@@ -58,11 +58,42 @@ Pattern VIDEO = Pattern.compile(videoRegex);
 String audioRegex = ".*?\\sAudio: (.*?), (.*?) Hz, (stereo|mono|([0-9]+) channels), .*?";
 Pattern AUDIO = Pattern.compile(audioRegex);
 
-Pattern BITRATE = Pattern.compile(".*?\\sDuration: .* bitrate: (.*?) kb/s.*?");
-Matcher bitrateM = BITRATE.matcher(input);
-if (bitrateM.matches()) {
-    out.println("BITRATE !!");
-    out.println("bitrate: " + bitrateM.group(1));
+/* 
+browserevent.ram: Unknown format 
+[NULL @ 0x1804800]Unsupported video codec
+*/
+Pattern PATTERN_UNKNOWN     = Pattern.compile("\\s*(.*): Unknown format.*?");
+Pattern PATTERN_UNSUPPORTED = Pattern.compile("\\s*(.*)Unsupported video codec.*?");
+
+Matcher m = PATTERN_UNKNOWN.matcher(input);
+if (m.matches()) {
+    out.println("UNKNOWN !!");
+    out.println("file: " + m.group(1));
+}
+m = PATTERN_UNSUPPORTED.matcher(input);
+if (m.matches()) {
+    out.println("UNSUPPORTED !!");
+    out.println("error?: " + m.group(1));
+}
+
+Pattern DURATION = Pattern.compile("\\s*Duration: (.*?),.* bitrate:.*?");
+Pattern BITRATE  = Pattern.compile("\\s*Duration: .* bitrate: (.*?) kb/s.*?");
+Pattern START    = Pattern.compile("\\s*Duration: .* start: (.*?), bitrate:.*?");
+Matcher durationM = DURATION.matcher(input);
+if (durationM.matches()) {
+    out.println("DURATION !!");
+    out.println("duration: " + durationM.group(1));
+    
+    Matcher bitrateM = BITRATE.matcher(input);
+    Matcher startM = START.matcher(input);
+    if (bitrateM.matches()) {
+        out.println("BITRATE !!");
+        out.println("bitrate: " + bitrateM.group(1));
+    }
+    if (startM.matches()) {
+        out.println("START !!");
+        out.println("start: " + startM.group(1));
+    }
 }
 
 Matcher inputM = INPUT.matcher(input);
