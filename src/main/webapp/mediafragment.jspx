@@ -107,13 +107,13 @@
                 <c:choose>
                   <c:when test="${_.available}">
                     <a href="${mm:escape('text/xml', _.URL)}">
-                      <jsp:text><mm:escape>${_.URL}</mm:escape></jsp:text>
-                      <jsp:text> (${_.format.mimeType})</jsp:text>
+                      <jsp:text><mm:escape>${_.filename}</mm:escape></jsp:text>
                     </a>
+                    <jsp:text> (${_.mimeType})</jsp:text>
                   </c:when>
                   <c:otherwise>
-                    <jsp:text><mm:escape>${_.URL}</mm:escape></jsp:text>
-                    <jsp:text> (${_.format.mimeType})</jsp:text>
+                    <jsp:text><mm:escape>${_.filename}</mm:escape></jsp:text>
+                    <jsp:text> (${_.mimeType})</jsp:text>
                   </c:otherwise>
                 </c:choose>
               </li>
@@ -184,8 +184,8 @@
               <dd>${_}</dd>
             </mm:isnotempty>
           </mm:field>
-          <dt><fmt:message key="media.keywords" />:</dt>
-          <dd><mm:field name="keywords" /><jsp:text> </jsp:text></dd>
+          <!-- <dt><fmt:message key="media.keywords" />:</dt>
+          <dd><mm:field name="keywords" /><jsp:text> </jsp:text></dd> -->
           <dt><fmt:message key="media.tags" />:</dt>
           <dd>
             <mm:listrelationscontainer type="tags" role="related" searchdir="destination">
