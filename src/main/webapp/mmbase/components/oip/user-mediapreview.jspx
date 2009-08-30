@@ -58,7 +58,7 @@
               <c:otherwise>
                 
                 <mm:import id="len" reset="true"><mm:field name="length" /></mm:import>
-                <oip:media width="284" height="213" length="${len}" />
+                <oip:media width="284" height="213" />
                 <dl class="media-info">
                   <dt><fmt:message key="media.page" />:</dt>
                   <dd>

@@ -34,12 +34,11 @@
       <div class="main-column">
         <oip:h2><fmt:message key="media.item" /></oip:h2>
 
-        <mm:import id="len" reset="true"><mm:field name="length" /></mm:import>
-        <oip:media length="${len}" />
+        <oip:media />
 
         <mm:nodefunction name="translation">
           <h3 class="mediatitle"><mm:field name="title" /></h3>
-          <h4><mm:field name="subtitle" /></h4>
+          <mm:field name="subtitle"><mm:isnotempty><h4>${_}</h4></mm:isnotempty></mm:field>
         </mm:nodefunction>
 
         <!-- toolbar -->
