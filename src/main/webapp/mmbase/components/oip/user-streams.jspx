@@ -36,12 +36,12 @@
           </tr>
         </mm:link>
         <mm:listfunction name="filteredurls">
-          <c:if test="${_.main}">
+          <c:if test="${_.state eq 'SOURCE' or _.state eq 'SOURCE_UNSUPPORTED'}">
             <tr>
               <th>${fn:toLowerCase(_.state)}</th>
               <td>
-                ${_.mimeType} <jsp:text> </jsp:text> ${_.dimension}
-                <a title="${_.mimeType} ${_.dimension}" href="${mm:escape('text/xml', _.URL)}"><mm:escape>${_.URL}</mm:escape></a>
+                <a title="${_.mimeType} ${_.dimension}" href="${mm:escape('text/xml', _.URL)}">${_.filename}</a>
+                (${_.mimeType}<jsp:text>, </jsp:text> ${_.dimension})
               </td>
             </tr><tr>
               <th>transcoding</th>
@@ -84,18 +84,19 @@
         </mm:listfunction>
 
         <mm:listfunction name="filteredurls" id="uc">
-          <c:if test="${_.main ne 'true'}">
+          <c:if test="${_.state ne 'SOURCE' and _.state ne 'SOURCE_UNSUPPORTED'}">
             <tr>
               <th>${fn:toLowerCase(_.state)}</th>
               <td>
-                ${_.mimeType}
                 <mm:import id="more_info" reset="true">${_.mimeType}<jsp:text> </jsp:text><mm:node number="${_.source.number}" notfound="skip"><mm:hasfield name="key"><mm:field name="key" /></mm:hasfield></mm:node></mm:import>
                 <c:choose>
                   <c:when test="${_.available}">
-                    <a title="${more_info}" href="${mm:escape('text/xml', _.URL)}"><mm:escape>${_.URL}</mm:escape></a>
+                    <a title="${more_info}" href="${mm:escape('text/xml', _.URL)}">${_.filename}</a>
+                    (${_.mimeType}, ${_.dimension})
                   </c:when>
                   <c:otherwise>
-                    <span title="${more_info}"><mm:escape>${_.URL}</mm:escape></span>
+                    <span title="${more_info}">${_.filename}</span>
+                    (${_.mimeType})
                   </c:otherwise>
                 </c:choose>
               </td>
