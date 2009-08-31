@@ -96,7 +96,7 @@ VideoPlayer.prototype.init = function(id, url, config) {
     this._init(id, url, config); // just init and pass it along
     this.url = url;
     //console.log("video! " + url + ", img: " + this.poster);
-    this.player.controls = false;
+    //this.player.controls = true;
     return this.player;
 }
 VideoPlayer.prototype.play = function() {
@@ -143,12 +143,12 @@ CortadoPlayer.prototype.init = function(id, url, config) {
         'archive' : jar,
         'url': url,
          // 'local': 'false',
+         // 'duration': '60',
         'keepAspect': 'true',
-        'showStatus' : 'hide',
+        'showStatus' : 'auto',
         'video': 'true',
         'audio': 'true',
         'seekable': 'auto',
-        'showStatus': 'hide',
         'autoPlay': this.autoplay,
         'bufferSize': '4096',
         'bufferHigh': '25',
@@ -205,7 +205,7 @@ MSCortadoPlayer.prototype.init = function(id, url, config) {
     ' <param name="video" value="true" /> '+
     ' <param name="audio" value="true" /> '+
     ' <param name="seekable" value="auto" /> '+
-    ' <param name="showStatus" value="hide" /> '+
+    ' <param name="showStatus" value="auto" /> '+
     ' <param name="bufferSize" value="200" /> '+
     ' <param name="autoPlay" value="' + this.autoplay + '" /> '+
     ' <strong>Your browser does not have a Java Plug-in. <a href="http://java.com/download">Get the latest Java Plug-in here</a>.</strong>' +
@@ -228,6 +228,7 @@ FlowPlayer.prototype.init = function(id, url, config) {
         clip: {
             url: url,
             autoPlay: true,
+            // duration: 60,
             autoBuffering: true
         },
         plugins: { controls: null }
