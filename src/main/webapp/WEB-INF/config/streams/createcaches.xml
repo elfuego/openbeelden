@@ -62,6 +62,7 @@
     <loganalyzer name="org.mmbase.streams.transcoders.FFMpeg2TheoraAnalyzer" />
   </transcoder>
 
+  <!-- ffmpeg -i video.mpg -f mp4 -vcodec libx264 -r 25 -b 1024k -acodec libfaac -ab 128k -ac 2 -async 1 video.mp4 -->
   <transcoder mimetype="video/*" id="v4">
     <class name="org.mmbase.streams.transcoders.FFMpegTranscoder">
       <param name="format">mp4</param>
