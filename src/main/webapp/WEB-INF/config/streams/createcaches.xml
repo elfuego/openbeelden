@@ -77,7 +77,7 @@
     <loganalyzer name="org.mmbase.streams.transcoders.FFMpegAnalyzer" />
   </transcoder>
 
-  <!-- ffmpeg -i audio.wav -acodec libvorbis -ab 192k audio.mp3 -->
+  <!-- ffmpeg -i audio.wav -acodec libvorbis -aq 32 -ab 192k audio.ogg -->
   <transcoder mimetype="audio/*" id="a1">
     <class name="org.mmbase.streams.transcoders.FFMpegTranscoder">
       <param name="format">ogg</param>
@@ -88,7 +88,7 @@
     <loganalyzer name="org.mmbase.streams.transcoders.FFMpegAnalyzer" />
   </transcoder>
 
-  <!-- ffmpeg -i audio.wav -acodec libmp3lame -ab 192k audio.mp3 -->
+  <!-- ffmpeg -i audio.wav -acodec libmp3lame -aq 32 -ab 192k audio.mp3 -->
   <transcoder mimetype="audio/*" id="a2">
     <class name="org.mmbase.streams.transcoders.FFMpegTranscoder">
       <param name="format">mp3</param>

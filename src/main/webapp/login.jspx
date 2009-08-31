@@ -28,9 +28,10 @@
         <div class="related-grey">
           <mm:cloud method="asis">
             <mm:hasrank minvalue="basic user">
-              <p><fmt:message key="login.you_are" />..<br />
-              <jsp:text> </jsp:text>
-              <mm:include page="/you.jspx" /></p>
+              <p>
+                <fmt:message key="login.you_are" /><br />
+                <mm:include page="/you.jspx" />
+              </p>
             </mm:hasrank>
             <mm:node number="page_register">
               <mm:link page="page" referids="_node@n">
