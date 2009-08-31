@@ -13,14 +13,16 @@
   <mm:import externid="media" />
   <mm:import externid="trigger" />
   <mm:import externid="interrupt" />
+  <mm:node number="user.admin"><mm:field name="number" id="admin_nodenr" write="false" /></mm:node>
 
   <oip:h2 block="user-streams" />
-
   <table summary="my streams" border="0">
     <caption>${mm:string(requestScope['org.mmbase.framework.state'].renderer.block.description)}</caption>
     <tbody>
     <mm:listnodescontainer type="mediafragments">
-      <mm:constraint field="owner" value="${requestScope['org.mmbase.cloud'].user.ownerField}" />
+      <c:if test="${requestScope['org.mmbase.cloud'].user.ownerField ne admin_nodenr}">
+        <mm:constraint field="owner" value="${requestScope['org.mmbase.cloud'].user.ownerField}" />
+      </c:if>
       <mm:present referid="media">
         <mm:constraint field="number" value="$media" operator="EQUAL" />
       </mm:present>
@@ -41,7 +43,7 @@
               <th>${fn:toLowerCase(_.state)}</th>
               <td>
                 <a title="${_.mimeType} ${_.dimension}" href="${mm:escape('text/xml', _.URL)}">${_.filename}</a>
-                (${_.mimeType}<jsp:text>, </jsp:text> ${_.dimension})
+                (${_.mimeType}<c:if test="${!empty _.dimension}">, ${_.dimension}</c:if>)
               </td>
             </tr><tr>
               <th>transcoding</th>
@@ -92,7 +94,7 @@
                 <c:choose>
                   <c:when test="${_.available}">
                     <a title="${more_info}" href="${mm:escape('text/xml', _.URL)}">${_.filename}</a>
-                    (${_.mimeType}, ${_.dimension})
+                    (${_.mimeType}<c:if test="${!empty _.dimension}">, ${_.dimension}</c:if>)
                   </c:when>
                   <c:otherwise>
                     <span title="${more_info}">${_.filename}</span>
