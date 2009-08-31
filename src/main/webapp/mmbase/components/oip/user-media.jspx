@@ -31,7 +31,7 @@
 
       <mm:node number="${media}">
         
-        <oip:form fields="title,language,subtitle,keywords,intro,body,date,created,lastmodified" >
+        <oip:form fields="title,language,subtitle,keywords,intro,body,source,date,created,lastmodified" >
           <jsp:attribute name="action"><mm:url page="user-media" referids="n,media" absolute="true" /></jsp:attribute>
         </oip:form>
 
