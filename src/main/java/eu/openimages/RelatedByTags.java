@@ -11,6 +11,10 @@ import org.mmbase.bridge.Query;
 import org.mmbase.bridge.util.Queries;
 import org.mmbase.bridge.NotFoundException;
 
+import org.mmbase.storage.search.Constraint;
+import org.mmbase.storage.search.FieldValueConstraint;
+import org.mmbase.storage.search.CompositeConstraint;
+
 import org.mmbase.util.logging.Logger;
 import org.mmbase.util.logging.Logging;
 
@@ -137,6 +141,11 @@ public class RelatedByTags {
             
             try {
                 Query query = Queries.createRelatedNodesQuery(tagNode, targetNodeManager, "related", "source");
+
+                if (targetNodeManager.hasField("show")) {
+                    Constraint extraConstraint = Queries.createConstraint(query, type + ".show", FieldValueConstraint.EQUAL, 1);
+                    query.setConstraint(extraConstraint);
+                }
                 if (imax > 0) query.setMaxNumber(imax);
                 
                 NodeList nl = cloud.getList(query);
