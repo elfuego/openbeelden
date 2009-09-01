@@ -34,7 +34,6 @@ function initPlayer() {
             $('#' + id + ' img.preview').hide();
             $('#' + id).append(el);
             player.play();
-            showInfo(id);
             followProgress();
             
             $('#playercontrols li#play').addClass('pause');
@@ -60,7 +59,6 @@ function initPlayer() {
                 $('#' + id + ' img.preview').hide();
                 $('#' + id).append(el);
                 player.play();
-                showInfo(id);
                 followProgress();
 
                 if (! $('#playercontrols #play').is('.pause')) 
@@ -77,10 +75,10 @@ function initPlayer() {
     }
 }
 
-function showInfo(id) {
-    var text = "" + player.url;
-    //$('#playercontrols li.playerinfo').show();
-    //$('#playercontrols li.playerinfo').text(text);
+function showInfo() {
+    var text = player.info();
+    $('#playercontrols li.playerinfo').show();
+    $('#playercontrols li.playerinfo').text(text);
 }
 
 function followProgress() {
@@ -89,6 +87,7 @@ function followProgress() {
     var text = "00:00";
     $('li#position').text(text);
     var progress = function() {
+        //showInfo();
         oldpos = pos;
         pos = player.position();
         if (pos > 0) {

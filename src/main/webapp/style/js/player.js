@@ -119,7 +119,10 @@ VideoPlayer.prototype.position = function() {
     return -1;
 }
 VideoPlayer.prototype.info = function() {
-    //return "Playing: " + this.url;
+    /*  duration able in webkit, 
+        unable in mozilla without: https://developer.mozilla.org/en/Configuring_servers_for_Ogg_media
+    */
+    //return "Duration: " + this.player.duration + " readyState: " + this.player.readyState;
 }
 
 function CortadoPlayer() {
