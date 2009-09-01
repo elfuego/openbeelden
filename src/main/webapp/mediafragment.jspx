@@ -25,6 +25,7 @@
     </jsp:attribute>
     <jsp:attribute name="body">
 
+      <mm:time time="now" id="today" precision="hours" write="false" />
       <mm:escaper id="wrapper" type="substring">
         <mm:param name="from" value="0" />
         <mm:param name="to" value="24" />
@@ -258,6 +259,8 @@
           <mm:listnodescontainer type="mediafragments">
             <mm:constraint field="number" value="$_node" operator="EQUAL" inverse="true" />
             <mm:constraint field="show" value="true" operator="EQUAL" />
+            <mm:constraint field="online" value="$today" operator="LESS" />
+            <mm:constraint field="offline" value="$today" operator="GREATER" />
             <c:if test="${!empty owner}">
               <mm:constraint field="owner" value="$owner" operator="EQUAL" />
             </c:if>

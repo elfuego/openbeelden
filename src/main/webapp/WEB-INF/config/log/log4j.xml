@@ -47,9 +47,14 @@
       <param name="ConversionPattern" value="%q %d{MM-dd HH:mm:ss} %m%n" />
     </layout>
   </appender>
-  <!-- categories -->
 
-
+  <appender name="errormailer" class="org.apache.log4j.net.SMTPAppender" >
+    <param name="To"   value="logs@toly.net" />
+    <param name="Theshold" value="service" />
+    <layout class="org.mmbase.util.logging.log4j.MMPatternLayout">
+       <param name="ConversionPattern" value="%N %d %q %c{4} %M.%L- %m%n" />
+    </layout>
+  </appender>
 
   <!-- SQL logging -->
   <logger name="org.mmbase.QUERIES" additivity="false">

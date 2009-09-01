@@ -18,6 +18,7 @@
 
     <jsp:attribute name="body">
 
+      <mm:time time="now" id="today" precision="hours" write="false" />
       <mm:escaper id="wrapper" type="substring">
         <mm:param name="from" value="0" />
         <mm:param name="to" value="32" />
@@ -34,12 +35,13 @@
       <div class="main-column">
         <oip:h2><fmt:message key="media.featured" /></oip:h2>
 
-        <mm:time time="now" id="today" precision="days" write="false" />
         <mm:node number="page_home">
           <mm:relatednodescontainer type="mediafragments" role="posrel" searchdirs="destination">
+            
             <mm:constraint field="show" value="true" operator="EQUAL" />
-            <!-- <mm:constraint field="online" value="$today" operator="GREATER" /> -->
-            <!-- <mm:constraint field="offline" value="$today" operator="LESS" /> -->
+            <mm:constraint field="online" value="$today" operator="LESS" />
+            <mm:constraint field="offline" value="$today" operator="GREATER" />
+            
             <mm:maxnumber value="1" />
             <mm:relatednodes id="featured_node">
               <oip:media />
@@ -68,7 +70,11 @@
           <oip:h2><fmt:message key="media.latest_uploads" /></oip:h2>
           <mm:listnodescontainer type="mediafragments">
             <mm:constraint field="number" value="$featured_node" operator="EQUAL" inverse="true" />
+            
             <mm:constraint field="show" value="true" operator="EQUAL" />
+            <mm:constraint field="online" value="$today" operator="LESS" />
+            <mm:constraint field="offline" value="$today" operator="GREATER" />
+            
             <mm:sortorder field="number" direction="DOWN" />
             <mm:maxnumber value="6" />
             <mm:listnodes varStatus="status">
