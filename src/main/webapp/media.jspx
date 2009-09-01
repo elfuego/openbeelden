@@ -57,21 +57,23 @@
 
         <!-- filter the results -->
 <!-- 
-        <mm:import id="extraconstraints">show:EQ:1 
+        <mm:import id="extraconstraints">
+            show:EQ:1 
             online:LT:<mm:time format="yyyyMMddHHmm" time="now" precision="minutes" />00
-            offline:GT:<mm:time format="yyyyMMddHHmm" time="now" precision="minutes" />00</mm:import>
+            offline:GT:<mm:time format="yyyyMMddHHmm" time="now" precision="minutes" />00
+        </mm:import>
  -->
         <mm:import id="extraconstraints">show:EQ:1</mm:import>
         <mm:import id="video">${extraconstraints} otype:EQ:<mm:nodeinfo type="number" nodetype="videofragments" /></mm:import>
         <mm:import id="images">${extraconstraints} otype:EQ:<mm:nodeinfo type="number" nodetype="imagefragments" /></mm:import>
         <mm:import id="audio">${extraconstraints} otype:EQ:<mm:nodeinfo type="number" nodetype="audiofragments" /></mm:import>
         <mm:import id="filter">
-          <c:if test="${!empty date and date eq 'day'}">date:LTE:<mm:time format="yyyyMMddHHmm" time="now - 24 hours" precision="minutes" />00</c:if>
+          <c:if test="${!empty date and date eq 'today'}">date:LTE:<mm:time format="yyyyMMddHHmm" time="now - 24 hour" precision="minutes" />00</c:if>
           <c:if test="${!empty date and date eq 'week'}">date:GTE:<mm:time format="yyyyMMddHHmm" time="now - 7 day"  precision="minutes" />00</c:if>
-          <c:if test="${!empty date and date eq 'month'}">date:GTE:<mm:time format="yyyyMMddHHmm" time="now - 30 day" precision="minutes" />00</c:if>
-          <c:if test="${!empty uploaded and uploaded eq 'day'}">created:LTE:<mm:time format="yyyyMMddHHmm" time="now - 24 hours" precision="minutes" />00</c:if>
+          <c:if test="${!empty date and date eq 'month'}">date:GTE:<mm:time format="yyyyMMddHHmm" time="now - 31 day" precision="minutes" />00</c:if>
+          <c:if test="${!empty uploaded and uploaded eq 'today'}">created:GTE:<mm:time format="yyyyMMddHHmm" time="now - 24 hour" precision="minutes" />00</c:if>
           <c:if test="${!empty uploaded and uploaded eq 'week'}">created:GTE:<mm:time format="yyyyMMddHHmm" time="now - 7 day"  precision="minutes" />00</c:if>
-          <c:if test="${!empty uploaded and uploaded eq 'month'}">created:GTE:<mm:time format="yyyyMMddHHmm" time="now - 30 day" precision="minutes" />00</c:if>
+          <c:if test="${!empty uploaded and uploaded eq 'month'}">created:GTE:<mm:time format="yyyyMMddHHmm" time="now - 31 day" precision="minutes" />00</c:if>
           <c:if test="${!empty length and length eq 'short'}">length:LT:120001</c:if>
           <c:if test="${!empty length and length eq 'average'}">length:GT:120000 length:LT:240001</c:if>
           <c:if test="${!empty length and length eq 'long'}">length:GT:240000</c:if>
@@ -80,6 +82,10 @@
           <c:if test="${!empty _searchlang}">language:EQ:${_searchlang} </c:if>
           <c:if test="${!empty license}">licensenr:EQ:${license} </c:if>
         </mm:import>
+        
+        <p>extraconstraints: ${extraconstraints}</p>
+        <p>filter: ${filter}</p>
+        
         <mm:function
             write="false"
             id="total"
