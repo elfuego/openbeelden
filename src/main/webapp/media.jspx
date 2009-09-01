@@ -83,8 +83,10 @@
           <c:if test="${!empty license}">licensenr:EQ:${license} </c:if>
         </mm:import>
         
+<!-- 
         <p>extraconstraints: ${extraconstraints}</p>
         <p>filter: ${filter}</p>
+-->
         
         <mm:function
             write="false"
@@ -114,24 +116,9 @@
         <!-- sorting -->
         <mm:import externid="sf" />
         <c:if test="${empty q and empty sf}"><mm:import id="sf" reset="true">date</mm:import></c:if>
-        <!-- mm:import id="sf" reset="true"><c:if test="${empty q}">date</c:if></mm:import -->
         <mm:import externid="so">down</mm:import>
-<!-- 
-        <mm:import externid="d">down</mm:import>
-        <mm:import externid="c">down</mm:import>
-        <mm:import externid="s">down</mm:import>
-        <mm:import externid="t">down</mm:import>
-        <mm:import externid="u">down</mm:import>
- -->
         <c:if test="${!empty sf}">
           <mm:import id="sortfields"> ${so eq 'down' ? 'REVERSE:' : ''}${sf} </mm:import>
-            <!-- <c:choose>
-              <c:when test="${sf eq 'sorttitle'}">${t eq 'down' ? 'REVERSE:' : ''}${sf}</c:when>
-              <c:when test="${sf eq 'source'}">${s eq 'down' ? 'REVERSE:' : ''}${sf}</c:when>
-              <c:when test="${sf eq 'user'}">${u eq 'down' ? 'REVERSE:' : ''}${sf}</c:when>
-              <c:when test="${sf eq 'uploaded'}">${c eq 'down' ? 'REVERSE:' : ''}${sf}</c:when>
-              <c:otherwise>${d eq 'down' ? 'REVERSE:' : ''}${sf}</c:otherwise>
-            </c:choose> -->
         </c:if>
         <mm:nodelistfunction
             module="lucene" name="search" id="results"
