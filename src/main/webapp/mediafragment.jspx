@@ -221,22 +221,20 @@
             <mm:function set="relatedcontent" name="hits" referids="_node@node" id="hits">
               <c:forEach var="hit" items="${hits}" varStatus="status">
                 <mm:node number="${hit.value}">
-                  <c:if test="${_node.show eq true}">
-                    <mm:link page="mediafragment">
-                      <mm:frameworkparam name="component">oip</mm:frameworkparam>
-                      <mm:frameworkparam name="media">${_node}</mm:frameworkparam>
-                      <c:choose>
-                        <c:when test="${status.index % 3 == 0}"><c:set var="gridclass" value="grid first" /></c:when>
-                        <c:otherwise><c:set var="gridclass" value="grid" /></c:otherwise>
-                      </c:choose>
-                      <dl class="${gridclass}">
-                        <dt>
-                          <a href="${_}"><oip:thumb /></a>
-                        </dt>
-                        <dd> <mm:field name="title" escape="wrapper" /> </dd>
-                      </dl>
-                    </mm:link>
-                  </c:if>
+                  <mm:link page="mediafragment">
+                    <mm:frameworkparam name="component">oip</mm:frameworkparam>
+                    <mm:frameworkparam name="media">${_node}</mm:frameworkparam>
+                    <c:choose>
+                      <c:when test="${status.index % 3 == 0}"><c:set var="gridclass" value="grid first" /></c:when>
+                      <c:otherwise><c:set var="gridclass" value="grid" /></c:otherwise>
+                    </c:choose>
+                    <dl class="${gridclass}">
+                      <dt>
+                        <a href="${_}"><oip:thumb /></a>
+                      </dt>
+                      <dd> <mm:field name="title" escape="wrapper" /> </dd>
+                    </dl>
+                  </mm:link>
                   <jsp:text> </jsp:text>
                 </mm:node>
               </c:forEach>
