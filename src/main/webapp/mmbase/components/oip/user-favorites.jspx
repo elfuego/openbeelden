@@ -21,26 +21,28 @@
         <mm:node referid="n">
           <mm:relatednodescontainer type="mediafragments" role="ratingrel" searchdirs="destination">
             <mm:relatednodes varStatus="status" id="favorite">
-              <mm:link>
-                <mm:frameworkparam name="component">oip</mm:frameworkparam>
-                <mm:frameworkparam name="block">mediafragment</mm:frameworkparam>
-                <mm:frameworkparam name="media">${_node}</mm:frameworkparam>
-
-                <c:choose>
-                  <c:when test="${(status.index + 2) % 3 == 0}"><c:set var="gridclass" value="grid first" /></c:when>
-                  <c:otherwise><c:set var="gridclass" value="grid" /></c:otherwise>
-                </c:choose>
-
-                <dl class="${gridclass}">
-                  <dt>
-                    <a title="${favorite.title}" href="${_}"><oip:thumb /></a>
-                    <mm:link referids="favorite">
-                      <mm:param name="remove">please</mm:param>
-                      <a title="remove favorite" class="remove" href="${_}">remove</a>
-                    </mm:link>
-                  </dt>
-                </dl>
-              </mm:link>
+              <c:if test="${_node.show eq true}">
+                <mm:link>
+                  <mm:frameworkparam name="component">oip</mm:frameworkparam>
+                  <mm:frameworkparam name="block">mediafragment</mm:frameworkparam>
+                  <mm:frameworkparam name="media">${_node}</mm:frameworkparam>
+  
+                  <c:choose>
+                    <c:when test="${(status.index + 2) % 3 == 0}"><c:set var="gridclass" value="grid first" /></c:when>
+                    <c:otherwise><c:set var="gridclass" value="grid" /></c:otherwise>
+                  </c:choose>
+  
+                  <dl class="${gridclass}">
+                    <dt>
+                      <a title="${favorite.title}" href="${_}"><oip:thumb /></a>
+                      <mm:link referids="favorite">
+                        <mm:param name="remove">please</mm:param>
+                        <a title="remove favorite" class="remove" href="${_}">remove</a>
+                      </mm:link>
+                    </dt>
+                  </dl>
+                </mm:link>
+              </c:if>
             </mm:relatednodes>
           </mm:relatednodescontainer>
         </mm:node>

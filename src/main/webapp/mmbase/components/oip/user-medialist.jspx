@@ -11,6 +11,8 @@
     <div
         class="mm_c c_oip b_user-medialist ${requestScope.className}"
         id="${requestScope['org.mmbase.componentId']}">
+      
+      <mm:time time="now" id="today" precision="hours" write="false" />
 
       <oip:h2><fmt:message key="media.my_contributions" /></oip:h2>
 
@@ -25,7 +27,15 @@
       </mm:escaper>
 
       <mm:listnodescontainer type="videofragments">
+        
+        <mm:constraint field="show" value="true" operator="EQUAL" />
+<!-- 
+        <mm:constraint field="online" value="$today" operator="LESS" />
+        <mm:constraint field="offline" value="$today" operator="GREATER" />
+ -->
+        
         <mm:sortorder field="number" direction="DOWN" />
+        
         <mm:constraint field="owner" value="$n" operator="EQUAL" />
         <mm:size id="total_video" write="false" />
         <mm:maxnumber value="$max" />
@@ -34,6 +44,11 @@
       </mm:listnodescontainer>
 
       <mm:listnodescontainer type="audiofragments">
+        <mm:constraint field="show" value="true" operator="EQUAL" />
+<!-- 
+        <mm:constraint field="online" value="$today" operator="LESS" />
+        <mm:constraint field="offline" value="$today" operator="GREATER" />
+ -->
         <mm:sortorder field="number" direction="DOWN" />
         <mm:constraint field="owner" value="$n" operator="EQUAL" />
         <mm:size id="total_audio" write="false" />
@@ -43,6 +58,11 @@
       </mm:listnodescontainer>
 
       <mm:listnodescontainer type="imagefragments">
+        <mm:constraint field="show" value="true" operator="EQUAL" />
+<!-- 
+        <mm:constraint field="online" value="$today" operator="LESS" />
+        <mm:constraint field="offline" value="$today" operator="GREATER" />
+ -->
         <mm:sortorder field="number" direction="DOWN" />
         <mm:constraint field="owner" value="$n" operator="EQUAL" />
         <mm:size id="total_images" write="false" />

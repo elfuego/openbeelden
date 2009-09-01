@@ -39,8 +39,10 @@
           <mm:relatednodescontainer type="mediafragments" role="posrel" searchdirs="destination">
             
             <mm:constraint field="show" value="true" operator="EQUAL" />
+<!-- 
             <mm:constraint field="online" value="$today" operator="LESS" />
             <mm:constraint field="offline" value="$today" operator="GREATER" />
+ -->
             
             <mm:maxnumber value="1" />
             <mm:relatednodes id="featured_node">
@@ -72,8 +74,10 @@
             <mm:constraint field="number" value="$featured_node" operator="EQUAL" inverse="true" />
             
             <mm:constraint field="show" value="true" operator="EQUAL" />
+<!-- 
             <mm:constraint field="online" value="$today" operator="LESS" />
             <mm:constraint field="offline" value="$today" operator="GREATER" />
+ -->
             
             <mm:sortorder field="number" direction="DOWN" />
             <mm:maxnumber value="6" />
