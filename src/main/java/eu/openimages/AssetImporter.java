@@ -143,7 +143,7 @@ public class AssetImporter implements Runnable, LoggerAccepter {
                             mediaSource = null;
                         }
                         if (mediaSource == null) {
-                            mediaSource   = cloud.getNodeManager("videostreamsources").createNode();
+                            mediaSource = cloud.getNodeManager("videostreamsources").createNode();
                             mediaSource.setValueWithoutProcess("url", getUrl(dirNames[0], subFile.getName()));
                             mediaSource.commit();
                             log.info("Created " + mediaSource.getNodeManager().getName() + " " + mediaSource.getNumber());
@@ -174,7 +174,9 @@ public class AssetImporter implements Runnable, LoggerAccepter {
                         if (owner != null) {
                             mediaSource.setValue("owner", owner);
                         }
-                        mediaSource.commit();
+                        if (mediaSource.isChanged()) {
+                            mediaSource.commit();
+                        }
 
                         if (mediaSource.isNull("width")) {// || ! file.isDirectory()) {
                             try {
@@ -255,7 +257,9 @@ public class AssetImporter implements Runnable, LoggerAccepter {
                         if (owner != null) {
                             mediaFragment.setValue("owner", owner);
                         }
-                        mediaFragment.commit();
+                        if (mediaFragment.isChanged()) {
+                            mediaFragment.commit();
+                        }
                         log.info("Matched mediafragment " + mediaFragment.getNumber() + " " + mediaFragment.getStringValue("title"));
                         
                         RelationManager rm = cloud.getRelationManager(cloud.getNodeManager("mediafragments"), cloud.getNodeManager("licenses"), "related"); 
