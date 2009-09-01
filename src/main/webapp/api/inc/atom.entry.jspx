@@ -20,7 +20,7 @@
       <mm:field name="lastmodified"><mm:time format="yyyy-MM-dd" time="${_}" />T<mm:time format="HH:mm:ss" time="${_}" />Z</mm:field>
     </updated>
     <published>
-      <mm:field name="online"><mm:time format="yyyy-MM-dd" time="${_}" />T<mm:time format="HH:mm:ss" time="${_}" />Z</mm:field>
+      <mm:field name="date"><mm:time format="yyyy-MM-dd" time="${_}" />T<mm:time format="HH:mm:ss" time="${_}" />Z</mm:field>
     </published> 
     <mm:field name="intro">
       <mm:isnotempty><summary type="text"><mm:write /></summary></mm:isnotempty>
