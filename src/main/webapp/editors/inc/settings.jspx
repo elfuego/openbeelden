@@ -25,7 +25,7 @@
   <mm:import id="editfields">${searchfields},length,source,coverage,publisher,date,offline,online,creator,created,lastmodifier,lastmodified</mm:import>
 
   <mm:compare referid="type" value="mediafragments_translations">
-    <mm:import id="editfields" reset="true">title,subtitle,language,intro,body</mm:import>
+    <mm:import id="editfields" reset="true">title,language,subtitle,intro,body,source</mm:import>
   </mm:compare>
   
   <mm:compare referid="type" value="mmbaseusers">
