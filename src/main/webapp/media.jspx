@@ -72,15 +72,14 @@
           <c:if test="${!empty uploaded and uploaded eq 'day'}">created:LTE:<mm:time format="yyyyMMddHHmm" time="now - 24 hours" precision="minutes" />00</c:if>
           <c:if test="${!empty uploaded and uploaded eq 'week'}">created:GTE:<mm:time format="yyyyMMddHHmm" time="now - 7 day"  precision="minutes" />00</c:if>
           <c:if test="${!empty uploaded and uploaded eq 'month'}">created:GTE:<mm:time format="yyyyMMddHHmm" time="now - 30 day" precision="minutes" />00</c:if>
-          <c:if test="${!empty length and length eq 'short'}">length:LTE:120000 </c:if>
-          <c:if test="${!empty length and length eq 'average'}">length:GT:120000 length:LTE:240000 </c:if>
-          <c:if test="${!empty length and length eq 'long'}">length:GT:240000 </c:if>
+          <c:if test="${!empty length and length eq 'short'}">length:LT:120001</c:if>
+          <c:if test="${!empty length and length eq 'average'}">length:GT:120000 length:LT:240001</c:if>
+          <c:if test="${!empty length and length eq 'long'}">length:GT:240000</c:if>
           <c:if test="${!empty user}">user:EQ:${user} </c:if>
           <c:if test="${!empty source}">source:EQ:${source} </c:if>
           <c:if test="${!empty _searchlang}">language:EQ:${_searchlang} </c:if>
           <c:if test="${!empty license}">licensenr:EQ:${license} </c:if>
         </mm:import>
-
         <mm:function
             write="false"
             id="total"
@@ -107,22 +106,26 @@
             referids="index,value,fields?,filter,images@extraconstraints" />
 
         <!-- sorting -->
-        <mm:import externid="sf"><c:if test="${empty q}">date</c:if></mm:import>
+        <mm:import externid="sf" />
+        <c:if test="${empty q and empty sf}"><mm:import id="sf" reset="true">date</mm:import></c:if>
+        <!-- mm:import id="sf" reset="true"><c:if test="${empty q}">date</c:if></mm:import -->
+        <mm:import externid="so">down</mm:import>
+<!-- 
         <mm:import externid="d">down</mm:import>
         <mm:import externid="c">down</mm:import>
         <mm:import externid="s">down</mm:import>
         <mm:import externid="t">down</mm:import>
         <mm:import externid="u">down</mm:import>
+ -->
         <c:if test="${!empty sf}">
-          <mm:import id="sortfields">
-            <c:choose>
+          <mm:import id="sortfields"> ${so eq 'down' ? 'REVERSE:' : ''}${sf} </mm:import>
+            <!-- <c:choose>
               <c:when test="${sf eq 'sorttitle'}">${t eq 'down' ? 'REVERSE:' : ''}${sf}</c:when>
               <c:when test="${sf eq 'source'}">${s eq 'down' ? 'REVERSE:' : ''}${sf}</c:when>
               <c:when test="${sf eq 'user'}">${u eq 'down' ? 'REVERSE:' : ''}${sf}</c:when>
               <c:when test="${sf eq 'uploaded'}">${c eq 'down' ? 'REVERSE:' : ''}${sf}</c:when>
               <c:otherwise>${d eq 'down' ? 'REVERSE:' : ''}${sf}</c:otherwise>
-            </c:choose>
-          </mm:import>
+            </c:choose> -->
         </c:if>
         <mm:nodelistfunction
             module="lucene" name="search" id="results"
@@ -151,12 +154,14 @@
             <li class="hidden"><a href="#t_thumbs"><span>Thumbs (${total})</span></a></li>
           </ul>
 
-          <mm:url absolute="true" referids="q,user?,source?,date?,uploaded?,length?,_searchlang?,license?" id="baseurl" write="false" />
+          <mm:url id="pageurl" write="false" absolute="true" escapeamps ="false"
+            referids="q,user?,source?,date?,uploaded?,length?,_searchlang?,license?,sf?,so?" />
+            
           <div id="t_video">
             <oip:medialist list="${results_video}" />
             <p class="pager">
               <oip:pager total="${total_video}" offset="${offset}" max="${max}" 
-                baseurl="${baseurl}" fragment="#video" />
+                baseurl="${pageurl}" fragment="#video" />
             </p>
           </div>
 
@@ -164,7 +169,7 @@
             <oip:medialist list="${results_images}" />
             <p class="pager">
               <oip:pager total="${total_images}" offset="${offset}" max="${max}" 
-                baseurl="${baseurl}" fragment="#images" />
+                baseurl="${pageurl}" fragment="#images" />
             </p>
           </div>
           
@@ -172,7 +177,7 @@
             <oip:medialist list="${results_audio}" />
             <p class="pager">
               <oip:pager total="${total_audio}" offset="${offset}" max="${max}" 
-                baseurl="${baseurl}" fragment="#audio" />
+                baseurl="${pageurl}" fragment="#audio" />
             </p>
           </div>
 
@@ -180,7 +185,7 @@
             <oip:medialist list="${results}" type="thumbs" />
             <p class="pager">
               <oip:pager total="${total}" offset="${offset}" max="${thumbsmax}" 
-                baseurl="${baseurl}" fragment="#thumbs" />
+                baseurl="${pageurl}" fragment="#thumbs" />
             </p>
           </div>
           
@@ -190,45 +195,49 @@
       <div class="right-column">
         <div class="related-grey">
           <oip:h3><fmt:message key="media.sortby" /></oip:h3>
+
+          <mm:url id="sorturl" write="false" absolute="true" 
+            referids="q,user?,source?,date?,uploaded?,length?,_searchlang?,license?" />
+
           <ul class="sortby">
             <li>
-              <mm:link referid="baseurl">
+              <mm:link referid="sorturl">
                 <a class="${(empty sf and !empty q) ? 'down' : ''}" href="${_}">Relevance</a>
               </mm:link>
             </li>
             <li>
-              <mm:link referid="baseurl">
+              <mm:link referid="sorturl">
                 <mm:param name="sf">sorttitle</mm:param>
-                <mm:param name="t">${t eq 'up' ? 'down' : 'up'}</mm:param>
-                <a class="${sf eq 'sorttitle' ? t : ''}" href="${_}">Title</a>
+                <mm:param name="so">${so eq 'up' ? 'down' : 'up'}</mm:param>
+                <a class="${sf eq 'sorttitle' ? so : ''}" href="${_}">Title</a>
               </mm:link>
             </li>
             <li>
-              <mm:link referid="baseurl">
+              <mm:link referid="sorturl">
                 <mm:param name="sf">date</mm:param>
-                <mm:param name="d">${d eq 'up' ? 'down' : 'up'}</mm:param>
-                <a class="${sf eq 'date' ? d : ''}" href="${_}">Publication date</a>
+                <mm:param name="so">${so eq 'up' ? 'down' : 'up'}</mm:param>
+                <a class="${sf eq 'date' ? so : ''}" href="${_}">Publication date</a>
               </mm:link>
             </li>
             <li>
-              <mm:link referid="baseurl">
+              <mm:link referid="sorturl">
                 <mm:param name="sf">created</mm:param>
-                <mm:param name="c">${c eq 'up' ? 'down' : 'up'}</mm:param>
-                <a class="${sf eq 'created' ? c : ''}" href="${_}">Date uploaded</a>
+                <mm:param name="so">${so eq 'up' ? 'down' : 'up'}</mm:param>
+                <a class="${sf eq 'created' ? so : ''}" href="${_}">Date uploaded</a>
               </mm:link>
             </li>
             <li>
-              <mm:link referid="baseurl">
+              <mm:link referid="sorturl">
                 <mm:param name="sf">user</mm:param>
-                <mm:param name="u">${u eq 'up' ? 'down' : 'up'}</mm:param>
-                <a class="${sf eq 'user' ? u : ''}" href="${_}">User</a>
+                <mm:param name="so">${so eq 'up' ? 'down' : 'up'}</mm:param>
+                <a class="${sf eq 'user' ? so : ''}" href="${_}">User</a>
               </mm:link>
             </li>
             <li>
-              <mm:link referid="baseurl">
+              <mm:link referid="sorturl">
                 <mm:param name="sf">source</mm:param>
-                <mm:param name="s">${s eq 'up' ? 'down' : 'up'}</mm:param>
-                <a class="${sf eq 'source' ? s : ''}" href="${_}">Source</a>
+                <mm:param name="so">${so eq 'up' ? 'down' : 'up'}</mm:param>
+                <a class="${sf eq 'source' ? so : ''}" href="${_}">Source</a>
               </mm:link>
             </li>
             <li class="thumbsonly">
