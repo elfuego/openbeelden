@@ -40,13 +40,17 @@
         </mm:nodefunction>
 
         <c:choose>
-          <c:when test="${empty q}"><!-- not searched, display latest -->
+          <c:when test="${empty q and empty user and empty source}"><!-- not searched, display latest -->
             <c:set var="searched" value="empty" />
             <mm:import id="value" reset="true">${index}*</mm:import>
             <mm:import id="fields" reset="true">indexId</mm:import>
           </c:when>
           <c:otherwise>
-            <mm:import id="value" reset="true">${q}</mm:import>
+            <mm:import id="value" reset="true">
+              ${q} 
+              <c:if test="${!empty user}">user:${user} </c:if>
+              <c:if test="${!empty source}">source:${source} </c:if>
+            </mm:import>
           </c:otherwise>
         </c:choose>
 
@@ -77,8 +81,6 @@
           <c:if test="${!empty length and length eq 'short'}">length:LT:120001</c:if>
           <c:if test="${!empty length and length eq 'average'}">length:GT:120000 length:LT:240001</c:if>
           <c:if test="${!empty length and length eq 'long'}">length:GT:240000</c:if>
-          <c:if test="${!empty user}">user:EQ:${user} </c:if>
-          <c:if test="${!empty source}">source:EQ:${source} </c:if>
           <c:if test="${!empty _searchlang}">language:EQ:${_searchlang} </c:if>
           <c:if test="${!empty license}">licensenr:EQ:${license} </c:if>
         </mm:import>
@@ -135,7 +137,7 @@
 
         <p>
           <c:if test="${!empty q}">
-            <fmt:message key="search.searched_with" /><jsp:text> </jsp:text><strong>${value}</strong>
+            <fmt:message key="search.searched_with" /><jsp:text> </jsp:text><strong>${q}</strong>
           </c:if>
         </p>
 
