@@ -63,7 +63,7 @@
             offline:GT:<mm:time format="yyyyMMddHHmm" time="now" precision="minutes" />00
         </mm:import>
  -->
-        <mm:import id="extraconstraints">show:EQ:1</mm:import>
+        <mm:import id="extraconstraints"></mm:import>
         <mm:import id="video">${extraconstraints} otype:EQ:<mm:nodeinfo type="number" nodetype="videofragments" /></mm:import>
         <mm:import id="images">${extraconstraints} otype:EQ:<mm:nodeinfo type="number" nodetype="imagefragments" /></mm:import>
         <mm:import id="audio">${extraconstraints} otype:EQ:<mm:nodeinfo type="number" nodetype="audiofragments" /></mm:import>
