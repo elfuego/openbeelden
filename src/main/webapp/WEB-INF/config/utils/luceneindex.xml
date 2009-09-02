@@ -17,11 +17,13 @@
       <mmsq:field name="subtitle" boost="2" />
       <mmsq:field name="intro" />
       <mmsq:field name="body" />
+      <mmsq:field name="source" />
       <mmsq:field name="source"  alias="source" keyword="true" />
       <mmsq:field name="show"    alias="show"   keyword="true" store="true" />
       <mmsq:field name="online"  alias="online" />
       <mmsq:field name="offline" alias="offline" />
       <mmsq:field name="length"  alias="length" keyword="true" store="true" />
+      <mmsq:field name="creator" />
       <mmsq:field name="creator" alias="user"   keyword="true" />
       <mmsq:field name="created" alias="created" />
       <mmsq:field name="date"    alias="date" />
