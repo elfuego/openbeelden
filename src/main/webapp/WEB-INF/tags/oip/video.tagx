@@ -57,7 +57,7 @@
     <c:otherwise>
       <div id="vplayer">
         <video
-               controls="false"
+               controls="true"
                width="${w}"
                height="${h}"
                poster="${poster}"
