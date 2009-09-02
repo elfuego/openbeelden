@@ -29,8 +29,9 @@
     <loganalyzer name="org.mmbase.streams.transcoders.FFMpegAnalyzer" />
   </recognizer>
 
-  <!-- ffmpeg -i video.mpg -f mpeg -vcodec mpeg2video -r 25 -b 1024k -acodec libmp3lame -ab 128k -ac 2 video.flv -->
-<!-- 
+  <!-- MPEG-2:
+  ffmpeg -i video.mp4 -f mpeg -vcodec mpeg2video -r 25 -b 1024k -acodec libmp3lame -ab 128k -ac 2 async 1 video2.mpg
+  -->
   <transcoder mimetype="video/*" id="v1">
     <class name="org.mmbase.streams.transcoders.FFMpegTranscoder">
       <param name="format">mpeg</param>
@@ -44,9 +45,8 @@
     </class>
     <loganalyzer name="org.mmbase.streams.transcoders.FFMpegAnalyzer" />
   </transcoder>
- -->
   
-  <transcoder mimetype="video/*" id="v2">
+  <transcoder mimetype="video/*" in="v1" id="v2">
     <class name="org.mmbase.streams.transcoders.FFMpeg2TheoraTranscoder">
       <param name="videoQuality">5</param>
       <param name="width">320</param>
@@ -55,7 +55,7 @@
     <loganalyzer name="org.mmbase.streams.transcoders.FFMpeg2TheoraAnalyzer" />
   </transcoder>
 
-  <transcoder mimetype="video/*" id="v3">
+  <transcoder mimetype="video/*" in="v1" id="v3">
     <class name="org.mmbase.streams.transcoders.FFMpeg2TheoraTranscoder">
       <param name="videoQuality">8</param>
     </class>
@@ -63,7 +63,7 @@
   </transcoder>
 
   <!-- ffmpeg -i video.mpg -f mp4 -vcodec libx264 -r 25 -b 1024k -acodec libfaac -ab 128k -ac 2 -async 1 video.mp4 -->
-  <transcoder mimetype="video/*" id="v4">
+  <transcoder mimetype="video/*" in="v1" id="v4">
     <class name="org.mmbase.streams.transcoders.FFMpegTranscoder">
       <param name="format">mp4</param>
       <param name="vcodec">libx264</param>
