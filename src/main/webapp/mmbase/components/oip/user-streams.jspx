@@ -39,13 +39,16 @@
         </mm:link>
         <mm:listfunction name="filteredurls">
           <c:if test="${_.state eq 'SOURCE' or _.state eq 'SOURCE_UNSUPPORTED'}">
-            <tr>
-              <th>${fn:toLowerCase(_.state)}</th>
-              <td>
-                <a title="${_.mimeType} ${_.dimension}" href="${mm:escape('text/xml', _.URL)}">${_.filename}</a>
-                (${_.mimeType}<c:if test="${!empty _.dimension}">, ${_.dimension}</c:if>)
-              </td>
-            </tr>
+            <mm:node number="${_.source.number}">
+              <tr>
+                <th>${fn:toLowerCase(_.state)}</th>
+                <td>
+                  <mm:import id="mimetype" reset="true"><mm:field name="mimetype" /></mm:import>
+                  <a title="${mimetype} ${_.dimension}" href="${mm:escape('text/xml', _.URL)}">${_.filename}</a>
+                  (${mimetype}<c:if test="${!empty _.dimension}">, ${_.dimension}</c:if>)
+                </td>
+              </tr>
+            </mm:node>
             <mm:hasrank minvalue="project manager">
               <tr>
                 <th>transcoding</th>

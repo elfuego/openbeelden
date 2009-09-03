@@ -150,6 +150,13 @@ audioRegex used: <%= audioRegex %>
 <pre>
 ffmpeg -i filename.ext
 
+Input #0, ogg, from 'matrix.ogg':
+  Duration: 00:00:46.65, start: 0.000000, bitrate: 766 kb/s
+    Stream #0.0: Invalid Codec type -1
+    Stream #0.1: Video: theora, yuv420p, 640x360, 23.98 tbr, 23.98 tbn, 23.98 tbc
+    Stream #0.2: Audio: vorbis, 44100 Hz, 2 channels, s16, 80 kb/s
+At least one output file must be specified
+
 Input #0, flv, from 'basic.flv':
   Duration: 00:00:14.48, start: 0.000000, bitrate: N/A
     Stream #0.0: Video: flv, yuv420p, 480x360, 25 tbr, 1k tbn, 1k tbc
