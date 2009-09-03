@@ -80,14 +80,14 @@
     <mm:import id="requesturl"><c:out value="${pageContext.request.requestURL}" /><c:if test="${!empty pageContext.request.queryString}">?<c:out value="${pageContext.request.queryString}" /></c:if></mm:import>
     
     <feed xmlns="http://www.w3.org/2005/Atom" xmlns:media="http://search.yahoo.com/mrss">
-      <title>The Open Images Platform</title>
+      <title>Open Images Platform / Open Beelden Platform</title>
       <subtitle>
         <c:choose>
           <c:when test="${!empty search}">
-            ${total} searchresults for '${search}' on the Open Images Platform
+            ${total} search results for "${search}" on Open Images / ${total} zoekresultaten voor "${search}" op Open Beelden
           </c:when>
           <c:when test="${!empty user}">
-            Latest uploads of ${user} on the Open Images Platform
+            Latest uploads of ${user} on Open Images / Laatste uploads van ${user} op Open Beelden
           </c:when>
           <c:when test="${!empty related}">
             <mm:hasnode number="$related">
@@ -99,7 +99,7 @@
                         or nodetype eq 'imagefragments' 
                         or nodetype eq 'images'
                         }">
-                    Related items of <mm:field name="title" />
+                    Related items of <mm:field name="title" /> on Open Images / Gerelateerde items van <mm:field name="title" /> op Open Beelden 
                   </c:when>
                   <c:otherwise>No such media item.</c:otherwise>
                 </c:choose>
@@ -110,7 +110,7 @@
             </mm:hasnode>
           </c:when>
           <c:otherwise>
-            Latest uploads on the Open Images Platform
+            Latest uploads on Open Images / Laatste uploads op Open Beelden 
           </c:otherwise>
         </c:choose>
       </subtitle>
