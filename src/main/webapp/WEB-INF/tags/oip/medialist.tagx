@@ -90,7 +90,7 @@
                 <mm:field name="date">
                   <mm:isnotempty>
                     <jsp:text> </jsp:text>
-                    <mm:time format="dd MMMM yyyy" />
+                    <mm:time format="dd MMM yyyy" />
                   </mm:isnotempty>
                 </mm:field>
               </dd>
