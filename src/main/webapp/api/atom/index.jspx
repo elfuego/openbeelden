@@ -7,6 +7,7 @@
     xmlns:jsp="http://java.sun.com/JSP/Page"
     xmlns:mm="http://www.mmbase.org/mmbase-taglib-2.0">
   <jsp:directive.page session="false" />
+  <jsp:directive.page import="org.mmbase.bridge.*" />
   <mm:cloud>  
     
     <mm:import externid="user" />
@@ -31,9 +32,7 @@
                 <mm:function set="relatedcontent" name="hits" referids="_node@node" id="hits" write="false">
                   <c:forEach var="hit" items="${hits}">
                     <mm:node number="${hit.value}" jspvar="n">
-                      <c:if test="${_node.show eq true}">
-                        <jsp:scriptlet>entries.add(n);</jsp:scriptlet>
-                      </c:if>
+                      <jsp:scriptlet>entries.add(n);</jsp:scriptlet>
                     </mm:node>
                   </c:forEach>
                 </mm:function>
@@ -49,19 +48,20 @@
         <mm:import id="extraconstraints">show:EQ:1
           <c:if test="${!empty user}">user:EQ:${user}</c:if>
         </mm:import>
-        <mm:import id="filter">
-        </mm:import>
-  
+        <mm:import id="filter"> </mm:import>
+        
         <c:choose>
           <c:when test="${empty search}"><!-- not searched, display latest -->
             <c:set var="searched" value="empty" />
             <mm:import id="value" reset="true">${index}*</mm:import>
             <mm:import id="fields" reset="true">indexId</mm:import>
+            <mm:import id="sortfields">REVERSE:created</mm:import>
           </c:when>
           <c:otherwise>
             <mm:import id="value" reset="true">${search}</mm:import>
           </c:otherwise>
         </c:choose>
+        
 
         <mm:function
             write="false"
@@ -72,7 +72,7 @@
             
         <mm:nodelistfunction
             module="lucene" name="search" id="entries"
-            referids="index,value,fields?,filter,offset,max,extraconstraints" />
+            referids="index,value,fields?,sortfields?,filter,offset,max,extraconstraints" />
       
       </c:otherwise>
     </c:choose>
@@ -117,7 +117,15 @@
       <link href="${requesturl}" rel="self" type="application/atom+xml" />
       <mm:link absolute="true" page="/"><link href="${_}" /></mm:link>
       <id><mm:url absolute="true" /></id>
-      <updated><mm:time format="yyyy-MM-dd" time="${_}" />T<mm:time format="HH:mm:ss" time="${_}" />Z</updated>
+      <mm:present referid="entries">
+        <mm:listnodes referid="entries" varStatus="status">
+          <c:if test="${status.index == 1}">
+            <mm:field name="lastmodified">
+              <updated><mm:time format="yyyy-MM-dd" />T<mm:time format="HH:mm:ss" />Z</updated>
+            </mm:field>
+          </c:if>
+        </mm:listnodes>
+      </mm:present>
       <author>
         <name>Open Images Platform</name>
         <uri><mm:url page="/" absolute="true" /></uri>
