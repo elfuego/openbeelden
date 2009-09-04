@@ -11,6 +11,11 @@
   <mm:import externid="role" />
   <mm:import externid="searchdirs" />
   <mm:import externid="sortorder" />
+  <mm:import externid="list" />
+  <mm:import externid="create">true</mm:import>
+  <c:if test="${!empty list}">
+    <mm:import id="listfields" reset="true">${list}</mm:import>
+  </c:if>
   
   <mm:relatednodescontainer type="$type" role="$role" searchdirs="$searchdirs" id="curr">
     <mm:present referid="sortorder"><mm:sortorder field="$sortorder" /></mm:present>
@@ -19,7 +24,7 @@
   <mm:listnodescontainer type="$type" id="repos" />
   
   <mm-sr:relate current="${curr}" repository="${repos}"
-    pagesize="10" forms="true" unrelate="true" create="true"
+    pagesize="10" forms="true" unrelate="true" create="${create}"
     relations="true" fields="${listfields}" customizedir="/editors/sr/">
     <jsp:attribute name="currentTitle">
       <strong>Gerelateerde <mm:nodeinfo type="plural_guitype" nodetype="$type" escape="lowercase" /></strong>

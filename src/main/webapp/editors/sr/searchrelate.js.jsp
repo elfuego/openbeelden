@@ -40,8 +40,8 @@ function bindAllthese() {
             }
             
             var msg = "";
-            if (unrelated) msg += " Removed relation(s): " + unrelated;
-            if (related) msg += " Saved new relation(s): " + related;
+            if (unrelated) msg += " Removed relation: " + unrelated;
+            if (related) msg += " Saved relation: " + related;
             $(relater.div).find('div.mm_relate_repository > div.succeeded').text(msg).fadeOut(2400);
             
             /* bind editrelation buttons */

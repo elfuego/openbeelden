@@ -8,7 +8,7 @@
   <jsp:output doctype-root-element="html"
               doctype-public="-//W3C//DTD XHTML 1.0 Strict//EN"
               doctype-system="http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd" />
-  <mm:cloud loginpage="login.jspx" rank="project manager">
+  <mm:cloud loginpage="login.jspx" rank="project manager" jspvar="cloud">
 
     <mm:import externid="nr" />
     <mm:import externid="msg" />
@@ -58,7 +58,19 @@
                       <mm:param name="role">posrel</mm:param>
                       <mm:param name="searchdirs">source</mm:param>
                       <mm:param name="sortorder">posrel.pos</mm:param>
-                      <mm:param name="listfields">name,description</mm:param>
+                      <mm:param name="list">name,description</mm:param>
+                      <mm:param name="create">false</mm:param>
+                    </mm:include>
+                  </p>
+                </mm:hasrelationmanager>
+                <mm:hasrelationmanager sourcemanager="mediafragments" destinationmanager="$type" role="related">
+                  <p>
+                    <mm:include page="inc/searchrelate.jspx" referids="nr">
+                      <mm:param name="type">mediafragments</mm:param>
+                      <mm:param name="role">related</mm:param>
+                      <mm:param name="searchdirs">source</mm:param>
+                      <mm:param name="create">false</mm:param>
+                      <mm:param name="list">title,show,language</mm:param>
                     </mm:include>
                   </p>
                 </mm:hasrelationmanager>
@@ -100,6 +112,19 @@
                     </mm:include>
                   </p>
                 </mm:hasrelationmanager>
+              </mm:node>
+            
+            </mm:present><!-- /nr -->
+
+          </div><!-- /#content -->
+          <div id="sidebar">
+            <mm:present referid="nr">
+              <mm:node number="$nr">
+                <p>
+                  <mm:link page="edit.jspx" referids="nr,type?">
+                    <a href="${_}">Reload</a>
+                  </mm:link>
+                </p>
                 <mm:hasrelationmanager sourcemanager="$type" destinationmanager="images" role="posrel">
                   <p>
                     <mm:include page="inc/searchrelate.jspx" referids="nr">
@@ -107,7 +132,7 @@
                       <mm:param name="role">posrel</mm:param>
                       <mm:param name="searchdirs">destination</mm:param>
                       <mm:param name="sortorder">posrel.pos</mm:param>
-                      <mm:param name="listfields">handle,title</mm:param>
+                      <mm:param name="list">handle,title</mm:param>
                     </mm:include>
                   </p>
                 </mm:hasrelationmanager>
@@ -117,7 +142,7 @@
                       <mm:param name="type">images</mm:param>
                       <mm:param name="role">related</mm:param>
                       <mm:param name="searchdirs">destination</mm:param>
-                      <mm:param name="listfields">handle,title</mm:param>
+                      <mm:param name="list">handle,title</mm:param>
                     </mm:include>
                   </p>
                 </mm:hasrelationmanager>
@@ -128,48 +153,63 @@
                       <mm:param name="role">posrel</mm:param>
                       <mm:param name="searchdirs">destination</mm:param>
                       <mm:param name="sortorder">posrel.pos</mm:param>
-                      <mm:param name="listfields">name,url</mm:param>
+                      <mm:param name="list">name,url</mm:param>
                     </mm:include>
                   </p>
                 </mm:hasrelationmanager>
-              </mm:node>
-            
-            </mm:present><!-- /nr -->
+                <mm:hasrelationmanager sourcemanager="$type" destinationmanager="licenses" role="related">
+                  <p>
+                    <mm:include page="inc/searchrelate.jspx" referids="nr">
+                      <mm:param name="type">licenses</mm:param>
+                      <mm:param name="role">related</mm:param>
+                      <mm:param name="searchdirs">destination</mm:param>
+                      <mm:param name="sortorder">name</mm:param>
+                      <mm:param name="list">name,url</mm:param>
+                    </mm:include>
+                  </p>
+                </mm:hasrelationmanager>
+                <mm:hasrelationmanager sourcemanager="$type" destinationmanager="tags" role="related">
+                  <p>
+                    <mm:include page="inc/searchrelate.jspx" referids="nr">
+                      <mm:param name="type">tags</mm:param>
+                      <mm:param name="role">related</mm:param>
+                      <mm:param name="searchdirs">destination</mm:param>
+                      <mm:param name="sortorder">name</mm:param>
+                      <mm:param name="list">name</mm:param>
+                      <mm:param name="create">false</mm:param>
+                    </mm:include>
+                  </p>
+                </mm:hasrelationmanager>
 
-          </div><!-- /#content -->
-          <div id="sidebar">
-            <mm:present referid="nr">
-              <mm:node number="$nr">
-                <mm:hasnodemanager name="${type}_translations">
-                  <mm:hasrelationmanager sourcemanager="$type" destinationmanager="${type}_translations" role="langrel">
+                <!-- translations -->
+                <mm:import id="ttype" jspvar="builder"><mm:property nodemanager="$type" name="translations.builder" /></mm:import>
+                <mm:hasnodemanager name="${ttype}">
+                
+                  <mm:hasrelationmanager sourcemanager="$type" destinationmanager="${ttype}" role="langrel">
                     <h3>Translations</h3>
-  
+                    <p id="create_translation">
+                      <mm:link page="inc/form-create.jspx" referids="nr">
+                        <mm:param name="type">${ttype}</mm:param>
+                        <mm:param name="role">langrel</mm:param>
+                        <mm:param name="dir">destination</mm:param>
+                        <a class="mmajaxeditor" href="${_}#create_translation">New translation</a>
+                      </mm:link>
+                    </p>                      
                     <ul>
-                      <li id="create_translation">
-                        <mm:link page="inc/form-create.jspx" referids="nr">
-                          <mm:param name="type">${type}_translations</mm:param>
-                          <mm:param name="role">langrel</mm:param>
-                          <mm:param name="dir">destination</mm:param>
-                          <a class="mmajaxeditor" href="${_}#create_translation">New translation</a>
-                        </mm:link>
-                      </li>                      
-                      <mm:relatednodescontainer type="${type}_translations" role="langrel" searchdirs="destination">
+                      <mm:relatednodescontainer type="${ttype}" role="langrel" searchdirs="destination">
                         <mm:relatednodes>
                           <li id="node_${_node}">
-                          
                             <mm:link page="inc/form-edit.jspx" referids="_node@nr">
                               <a href="${_}#node_${_node}" class="mmajaxeditor">
                                 <mm:field name="language"><mm:fieldinfo type="guivalue" /></mm:field>
                                 - <mm:function name="gui" />
                               </a>
                             </mm:link>
-                            
                             <mm:maydelete> -
                               <mm:link page="inc/form-delete.jspx" referids="_node@nr">
                                 <a href="${_}#node_${_node}" class="mmajaxeditor">delete</a>
                               </mm:link>
                             </mm:maydelete>
-
                           </li>
                         </mm:relatednodes>
                       </mm:relatednodescontainer>

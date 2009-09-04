@@ -20,8 +20,16 @@
           </jsp:scriptlet>
         </mm:node>
         <mm:listnodes referid="l" id="relation">
+          <mm:maxnumber value="1" />
           <mm:import id="rel" reset="true">${relation}</mm:import>
         </mm:listnodes>
+        <c:if test="${!empty rel}">
+          <mm:node number="$rel">
+            <mm:fieldlist type="edit">
+              <mm:size id="size" write="false" />
+            </mm:fieldlist>
+          </mm:node>
+        </c:if>
       </mm:compare>
       
       <mm:link referids="node@nr">
@@ -29,7 +37,8 @@
         <a href="#node_${node}"><img class="editnode" src="${mm:link('/editors/sr/c-edit.png')}" alt="edit" width="20" height="20" /></a>
       </mm:link>
       
-      <c:if test="${editrelations == true}">
+      
+      <c:if test="${editrelations == true and size gt 1}">
         <a href="#node_${node}"><img class="editrelation" src="${mm:link('/editors/sr/c-relright.png')}" alt="relate" width="20" height="20" /></a>
       </c:if>
       
