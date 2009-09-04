@@ -232,10 +232,10 @@
   <block name="user-streams"
          classification="oip"
          mimetype="text/html">
-    <title xml:lang="en">Media transcoding</title>
-    <title xml:lang="nl">Media transcodering</title>
-    <description xml:lang="en">Status of your media transcodings.</description>
-    <description xml:lang="nl">Status van je media transcoderingen.</description>
+    <title xml:lang="en">Media files</title>
+    <title xml:lang="nl">Media files</title>
+    <description xml:lang="en">Your media files and their status.</description>
+    <description xml:lang="nl">Je media files en de status ervan.</description>
     <head>
     </head>
     <body jsp="user-streams.jspx">
