@@ -21,7 +21,7 @@
       <c:when test="${_ eq 'imagefragments'}">
         <mm:relatednodes type="imagesources">
           <mm:import id="embedtag" reset="true"><mm:image mode="url" absolute="true" width="${w}" height="${h}" crop="middle" /></mm:import>
-          <mm:image mode="img" width="${w}" height="${h}" crop="middle" />
+          <mm:image mode="img" width="${w}" height="${h}" crop="end" />
         </mm:relatednodes>
       </c:when>
       <c:otherwise>
