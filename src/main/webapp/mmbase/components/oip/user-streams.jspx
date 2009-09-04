@@ -50,43 +50,46 @@
               </tr>
             </mm:node>
             <mm:hasrank minvalue="project manager">
-              <tr>
-                <th>transcoding</th>
-                <td class="action">
-                  <mm:node number="${_.source.number}">
-                    <c:choose>
-                      <c:when test="${trigger eq mediafragment}">
-                        <mm:voidfunction name="trigger" />
-                        <jsp:text>triggered</jsp:text>
-                      </c:when>
-                      <c:otherwise>
-                        <mm:node number="$n">
-                          <mm:link><!-- BUG? seems like a bug you have to get node parameter n this way -->
-                            <mm:param name="media">${mediafragment}</mm:param>
-                            <mm:param name="trigger">${mediafragment}</mm:param>
-                            <a href="${_}">trigger</a>
-                          </mm:link>
-                        </mm:node>
-                      </c:otherwise>
-                    </c:choose>
-                    <jsp:text> | </jsp:text>
-                    <c:choose>
-                      <c:when test="${interrupt eq mediafragment}">
-                        <mm:function set="streams" name="cancelJob" referids="interrupt@node" />
-                      </c:when>
-                      <c:otherwise>
-                        <mm:node number="$n">
-                          <mm:link><!-- BUG? seems like a bug you have to get node parameter n this way -->
-                            <mm:param name="media">${mediafragment}</mm:param>
-                            <mm:param name="interrupt">${mediafragment}</mm:param>
-                            <a href="${_}">interrupt</a>
-                          </mm:link>
-                        </mm:node>
-                      </c:otherwise>
-                    </c:choose>
-                  </mm:node>
-                </td>
-              </tr>
+              <mm:nodeinfo type="type" id="nodetype" write="false" />
+              <c:if test="${nodetype ne 'imagefragments'}">
+                <tr>
+                  <th>transcoding</th>
+                  <td class="action">
+                    <mm:node number="${_.source.number}">
+                      <c:choose>
+                        <c:when test="${trigger eq mediafragment}">
+                          <mm:voidfunction name="trigger" />
+                          <jsp:text>triggered</jsp:text>
+                        </c:when>
+                        <c:otherwise>
+                          <mm:node number="$n">
+                            <mm:link><!-- BUG? seems like a bug you have to get node parameter n this way -->
+                              <mm:param name="media">${mediafragment}</mm:param>
+                              <mm:param name="trigger">${mediafragment}</mm:param>
+                              <a href="${_}">trigger</a>
+                            </mm:link>
+                          </mm:node>
+                        </c:otherwise>
+                      </c:choose>
+                      <jsp:text> | </jsp:text>
+                      <c:choose>
+                        <c:when test="${interrupt eq mediafragment}">
+                          <mm:function set="streams" name="cancelJob" referids="interrupt@node" />
+                        </c:when>
+                        <c:otherwise>
+                          <mm:node number="$n">
+                            <mm:link><!-- BUG? seems like a bug you have to get node parameter n this way -->
+                              <mm:param name="media">${mediafragment}</mm:param>
+                              <mm:param name="interrupt">${mediafragment}</mm:param>
+                              <a href="${_}">interrupt</a>
+                            </mm:link>
+                          </mm:node>
+                        </c:otherwise>
+                      </c:choose>
+                    </mm:node>
+                  </td>
+                </tr>
+              </c:if>
             </mm:hasrank>
           </c:if>
         </mm:listfunction>
