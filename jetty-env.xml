@@ -8,6 +8,7 @@
       When using jetty:run use an hsql database in the directory 'data'.
   -->
 
+  <!--
   <New  class="org.mortbay.jetty.plus.naming.EnvEntry">
     <Arg type="java.lang.String">mmbase/mmbaseroot/database</Arg>
     <Arg type="java.lang.String">hsqldb_csv</Arg>
@@ -25,7 +26,28 @@
       </New>
     </Arg>
    </New>
+   -->
 
+  <!--
+      The 'setNodeManager' funcationality which is used, is only implemented in implementations which don't use foreign keys.
+      I'm going to fix that eventually, but for now please use MySQL.
+  -->
+  <New  class="org.mortbay.jetty.plus.naming.EnvEntry">
+    <Arg type="java.lang.String">mmbase/mmbaseroot/database</Arg>
+    <Arg type="java.lang.String">mysql_with_views</Arg>
+    <Arg type="boolean">true</Arg>
+  </New>
+  <New class="org.mortbay.jetty.plus.naming.Resource">
+    <Arg>jdbc/MMBase</Arg>
+    <Arg>
+      <New class="com.mchange.v2.c3p0.ComboPooledDataSource">
+        <Set name="driverClass">com.mysql.jdbc.Driver</Set>
+        <Set name="jdbcUrl">jdbc:mysql://localhost:3306/beg?autoReconnect=true&amp;useUnicode=true&amp;characterEncoding=utf8</Set>
+        <Set name="user">mmbase</Set>
+        <Set name="password">admin2k</Set>
+      </New>
+    </Arg>
+   </New>
 
    <!--
        Put all mmbase date files there too.
