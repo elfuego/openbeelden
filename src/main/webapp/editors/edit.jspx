@@ -63,6 +63,18 @@
                     </mm:include>
                   </p>
                 </mm:hasrelationmanager>
+                <mm:hasrelationmanager sourcemanager="pages" destinationmanager="$type" role="posrel">
+                  <p>
+                    <mm:include page="inc/searchrelate.jspx" referids="nr">
+                      <mm:param name="type">pages</mm:param>
+                      <mm:param name="role">posrel</mm:param>
+                      <mm:param name="searchdirs">source</mm:param>
+                      <mm:param name="sortorder">posrel.pos</mm:param>
+                      <mm:param name="list">title,template</mm:param>
+                      <mm:param name="create">false</mm:param>
+                    </mm:include>
+                  </p>
+                </mm:hasrelationmanager>
                 <mm:hasrelationmanager sourcemanager="mediafragments" destinationmanager="$type" role="related">
                   <p>
                     <mm:include page="inc/searchrelate.jspx" referids="nr">
@@ -120,11 +132,6 @@
           <div id="sidebar">
             <mm:present referid="nr">
               <mm:node number="$nr">
-                <p>
-                  <mm:link page="edit.jspx" referids="nr,type?">
-                    <a href="${_}">Reload</a>
-                  </mm:link>
-                </p>
                 <mm:hasrelationmanager sourcemanager="$type" destinationmanager="images" role="posrel">
                   <p>
                     <mm:include page="inc/searchrelate.jspx" referids="nr">
@@ -165,6 +172,7 @@
                       <mm:param name="searchdirs">destination</mm:param>
                       <mm:param name="sortorder">name</mm:param>
                       <mm:param name="list">name,url</mm:param>
+                      <mm:param name="create">false</mm:param>
                     </mm:include>
                   </p>
                 </mm:hasrelationmanager>

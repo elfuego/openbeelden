@@ -9,6 +9,11 @@
    je bent ingelogd als <mm:cloudinfo type="user" /> (<mm:cloudinfo type="rank" />)
    <a href="${mm:link('/logout.jspx')}">log uit</a> |
    <a href="${mm:link('/mmbase/edit/my_editors/')}">my_editors</a>
+   <mm:import externid="nr" />
+   <c:if test="${!empty nr}">
+     <mm:link page="edit.jspx" referids="nr?,type?"> | <a href="${_}">reload</a></mm:link>
+   </c:if>
+
  </div>
  <div id="topnav">
    <ul id="nav">
