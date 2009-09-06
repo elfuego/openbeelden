@@ -225,12 +225,12 @@
                     <mm:frameworkparam name="component">oip</mm:frameworkparam>
                     <mm:frameworkparam name="media">${_node}</mm:frameworkparam>
                     <c:choose>
-                      <c:when test="${status.index % 3 == 0}"><c:set var="gridclass" value="grid first" /></c:when>
+                      <c:when test="${(status.index) % 3 == 0}"><c:set var="gridclass" value="grid first" /></c:when>
                       <c:otherwise><c:set var="gridclass" value="grid" /></c:otherwise>
                     </c:choose>
                     <dl class="${gridclass}">
                       <dt>
-                        <a href="${_}"><oip:thumb /></a>
+                        <a href="${_}"><oip:thumb /></a> 
                       </dt>
                       <dd> <mm:field name="title" escape="wrapper" /> </dd>
                     </dl>
@@ -257,10 +257,10 @@
           <mm:listnodescontainer type="mediafragments">
             <mm:constraint field="number" value="$_node" operator="EQUAL" inverse="true" />
             <mm:constraint field="show" value="true" operator="EQUAL" />
-<!-- 
+            <!-- 
             <mm:constraint field="online" value="$today" operator="LESS" />
             <mm:constraint field="offline" value="$today" operator="GREATER" />
- -->
+            -->
             <c:if test="${!empty owner}">
               <mm:constraint field="owner" value="$owner" operator="EQUAL" />
             </c:if>
@@ -272,7 +272,7 @@
                 <mm:frameworkparam name="block">mediafragment</mm:frameworkparam>
                 <mm:frameworkparam name="media">${_node}</mm:frameworkparam>
                 <c:choose>
-                  <c:when test="${(status.index + 2) % 3 == 0}"><c:set var="gridclass" value="grid first" /></c:when>
+                  <c:when test="${(status.index - 1) % 3 == 0}"><c:set var="gridclass" value="grid first" /></c:when>
                   <c:otherwise><c:set var="gridclass" value="grid" /></c:otherwise>
                 </c:choose>
                 <dl class="${gridclass}">
