@@ -57,11 +57,13 @@ div#main
 {
 	position: relative;
 	top: 0;
-	left: 335px;
+	left: 340px;
 	width: 640px;
-	height: 32px;
-	border-bottom: 3px #666 dotted;
+	height: 35px;
 	font-size: 1.1em;
+	background-image: url(images/dots.png);
+	background-repeat: repeat-x;
+	background-position: 0 100%;
 }
 
 #menu ul.main
@@ -85,7 +87,7 @@ div#main
 #menu ul.main li
 {
 	float: left;
-	padding: 0 32px 0 4px;
+	padding-right: 34px;
 }
 
 #menu ul.main li.last { padding-right: 0; }
@@ -165,10 +167,9 @@ div.wrap
 {
 	width: 100%;
 	clear: both;
-	border-top: 3px #666 dotted;
-	background-image: url(images/bg-gr.png);
+	background-image: url(images/bg-gr-dotted.png);
 	background-repeat: repeat-x;
-	background-position: 0 8px;
+	background-position: 0 0;
 	min-height: 266px;
 	overflow: hidden; /* http://www.quirksmode.org/css/clearing.html */
 }
@@ -179,10 +180,9 @@ div.left-column
 	margin-top: 306px; 
 	padding-left: 35px;
     padding-top: 16px;
-	border-top: 3px #666 dotted;
-	background-image: url(images/bg-gr.png);
+	background-image: url(images/bg-gr-dotted.png);
 	background-repeat: repeat-x;
-	background-position: 0 8px;
+	background-position: 0 0px;
 	min-height: 266px;
 	width: 320px;	/* for IE5/Win */
 	voice-family: "\"}\"";
@@ -263,12 +263,11 @@ body.error div.main-column h3
 /* the bordered and grey background divs */
 div.related-grey-border
 {
-	border-top: 3px #666 dotted;
-	background-image: url(images/bg-gr.png);
+	background-image: url(images/bg-gr-dotted.png);
 	background-repeat: repeat-x;
-	background-position: 0 8px;
+	background-position: 0 0;
 	min-height: 266px;
-	padding: 8px;
+	padding: 16px 8px 8px 8px;
 	clear: both;
 	margin-bottom: 1em;
 }
