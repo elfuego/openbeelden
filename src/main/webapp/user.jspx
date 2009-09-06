@@ -76,9 +76,11 @@
         </c:if>
 
         <c:if test="${block eq 'user' or block eq 'user-edit'}">
-          <div class="related-grey">
-            <mm:component name="oip" block="user-favorites" />
-          </div>
+          <mm:maywrite>
+            <div class="related-grey">
+              <mm:component name="oip" block="user-favorites" />
+            </div>
+          </mm:maywrite>
         </c:if>
 
       </div>
