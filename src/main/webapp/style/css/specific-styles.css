@@ -307,12 +307,14 @@ dl.media-info span.user a:active { text-decoration: underline; }
 
 dl.grid
 {
-    float: left;
-    width: 80px;
-    margin-left: 24px;
-    font-size: 0.9em;
-    line-height: 1em;
-    height: 110px;
+	float: left;
+	width: 80px;
+	margin-left: 24px;
+	font-size: 0.9em;
+	line-height: 1em;
+	height: 104px;
+	overflow: hidden;
+	margin-bottom: 12px;
 }
 
 #t_thumbs dl.grid { height: 80px; }

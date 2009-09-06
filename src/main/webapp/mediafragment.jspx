@@ -28,7 +28,7 @@
       <mm:time time="now" id="today" precision="hours" write="false" />
       <mm:escaper id="wrapper" type="substring">
         <mm:param name="from" value="0" />
-        <mm:param name="to" value="24" />
+        <mm:param name="to" value="30" />
         <mm:param name="ellipsis" value="..." />
       </mm:escaper>
 
