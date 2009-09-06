@@ -10,7 +10,7 @@
   @params:
     id - id of the element that contains the video-tag
     config - configuration parameters
-        'dir' : directory the plugins live
+        'dir' : directory the plugins live in
         'jar' : JAR file of Cortado
         'flash' : location of flowplayer.swf
 
@@ -20,7 +20,10 @@
 var player;
 
 function createPlayer(id, config) {
-    var videotag = $('#' + id + ' video:first');
+    var mediatag = $('#' + id + ' video:first');
+    if (mediatag == undefined) {
+        mediatag = $('#' + id + ' audio:first');
+    }
     var sources = $('#' + id).find('source');
     var types = $.map(sources, function(i) {
         return $(i).attr('type');
@@ -30,11 +33,11 @@ function createPlayer(id, config) {
     });
 
     if (urls.length == 0) {
-        urls[0] = $(videotag).attr('src');
+        urls[0] = $(mediatag).attr('src');
         types[0] = "unknown";
     }
 
-    if (videotag != undefined) {
+    if (mediatag != undefined) {
         var selectedPlayer = selectPlayer(types, urls);
         if (selectedPlayer.type == 'video') {
             player = new VideoPlayer();
@@ -360,4 +363,32 @@ function supportMimetype(mt) {
 		}
     }
 	return support;
+}
+
+function showInfo() {
+    var text = player.info();
+    $('#playercontrols li.playerinfo').show();
+    $('#playercontrols li.playerinfo').text(text);
+}
+
+function followProgress() {
+    var oldpos;
+    var pos;
+    var text = "00:00";
+    $('li#position').text(text);
+    var progress = function() {
+        //showInfo();
+        oldpos = pos;
+        pos = player.position();
+        if (pos > 0) {
+            var min = Math.floor(pos / 60);
+            var sec = Math.floor(pos - (min * 60));
+            text = (min < 10 ? '0' + min : min) + ":" + (sec < 10 ? '0' + sec : sec);
+            $('li#position').text(text);
+        }
+        if (player.state == "play") {
+            setTimeout(progress, 100);
+        }
+    };
+    progress();
 }
