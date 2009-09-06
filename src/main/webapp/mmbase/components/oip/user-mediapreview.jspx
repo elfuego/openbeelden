@@ -79,6 +79,8 @@
                     </c:choose>
                   </dd>
                   <mm:relatednodescontainer type="licenses" role="related" searchdirs="destination">
+                    <mm:sortorder field="number" direction="DOWN" />
+                    <mm:maxnumber value="1" />
                     <mm:relatednodes>
                       <dt><fmt:message key="media.license" />:</dt>
                       <dd> <mm:field name="name" /> </dd>

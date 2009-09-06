@@ -42,19 +42,37 @@
           <jsp:attribute name="action"><mm:url page="user-media" referids="n,media" absolute="true" /></jsp:attribute>
         </oip:form>
 
-        <!-- license stuff -->
+        <!-- license stuff (with an ugly workaround)  -->
+        <mm:listrelationscontainer type="licenses" role="related">
+          <mm:sortorder field="number" direction="UP" /><!-- make sure we keep the last one -->
+          <mm:size id="nr_of_relations" write="false" />
+          <mm:listrelations>
+            <c:if test="${nr_of_relations > 1}">
+              <mm:last inverse="true">
+                <mm:deletenode />
+                <mm:remove referid="license" />
+              </mm:last>
+            </c:if>
+          </mm:listrelations>
+        </mm:listrelationscontainer>
+        
         <mm:present referid="license">
           <mm:node number="licenses_attributionsharealike">
-            <c:set var="pref_license"><mm:field name="number" /></c:set>
+            <mm:import id="pref_license"><mm:field name="number" /></mm:import>
           </mm:node>
           <c:if test="${license ne pref_license}">
-            <mm:relation to="licenses_attributionsharealike">
+            <!-- mm:relation to="licenses_attributionsharealike">
               <mm:deletenode />
-            </mm:relation> 
+            </mm:relation -->
+            <!-- this creates a 2nd relation with another license for now, 
+                 because of the above not working. Will delete the former afterwards (see above). -->
             <mm:node number="$license" id="lic_node" />
             <mm:createrelation source="_node" destination="lic_node" role="related" />
+            <mm:remove referid="license" />
           </c:if>
         </mm:present>
+      
+        
       </mm:node>
 
     </div>

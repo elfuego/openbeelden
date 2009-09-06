@@ -113,14 +113,14 @@
                 </mm:node>
                 <mm:listnodescontainer type="licenses">
                   <mm:constraint field="number" value="licenses_attributionsharealike" operator="EQUAL" inverse="true" />
-                    <mm:listnodes varStatus="status">
-                      <li>
-                        <input name="license" id="lic_${status.index}" type="radio" value="${_node}" />
-                        <label for="lic_${status.index}">
-                          <span title="${_node.url} ${_node.description}"><mm:field name="name" /></span>
-                        </label>
-                      </li>
-                    </mm:listnodes>
+                  <mm:listnodes varStatus="status">
+                    <li>
+                      <input name="license" id="lic_${status.index}" type="radio" value="${_node}" />
+                      <label for="lic_${status.index}">
+                        <span title="${_node.url} ${_node.description}"><mm:field name="name" /></span>
+                      </label>
+                    </li>
+                  </mm:listnodes>
                 </mm:listnodescontainer>
               </ul>
             </fieldset>
