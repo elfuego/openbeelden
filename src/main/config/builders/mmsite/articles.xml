@@ -17,6 +17,9 @@
     <description xml:lang="en">An article in this site</description>
     <description xml:lang="nl">Een artikel in deze site.</description>
   </descriptions>
+  <properties>
+    <property name="translations.builder">articles_translations</property>
+  </properties>
 
   <xi:include href="http://www.mmbase.org/builders/mmsite/content.data.fields.xml" />
   

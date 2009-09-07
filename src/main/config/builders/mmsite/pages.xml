@@ -17,7 +17,10 @@
     <description xml:lang="en">A page in a website</description>
     <description xml:lang="nl">Een pagina in een website</description>
   </descriptions>
-  <properties />
+  <properties>
+    <property name="translations.builder">pages_translations</property>
+  </properties>
+  
   <fieldlist>
   
     <field name="title">
