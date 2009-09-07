@@ -12,7 +12,7 @@
   <div
       class="mm_c c_oip b_upload ${requestScope.className}"
       id="${requestScope['org.mmbase.componentId']}">
-      
+
     <script type="text/javascript">
       var validator = new MMBaseValidator();
       validator.prefetchNodeManager('streamsources');
@@ -23,11 +23,11 @@
       validator.setup(document.getElementById("${requestScope['org.mmbase.componentId']}"));
       Widgets.prototype.labelsToInputs("form#upload_form label");
     </script>
-    
+
     <oip:h3>Upload</oip:h3>
-    
+
     <mm:cloud method="asis">
-      
+
       <mm:import id="buffer">
         <mm:form id="upload_form">
           <mm:createnode id="newsource" type="streamsources" commitonclose="false">
@@ -59,12 +59,13 @@
           <fieldset>
             <input type="submit" name="submit_upload" id="submit_upload" value="Upload" class="submit" />
           </fieldset>
-          
+
           <mm:import externid="submit_upload" />
           <mm:present referid="submit_upload">
             <mm:valid>
               <mm:commit />
               <mm:import id="committed" />
+
             </mm:valid>
           </mm:present>
           <mm:notpresent referid="committed">
@@ -72,17 +73,21 @@
           </mm:notpresent>
         </mm:form>
       </mm:import>
-      
+
+
       <mm:present referid="committed">
         <mm:node number="${newsource}">
           <!-- p class="msg">Submitted ${_node} URL: ${_node.url} FS: ${_node.filesize}</p -->
-          
+
+          <mm:log><mm:field name="title" /></mm:log><!-- Make sure the mediafragment is created outside transacntions and so on -->
+
           <mm:url id="editlink" absolute="true" write="false">
             <mm:frameworkparam name="component">oip</mm:frameworkparam>
             <mm:frameworkparam name="block">user-media</mm:frameworkparam>
             <mm:frameworkparam name="user"><mm:cloudinfo type="usernode" /></mm:frameworkparam>
             <mm:param name="media"><mm:field name="mediafragment" id="media" /></mm:param>
           </mm:url>
+
 
           <mm:form page="$editlink">
             <mm:node number="$media" id="medianode">
@@ -95,12 +100,12 @@
                   <mm:fieldinfo type="errors" />
                 </mm:fieldlist>
               </fieldset>
-              
+
               <!-- make sure there is always a license related (also when user leaves form without saving) -->
               <mm:node number="licenses_attributionsharealike" id="lic" />
               <mm:createrelation source="medianode" destination="lic" role="related" />
             </mm:node>
-            
+
             <fieldset class="licenses">
               <ul>
                 <mm:node number="licenses_attributionsharealike">
@@ -124,20 +129,20 @@
                 </mm:listnodescontainer>
               </ul>
             </fieldset>
-            
+
             <fieldset>
               <c:set var="button_save"><fmt:message key="users.save" /></c:set>
               <input type="submit" name="submit" value="${button_save}" class="submit" />
-            </fieldset> 
+            </fieldset>
           </mm:form>
-          
+
         </mm:node>
       </mm:present>
-      
+
       <mm:notpresent referid="committed">
         <mm:write referid="buffer" escape="none" />
       </mm:notpresent>
-      
+
     </mm:cloud>
   </div>
   </mm:maycreate>
