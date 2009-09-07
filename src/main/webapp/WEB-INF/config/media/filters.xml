@@ -3,7 +3,7 @@
  <!ENTITY % format SYSTEM "http://www.mmbase.org/dtd/formatcomparator_1_0.dtd" >
  <!ENTITY % dimension SYSTEM "http://www.mmbase.org/dtd/dimensioncomparator_1_0.dtd" >
  <!ENTITY % bitrate SYSTEM  "http://www.mmbase.org/dtt/clientbitratefilter_1_0.dtd" >
- <!ENTITY % configSubTags "preferredSource|preferredDimension|bitrates">
+ <!ENTITY % configSubTags "preferredSource|preferredDimension|bitrates|property">
  %format;
  %dimension;
  %bitrate;
@@ -13,6 +13,7 @@
   <chain>
     <filter>org.mmbase.applications.media.filters.AvailableSorter</filter>
     <filter id="format">org.mmbase.applications.media.filters.ServerFormatSorter</filter>
+    <filter id="nodetype">org.mmbase.applications.media.filters.NodeTypeSorter</filter>
     <filter id="dimensions">org.mmbase.applications.media.filters.ServerDimensionSorter</filter>
     <filter id="bitrate">org.mmbase.applications.media.filters.BitrateLabeler</filter>
   </chain>
@@ -38,6 +39,9 @@
       <preferredDimension>
         <dimension x="320" y="240" />
       </preferredDimension>
+    </config>
+    <config filter="nodetype">
+      <property name="list">videostreamsourcescaches,audiostreamsourcescaches</property>
     </config>
 
   </filterConfigs>
