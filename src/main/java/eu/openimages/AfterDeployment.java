@@ -18,10 +18,10 @@ public class AfterDeployment implements Runnable {
 
 
     private final String[] SITEUSER_OBJECTS = new String[] {
-        "videostreamsources", "videostreamsourcescaches",
-        "audiostreamsources", "audiostreamsourcescaches",
-        "streamsources", "streamsourcescaches",
-        "imagesources", "images",
+        "videofragments", "videostreamsources", "videostreamsourcescaches",
+        "audiofragments", "audiostreamsources", "audiostreamsourcescaches",
+        "streamsources",  "streamsourcescaches",
+        "imagefragments", "imagesources", "images",
         "tags",
         "mediafragments", "mediafragments_translations",
         "langrel", "ratingrel", "insrel", "posrel"
