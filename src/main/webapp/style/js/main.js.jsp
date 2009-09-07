@@ -99,21 +99,21 @@ function initCopyInput() {
     });
 }
 
-function initTabs(el) {
-    if ($('#' + el).length) {
-        var $tabs = $('#' + el).tabs();   // the jquery-ui.js for this has to be included in the page
+function initTabs(id) {
+    if ($('#' + id).length) {
+        var $tabs = $('#' + id).tabs();   // the jquery-ui.js for this has to be included in the page
         var loc = document.location.href;
         var anchorIndex = loc.indexOf('#');
         if (anchorIndex > 0) {
             var anchor = loc.substring(anchorIndex);
             if (anchor.indexOf("#t_") == 0) {
-                $('#' + el).tabs('select', '#' + anchor.substring(3));
+                $('#' + id).tabs('select', '#' + anchor.substring(3));
             } else {
-                $('#' + el).tabs('select', '#t_' + anchor.substring(1));
+                $('#' + id).tabs('select', '#t_' + anchor.substring(1));
             }
         }
         
-        $('#' + el).bind('tabsshow', function(event, ui) {
+        $('#' + id).bind('tabsshow', function(event, ui) {
                 var a = ui.tab.href;
                 a = a.substring(a.indexOf('#'));
                 if (a.indexOf('#t_') == 0) {
