@@ -44,14 +44,20 @@
       <param name="width">320</param>
       <param name="height">240</param>
     </class>
-    <loganalyzer name="org.mmbase.streams.transcoders.MockAnalyzer" />
+    <loganalyzer name="org.mmbase.streams.transcoders.MockAnalyzer">
+      <param name="x">320</param>
+      <param name="y">240</param>
+    </loganalyzer>
   </transcoder>
 
   <transcoder mimetype="video/*" in="v1" id="v3">
     <class name="org.mmbase.streams.transcoders.MockTranscoder">
       <param name="videoQuality">8</param>
     </class>
-    <loganalyzer name="org.mmbase.streams.transcoders.MockAnalyzer" />
+    <loganalyzer name="org.mmbase.streams.transcoders.MockAnalyzer">
+      <param name="x">320</param>
+      <param name="y">240</param>
+    </loganalyzer>
   </transcoder>
 
   <!-- ffmpeg -i video.mpg -f mp4 -vcodec libx264 -r 25 -b 1024k -acodec libfaac -ab 128k -ac 2 -async 1 video.mp4 -->
@@ -66,7 +72,10 @@
       <param name="audioChannels">2</param>
       <param name="async">1</param>
     </class>
-    <loganalyzer name="org.mmbase.streams.transcoders.MockAnalyzer" />
+    <loganalyzer name="org.mmbase.streams.transcoders.MockAnalyzer">
+      <param name="x">320</param>
+      <param name="y">240</param>
+    </loganalyzer>
   </transcoder>
 
   <!-- ffmpeg -i audio.wav -acodec libvorbis -aq 32 -ab 192k audio.ogg -->
