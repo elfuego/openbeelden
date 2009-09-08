@@ -11,40 +11,41 @@
 	display: none;
 }
 
-#playercontrols { width: 320px; }
+ul.controls { width: 320px; }
 
-#vplayer
+#oiplayer
 {
-	display: block;
 	width: 320px;
-	height: 240px;
-	margin-bottom: 4px;
+	display: block;
 }
 
-#vplayer img { border: 1px solid #efefef; }
+#oiplayer img { border: 1px solid #efefef; }
 
-div#playercontrols
+#oiplayer div.mediaplayer
+{
+	margin: 0;
+	padding: 0;
+}
+
+ul.controls
 {
 	height: 25px;
 	margin-bottom: 6px;
 	margin: 10px 0;
-}
-div#playercontrols ul
-{
 	height: 25px;
 	list-style: none;
 	display: inline;
 	overflow: hidden;
 }
 
-#vplayer.inavailable
+#oiplayer.inavailable
 {
 	font-weight: bold;
 	font-size: 1.1em;
 	background-image: url(../images/preview_video.png);
 }
 
-#vplayer.inavailable p
+#oiplayer.inavailable p
 {
 	width: 80%;
 	padding-top: 90px;
@@ -54,7 +55,7 @@ div#playercontrols ul
 }
 
 
-div#playercontrols li
+ul.controls li
 {
 	margin: 0;
 	padding: 0;
@@ -62,7 +63,7 @@ div#playercontrols li
 	display: inline;
 }
 
-div#playercontrols a
+ul.controls a
 {
 	float: left;
 	padding: 25px 0 0 0;
@@ -71,16 +72,16 @@ div#playercontrols a
     height /**/: 25px;  /* for IE5/Win */
 }
 
-div#playercontrols a:hover { background-position: 0 -25px; }
+ul.controls a:hover { background-position: 0 -25px; }
 
-div#playercontrols li#play a
+ul.controls li.play a
 {
 	background-image: url(../images/controls-play.png);
 	width: 21px;
 	margin-left: 0;
 }
 
-div#playercontrols li#play.pause a
+ul.controls li.play.pause a
 {
 	background-image: url(../images/controls-pause.png);
 	width: 21px;
@@ -97,7 +98,7 @@ div#playercontrols li.pause a
 }
 */
 
-div#playercontrols li#position
+ul.controls li.position
 {
 	width: 24px;
 	margin: 0 0 0 10px;
@@ -105,14 +106,9 @@ div#playercontrols li#position
 	line-height: 2em;
 }
 
-div#playercontrols li.playerinfo
-{
-	margin: 0 0 0 10px;
-	font-family: Monaco, Courier, monospaced;
-	font-size: 0.5em;
-}
+div.playerinfo { font-size: xx-small; }
 
-div#playercontrols li#sound a
+ul.controls li.sound a
 {
 	background-image: url(../images/controls-soundon.png);
 	width: 23px;
@@ -121,7 +117,7 @@ div#playercontrols li#sound a
 	margin: 0 4px;
 }
 
-div#playercontrols li#screen a
+ul.controls li.screen a
 {
 	background-image: url(../images/controls-fullscreen.png);
 	width: 23px;

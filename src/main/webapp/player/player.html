@@ -48,42 +48,27 @@
 <div class="main-column">
   <h2>Media item</h2>
 
-  <div id="vplayer">
-    <!-- <img width="320" height="240" class="preview" alt="Preview not available yet" src="../style/images/preview_video.png" /> -->
-    
-    
-    
-    <video controls="false" width="320" height="240" poster="../html/bril-groot.png" autobuffer="false">
-      <!-- <source src="http://127.0.0.1:8080/player/presto.mp4" type="video/mp4" /> -->
-      <source src="http://www.toly.net/downloads-oip/presto2.mp4" type="video/mp4" />
-      <p> BG_9383-h264.mp4
-         Your need a browser that understands the html5 video tag to play this media item.
-         Firefox 3.1 nightly builds, Opera experimental builds and Safari (with XiphQT for Ogg)
-         installed can understand the video tag with varying degrees of success.
-       </p>
-     </video>
-     
-     
-     
-     
-  </div>
-  <div id="playercontrols">
-    <ul>
-<!-- 
-      <li class="pause">
-        <a href="#">pause</a>
-      </li>
- -->
-      <li id="play" class="pause">
-        <a href="#">play</a>
-      </li>
-      <li id="position">
+  <div id="oiplayer">
+    <div class="player">
+      <video controls="false" width="320" height="240" poster="../html/bril-groot.png" autobuffer="false">
+        <!-- <source src="http://127.0.0.1:8080/player/presto.mp4" type="video/mp4" /> -->
+        <source src="http://www.toly.net/downloads-oip/presto2.mp4" type="video/mp4" />
+        <p> BG_9383-h264.mp4
+           Your need a browser that understands the html5 video tag to play this media item.
+           Firefox 3.1 nightly builds, Opera experimental builds and Safari (with XiphQT for Ogg)
+           installed can understand the video tag with varying degrees of success.
+        </p>
+      </video>
+    </div>
+    <ul class="controls">
+      <li class="play"><a href="#">play</a></li>
+      <li class="position">
         00:00
       </li>
-      <li id="screen">
+      <li class="screen">
         <a href="#">fullscreen</a>
       </li>
-      <li id="sound">
+      <li class="sound">
         <a href="#">sound</a>
       </li>
     </ul>
