@@ -15,7 +15,7 @@
   <server max_simultaneous_transcoders="2" host="openbeelden2.tuxic.nl" port="1679" />
   -->
 
-  <recognizer id="recognizer">
+  <recognizer id="recognizer" label="source">
     <class name="org.mmbase.streams.transcoders.FFMpegRecognizer">
     </class>
     <loganalyzer name="org.mmbase.streams.transcoders.FFMpegAnalyzer">
@@ -24,7 +24,8 @@
   </recognizer>
 
 
-  <transcoder mimetype="video/*" id="v1" in="recognizer">
+  <transcoder label="intermediate"
+              mimetype="video/*" id="v1" in="recognizer">
     <class name="org.mmbase.streams.transcoders.MockTranscoder">
       <param name="format">mpeg</param>
       <param name="vcodec">mpeg2video</param>
@@ -38,7 +39,9 @@
   </transcoder>
 
 
-  <transcoder mimetype="video/*" in="v1" id="v2">
+  <transcoder
+      label="lo"
+      mimetype="video/*" in="v1" id="v2">
     <class name="org.mmbase.streams.transcoders.MockTranscoder">
       <param name="videoQuality">5</param>
       <param name="width">320</param>
@@ -50,7 +53,9 @@
     </loganalyzer>
   </transcoder>
 
-  <transcoder mimetype="video/*" in="v1" id="v3">
+  <transcoder
+      label="hi"
+      mimetype="video/*" in="v1" id="v3">
     <class name="org.mmbase.streams.transcoders.MockTranscoder">
       <param name="videoQuality">8</param>
     </class>
@@ -61,7 +66,9 @@
   </transcoder>
 
   <!-- ffmpeg -i video.mpg -f mp4 -vcodec libx264 -r 25 -b 1024k -acodec libfaac -ab 128k -ac 2 -async 1 video.mp4 -->
-  <transcoder mimetype="video/*" in="v1" id="v4">
+  <transcoder
+      label="lo"
+      mimetype="video/*" in="v1" id="v4">
     <class name="org.mmbase.streams.transcoders.MockTranscoder">
       <param name="format">mp4</param>
       <param name="vcodec">libx264</param>
