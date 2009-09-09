@@ -15,7 +15,7 @@
   <server max_simultaneous_transcoders="2" host="openbeelden2.tuxic.nl" port="1679" />
   -->
 
-  <recognizer id="recognizer" label="source">
+  <recognizer id="recognizer" label="source hi">
     <class name="org.mmbase.streams.transcoders.FFMpegRecognizer">
     </class>
     <loganalyzer name="org.mmbase.streams.transcoders.FFMpegAnalyzer">
@@ -24,7 +24,7 @@
   </recognizer>
 
 
-  <transcoder label="intermediate"
+  <transcoder label="intermediate hi"
               mimetype="video/*" id="v1" in="recognizer">
     <class name="org.mmbase.streams.transcoders.MockTranscoder">
       <param name="format">mpeg</param>

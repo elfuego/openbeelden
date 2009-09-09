@@ -20,7 +20,7 @@
   </transcoder>
   -->
 
-  <recognizer label="hi"
+  <recognizer label="source hi"
               id="recognizer">
     <class name="org.mmbase.streams.transcoders.FFMpegRecognizer">
     </class>
@@ -30,7 +30,7 @@
   </recognizer>
 
 
-  <transcoder label="intermediate"
+  <transcoder label="intermediate hi"
               mimetype="video/*" id="v1" in="recognizer">
     <class name="org.mmbase.streams.transcoders.FFMpegTranscoder">
       <param name="format">mpeg</param>
