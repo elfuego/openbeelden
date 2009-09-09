@@ -115,24 +115,20 @@ public class MediaUrlConverter extends DirectoryUrlConverter {
             Cloud cloud = frameworkParameters.get(Parameter.CLOUD);
             if (cloud.hasNode(nr)) {
                 Node mediafragment = cloud.getNode(nr);
-                
+
                 Date today = new Date();
                 boolean show = mediafragment.getBooleanValue("show");
                 Date online = mediafragment.getDateValue("online");
                 Date offline = mediafragment.getDateValue("offline");
                 String nmName = mediafragment.getNodeManager().getName();
-                
-                if (!nmName.equals("mediafragments") && 
+
+                if (!nmName.equals("mediafragments") &&
                         !nmName.equals("videofragments") &&
-                        !nmName.equals("imagefragments") && 
+                        !nmName.equals("imagefragments") &&
                         !nmName.equals("audiofragments")) {
-                    if (log.isDebugEnabled()) log.debug("not a mediafragment");
-                    return Url.NOT;
+                    throw new FrameworkException("not a mediafragment");
                 } else if (!show || online.after(today) || offline.before(today)) {
-                    if (log.isServiceEnabled()) {
-                        log.service("mediafragment not shown: " + show + ", online: " + online + ", offline: " + offline);
-                    }
-                    return Url.NOT;
+                    throw new FrameworkException("mediafragment not shown: " + show + ", online: " + online + ", offline: " + offline);
                 } else {
                     frameworkParameters.set(MEDIA, mediafragment);
                     result.append(nr);
