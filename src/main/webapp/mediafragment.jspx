@@ -91,7 +91,7 @@
             </mm:relatednodes>
           </mm:relatednodescontainer>
         </div>
-        
+
         <div class="popup" id="popup-download">
           <h4><a class="close" href="#toolbar">close</a> Download</h4>
           <p>
@@ -100,11 +100,18 @@
           <ul>
             <mm:listfunction name="filteredurls">
               <li class="${_.state}" title="${_.state}">
+
                 <c:if test="${_.main}">
                   <jsp:text> *</jsp:text>
                 </c:if>
                 <strong>${_.format}:</strong>
-                <jsp:text> (<c:if test="${!empty _.dimension}">${_.dimension}, </c:if>${_.info.bitrate}) </jsp:text>
+                <jsp:text> (</jsp:text>
+                <c:if test="${!empty _.dimension}">${_.dimension}, </c:if>
+                <c:choose>
+                  <c:when test="${! empty _.info.label}">${_.info.label}</c:when>
+                  <c:otherwise>${_.info.bitrate}</c:otherwise>
+                </c:choose>
+                <jsp:text>)</jsp:text>
                 <c:choose>
                   <c:when test="${_.available}">
                     <a href="${mm:escape('text/xml', _.URL)}">
@@ -121,7 +128,7 @@
             </mm:listfunction>
           </ul>
         </div>
-        
+
         <div class="popup" id="popup-embed">
           <h4><a class="close" href="#toolbar">close</a> Embed</h4>
           <p>
@@ -230,7 +237,7 @@
                     </c:choose>
                     <dl class="${gridclass}">
                       <dt>
-                        <a href="${_}"><oip:thumb /></a> 
+                        <a href="${_}"><oip:thumb /></a>
                       </dt>
                       <dd> <mm:field name="title" escape="wrapper" /> </dd>
                     </dl>
@@ -257,7 +264,7 @@
           <mm:listnodescontainer type="mediafragments">
             <mm:constraint field="number" value="$_node" operator="EQUAL" inverse="true" />
             <mm:constraint field="show" value="true" operator="EQUAL" />
-            <!-- 
+            <!--
             <mm:constraint field="online" value="$today" operator="LESS" />
             <mm:constraint field="offline" value="$today" operator="GREATER" />
             -->
