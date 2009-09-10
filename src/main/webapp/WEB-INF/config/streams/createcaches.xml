@@ -66,7 +66,7 @@
     <loganalyzer name="org.mmbase.streams.transcoders.FFMpeg2TheoraAnalyzer" />
   </transcoder>
 
-  <!-- ffmpeg -i video.mpg -f mp4 -vcodec libx264 -r 25 -b 1024k -acodec libfaac -ab 128k -ac 2 -async 1 video.mp4 -->
+  <!-- ffmpeg -i video.mpg -f mp4 -vcodec libx264 -r 25 -b 1024k -acodec libfaac -ab 128k -ac 2 -async 1 -s 320x240 video.mp4 -->
   <transcoder
       label="lo"
       mimetype="video/*" in="v1" id="v4">
@@ -79,6 +79,8 @@
       <param name="abitrate">128k</param>
       <param name="audioChannels">2</param>
       <param name="async">1</param>
+      <param name="width">320</param>
+      <param name="height">240</param>
     </class>
     <loganalyzer name="org.mmbase.streams.transcoders.FFMpegAnalyzer" />
   </transcoder>
