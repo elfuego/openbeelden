@@ -42,13 +42,22 @@
       <c:if test="${_.available}">
         <source src="${mm:escape('text/xml', _.URL)}" type="${_.format.mimeType}; codecs=${mm:escape('lowercase', _.codec)}"><jsp:text> </jsp:text></source>
       </c:if>
+      <c:if test="${_.state eq 'SOURCE_UNSUPPORTED'}">
+        <mm:import id="unsupported" reset="true">true</mm:import>
+      </c:if>
     </mm:listfunction>
   </mm:import>
+  <c:if test="${!empty unsupported}"><mm:import id="mediaurls" reset="true"></mm:import></c:if>
   
   <c:choose>
     <c:when test="${empty mediaurls}">
       <div id="oiplayer" class="inavailable">
-        <p>No video links available (yet).</p>
+        <p>
+          No media sources available.
+          <c:if test="${!empty unsupported}">
+            Unsupported original media file.
+          </c:if>
+        </p>
       </div>
     </c:when>
     <c:otherwise>
