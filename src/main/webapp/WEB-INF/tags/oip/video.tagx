@@ -5,12 +5,10 @@
     xmlns:jsp="http://java.sun.com/JSP/Page"
     xmlns:mm="http://www.mmbase.org/mmbase-taglib-2.0"
     >
-  <jsp:directive.attribute name="width"
-          description="Width of player" />
-  <jsp:directive.attribute name="height"
-          description="Height of player" />
-  <jsp:directive.attribute name="length"
-          description="Length of video fragment in milliseconds" />
+  
+  <jsp:directive.attribute name="width"  description="Width of player" />
+  <jsp:directive.attribute name="height" description="Height of player" />
+  <jsp:directive.attribute name="length" description="Length of video fragment in milliseconds" />
   <jsp:directive.variable name-given="embedtag" scope="AT_END" />
 
   <c:set var="w" value="${empty width ? '320' : width}" />
@@ -47,7 +45,6 @@
     </mm:listfunction>
   </mm:import>
   
-  <div id="clientcaps"><jsp:text> </jsp:text></div>
   <c:choose>
     <c:when test="${empty mediaurls}">
       <div id="vplayer" class="inavailable">
@@ -81,21 +78,12 @@
           </li>
           <li class="playerinfo">  <!-- empty --> </li>
         </ul>
-        
       </div>
     </c:otherwise>
   </c:choose>
 
-<!--
-  <ol>
-    <mm:listfunction name="filteredurls">
-      <li>
-        ${_.URL} type: ${_.format} av: ${_.available} s: ${_.source}
-      </li>
-    </mm:listfunction>
-  </ol>
--->
-  <!-- videotag to share -->
+  <!-- media tag to share -->
   <mm:import id="embedtag"><video controls="controls"><mm:write referid="mediaurls" escape="none" /></video></mm:import>
+  <div id="clientcaps"><jsp:text> <!-- this waste of space is for msie plugin detection --> </jsp:text></div>
 
 </jsp:root>
