@@ -35,18 +35,16 @@ div.b_user-picture h3
 div.b_user-profile h4,
 div.b_user-profile p, div.b_user-picture p { margin-left: 90px; }
 div.b_user-profile p.msg { margin-left: 0; }
+div.b_user-mediapreview p img { margin: 1em 8px -6px 0; }
 
-div.b_user-mediapreview p img
+div.b_user-mediapreview #oiplayer div.player
 {
-	border: 1px solid #efefef;
-	margin: 1em 8px -6px 0;
+	width: 284px;
+	height: 213px;
+	display: block;
+	margin-bottom: 4px;
 }
-
-div.b_user-mediapreview #vplayer {
-    width: 284px;
-    height: 213px;
-}
-div.b_user-mediapreview #playercontrols { width: 284px; }
+div.b_user-mediapreview ul.controls { width: 284px; }
 div.b_user-mediapreview dl.media-info { width: 284px; }
 
 fieldset.confirm-registration input { width: auto; }
