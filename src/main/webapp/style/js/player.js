@@ -6,7 +6,7 @@
   a multitude of players (but defies MSIE ;-): http://footage.stealthisfilm.com/
 
   @author: André van Toly
-  @version: 0.2.1
+  @version: 0.3
   @params:
     id - id of the element that contains the video-tag
     config - configuration parameters
@@ -14,7 +14,7 @@
         'jar' : JAR file of Cortado
         'flash' : location of flowplayer.swf
 
-  @changes: support for msie and Java applet detection in IE
+  @changes: audio tag, moved some methods, improved FlowPlayer support
 */
 
 var player;
@@ -51,7 +51,7 @@ function createPlayer(id, config) {
             player = new Player();
         }
         //console.log("type/url: " + selectedPlayer.type + " / " + selectedPlayer.url);
-        //player.info = "playing: " + selectedPlayer.url + " / " + selectedPlayer.type;
+        player.info = selectedPlayer.type + ": " + selectedPlayer.url;
         return player.init(id, selectedPlayer.url, config);
     }
 }
@@ -66,6 +66,7 @@ Player.prototype._init = function(id, url, config) {
         this.player = $('#' + id + ' video:first'); // help ie
     }
     this.url = url;
+    this.id = id; 
     /* if (this.urls.length == 0) this.urls[0] = $(this.player).attr('src'); */
     this.poster = $(this.player).attr('poster');
     if ($(this.player).attr('autoplay') == undefined) { // html5 can just have <video autoplay />
@@ -73,23 +74,22 @@ Player.prototype._init = function(id, url, config) {
     } else {
         this.autoplay = $(this.player).attr('autoplay');
     }
+    if ($(this.player).attr('autobuffer') == undefined) {
+        this.autobuffer = false;
+    } else {
+        this.autobuffer = $(this.player).attr('autobuffer');
+    }
     this.width = $(this.player).attr('width');
     this.height = $(this.player).attr('height');
     this.state = 'init';
     return this.player;
 }
 
-Player.prototype.init = function(id, url, config) {
-    return this._init(id, url, config);
-}
-Player.prototype.play = function() {
-    this.state = 'play';
-}
-Player.prototype.pause = function() {
-    this.state = 'pause';
-}
+Player.prototype.init = function(id, url, config) { }
+Player.prototype.play = function() { }
+Player.prototype.pause = function() { }
 Player.prototype.position = function() { }
-Player.prototype.info = function() { return "Playing: " + this.url; }
+Player.prototype.info = function() { }
 
 function VideoPlayer() {
     this.myname = "videoplayer";
@@ -98,8 +98,6 @@ VideoPlayer.prototype = new Player();
 VideoPlayer.prototype.init = function(id, url, config) {
     this._init(id, url, config); // just init and pass it along
     this.url = url;
-    //console.log("video! " + url + ", img: " + this.poster);
-    //this.player.controls = true;
     return this.player;
 }
 VideoPlayer.prototype.play = function() {
@@ -227,29 +225,37 @@ function FlowPlayer() {
 FlowPlayer.prototype = new Player();
 FlowPlayer.prototype.init = function(id, url, config) {
     this._init(id, url, config);
-    //console.log("flash! " + url);
     this.url = url;
     var flwplayer = config.dir + "/" + config.flash;
-    this.player = $f(id, { src : flwplayer }, {
+    var flwcontrols = 'flowplayer.controls-3.1.3.swf';
+
+    /* flowplayer replaces everything in the geven element */
+    var el = $('#' + id).find('div.player')[0];
+    this.player = $f(el, { src : flwplayer, width : this.width, height : this.height }, {
         clip: {
             url: url,
-            autoPlay: true,
+            autoPlay: this.autoplay,
             // duration: 60,
-            autoBuffering: true
+            scaling: 'fit',
+            autoBuffering: this.autobuffer
         },
-        plugins: { controls: null }
+        plugins: { controls: { height: 24, hideDelay: 2000, fullscreen: false } }
     });
 
     return this.player;
 }
 
 FlowPlayer.prototype.play = function() {
-    $f(0).play();
+    if (this.player.getState() == 4) {
+        this.player.resume();
+    } else if (this.player.getState() != 3) {
+        this.player.play();
+    }
     this.state = 'play';
 }
 
 FlowPlayer.prototype.pause = function() {
-    $f(0).pause();
+    if (this.player.getState() == 3) this.player.pause();
     this.state = 'pause';
 }
 
@@ -277,7 +283,10 @@ function selectPlayer(types, urls) {
         probably = canPlayCortado(types, urls);
         if (probably != undefined && (supportMimetype('application/x-java-applet') || navigator.javaEnabled())) {
             if ($.browser.msie) {   // Argh! A browser check!
-                /* IE always reports true on navigator.javaEnabled() */
+                /* IE always reports true on navigator.javaEnabled(),
+                   that's why we need to check for the java plugin IE style. 
+                   It needs an element with id 'clientcaps' somewhere in the page. 
+                */
                 var javaVersionIE = clientcaps.getComponentVersion("{08B0E5C0-4FCB-11CF-AAA5-00401C608500}", "ComponentID");
                 if (javaVersionIE) {
                     proposal.type = "msie_cortado";
@@ -292,7 +301,8 @@ function selectPlayer(types, urls) {
     if (proposal.type == undefined) {
         var flash_url;
         for (var i = 0; i < types.length; i++) {
-            if (types[i].indexOf("video/mp4") > -1 || types[i].indexOf("video/flv") > -1 || types[i].indexOf("video/mpeg") > -1) {
+            if (types[i].indexOf("video/mp4") > -1 || types[i].indexOf("video/flv") > -1
+                /* || types[i].indexOf("video/mpeg") > -1 */ ) {
                 proposal.url = urls[i];
                 proposal.type = "flash";
             }
@@ -366,29 +376,39 @@ function supportMimetype(mt) {
 }
 
 function showInfo() {
-    var text = player.info();
-    $('#playercontrols li.playerinfo').show();
-    $('#playercontrols li.playerinfo').text(text);
+    var text = player.info;
+    var id = player.id;
+	if ($('#' + id).find('div.playerinfo').length > 0) $('#' + id).find('div.playerinfo').remove();
+    $('#' + id).append('<div class="playerinfo">' + text + '</div>');
 }
 
 function followProgress() {
-    var oldpos;
     var pos;
+    var oldpos = -1;
     var text = "00:00";
-    $('li#position').text(text);
+    var id = player.id;
     var progress = function() {
-        //showInfo();
-        oldpos = pos;
         pos = player.position();
-        if (pos > 0) {
+        //console.log("oldpos: " + oldpos +  ", pos: " + pos)
+        if (!isNaN(pos) && pos > 0) {
             var min = Math.floor(pos / 60);
             var sec = Math.floor(pos - (min * 60));
             text = (min < 10 ? '0' + min : min) + ":" + (sec < 10 ? '0' + sec : sec);
-            $('li#position').text(text);
+            $('#' + id + ' ul.controls li.position').text(text);
         }
+        
+        if (oldpos == pos) {
+            player.state = 'pause';
+            $('#' + id + ' ul.controls li.play').removeClass('pause');
+        }
+        
         if (player.state == "play") {
             setTimeout(progress, 100);
+            if (!isNaN(pos) && pos > 0) oldpos = pos;
         }
+        
     };
     progress();
+    showInfo();
+    
 }

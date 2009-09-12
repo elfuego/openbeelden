@@ -5,70 +5,68 @@
 /*
   Javascript to init the player
   @author: André van Toly
-  @version: 0.2
-  @changes: support for msie
+  @version: 0.3
+  @changes: moved methods to player.js, classes for id's
 */
 
-function initPlayer() {
-    var id = "vplayer";
+function initPlayer(id) {
     var config = { 
-        'server' : '<mm:url page="/" absolute="true" />',   /* msie (or windows java) has issues with just a dir */
-        'dir' : '${mm:link('/player')}',    /* the files (jar, flash) need to be in this directory */
+        /* msie (or windows java) has issues with just a dir */
+        'server' : '<mm:url page="/" absolute="true" />',
+        /* the files (jar, flash) need to be in this directory */
+        'dir' : '${mm:link('/player')}',
         'jar' : 'cortado-ovt-stripped-wm_r38710.jar',
         'flash' : 'flowplayer-3.1.1.swf'
     };
     
-    var el = createPlayer(id, config);
-    if (el != undefined ) {
-        $('#' + id).empty();
-        
+    var mediaEl = createPlayer(id, config);
+    if (mediaEl != undefined) {
+        $('#' + id + ' div.player').empty();
         var img = $('<img src="' + player.poster + '" class="preview" alt="" />');
         $(img).attr("width", player.width);
         $(img).attr("height", player.height);
-        $('#' + id).append(img);
+        $('#' + id + ' div.player').append(img);
         
         /* click preview: play */
         $('#' + id + ' img.preview').click(function(ev) {
             ev.preventDefault();
-            $('#' + id + ' img.preview').hide();
-            $('#' + id).append(el);
+            $('#' + id + ' img.preview').remove();
+            $('#' + id + ' div.player').append(mediaEl);
             player.play();
             followProgress();
-            
-            $('#playercontrols li#play').addClass('pause');
+            $('#' + id + ' ul.controls li.play').addClass('pause');
         });
         
-        $('#playercontrols li#play').click(function(ev) {
+        /* click play/pause button */
+        $('#' + id + ' ul.controls li.play').click(function(ev) {
             ev.preventDefault();
             if (player.state == 'pause') {
                 player.play();
                 followProgress();
-                if (! $('#playercontrols #play').is('.pause')) 
-                    $('#playercontrols #play').addClass('pause');
+                if ($('#' + id + ' ul.controls li.pause').length == 0) {
+                    $('#' + id + ' ul.controls li.play').addClass('pause');
+                }
             } else if (player.state == 'play') {
                 player.pause();
-                if ($('#playercontrols #play').is('.pause')) 
-                    $('#playercontrols #play').removeClass('pause');
+                $('#' + id + ' ul.controls li.play').removeClass('pause');
             } else {
-                $('#' + id + ' img.preview').hide();
-                $('#' + id).append(el);
+                $('#' + id + ' img.preview').remove();
+                $('#' + id + ' div.player').append(mediaEl);
                 player.play();
                 followProgress();
-
-                if (! $('#playercontrols #play').is('.pause')) 
-                    $('#playercontrols #play').addClass('pause');
+                if ($('#' + id + ' ul.controls li.pause').length == 0) {
+                    $('#' + id + ' ul.controls li.play').addClass('pause');
+                }
             }
         });
         
-        $('#playercontrols li.playerinfo').hide();
-        
     } else {
-        $('#playercontrols').hide();
+        $('#' + id + ' ul.controls').hide();
     }
 }
 
 $(document).ready(function() {
-    initPlayer();
+    initPlayer('oiplayer');
 });
 
 </mm:content>
