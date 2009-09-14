@@ -379,8 +379,9 @@ p.more
 	clear: both;
 	text-align: right;
 	text-transform: lowercase;
-	padding-top: 1em;
 }
+
+body.home p.more { padding-top: 1em; }
 
 div.right-column > p.more { margin-right: 16px; }
 div.right-column input, div.right-column textarea, div.right-column select { width: 280px; }

@@ -323,6 +323,31 @@
               </mm:link>
             </mm:listnodes>
           </mm:listnodescontainer>
+          <c:if test="${!empty owner}">
+            <mm:listnodescontainer type="mediafragments">
+              <mm:constraint field="number" value="$_node" operator="EQUAL" inverse="true" />
+              <mm:constraint field="show" value="true" operator="EQUAL" />
+              <!--
+              <mm:constraint field="online" value="$today" operator="LESS" />
+              <mm:constraint field="offline" value="$today" operator="GREATER" />
+              -->
+              <mm:constraint field="owner" value="$owner" operator="EQUAL" />
+              <mm:offset value="6" />
+              <mm:maxnumber value="1" />
+              <mm:listnodes>
+                <mm:hasnode number="$owner">
+                  <p class="more">
+                    <mm:link>
+                      <mm:frameworkparam name="component">oip</mm:frameworkparam>
+                      <mm:frameworkparam name="block">user</mm:frameworkparam>
+                      <mm:frameworkparam name="user">${owner}</mm:frameworkparam>
+                      <a href="${_}"><fmt:message key="media.more" /> »</a>
+                    </mm:link>
+                  </p>
+                </mm:hasnode>
+              </mm:listnodes>
+            </mm:listnodescontainer>
+          </c:if>
         </div>
         
       </div>
