@@ -28,7 +28,11 @@ ul.blog li a:active {
     text-decoration: underline;
 }
 
-ul.blog li { margin-bottom: 1.1em; }
+ul.blog li
+{
+	margin-bottom: 1.1em;
+	font-size: 0.95em;
+}
 
 p.intro { font-weight: bold; }
 
