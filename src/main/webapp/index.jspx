@@ -144,12 +144,14 @@
                           <xsl:for-each select="item">
                             <xsl:if test="position() lt $max">
                               <xsl:variable name="rssdate" select="pubDate" />
-                              <h4><a href="{link}"><xsl:value-of select="title" /></a></h4>
-                              <p><xsl:value-of select="oip:reformatDate($rssdate,$format,$newformat)" /></p>
-                              <p>
-                                <xsl:value-of select="description" />
-                                <br /><a href="{link}"><fmt:message key="service.readmore" /> »</a>
-                            </p>
+                              <li>
+                                <h4><a href="{link}"><xsl:value-of select="title" /></a></h4>
+                                <p><xsl:value-of select="oip:reformatDate($rssdate,$format,$newformat)" /></p>
+                                <p>
+                                  <xsl:value-of select="description" />
+                                  <br /><a href="{link}"><fmt:message key="service.readmore" /> »</a>
+                                </p>
+                              </li>
                             </xsl:if>
                           </xsl:for-each>
                         </xsl:template>
