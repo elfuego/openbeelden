@@ -12,13 +12,12 @@
   <server max_simultaneous_transcoders="2" host="openbeelden2.tuxic.nl" port="1679" />
   -->
 
-  <!--
+<!-- 
   <transcoder>
     <class name="org.mmbase.streams.transcoders.InfiniteTranscoder">
-
     </class>
   </transcoder>
-  -->
+ -->
 
   <recognizer label="source hi"
               id="recognizer">

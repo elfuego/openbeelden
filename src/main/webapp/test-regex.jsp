@@ -150,6 +150,11 @@ audioRegex used: <%= audioRegex %>
 <pre>
 ffmpeg -i filename.ext
 
+Input #0, mpeg, from '3777.3747.mpg_beng_org.mpg':
+  Duration: 00:02:26.26, start: 31.444267, bitrate: 1374 kb/s
+    Stream #0.0[0x1e0]: Video: mpeg1video, yuv420p, 352x288 [PAR 178:163 DAR 1958:1467], 1152 kb/s, 25 tbr, 90k tbn, 25 tbc
+    Stream #0.1[0x1c0]: Audio: mp2, 44100 Hz, 2 channels, s16, 192 kb/s
+
 Input #0, ogg, from 'matrix.ogg':
   Duration: 00:00:46.65, start: 0.000000, bitrate: 766 kb/s
     Stream #0.0: Invalid Codec type -1
