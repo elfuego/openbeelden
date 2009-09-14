@@ -1,0 +1,27 @@
+<?xml version="1.0" ?>
+<fieldlist
+    xmlns="http://www.mmbase.org/xmlns/builder"
+    xmlns:xi="http://www.w3.org/2001/XInclude"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.mmbase.org/xmlns/builder
+                        http://www.mmbase.org/xmlns/builder.xsd" >
+  <field name="label">
+    <descriptions>
+      <description xml:lang="en">An extra label which can be used to describe or filter this source item</description>
+      <description xml:lang="nl">Een extra label, dat kan worden gebruikt om deze source beschrijven of te filteren.</description>
+    </descriptions>
+    <gui>
+      <guiname xml:lang="en">Label</guiname>
+      <guiname xml:lang="nl">Label</guiname>
+    </gui>
+    <editor>
+      <positions>
+        <input>9</input>
+        <search>9</search>
+      </positions>
+    </editor>
+    <datatype base="eline" xmlns="http://www.mmbase.org/xmlns/datatypes">
+      <maxLength value="255" />
+    </datatype>
+  </field>
+</fieldlist>

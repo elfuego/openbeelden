@@ -1,0 +1,126 @@
+<jsp:root 
+    xmlns:jsp="http://java.sun.com/JSP/Page"
+    xmlns:c="http://java.sun.com/jsp/jstl/core"
+    xmlns:mm="http://www.mmbase.org/mmbase-taglib-2.0"
+    version="2.0">
+
+<jsp:directive.include file="settings.jspx" />
+
+<mm:import externid="rnr" />
+<mm:import externid="role" />
+<mm:import externid="dir" />
+
+<mm:import externid="search" />
+<mm:import externid="offset">0</mm:import>
+<mm:import externid="max">25</mm:import>
+
+<mm:url referids="type,rnr?,role?,dir?" id="formlink" write="false" />
+
+<mm:link page="create.jspx" referids="type">
+  <a class="create createnode" href="${_}">
+    nieuw <mm:nodeinfo type="guitype" nodetype="$type" escape="lowercase" />
+  </a>
+</mm:link>
+
+<form id="searchform" method="post" action="${formlink}">
+  <fieldset>
+    <legend>Zoek <mm:nodeinfo type="plural_guitype" nodetype="$type" escape="lowercase" /></legend>
+    <label for="search">Zoek <mm:nodeinfo type="guitype" nodetype="$type" escape="lowercase" /></label>
+    <input name="search" id="search" type="text" value="${search}" size="42" maxlength="255" tabindex="1" />
+  </fieldset>
+</form>
+
+<mm:listnodescontainer type="$type">
+  
+  <c:if test="${!empty search}">
+    <mm:composite operator="OR">
+      <mm:fieldlist nodetype="$type" type="search" varStatus="field">
+        <mm:write value="${field.current.dataType.class.name}">
+          <mm:compare regexp="org\.mmbase\.datatypes\.(.*StringDataType|XmlDataType)">
+            <mm:constraint field="${field.current.name}" operator="LIKE" value="%${search}%" casesensitive="false" />
+          </mm:compare>
+        </mm:write>
+      </mm:fieldlist>
+      <mm:compare regexp="[0-9]+" referid="search">
+        <mm:constraint field="number" value="${search}" />
+      </mm:compare>
+    </mm:composite>
+  </c:if>
+
+  <!-- the nodes are sorted by the first field in listfields -->
+  <mm:fieldlist nodetype="$type" fields="$listfields">
+    <mm:first>
+      <mm:notpresent referid="sortby"><mm:import externid="sortby"><mm:fieldinfo type="name" /></mm:import></mm:notpresent>
+      <mm:import externid="so">up</mm:import>
+    </mm:first>
+  </mm:fieldlist>
+  <mm:import id="neworder" reset="true">${so eq 'up' ? 'down' : 'up'}</mm:import>
+  
+  <mm:size id="total" write="false" />
+  <mm:sortorder field="$sortby" direction="$so" />
+  <mm:maxnumber value="$max" />
+  <mm:offset value="$offset" />
+
+  <h3>
+    ${total} <mm:nodeinfo type="plural_guitype" nodetype="$type" escape="lowercase" />
+    <c:if test="${!empty search}">met '${search}'</c:if>
+    ${sortdir}
+  </h3>
+  <table border="0" cellspacing="0" cellpadding="3" width="100%" class="list" id="searchresults">
+  <thead>
+    <tr>
+      <mm:fieldlist nodetype="$type" fields="$listfields"> <mm:size id="colspan" write="false" />
+        <th scope="col">
+          <mm:link referids="type?,neworder@so">
+            <mm:param name="sortby"><mm:fieldinfo type="name" /></mm:param>
+            <mm:param name="search">${search}</mm:param>
+            <a href="${_}"><mm:fieldinfo type="guiname" /></a>
+          </mm:link>
+        </th>
+      </mm:fieldlist>
+      <th>  </th>
+    </tr>
+  </thead>
+  <tfoot>
+    <tr>
+      <td colspan="${colspan + 1}">
+        <mm:url write="false" id="baseurl" escapeamps="false" referids="type">
+          <mm:param name="search">${search}</mm:param>
+        </mm:url>
+        <jsp:directive.include file="pager.jspx" />
+      </td>
+    </tr>
+  </tfoot>
+
+  <!-- and finally the list -->
+  <tbody>
+    <mm:listnodes>
+      <tr>
+        <mm:fieldlist nodetype="$type" fields="$listfields">
+          <td>
+            <mm:first>
+              <mm:maywrite>
+                <mm:link page="$editor" referids="_node@nr,type?">
+                  <a href="${_}"><mm:fieldinfo type="guivalue" /></a>
+                </mm:link>
+              </mm:maywrite>
+              <mm:maywrite inverse="true"><mm:fieldinfo type="guivalue" /></mm:maywrite>
+            </mm:first> 
+            <mm:first inverse="true"><mm:fieldinfo type="guivalue" /></mm:first>
+          </td>
+        </mm:fieldlist>
+        <td class="right" id="node_${_node}">
+          
+          <mm:maydelete>
+            <mm:link page="inc/form-delete.jspx" referids="_node@nr">
+              <a href="${_}#node_${_node}" class="mmajaxeditor">delete</a>
+            </mm:link>
+          </mm:maydelete>
+          
+        </td>
+      </tr>
+    </mm:listnodes>
+  </tbody>
+  </table>
+</mm:listnodescontainer>
+</jsp:root>

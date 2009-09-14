@@ -1,0 +1,19 @@
+<?xml version="1.0" ?>
+<datatypes
+    xmlns="http://www.mmbase.org/xmlns/datatypes"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.mmbase.org/xmlns/datatypes http://www.mmbase.org/xmlns/datatypes.xsd">
+
+  <!-- @version $Id: datatypes.xml,v 1.11 2009-01-02 09:36:10 michiel Exp $
+
+-->
+  <datatype id="oip_language"
+            base="iso639" xmlns="http://www.mmbase.org/xmlns/datatypes">
+
+    <property name="inSelf" value="true" />
+    <required value="true" />
+    <pattern value="en|nl" />
+  </datatype>
+
+
+</datatypes>

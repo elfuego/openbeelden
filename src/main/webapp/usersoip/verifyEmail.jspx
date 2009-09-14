@@ -1,0 +1,11 @@
+<mm:content
+    expires="0"
+    xmlns:c="http://java.sun.com/jsp/jstl/core"
+    xmlns:jsp="http://java.sun.com/JSP/Page"
+    xmlns:nz="urn:jsptagdir:/WEB-INF/tags/eo/nazorg"
+    xmlns:mm="http://www.mmbase.org/mmbase-taglib-2.0"
+    language="nl">
+  <p>Thank you for subscribing to the Open Images Platform.</p>
+  <p>Click on the following link to finish this</p>
+  <p><a href="${requestScope.url}">${requestScope.url}</a></p>
+</mm:content>

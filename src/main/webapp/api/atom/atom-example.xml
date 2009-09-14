@@ -1,0 +1,53 @@
+﻿<?xml version="0.8" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom" xmlns:media="http://search.yahoo.com/mrss" xml:lang="en">
+  <title type="text">Metadata Sample Feed</title>
+  <link rel="self" type="application/atom+xml" href="http://example.org/example.xml" />
+  <rights type="text">No Copyright 2005</rights>
+  <id>http://example.org/example.xml</id>
+  <updated>2007-09-11T18:30:02Z</updated>
+  <entry>
+    <title>Title</title>
+    <link rel="alternate" href="http://example.org/video.html" />
+    <updated>2007-09-11T18:30:02Z</updated>
+    <published>2001-09-11T18:30:02Z</published>
+    <id>http://example.org/video.html</id>
+    <media:thumbnail url="http://example.org/video.thumbnail.jpg" />
+    <rights>No Copyright © 2001. No Rights Reserved.</rights>
+    <author>
+      <name>Max Mustermann</name>
+      <uri>http://example.org/</uri>
+      <email>max@example.com</email>
+    </author>
+    <contributor>
+      <width>320</width>
+      <height>240</height>
+    </contributor>
+    <category term="foo" />
+    <category term="bar" />
+    <category scheme="http://xmlns.transmission.cc/Genres" term="action" label="Action" />
+    <category scheme="http://xmlns.transmission.cc/Genres" term="western" label="Western" />
+    <content type="text">Summary Text.</content>
+    <format xmlns="http://xmlns.transmission.cc/FileFormat">
+      <size>175255078</size>
+      <duration>2996</duration>
+      <video_codec>Theora</video_codec>
+      <framerate>25</framerate>
+      <video_bitrate>394.570050</video_bitrate>
+      <width>480</width>
+      <height>272</height>
+      <pixel_aspect_ratio>1/1</pixel_aspect_ratio>
+      <audio_codec>Vorbis</audio_codec>
+      <samplerate>48000</samplerate>
+      <channels>2</channels>
+      <audio_bitrate>73.261261</audio_bitrate>
+    </format>
+    <!-- link to the video (via http) -->
+    <link rel="enclosure" type="application/ogg" href="http://example.org/video.ogg" length="1234" />
+    <!-- link to the video (via bittorrent) -->
+    <link rel="enclosure" type="application/x-bittorrent" href="http://example.org/video.ogg.torrent" length="12" />
+    <!-- link to the german subtitle -->
+    <link rel="subtitle" type="text/x-srt" href="http://example.org/video.de.srt" length="32" />
+    <!-- link to the english subtitle -->
+    <link rel="subtitle" type="text/x-srt" href="http://example.org/video.en.srt" length="32" />
+  </entry>
+</feed>

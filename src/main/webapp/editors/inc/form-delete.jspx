@@ -1,0 +1,93 @@
+<jsp:root 
+  xmlns:jsp="http://java.sun.com/JSP/Page"
+  xmlns:c="http://java.sun.com/jsp/jstl/core"
+  xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+  xmlns:mm="http://www.mmbase.org/mmbase-taglib-2.0"
+  version="2.0">
+
+<mm:content expires="0" type="application/xml">
+<mm:cloud method="asis">
+
+  <mm:import externid="nr" required="true" />
+  <mm:import externid="delete">yetnotok</mm:import>
+  <mm:import externid="node">${nr}</mm:import>
+  <mm:import externid="mmajaxeditor" />
+
+  <mm:present referid="node">
+    
+    <mm:hasnode number="$node" inverse="true">
+      <p class="msg">Node niet gevonden. Al verwijderd?</p>
+    </mm:hasnode>
+    
+    <mm:hasnode number="$node">
+      <mm:node number="$node">
+        <c:choose>
+          <c:when test="${delete eq 'Cancel'}">
+            <p class="msg">Canceled deletion.</p>
+            <mm:link page="/editors/inc/form-edit.jspx" referids="nr">
+              <a href="${_}#node_${nr}" class="mmajaxeditor">
+                <mm:field name="language"><mm:fieldinfo type="guivalue" /></mm:field>
+                - <mm:function name="gui" />
+              </a>
+            </mm:link>
+            <mm:maydelete> -
+              <mm:link page="/editors/inc/form-delete.jspx" referids="nr">
+                <a href="${_}#node_${nr}" class="mmajaxeditor">delete</a>
+              </mm:link>
+            </mm:maydelete>
+          </c:when>
+          
+          <c:when test="${delete eq 'OK'}">
+            <mm:maydelete inverse="true">
+              <p class="msg">Not enough priveleges.</p>
+              <mm:link page="/editors/inc/form-edit.jspx" referids="nr">
+                <a href="${_}#node_${nr}" class="mmajaxeditor">
+                  <mm:field name="language"><mm:fieldinfo type="guivalue" /></mm:field>
+                  - <mm:function name="gui" />
+                </a>
+              </mm:link>
+            </mm:maydelete>
+            <mm:maydelete>
+              <mm:import externid="type" />
+              <p class="msg">
+                The ${fn:toLowerCase(type)} 
+                <mm:node number="$node">
+                  '<mm:hasfield name="title"><mm:field name="title" escape="inline" /></mm:hasfield><mm:hasfield name="title" inverse="true"><mm:function name="gui" escape="tagstripper" /></mm:hasfield>'
+                </mm:node>
+                (${node}) is removed.
+              </p>
+              <mm:deletenode number="$node" deleterelations="true" />
+            </mm:maydelete>
+          </c:when>
+          
+          <c:otherwise>
+            <mm:form id="formdelete_$nr">
+              <fieldset>
+                <mm:maydelete inverse="true">
+                  <p class="msg">Not enough priveleges.</p>
+                </mm:maydelete>
+                <mm:maydelete>
+                  <mm:import id="guitype"><mm:nodeinfo type="guinodemanager" id="type" /></mm:import>
+                  <p>
+                    Are you sure you want to delete <mm:write referid="guitype" escape="lowercase" /> 
+                   '<mm:hasfield name="title"><mm:field name="title" escape="inline" /></mm:hasfield><mm:hasfield name="title" inverse="true"><mm:function name="gui" escape="tagstripper" /></mm:hasfield>'
+                    (${node})?
+                  </p>
+                  <input name="delete" type="submit" value="OK" class="submit" />
+                </mm:maydelete>
+                <input name="delete" type="submit" value="Cancel" class="cancel" />
+                <input name="nr" type="hidden" value="${nr}" />
+                <input name="type" type="hidden" value="${type}" />
+                <input name="mmajaxeditor" type="hidden" value="${mmajaxeditor}" />
+              </fieldset>
+            </mm:form>
+          </c:otherwise>
+        </c:choose>
+      </mm:node>
+    </mm:hasnode>
+    
+  </mm:present>
+
+</mm:cloud>
+</mm:content>
+</jsp:root>

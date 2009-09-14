@@ -1,0 +1,20 @@
+<mm:content 
+    xmlns:jsp="http://java.sun.com/JSP/Page"
+    xmlns:mm="http://www.mmbase.org/mmbase-taglib-2.0"
+    expires="0" type="text/html" language="client" postprocessor="none">
+<jsp:output doctype-root-element="html"
+      doctype-public="-//W3C//DTD XHTML 1.0 Strict//EN"
+      doctype-system="http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd" />
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="nl">
+<head>
+  <title>OIP editors - Login</title>
+  <link href="${mm:link('/style/css/login.css')}" rel="stylesheet" type="text/css" />
+  <link href="${mm:link('/style/images/favicon.ico')}" rel="shortcut icon" />
+</head>
+<body class="login" onload="document.loginbox.username.focus()">
+
+  <jsp:include page="/editors/inc/form-login.jspx" />
+
+</body>
+</html>
+</mm:content>

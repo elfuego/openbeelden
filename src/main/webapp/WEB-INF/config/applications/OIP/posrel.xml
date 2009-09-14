@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<posrel exportsource="mmbase://grgrijze.toly.net/oip/oi" timestamp="20090610233953">
+	<node number="384" owner="default" snumber="335" dnumber="305" rtype="posrel" dir="bidirectional">
+		<pos>0</pos>
+	</node>
+
+	<node number="386" owner="default" snumber="335" dnumber="308" rtype="posrel" dir="bidirectional">
+		<pos>1</pos>
+	</node>
+
+	<node number="388" owner="default" snumber="335" dnumber="310" rtype="posrel" dir="bidirectional">
+		<pos>2</pos>
+	</node>
+
+	<node number="390" owner="default" snumber="335" dnumber="312" rtype="posrel" dir="bidirectional">
+		<pos>3</pos>
+	</node>
+
+	<node number="392" owner="default" snumber="308" dnumber="299" rtype="posrel" dir="bidirectional">
+		<pos>1</pos>
+	</node>
+
+	<node number="394" owner="default" snumber="335" dnumber="314" rtype="posrel" dir="bidirectional">
+		<pos>4</pos>
+	</node>
+
+	<node number="396" owner="admin" snumber="299" dnumber="301" rtype="posrel" dir="bidirectional">
+		<pos>1</pos>
+	</node>
+
+	<node number="398" owner="admin" snumber="299" dnumber="356" rtype="posrel" dir="bidirectional">
+		<pos>1</pos>
+	</node>
+
+	<node number="400" owner="admin" snumber="335" dnumber="322" rtype="posrel" dir="bidirectional">
+		<pos>11</pos>
+	</node>
+
+	<node number="402" owner="admin" snumber="335" dnumber="324" rtype="posrel" dir="bidirectional">
+		<pos>12</pos>
+	</node>
+
+	<node number="404" owner="admin" snumber="335" dnumber="326" rtype="posrel" dir="bidirectional">
+		<pos>13</pos>
+	</node>
+
+	<node number="406" owner="admin" snumber="335" dnumber="328" rtype="posrel" dir="bidirectional">
+		<pos>14</pos>
+	</node>
+
+	<node number="408" owner="admin" snumber="335" dnumber="330" rtype="posrel" dir="bidirectional">
+		<pos>15</pos>
+	</node>
+
+	<node number="436" owner="414" snumber="414" dnumber="434" rtype="posrel" dir="bidirectional">
+		<pos>1</pos>
+	</node>
+	
+	<node number="804" owner="admin" snumber="335" dnumber="803" rtype="posrel" dir="bidirectional">
+		<pos>-1</pos>
+	</node>
+
+</posrel>

@@ -1,0 +1,47 @@
+<?xml version="1.0" ?>
+<builder
+    xmlns="http://www.mmbase.org/xmlns/builder"
+    xmlns:xi="http://www.w3.org/2001/XInclude"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.mmbase.org/xmlns/builder
+                        http://www.mmbase.org/xmlns/builder.xsd"
+    name="mediafragments_translations"  maintainer="mediaproject.mmbase.org" version="0" extends="object">
+
+  <names>
+    <singular xml:lang="nl">Mediafragment (vertaling)</singular>
+    <singular xml:lang="en">Media fragment (translation)</singular>
+
+    <plural xml:lang="nl">Mediafragmenten (vertalingen)</plural>
+    <plural xml:lang="en">Media fragments (translations)</plural>
+  </names>
+
+
+  <fieldlist>
+    <xi:include href="http://www.mmbase.org/builders/oip/language.field.xml" />
+  </fieldlist>
+
+  <xi:include href="http://www.mmbase.org/builders/media/mediafragments.fields.xml" />
+
+  <fieldlist>
+    <field name="source">
+      <descriptions>
+        <description xml:lang="en">Author or source of this item</description>
+        <description xml:lang="nl">Auteur of bron van dit item</description>
+      </descriptions>
+      <gui>
+        <guiname xml:lang="en">Source</guiname>
+        <guiname xml:lang="nl">Bron</guiname>
+      </gui>
+      <editor>
+        <positions>
+          <input>9</input>
+          <search>9</search>
+        </positions>
+      </editor>
+      <datatype base="line" xmlns="http://www.mmbase.org/xmlns/datatypes">
+        <maxLength value="255" />
+      </datatype>
+    </field>
+  </fieldlist>
+
+</builder>

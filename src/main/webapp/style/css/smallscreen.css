@@ -1,0 +1,14 @@
+/**
+ * @author	Open Images Platform
+ * @since	July 2009
+ * @name	Stylesheet for small devices obeying web standards, like iPhone, Palm etc.
+ * @version	0.1
+ */
+ 
+@media screen and (max-device-width: 480px) {
+    div#main {
+        font-size: 1.3em;
+        color: #000;
+    }
+    div#menu { font-size: 0.9em; }
+} 

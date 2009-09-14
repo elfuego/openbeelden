@@ -1,0 +1,22 @@
+/**
+* @author   Open Images Platform
+* @since    July 2009
+* @name     IE6 only stylesheet
+* @version  0.1
+*/
+
+div#main div.main-column { padding-top: 18px; }
+
+body.home div#main div.main-column { margin-left: 340px; }
+
+body.home div#main div.right-column { margin-left: 0; }
+
+body.media div#main div.right-column,
+body.media-item div#main div.right-column,
+body.user div#main div.right-column { margin-left: 0; }
+
+div.b_user-streams
+{
+	overflow-x: scroll;
+	width: 284px;
+}

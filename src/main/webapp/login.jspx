@@ -1,0 +1,49 @@
+<jsp:root
+    version="2.0"
+    xmlns:jsp="http://java.sun.com/JSP/Page"
+    xmlns:c="http://java.sun.com/jsp/jstl/core"
+    xmlns:fmt="http://java.sun.com/jsp/jstl/fmt"
+    xmlns:mm="http://www.mmbase.org/mmbase-taglib-2.0"
+    xmlns:oip="urn:jsptagdir:/WEB-INF/tags/oip">
+
+  <oip:html
+    cacheable="false"
+    styleClass="login">
+
+    <jsp:attribute name="head">
+      <mm:component name="oip" block="user-login" render="head" />
+    </jsp:attribute>
+
+    <jsp:attribute name="body">
+  
+      <div class="main-column">
+        <oip:h2><mm:field name="title" /></oip:h2>
+        <mm:nodefunction name="translation">
+          <mm:field name="description" escape="paragraph" />
+        </mm:nodefunction>        
+        <mm:component name="oip" block="user-login" />
+      </div>
+      
+      <div class="right-column">
+        <div class="related-grey">
+          <mm:cloud method="asis">
+            <mm:hasrank minvalue="basic user">
+              <p>
+                <fmt:message key="login.you_are" /><br />
+                <mm:include page="/you.jspx" />
+              </p>
+            </mm:hasrank>
+            <mm:node number="page_register">
+              <mm:link page="page" referids="_node@n">
+                <mm:frameworkparam name="component">mmsite</mm:frameworkparam>
+                <p><a href="${_}"><fmt:message key="users.register" /></a></p>
+              </mm:link>
+            </mm:node>
+          </mm:cloud>
+        </div>
+      </div>
+      
+    </jsp:attribute>
+  
+  </oip:html>
+</jsp:root>

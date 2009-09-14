@@ -1,0 +1,112 @@
+/**
+* @author   Open Images Platform
+* @since    July 2009
+* @name     Stylesheet for specific styles of OIP MMBase Framework components
+* @version  0.1
+*/
+
+
+div.b_user-profile { margin-bottom: 12px; }
+div.b_user-medialist
+{
+	clear: both;
+	padding-top: 1em;
+}
+div.b_user-profile img,
+div.b_user-picture img
+{
+	float: left;
+	border: 1px solid #efefef;
+	margin-bottom: 12px;
+}
+
+div.b_user-profile h3,
+div.b_user-picture h3
+{
+    margin-left: 90px;
+    font-family: Helvetica, sans-serif;
+    text-transform: none;
+    color: #333;
+    font-size: 1.2em;
+    letter-spacing: 0;
+    margin-bottom: 0;
+    clear: none;
+}
+div.b_user-profile h4,
+div.b_user-profile p, div.b_user-picture p { margin-left: 90px; }
+div.b_user-profile p.msg { margin-left: 0; }
+div.b_user-mediapreview p img { margin: 1em 8px -6px 0; }
+
+div.b_user-mediapreview #oiplayer div.player
+{
+	width: 284px;
+	height: 213px;
+	display: block;
+	margin-bottom: 4px;
+}
+div.b_user-mediapreview #oiplayer.inavailable
+{
+	width: 284px;
+	height: 213px;
+	background-image: url(../images/preview_video.png);
+	background-position: -20px -14px;
+	background-repeat: no-repeat;
+}
+div.b_user-mediapreview #oiplayer.inavailable p { padding-top: 60px; }
+
+div.b_user-mediapreview ul.controls { width: 284px; }
+div.b_user-mediapreview dl.media-info { width: 284px; }
+
+fieldset.confirm-registration input { width: auto; }
+fieldset.confirm-registration label
+{
+	display: inline;
+	padding-left: 8px;
+	font-weight: normal;
+}
+
+fieldset.licenses input { width: auto; }
+fieldset.licenses label
+{
+	display: inline;
+	margin-left: 8px;
+}
+
+div.b_user-streams table
+{
+	padding: 0;
+	margin: 0;
+}
+div.b_user-streams caption { text-align: left; }
+
+div.b_user-streams th,
+div.b_user-streams td
+{
+	vertical-align: top;
+	padding-right: 4px;
+}
+
+div.b_user-streams th { text-align: right; }
+
+div.b_user-streams tr.title,
+div.b_user-streams tr.title th
+{
+	text-align: left;
+	background-color: #efefef;
+	padding: 1px 2px 1px 6px;
+}
+
+div.b_user-streams td a
+{
+	font-weight: normal;
+	color: #555;
+}
+
+div.b_user-streams td.action a
+{
+	color: #C00;
+}
+
+div.b_user-streams td.action a { color: #c00; }
+
+div.b_user-streams td.info { font-size: 0.85em; }

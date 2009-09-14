@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<insrel exportsource="mmbase://grgrijze.toly.net/oip/oi" timestamp="20090610233953">
+	<node number="358" owner="admin" snumber="303" dnumber="301" rtype="related" dir="bidirectional">
+	</node>
+
+	<node number="360" owner="default" snumber="335" dnumber="319" rtype="related" dir="bidirectional">
+	</node>
+
+	<node number="362" owner="admin" snumber="335" dnumber="316" rtype="related" dir="bidirectional">
+	</node>
+
+	<node number="364" owner="admin" snumber="335" dnumber="350" rtype="related" dir="bidirectional">
+	</node>
+
+	<node number="366" owner="admin" snumber="335" dnumber="352" rtype="related" dir="bidirectional">
+	</node>
+
+	<node number="368" owner="admin" snumber="335" dnumber="346" rtype="related" dir="bidirectional">
+	</node>
+
+	<node number="370" owner="admin" snumber="335" dnumber="348" rtype="related" dir="bidirectional">
+	</node>
+
+	<node number="372" owner="196" snumber="303" dnumber="338" rtype="related" dir="bidirectional">
+	</node>
+
+	<node number="374" owner="196" snumber="303" dnumber="340" rtype="related" dir="bidirectional">
+	</node>
+
+	<node number="376" owner="196" snumber="303" dnumber="342" rtype="related" dir="bidirectional">
+	</node>
+
+	<node number="378" owner="196" snumber="303" dnumber="344" rtype="related" dir="bidirectional">
+	</node>
+
+	<node number="380" owner="196" snumber="335" dnumber="354" rtype="related" dir="bidirectional">
+	</node>
+
+	<node number="382" owner="196" snumber="335" dnumber="332" rtype="related" dir="bidirectional">
+	</node>
+
+	<node number="453" owner="179" snumber="303" dnumber="452" rtype="related" dir="bidirectional">
+	</node>
+
+	<node number="456" owner="179" snumber="452" dnumber="454" rtype="related" dir="bidirectional">
+	</node>
+
+	<node number="475" owner="414" snumber="462" dnumber="338" rtype="related" dir="bidirectional">
+	</node>
+
+	<node number="476" owner="179" snumber="335" dnumber="458" rtype="related" dir="bidirectional">
+	</node>
+
+	<node number="477" owner="179" snumber="335" dnumber="418" rtype="related" dir="bidirectional">
+	</node>
+
+	<node number="478" owner="179" snumber="335" dnumber="303" rtype="related" dir="bidirectional">
+	</node>
+
+	<node number="805" owner="179" snumber="335" dnumber="801" rtype="related" dir="bidirectional">
+	</node>
+
+</insrel>

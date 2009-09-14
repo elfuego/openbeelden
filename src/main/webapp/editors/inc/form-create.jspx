@@ -1,0 +1,117 @@
+<jsp:root 
+  version="2.0"
+  xmlns:jsp="http://java.sun.com/JSP/Page"
+  xmlns:c="http://java.sun.com/jsp/jstl/core"
+  xmlns:mm="http://www.mmbase.org/mmbase-taglib-2.0"
+  >
+
+<mm:content expires="0" type="application/xml">
+<mm:cloud method="asis">
+  
+  <mm:import externid="nr" />
+  <mm:import externid="type" />
+
+  <jsp:directive.include file="settings.jspx" />
+  
+  <mm:import externid="mmajaxeditor" />
+  <mm:import externid="role">related</mm:import>
+  <mm:import externid="dir" />
+  <mm:import externid="submit$type" />
+
+  <mm:form id="create_$type">
+    <mm:import id="buffer">
+      <mm:createnode type="$type" id="new_node" commitonclose="false">
+        <fieldset>
+          <mm:fieldlist type="${empty editfields ? 'edit' : ''}" fields="${editfields}" varStatus="field">
+            <!--  c:if test="${field.current.state eq 2}" -->
+              <div>
+                <mm:fieldinfo type="forid">
+                  <label for="${_}"><mm:fieldinfo type="guiname" /></label>
+                </mm:fieldinfo>
+                <mm:maywrite><mm:fieldinfo type="input" /><mm:fieldinfo type="errors" /></mm:maywrite>
+              </div>
+            <!-- /c:if -->
+          </mm:fieldlist>
+        </fieldset>
+        <fieldset>
+          <input name="type"   type="hidden" value="${type}" />
+          <input name="nr"     type="hidden" value="${nr}" />
+          <input name="role"   type="hidden" value="${role}" />
+          <input name="dir"    type="hidden" value="${dir}" />
+          <input name="mmajaxeditor" type="hidden" value="${mmajaxeditor}" />
+          <div>
+            <input type="submit" name="submit${type}" value="Save" class="submit" />
+          </div>
+        </fieldset>
+      </mm:createnode>
+    </mm:import>
+
+    <mm:notpresent referid="submit$type">
+      <mm:write referid="buffer" escape="none" />
+      <mm:cancel />
+    </mm:notpresent>
+    
+    <mm:present referid="submit$type">
+      <mm:valid inverse="true">
+        <p class="err">The form contains an error.</p>
+        <mm:write referid="buffer" escape="none" />
+      </mm:valid>
+      <mm:valid>
+        <p class="msg">
+          Your <mm:nodeinfo nodetype="$type" type="guitype" escape="lowercase" /> 
+          '<strong><mm:node referid="new_node"><mm:function name="gui" /></mm:node></strong>' is saved
+          <c:if test="${!empty nr and !empty role and !empty dir}">
+            <mm:node number="$nr" id="rel_node" />
+            <c:choose>
+              <c:when test="${dir eq 'destination'}">
+                <mm:createrelation source="rel_node" destination="new_node" role="$role">
+                  <c:if test="${role eq 'posrel'}"><mm:setfield name="pos">1</mm:setfield></c:if>
+                </mm:createrelation>
+              </c:when>
+              <c:otherwise>
+                <mm:createrelation source="new_node" destination="rel_node" role="$role">
+                  <c:if test="${role eq 'posrel'}"><mm:setfield name="pos">1</mm:setfield></c:if>
+                </mm:createrelation>
+               </c:otherwise>
+            </c:choose>
+            and related to <mm:node number="$nr"><mm:function name="gui" escape="tagstripper" /></mm:node>
+          </c:if>.
+        </p>
+        <mm:import id="saved">OK</mm:import>
+        <mm:commit />
+      </mm:valid>
+      <mm:valid inverse="true">
+        <mm:cancel />
+      </mm:valid>
+    </mm:present>
+
+  </mm:form>
+
+  <!-- put all mmajaxeditor msg stuff outside form -->
+  <c:if test="${!empty saved and !empty mmajaxeditor}">
+    <mm:node referid="new_node"> new
+      <mm:link page="/editors/inc/form-edit.jspx" referids="new_node@nr">
+        <a href="${_}#node_${new_node}" class="mmajaxeditor">
+          <mm:field name="language"><mm:fieldinfo type="guivalue" /></mm:field>
+          - <mm:function name="gui" escape="tagstripper" />
+        </a>
+      </mm:link>
+      <mm:maydelete> |
+        <mm:link page="/editors/inc/form-delete.jspx" referids="new_node@nr">
+          <a href="${_}#node_${new_node}" class="mmajaxeditor">delete</a>
+        </mm:link>
+      </mm:maydelete>
+    </mm:node>
+  </c:if>
+  
+  <c:if test="${!empty saved and empty mmajaxeditor}">
+    <p>
+      <mm:link page="/editors/edit.jspx" referids="new_node@nr">
+      <a href="${_}">Edit new node</a>
+      </mm:link>
+    </p>
+  </c:if>
+  
+</mm:cloud>
+</mm:content>  
+</jsp:root>
