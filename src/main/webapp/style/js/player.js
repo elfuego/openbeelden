@@ -409,6 +409,6 @@ function followProgress() {
         
     };
     progress();
-    showInfo();
+    //showInfo();
     
 }
