@@ -44,6 +44,16 @@ div.b_user-mediapreview #oiplayer div.player
 	display: block;
 	margin-bottom: 4px;
 }
+div.b_user-mediapreview #oiplayer.inavailable
+{
+	width: 284px;
+	height: 213px;
+	background-image: url(../images/preview_video.png);
+	background-position: -20px -14px;
+	background-repeat: no-repeat;
+}
+div.b_user-mediapreview #oiplayer.inavailable p { padding-top: 60px; }
+
 div.b_user-mediapreview ul.controls { width: 284px; }
 div.b_user-mediapreview dl.media-info { width: 284px; }
 
