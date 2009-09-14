@@ -74,7 +74,7 @@
                       <jsp:text> | </jsp:text>
                       <c:choose>
                         <c:when test="${interrupt eq mediafragment}">
-                          <mm:function set="streams" name="cancelJob" referids="interrupt@node" />
+                          <mm:function set="streams" name="cancelJob" referids="_node@node" />
                         </c:when>
                         <c:otherwise>
                           <mm:node number="$n">
