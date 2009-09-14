@@ -261,11 +261,7 @@
                       <dt>
                         <a href="${_}"><oip:thumb /></a>
                       </dt>
-                      <dd>
-                        <mm:nodefunction name="translation">
-                          <mm:field name="title" escape="wrapper" />
-                        </mm:nodefunction>
-                      </dd>
+                      <dd> <mm:field name="title" escape="wrapper" /> </dd>
                     </dl>
                   </mm:link>
                   <jsp:text> </jsp:text>
@@ -309,17 +305,10 @@
                   <c:otherwise><c:set var="gridclass" value="grid" /></c:otherwise>
                 </c:choose>
                 <dl class="${gridclass}">
-                  <mm:nodefunction name="translation">
-                    <mm:import id="mf_title" reset="true"><mm:field name="title" /></mm:import>
-                  </mm:nodefunction>
                   <dt>
-                    <a href="${_}" title="${mf_title}"><oip:thumb /></a>
+                    <a href="${_}" title="${_node.title}"><oip:thumb /></a>
                   </dt>
-                  <dd>
-                    <mm:nodefunction name="translation">
-                      <mm:field name="title" escape="wrapper" />
-                    </mm:nodefunction>
-                  </dd>
+                  <dd> <mm:field name="title" escape="wrapper" /> </dd>
                 </dl>
               </mm:link>
             </mm:listnodes>
