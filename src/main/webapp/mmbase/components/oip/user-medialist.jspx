@@ -17,8 +17,9 @@
       <oip:h2><fmt:message key="media.my_contributions" /></oip:h2>
 
       <mm:import externid="n" />
-      <mm:import externid="max">10</mm:import>
+      <mm:import id="max">10</mm:import>
       <mm:import externid="offset">0</mm:import>
+      <c:if test="${offset lt 0}"><mm:import id="offset" reset="true">0</mm:import></c:if>
 
       <mm:escaper id="wrapper" type="substring">
         <mm:param name="from" value="0" />
