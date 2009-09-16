@@ -242,7 +242,7 @@
       </div>
 
       <div class="right-column">
-        
+
         <div class="related">
           <oip:h3><fmt:message key="media.related_items" /></oip:h3>
           <mm:functioncontainer>
@@ -271,7 +271,7 @@
                       <dt>
                         <a title="${mf_title}" href="${_}"><oip:thumb /></a>
                       </dt>
-                      <dd> <mm:write referid="mf_title" escape="wrapper" /> </dd>
+                      <dd> <mm:write referid="mf_title" escape="wrapper,text/xml" /> </dd>
                     </dl>
                   </mm:link>
                   <jsp:text> </jsp:text>
@@ -318,7 +318,7 @@
                   <dt>
                     <a href="${_}" title="${mf_title}"><oip:thumb /></a>
                   </dt>
-                  <dd> <mm:write referid="mf_title" escape="wrapper" /> </dd>
+                  <dd> <mm:write referid="mf_title" escape="wrapper,text/xml" /> </dd>
                 </dl>
               </mm:link>
             </mm:listnodes>
@@ -349,7 +349,7 @@
             </mm:listnodescontainer>
           </c:if>
         </div>
-        
+
       </div>
     </jsp:attribute>
   </oip:html>
