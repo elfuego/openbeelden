@@ -27,7 +27,6 @@ public class MediaUrlConverter extends DirectoryUrlConverter {
 
     private static CharTransformer trans = new Identifier();
     private boolean useTitle = false;
-    private int dateDepth  = 0;
 
     private final LocaleUtil  localeUtil = new LocaleUtil();
 
