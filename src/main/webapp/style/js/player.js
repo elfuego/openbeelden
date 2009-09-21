@@ -238,7 +238,7 @@ FlowPlayer.prototype.init = function(id, url, config) {
             // duration: 60,
             scaling: 'fit',
             autoBuffering: this.autobuffer,
-            bufferLength: 10
+            bufferLength: 5
         },
         plugins: { controls: { height: 24, hideDelay: 2000, fullscreen: false } }
     });
