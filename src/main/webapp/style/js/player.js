@@ -69,15 +69,15 @@ Player.prototype._init = function(id, url, config) {
     this.id = id; 
     /* if (this.urls.length == 0) this.urls[0] = $(this.player).attr('src'); */
     this.poster = $(this.player).attr('poster');
-    if ($(this.player).attr('autoplay') == undefined) { // html5 can just have <video autoplay />
+    if ($(this.player).get(0).getAttribute('autoplay') == undefined) { // html5 can just have <video autoplay />
         this.autoplay = false;
     } else {
-        this.autoplay = $(this.player).attr('autoplay');
+        this.autoplay = $(this.player).get(0).getAttribute('autoplay');
     }
-    if ($(this.player).attr('autobuffer') == undefined) {
+    if ($(this.player).get(0).getAttribute('autobuffer') == undefined) {
         this.autobuffer = false;
     } else {
-        this.autobuffer = $(this.player).attr('autobuffer');
+        this.autobuffer = $(this.player).get(0).getAttribute('autobuffer');
     }
     this.width = $(this.player).attr('width');
     this.height = $(this.player).attr('height');
@@ -238,6 +238,7 @@ FlowPlayer.prototype.init = function(id, url, config) {
             // duration: 60,
             scaling: 'fit',
             autoBuffering: this.autobuffer
+            bufferLength: 10;
         },
         plugins: { controls: { height: 24, hideDelay: 2000, fullscreen: false } }
     });
