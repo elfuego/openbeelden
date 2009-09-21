@@ -33,7 +33,7 @@
       <property name="pattern">.*\bhi\b.*</property>
     </config>
     <config filter="lolabeler">
-      <property name="label">hi</property>
+      <property name="label">lo</property>
       <property name="pattern">.*\blo\b.*</property>
     </config>
     <config filter="format">
