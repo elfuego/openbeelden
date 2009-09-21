@@ -35,7 +35,8 @@ function initLangSwitch() {
 }
 
 function initClearMsg() {
-    if ($('body.createuser').length == 0 && 
+    if ($('body.contact').length == 0 && 
+        $('body.createuser').length == 0 && 
         $('body.reset-password').length == 0) {
         setTimeout("clearMsg();", 10000);
     }
