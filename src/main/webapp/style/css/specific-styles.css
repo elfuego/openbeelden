@@ -563,14 +563,20 @@ a.close
 
 #popup-license img
 {
-    float: left;
-    margin: 6px 0 3px 6px;
+	float: left;
+	margin: 4px 4px 0 6px;
+}
+
+#popup-license p img
+{
+	float: left;
+	margin: 4px 4px 0 0;
 }
 
 #popup-license h5
 {
 	font-size: 1.1em;
-	margin: 10px 0 0 100px;
+	margin: 8px 0 0 8px;
 	color: #333;
 }
 
