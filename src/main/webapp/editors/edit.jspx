@@ -33,7 +33,6 @@
 
     <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="${requestScope['javax.servlet.jsp.jstl.fmt.locale.request']}">
       <mm:include page="inc/head.jspx" referids="type,pagetitle" />
-      <!--  <%@ include file="inc/htmleditor.jsp" %> -->
       <body class="${type}">
         <jsp:include page="inc/navigation.jspx" />
         <div id="wrap">
@@ -83,6 +82,17 @@
                       <mm:param name="searchdirs">source</mm:param>
                       <mm:param name="create">false</mm:param>
                       <mm:param name="list">title,show,language</mm:param>
+                    </mm:include>
+                  </p>
+                </mm:hasrelationmanager>
+                <mm:hasrelationmanager sourcemanager="articles" destinationmanager="$type" role="langrel">
+                  <p>
+                    <mm:include page="inc/searchrelate.jspx" referids="nr">
+                      <mm:param name="type">articles</mm:param>
+                      <mm:param name="role">langrel</mm:param>
+                      <mm:param name="searchdirs">source</mm:param>
+                      <mm:param name="list">title</mm:param>
+                      <mm:param name="create">false</mm:param>
                     </mm:include>
                   </p>
                 </mm:hasrelationmanager>

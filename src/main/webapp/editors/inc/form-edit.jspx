@@ -12,6 +12,15 @@
   <mm:import externid="mmajaxeditor" />
 
   <mm:form id="edit_$nr">
+    <c:if test="${!empty mmajaxeditor}">
+      <mm:hasrank minvalue="project manager">
+        <p>
+          <mm:link page="/editors/edit.jspx" referids="nr">
+            <a href="${_}">Edit in separate editor</a>
+          </mm:link>
+        </p>
+      </mm:hasrank>
+    </c:if>
     <mm:node number="$nr" commitonclose="false">
       <mm:import id="buffer">
         <fieldset>

@@ -69,14 +69,14 @@ a.search
 .mm_related td.action
 {
 	text-align: right;
-	white-space: nowrap;
+	width: 48px;
 }
+
 .mm_related td.action img
 {
 	margin: 2px;
 	border: 0;
 }
-
 
 .searchresult table
 {

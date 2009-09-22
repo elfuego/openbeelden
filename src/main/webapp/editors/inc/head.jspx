@@ -20,4 +20,5 @@
   <link href="${mm:link('sr/searchrelate.css')}" rel="stylesheet" />
   <link href="${mm:link('/style/css/editors.css')}" rel="stylesheet" />
   <link href="${mm:link('/style/images/favicon.ico')}" rel="shortcut icon" />
+  <mm:include page="htmleditor.jspx" />
 </head>
