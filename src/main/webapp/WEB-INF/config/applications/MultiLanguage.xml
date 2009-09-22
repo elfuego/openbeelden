@@ -8,6 +8,8 @@
   <neededbuilderlist>
     <builder maintainer="mmbase.org" version="1">articles</builder>
     <builder maintainer="mmbase.org" version="1">articles_translations</builder>
+    <builder maintainer="mmbase.org" version="1">licenses</builder>
+    <builder maintainer="mmbase.org" version="1">licenses_translations</builder>
     <builder maintainer="mmbase.org" version="1">mediafragments</builder>
     <builder maintainer="mmbase.org" version="1">mediafragments_translations</builder>
     <builder maintainer="mmbase.org" version="1">pages</builder>
@@ -23,6 +25,7 @@
     <relation from="articles"       to="articles_translations" type="langrel" />
     <relation from="mediafragments" to="mediafragments_translations" type="langrel" />
     <relation from="pages"          to="pages_translations" type="langrel" />
+    <relation from="licenses"       to="licenses_translations" type="langrel" />
   </allowedrelationlist>
 
   <datasourcelist>
