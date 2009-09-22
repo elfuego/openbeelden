@@ -20,15 +20,6 @@
 
   <mm:form id="create_$type">
     <mm:import id="buffer">
-      <c:if test="${!empty mmajaxeditor}">
-        <mm:hasrank minvalue="project manager">
-          <p>
-            <mm:link page="/editors/edit.jspx" referids="nr">
-              <a href="${_}">Edit in separate editor</a>
-            </mm:link>
-          </p>
-        </mm:hasrank>
-      </c:if>
       <mm:createnode type="$type" id="new_node" commitonclose="false">
         <fieldset>
           <mm:fieldlist type="${empty editfields ? 'edit' : ''}" fields="${editfields}" varStatus="field">
