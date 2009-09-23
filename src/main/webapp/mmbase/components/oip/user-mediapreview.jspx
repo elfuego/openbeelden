@@ -83,7 +83,9 @@
                     <mm:maxnumber value="1" />
                     <mm:relatednodes>
                       <dt><fmt:message key="media.license" />:</dt>
-                      <dd> <mm:field name="name" /> </dd>
+                      <dd>
+                        <mm:nodefunction name="translation"><mm:field name="name" /></mm:nodefunction>
+                      </dd>
                     </mm:relatednodes>
                   </mm:relatednodescontainer>
                   <c:if test="${nodetype ne 'images' and nodetype ne 'imagefragments'}">
