@@ -56,7 +56,7 @@
       <property name="list">videostreamsourcescaches,audiostreamsourcescaches</property>
     </config>
     <config filter="intermediatesorter">
-      <property name="pattern">,*\bintermediate\b.*</property>
+      <property name="pattern">.*\bintermediate\b.*</property>
       <property name="inverse">true</property>
     </config>
 
