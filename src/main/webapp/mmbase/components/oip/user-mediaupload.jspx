@@ -76,7 +76,10 @@
 
 
       <mm:present referid="committed">
-        <mm:node number="${newsource}">
+        <mm:node referid="newsource">
+          <mm:voidfunction name="waitUntilTranscoding" />
+          <p><oip:type /></p>
+
           <!-- p class="msg">Submitted ${_node} URL: ${_node.url} FS: ${_node.filesize}</p -->
 
           <mm:log><mm:field name="title" /></mm:log><!-- Make sure the mediafragment is created outside transacntions and so on -->
