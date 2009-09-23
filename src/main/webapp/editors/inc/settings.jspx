@@ -73,7 +73,7 @@
   </mm:compare>
 
   <mm:compare referid="type" value="tags">
-    <mm:import id="listfields" reset="true">name,language</mm:import>
+    <mm:import id="listfields" reset="true">name</mm:import>
     <mm:import id="searchfields" reset="true">${listfields}</mm:import>
     <mm:import id="editfields" reset="true">${searchfields}</mm:import>
   </mm:compare>
