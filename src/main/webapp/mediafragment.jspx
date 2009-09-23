@@ -96,6 +96,8 @@
         <div class="popup" id="popup-download">
           <h4><a class="close" href="#toolbar">close</a> Download</h4>
           <ul>
+
+            <!-- I think stuff with 'usnupported source', and stuff with 'intermediate' should be configured in filters.xml. Not here. -->
             <mm:listfunction name="filteredurls">
               <c:if test="${_.state eq 'SOURCE_UNSUPPORTED'}">
                 <mm:import id="unsupported" reset="true">true</mm:import>
@@ -141,7 +143,7 @@
                 </mm:relatednodescontainer>
               </c:when>
               <c:otherwise>
-                <li>
+                <li><!-- so much for i18n? -->
                   The originale uploaded media file was not supported, therefore no media sources
                   could be generated.
                 </li>

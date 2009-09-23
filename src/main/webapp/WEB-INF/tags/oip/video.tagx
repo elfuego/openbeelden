@@ -5,7 +5,7 @@
     xmlns:jsp="http://java.sun.com/JSP/Page"
     xmlns:mm="http://www.mmbase.org/mmbase-taglib-2.0"
     >
-  
+
   <jsp:directive.attribute name="width"  description="Width of player" />
   <jsp:directive.attribute name="height" description="Height of player" />
   <jsp:directive.attribute name="length" description="Length of video fragment in milliseconds" />
@@ -14,6 +14,7 @@
   <c:set var="w" value="${empty width ? '320' : width}" />
   <c:set var="h" value="${empty height ? '240' : height}" />
 
+  <!-- TODO: doesn't work in a war: -->
   <c:set var="overlay"><jsp:expression>org.mmbase.module.core.MMBaseContext.getHtmlRoot()</jsp:expression>/style/images/startoverlay.png</c:set>
   <c:set var="template">s(${w}!x${h}!)+adjoin(${overlay})+flatten</c:set>
   <c:set var="basictemplate">s(${w}!x${h}!)</c:set>
@@ -37,7 +38,11 @@
     </mm:relatednodes>
   </mm:relatednodescontainer>
 
+
   <mm:import id="mediaurls">
+
+    <!-- I think what is happening here, should be happening in filters.xml -->
+
     <mm:listfunction name="filteredurls">
       <c:if test="${_.available}">
         <source src="${mm:escape('text/xml', _.URL)}" type="${_.format.mimeType}; codecs=${mm:escape('lowercase', _.codec)}"><jsp:text> </jsp:text></source>
@@ -48,14 +53,14 @@
     </mm:listfunction>
   </mm:import>
   <c:if test="${!empty unsupported}"><mm:import id="mediaurls" reset="true"></mm:import></c:if>
-  
+
   <c:choose>
     <c:when test="${empty mediaurls}">
       <div id="oiplayer" class="inavailable">
         <p>
-          No media sources available.
+          <jsp:text>No media sources available. </jsp:text>
           <c:if test="${!empty unsupported}">
-            Unsupported original media file.
+            <jsp:text>Unsupported original media file.</jsp:text>
           </c:if>
         </p>
       </div>
@@ -77,7 +82,7 @@
         </div>
         <ul class="controls">
           <li class="play"><a href="#">play</a></li>
-          <li class="position"> 
+          <li class="position">
             <c:choose>
               <c:when test="${!empty length}">
                 <mm:time time="$length" inputformat="S" format="mm:ss" />
