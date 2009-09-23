@@ -41,7 +41,7 @@
   </mm:compare>
 
   <mm:compare referid="type" value="pages">
-    <mm:import id="listfields" reset="true">title,path</mm:import>
+    <mm:import id="listfields" reset="true">title,path,language</mm:import>
     <mm:import id="searchfields" reset="true">${listfields},template,description</mm:import>
     <mm:import id="editfields" reset="true">${searchfields}</mm:import>
   </mm:compare>
@@ -79,8 +79,14 @@
   </mm:compare>
 
   <mm:compare referid="type" value="licenses">
-    <mm:import id="listfields" reset="true">name,version,url,language</mm:import>
-    <mm:import id="searchfields" reset="true">${listfields},description</mm:import>
+    <mm:import id="listfields" reset="true">name,version,language</mm:import>
+    <mm:import id="searchfields" reset="true">${listfields},url,description</mm:import>
+    <mm:import id="editfields" reset="true">${searchfields}</mm:import>
+  </mm:compare>
+  
+  <mm:compare referid="type" value="licenses_translations">
+    <mm:import id="listfields" reset="true">name,language</mm:import>
+    <mm:import id="searchfields" reset="true">${listfields},url,description</mm:import>
     <mm:import id="editfields" reset="true">${searchfields}</mm:import>
   </mm:compare>
 

@@ -89,7 +89,7 @@
 
   <!-- put all mmajaxeditor msg stuff outside form -->
   <c:if test="${!empty saved and !empty mmajaxeditor}">
-    <mm:node referid="new_node"> new
+    <mm:node referid="new_node">
       <mm:link page="/editors/inc/form-edit.jspx" referids="new_node@nr">
         <a href="${_}#node_${new_node}" class="mmajaxeditor">
           <mm:field name="language"><mm:fieldinfo type="guivalue" /></mm:field>
