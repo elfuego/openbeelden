@@ -129,18 +129,6 @@
                     </li>
                   </mm:node>
                 </mm:listfunction>
-                <!-- show intermediate -->
-                <mm:relatednodescontainer type="mediasources" role="related" searchdirs="destination">
-                  <mm:constraint field="label" value="%intermediate%" operator="LIKE" />
-                  <mm:relatednodes>
-                    <li class="${_.state}" title="${fn:toLowerCase(_.state)}: ${_.mimeType}">
-                      <strong>${_.format}</strong>
-                      (<mm:hasfield name="width"><mm:field name="width"><mm:isnotempty>${_}x<mm:field name="height" />, </mm:isnotempty></mm:field></mm:hasfield>
-                      <mm:field name="label"><mm:isnotempty>${_} </mm:isnotempty></mm:field><mm:field name="filesize"><mm:fieldinfo type="guivalue" /></mm:field>):
-                      <mm:field name="url"><a href="${_}">${_}</a></mm:field>
-                    </li>
-                  </mm:relatednodes>
-                </mm:relatednodescontainer>
               </c:when>
               <c:otherwise>
                 <li><!-- so much for i18n? -->
