@@ -13,7 +13,7 @@ tinyMCE.init({
     //plugins : "table",
     plugins : "fullscreen,xhtmlxtras",
     content_css : "${mm:link('/style/css/tiny_mce.css')}",
-    language : "nl",
+    // language : "nl",
     height : "420",
     
     //button_tile_map : true,
