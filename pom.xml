@@ -81,6 +81,16 @@
        <version>2.1-beta-2-20090723.092931-2</version>
        <configuration>
          <archiveClasses>true</archiveClasses>
+
+          <overlays>
+            <overlay>
+              <groupId>org.mmbase.tinymce</groupId>
+              <artifactId>tinymce</artifactId>
+              <type>war</type>
+              <targetPath>editors</targetPath>
+            </overlay>
+          </overlays>
+          
        </configuration>
       </plugin>
 
@@ -131,7 +141,7 @@
             <scope>runtime</scope>
           </dependency>
         </dependencies>
-
+        
       </plugin>
     </plugins>
   </build>
@@ -279,6 +289,12 @@
       <version>${mmbase.version}</version>
     </dependency>
 
+    <dependency>
+      <groupId>org.mmbase.tinymce</groupId>
+      <artifactId>tinymce</artifactId>
+      <version>3.2.7</version>
+      <type>war</type>
+    </dependency>
 
 
   </dependencies>
