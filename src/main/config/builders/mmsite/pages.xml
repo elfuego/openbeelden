@@ -47,6 +47,8 @@
         <maxLength value="255" />
       </datatype>
     </field>
+  
+    <xi:include href="http://www.mmbase.org/builders/oip/language.field.xml" />
 
     <field name="path">
       <descriptions>
