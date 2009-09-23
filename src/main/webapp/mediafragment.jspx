@@ -77,14 +77,18 @@
           <h4><a class="close" href="#toolbar">close</a> License</h4>
           <mm:relatednodescontainer type="licenses" role="related" searchdirs="destination">
             <mm:relatednodes>
-            <mm:import id="license_url" reset="true"><mm:field name="url" /></mm:import>
-            <mm:relatednodescontainer type="images" role="related" searchdirs="destination">
-              <mm:relatednodes>
-                <a rel="license" href="${license_url}"><mm:image width="88" mode="img" /></a>
-              </mm:relatednodes>
-            </mm:relatednodescontainer>
-              <h5><a rel="license" href="${license_url}"><mm:field name="name" /></a></h5>
-              <mm:field name="description"><mm:isnotempty><mm:write escape="paragraph" /></mm:isnotempty></mm:field>
+              <mm:nodefunction name="translation">
+                <mm:import id="license_url" reset="true"><mm:field name="url" /></mm:import>
+              </mm:nodefunction>
+              <mm:relatednodescontainer type="images" role="related" searchdirs="destination">
+                <mm:relatednodes>
+                  <a rel="license" href="${license_url}"><mm:image width="88" mode="img" /></a>
+                </mm:relatednodes>
+              </mm:relatednodescontainer>
+              <mm:nodefunction name="translation">
+                <h5><a rel="license" href="${license_url}"><mm:field name="name" /></a></h5>
+                <mm:field name="description" escape="paragraph" />
+              </mm:nodefunction>
             </mm:relatednodes>
           </mm:relatednodescontainer>
         </div>
