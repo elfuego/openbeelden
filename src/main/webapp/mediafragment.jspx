@@ -185,12 +185,8 @@
         <dl class="media-info">
           <dt><fmt:message key="media.type" />:</dt>
           <dd>
+            <oip:type />
             <mm:nodeinfo type="type" id="nodetype" write="false" />
-            <c:choose>
-              <c:when test="${nodetype eq 'audiofragments'}"> audio </c:when>
-              <c:when test="${nodetype eq 'imagefragments' or nodetype eq 'images'}"> image </c:when>
-              <c:otherwise> video </c:otherwise>
-            </c:choose>
           </dd>
           <c:if test="${nodetype ne 'imagefragments' and nodetype ne 'images'}">
             <dt><fmt:message key="media.length" />:</dt>
