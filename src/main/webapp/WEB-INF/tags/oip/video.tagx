@@ -40,19 +40,13 @@
 
 
   <mm:import id="mediaurls">
-
-    <!-- I think what is happening here, should be happening in filters.xml -->
-
-    <mm:listfunction name="filteredurls">
-      <c:if test="${_.available}">
+    <mm:functioncontainer>
+      <mm:param name="format">OGV,MP4</mm:param>
+      <mm:listfunction name="filteredurls">
         <source src="${mm:escape('text/xml', _.URL)}" type="${_.format.mimeType}; codecs=${mm:escape('lowercase', _.codec)}"><jsp:text> </jsp:text></source>
-      </c:if>
-      <c:if test="${_.state eq 'SOURCE_UNSUPPORTED'}">
-        <mm:import id="unsupported" reset="true">true</mm:import>
-      </c:if>
-    </mm:listfunction>
+      </mm:listfunction>
+    </mm:functioncontainer>
   </mm:import>
-  <c:if test="${!empty unsupported}"><mm:import id="mediaurls" reset="true"></mm:import></c:if>
 
   <c:choose>
     <c:when test="${empty mediaurls}">
