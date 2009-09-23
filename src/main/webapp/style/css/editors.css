@@ -159,13 +159,17 @@ body.mediafragments #tab2 a,
 body.videofragments #tab2 a, 
 body.audiofragments #tab2 a, 
 body.imagefragments #tab2 a, 
+body.mediafragments_translations #tab2 a, 
 body.mmbaseusers #tab3 a, 
-body.pages #tab4 a, 
+body.pages #tab4 a,
+body.pages_translations #tab4 a,
 body.articles #tab5 a, 
+body.articles_translations #tab5 a, 
 body.urls #tab6 a, 
 body.images #tab7 a,
 body.tags #tab8 a,
-body.licenses #tab9 a
+body.licenses #tab9 a,
+body.licenses_tranlations #tab9 a
 {
 	color: #222;
 	padding-bottom: 5px;
