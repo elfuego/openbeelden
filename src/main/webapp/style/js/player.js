@@ -20,10 +20,7 @@
 var player;
 
 function createPlayer(id, config) {
-    var mediatag = $('#' + id + ' video:first');
-    if (mediatag == undefined) {
-        mediatag = $('#' + id + ' audio:first');
-    }
+    var mediatag = findMediatag(id);
     var sources = $('#' + id).find('source');
     var types = $.map(sources, function(i) {
         return $(i).attr('type');
@@ -61,10 +58,9 @@ function Player() {
 }
 
 Player.prototype._init = function(id, url, config) {
-    this.player = $('#' + id + ' video')[0];  // the first video tag it finds
-    if (this.player == undefined) {
-        this.player = $('#' + id + ' video:first'); // help ie
-    }
+    this.player = findMediatag(id);
+    
+    //console.log("this.player: " + this.player);
     this.url = url;
     this.id = id; 
     /* if (this.urls.length == 0) this.urls[0] = $(this.player).attr('src'); */
@@ -139,8 +135,8 @@ CortadoPlayer.prototype.init = function(id, url, config) {
     $(this.player).attr('style', 'display:block;width:' + this.width + 'px;height:' + this.height + 'px;');
     $(this.player).attr('type', 'application/x-java-applet');
     $(this.player).attr('archive', jar);
-    $(this.player).attr('width', this.width);
-    $(this.player).attr('height', this.height);
+    if (this.width)  $(this.player).attr('width', this.width);
+    if (this.height) $(this.player).attr('height', this.height);
 
     var params = {
         'code' : 'com.fluendo.player.Cortado.class',
@@ -364,6 +360,14 @@ function canPlayVideo(types, urls) {
     return probably;
 }
 
+function findMediatag(id) {
+    var tag = $('#' + id).find('video')[0];
+    if (tag == undefined) {
+        tag = $('#' + id).find('audio')[0];
+    }
+    return tag;   
+}
+
 function supportMimetype(mt) {
 	var support = false;    /* navigator.mimeTypes is unsupported by MSIE ! */
     if (navigator.mimeTypes && navigator.mimeTypes.length > 0) {
@@ -410,6 +414,6 @@ function followProgress() {
         
     };
     progress();
-    //showInfo();
+    showInfo();
     
 }

@@ -24,10 +24,13 @@
           <mm:image mode="img" width="${w}" height="${h}" crop="end" />
         </mm:relatednodes>
       </c:when>
+      <c:when test="${_ eq 'audiofragments'}">
+        <oip:audio width="${w}" height="${h}" />
+      </c:when>
       <c:otherwise>
         <oip:video width="${w}" height="${h}" />
       </c:otherwise>
     </c:choose>
   </mm:nodeinfo>
-  
+
 </jsp:root>

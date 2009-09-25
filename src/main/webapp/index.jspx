@@ -94,7 +94,7 @@
                   <dt>
                     <a title="${title}" href="${_}"><oip:thumb alt="${title}" /></a>
                   </dt>
-                  <dd> <mm:write referid="title" escape="wrapper" /> </dd>
+                  <dd> <mm:write referid="title" escape="wrapper,text/xml" /> </dd>
                 </dl>
               </mm:link>
             </mm:listnodes>
