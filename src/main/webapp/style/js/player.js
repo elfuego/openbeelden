@@ -3,7 +3,7 @@
   the use of three players in a generic way: video-tag, java player cortado (for ogg) and flash.
   Sifts through the sources provided by the video-tag to find a suitable player.
   This script borrows heavily from the rather brilliant one used at Steal This Footage which enables
-  a multitude of players (but defies MSIE ;-): http://footage.stealthisfilm.com/
+  a multitude of players (but defies MSIE ;-) http://footage.stealthisfilm.com/
 
   @author: André van Toly
   @version: 0.3
@@ -14,7 +14,7 @@
         'jar' : JAR file of Cortado
         'flash' : location of flowplayer.swf
 
-  @changes: audio tag, moved some methods, improved FlowPlayer support
+  @changes: trying to support the audio tag some more (with thanks to Cannoball Adderley)
 */
 
 var player;
@@ -36,8 +36,8 @@ function createPlayer(id, config) {
 
     if (mediatag != undefined) {
         var selectedPlayer = selectPlayer(types, urls);
-        if (selectedPlayer.type == 'video') {
-            player = new VideoPlayer();
+        if (selectedPlayer.type == 'media') {
+            player = new MediaPlayer();
         } else if (selectedPlayer.type == 'cortado') {
             player = new CortadoPlayer();
         } else if (selectedPlayer.type == 'msie_cortado') {
@@ -58,11 +58,11 @@ function Player() {
 }
 
 Player.prototype._init = function(id, url, config) {
-    this.player = findMediatag(id);
-    
-    //console.log("this.player: " + this.player);
+    var mediatag = findMediatag(id);
+    this.player = mediatag.element;
+    this.type = mediatag.type;
     this.url = url;
-    this.id = id; 
+    this.id = id;
     /* if (this.urls.length == 0) this.urls[0] = $(this.player).attr('src'); */
     this.poster = $(this.player).attr('poster');
     if ($(this.player).get(0).getAttribute('autoplay') == undefined) { // html5 can just have <video autoplay />
@@ -70,6 +70,7 @@ Player.prototype._init = function(id, url, config) {
     } else {
         this.autoplay = $(this.player).get(0).getAttribute('autoplay');
     }
+    //console.log("autoplay: " + this.autoplay);
     if ($(this.player).get(0).getAttribute('autobuffer') == undefined) {
         this.autobuffer = false;
     } else {
@@ -78,6 +79,7 @@ Player.prototype._init = function(id, url, config) {
     this.width = $(this.player).attr('width');
     this.height = $(this.player).attr('height');
     this.state = 'init';
+    this.pos = 0;
     return this.player;
 }
 
@@ -87,35 +89,36 @@ Player.prototype.pause = function() { }
 Player.prototype.position = function() { }
 Player.prototype.info = function() { }
 
-function VideoPlayer() {
+function MediaPlayer() {
     this.myname = "videoplayer";
 }
-VideoPlayer.prototype = new Player();
-VideoPlayer.prototype.init = function(id, url, config) {
+MediaPlayer.prototype = new Player();
+MediaPlayer.prototype.init = function(id, url, config) {
     this._init(id, url, config); // just init and pass it along
     this.url = url;
     return this.player;
 }
-VideoPlayer.prototype.play = function() {
+MediaPlayer.prototype.play = function() {
     //this.player.autoplay = true;
     this.player.play();
     this.state = 'play';
 }
 
-VideoPlayer.prototype.pause = function() {
+MediaPlayer.prototype.pause = function() {
     this.player.pause();
     this.state = 'pause';
 }
 
-VideoPlayer.prototype.position = function() {
+MediaPlayer.prototype.position = function() {
     try {
-        return this.player.currentTime;
+        this.pos = this.player.currentTime;
+        return this.pos;
     } catch(err) {
         //console.log("Error: " + err);
     }
     return -1;
 }
-VideoPlayer.prototype.info = function() {
+MediaPlayer.prototype.info = function() {
     /*  duration able in webkit, 
         unable in mozilla without: https://developer.mozilla.org/en/Configuring_servers_for_Ogg_media
     */
@@ -164,11 +167,19 @@ CortadoPlayer.prototype.init = function(id, url, config) {
 }
 
 CortadoPlayer.prototype.play = function() {
-    this.player.doPlay();
+    if (this.state == 'pause') {
+        // impossible when duration is unknown (and not really smooth in cortado)
+        // console.log("pos: " + this.pos + " pos as double: " + this.length / this.pos);
+        // this.player.doSeek(this.length / this.pos);
+        this.player.doPlay();
+    } else {
+        this.player.doPlay();
+    }
     this.state = 'play';
 }
 
 CortadoPlayer.prototype.pause = function() {
+    this.pos = this.player.getPlayPosition();
     this.player.doPause();
     this.state = 'pause';
 //     try {
@@ -176,7 +187,8 @@ CortadoPlayer.prototype.pause = function() {
 //     } catch(err) { }
 }
 CortadoPlayer.prototype.position = function() {
-    return this.player.getPlayPosition()
+    this.pos = this.player.getPlayPosition();
+    return this.pos;
 }
 CortadoPlayer.prototype.info = function() {
     //return "Playing: " + this.url";
@@ -257,7 +269,8 @@ FlowPlayer.prototype.pause = function() {
 }
 
 FlowPlayer.prototype.position = function() {
-    return this.player.getTime();
+    this.pos = this.player.getTime();
+    return this.pos;
 }
 
 FlowPlayer.prototype.info = function() {
@@ -270,10 +283,11 @@ FlowPlayer.prototype.info = function() {
 */
 function selectPlayer(types, urls) {
     var proposal = new Object();
-    var probably = canPlayVideo(types, urls);
+    var probably = canPlayMedia(types, urls);
     if (probably != undefined) {
-        proposal.type = "video";
+        proposal.type = "media";
         proposal.url = probably;
+        return proposal;    // optimization
     }
     
     if (proposal.type == undefined) {
@@ -328,44 +342,35 @@ function canPlayCortado(types, urls) {
 /*
  * Returns url it expects to be able to play
 */
-function canPlayVideo(types, urls) {
-    var probably;
-    var el = document.createElement("video");
-    if (el.canPlayType) {
+function canPlayMedia(types, urls) {
+    //var probably;
+    var vEl = document.createElement("video");
+    var aEl = document.createElement("audio");
+    if (vEl.canPlayType || aEl.canPlayType) {
         for (var i = 0; i < types.length; i++) {
             /*
              http://www.whatwg.org/specs/web-apps/current-work/multipage/video.html#dom-navigator-canplaytype
              Firefox 3.5 is very strict about this and does not return 'probably', but does on 'maybe'.
             */
-            if (el.canPlayType( types[i] ) == "probably") {
+            if (vEl.canPlayType( types[i] ) == "probably" || aEl.canPlayType( types[i] ) == "probably") {
                 return urls[i]; // this is the best we can do
             }
-            if (el.canPlayType( types[i] ) == "maybe") {
-                probably = urls[i]; // if we find nothing better
-            }
-        }
-        if (probably != undefined) {
-            return probably;
-        }
-        // last fall back, the 'src' attribute itself.
-        if ($('video').length) {
-            var url = $('video').attr('src');
-            if (url != undefined &&
-                (url.lastIndexOf('.mp4') > -1 || url.lastIndexOf('.h264') > -1
-                 )) {
-                probably = url;
+            if (vEl.canPlayType( types[i] ) == "maybe" || aEl.canPlayType( types[i] ) == "maybe") {
+                return urls[i]; // if we find nothing better
             }
         }
     }
-    return probably;
 }
 
 function findMediatag(id) {
-    var tag = $('#' + id).find('video')[0];
-    if (tag == undefined) {
-        tag = $('#' + id).find('audio')[0];
+    var mediatag = new Object();
+    mediatag.type = "video";
+    mediatag.element = $('#' + id).find('video')[0];
+    if (mediatag.element == undefined) {
+        mediatag.type = "audio";
+        mediatag.element = $('#' + id).find('audio')[0];
     }
-    return tag;   
+    return mediatag;   
 }
 
 function supportMimetype(mt) {

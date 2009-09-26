@@ -56,7 +56,7 @@
                  width="${w}"
                  height="${h}"
                  poster="${poster}"
-                 autobuffer="false">
+                 > <!-- webkits/safari interprets the presence of a autoplay="false" attr. as true -->
             <mm:write referid="mediaurls" escape="none" />
             <p>
               You need a browser that understands the html5 video tag to play this media item.

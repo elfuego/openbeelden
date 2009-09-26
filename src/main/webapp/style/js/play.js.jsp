@@ -3,7 +3,9 @@
 <mm:content type="text/javascript" expires="300">
 
 /*
-  Javascript to init the player
+  Javascript to init and control the player in player.js.
+  This should mainly be integrated in player.js but has configuration that relies on correct urls.
+  
   @author: André van Toly
   @version: 0.3
   @changes: moved methods to player.js, classes for id's
@@ -21,8 +23,12 @@ function initPlayer(id) {
     
     var mediaEl = createPlayer(id, config);
     if (mediaEl != undefined) {
-        $('#' + id + ' div.player').empty();
         var img = $('<img src="' + player.poster + '" class="preview" alt="" />');
+        if (player.type == 'audio') {
+            img = $('<img src="' + $('#' + id + ' img').attr('src') + '" class="preview" alt="" />');
+        }
+        $('#' + id + ' div.player').empty();
+        
         $(img).attr("width", player.width);
         $(img).attr("height", player.height);
         $('#' + id + ' div.player').append(img);
@@ -30,7 +36,7 @@ function initPlayer(id) {
         /* click preview: play */
         $('#' + id + ' img.preview').click(function(ev) {
             ev.preventDefault();
-            $('#' + id + ' img.preview').remove();
+            if (player.type == 'video') $('#' + id + ' img.preview').remove();
             $('#' + id + ' div.player').append(mediaEl);
             player.play();
             followProgress();
@@ -50,7 +56,7 @@ function initPlayer(id) {
                 player.pause();
                 $('#' + id + ' ul.controls li.play').removeClass('pause');
             } else {
-                $('#' + id + ' img.preview').remove();
+                if (player.type == 'video') $('#' + id + ' img.preview').remove();
                 $('#' + id + ' div.player').append(mediaEl);
                 player.play();
                 followProgress();

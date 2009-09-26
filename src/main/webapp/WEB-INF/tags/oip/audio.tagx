@@ -51,9 +51,8 @@
     <c:otherwise>
       <div id="oiplayer">
         <div class="player">
-          <audio
-                 controls="true"
-                 autobuffer="false">
+          <img src="${poster}" alt="audio" width="${w}" height="${h}" />
+          <audio controls="true">
             <mm:write referid="mediaurls" escape="none" />
             <p>
               You need a browser that understands the html5 audio tag to play this media item.
