@@ -249,26 +249,28 @@
             </c:when>
             <c:otherwise>
               <c:forEach var="hit" items="${hits}" varStatus="status">
-                <mm:node number="${hit.value}">
-                  <mm:import id="mf_title" reset="true">
-                    <mm:nodefunction name="translation"><mm:field name="title" /></mm:nodefunction>
-                  </mm:import>
-                  <mm:link page="mediafragment">
-                    <mm:frameworkparam name="component">oip</mm:frameworkparam>
-                    <mm:frameworkparam name="media">${_node}</mm:frameworkparam>
-                    <c:choose>
-                      <c:when test="${(status.index) % 3 == 0}"><c:set var="gridclass" value="grid first" /></c:when>
-                      <c:otherwise><c:set var="gridclass" value="grid" /></c:otherwise>
-                    </c:choose>
-                    <dl class="${gridclass}">
-                      <dt>
-                        <a title="${mf_title}" href="${_}"><oip:thumb /></a>
-                      </dt>
-                      <dd> <mm:write referid="mf_title" escape="wrapper,text/xml" /> </dd>
-                    </dl>
-                  </mm:link>
-                  <jsp:text> </jsp:text>
-                </mm:node>
+                <mm:context>
+                  <mm:node number="${hit.value}">
+                    <mm:nodefunction name="translation">
+                      <mm:field name="title" id="mf_title" write="false" />
+                    </mm:nodefunction>
+                    <mm:link page="mediafragment">
+                      <mm:frameworkparam name="component">oip</mm:frameworkparam>
+                      <mm:frameworkparam name="media">${_node}</mm:frameworkparam>
+                      <c:choose>
+                        <c:when test="${(status.index) % 3 == 0}"><c:set var="gridclass" value="grid first" /></c:when>
+                        <c:otherwise><c:set var="gridclass" value="grid" /></c:otherwise>
+                      </c:choose>
+                      <dl class="${gridclass}">
+                        <dt>
+                          <a href="${_}" title="${mf_title}"><oip:thumb alt="${mf_title}" /></a>
+                        </dt>
+                        <dd> <mm:field name="title" escape="wrapper" /> </dd>
+                      </dl>
+                    </mm:link>
+                    <jsp:text> </jsp:text>
+                  </mm:node>
+                </mm:context>
               </c:forEach>
             </c:otherwise>
           </c:choose>
@@ -296,9 +298,9 @@
             <mm:sortorder field="number" direction="DOWN" />
             <mm:maxnumber value="6" />
             <mm:listnodes varStatus="status">
-              <mm:import id="mf_title" reset="true">
-                <mm:nodefunction name="translation"><mm:field name="title" escape="none" /></mm:nodefunction>
-              </mm:import>
+              <mm:nodefunction name="translation">
+                <mm:field name="title" id="mf_title" write="false" />
+              </mm:nodefunction>
               <mm:link>
                 <mm:frameworkparam name="component">oip</mm:frameworkparam>
                 <mm:frameworkparam name="block">mediafragment</mm:frameworkparam>
@@ -309,9 +311,9 @@
                 </c:choose>
                 <dl class="${gridclass}">
                   <dt>
-                    <a href="${_}" title="${mm:escape('text/xml', mf_title)}"><oip:thumb /></a>
+                    <a href="${_}" title="${mf_title}"><oip:thumb alt="${mf_title}" /></a>
                   </dt>
-                  <dd> <mm:write referid="mf_title" escape="wrapper,text/xml" /> </dd>
+                  <dd> <mm:field name="title" escape="wrapper" /> </dd>
                 </dl>
               </mm:link>
             </mm:listnodes>

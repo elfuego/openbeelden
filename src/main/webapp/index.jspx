@@ -89,12 +89,12 @@
                 </c:choose>
                 <dl class="${gridclass}">
                   <mm:nodefunction name="translation">
-                    <mm:import id="title" reset="true"><mm:field name="title" /></mm:import>
+                    <mm:field name="title" id="mf_title" write="false" />
                   </mm:nodefunction>
                   <dt>
-                    <a title="${title}" href="${_}"><oip:thumb alt="${title}" /></a>
+                    <a href="${_}" title="${mf_title}"><oip:thumb alt="${mf_title}" /></a>
                   </dt>
-                  <dd> <mm:write referid="title" escape="wrapper,text/xml" /> </dd>
+                  <dd> <mm:field name="title" escape="wrapper" /> </dd>
                 </dl>
               </mm:link>
             </mm:listnodes>
