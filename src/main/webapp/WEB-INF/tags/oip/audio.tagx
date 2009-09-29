@@ -32,7 +32,7 @@
     <mm:functioncontainer>
       <mm:param name="format">MP3,OGG</mm:param>
       <mm:listfunction name="filteredurls">
-        <source src="${mm:escape('text/xml', _.URL)}" type="${_.format.mimeType}; codecs=${mm:escape('lowercase', _.codec)}"><jsp:text> </jsp:text></source>
+        <source src="${mm:escape('text/xml', _.URL)}" type="${_.mimeType}; codecs=${mm:escape('lowercase', _.codec)}"><jsp:text> </jsp:text></source>
       </mm:listfunction>
     </mm:functioncontainer>
   </mm:import>
