@@ -2,7 +2,7 @@
 * @author   Open Images Platform
 * @since    May 2009
 * @name     Stylesheet to style the player
-* @version  0.2
+* @version  0.3
 */
 
 #clientcaps	/* used by MSIE Java plugin detection, sigh :-( */
@@ -16,6 +16,7 @@
 	width: 320px;
 	display: block;
 	margin-bottom: 6px;
+	position: relative;
 }
 
 #oiplayer.inavailable
@@ -42,6 +43,15 @@ div.player
 	padding: 0;
 	height: 240px;
 	margin-bottom: 6px;
+	position: relative;
+}
+
+div.player audio
+{
+	position: absolute;
+	bottom: 0;
+	left: 0;
+	width: 320px;
 }
 
 ul.controls
