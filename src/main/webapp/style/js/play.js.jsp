@@ -25,7 +25,7 @@ function initPlayer(id) {
     if (mediaEl != undefined) {
         var img = $('<img src="' + player.poster + '" class="preview" alt="" />');
         if (player.type == 'audio') {
-            img = $('<img src="' + $('#' + id + ' img').attr('src') + '" class="preview" alt="" />');
+            img = $('<img src="' + $('#' + id + ' img').attr('src') + '" class="preview" alt="audio" />');
         }
         $('#' + id + ' div.player').empty();
         
@@ -36,8 +36,11 @@ function initPlayer(id) {
         /* click preview: play */
         $('#' + id + ' img.preview').click(function(ev) {
             ev.preventDefault();
-            if (player.type == 'video') $('#' + id + ' img.preview').remove();
+            if (player.type == 'video') {
+                $('#' + id + ' img.preview').remove();
+            }
             $('#' + id + ' div.player').append(mediaEl);
+            
             player.play();
             followProgress();
             $('#' + id + ' ul.controls li.play').addClass('pause');
@@ -56,7 +59,9 @@ function initPlayer(id) {
                 player.pause();
                 $('#' + id + ' ul.controls li.play').removeClass('pause');
             } else {
-                if (player.type == 'video') $('#' + id + ' img.preview').remove();
+                if (player.type == 'video') {
+                    $('#' + id + ' img.preview').remove();
+                }
                 $('#' + id + ' div.player').append(mediaEl);
                 player.play();
                 followProgress();
@@ -64,6 +69,7 @@ function initPlayer(id) {
                     $('#' + id + ' ul.controls li.play').addClass('pause');
                 }
             }
+            //console.log("player state: " + player.state);
         });
         
     } else {
