@@ -46,7 +46,7 @@ div.player
 	position: relative;
 }
 
-div.player audio
+div.player audio, #msie_cortadoplayer_oiplayer
 {
 	position: absolute;
 	bottom: 0;
