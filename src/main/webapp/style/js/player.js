@@ -105,7 +105,6 @@ MediaPlayer.prototype.init = function(id, url, config) {
     var self = this;
     this.player.addEventListener("playing", 
                                   function(ev) {
-                                      //console.log("Playing ...");
                                       self.state = 'play';
                                       followProgress();
                                   },
