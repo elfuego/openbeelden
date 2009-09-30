@@ -22,6 +22,11 @@
         <mm:param name="related"><mm:field name="number" /></mm:param>
         <link href="${_}" rel="alternate" type="application/atom+xml" title="Open Image Platform related items of ${_node.title}" />
       </mm:link>
+      <mm:field name="length">
+        <meta name="media-duration" content="${_ / 1000}" />
+      </mm:field>
+      <meta name="media-width" content="320" />
+      <meta name="media-height" content="240" />
     </jsp:attribute>
     <jsp:attribute name="body">
 
