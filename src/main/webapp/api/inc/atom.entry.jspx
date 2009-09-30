@@ -39,29 +39,37 @@
       <mm:maxnumber value="1" />
       <mm:import id="hasimage" reset="true"><mm:size /></mm:import>
       <mm:relatednodes>
-        <mm:image mode="url" width="81" height="60" crop="middle" absolute="true" id="img" write="false" />
-        <media:thumbnail url="${img}" />
+        <mm:image mode="url" width="81" height="60" crop="middle" absolute="true" id="thumb" write="false" />
+        <media:thumbnail url="${thumb}" />
       </mm:relatednodes>
     </mm:relatednodescontainer>
       
-    <mm:field name="length">
-      <c:choose>
-        <c:when test="${_ gt -1}">
-          <fmt:formatNumber value="${_ / 1000}" var="length" maxFractionDigits="0" groupingUsed="false" />
-        </c:when>
-        <c:otherwise><c:set var="length" value="0" /></c:otherwise>
-      </c:choose>
-    </mm:field>
+    <mm:field name="length" id="length" write="false" />
+    <c:choose>
+      <c:when test="${length gt -1}">
+        <fmt:formatNumber value="${length / 1000}" var="duration" maxFractionDigits="0" groupingUsed="false" />
+      </c:when>
+      <c:otherwise><c:set var="duration" value="0" /></c:otherwise>
+    </c:choose>
 
     <mm:function name="filteredurls">
-      <link type="${_[0].mimeType}" href="${_[0].URL}" length="${length}" rel="enclosure" />
-
+      <c:choose>
+        <c:when test="${fn:startsWith(mediatype, 'image')}">
+          <mm:relatednodes type="imagesources">
+            <mm:image id="img" mode="url" absolute="true" width="320" height="240" crop="middle" write="false" />
+          </mm:relatednodes>
+          <link type="${_[0].mimeType}" href="${img}" length="0" rel="enclosure" />
+        </c:when>
+        <c:otherwise>
+          <link type="${_[0].mimeType}" href="${_[0].URL}" length="${duration}" rel="enclosure" />
+        </c:otherwise>
+      </c:choose>
       <mm:node number="${_[0].source.number}">
         <format xmlns="http://xmlns.transmission.cc/">
           <size><mm:field name="filesize" /></size>
           <c:choose>
             <c:when test="${fn:startsWith(mediatype, 'audio')}">
-              <duration>${length}</duration>
+              <duration>${duration}</duration>
               <audio_codec>${fn:toLowerCase(_[0].codec)}</audio_codec>
               <audio_bitrate>${_[0].bitrate}</audio_bitrate>
             </c:when>
@@ -72,7 +80,7 @@
               </mm:hasfield>
             </c:when>
             <c:otherwise>
-              <duration>${length}</duration>
+              <duration>${duration}</duration>
               <video_codec>${fn:toLowerCase(_[0].codec)}</video_codec>
               <mm:hasfield name="fps">
                 <mm:field name="fps">
