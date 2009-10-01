@@ -131,7 +131,7 @@
         <uri><mm:url page="/" absolute="true" /></uri>
         <email>info@openimages.eu</email>
       </author>
-      <rights>Creative Commons Attribution 2.5</rights>
+      <rights>Creative Commons Attribution 3.0</rights>
       <generator uri="http://www.mmbase.org/" version="1.9.2">MMBase</generator>
       <icon><mm:url absolute="true" page="/favicon.ico" /></icon>
       <logo><mm:url absolute="true" page="/style/images/oip-logo-sm_en.png" /></logo>
