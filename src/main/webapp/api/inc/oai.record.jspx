@@ -8,12 +8,11 @@
   <jsp:include page="/api/inc/oai.record.header.jspx" />
   
   <metadata>
-     <oai_qdc:qdc xmlns:oai_qdc="http://www.surfmedia.nl/oai/xsd/" 
-          xmlns:dc="http://purl.org/dc/elements/1.1/" 
-          xmlns:dcterms="http://purl.org/dc/terms/" 
-          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
-          xsi:schemaLocation="http://www.surfmedia.nl/oai/xsd/ 
-              http://www.surfmedia.nl/oai/xsd/oai_qdc.xsd">
+    <oai_dc:dc 
+         xmlns:oai_dc="http://www.openarchives.org/OAI/2.0/oai_dc/" 
+         xmlns:dc="http://purl.org/dc/elements/1.1/" 
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+         xsi:schemaLocation="http://www.openarchives.org/OAI/2.0/oai_dc/ http://www.openarchives.org/OAI/2.0/oai_dc.xsd">
        <dc:title><mm:field name="title" /></dc:title>
        <dc:creator><mm:field name="creator" /></dc:creator>
        <!-- dc:subject -->
@@ -32,7 +31,7 @@
            </mm:isnotempty>
          </mm:field>
        </dc:description>
-       <dc:date><mm:field name="date"><mm:time time="${_}" /></mm:field></dc:date>
+       <dc:date><mm:field name="date"><mm:time format="yyyy-MM-dd" /></mm:field></dc:date>
        <dc:type>
          <mm:nodeinfo type="nodemanager">
            <c:choose>
@@ -45,8 +44,7 @@
        <!-- dc:format + dc:identifier -->
        <mm:listfunction name="filteredurls">
          <c:if test="${_.available}">
-           <c:set var="format" value="${fn:toLowerCase(_.format)}" />
-           <dc:format>${format}</dc:format>
+           <dc:format>${fn:toLowerCase(_.format)}</dc:format>
            <dc:identifier>${_.URL}</dc:identifier>
          </c:if>
        </mm:listfunction>
@@ -54,7 +52,7 @@
        <mm:relatednodescontainer type="licenses" role="related" searchdirs="destination">
          <mm:relatednodes>
            <dc:rights>
-             <mm:field name="name" />, <mm:field name="url" /><mm:field name="description"><mm:isnotempty>, ${_}</mm:isnotempty></mm:field>
+             <mm:field name="name" /> - <mm:field name="url" />
            </dc:rights>
          </mm:relatednodes>
        </mm:relatednodescontainer>
@@ -64,11 +62,7 @@
        <dc:publisher>
          Netherlands Institute for Sound and Vision / Nederlands Instituut voor Beeld en Geluid
        </dc:publisher>
-       <dcterms:abstract><mm:field name="subtitle" /></dcterms:abstract>
-       <dcterms:created><mm:field name="created"><mm:time time="${_}" /></mm:field></dcterms:created>
-       <dcterms:extent><mm:field name="length"><mm:time inputformat="S" format="HH:mm:ss" /></mm:field></dcterms:extent>
-       <dcterms:medium>${fn:toLowerCase(format)}</dcterms:medium>
-     </oai_qdc:qdc>
+     </oai_dc:dc>
   </metadata>
 
 </record>

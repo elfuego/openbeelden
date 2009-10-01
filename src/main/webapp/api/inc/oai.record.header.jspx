@@ -6,7 +6,7 @@
   <jsp:output omit-xml-declaration="true" />
     
     <!-- oai:HUBerlin.de:3000218 -->
-    <identifier>oai:openimages.eu:<mm:nodeinfo type="type" />:${_node}</identifier>
+    <identifier>oai:openimages.eu:${_node}</identifier>
     <datestamp><mm:field name="date"><mm:time format="yyyy-MM-dd" time="${_}" />T<mm:time format="HH:mm:ss" time="${_}" />Z</mm:field></datestamp>
     <!-- <setSpec>  </setSpec> -->
 

@@ -1,22 +1,33 @@
 <mm:content
     type="application/xml"
     postprocessor="none"
-    expires="1800"
+    expires="0"
     xmlns:c="http://java.sun.com/jsp/jstl/core"
     xmlns:fn="http://java.sun.com/jsp/jstl/functions"
     xmlns:jsp="http://java.sun.com/JSP/Page"
     xmlns:mm="http://www.mmbase.org/mmbase-taglib-2.0">
   <jsp:directive.page session="false" />
-  
+
+<!--
+examples of use:
+
+api/oai/?verb=Identify
+api/oai/?verb=ListSets
+api/oai/?verb=ListIdentifiers
+api/oai/?verb=ListRecords&set=lastuploaded
+api/oai/?verb=GetRecord&identifier=oai:openimages.eu:4983
+
+-->
+
   <mm:import id="requesturl"><c:out value="${pageContext.request.requestURL}" /><c:if test="${!empty pageContext.request.queryString}">?<c:out value="${pageContext.request.queryString}" /></c:if></mm:import>
 
   <mm:import externid="verb">Identify</mm:import>
   <mm:import externid="identifier" />
-  <mm:import externid="metadataPrefix" />
+  <mm:import externid="metadataPrefix" /><!-- e.g. oai_dc  -->
   
   <mm:import externid="from" />
   <mm:import externid="until" />
-  <mm:import externid="set" />
+  <mm:import externid="set" /><!-- e.g. lastuploaded -->
   
   <!-- get the nodenumber from the identifier, f.e. oai:openimages.eu:videofragments:746 -->
   <mm:import id="record" />
@@ -37,20 +48,39 @@
 
     <c:choose>
       <c:when test="${verb eq 'Identify'}">
-        <request verb="${verb}" metadataPrefix="oai_qdc">${requesturl}</request>
+        <request verb="${verb}" metadataPrefix="oai_dc">${requesturl}</request>
         <Identify>
           <repositoryName>Open Images Platform</repositoryName>
           <baseURL><mm:url page="/" absolute="true" /></baseURL>
           <protocolVersion>2.0</protocolVersion>
-          <earliestDatestamp>1921-01-01</earliestDatestamp>
-          <deleteRecords>no</deleteRecords>
-          <granularity>YYYY-MM-DDThh:mm:ssZ</granularity>
           <adminEmail>info@openimages.eu</adminEmail>
+          <earliestDatestamp>1920-01-01T00:00:00Z</earliestDatestamp>
+          <deletedRecord>no</deletedRecord>
+          <granularity>YYYY-MM-DDThh:mm:ssZ</granularity>
+          <description>
+            <oai-identifier xmlns="http://www.openarchives.org/OAI/2.0/oai-identifier" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.openarchives.org/OAI/2.0/oai-identifier http://www.openarchives.org/OAI/2.0/oai-identifier.xsd">
+            <scheme>oai</scheme>
+            <repositoryIdentifier>openimages.eu</repositoryIdentifier>
+            <delimiter>:</delimiter>
+            <sampleIdentifier>oai:openimages.eu:4983</sampleIdentifier>
+            </oai-identifier>
+          </description>
         </Identify>
       </c:when>
       
+      <c:when test="${verb eq 'ListMetadataFormats'}">
+        <request verb="${verb}" metadataPrefix="oai_dc">${requesturl}</request>
+        <ListMetadataFormats>
+          <metadataFormat>
+            <metadataPrefix>oai_dc</metadataPrefix>
+            <schema>http://www.openarchives.org/OAI/2.0/oai_dc.xsd</schema>
+            <metadataNamespace>http://www.openarchives.org/OAI/2.0/oai_dc/</metadataNamespace>
+          </metadataFormat>
+        </ListMetadataFormats>
+      </c:when>
+      
       <c:when test="${verb eq 'ListSets'}">
-        <request verb="${verb}" metadataPrefix="oai_qdc">${requesturl}</request>
+        <request verb="${verb}" metadataPrefix="oai_dc">${requesturl}</request>
         <ListSets>
           <set>
             <setSpec>lastuploaded</setSpec>
@@ -62,10 +92,10 @@
       <c:when test="${verb eq 'ListIdentifiers'}">
         <c:choose>
           <c:when test="${!empty identifier}">
-            <request verb="${verb}" set="${set}" identifier="${identifier}" metadataPrefix="oai_qdc">${requesturl}</request>
+            <request verb="${verb}" set="${set}" identifier="${identifier}" metadataPrefix="oai_dc">${requesturl}</request>
           </c:when>
           <c:otherwise>
-            <request verb="${verb}" set="${set}" metadataPrefix="oai_qdc">${requesturl}</request>
+            <request verb="${verb}" set="${set}" metadataPrefix="oai_dc">${requesturl}</request>
           </c:otherwise>
         </c:choose>
         
@@ -88,10 +118,10 @@
       <c:when test="${verb eq 'ListRecords'}">
         <c:choose>
           <c:when test="${!empty identifier}">
-            <request verb="${verb}" set="${set}" identifier="${identifier}" metadataPrefix="oai_qdc">${requesturl}</request>
+            <request verb="${verb}" set="${set}" identifier="${identifier}" metadataPrefix="oai_dc">${requesturl}</request>
           </c:when>
           <c:otherwise>
-            <request verb="${verb}" set="${set}" metadataPrefix="oai_qdc">${requesturl}</request>
+            <request verb="${verb}" set="${set}" metadataPrefix="oai_dc">${requesturl}</request>
           </c:otherwise>
         </c:choose>
         
@@ -114,7 +144,7 @@
       
       <c:when test="${verb eq 'GetRecord'}">
        
-        <request verb="${verb}" metadataPrefix="oai_qdc" identifier="${identifier}">${requesturl}</request>
+        <request verb="${verb}" metadataPrefix="oai_dc" identifier="${identifier}">${requesturl}</request>
         
         <mm:hasnode number="${record}">
           <mm:node number="${record}">
@@ -139,7 +169,7 @@
       </c:when>
       
       <c:otherwise>
-        <request verb="${verb}" metadataPrefix="oai_qdc">${requesturl}</request>
+        <request verb="${verb}" metadataPrefix="oai_dc">${requesturl}</request>
       </c:otherwise>
     
     </c:choose>
