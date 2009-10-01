@@ -10,26 +10,50 @@
 
 <!--
 examples of use:
-
-api/oai/?verb=Identify
-api/oai/?verb=ListSets
-api/oai/?verb=ListIdentifiers
-api/oai/?verb=ListRecords&set=lastuploaded
-api/oai/?verb=GetRecord&identifier=oai:openimages.eu:4983
-
+  api/oai/?verb=Identify
+  api/oai/?verb=ListSets
+  api/oai/?verb=ListIdentifiers
+  api/oai/?verb=ListRecords&set=lastuploaded
+  api/oai/?verb=GetRecord&identifier=oai:openimages.eu:4983
 -->
 
   <mm:import id="requesturl"><c:out value="${pageContext.request.requestURL}" /><c:if test="${!empty pageContext.request.queryString}">?<c:out value="${pageContext.request.queryString}" /></c:if></mm:import>
+  <mm:import id="max">100</mm:import>
+  <mm:import id="offset">0</mm:import>
 
   <mm:import externid="verb">Identify</mm:import>
   <mm:import externid="identifier" />
-  <mm:import externid="metadataPrefix" /><!-- e.g. oai_dc  -->
+  <mm:import externid="metadataPrefix">oai_dc</mm:import><!-- e.g. oai_dc  -->
+  <mm:import externid="set">lastuploaded</mm:import><!-- e.g. lastuploaded -->
   
-  <mm:import externid="from" />
+  <!-- resumptionToken, looks like: !f1969-07-21!u2003-08-18!oai_dc!200 -->
+  <mm:import externid="resumptionToken" /><!-- starts at 0 -->
+  <mm:present referid="resumptionToken">
+    <c:set var="tokens" value="${fn:split(resumptionToken, '!')}" />
+    <c:if test="${fn:length(tokens) eq 4}">
+      <c:set var="tfrom"  value="${fn:substringAfter(tokens[0], 'f')}" />
+      <c:set var="tuntil" value="${fn:substringAfter(tokens[1], 'u')}" />
+      <c:if test="${!empty tfrom}">
+        <mm:time inputformat="yyyy-MM-dd" time="${tfrom}"  precision="days" id="start" write="false" />
+      </c:if>
+      <c:if test="${!empty tuntil}">
+        <mm:time inputformat="yyyy-MM-dd" time="${tuntil}" precision="days" id="end" write="false" />
+      </c:if>
+      <mm:import id="metadataPrefix" reset="true">${tokens[2]}</mm:import>
+      <mm:import id="offset" reset="true">${tokens[3]}</mm:import>
+    </c:if>
+  </mm:present>
+  
+  <mm:import externid="from" /><!-- 1998-01-15 -->
+  <mm:present referid="from">
+    <mm:time inputformat="yyyy-MM-dd" time="$from" precision="days" id="start" write="false" />
+  </mm:present>
   <mm:import externid="until" />
-  <mm:import externid="set" /><!-- e.g. lastuploaded -->
+  <mm:present referid="until">
+    <mm:time inputformat="yyyy-MM-dd" time="$until" precision="days" id="end" write="false" />
+  </mm:present>
   
-  <!-- get the nodenumber from the identifier, f.e. oai:openimages.eu:videofragments:746 -->
+  <!-- get the nodenumber from the identifier, f.e. oai:openimages.eu:746 -->
   <mm:import id="record" />
   <c:if test="${!empty identifier}">
     <c:set var="pieces" value="${fn:split(identifier, ':')}" />
@@ -48,13 +72,13 @@ api/oai/?verb=GetRecord&identifier=oai:openimages.eu:4983
 
     <c:choose>
       <c:when test="${verb eq 'Identify'}">
-        <request verb="${verb}" metadataPrefix="oai_dc">${requesturl}</request>
+        <request verb="${verb}" metadataPrefix="${metadataPrefix}">${requesturl}</request>
         <Identify>
           <repositoryName>Open Images Platform</repositoryName>
           <baseURL><mm:url page="/" absolute="true" /></baseURL>
           <protocolVersion>2.0</protocolVersion>
           <adminEmail>info@openimages.eu</adminEmail>
-          <earliestDatestamp>1920-01-01T00:00:00Z</earliestDatestamp>
+          <earliestDatestamp>1919-01-01T00:00:00Z</earliestDatestamp>
           <deletedRecord>no</deletedRecord>
           <granularity>YYYY-MM-DDThh:mm:ssZ</granularity>
           <description>
@@ -69,7 +93,7 @@ api/oai/?verb=GetRecord&identifier=oai:openimages.eu:4983
       </c:when>
       
       <c:when test="${verb eq 'ListMetadataFormats'}">
-        <request verb="${verb}" metadataPrefix="oai_dc">${requesturl}</request>
+        <request verb="${verb}" metadataPrefix="${metadataPrefix}">${requesturl}</request>
         <ListMetadataFormats>
           <metadataFormat>
             <metadataPrefix>oai_dc</metadataPrefix>
@@ -80,7 +104,7 @@ api/oai/?verb=GetRecord&identifier=oai:openimages.eu:4983
       </c:when>
       
       <c:when test="${verb eq 'ListSets'}">
-        <request verb="${verb}" metadataPrefix="oai_dc">${requesturl}</request>
+        <request verb="${verb}" metadataPrefix="${metadataPrefix}">${requesturl}</request>
         <ListSets>
           <set>
             <setSpec>lastuploaded</setSpec>
@@ -89,62 +113,90 @@ api/oai/?verb=GetRecord&identifier=oai:openimages.eu:4983
         </ListSets>
       </c:when>
       
-      <c:when test="${verb eq 'ListIdentifiers'}">
+      <!-- ListIdentifiers + ListRecords -->
+      <c:when test="${verb eq 'ListIdentifiers' or verb eq 'ListRecords'}">
+      
         <c:choose>
-          <c:when test="${!empty identifier}">
-            <request verb="${verb}" set="${set}" identifier="${identifier}" metadataPrefix="oai_dc">${requesturl}</request>
+          <c:when test="${!empty resumptionToken}">
+            <request verb="${verb}" metadataPrefix="${metadataPrefix}" 
+                set="${set}" resumptionToken="${resumptionToken}">${requesturl}</request>
+          </c:when>
+          <c:when test="${!empty from and !empty until}">
+            <request verb="${verb}" metadataPrefix="${metadataPrefix}" 
+                set="${set}" from="${from}" until="${until}">${requesturl}</request>
+          </c:when>
+          <c:when test="${!empty from and empty until}">
+            <request verb="${verb}" metadataPrefix="${metadataPrefix}" 
+                set="${set}" from="${from}">${requesturl}</request>
+          </c:when>
+          <c:when test="${empty from and !empty until}">
+            <request verb="${verb}" metadataPrefix="${metadataPrefix}" 
+                set="${set}" until="${until}">${requesturl}</request>
           </c:when>
           <c:otherwise>
-            <request verb="${verb}" set="${set}" metadataPrefix="oai_dc">${requesturl}</request>
+            <request verb="${verb}" metadataPrefix="${metadataPrefix}"
+                set="${set}">${requesturl}</request>
           </c:otherwise>
         </c:choose>
         
-        <ListIdentifiers>
-          <mm:listnodescontainer type="mediafragments">
-            <mm:constraint field="show" value="true" operator="EQUAL" />
-            <c:if test="${!empty identifier}">
-              <mm:constraint field="number" value="$record" operator="EQUAL" />
-            </c:if>
-            <mm:sortorder field="number" direction="DOWN" />
-            <mm:maxnumber value="25" />
-            <mm:listnodes>
-              <jsp:include page="/api/inc/oai.record.header.jspx" />
-            </mm:listnodes>
-          </mm:listnodescontainer>
-        </ListIdentifiers>
-
-      </c:when>
-      
-      <c:when test="${verb eq 'ListRecords'}">
         <c:choose>
-          <c:when test="${!empty identifier}">
-            <request verb="${verb}" set="${set}" identifier="${identifier}" metadataPrefix="oai_dc">${requesturl}</request>
+          <c:when test="${verb eq 'ListIdentifiers'}">
+            <ListIdentifiers>
+              <mm:listnodescontainer type="mediafragments">
+                <mm:constraint field="show" value="true" operator="EQUAL" />
+                <c:if test="${!empty start}">
+                  <mm:constraint field="date" value="$start" operator="GREATER_EQUAL" />
+                </c:if>
+                <c:if test="${!empty end}">
+                  <mm:constraint field="date" value="$end" operator="LESS_EQUAL" />
+                </c:if>
+                <mm:sortorder field="number" direction="DOWN" />
+                <mm:size id="size" write="false" />
+                <mm:maxnumber value="$max" />
+                <mm:offset value="$offset" />
+                <mm:listnodes>
+                  <jsp:include page="/api/inc/oai.record.header.jspx" />
+                </mm:listnodes>
+              </mm:listnodescontainer>
+              <c:if test="${(offset + max) lt size}">
+                <resumptionToken
+                    completeListSize="${size}" 
+                    cursor="${offset}">!f${from}!u${until}!${metadataPrefix}!${offset + max}</resumptionToken>
+              </c:if>
+            </ListIdentifiers>
           </c:when>
           <c:otherwise>
-            <request verb="${verb}" set="${set}" metadataPrefix="oai_dc">${requesturl}</request>
+            <ListRecords>
+              <mm:listnodescontainer type="mediafragments">
+                <mm:constraint field="show" value="true" operator="EQUAL" />
+                <c:if test="${!empty start}">
+                  <mm:constraint field="date" value="$start" operator="GREATER_EQUAL" />
+                </c:if>
+                <c:if test="${!empty end}">
+                  <mm:constraint field="date" value="$end" operator="LESS_EQUAL" />
+                </c:if>
+                <mm:sortorder field="number" direction="DOWN" />
+                <mm:size id="size" write="false" />
+                <mm:maxnumber value="$max" />
+                <mm:offset value="$offset" />
+                <mm:listnodes>
+                  <jsp:include page="/api/inc/oai.record.jspx" />
+                </mm:listnodes>
+              </mm:listnodescontainer>
+              <c:if test="${(offset + max) lt size}">
+                <resumptionToken
+                    completeListSize="${size}" 
+                    cursor="${offset}">!f${from}!u${until}!${metadataPrefix}!${offset + max}</resumptionToken>
+              </c:if>
+            </ListRecords>
           </c:otherwise>
         </c:choose>
-        
-        <ListRecords>
-          
-          <mm:listnodescontainer type="mediafragments">
-            <mm:constraint field="show" value="true" operator="EQUAL" />
-            <c:if test="${!empty identifier}">
-              <mm:constraint field="number" value="$record" operator="EQUAL" />
-            </c:if>
-            <mm:sortorder field="number" direction="DOWN" />
-            <mm:maxnumber value="25" />
-            <mm:listnodes>
-              <jsp:include page="/api/inc/oai.record.jspx" />
-            </mm:listnodes>
-          </mm:listnodescontainer>
-          
-        </ListRecords>
       </c:when>
       
+      <!-- GetRecord -->
       <c:when test="${verb eq 'GetRecord'}">
        
-        <request verb="${verb}" metadataPrefix="oai_dc" identifier="${identifier}">${requesturl}</request>
+        <request verb="${verb}" metadataPrefix="${metadataPrefix}" identifier="${identifier}">${requesturl}</request>
         
         <mm:hasnode number="${record}">
           <mm:node number="${record}">
@@ -169,7 +221,7 @@ api/oai/?verb=GetRecord&identifier=oai:openimages.eu:4983
       </c:when>
       
       <c:otherwise>
-        <request verb="${verb}" metadataPrefix="oai_dc">${requesturl}</request>
+        <request verb="${verb}" metadataPrefix="${metadataPrefix}">${requesturl}</request>
       </c:otherwise>
     
     </c:choose>
