@@ -58,10 +58,10 @@
           <mm:relatednodes type="imagesources">
             <mm:image id="img" mode="url" absolute="true" width="320" height="240" crop="middle" write="false" />
           </mm:relatednodes>
-          <link type="${_[0].mimeType}" href="${img}" length="0" rel="enclosure" />
+          <link type="${_[0].mimeType}" href="${mm:escape('url', img)}" length="0" rel="enclosure" />
         </c:when>
         <c:otherwise>
-          <link type="${_[0].mimeType}" href="${_[0].URL}" length="${duration}" rel="enclosure" />
+          <link type="${_[0].mimeType}" href="${mm:escape('url', _[0].URL)}" length="${duration}" rel="enclosure" />
         </c:otherwise>
       </c:choose>
       <mm:node number="${_[0].source.number}">
@@ -84,7 +84,9 @@
               <video_codec>${fn:toLowerCase(_[0].codec)}</video_codec>
               <mm:hasfield name="fps">
                 <mm:field name="fps">
-                  <mm:isnotempty><framerate><c:if test="${_ gt -1}"><mm:write /></c:if></framerate></mm:isnotempty>
+                  <mm:isnotempty>
+                    <c:if test="${_ gt -1}"><framerate><mm:write /></framerate></c:if>
+                  </mm:isnotempty>
                 </mm:field>
               </mm:hasfield>
               <c:if test="${_[0].bitrate gt 0}">
@@ -96,7 +98,9 @@
               </mm:hasfield>
               <mm:hasfield name="channels">
                 <mm:field name="channels">
-                  <mm:isnotempty><channels><c:if test="${_ gt -1}"><mm:write /></c:if></channels></mm:isnotempty>
+                  <mm:isnotempty>
+                    <c:if test="${_ gt -1}"><channels><mm:write /></channels></c:if>
+                  </mm:isnotempty>
                 </mm:field>
               </mm:hasfield>
             </c:otherwise>
@@ -113,9 +117,8 @@
 
     <mm:relatednodescontainer type="licenses" role="related" searchdirs="destination">
       <mm:relatednodes>
-        <mm:import id="license_url" reset="true"><mm:field name="url" /></mm:import>
         <rights><mm:field name="name" /></rights>
-        <link rel="license" type="text/html" href="${license_url}" />
+        <link rel="license" type="text/html" href="${_node.url}" />
       </mm:relatednodes>
     </mm:relatednodescontainer>    
 
