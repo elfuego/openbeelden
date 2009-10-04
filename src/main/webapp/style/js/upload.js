@@ -15,7 +15,6 @@ $(document).ready(function() {
                         }
                     });
                 });
-                $("#submit_upload").attr("disabled", "disabled");
                 $(form).find(".progressInfo").html(result);
                 setTimeout(progress, 1000);
             };
