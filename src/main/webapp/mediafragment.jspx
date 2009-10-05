@@ -101,47 +101,30 @@
         <div class="popup" id="popup-download">
           <h4><a class="close" href="#toolbar">close</a> Download</h4>
           <ul>
-
-            <!-- I think stuff with 'usnupported source', and stuff with 'intermediate' should be configured in filters.xml. Not here. -->
             <mm:listfunction name="filteredurls">
-              <c:if test="${_.state eq 'SOURCE_UNSUPPORTED'}">
-                <mm:import id="unsupported" reset="true">true</mm:import>
-              </c:if>
-            </mm:listfunction>
-            <c:choose>
-              <c:when test="${empty unsupported}">
-                <mm:listfunction name="filteredurls">
-                  <mm:node number="${_.source.number}">
-                    <li class="${_.state}" title="${fn:toLowerCase(_.state)}: ${_.mimeType}">
-                      <strong>${_.format}</strong>
-                      <jsp:text> (</jsp:text>
-                      <c:if test="${!empty _.dimension}">${_.dimension},</c:if>
-                      <c:choose>
-                        <c:when test="${! empty _.info.label}"> ${_.info.label} </c:when>
-                        <c:otherwise> ${_.info.bitrate} </c:otherwise>
-                      </c:choose>
-                      <mm:field name="filesize"> <mm:fieldinfo type="guivalue" /></mm:field><jsp:text>): </jsp:text>
-                      <c:choose>
-                        <c:when test="${_.available}">
-                          <a href="${mm:escape('text/xml', _.URL)}">
-                            <jsp:text><mm:escape>${_.filename}</mm:escape></jsp:text>
-                          </a>
-                        </c:when>
-                        <c:otherwise>
-                          <jsp:text><mm:escape>${_.filename}</mm:escape></jsp:text>
-                        </c:otherwise>
-                      </c:choose>
-                    </li>
-                  </mm:node>
-                </mm:listfunction>
-              </c:when>
-              <c:otherwise>
-                <li><!-- so much for i18n? -->
-                  The originale uploaded media file was not supported, therefore no media sources
-                  could be generated.
+              <mm:node number="${_.source.number}">
+                <li class="${_.state}" title="${fn:toLowerCase(_.state)}: ${_.mimeType}">
+                  <strong>${_.format}</strong>
+                  <jsp:text> (</jsp:text>
+                  <c:if test="${!empty _.dimension}">${_.dimension},</c:if>
+                  <c:choose>
+                    <c:when test="${! empty _.info.label}"> ${_.info.label} </c:when>
+                    <c:otherwise> ${_.info.bitrate} </c:otherwise>
+                  </c:choose>
+                  <mm:field name="filesize"> <mm:fieldinfo type="guivalue" /></mm:field><jsp:text>): </jsp:text>
+                  <c:choose>
+                    <c:when test="${_.available}">
+                      <a href="${mm:escape('text/xml', _.URL)}">
+                        <jsp:text><mm:escape>${_.filename}</mm:escape></jsp:text>
+                      </a>
+                    </c:when>
+                    <c:otherwise>
+                      <jsp:text><mm:escape>${_.filename}</mm:escape></jsp:text>
+                    </c:otherwise>
+                  </c:choose>
                 </li>
-              </c:otherwise>
-            </c:choose>
+              </mm:node>
+            </mm:listfunction>
           </ul>
         </div>
 
