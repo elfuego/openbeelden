@@ -7,9 +7,6 @@
   <oip:html>
     <jsp:attribute name="head">
       <jsp:directive.include file="/mmbase/validation/javascript.jspxf" />
-      <mm:link page="/mmbase/validation/Widgets.js">
-        <script src="${_}" type="text/javascript"> </script>
-      </mm:link>
       <script type="text/javascript">
         var validator = new MMBaseValidator();
         validator.prefetchNodeManager('email');
@@ -59,7 +56,7 @@
         </mm:nodelistfunction>
 
         <mm:import externid="submit" />
-        <mm:form id="contactform">
+        <mm:form id="contactform" styleClass="${empty submit ? 'notsubmitted' : 'submitted'}">
           <mm:import id="buffer">
             <mm:createnode type="email" id="email" commitonclose="false">
               <mm:setfield name="to">${property_to_email}</mm:setfield>
