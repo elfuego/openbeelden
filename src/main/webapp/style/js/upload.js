@@ -4,6 +4,7 @@ $(document).ready(function() {
         $(this).submit(function() {
             var form = this;
             var result;
+            var i = 0;
             var progress = function() {
                 $(form).find(".progressInfo").each(function() {
                     $.ajax({
@@ -12,6 +13,10 @@ $(document).ready(function() {
                         contentType: 'xml',
                         complete: function(data) {
                             result = data.responseText;
+                            if (result.indexOf('100%') > -1 && i == 0) {
+                                result = '<div class="PROGRESS"><p>Starting..</p></div>';
+                            }
+                            i++;
                         }
                     });
                 });
