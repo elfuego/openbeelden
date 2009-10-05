@@ -65,7 +65,6 @@
             <mm:valid>
               <mm:commit />
               <mm:import id="committed" />
-
             </mm:valid>
           </mm:present>
           <mm:notpresent referid="committed">
@@ -82,7 +81,11 @@
 
           <!-- p class="msg">Submitted ${_node} URL: ${_node.url} FS: ${_node.filesize}</p -->
 
-          <mm:log><mm:field name="title" /></mm:log><!-- Make sure the mediafragment is created outside transacntions and so on -->
+          <mm:log jspvar="log"><!-- Make sure the mediafragment is created outside transactions and so on -->
+            <mm:field name="title" jspvar="mf_title" vartype="String" write="false">
+              <jsp:scriptlet>log.info("Mediafragment title: " + mf_title);</jsp:scriptlet>
+            </mm:field>
+          </mm:log>
 
           <mm:url id="editlink" absolute="true" write="false">
             <mm:frameworkparam name="component">oip</mm:frameworkparam>
@@ -90,7 +93,6 @@
             <mm:frameworkparam name="user"><mm:cloudinfo type="usernode" /></mm:frameworkparam>
             <mm:param name="media"><mm:field name="mediafragment" id="media" /></mm:param>
           </mm:url>
-
 
           <mm:form page="$editlink">
             <mm:node number="$media" id="medianode">
