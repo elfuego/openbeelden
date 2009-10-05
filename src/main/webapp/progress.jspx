@@ -2,6 +2,7 @@
     type="application/xml"
     postprocessor="none"
     expires="0"
+    xmlns:c="http://java.sun.com/jsp/jstl/core"
     xmlns:fmt="http://java.sun.com/jsp/jstl/fmt"
     xmlns:jsp="http://java.sun.com/JSP/Page"
     xmlns:mm="http://www.mmbase.org/mmbase-taglib-2.0">
@@ -17,23 +18,32 @@
   <fmt:formatNumber value="${sessionScope['org.mmbase.uploadInfo'].fraction * length}"
                     maxFractionDigits="0"
                     var="roundedLength" />
-  <div class="${sessionScope['org.mmbase.uploadInfo'].status}"
-       style="width: ${roundedLength}${unit};">
-    <p>
-      <span class="percentage">
-        <fmt:formatNumber
-            value="${sessionScope['org.mmbase.uploadInfo'].fraction}"
-            type="percent" />
-      </span>
-      <span class="speed">
-        <jsp:text>(</jsp:text>
-        <mm:escape escape="filesize">${sessionScope['org.mmbase.uploadInfo'].bytesRead}</mm:escape>
-        <jsp:text>/</jsp:text>
-        <mm:escape escape="filesize">${sessionScope['org.mmbase.uploadInfo'].totalSize}</mm:escape>
-        <jsp:text>, </jsp:text>
-        <mm:escape escape="filesize">${1000 * sessionScope['org.mmbase.uploadInfo'].bytesRead /  sessionScope['org.mmbase.uploadInfo'].elapsedTime}</mm:escape>
-        <jsp:text>/s)</jsp:text>
-      </span>
-    </p>
-  </div>
+  <c:choose>
+    <c:when test="${sessionScope['org.mmbase.uploadInfo'].elapsedTime gt 1000}">
+      <div class="${sessionScope['org.mmbase.uploadInfo'].status}"
+           style="width: ${roundedLength}${unit};">
+        <p>
+          <span class="percentage">
+            <fmt:formatNumber
+                value="${sessionScope['org.mmbase.uploadInfo'].fraction}"
+                type="percent" />
+          </span>
+          <span class="speed">
+            <jsp:text>(</jsp:text>
+            <mm:escape escape="filesize">${sessionScope['org.mmbase.uploadInfo'].bytesRead}</mm:escape>
+            <jsp:text>/</jsp:text>
+            <mm:escape escape="filesize">${sessionScope['org.mmbase.uploadInfo'].totalSize}</mm:escape>
+            <jsp:text>, </jsp:text>
+            <mm:escape escape="filesize">${1000 * sessionScope['org.mmbase.uploadInfo'].bytesRead /  sessionScope['org.mmbase.uploadInfo'].elapsedTime}</mm:escape>
+            <jsp:text>/s)</jsp:text>
+          </span>
+        </p>
+      </div>
+    </c:when>
+    <c:otherwise>
+      <div class="PROGRESS">
+        <p>Starting..</p>
+      </div>
+    </c:otherwise>
+  </c:choose>
 </mm:content>
