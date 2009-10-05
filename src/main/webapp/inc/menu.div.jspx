@@ -6,6 +6,7 @@
     xmlns:mm="http://www.mmbase.org/mmbase-taglib-2.0"
     id="menu">
   <jsp:output omit-xml-declaration="true" />
+  <jsp:directive.page session="false" />
   <mm:node number="pool_oip">
     <c:set var="query_str" value="${requestScope['javax.servlet.forward.query_string']}" />
     <script type="text/javascript">
