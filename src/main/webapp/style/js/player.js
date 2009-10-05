@@ -48,6 +48,7 @@ function createPlayer(id, config) {
             player = new Player();
         }
         player.info = selectedPlayer.type + ": " + selectedPlayer.url;
+        //console.log(player.info);
         return player.init(id, selectedPlayer.url, config);
     }
 }
