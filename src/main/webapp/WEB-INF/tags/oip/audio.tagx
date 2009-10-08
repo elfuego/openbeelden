@@ -52,7 +52,7 @@
       <div id="oiplayer">
         <div class="player">
           <img src="${poster}" alt="audio" width="${w}" height="${h}" />
-          <audio controls="true">
+          <audio controls="controls">
             <mm:write referid="mediaurls" escape="none" />
             <p>
               You need a browser that understands the html5 audio tag to play this media item.
