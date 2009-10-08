@@ -65,20 +65,20 @@ Player.prototype._init = function(id, url, config) {
     this.id = id;
     /* if (this.urls.length == 0) this.urls[0] = $(this.player).attr('src'); */
     this.poster = $(this.player).attr('poster');
-    if ($(this.player).get(0).getAttribute('autoplay') == undefined) { // html5 can just have <video autoplay />
+    if ($(this.player).attr('autoplay') == undefined) { // html5 can just have <video autoplay />
         this.autoplay = false;
     } else {
-        this.autoplay = $(this.player).get(0).getAttribute('autoplay');
+        this.autoplay = true;
     }
-    if ($(this.player).get(0).getAttribute('autobuffer') == undefined) {
+    if ($(this.player).attr('autobuffer') == undefined) {
         this.autobuffer = false;
     } else {
-        this.autobuffer = $(this.player).get(0).getAttribute('autobuffer');
+        this.autobuffer = true;
     }
-    if ($(this.player).get(0).getAttribute('controls') == undefined) {
+    if ($(this.player).attr('controls') == undefined) {
         this.controls = false;
     } else {
-        this.controls = $(this.player).get(0).getAttribute('controls');
+        this.controls = true;
     }
     this.width  = $(this.player).attr('width');
     this.height = $(this.player).attr('height');
