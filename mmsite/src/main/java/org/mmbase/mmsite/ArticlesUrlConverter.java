@@ -177,17 +177,11 @@ public class ArticlesUrlConverter extends DirectoryUrlConverter {
             if (log.isDebugEnabled()) log.debug("articles nr: " + nr);
             if (cloud.hasNode(nr)) {
                 Node article = cloud.getNode(nr);
-
-                boolean show = article.getBooleanValue("show");
-                //Date today = new Date();
-                //Date online = article.getDateValue("online");
-                //Date offline = article.getDateValue("offline");
-                String nmName = article.getNodeManager().getName();
-
-                if (!nmName.equals("articles")) {
-                    throw new FrameworkException("Not an articles");
-                } else if (!show) {
-                    throw new FrameworkException("Articles not shown: " + show);
+                if (! article.getNodeManager().getName().equals("articles")) {
+                    return Url.NOT;
+                } else if (! article.getBooleanValue("show")) {
+                    log.warn("Articles not shown: " + article.getBooleanValue("show"));
+                    return Url.NOT;
                 } else {
                     frameworkParameters.set(ARTICLE, article);
                     result.append(nr);
