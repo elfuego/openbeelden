@@ -8,13 +8,15 @@
   <jsp:output omit-xml-declaration="true" />
   <mm:cloud>
     <mm:import externid="tag" required="true" />
-    <mm:listnodescontainer type="tags">
-      <mm:constraint field="name" value="${tag}%" operator="LIKE" />
-      <mm:sortorder field="name" direction="UP" />
-      <mm:maxnumber value="25" />
-      <mm:listnodes>
-        <mm:first>[</mm:first>"<mm:field name="name" />"<mm:last inverse="true">, </mm:last><mm:last>]</mm:last>
-      </mm:listnodes>
-    </mm:listnodescontainer>
+    <mm:present referid="tag">
+      <mm:listnodescontainer type="tags">
+        <mm:constraint field="name" value="${tag}%" operator="LIKE" />
+        <mm:sortorder field="name" direction="UP" />
+        <mm:maxnumber value="25" />
+        <mm:listnodes>
+          <mm:first>[</mm:first>"<mm:field name="name" />"<mm:last inverse="true">, </mm:last><mm:last>]</mm:last>
+        </mm:listnodes>
+      </mm:listnodescontainer>
+    </mm:present>
   </mm:cloud>
 </mm:content>
