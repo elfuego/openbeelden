@@ -8,7 +8,8 @@
 
 <log4j:configuration  debug="false" xmlns:log4j="http://jakarta.apache.org/log4j/" >
 
-  <appender name="logfile" class="org.apache.log4j.FileAppender" >
+  <appender name="logfile" class="org.apache.log4j.DailyRollingFileAppender" >
+    <param name="DatePattern"   value="'.'yyyy-MM-dd" />
     <param name="File" value="&logdir;oip.log" />
     <param name="Encoding"   value="UTF-8" />
     <param name="Append"   value="false" />
@@ -40,7 +41,8 @@
   'MultiConnection' (see below), to achieve logging of every SQL
   query, which is handy during debugging
   -->
-  <appender name="sqllog" class="org.apache.log4j.FileAppender" >
+  <appender name="sqllog" class="org.apache.log4j.DailyRollingFileAppender" >
+    <param name="DatePattern"   value="'.'yyyy-MM-dd" />
     <param name="File" value="&logdir;oip-sql.log" />
     <param name="Encoding"   value="UTF-8" />
     <layout class="org.mmbase.util.logging.log4j.MMPatternLayout">
@@ -74,9 +76,17 @@
     <level class="&mmlevel;" value="info" />
   </logger>
   
+<!-- 
   <logger name="org.mmbase.streams" >
-    <level class="&mmlevel;" value="info" />
+    <level class="&mmlevel;" value="debug" />
   </logger>
+ -->
+
+<!-- 
+  <logger name="org.mmbase.applications.media" >
+    <level class="&mmlevel;" value="debug" />
+  </logger>
+ -->
   
 <!-- 
   <logger name="org.mmbase.datatypes.processors.Related" >
@@ -119,7 +129,7 @@
   </logger>
 
   <logger name="org.mmbase.PAGE">
-    <level class="&mmlevel;" value ="info" />
+    <level class="&mmlevel;" value="info" />
   </logger>
 
 
