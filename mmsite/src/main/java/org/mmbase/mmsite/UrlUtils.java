@@ -18,13 +18,11 @@ import org.mmbase.util.logging.Logging;
 public final class UrlUtils {
     private static final Logger log = Logging.getLoggerInstance(UrlUtils.class);
 
-
-
     /**
      * Nodes starting form this node to the root, these require a field 'path'.
      *
      * @param  node	A node of some type with a field 'path'
-     * @return list with all the nodes leading to the homepage excluding this node.
+     * @return list with all the nodes leading to the homepage including the present node
      */
     public static NodeList listNodes2Root(Node node) {
         NodeManager nm = node.getNodeManager();
@@ -51,19 +49,20 @@ public final class UrlUtils {
     /**
      * Nodes from here to the root while examining the field 'path'.
      * The parent of a node with path '/news/article/some' is the one
-     * with '/news/article', then '/news' and last the homepage '/'.
+     * with '/news/article', then '/news'. It contains the node from which you 
+     * want to resolve the (crumb)path.
      *
      * @param  node	A node of certain type with field path
-     * @return nodes leading to homepage/root of the site
+     * @return nodes leading to homepage/root of the site including the present node
      */
     protected static NodeList listNodes2Root(Node node, NodeManager nm) {
         NodeList list = nm.createNodeList();
+        list.add(node);
 
         String path = node.getStringValue("path");
         if (path.startsWith("/")) path = path.substring(1, path.length());
         if (path.endsWith("/")) path = path.substring(0, path.length() - 1);
         if (log.isDebugEnabled()) log.debug("path from field: " + path);
-
 
         String[] pieces = path.split("/");
         StringBuilder sb = new StringBuilder();
