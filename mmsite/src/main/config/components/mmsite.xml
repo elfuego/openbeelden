@@ -50,5 +50,22 @@
       <param name="n" type="org.mmbase.bridge.Node" />
     </body>
   </block>
+  
+  <block name="article-comment"
+         classification="mmbase.mmsite"
+         mimetype="text/html">
+    <title xml:lang="en">Comment</title>
+    <title xml:lang="nl">Reactie</title>
+    <description xml:lang="en">
+      Write a comment about the article.
+    </description>
+    <description xml:lang="nl">
+      Schrijf een reactie op het artikel.
+    </description>
+    <body jsp="article-comment.jspx">
+      <param name="n"       type="org.mmbase.bridge.Node" />
+      <param name="preview" type="String" />
+    </body>
+  </block>
 
 </component>

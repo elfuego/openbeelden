@@ -51,6 +51,7 @@ public class ArticlesUrlConverter extends DirectoryUrlConverter {
         super(fw);
         setDirectory("/articles/");
         addBlock(ComponentRepository.getInstance().getComponent("mmsite").getBlock("article"));
+        addBlock(ComponentRepository.getInstance().getComponent("mmsite").getBlock("article-comment"));
     }
 
     public void setUseTitle(boolean t) {
@@ -97,7 +98,7 @@ public class ArticlesUrlConverter extends DirectoryUrlConverter {
             log.debug("Found mmsite block: " + block);
         }
         int b_len = b.length();
-        if (block.getName().equals("article")) {
+        if (block.getName().indexOf("article") > -1) {
             Node n = frameworkParameters.get(ARTICLE);
             if (n == null) throw new IllegalStateException("No articles parameter used in " + frameworkParameters);
             
@@ -124,6 +125,17 @@ public class ArticlesUrlConverter extends DirectoryUrlConverter {
             if (useTitle) {
                 b.append("/").append(trans.transform(n.getStringValue("title")));
             }
+
+            /* comment */
+            if (block.getName().equals("article-comment")) {
+                b.append("/comment");
+                String preview = (String) parameters.get("preview");
+                parameters.set("preview", null);
+                
+                if (preview != null && !"".equals(preview)) {
+                    b.append("/preview");
+                }
+            }
             
             if (b.length() > b_len) {   // check if url is altered
                 if (SiteUrlConverter.useExtension) {
@@ -140,7 +152,11 @@ public class ArticlesUrlConverter extends DirectoryUrlConverter {
 
 
     /**
-     * Translates the result of {@link #getNiceUrl} back to an actual JSP which can render the block
+     * Translates the result of {@link #getNiceUrl} back to an actual JSP which can render the block.
+     * Articles always get resolved by nodenumber. Structure of this url can be:
+     *   /234/article_title
+     *   /page_path/345/article_title
+     *   /page_path/345/article_title/comment
      */
     @Override
     public Url getFilteredInternalDirectoryUrl(List<String>  path, Map<String, ?> params, Parameters frameworkParameters) throws FrameworkException {
@@ -150,7 +166,7 @@ public class ArticlesUrlConverter extends DirectoryUrlConverter {
 
         StringBuilder result = new StringBuilder();
         if (path.size() == 0) {
-            return Url.NOT; // handled by mmsite
+            return Url.NOT;
         } else {
             result.append(template + "?n=");
 
@@ -164,15 +180,30 @@ public class ArticlesUrlConverter extends DirectoryUrlConverter {
             
             String nr;
             if (path.size() > 0) {
-                if (useTitle && path.size() > 1) { // nodenumber is second last element
+                
+                /* TODO: comment (not configurable (yet), always 'comment' and 'comment.jsp') */
+                if (path.get(path.size() - 1).equals("comment")) {
+                    path.remove(path.size() - 1);
+                    if (log.isDebugEnabled()) log.debug("comment! path now: " + path);
+                    result = new StringBuilder("/comment.jsp?n=");
+                } else if (path.get(path.size() - 1).equals("preview")) {
+                    path.remove(path.size() - 1);
+                    path.remove(path.size() - 1);
+                    if (log.isDebugEnabled()) log.debug("preview! path now: " + path);
+                    result = new StringBuilder("/comment.jsp?preview=preview&n=");
+                }
+                
+                if (useTitle && path.size() > 1) { // uses title: nodenumber is 2nd last element
                     nr = path.get(path.size() - 2);
                 } else {
                     nr = path.get(path.size() - 1);
                 }
+                
             } else {
                 if (log.isDebugEnabled()) log.debug("path not > 0");
                 return Url.NOT;
             }
+            
             Cloud cloud = frameworkParameters.get(Parameter.CLOUD);
             if (log.isDebugEnabled()) log.debug("articles nr: " + nr);
             if (cloud.hasNode(nr)) {
