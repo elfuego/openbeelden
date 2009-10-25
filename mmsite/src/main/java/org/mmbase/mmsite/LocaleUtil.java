@@ -100,7 +100,7 @@ public class LocaleUtil {
             String lang = path.substring(lastDot + 1, path.length());
             Locale language =  new Locale(lang);
             if (! acceptedLocales.contains(language)) {
-                throw new NotFoundException("Locale '" + language + "' is not supported");
+                throw new NotFoundException("Locale '" + language + "' is not supported (path: " + path + ")");
             }
 
             request.setAttribute(EXPLICIT_LOCALE_KEY, language.toString());
