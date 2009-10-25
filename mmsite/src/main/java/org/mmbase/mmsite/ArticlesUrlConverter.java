@@ -206,7 +206,7 @@ public class ArticlesUrlConverter extends DirectoryUrlConverter {
             
             Cloud cloud = frameworkParameters.get(Parameter.CLOUD);
             if (log.isDebugEnabled()) log.debug("articles nr: " + nr);
-            if (cloud.hasNode(nr)) {
+            if (cloud != null && cloud.hasNode(nr)) {
                 Node article = cloud.getNode(nr);
                 if (! article.getNodeManager().getName().equals("articles")) {
                     return Url.NOT;
