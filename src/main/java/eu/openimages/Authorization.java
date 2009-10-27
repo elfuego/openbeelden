@@ -7,6 +7,7 @@ import org.mmbase.security.implementation.cloudcontext.*;
 import org.mmbase.security.Operation;
 import org.mmbase.security.Rank;
 import org.mmbase.module.core.MMObjectNode;
+import org.mmbase.module.core.MMObjectBuilder;
 import org.mmbase.util.logging.Logger;
 import org.mmbase.util.logging.Logging;
 
@@ -20,7 +21,7 @@ public class Authorization extends Verify {
     private static final Logger log = Logging.getLoggerInstance(Authorization.class);
 
     @Override
-    public  ContextProvider getContextProvider() {
+    public ContextProvider getContextProvider() {
         return new BasicContextProvider("mmbaseusers", "mmbasecontexts") {
 
             @Override
@@ -35,25 +36,22 @@ public class Authorization extends Verify {
             public boolean mayDoOnContext(MMObjectNode userNode, MMObjectNode contextNode,
                                           Operation operation, boolean checkOwnRights) {
                 if (userNode.getNumber() == contextNode.getNumber()) {
-                    log.debug("The context is the user");
+                    if (log.isDebugEnabled()) log.debug("The context is the user");
                     switch(operation.getInt()) {
-                    case Operation.READ_INT:   return true;
-                    case Operation.WRITE_INT:  return true;
-                    case Operation.DELETE_INT: return true;
+                        case Operation.READ_INT:   return true;
+                        case Operation.WRITE_INT:  return true;
+                        case Operation.DELETE_INT: return true;
                     }
                 }
                 
-                /* if contextNode's owner is een usernode met rank < project manager */
-                /*
-                Cloud cloud = org.mmbase.bridge.ContextProvider.getDefaultCloudContext().getCloud("mmbase", "class", null);
-                Node cuNode = cloud.getNode(contextNode.getNumber());
+                /* if current userNode has a rank > contextNode's owner */
+                MMObjectNode node = getNode(contextNode.getNumber(), false);
+                MMObjectBuilder users = Authenticate.getInstance().getUserProvider().getUserBuilder();
                 
-                if (cuNode.getNodeManager().getName().equals("mmbaseusers")) {
-                    Rank rank1 = UserProvider.getRank(userNode);
-                    Rank rank2 = UserProvider.getRank(cuNode);
-                    
-                    if (rank2.getInt() < rank1.getInt()) {
-                        log.debug("Project manager ?");
+                if (node.getBuilder() == users) {
+                    if (Authenticate.getInstance().getUserProvider().getRank(userNode).getInt() > 
+                            Authenticate.getInstance().getUserProvider().getRank(node).getInt()) {
+                        if (log.isDebugEnabled()) log.debug("Higher rank so may read, write, delete");
                         switch(operation.getInt()) {
                             case Operation.READ_INT:   return true;
                             case Operation.WRITE_INT:  return true;
@@ -61,15 +59,12 @@ public class Authorization extends Verify {
                         }
                     }
                 }
-                */
                
                 return super.mayDoOnContext(userNode, contextNode, operation, checkOwnRights);
             }
 
         };
     }
-
-
 
 
 }
