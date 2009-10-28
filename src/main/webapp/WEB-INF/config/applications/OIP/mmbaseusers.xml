@@ -4,18 +4,18 @@
 		<validfrom>1244325600</validfrom>
 		<validto>4399999200</validto>
 		<wantmail>false</wantmail>
-		<suffix>van</suffix>
+		<suffix>de</suffix>
 		<lastlogon>1244668297</lastlogon>
 		<defaultcontext></defaultcontext>
-		<username>andre</username>
+		<username>foofoo</username>
 		<password>5426824942db4253f87a1009fd5d2d4f</password>
 		<contactform></contactform>
-		<verify_email>1244383322108:andre@toly.net</verify_email>
+		<verify_email>1244383322108:foo@mmbase.org</verify_email>
 		<status>1</status>
-		<lastname>Toly</lastname>
-		<firstname>André</firstname>
+		<lastname>Foo</lastname>
+		<firstname>Foo</firstname>
 		<description>My friends, each of you is a single cel in the great body of the State. And today, that great body has purged itself of parasites. We have triumphed over the unprincipled dissemination of facts. The thugs and wreckers have been cast out. And the poisenous weeds of disinformation have been consigned to the dustbin of history. Let each and every cell rejoice!</description>
-		<email>andre@toly.nl</email>
+		<email>foo@mmbase.org</email>
 	</node>
 
 	<node number="1500" owner="179">
