@@ -16,7 +16,9 @@
     <builder maintainer="mmbase.org" version="1">licenses</builder>
     <builder maintainer="mmbase.org" version="1">locations</builder>
     <builder maintainer="mmbase.org" version="1">mediafragments</builder>
+    <builder maintainer="mmbase.org" version="1">videofragments</builder>
     <builder maintainer="mmbase.org" version="1">mmbaseusers</builder>
+    <builder maintainer="mmbase.org" version="1">mmbasegroups</builder>
     <builder maintainer="mmbase.org" version="1">pages</builder>
     <builder maintainer="mmbase.org" version="1">pools</builder>
     <builder maintainer="mmbase.org" version="1">tags</builder>
@@ -32,6 +34,7 @@
     <reldef source="related"    target="related"   direction="bidirectional" guisourcename="Related" guitargetname="Related" builder="insrel" />
     <reldef source="posrel"     target="posrel"    direction="bidirectional" guisourcename="Posrel" guitargetname="Posrel" builder="posrel" />
     <reldef source="ratingrel"  target="ratingrel" direction="bidirectional" guisourcename="Rating" guitargetname="Rating" builder="ratingrel" />
+    <reldef source="contains" target="containedBy"  direction="bidirectional" guisourcename="contains" guitargetname="contained by" builder="insrel" />
   </neededreldeflist>
 
   <allowedrelationlist>
@@ -54,6 +57,7 @@
 
     <relation from="mmbaseusers"    to="mediafragments" type="ratingrel" />
     <relation from="mmbaseusers"    to="images" type="posrel" />
+    <relation from="mmbasegroups"   to="mmbaseusers" type="contains" />
   </allowedrelationlist>
 
   <datasourcelist>
@@ -63,6 +67,8 @@
     <datasource builder="licenses"       path="OIP/licenses.xml" />
     <datasource builder="locations"      path="OIP/locations.xml" />
     <datasource builder="mediafragments" path="OIP/mediafragments.xml" />
+    <datasource builder="videofragments" path="OIP/videofragments.xml" />
+    <datasource builder="mmbasegroups"   path="OIP/mmbasegroups.xml" />
     <datasource builder="mmbaseusers"    path="OIP/mmbaseusers.xml" />
     <datasource builder="mmbaseranks"    path="OIP/mmbaseranks.xml" />
     <datasource builder="mmbasecontexts" path="OIP/mmbasecontexts.xml" />
