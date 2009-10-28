@@ -31,12 +31,46 @@ public class Authorization extends Verify {
                 } else {
                     return super.getContextNameField(table);
                 }
+                
+                
             }
+            
+            @Override
+            public boolean mayDo(User user, MMObjectNode node, Operation operation) {
+                UserProvider up = Authenticate.getInstance().getUserProvider();
+                if (up.isOwnNode(user, node)) {
+                    // own user node, let super handle it
+                    return super.mayDo(user, node, operation);
+                } else {
+                    if (log.isDebugEnabled()) {
+                        log.debug("According to " + up + " " + node.getNumber() + " is not an own node");
+                    }
+                    
+                    if (node.getBuilder() == up.getUserBuilder()) {
+                        if (user.getRank().getInt() > up.getRank(node).getInt()) {
+                            if (log.isDebugEnabled()) {
+                                log.debug("Higher rank so may read, write or delete user node #" + node.getNumber());
+                            }
+                            switch(operation.getInt()) {
+                                case Operation.READ_INT:   return true;
+                                case Operation.WRITE_INT:  return true;
+                                case Operation.DELETE_INT: return true;
+                            }
+                            
+                        }
+                    }
+                    
+                }
+                return super.mayDo(user, node, operation);
+            }
+            
             @Override
             public boolean mayDoOnContext(MMObjectNode userNode, MMObjectNode contextNode,
                                           Operation operation, boolean checkOwnRights) {
                 if (userNode.getNumber() == contextNode.getNumber()) {
-                    if (log.isDebugEnabled()) log.debug("The context is the user");
+                    if (log.isDebugEnabled()) {
+                        log.debug("The context is the user");
+                    }
                     switch(operation.getInt()) {
                         case Operation.READ_INT:   return true;
                         case Operation.WRITE_INT:  return true;
@@ -45,13 +79,14 @@ public class Authorization extends Verify {
                 }
                 
                 /* if current userNode has a rank > contextNode's owner */
+                UserProvider up = Authenticate.getInstance().getUserProvider();
                 MMObjectNode node = getNode(contextNode.getNumber(), false);
-                MMObjectBuilder users = Authenticate.getInstance().getUserProvider().getUserBuilder();
                 
-                if (node.getBuilder() == users) {
-                    if (Authenticate.getInstance().getUserProvider().getRank(userNode).getInt() > 
-                            Authenticate.getInstance().getUserProvider().getRank(node).getInt()) {
-                        if (log.isDebugEnabled()) log.debug("Higher rank so may read, write, delete");
+                if (node.getBuilder() == up.getUserBuilder()) {
+                    if (up.getRank(userNode).getInt() > up.getRank(node).getInt()) {
+                        if (log.isDebugEnabled()) {
+                            log.debug("Higher rank so may read, write or delete other user's node #" + node.getNumber());
+                        }
                         switch(operation.getInt()) {
                             case Operation.READ_INT:   return true;
                             case Operation.WRITE_INT:  return true;
