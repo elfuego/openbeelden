@@ -47,7 +47,9 @@ public class Authorization extends Verify {
                     }
                     
                     if (node.getBuilder() == up.getUserBuilder()) {
-                        if (user.getRank().getInt() > up.getRank(node).getInt()) {
+                        if (user.getRank().getInt() >= Rank.BASICUSER_INT && 
+                                user.getRank().getInt() > up.getRank(node).getInt()) {
+                            
                             if (log.isDebugEnabled()) {
                                 log.debug("Higher rank so may read, write or delete user node #" + node.getNumber());
                             }
@@ -83,7 +85,9 @@ public class Authorization extends Verify {
                 MMObjectNode node = getNode(contextNode.getNumber(), false);
                 
                 if (node.getBuilder() == up.getUserBuilder()) {
-                    if (up.getRank(userNode).getInt() > up.getRank(node).getInt()) {
+                    if (up.getRank(userNode).getInt() >= Rank.BASICUSER_INT && 
+                            up.getRank(userNode).getInt() > up.getRank(node).getInt()) {
+                        
                         if (log.isDebugEnabled()) {
                             log.debug("Higher rank so may read, write or delete other user's node #" + node.getNumber());
                         }
