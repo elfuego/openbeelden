@@ -6,6 +6,7 @@
     xmlns:jsp="http://java.sun.com/JSP/Page"
     xmlns:oip="urn:jsptagdir:/WEB-INF/tags/oip"
     xmlns:mm="http://www.mmbase.org/mmbase-taglib-2.0">
+  <jsp:directive.page session="false" />
   <oip:html styleClass="home">
     <jsp:attribute name="head">
       <script src="${mm:link('/style/js/play.js.jsp')}" type="text/javascript"><!-- help ie --></script>
