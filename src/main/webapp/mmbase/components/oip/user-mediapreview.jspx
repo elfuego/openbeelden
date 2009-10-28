@@ -52,12 +52,16 @@
                       </mm:node>
                     </c:otherwise>
                   </c:choose>
+                  <mm:link referids="_node@media">
+                    <mm:frameworkparam name="component">oip</mm:frameworkparam>
+                    <mm:frameworkparam name="block">user-media</mm:frameworkparam>
+                    <a title="${_node.title}" href="${_}">« <fmt:message key="users.back" /></a>
+                  </mm:link>
                 </mm:maywrite>
               
               </c:when>
               <c:otherwise>
                 
-                <mm:import id="len" reset="true"><mm:field name="length" /></mm:import>
                 <oip:media width="284" height="213" />
                 <dl class="media-info">
                   <dt><fmt:message key="media.page" />:</dt>
