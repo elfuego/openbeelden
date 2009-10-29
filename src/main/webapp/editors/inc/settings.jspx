@@ -29,9 +29,15 @@
   </mm:compare>
   
   <mm:compare referid="type" value="mmbaseusers">
-    <mm:import id="listfields" reset="true">username,status,lastlogon</mm:import>
+    <mm:import id="listfields" reset="true">username,status,lastlogon,language</mm:import>
     <mm:import id="searchfields" reset="true">${listfields},validfrom,firstname,suffix,lastname</mm:import>
     <mm:import id="editfields" reset="true">${searchfields},description,email</mm:import>
+  </mm:compare>
+
+  <mm:compare referid="type" value="users_translations">
+    <mm:import id="listfields" reset="true">firstname,suffix,lastname,language</mm:import>
+    <mm:import id="searchfields" reset="true">${listfields},description</mm:import>
+    <mm:import id="editfields" reset="true">${searchfields}</mm:import>
   </mm:compare>
 
   <mm:compare referid="type" value="pools">
