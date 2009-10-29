@@ -9,7 +9,10 @@ import org.mmbase.util.logging.Logger;
 import org.mmbase.util.logging.Logging;
 
 /**
- *
+ * Class to be run after the OIP application with data has finished loading when the application is
+ * first installed on an empty database.
+ * It creates and sets needed security configuration, groups, ranks and accounts.
+ * 
  * @author Michiel Meeuwissen;
  * @version $Id$
  */
