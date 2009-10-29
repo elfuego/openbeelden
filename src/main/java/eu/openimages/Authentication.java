@@ -6,6 +6,8 @@ import org.mmbase.util.logging.Logger;
 import org.mmbase.util.logging.Logging;
 
 /**
+ * Authentication of users in Open Images, only users with an activated 
+ * status {@link UserStatus.INUSE} have access.
  *
  * @author Michiel Meeuwissen
  * @version $Id$
