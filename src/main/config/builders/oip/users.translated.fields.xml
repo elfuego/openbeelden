@@ -1,0 +1,69 @@
+<?xml version="1.0" ?>
+<fieldlist
+    xmlns="http://www.mmbase.org/xmlns/builder"
+    xmlns:xi="http://www.w3.org/2001/XInclude"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.mmbase.org/xmlns/builder
+                        http://www.mmbase.org/xmlns/builder.xsd">
+
+
+    <field name="firstname">
+      <gui>
+        <guiname xml:lang="nl">Voornaam</guiname>
+        <guiname xml:lang="en">Firstname</guiname>
+      </gui>
+      <editor>
+        <positions>
+          <list>2</list>
+        </positions>
+      </editor>
+      <datatype base="eline" xmlns="http://www.mmbase.org/xmlns/datatypes" >
+        <required value="false" />
+        <maxLength value="1024" />
+      </datatype>
+    </field>
+    
+    <field name="suffix">
+      <gui>
+        <guiname xml:lang="nl">Tussenvoegsel</guiname>
+        <guiname xml:lang="en">Suffix</guiname>
+      </gui>
+      <editor>
+        <positions>
+          <list>3</list>
+        </positions>
+      </editor>
+      <datatype base="eline" xmlns="http://www.mmbase.org/xmlns/datatypes" >
+        <required value="false" />
+        <maxLength value="1024" />
+      </datatype>
+    </field>
+
+    <field name="lastname">
+      <gui>
+        <guiname xml:lang="nl">Achternaam</guiname>
+        <guiname xml:lang="en">Lastname</guiname>
+      </gui>
+      <editor>
+        <positions>
+          <list>4</list>
+        </positions>
+      </editor>
+      <datatype base="eline" xmlns="http://www.mmbase.org/xmlns/datatypes" >
+        <required value="false" />
+        <maxLength value="1024" />
+      </datatype>
+    </field>
+
+    <field name="description">
+      <gui>
+        <guiname xml:lang="nl">Beschrijving</guiname>
+        <guiname xml:lang="en">Description</guiname>
+      </gui>
+      <datatype base="field" xmlns="http://www.mmbase.org/xmlns/datatypes" >
+        <required value="false" />
+        <maxLength value="64000" />
+      </datatype>
+    </field>
+
+</fieldlist>

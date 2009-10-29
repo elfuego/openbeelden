@@ -1,0 +1,111 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN"
+  "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="nl">
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+  <title>Open Beelden</title>
+  <link href="../style/css/main.css" rel="stylesheet" type="text/css" />
+  <link href="../style/images/favicon.ico" rel="shortcut icon" />
+</head>
+<body class="article">
+<div id="header">
+  <h1><a href="/"><img src="../style/images/logo_openbeelden.png" alt="Open Beelden" width="200" height="175" /></a></h1>
+  <p>Offering online access to a selection of archive material to stimulate creative reuse.</p>
+</div>
+<div id="menu">
+  <ul class="main">
+    <li><a href="about">About</a> </li>
+    <li><a href="media">Media</a></li>
+    <li><a href="contribute">Contribute</a> </li>
+    <li><a href="users">Users</a> </li>
+  </ul>
+  <ul class="meta">
+    <li><a href="login">Login</a> </li>
+  </ul>
+</div>
+
+<div class="left-column">
+  <form action="#" method="post" id="search">
+    <h2>Search media items</h2>
+    <fieldset>
+      <input name="q" type="text" />
+    </fieldset>
+  </form>
+  <p>Dit is .left-column</p>
+</div>
+
+<div class="main-column">
+  <h2>Media upload and description</h2>
+  <form method="post" action="#">
+  	<fieldset>
+  	  <label>Browse for media items</label>
+      <input type="file" name="file" id="file" value="file" />
+  	</fieldset>
+  	<fieldset>
+  	  <div>
+        <label for="title">Title</label>
+        <input type="text" name="title" id="title" value="De titel" />
+      </div>
+  	  <div>
+        <label for="subtitle">Subtitle</label>
+        <input type="text" name="subtitle" id="subtitle" value="De subtitel" />
+      </div>
+  	  <div>
+        <label for="text">Text</label>
+        <textarea id="text" name="text" rows="5" cols="42">Wat tekst</textarea>
+      </div>
+  	</fieldset>
+  	<fieldset>
+  	  <div>
+        <label for="license">Choose a license</label>
+        <input type="radio" name="lic" id="lic1" value="bla" class="radiobutton" checked="checked" /> Commons 1<br />
+        <input type="radio" name="lic" id="lic2" value="bla" class="radiobutton" /> 
+        <a href="#">Creative Commons 2</a><br />
+        <input type="radio" name="lic" id="lic3" value="bla" class="radiobutton" /> Commons 3<br />
+        <input type="radio" name="lic" id="lic4" value="bla" class="radiobutton" /> Commons 4<br />
+      </div>
+  	</fieldset>
+  	<fieldset>
+      <div>
+        <input type="submit" name="save" id="save" value="save" class="submit" />
+      </div>
+  	</fieldset>
+  </form>
+  
+</div>
+
+<div class="right-column">
+  <div class="related-grey">
+    <h3>Preview</h3>
+    <img src="player-debril.png" alt="Player" width="286" height="198" />
+    <p><a href="#">change picture &gt;</a></p>
+    <form class="mm_form" enctype="multipart/form-data" method="post" action="/oip/users/andre/upload.nl?_action=1" id="upload_form"><fieldset><input type="file" name="urlfield_url" class="mm_validate mm_dthandler mm_f_url mm_nm_streamsources mm_n_-150"/><div class="mm_check_noerror" id="mm_check_urlfield_url"> </div><label for="mm_field_title" style="display: none;">title</label><input type="text" value="" id="mm_field_title" name="field_title" size="80" class="small mm_validate mm_f_title mm_nm_streamsources mm_n_-150 untouched"/><div class="mm_check_noerror" id="mm_check_field_title"> </div></fieldset><fieldset class="hidden"><select id="mm_upload_form_mediaprovider" name="upload_form_mediaprovider" class="mm_validate mm_f_mediaprovider mm_nm_streamsources mm_n_-150"><option selected="selected" value="159">Local FileServlet /oip/files/</option></select><div class="mm_check_noerror" id="mm_check_upload_form_mediaprovider"> </div></fieldset>
+    
+    <div class="progressInfo">
+    
+      <div class="progress"
+       style="width: 100px;">
+    <p>
+      20%
+    </p>
+  </div>
+  
+    </div>
+    
+    <fieldset><input type="submit" name="submit" value="Upload" class="submit"/></fieldset></form>
+    </div>
+</div>
+
+<div id="footer">
+  <ul>
+    <li><a href="#">home</a></li>
+    <li><a href="#">help</a></li>
+    <li><a href="#">feeds</a></li>
+    <li><a href="#">API</a></li>
+    <li><a href="#">proclaimer</a></li>
+    <li><a href="#">contact</a></li>
+    <li><a href="#">tags</a></li>
+  </ul>
+</div>
+</body>
+</html>

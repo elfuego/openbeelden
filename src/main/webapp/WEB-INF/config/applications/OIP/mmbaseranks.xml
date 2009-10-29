@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mmbaseranks exportsource="mmbase://grgrijze.toly.net/oip/oi" timestamp="20090610233953">
+
+	<node number="3000" owner="security" alias="cloudcontextsecurity_rank_site_user">
+		<rank>50</rank>
+		<name>site user</name>
+		<description>Users of the site</description>
+	</node>
+
+</mmbaseranks>

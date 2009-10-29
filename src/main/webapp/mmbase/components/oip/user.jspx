@@ -1,0 +1,31 @@
+<mm:content
+    type="application/xml"
+    xmlns:c="http://java.sun.com/jsp/jstl/core"
+    xmlns:jsp="http://java.sun.com/JSP/Page"
+    xmlns:fmt="http://java.sun.com/jsp/jstl/fmt"
+    xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+    xmlns:mm="http://www.mmbase.org/mmbase-taglib-2.0"
+    xmlns:oip="urn:jsptagdir:/WEB-INF/tags/oip"
+    >
+  <jsp:output omit-xml-declaration="true" />
+  <div
+      class="mm_c c_oip b_user-profile ${requestScope.className}"
+      id="${requestScope['org.mmbase.componentId']}">
+
+    <oip:h2 block="user" />
+    
+    <oip:thumb />
+    <h3 class="subtitle">
+      <mm:maywrite>
+        <mm:link page="user-edit">
+          <a class="edit" href="${_}">edit</a>
+        </mm:link>
+      </mm:maywrite>
+      <oip:user />
+    </h3>
+    <mm:field name="description" escape="paragraph" />
+  </div>
+  
+  <!-- <mm:component name="oip" block="user-medialist" /> -->
+  
+</mm:content>

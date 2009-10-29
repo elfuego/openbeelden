@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<licenses exportsource="mmbase://grgrijze.toly.net/oip/oi" timestamp="20090610233953">
+	<node number="452" owner="179" alias="licenses_attributionsharealike">
+		<description>This license lets others remix, tweak, and build upon your work even for commercial reasons, as long as they credit you and license their new creations under the identical terms. This license is often compared to open source software licenses. All new works based on yours will carry the same license, so any derivatives will also allow commercial use.</description>
+		<url>http://creativecommons.org/licenses/by/3.0/</url>
+		<language>en</language>
+		<name>Attribution Share Alike</name>
+		<version>3.0</version>
+	</node>
+
+</licenses>

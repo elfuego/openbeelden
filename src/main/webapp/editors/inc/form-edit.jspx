@@ -1,0 +1,98 @@
+<jsp:root
+  xmlns:jsp="http://java.sun.com/JSP/Page"
+  xmlns:c="http://java.sun.com/jsp/jstl/core"
+  xmlns:mm="http://www.mmbase.org/mmbase-taglib-2.0"
+  version="2.0">
+
+<mm:content expires="0" type="application/xml">
+<mm:cloud method="asis">
+
+  <mm:import externid="nr"   required="true" />
+  <jsp:directive.include file="settings.jspx" />
+  <mm:import externid="mmajaxeditor" />
+
+  <mm:form id="edit_$nr">
+    <c:if test="${!empty mmajaxeditor}">
+      <mm:hasrank minvalue="project manager">
+        <p>
+          <mm:link page="/editors/edit.jspx" referids="nr">
+            <a href="${_}">Edit in separate editor</a>
+          </mm:link>
+        </p>
+      </mm:hasrank>
+    </c:if>
+    <mm:node number="$nr" commitonclose="false">
+      <mm:import id="buffer">
+        <fieldset>
+          <mm:fieldlist fields="$editfields">
+            <div>
+              <mm:fieldinfo type="forid">
+                <label for="${_}"><mm:fieldinfo type="guiname" /></label>
+              </mm:fieldinfo>
+              <mm:maywrite><mm:fieldinfo type="input" /><mm:fieldinfo type="errors" /></mm:maywrite>
+              <mm:maywrite inverse="true"><mm:fieldinfo type="guivalue" escape="none" /></mm:maywrite>
+            </div>
+          </mm:fieldlist>
+        </fieldset>
+        <mm:maywrite>
+          <fieldset>
+            <input name="nr" type="hidden" value="${nr}" />
+            <mm:nodeinfo type="type"><input name="type" type="hidden" value="${_}" /></mm:nodeinfo>
+            <input name="mmajaxeditor" type="hidden" value="${mmajaxeditor}" />
+            <div>
+              <input type="submit" name="submit${nr}" value="Save" class="submit" />
+            </div>
+          </fieldset>
+        </mm:maywrite>
+      </mm:import>
+
+      <mm:import externid="submit$nr" />
+      <mm:present referid="submit$nr">
+        <mm:valid>
+          <p class="msg">Your changes to <mm:nodeinfo type="guitype" escape="lowercase" /> '<mm:function name="gui" escape="none" />' are saved.</p>
+          <mm:commit />
+          <mm:import id="saved">OK</mm:import>
+        </mm:valid>
+        <mm:valid inverse="true">
+          <p class="err">The form contains an error.</p>
+          <mm:cancel />
+        </mm:valid>
+      </mm:present>
+
+      <c:if test="${empty mmajaxeditor}">
+        <mm:write referid="buffer" escape="none" />
+      </c:if>
+      <c:if test="${!empty mmajaxeditor and empty saved}">
+        <mm:write referid="buffer" escape="none" />
+      </c:if>
+
+    </mm:node>
+  </mm:form>
+
+  <!-- put all mmajaxeditor msg stuff outside form -->
+  <c:if test="${!empty saved and !empty mmajaxeditor}">
+    <mm:node number="$nr">
+
+      <mm:link page="/editors/inc/form-edit.jspx" referids="nr">
+        <a href="${_}#node_${nr}" class="mmajaxeditor">
+          <mm:field name="language"><mm:fieldinfo type="guivalue" /></mm:field>
+          - <mm:function name="gui" />
+        </a>
+      </mm:link>
+
+      <mm:maydelete> -
+        <mm:link page="/editors/inc/form-delete.jspx" referids="nr">
+          <a href="${_}#node_${nr}" class="mmajaxeditor">delete</a>
+        </mm:link>
+      </mm:maydelete>
+
+      <mm:haspage page="/editors/inc/node.jspx">
+        <mm:include page="/editors/inc/node.jspx" referids="nr" />
+      </mm:haspage>
+    </mm:node>
+  </c:if>
+
+
+</mm:cloud>
+</mm:content>
+</jsp:root>

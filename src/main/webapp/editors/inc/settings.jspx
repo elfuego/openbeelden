@@ -1,0 +1,94 @@
+<jsp:root 
+  xmlns:jsp="http://java.sun.com/JSP/Page"
+  xmlns:mm="http://www.mmbase.org/mmbase-taglib-2.0"
+  version="2.0">
+
+  <mm:time time="today" id="today" precision="days" write="false" />
+  <mm:import id="editor">/editors/edit.jspx</mm:import>
+  
+  <mm:notpresent referid="type">
+    <mm:present referid="nr">
+      <mm:hasnode number="$nr">
+        <mm:node number="$nr">
+          <mm:import id="type" reset="true"><mm:nodeinfo type="type" /></mm:import>
+        </mm:node>
+      </mm:hasnode>
+    </mm:present>
+    <mm:notpresent referid="type">
+      <mm:import externid="type" reset="true">mediafragments</mm:import>
+    </mm:notpresent>
+  </mm:notpresent>
+  
+  <!-- fields: 1st (default) ones are from mediafragments  -->
+  <mm:import id="listfields">title,subtitle,language,show,date</mm:import>
+  <mm:import id="searchfields">${listfields},keywords,intro,body</mm:import>
+  <mm:import id="editfields">${searchfields},length,source,coverage,publisher,offline,online,creator,created,lastmodifier,lastmodified</mm:import>
+
+  <mm:compare referid="type" value="mediafragments_translations">
+    <mm:import id="editfields" reset="true">title,language,subtitle,intro,body,source</mm:import>
+  </mm:compare>
+  
+  <mm:compare referid="type" value="mmbaseusers">
+    <mm:import id="listfields" reset="true">username,status,lastlogon</mm:import>
+    <mm:import id="searchfields" reset="true">${listfields},validfrom,firstname,suffix,lastname</mm:import>
+    <mm:import id="editfields" reset="true">${searchfields},description,email</mm:import>
+  </mm:compare>
+
+  <mm:compare referid="type" value="pools">
+    <mm:import id="listfields" reset="true">name,description</mm:import>
+    <mm:import id="searchfields" reset="true">${listfields}</mm:import>
+    <mm:import id="editfields" reset="true">${searchfields}</mm:import>
+  </mm:compare>
+
+  <mm:compare referid="type" value="pages">
+    <mm:import id="listfields" reset="true">title,path,language</mm:import>
+    <mm:import id="searchfields" reset="true">${listfields},template,description</mm:import>
+    <mm:import id="editfields" reset="true">${searchfields}</mm:import>
+  </mm:compare>
+  
+  <mm:compare referid="type" value="pages_translations">
+    <mm:import id="editfields" reset="true">language,description</mm:import>
+  </mm:compare>
+  
+  <mm:compare referid="type" value="articles">
+    <mm:import id="listfields" reset="true">title,subtitle,language</mm:import>
+    <mm:import id="searchfields" reset="true">${listfields},intro,body,author</mm:import>
+    <mm:import id="editfields" reset="true">${searchfields},show,online,offline,creator,created,lastmodified,lastmodifier</mm:import>
+  </mm:compare>
+
+  <mm:compare referid="type" value="articles_translations">
+    <mm:import id="editfields" reset="true">title,subtitle,language,intro,body</mm:import>
+  </mm:compare>
+  
+  <mm:compare referid="type" value="urls">
+    <mm:import id="listfields" reset="true">name,url</mm:import>
+    <mm:import id="searchfields" reset="true">${listfields},description</mm:import>
+    <mm:import id="editfields" reset="true">${searchfields}</mm:import>
+  </mm:compare>
+  
+  <mm:compare referid="type" value="images">
+    <mm:import id="listfields" reset="true">title,handle</mm:import>
+    <mm:import id="searchfields" reset="true">${listfields},description</mm:import>
+    <mm:import id="editfields" reset="true">${searchfields},width,height</mm:import>
+  </mm:compare>
+
+  <mm:compare referid="type" value="tags">
+    <mm:import id="listfields" reset="true">name</mm:import>
+    <mm:import id="searchfields" reset="true">${listfields}</mm:import>
+    <mm:import id="editfields" reset="true">${searchfields}</mm:import>
+  </mm:compare>
+
+  <mm:compare referid="type" value="licenses">
+    <mm:import id="listfields" reset="true">name,version,language</mm:import>
+    <mm:import id="searchfields" reset="true">${listfields},url,description</mm:import>
+    <mm:import id="editfields" reset="true">${searchfields}</mm:import>
+  </mm:compare>
+  
+  <mm:compare referid="type" value="licenses_translations">
+    <mm:import id="listfields" reset="true">name,language</mm:import>
+    <mm:import id="searchfields" reset="true">${listfields},url,description</mm:import>
+    <mm:import id="editfields" reset="true">${searchfields}</mm:import>
+  </mm:compare>
+
+  
+</jsp:root>

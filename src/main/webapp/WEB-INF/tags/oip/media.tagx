@@ -1,0 +1,33 @@
+<jsp:root
+    version="2.0"
+    xmlns:c="http://java.sun.com/jsp/jstl/core"
+    xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+    xmlns:jsp="http://java.sun.com/JSP/Page"
+    xmlns:oip="urn:jsptagdir:/WEB-INF/tags/oip"
+    xmlns:mm="http://www.mmbase.org/mmbase-taglib-2.0"
+    >
+  
+  <jsp:directive.attribute name="width"
+          description="Width of player" />
+  <jsp:directive.attribute name="height"
+          description="Height of player" />
+  <jsp:directive.variable name-given="embedtag" scope="AT_END" />
+  
+  <c:set var="w" value="${empty width ? '320' : width}" />
+  <c:set var="h" value="${empty height ? '240' : height}" />
+  
+  <mm:nodeinfo type="nodemanager">
+    <c:choose>
+      <c:when test="${_ eq 'imagefragments'}">
+        <mm:relatednodes type="imagesources">
+          <mm:import id="embedtag" reset="true"><mm:image mode="url" absolute="true" width="${w}" height="${h}" crop="middle" /></mm:import>
+          <mm:image mode="img" width="${w}" height="${h}" crop="end" />
+        </mm:relatednodes>
+      </c:when>
+      <c:otherwise>
+        <oip:video width="${w}" height="${h}" />
+      </c:otherwise>
+    </c:choose>
+  </mm:nodeinfo>
+  
+</jsp:root>

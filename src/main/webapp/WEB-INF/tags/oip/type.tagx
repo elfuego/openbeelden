@@ -1,0 +1,19 @@
+<jsp:root
+    version="2.0"
+    xmlns:c="http://java.sun.com/jsp/jstl/core"
+    xmlns:fmt="http://java.sun.com/jsp/jstl/fmt"
+    xmlns:jsp="http://java.sun.com/JSP/Page"
+    xmlns:oip="urn:jsptagdir:/WEB-INF/tags/oip"
+    xmlns:mm="http://www.mmbase.org/mmbase-taglib-2.0"
+    >
+  <mm:nodeinfo type="type">
+    <c:choose>
+      <c:when test="${_ eq 'audiofragments'}">audio</c:when>
+      <c:when test="${_ eq 'imagefragments' or _ eq 'images'}">image</c:when>
+      <c:when test="${_ eq 'videostreamsources'}">video</c:when>
+      <c:when test="${_ eq 'audiostreamsources'}">audio</c:when>
+      <c:when test="${_ eq 'imagesources'}">image</c:when>
+      <c:otherwise>video</c:otherwise>
+    </c:choose>
+  </mm:nodeinfo>
+</jsp:root>

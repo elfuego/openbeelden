@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE log4j:configuration SYSTEM "log4j.dtd"
+   [
+    <!ENTITY mmlevel "org.mmbase.util.logging.log4j.Log4jLevel" >
+    <!ENTITY logdir  "${catalina.base}/logs/" >
+]>
+
+
+<log4j:configuration  debug="false" xmlns:log4j="http://jakarta.apache.org/log4j/" >
+
+  <appender name="logfile" class="org.apache.log4j.FileAppender" >
+    <param name="File" value="&logdir;oip.log" />
+    <param name="Encoding"   value="UTF-8" />
+    <param name="Append"   value="false" />
+    <layout class="org.mmbase.util.logging.log4j.MMPatternLayout">
+       <param name="ConversionPattern" value="%N %d{ISO8601} %q %c{4} %M.%L - %m%n" />
+    </layout>
+  </appender>
+
+  <appender name="console" class="org.apache.log4j.ConsoleAppender" >
+    <param name="Encoding"   value="UTF-8" />
+    <param name="Append"   value="false" />
+    <layout class="org.mmbase.util.logging.log4j.MMPatternLayout">
+       <param name="ConversionPattern" value="%N %d{ISO8601} %q %c{4} %M.%L - %m%n" />
+    </layout>
+  </appender>
+
+  <appender name="stacktrace" class="org.apache.log4j.FileAppender" >
+    <param name="File" value="&logdir;oip.log" />
+    <param name="Encoding"   value="UTF-8" />
+    <param name="Append"   value="false" />
+    <layout class="org.mmbase.util.logging.log4j.StracktraceLoggingPatternLayout">
+      <param name="ConversionPattern" value="%d{ABSOLUTE} %N %q %k kb %c{4} %M.%L - %m%n" />
+    </layout>
+
+  </appender>
+
+  <!--
+  Another example: The sqllog appender can be used for
+  'MultiConnection' (see below), to achieve logging of every SQL
+  query, which is handy during debugging
+  -->
+  <appender name="sqllog" class="org.apache.log4j.FileAppender" >
+    <param name="File" value="&logdir;oip-sql.log" />
+    <param name="Encoding"   value="UTF-8" />
+    <layout class="org.mmbase.util.logging.log4j.MMPatternLayout">
+      <param name="ConversionPattern" value="%q %d{MM-dd HH:mm:ss} %m%n" />
+    </layout>
+  </appender>
+
+  <appender name="errormailer" class="org.apache.log4j.net.SMTPAppender" >
+    <param name="To"   value="logs@toly.net" />
+    <param name="Theshold" value="service" />
+    <layout class="org.mmbase.util.logging.log4j.MMPatternLayout">
+       <param name="ConversionPattern" value="%N %d %q %c{4} %M.%L- %m%n" />
+    </layout>
+  </appender>
+
+  <!-- SQL logging -->
+<!-- 
+  <logger name="org.mmbase.QUERIES" additivity="false">
+    <level class="&mmlevel;" value ="trace" />
+    <appender-ref ref="sqllog" />
+  </logger>
+ -->
+
+<!-- 
+  <logger name="eu.openimages" >
+    <level class="&mmlevel;" value="debug" />
+  </logger>
+ -->
+
+  <logger name="org.mmbase.mmsite" >
+    <level class="&mmlevel;" value="info" />
+  </logger>
+  
+  <logger name="org.mmbase.streams" >
+    <level class="&mmlevel;" value="info" />
+  </logger>
+  
+<!-- 
+  <logger name="org.mmbase.datatypes.processors.Related" >
+    <level class="&mmlevel;" value="debug" />
+  </logger>
+ -->
+
+  <logger name="org.mmbase.util.xml.URIResolver" >
+    <level class="&mmlevel;" value ="info" />
+  </logger>
+
+  <!-- lower lever to 'debug' to log all sql commands -->
+  <logger name="org.mmbase.module.database.MultiConnection" additivity="false">
+    <level class="&mmlevel;" value ="warn" />
+    <appender-ref ref="sqllog" />
+  </logger>
+
+  <logger name="org.mmbase.bridge.jsp.taglib.util">
+    <level class="&mmlevel;" value ="info" />
+  </logger>
+
+
+  <logger name="org.mmbase.datatypes">
+    <level class="&mmlevel;" value ="info" />
+  </logger>
+
+  <logger name="org.mmbase.servlet">
+    <level class="&mmlevel;" value ="info" />
+  </logger>
+
+  <logger name="org.mmbase.bridge.jsp.taglib.pageflow.Url">
+    <level class="&mmlevel;" value ="info" />
+  </logger>
+  <logger name="org.mmbase.bridge.jsp.taglib.typehandler">
+    <level class="&mmlevel;" value ="info" />
+  </logger>
+
+  <logger name="org.mmbase.bridge.jsp.taglib.ContextTag">
+    <level class="&mmlevel;" value ="info" />
+  </logger>
+
+  <logger name="org.mmbase.PAGE">
+    <level class="&mmlevel;" value ="info" />
+  </logger>
+
+
+  <logger name="org.mmbase.util.Casting">
+    <level class="&mmlevel;" value ="info" />
+  </logger>
+
+  <logger name="org.mmbase.util.SerializableInputStream">
+    <level class="&mmlevel;" value ="debug" />
+  </logger>
+
+
+  <logger name="org.mmbase.storage.implementation.database">
+    <level class="&mmlevel;" value ="info" />
+  </logger>
+
+  <logger name="org.mmbase.security">
+    <level class="&mmlevel;" value ="info" />
+  </logger>
+
+
+  <logger name="org.mmbase.bridge.implementation">
+    <level class="&mmlevel;" value ="info" />
+  </logger>
+
+
+
+  <!--
+  STDERR is a special Category, to wich stderr will be
+  (always with level 'warn' or higher)
+  The level can be set to 'fatal' and the stderr will not be
+  redirected to mmbase logging.
+  -->
+
+  <logger name="STDERR">
+    <level class="&mmlevel;" value ="fatal" />
+  </logger>
+
+  <root>
+    <level class="&mmlevel;" value ="info" />
+    <appender-ref ref="logfile" />
+    <appender-ref ref="console" />
+  </root>
+
+</log4j:configuration>

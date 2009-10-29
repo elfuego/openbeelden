@@ -1,0 +1,23 @@
+<jsp:root
+    version="2.0"
+    xmlns:c="http://java.sun.com/jsp/jstl/core"
+    xmlns:fmt="http://java.sun.com/jsp/jstl/fmt"
+    xmlns:jsp="http://java.sun.com/JSP/Page"
+    xmlns:oip="urn:jsptagdir:/WEB-INF/tags/oip"
+    xmlns:mm="http://www.mmbase.org/mmbase-taglib-2.0"
+    >
+  <jsp:directive.attribute name="styleClass" />
+  <jsp:directive.attribute name="block" />
+  <h2 class="${styleClass}">
+    <c:choose>
+      <c:when test="${empty block}">
+        <oip:t imageescape="text/xml,uppercase"><jsp:doBody /></oip:t>
+      </c:when>
+      <c:otherwise>
+        <mm:import id="component">oip</mm:import>
+        <mm:function id="blockObject" set="components" name="block" referids="component,block" write="false" />
+        <oip:t imageescape="text/xml,uppercase">${mm:string(blockObject.title)}<jsp:doBody /></oip:t>
+      </c:otherwise>
+    </c:choose>
+  </h2>
+</jsp:root>

@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<images exportsource="mmbase://grgrijze.toly.net/oip/oi" timestamp="20090610233953">
+	<node number="301" owner="admin">
+		<handle file="images/301.handle" />
+		<width>116</width>
+		<title>Bril</title>
+		<filename>bril.png</filename>
+		<itype>png</itype>
+		<height>122</height>
+		<description></description>
+		<filesize>17367</filesize>
+	</node>
+
+	<node number="434" owner="414">
+		<handle file="images/434.handle" />
+		<width>325</width>
+		<title>Dustpup</title>
+		<filename>dustpuppy.png</filename>
+		<itype>png</itype>
+		<height>270</height>
+		<description></description>
+		<filesize>46806</filesize>
+	</node>
+
+	<node number="454" owner="179">
+		<handle file="images/454.handle" />
+		<width>88</width>
+		<title>Attribution</title>
+		<filename>88x31.png</filename>
+		<itype>png</itype>
+		<height>31</height>
+		<description></description>
+		<filesize>4739</filesize>
+	</node>
+
+</images>

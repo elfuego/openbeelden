@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE functionset PUBLIC "//MMBase - functionset //" "http://www.mmbase.org/dtd/functionset_1_0.dtd">
+<functionset>
+<version>0</version>
+<description>Related content via keywords functions</description>
+
+  <function name="nodes">
+    <description>
+      Returns a (unsorted!) Map with nodes that share the same tags and are thus related content.
+	  The map with nodes is not yet sorted. The nodes are the keys, the values are their number of hits.
+      To get the most relevant nodes first use the function 'hits'.
+    </description>
+    <type>class</type>
+    <class>eu.openimages.RelatedByTags</class>
+    <method>getNodes</method>
+    <param name="node"  type="Node" description="Source node related to t_keyword via t_metadata" />
+    <param name="type"  type="String" description="Type of content to look for, defaults to type of the source node" />
+    <param name="max"   type="String" description="Maximum number of result nodes to return" />
+  </function>
+
+  <function name="hits">
+    <description>
+      Returns a sorted Map with nodes that share the same tags and are thus related content.
+	  The returned nodes are sorted by number of hits. To get the number of hits per node use the function 'nodes'.
+    </description>
+    <type>class</type>
+    <class>eu.openimages.RelatedByTags</class>
+    <method>getHits</method>
+    <param name="node"  type="Node" description="Node related to t_keyword via t_metadata" />
+    <param name="type"  type="String" description="Type of content to look for, defaults to type of the source node" />
+    <param name="max"   type="String" description="Maximum number of result nodes to return" />
+  </function>
+
+</functionset>

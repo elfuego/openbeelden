@@ -1,0 +1,80 @@
+<mm:content
+    type="application/xml"
+    xmlns:c="http://java.sun.com/jsp/jstl/core"
+    xmlns:jsp="http://java.sun.com/JSP/Page"
+    xmlns:fmt="http://java.sun.com/jsp/jstl/fmt"
+    xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+    xmlns:mm="http://www.mmbase.org/mmbase-taglib-2.0"
+    xmlns:oip="urn:jsptagdir:/WEB-INF/tags/oip"
+    >
+  <jsp:output omit-xml-declaration="true" />
+  <mm:cloud method="asis">
+    <div
+        class="mm_c c_oip b_user-media ${requestScope.className}"
+        id="${requestScope['org.mmbase.componentId']}">
+
+      <script type="text/javascript">
+        var validator = new MMBaseValidator();
+        validator.prefetchNodeManager('mediafragments');
+        validator.lang = "${requestScope['javax.servlet.jsp.jstl.fmt.locale.request']}";
+        validator.validateHook = function(valid) {
+            //document.getElementById('submit').disabled = this.invalidElements != 0;
+        }
+        validator.setup(document.getElementById("${requestScope['org.mmbase.componentId']}"));
+      </script>
+
+      <oip:h2 block="user-media" />
+
+      <mm:import externid="n" required="true" />
+      <mm:import externid="media" required="true" />
+      <mm:import externid="license" />
+
+      <mm:node number="${media}">
+        
+        <mm:hasrank maxvalue="site user">
+          <c:set var="fields">title,language,subtitle,keywords,intro,body,source,date,created,lastmodified</c:set>
+        </mm:hasrank>
+        <mm:hasrank minvalue="project manager">
+          <c:set var="fields">title,show,language,subtitle,keywords,intro,body,source,date,created,lastmodified</c:set>
+        </mm:hasrank>
+        
+        <oip:form fields="${fields}" >
+          <jsp:attribute name="action"><mm:url page="user-media" referids="n,media" absolute="true" /></jsp:attribute>
+        </oip:form>
+
+        <!-- license stuff (with an ugly workaround)  -->
+        <mm:listrelationscontainer type="licenses" role="related">
+          <mm:sortorder field="number" direction="UP" /><!-- make sure we keep the last one -->
+          <mm:size id="nr_of_relations" write="false" />
+          <mm:listrelations>
+            <c:if test="${nr_of_relations > 1}">
+              <mm:last inverse="true">
+                <mm:deletenode />
+                <mm:remove referid="license" />
+              </mm:last>
+            </c:if>
+          </mm:listrelations>
+        </mm:listrelationscontainer>
+        
+        <mm:present referid="license">
+          <mm:node number="licenses_attributionsharealike">
+            <mm:import id="pref_license"><mm:field name="number" /></mm:import>
+          </mm:node>
+          <c:if test="${license ne pref_license}">
+            <!-- mm:relation to="licenses_attributionsharealike">
+              <mm:deletenode />
+            </mm:relation -->
+            <!-- this creates a 2nd relation with another license for now, 
+                 because of the above not working. Will delete the former afterwards (see above). -->
+            <mm:node number="$license" id="lic_node" />
+            <mm:createrelation source="_node" destination="lic_node" role="related" />
+            <mm:remove referid="license" />
+          </c:if>
+        </mm:present>
+      
+        
+      </mm:node>
+
+    </div>
+  </mm:cloud>
+</mm:content>

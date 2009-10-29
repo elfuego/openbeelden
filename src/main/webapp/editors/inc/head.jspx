@@ -1,0 +1,24 @@
+<head 
+    xmlns:jsp="http://java.sun.com/JSP/Page"
+    xmlns:c="http://java.sun.com/jsp/jstl/core"
+    xmlns:mm="http://www.mmbase.org/mmbase-taglib-2.0">
+  <jsp:output omit-xml-declaration="true" />
+  
+  <mm:import externid="type" />
+  <mm:import externid="pagetitle" />
+  
+  <title><c:if test="${!empty pagetitle}">${pagetitle} : </c:if>editors OIP</title>
+  
+  <jsp:directive.include file="/mmbase/validation/javascript.jspxf" />
+  <script type="text/javascript">
+  var validator = new MMBaseValidator(document);
+  <c:if test="${!empty type}">validator.prefetchNodeManager("${type}");</c:if>
+  </script>
+  <script src="${mm:link('/mmbase/jquery/jquery.form.js')}" type="text/javascript"><!-- help ie --></script>
+  <script src="${mm:link('/style/js/mmajaxeditor.js')}" type="text/javascript"><!-- help ie --></script>
+  <!--  <script src="${mm:link('/style/scripts/editors.js')}" type="text/javascript"></script>  -->
+  <link href="${mm:link('sr/searchrelate.css')}" rel="stylesheet" />
+  <link href="${mm:link('/style/css/editors.css')}" rel="stylesheet" />
+  <link href="${mm:link('/style/images/favicon.ico')}" rel="shortcut icon" />
+  <mm:include page="htmleditor.jspx" />
+</head>
