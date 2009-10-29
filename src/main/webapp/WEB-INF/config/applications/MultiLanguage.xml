@@ -12,6 +12,8 @@
     <builder maintainer="mmbase.org" version="1">licenses_translations</builder>
     <builder maintainer="mmbase.org" version="1">mediafragments</builder>
     <builder maintainer="mmbase.org" version="1">mediafragments_translations</builder>
+    <builder maintainer="mmbase.org" version="1">mmbaseusers</builder>
+    <builder maintainer="mmbase.org" version="1">users_translations</builder>
     <builder maintainer="mmbase.org" version="1">pages</builder>
     <builder maintainer="mmbase.org" version="1">pages_translations</builder>
     <builder maintainer="mmbase.org" version="1">langrel</builder>
@@ -24,6 +26,7 @@
   <allowedrelationlist>
     <relation from="articles"       to="articles_translations" type="langrel" />
     <relation from="mediafragments" to="mediafragments_translations" type="langrel" />
+    <relation from="mmbaseusers"    to="users_translations" type="langrel" />
     <relation from="pages"          to="pages_translations" type="langrel" />
     <relation from="licenses"       to="licenses_translations" type="langrel" />
   </allowedrelationlist>
