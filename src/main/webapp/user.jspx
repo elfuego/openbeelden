@@ -19,7 +19,7 @@
       <c:choose>
         <c:when test="${block eq 'user-media'}">
           <mm:component name="oip" block="user-mediapreview" render="head" />
-          <mm:component name="oip" block="user-mediatranslations" render="head" />
+          <mm:component name="oip" block="user-translations" render="head" />
         </c:when>
         <c:when test="${block eq 'user-edit'}">
           <mm:component name="oip" block="user-picture" render="head" />
