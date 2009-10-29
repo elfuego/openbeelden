@@ -30,7 +30,7 @@
         <oip:h2 block="user-edit" />
         
         <mm:node referid="n">
-          <oip:form fields="firstname,suffix,lastname,description,email,password,confirmpassword,wantmail" />
+          <oip:form fields="firstname,suffix,lastname,language,description,email,password,confirmpassword,wantmail" />
         </mm:node>
       </div>
       
