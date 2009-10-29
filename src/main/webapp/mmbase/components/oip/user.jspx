@@ -15,17 +15,17 @@
     <oip:h2 block="user" />
     
     <oip:thumb />
-    <h3 class="subtitle">
-      <mm:maywrite>
-        <mm:link page="user-edit">
-          <a class="edit" href="${_}">edit</a>
-        </mm:link>
-      </mm:maywrite>
-      <oip:user />
-    </h3>
-    <mm:field name="description" escape="paragraph" />
+    <mm:nodefunction name="translation">
+      <h3 class="subtitle">
+        <mm:maywrite>
+          <mm:link page="user-edit">
+            <a class="edit" href="${_}">edit</a>
+          </mm:link>
+        </mm:maywrite>
+        <oip:user />
+      </h3>
+      <mm:field name="description" escape="paragraph" />
+    </mm:nodefunction>
   </div>
-  
-  <!-- <mm:component name="oip" block="user-medialist" /> -->
   
 </mm:content>
