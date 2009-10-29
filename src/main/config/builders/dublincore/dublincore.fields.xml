@@ -10,7 +10,7 @@
   <field name="source">
     <descriptions>
       <description xml:lang="en">Reference to a resource from which the present item is derived</description>
-      <description xml:lang="nl">Referentie naar (oorspronkelijke) bron van dit item</description>
+      <description xml:lang="nl">Referentie naar de (oorspronkelijke) bron van dit item</description>
     </descriptions>
     <gui>
       <guiname xml:lang="en">Source</guiname>
@@ -29,8 +29,8 @@
 
   <field name="publisher">
     <descriptions>
-      <description xml:lang="en">An entity responsible for making the resource available.</description>
-      <description xml:lang="nl">De voor dit item verantwoordelijk entiteit</description>
+      <description xml:lang="en">Entity (normally an organisation) responsible for making the resource available</description>
+      <description xml:lang="nl">De voor dit item verantwoordelijk entiteit (meestal een organisatie)</description>
     </descriptions>
     <gui>
       <guiname xml:lang="en">Publisher</guiname>
@@ -69,7 +69,7 @@
 
   <field name="coverage">
     <descriptions>
-      <description xml:lang="en">Comma seperated list with coverage: typically a patial location, temporal period or jurisdiction</description>
+      <description xml:lang="en">Comma seperated list with coverage: typically a spatial location, temporal period or jurisdiction</description>
       <description xml:lang="nl">Kommageschieden lijst met 'coverage': over het algemeen een geografische locatie, periode of jurisdictie</description>
     </descriptions>
     <gui>
@@ -89,8 +89,8 @@
 
   <field name="date">
     <descriptions>
-      <description xml:lang="nl">Generiek datum veld, normaal gesproken de creatiedatum maar dit veld kan worden aangepast.</description>
-      <description xml:lang="en">Generic date field, in principle the creation date but it can be adapted.</description>
+      <description xml:lang="nl">Publicatiedatum, in veel gevallen de creatiedatum</description>
+      <description xml:lang="en">Date of publication, in most cases the creation date</description>
     </descriptions>
     <gui>
       <guiname xml:lang="nl">Datum</guiname>

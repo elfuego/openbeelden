@@ -6,8 +6,8 @@
                         http://www.mmbase.org/xmlns/builder.xsd"
     name="language">
     <descriptions>
-      <description xml:lang="nl">Taal waarin dit item of deze vertaling is gemaakt</description>
-      <description xml:lang="en">Language in which this item or translation is made</description>
+      <description xml:lang="nl">Taal van dit item of vertaling</description>
+      <description xml:lang="en">Language of this item or translation</description>
     </descriptions>
     <gui>
       <guiname xml:lang="nl">Taal</guiname>
