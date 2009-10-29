@@ -12,6 +12,9 @@ import org.mmbase.util.logging.Logger;
 import org.mmbase.util.logging.Logging;
 
 /**
+ * Authorizes actions by Open Images users. In short: each user has access to the nodes she/he created,
+ * users with rank 'project manager' have access to all nodes of users with a lower rank including
+ * the user account nodes.
  *
  * @author Michiel Meeuwissen
  * @author André van Toly
