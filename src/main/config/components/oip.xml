@@ -185,13 +185,13 @@
     </body>
   </block>
 
-  <block name="user-mediatranslations"
+  <block name="user-translations"
          classification="oip"
          mimetype="text/html">
     <title xml:lang="en">Translations</title>
     <title xml:lang="nl">Vertalingen</title>
-    <description xml:lang="en">Translations of a media item's meta data</description>
-    <description xml:lang="nl">Vertalingen van de metadata van een media item</description>
+    <description xml:lang="en">Translations of an item</description>
+    <description xml:lang="nl">Vertalingen van een item</description>
     <head>
       <class name="org.mmbase.framework.StringRenderer">
         <param name="string"><![CDATA[
@@ -200,11 +200,11 @@
         ]]></param>
       </class>
     </head>
-    <body jsp="user-mediatranslations.jspx">
+    <body jsp="user-translations.jspx">
       <param name="n" type="org.mmbase.bridge.Node" />
     </body>
   </block>
-  
+
   <block name="user-mediapreview"
          classification="oip"
          mimetype="text/html">
