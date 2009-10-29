@@ -138,6 +138,17 @@ function initTabs(id) {
     }
 }
 
+/* Shows and hides information about form fields */
+function initFieldInfos() {
+    if ($('form fieldset p.info').length) {
+        $('form fieldset label').hover(function(ev) {
+            $(this).next('p.info').show();
+        }, function(ev) {
+            $(this).next('p.info').hide();
+        });
+    }
+}
+
 $(document).ready(function() {
     initLangSwitch();
     initClearMsg();
@@ -147,6 +158,7 @@ $(document).ready(function() {
     initClose();
     initTabs('tabs');
     initTabs('usertabs');
+    initFieldInfos();
 });
 
 </mm:content>
