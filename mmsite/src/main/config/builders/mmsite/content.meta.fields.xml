@@ -7,8 +7,8 @@
 
 	<field name="show">
 	  <descriptions>
-		<description xml:lang="nl">Tonen of niet tonen. Dat is de vraag.</description>
-		<description xml:lang="en">To show or not to show. That is the question.</description>
+		<description xml:lang="nl">Of dit item getoond moet worden</description>
+		<description xml:lang="en">Whether to show this item</description>
 	  </descriptions>
 	  <gui>
 		<guiname xml:lang="nl">Tonen</guiname>
@@ -28,7 +28,7 @@
 
     <field name="online">
       <descriptions>
-        <description xml:lang="nl">Datum en tijd waarop dit getoond moet worden</description>
+        <description xml:lang="nl">Datum en tijd waarop het getoond moet worden</description>
         <description xml:lang="en">Date and time to display this item</description>
       </descriptions>
       <gui>
@@ -51,7 +51,7 @@
 
     <field name="offline">
       <descriptions>
-        <description xml:lang="nl">Datum en tijd waarop dit niet meer getoond moet worden</description>
+        <description xml:lang="nl">Datum en tijd waarop het niet meer getoond moet worden</description>
         <description xml:lang="en">Date and time to end displaying this item</description>
       </descriptions>
       <gui>
