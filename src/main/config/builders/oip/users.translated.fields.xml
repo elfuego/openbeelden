@@ -8,6 +8,10 @@
 
 
     <field name="firstname">
+      <descriptions>
+        <description xml:lang="en">Firstname</description>
+        <description xml:lang="nl">Voornaam</description>
+      </descriptions>
       <gui>
         <guiname xml:lang="nl">Voornaam</guiname>
         <guiname xml:lang="en">Firstname</guiname>
@@ -24,9 +28,13 @@
     </field>
     
     <field name="suffix">
+      <descriptions>
+        <description xml:lang="en">Surname prefix</description>
+        <description xml:lang="nl">Tussenvoegsel of voorvoegsel bij de achternaam</description>
+      </descriptions>
       <gui>
         <guiname xml:lang="nl">Tussenvoegsel</guiname>
-        <guiname xml:lang="en">Suffix</guiname>
+        <guiname xml:lang="en">Prefix</guiname>
       </gui>
       <editor>
         <positions>
@@ -40,6 +48,10 @@
     </field>
 
     <field name="lastname">
+      <descriptions>
+        <description xml:lang="en">Lastname</description>
+        <description xml:lang="nl">Achternaam of familienaam</description>
+      </descriptions>
       <gui>
         <guiname xml:lang="nl">Achternaam</guiname>
         <guiname xml:lang="en">Lastname</guiname>
@@ -56,6 +68,10 @@
     </field>
 
     <field name="description">
+      <descriptions>
+        <description xml:lang="en">Short description about yourself</description>
+        <description xml:lang="nl">Een korte beschrijving over jezelf</description>
+      </descriptions>
       <gui>
         <guiname xml:lang="nl">Beschrijving</guiname>
         <guiname xml:lang="en">Description</guiname>
