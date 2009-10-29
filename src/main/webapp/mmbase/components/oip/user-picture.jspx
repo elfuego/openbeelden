@@ -48,6 +48,13 @@
                   </mm:node>
                 </c:otherwise>
               </c:choose>
+              
+              <mm:link>
+                <mm:frameworkparam name="component">oip</mm:frameworkparam>
+                <mm:frameworkparam name="block">user-edit</mm:frameworkparam>
+                <a href="${_}">« <fmt:message key="users.back" /></a>
+              </mm:link>
+
             </mm:maywrite>
           
           </c:when>
