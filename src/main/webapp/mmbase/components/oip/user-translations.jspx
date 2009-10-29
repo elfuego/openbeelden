@@ -13,7 +13,7 @@
         class="mm_c c_oip b_user-translations ${requestScope.className}"
         id="${requestScope['org.mmbase.componentId']}">
   
-      <mm:import externid="media" id="the_node" />
+      <mm:import externid="media" id="node" />
       <mm:notpresent referid="node">
         <mm:remove referid="node" />
         <mm:import externid="n" id="node" />
