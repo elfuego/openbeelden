@@ -9,7 +9,14 @@
     maintainer="www.mmbase.org" version="100" extends="mmbaseusers"
     defaultcontextintypedef="security"
     >
+
+  <properties>
+    <property name="translations.builder">users_translations</property>
+  </properties>
+
   <fieldlist>
+
+    <xi:include href="http://www.mmbase.org/builders/oip/language.field.xml" />
     
     <field name="defaultcontext" readonly="true">
       <datatype base="node" xmlns="http://www.mmbase.org/xmlns/datatypes">
@@ -40,65 +47,6 @@
           <description xml:lang="nl">Wachtwoord is te lang</description>
           <description xml:lang="en">Password is too long</description>
         </maxLength>
-      </datatype>
-    </field>
-
-    <field name="firstname">
-      <gui>
-        <guiname xml:lang="nl">Voornaam</guiname>
-        <guiname xml:lang="en">Firstname</guiname>
-      </gui>
-      <editor>
-        <positions>
-          <list>2</list>
-        </positions>
-      </editor>
-      <datatype base="eline" xmlns="http://www.mmbase.org/xmlns/datatypes" >
-        <required value="false" />
-        <maxLength value="1024" />
-      </datatype>
-    </field>
-    
-    <field name="suffix">
-      <gui>
-        <guiname xml:lang="nl">Tussenvoegsel</guiname>
-        <guiname xml:lang="en">Suffix</guiname>
-      </gui>
-      <editor>
-        <positions>
-          <list>3</list>
-        </positions>
-      </editor>
-      <datatype base="eline" xmlns="http://www.mmbase.org/xmlns/datatypes" >
-        <required value="false" />
-        <maxLength value="1024" />
-      </datatype>
-    </field>
-
-    <field name="lastname">
-      <gui>
-        <guiname xml:lang="nl">Achternaam</guiname>
-        <guiname xml:lang="en">Lastname</guiname>
-      </gui>
-      <editor>
-        <positions>
-          <list>4</list>
-        </positions>
-      </editor>
-      <datatype base="eline" xmlns="http://www.mmbase.org/xmlns/datatypes" >
-        <required value="false" />
-        <maxLength value="1024" />
-      </datatype>
-    </field>
-
-    <field name="description">
-      <gui>
-        <guiname xml:lang="nl">Beschrijving</guiname>
-        <guiname xml:lang="en">Description</guiname>
-      </gui>
-      <datatype base="field" xmlns="http://www.mmbase.org/xmlns/datatypes" >
-        <required value="false" />
-        <maxLength value="64000" />
       </datatype>
     </field>
 
@@ -164,9 +112,15 @@
         </commitprocessor>
       </datatype>
     </field>
-
+    
   </fieldlist>
 
-  <xi:include href="http://www.mmbase.org/builders/cloudcontext/mmbasecontexts.functions.xml" />
+  <xi:include href="http://www.mmbase.org/builders/oip/users.translated.fields.xml" />
 
+  <xi:include href="http://www.mmbase.org/builders/cloudcontext/mmbasecontexts.functions.xml" />
+  
+  <functionlist>
+    <xi:include href="http://www.mmbase.org/builders/oip/translation.function.xml" />
+  </functionlist>
+  
 </builder>

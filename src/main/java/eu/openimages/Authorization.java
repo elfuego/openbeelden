@@ -14,6 +14,7 @@ import org.mmbase.util.logging.Logging;
 /**
  *
  * @author Michiel Meeuwissen
+ * @author André van Toly
  * @version $Id$
  */
 public class Authorization extends Verify {

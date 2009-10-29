@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<builder
+    xmlns="http://www.mmbase.org/xmlns/builder"
+    xmlns:xi="http://www.w3.org/2001/XInclude"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.mmbase.org/xmlns/builder
+                        http://www.mmbase.org/xmlns/builder.xsd"
+    name="users_translations" maintainer="mmbase.org" version="0" extends="object">
+  <searchage>999</searchage>
+  <names>
+    <singular xml:lang="en">User account (translation)</singular>
+    <singular xml:lang="nl">User account (vertaling)</singular>
+    <plural xml:lang="en">User accounts (translations)</plural>
+    <plural xml:lang="nl">User accounts (vertalingen)</plural>
+  </names>
+  <descriptions>
+    <description xml:lang="en">Translation, only the to be translated fields of mmbaseusers</description>
+    <description xml:lang="nl">Vertaling, alleen de te vertalen velden van mmbaseusers</description>
+  </descriptions>
+
+  <fieldlist>
+    <xi:include href="http://www.mmbase.org/builders/oip/language.field.xml" />
+  </fieldlist>
+
+  <xi:include href="http://www.mmbase.org/builders/oip/users.translated.fields.xml" />
+  
+</builder>
