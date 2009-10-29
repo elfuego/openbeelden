@@ -76,8 +76,8 @@
 
       <mm:present referid="committed">
         <mm:node referid="newsource">
-          <mm:voidfunction name="waitUntilTranscoding" />
-          <p><oip:type /></p>
+          <mm:voidfunction name="waitUntilRecognized" />
+          <p class="msg"><oip:type /></p>
 
           <!-- p class="msg">Submitted ${_node} URL: ${_node.url} FS: ${_node.filesize}</p -->
 
