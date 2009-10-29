@@ -42,16 +42,12 @@ public class Authorization extends Verify {
                     // own user node, let super handle it
                     return super.mayDo(user, node, operation);
                 } else {
-                    if (log.isDebugEnabled()) {
-                        log.debug("According to " + up + " " + node.getNumber() + " is not an own node");
-                    }
-                    
                     if (node.getBuilder() == up.getUserBuilder()) {
                         if (user.getRank().getInt() >= Rank.BASICUSER_INT && 
                                 user.getRank().getInt() > up.getRank(node).getInt()) {
                             
                             if (log.isDebugEnabled()) {
-                                log.debug("Higher rank so may read, write or delete user node #" + node.getNumber());
+                                log.debug("Higher rank so may read, write or delete user account #" + node.getNumber());
                             }
                             switch(operation.getInt()) {
                                 case Operation.READ_INT:   return true;
