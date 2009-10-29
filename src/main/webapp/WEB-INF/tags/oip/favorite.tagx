@@ -12,9 +12,8 @@
       <mm:import externid="favorite" />
       <mm:import externid="remove" />
       <mm:import externid="user"><mm:cloudinfo type="usernode" id="iam" /></mm:import>
-    
       <mm:nodeinfo type="type" id="type" write="false" />
-      <c:if test="${type eq 'mediafragments'}">
+      <c:if test="${type eq 'mediafragments' or type eq 'videofragments' or type eq 'audiofragments' or type eq 'imagefragments'}">
         <!-- from mmbaseusers to media -->
         <mm:listrelationscontainer type="mmbaseusers" role="ratingrel" searchdir="source">
           <mm:constraint field="ratingrel.snumber" value="$user" operator="EQUAL" />
@@ -54,5 +53,5 @@
       </c:if> 
     
     </mm:maycreate>
-    
+
 </jsp:root>
