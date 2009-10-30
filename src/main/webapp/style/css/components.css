@@ -33,8 +33,7 @@ div.b_user-picture h3
     clear: none;
 }
 div.b_user-profile h4,
-div.b_user-profile p, div.b_user-picture p { margin-left: 90px; }
-div.b_user-profile p.msg { margin-left: 0; }
+div.b_user-profile p.description, div.b_user-picture p.description { margin-left: 90px; }
 div.b_user-mediapreview p img { margin: 1em 8px -6px 0; }
 
 div.b_user-mediapreview #oiplayer div.player
