@@ -52,7 +52,7 @@
               <mm:link>
                 <mm:frameworkparam name="component">oip</mm:frameworkparam>
                 <mm:frameworkparam name="block">user-edit</mm:frameworkparam>
-                <a href="${_}">« <fmt:message key="users.back" /></a>
+                <p><a href="${_}">« <fmt:message key="users.back" /></a></p>
               </mm:link>
 
             </mm:maywrite>
@@ -62,14 +62,14 @@
 
             <oip:thumb />
             <h3 class="subtitle"><oip:user /></h3>
-            <p>
+            <mm:maywrite>
               <mm:link>
                 <mm:frameworkparam name="component">oip</mm:frameworkparam>
                 <mm:frameworkparam name="block">user-picture</mm:frameworkparam>
                 <mm:param name="edit">ok</mm:param>
-                <a href="${_}"><fmt:message key="users.edit_image" /> »</a>
+                <p class="description"><a href="${_}"><fmt:message key="users.edit_image" /> »</a></p>
               </mm:link>
-            </p>
+            </mm:maywrite>
 
           </c:otherwise>
         </c:choose>
