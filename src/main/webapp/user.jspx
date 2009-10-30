@@ -61,7 +61,7 @@
               <li><a href="#fragment-2"><span><fmt:message key="users.translations" /></span></a></li>
             </ul>
             <div class="related-grey" id="fragment-1">
-              <mm:component name="oip" block="user-image" />
+              <mm:component name="oip" block="user-picture" />
             </div>
             <div class="related-grey" id="fragment-2">
               <mm:component name="oip" block="user-translations" />
