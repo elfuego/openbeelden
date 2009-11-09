@@ -14,6 +14,20 @@
       <script src="${mm:link('/style/js/player.js')}" type="text/javascript"><!-- help ie --></script>
       <link href="${mm:link('/style/css/player.css')}" rel="stylesheet" type="text/css" />
       <link href="${mm:link('/api/atom/')}" rel="alternate" type="application/atom+xml" title="Open Image Platform latest uploads" />
+      <mm:node number="page_home">
+        <mm:relatednodescontainer type="mediafragments" role="posrel" searchdirs="destination">
+          <mm:constraint field="show" value="true" operator="EQUAL" />
+          <mm:sortorder field="posrel.pos" direction="UP" />
+          <mm:maxnumber value="1" />
+          <mm:relatednodes id="featured_node">
+            <mm:field name="length">
+              <meta name="media-duration" content="${_ / 1000}" />
+            </mm:field>
+            <meta name="media-width" content="320" />
+            <meta name="media-height" content="240" />
+          </mm:relatednodes>
+        </mm:relatednodescontainer>
+      </mm:node>
     </jsp:attribute>
     <jsp:attribute name="left"><jsp:text>  </jsp:text></jsp:attribute>
 
@@ -35,35 +49,23 @@
 
       <div class="main-column">
         <oip:h2><fmt:message key="media.featured" /></oip:h2>
-
-        <mm:node number="page_home">
-          <mm:relatednodescontainer type="mediafragments" role="posrel" searchdirs="destination">
-
-            <mm:constraint field="show" value="true" operator="EQUAL" />
-            <!--
-            <mm:constraint field="online" value="$today" operator="LESS" />
-            <mm:constraint field="offline" value="$today" operator="GREATER" />
-            -->
-            <mm:maxnumber value="1" />
-            <mm:relatednodes id="featured_node">
-              <oip:media />
-              <h3 class="subtitle">
-                <mm:link>
-                  <mm:frameworkparam name="component">oip</mm:frameworkparam>
-                  <mm:frameworkparam name="block">mediafragment</mm:frameworkparam>
-                  <mm:frameworkparam name="media">${_node}</mm:frameworkparam>
-                  <a href="${_}">
-                    <mm:nodefunction name="translation">
-                      <mm:field name="title">
-                        <mm:isnotempty>${_}</mm:isnotempty>
-                        <mm:isempty>Media item</mm:isempty>
-                      </mm:field>
-                    </mm:nodefunction>
-                  </a>
-                </mm:link>
-              </h3>
-            </mm:relatednodes>
-          </mm:relatednodescontainer>
+        <mm:node referid="featured_node">
+          <oip:media />
+          <h3 class="subtitle">
+            <mm:link>
+              <mm:frameworkparam name="component">oip</mm:frameworkparam>
+              <mm:frameworkparam name="block">mediafragment</mm:frameworkparam>
+              <mm:frameworkparam name="media">${_node}</mm:frameworkparam>
+              <a href="${_}">
+                <mm:nodefunction name="translation">
+                  <mm:field name="title">
+                    <mm:isnotempty>${_}</mm:isnotempty>
+                    <mm:isempty>Media item</mm:isempty>
+                  </mm:field>
+                </mm:nodefunction>
+              </a>
+            </mm:link>
+          </h3>
         </mm:node>
       </div>
 
