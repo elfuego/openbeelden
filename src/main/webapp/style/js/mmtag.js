@@ -1,5 +1,12 @@
 /*
   jQuery plugin for tagsuggestions, depends on typeWatch jQuery plugin
+  Use for example like this:
+    function initTagsuggest() {
+        $('input.tagsuggest').mmTagsuggest({
+            url: 'tags.jspx',
+            resultId: '#tagsuggestions'
+        });
+    }
   @author: André van Toly
   @version: 0.1
   @params:
@@ -7,14 +14,13 @@
     resultId - id of an html element in which to display the tag suggestions
   @changes: initial version
 */
-$.fn.mmTagsuggest = function(o) {
+jQuery.fn.mmTagsuggest = function(o) {
     return this.each(function() {
         var self = this;
         var options = jQuery.extend({
 			url : undefined,
 			resultId : '#mmtagsuggestions'
 		}, o);
-        //console.log("options: " + options.url + ", " + options.resultId); 
         var resultEl = $(options.resultId);
 
         $(this).attr('autocomplete', 'off');  // FF etc. autocomplete off
@@ -32,7 +38,6 @@ $.fn.mmTagsuggest = function(o) {
             var url = options.url;
             var matches;
             $(options.resultId).empty();
-            //console.log("text: " + text + " url: " + url);
             
             var params = new Object();
             params.tag = text;
