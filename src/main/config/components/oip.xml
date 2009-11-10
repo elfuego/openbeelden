@@ -217,7 +217,7 @@
         <param name="string"><![CDATA[
           <script src="{REQUEST.getContextPath}/style/js/play.js.jsp" type="text/javascript"> </script>
           <script src="{REQUEST.getContextPath}/style/js/player.js" type="text/javascript"> </script>
-          <script src="{REQUEST.getContextPath}/player/flowplayer-3.1.1.min.js" type="text/javascript"> </script>
+          <script src="{REQUEST.getContextPath}/player/flowplayer-3.1.4.min.js" type="text/javascript"> </script>
           <link href="{REQUEST.getContextPath}/style/css/player.css" type="text/css" rel="stylesheet" />
         ]]></param>
       </class>
