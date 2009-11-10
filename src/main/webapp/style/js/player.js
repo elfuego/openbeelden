@@ -48,7 +48,7 @@ function createPlayer(id, config) {
             player = new Player();
         }
         player.info = selectedPlayer.type + ": " + selectedPlayer.url;
-        //console.log(player.info);
+        console.log(player.info);
         return player.init(id, selectedPlayer.url, config);
     }
 }
@@ -264,7 +264,7 @@ FlowPlayer.prototype.init = function(id, url, config) {
     this._init(id, url, config);
     this.url = url;
     var flwplayer = config.dir + "/" + config.flash;
-    var flwcontrols = 'flowplayer.controls-3.1.3.swf';
+    //var flwcontrols = 'flowplayer.controls-3.1.1.swf';
 
     /* flowplayer replaces everything in the geven element */
     var el = $('#' + id).find('div.player')[0];
