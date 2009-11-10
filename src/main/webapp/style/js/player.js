@@ -48,7 +48,7 @@ function createPlayer(id, config) {
             player = new Player();
         }
         player.info = selectedPlayer.type + ": " + selectedPlayer.url;
-        console.log(player.info);
+        //console.log(player.info);
         return player.init(id, selectedPlayer.url, config);
     }
 }
@@ -262,22 +262,21 @@ function FlowPlayer() {
 FlowPlayer.prototype = new Player();
 FlowPlayer.prototype.init = function(id, url, config) {
     this._init(id, url, config);
-    this.url = url;
     var flwplayer = config.dir + "/" + config.flash;
-    //var flwcontrols = 'flowplayer.controls-3.1.1.swf';
+    var duration = (this.duration == undefined ? 0 : this.duration);
 
     /* flowplayer replaces everything in the geven element */
     var el = $('#' + id).find('div.player')[0];
     this.player = $f(el, { src : flwplayer, width : this.width, height : this.height }, {
         clip: {
-            url: url,
+            url: this.url,
             autoPlay: this.autoplay,
-            duration: this.duration,
+            duration: duration,
             scaling: 'fit',
             autoBuffering: this.autobuffer,
             bufferLength: 5
         },
-        plugins: { controls: { height: 24, hideDelay: 2000, fullscreen: false } }
+        plugins: { controls: { height: 24, hideDelay: 200, fullscreen: false } }
     });
 
     return this.player;
