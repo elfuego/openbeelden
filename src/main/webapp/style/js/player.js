@@ -276,7 +276,7 @@ FlowPlayer.prototype.init = function(id, url, config) {
             autoBuffering: this.autobuffer,
             bufferLength: 5
         },
-        plugins: { controls: { height: 24, hideDelay: 200, fullscreen: false } }
+        plugins: { controls: { height: 24, autoHide: 'always', hideDelay: 2000, fullscreen: false } }
     });
 
     return this.player;
