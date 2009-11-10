@@ -18,7 +18,7 @@ function initPlayer(id) {
         /* the files (jar, flash) need to be in this directory */
         'dir' : '${mm:link('/player')}',
         'jar' : 'cortado-ovt-stripped-wm_r38710.jar',
-        'flash' : 'flowplayer-3.1.1.swf'
+        'flash' : 'flowplayer-3.1.5.swf'
     };
     
     var mediaEl = createPlayer(id, config);

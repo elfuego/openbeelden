@@ -12,7 +12,7 @@
     <param name="DatePattern"   value="'.'yyyy-MM-dd" />
     <param name="File" value="&logdir;oip.log" />
     <param name="Encoding"   value="UTF-8" />
-    <param name="Append"   value="false" />
+    <param name="Append"   value="true" />
     <layout class="org.mmbase.util.logging.log4j.MMPatternLayout">
        <param name="ConversionPattern" value="%N %d{ISO8601} %q %c{4} %M.%L - %m%n" />
     </layout>
@@ -67,7 +67,7 @@
  -->
 
 <!-- 
-  <logger name="eu.openimages" >
+  <logger name="eu.openimages.Authorization" >
     <level class="&mmlevel;" value="debug" />
   </logger>
  -->
@@ -76,11 +76,9 @@
     <level class="&mmlevel;" value="info" />
   </logger>
   
-<!-- 
   <logger name="org.mmbase.streams" >
     <level class="&mmlevel;" value="debug" />
   </logger>
- -->
 
 <!-- 
   <logger name="org.mmbase.applications.media" >
