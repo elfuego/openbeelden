@@ -7,12 +7,13 @@
   <!--
   <server max_simultaneous_transcoders="2" host="localhost" port="1679" />
   -->
-  <localhost max_simultaneous_transcoders="1" />
+  <localhost max_simultaneous_transcoders="1" stage="recognizer"  />
+  <localhost max_simultaneous_transcoders="1" stage="transcoder" />
   <!--
   <server max_simultaneous_transcoders="2" host="openbeelden2.tuxic.nl" port="1679" />
   -->
 
-<!-- 
+<!--
   <transcoder>
     <class name="org.mmbase.streams.transcoders.InfiniteTranscoder">
     </class>
