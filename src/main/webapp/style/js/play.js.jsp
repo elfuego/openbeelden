@@ -11,14 +11,23 @@
   @changes: moved methods to player.js, classes for id's
 */
 
+function inititPlayer() {
+    $('div.oiplayer').oipPlayer({
+        /* msie (or windows java) has issues with just a dir */
+        'server' : '<mm:url page="/" absolute="true" />',
+        /* the files (jar, flash) need to be in this directory */
+        'jar' : '${mm:link('/player/cortado-ovt-stripped-wm_r38710.jar')}',
+        'flash' : '${mm:link('/player/flowplayer-3.1.1.swf')}'
+    });
+}
+
 function initPlayer(id) {
     var config = { 
         /* msie (or windows java) has issues with just a dir */
         'server' : '<mm:url page="/" absolute="true" />',
         /* the files (jar, flash) need to be in this directory */
-        'dir' : '${mm:link('/player')}',
-        'jar' : 'cortado-ovt-stripped-wm_r38710.jar',
-        'flash' : 'flowplayer-3.1.1.swf'
+        'jar' : '/player/cortado-ovt-stripped-wm_r38710.jar',
+        'flash' : '/player/flowplayer-3.1.1.swf'
     };
     
     var mediaEl = createPlayer(id, config);
@@ -78,7 +87,8 @@ function initPlayer(id) {
 }
 
 $(document).ready(function() {
-    initPlayer('oiplayer');
+    //initPlayer('oiplayer');
+    inititPlayer();
 });
 
 </mm:content>

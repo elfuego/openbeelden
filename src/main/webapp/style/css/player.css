@@ -46,6 +46,20 @@ div.player
 	position: relative;
 }
 
+div.oiplayer
+{
+	margin: 0;
+	padding: 0;
+	position: relative;
+}
+
+img.preview
+{
+	margin: 0;
+	padding: 0;
+	position: absolute;
+}
+
 div.player audio, #msie_cortadoplayer_oiplayer
 {
 	position: absolute;

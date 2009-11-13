@@ -3,15 +3,16 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="nl">
 <head>
   <meta http-equiv="content-type" content="text/html; charset=utf-8" />
-  <title>De man met de grote bril : Media  - Open Beelden</title>
+  <title>Testpagina : Media  - Open Beelden</title>
   <link href="../style/css/main.css" rel="stylesheet" type="text/css" />
   <link href="../style/images/favicon.ico" rel="shortcut icon" />
   <script src="../mmbase/jquery/jquery-1.3.2.min.js" type="text/javascript"></script>
   <script src="../style/js/main.js.jsp" type="text/javascript"><!-- help ie --></script>
-  <script type="text/javascript" src="flowplayer-3.1.1.min.js"><!-- help ie --></script>
+  <script type="text/javascript" src="flowplayer-3.1.4.min.js"><!-- help ie --></script>
   <script src="../style/js/player.js" type="text/javascript"><!-- help ie --></script>
   <script src="../style/js/play.js.jsp" type="text/javascript"><!-- help ie --></script>
   <link href="../style/css/player.css" rel="stylesheet" type="text/css" />
+
 </head>
 <body class="media-item">
 <div id="header">
@@ -40,21 +41,21 @@
 </div>
 
 <div class="main-column">
+  <div id="clientcaps">  </div>
   <h2>Media item</h2>
 
-  <div id="oiplayer">
-    <div class="player">
-      <video controls="false" width="320" height="240" poster="../html/bril-groot.png" autobuffer="false">
-        <!-- <source src="http://www.toly.net/downloads-oip/presto2.mp4" type="video/mp4" /> -->
-        <!-- <source src="presto.ogv" type="video/ogg" /> -->
-        <source src="matrix.mp4" type="video/mp4" />
-        <p>
-           Your need a browser that understands the html5 video tag to play this media item.
-           Firefox 3.1 nightly builds, Opera experimental builds and Safari (with XiphQT for Ogg)
-           installed can understand the video tag with varying degrees of success.
-        </p>
-      </video>
-    </div>
+  <div class="oiplayer">
+    <video controls="false" width="320" height="240" poster="../html/bril-groot.png" autobuffer="false">
+      <!-- <source src="http://www.toly.net/downloads-oip/presto2.mp4" type="video/mp4" /> -->
+      <source src="presto.ogv" type="video/ogg" />
+      <source src="matrix.mp4" type="video/mp4" />
+      <p>
+         Your need a browser that understands the html5 video tag to play this media item.
+         Firefox 3.1 nightly builds, Opera experimental builds and Safari (with XiphQT for Ogg)
+         installed can understand the video tag with varying degrees of success.
+      </p>
+    </video>
+<!-- 
     <ul class="controls">
       <li class="play"><a href="#">play</a></li>
       <li class="position">
@@ -67,10 +68,23 @@
         <a href="#">sound</a>
       </li>
     </ul>
+ -->
   </div>
 
   <h3 class="subtitle">Man met grote bril</h3>
-  <h4>Collectie Beeld en Geluid</h4>
+  
+  <h2>Media item</h2>
+  <div class="oiplayer">
+    <video controls="false" width="320" height="240" poster="matrix.png" autobuffer="false">
+      <source src="matrix.mp4" type="video/mp4" />
+      <p>
+         Your need a browser that understands the html5 video tag to play this media item.
+         Firefox 3.1 nightly builds, Opera experimental builds and Safari (with XiphQT for Ogg)
+         installed can understand the video tag with varying degrees of success.
+      </p>
+    </video>
+  </div>
+  <h3 class="subtitle">Matrix</h3>
 
 
 </div>
