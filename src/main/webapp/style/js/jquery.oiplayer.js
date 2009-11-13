@@ -17,7 +17,7 @@
   @changes: jQuery plugin
 */
 
-jQuery.fn.oipPlayer = function(conf) {
+jQuery.fn.oiplayer = function(conf) {
     return this.each(function() {
         var self = this;
         var config = jQuery.extend({    // example configuration
@@ -153,7 +153,6 @@ jQuery.fn.oipPlayer = function(conf) {
                 }
             }
         }
-        alert("proposal: " + proposal.type);
         return proposal;
     }
     

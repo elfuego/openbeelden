@@ -12,7 +12,7 @@
 */
 
 function inititPlayer() {
-    $('div.oiplayer').oipPlayer({
+    $('div.oiplayer').oiplayer({
         /* msie (or windows java) has issues with just a dir */
         'server' : '<mm:url page="/" absolute="true" />',
         /* the files (jar, flash) need to be in this directory */
