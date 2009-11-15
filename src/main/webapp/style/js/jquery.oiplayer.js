@@ -28,38 +28,33 @@ jQuery.fn.oiplayer = function(conf) {
         
         var mediatag = findTag(this);
         var player = createPlayer(this, config);
-        //console.log("player state hier: " + player.state);
-        //console.log(player);
-
+        // replace tag
         $(this).find(player.type).remove();
         $(this).append(player.player);
        
-        var poster = createPoster(this, mediatag, config);
-        //$(this).prepend(poster);
+        var poster = createPoster(this, player);
+        $(this).prepend(poster);
         $(this).append(createControls());
 
         /* click play/pause button */
         var self = this;
+        var timer = $(this).find('ul.controls li.position');
         $(this).find('ul.controls li.play').click(function(ev) {
             ev.preventDefault();
             var timer = $(self).find('ul.controls li.position');
             if (player.state == 'pause') {
-                //console.log("1: play");
                 player.play();
                 if ($(self).find('ul.controls li.pause').length == 0) {
                     $(self).find('ul.controls li.play').addClass('pause');
                 }
                 followProgress(player, timer);
             } else if (player.state == 'play') {
-                //console.log("2: pause");
                 player.pause();
                 $(self).find('ul.controls li.play').removeClass('pause');
             } else {
-                //console.log("3: play");
                 if (mediatag.type == 'video') {
                     $(self).find('img.preview').remove();
                 }
-                //$(this).append(player);
                 player.play();
                 if ($(self).find('ul.controls li.pause').length == 0) {
                     $(self).find('ul.controls li.play').addClass('pause');
@@ -68,6 +63,19 @@ jQuery.fn.oiplayer = function(conf) {
             }
             //console.log("player state: " + player.state);
         });
+        
+        /* click preview: play */
+        $(this).find('img.preview').click(function(ev) {
+            ev.preventDefault();
+            if (player.type == 'video') {
+                $(self).find('img.preview').remove();
+            }
+            player.play();
+            followProgress(player, timer);
+            if ($(self).find('ul.controls li.pause').length == 0) {
+                $(self).find('ul.controls li.play').addClass('pause');
+            }
+        });        
         
     });
         
@@ -219,10 +227,10 @@ jQuery.fn.oiplayer = function(conf) {
         return support;
     }
 
-    function createPoster(el, mediatag, config) {
-        var src = $(mediatag.element).attr('poster');
+    function createPoster(el, player) {
+        var src = player.poster;
         if (src == undefined) src = $(el).find('img').attr('src');
-        return img = '<img src="' + src + '" alt="" class="preview" width="' + config.width + '" height="' + config.height + '" />';
+        return img = '<img src="' + src + '" alt="" class="preview" width="' + player.width + '" height="' + player.height + '" />';
     }
         
     function createControls() {
@@ -248,7 +256,6 @@ jQuery.fn.oiplayer = function(conf) {
      */
     function followProgress(player, el) {
         var pos;
-        $(el).text("just starting..");
         var progress = null;
         clearInterval(progress);
         progres = setInterval(function() {
@@ -257,7 +264,6 @@ jQuery.fn.oiplayer = function(conf) {
                     $(el).text(toTime(pos));
                 }
                 if (pos == undefined) {
-                    //console.log("pos undef");
                     clearInterval(progress);
                     return;
                 }
@@ -291,7 +297,6 @@ jQuery.fn.oiplayer = function(conf) {
 function Player() {
     this.myname = "super";
 }
-
 Player.prototype.init = function(el, url, config) { }
 Player.prototype.play = function() { }
 Player.prototype.pause = function() { }
@@ -300,7 +305,6 @@ Player.prototype.info = function() { }
 
 Player.prototype._init = function(el, url, config) {
     this.url = url;
-    this.mediatype = this.type;
     this.poster = $(this.player).attr('poster');
     this.autoplay = $(this.player).attr('autoplay');
     if (this.autoplay == undefined) this.autoplay = false;
@@ -333,22 +337,16 @@ MediaPlayer.prototype.init = function(el, url, config) {
                                       //followProgress();
                                   },
                                   false);
-    //console.log("MediaPlayer:");
-    //console.log(this.player);
     return this.player;
 }
 MediaPlayer.prototype.play = function() {
-    //this.player.autoplay = true;
-    //console.log("MediaPlayer starts to play...");
     this.player.play();
     this.state = 'play';
 }
-
 MediaPlayer.prototype.pause = function() {
     this.player.pause();
     this.state = 'pause';
 }
-
 MediaPlayer.prototype.position = function() {
     try {
         this.pos = this.player.currentTime;
@@ -364,7 +362,6 @@ MediaPlayer.prototype.info = function() {
     */
     //return "Duration: " + this.player.duration + " readyState: " + this.player.readyState;
 }
-
 
 function CortadoPlayer() {
     this.myname = "cortadoplayer";
@@ -503,12 +500,9 @@ FlowPlayer.prototype.init = function(el, url, config) {
         },
         plugins: { controls: { height: 24, autoHide: 'always', hideDelay: 2000, fullscreen: false } }
     });
-    //console.log("FlowPlayer:");
-    //console.log(this.player);
     return this.player;
 }
 FlowPlayer.prototype.play = function() {
-    //console.log("FlowPlayer starts to play...");
     if (this.player.getState() == 4) {
         this.player.resume();
     } else if (this.player.getState() != 3) {
