@@ -15,7 +15,7 @@
       <script src="${mm:link('/style/js/typewatch.js')}" type="text/javascript"><!-- help ie --></script>
       <script src="${mm:link('/style/js/mmtag.js')}" type="text/javascript"><!-- help ie --></script>
       <script src="${mm:link('/player/flowplayer-3.1.1.min.js')}" type="text/javascript"><!-- help ie --></script>
-      <script src="${mm:link('/style/js/player.js')}" type="text/javascript"><!-- help ie --></script>
+      <script src="${mm:link('/style/js/jquery.oiplayer.js')}" type="text/javascript"><!-- help ie --></script>
       <script src="${mm:link('/style/js/play.js.jsp')}" type="text/javascript"><!-- help ie --></script>
       <link href="${mm:link('/style/css/player.css')}" rel="stylesheet" type="text/css" />
       <mm:link page="/api/atom/">
