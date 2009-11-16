@@ -4,3 +4,10 @@ This is the Open Images Platform Web Application, you can build it with maven2. 
 
 $ mvn clean install
 
+
+You can run it like so:
+- change jetty-env.xml to point to your database correctly
+$ mvn jetty:run
+
+Look at port 8080
+
