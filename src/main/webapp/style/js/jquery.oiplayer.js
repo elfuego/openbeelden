@@ -1,7 +1,8 @@
 /*
-  Inits and controls the video player based on the html5 videotag. Depends on jquery. It enables
-  the use of three players in a generic way: video-tag, java player cortado (for ogg) and flash.
-  Sifts through the sources provided by the video-tag to find a suitable player.
+  Inits and controls video- or audioplayer based on the html5 video- or audiotag. Depends on jquery. 
+  It enables the use of three players in a generic way: html5 media-tag, Java applet Cortado (for ogg) 
+  and Flash FlowPlayer (for mp4 and flv). Sifts through the sources provided by the mediatag to find 
+  a suitable player, replaces the mediatag with it and enables some generic controls.
   This script borrows heavily from the rather brilliant one used at Steal This Footage which enables
   a multitude of players (but defies MSIE ;-) http://footage.stealthisfilm.com/
 
@@ -26,7 +27,6 @@ jQuery.fn.oiplayer = function(conf) {
             flash : '/player/flowplayer-3.1.1.swf'
         }, conf);
         
-        var mediatag = findTag(this);
         var player = createPlayer(this, config);
         // replace tag
         $(this).find(player.type).remove();
@@ -52,7 +52,7 @@ jQuery.fn.oiplayer = function(conf) {
                 player.pause();
                 $(self).find('ul.controls li.play').removeClass('pause');
             } else {
-                if (mediatag.type == 'video') {
+                if (player.type == 'video') {
                     $(self).find('img.preview').remove();
                 }
                 player.play();
@@ -165,7 +165,7 @@ jQuery.fn.oiplayer = function(conf) {
     }
     
     /*
-     * Returns ogg url it expects to be able to play
+     * Examines mimetypes and returns belonging ogg url it expects to be able to play.
      */
     function canPlayCortado(types, urls) {
         var url;
@@ -182,10 +182,9 @@ jQuery.fn.oiplayer = function(conf) {
     }
     
     /*
-     * Returns url it expects to be able to play
+     * Returns url it expects to be able to play with html5 video- or audiotag based on mimetype.
      */
     function canPlayMedia(types, urls) {
-        //var probably;
         var vEl = document.createElement("video");
         var aEl = document.createElement("audio");
         if (vEl.canPlayType || aEl.canPlayType) {
@@ -204,7 +203,7 @@ jQuery.fn.oiplayer = function(conf) {
         }
     }
     
-    function findTag(el, conf) {
+    function findTag(el) {
         var o = new Object();
         o.type = "video";
         o.element = $(el).find('video')[0];
@@ -264,7 +263,6 @@ $.oiplayer = {
      */
     follow: function (player, el) {
         var pos = player.duration;
-        console.log("Ah!: " + pos);
         var progress = null;
         clearInterval(progress);
         progres = setInterval(function() {
