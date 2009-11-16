@@ -47,7 +47,7 @@ jQuery.fn.oiplayer = function(conf) {
                 if ($(self).find('ul.controls li.pause').length == 0) {
                     $(self).find('ul.controls li.play').addClass('pause');
                 }
-                followProgress(player, timer);
+                $.oiplayer.follow(player, timer);
             } else if (player.state == 'play') {
                 player.pause();
                 $(self).find('ul.controls li.play').removeClass('pause');
@@ -59,7 +59,7 @@ jQuery.fn.oiplayer = function(conf) {
                 if ($(self).find('ul.controls li.pause').length == 0) {
                     $(self).find('ul.controls li.play').addClass('pause');
                 }
-                followProgress(player, timer);
+                $.oiplayer.follow(player, timer);
             }
             //console.log("player state: " + player.state);
         });
@@ -71,7 +71,7 @@ jQuery.fn.oiplayer = function(conf) {
                 $(self).find('img.preview').remove();
             }
             player.play();
-            followProgress(player, timer);
+            $.oiplayer.follow(player, timer);
             if ($(self).find('ul.controls li.pause').length == 0) {
                 $(self).find('ul.controls li.play').addClass('pause');
             }
@@ -117,9 +117,9 @@ jQuery.fn.oiplayer = function(conf) {
     }
     
     /* 
-       Selects which player to use and returns a proposal.type and proposal.url. 
-       Adapt this to change the prefered order, here the order is: video, cortado, msie_cortado flash.
-    */
+     * Selects which player to use and returns a proposal.type and proposal.url. 
+     * Adapt this to change the prefered order, here the order is: video, cortado, msie_cortado flash.
+     */
     function selectPlayer(tag, types, urls) {
         var proposal = new Object();
         var probably = canPlayMedia(types, urls);
@@ -166,7 +166,7 @@ jQuery.fn.oiplayer = function(conf) {
     
     /*
      * Returns ogg url it expects to be able to play
-    */
+     */
     function canPlayCortado(types, urls) {
         var url;
         for (var i = 0; i < types.length; i++) {
@@ -183,7 +183,7 @@ jQuery.fn.oiplayer = function(conf) {
     
     /*
      * Returns url it expects to be able to play
-    */
+     */
     function canPlayMedia(types, urls) {
         //var probably;
         var vEl = document.createElement("video");
@@ -248,14 +248,23 @@ jQuery.fn.oiplayer = function(conf) {
         $('#' + id).append('<div class="playerinfo">' + text + '</div>');
     }
     
+    return this; // plugin convention
+};
+
+//  ------------------------------------------------------------------------------------------------
+//  Global functions
+//  ------------------------------------------------------------------------------------------------
+
+$.oiplayer = {
     
     /* 
      * Updates the provided html element with progress time of player
      * @param player Object of player
      * @param el     HTML element
      */
-    function followProgress(player, el) {
-        var pos;
+    follow: function (player, el) {
+        var pos = player.duration;
+        console.log("Ah!: " + pos);
         var progress = null;
         clearInterval(progress);
         progres = setInterval(function() {
@@ -268,27 +277,25 @@ jQuery.fn.oiplayer = function(conf) {
                     return;
                 }
             }, 200);
-    }
-    
-    function toTime(sec) {
-        var h = Math.floor(sec / 3600);
-        var min = Math.floor(sec / 60);
-        var sec = Math.floor(sec - (min * 60));
-        if (h >= 1) {
-            min -= h * 60;
-            return addZero(h) + ":" + addZero(min) + ":" + addZero(sec);
-        }
-        return addZero(min) + ":" + addZero(sec);
-    }
-    
-    function addZero(time) {
-        time = parseInt(time, 10);
-        return time < 10 ? "0" + time : time;
-    }
-    
-    return this; // plugin convention
-};
 
+        function toTime(sec) {
+            var h = Math.floor(sec / 3600);
+            var min = Math.floor(sec / 60);
+            var sec = Math.floor(sec - (min * 60));
+            if (h >= 1) {
+                min -= h * 60;
+                return addZero(h) + ":" + addZero(min) + ":" + addZero(sec);
+            }
+            return addZero(min) + ":" + addZero(sec);
+        }
+        
+        function addZero(time) {
+            time = parseInt(time, 10);
+            return time < 10 ? "0" + time : time;
+        }
+
+    }
+}
 
 //  ------------------------------------------------------------------------------------------------
 //  Prototypes of several players
@@ -331,10 +338,11 @@ MediaPlayer.prototype.init = function(el, url, config) {
     this._init(el, url, config); // just init and pass it along
     this.url = url;
     var self = this;
+    var timer = $(el).find('ul.controls li.position');
     this.player.addEventListener("playing", 
                                   function(ev) {
                                       self.state = 'play';
-                                      //followProgress();
+                                      $.oiplayer.follow(self, timer);
                                   },
                                   false);
     return this.player;
@@ -485,7 +493,7 @@ FlowPlayer.prototype = new Player();
 FlowPlayer.prototype.init = function(el, url, config) {
     this._init(el, url, config);
     var flwplayer = config.flash;
-    var duration = (this.duration == undefined ? 0 : this.duration);
+    var duration = (this.duration == undefined ? 0 : Math.round(this.duration));
     
     $(el).append('<div class="playfp" />');
     var div = $(el).find('div.playfp')[0];
