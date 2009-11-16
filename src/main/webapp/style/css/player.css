@@ -58,6 +58,7 @@ img.preview
 	margin: 0;
 	padding: 0;
 	position: absolute;
+	z-index: 99;
 }
 
 div.player audio, #msie_cortadoplayer_oiplayer
