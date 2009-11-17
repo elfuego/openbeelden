@@ -24,65 +24,98 @@ jQuery.fn.oiplayer = function(conf) {
         var config = jQuery.extend({    // example configuration
             server : 'http://localhost',
             jar : '/player/cortado-ovt-stripped-wm_r38710.jar',
-            flash : '/player/flowplayer-3.1.1.swf'
+            flash : '/player/flowplayer-3.1.1.swf',
+            controls : 'true'
         }, conf);
-        
-        var player = createPlayer(this, config);
-        // replace tag
-        $(this).find(player.type).remove();
-        $(this).append(player.player);
-       
-        var poster = createPoster(this, player);
-        $(this).prepend(poster);
-        $(this).append(createControls());
-
-        /* click play/pause button */
-        var self = this;
-        var timer = $(this).find('ul.controls li.position');
-        $(this).find('ul.controls li.play').click(function(ev) {
-            ev.preventDefault();
-            var timer = $(self).find('ul.controls li.position');
-            if (player.state == 'pause') {
-                player.play();
-                if ($(self).find('ul.controls li.pause').length == 0) {
-                    $(self).find('ul.controls li.play').addClass('pause');
-                }
-                $.oiplayer.follow(player, timer);
-            } else if (player.state == 'play') {
-                player.pause();
-                $(self).find('ul.controls li.play').removeClass('pause');
-            } else {
-                if (player.type == 'video') {
-                    $(self).find('img.preview').remove();
-                }
-                player.play();
-                if ($(self).find('ul.controls li.pause').length == 0) {
-                    $(self).find('ul.controls li.play').addClass('pause');
-                }
-                $.oiplayer.follow(player, timer);
+            
+        var mediatags = $(this).find('video, audio');
+        $.each(mediatags, function(i, t) {
+            alert("t: " + t + " tag: " + t.tagName.toLowerCase() + " nr: " + i);
+            var sources = $(t).find('source');
+            if (sources.length == 0) {
+                alert("no sources found");
+                /* at least this works in MSIE (and other browsers that don't know html5 video or audio ?) */
+                sources = $(self).find('source');
             }
-            //console.log("player state: " + player.state);
+            
+            var urls = $.map(sources, function(s) {
+                return $(s).attr('src');
+            });
+            var types = $.map(sources, function(s) {
+                return $(s).attr('type');
+            });
         });
-        
-        /* click preview: play */
-        $(this).find('img.preview').click(function(ev) {
-            ev.preventDefault();
-            if (player.type == 'video') {
-                $(self).find('img.preview').remove();
-            }
-            player.play();
-            $.oiplayer.follow(player, timer);
-            if ($(self).find('ul.controls li.pause').length == 0) {
-                $(self).find('ul.controls li.play').addClass('pause');
-            }
-        });        
-        
+            
+        $(this).append('<div class="oiplayer" />');
+        var div = $(this).find('div.oiplayer');
+
+
+            //var player = createPlayer(tag, config);
+            
+             //alert("info: " + player.info + ", myname: " + player.myname);
+//             if (player.myname != 'flowplayer') {
+//                 $(div).empty();
+//             }
+//             
+//             var poster = createPoster(this, player);
+//             $(div).prepend(poster);
+//             $(div).after(createControls());
+//     
+//             /* click play/pause button */
+//             var ctrls = $(div).next('ul.controls');
+//             var timer = $(ctrls).find('li.position');
+//             $(ctrls).find('li.play').click(function(ev) {
+//                 ev.preventDefault();
+//                 if (player.state == 'pause') {
+//                     player.play();
+//                     if ($(ctrls).find('li.pause').length == 0) {
+//                         $(ctrls).find('li.play').addClass('pause');
+//                     }
+//                     $.oiplayer.follow(player, timer);
+//                 } else if (player.state == 'play') {
+//                     player.pause();
+//                     $(ctrls).find('li.play').removeClass('pause');
+//                 } else {
+//                     if (player.type == 'video') {
+//                         $(div).find('img.preview').remove();
+//                     }
+//                     $(div).append(player.player);
+//                     player.play();
+//                     if ($(ctrls).find('li.pause').length == 0) {
+//                         $(ctrls).find('li.play').addClass('pause');
+//                     }
+//                     $.oiplayer.follow(player, timer);
+//                 }
+//                 //console.log("player state: " + player.state);
+//             });
+//             
+//             /* click preview: play */
+//             $(div).find('img.preview').click(function(ev) {
+//                 ev.preventDefault();
+//                 if (player.type == 'video') {
+//                     $(div).find('img.preview').remove();
+//                 }
+//                 $(div).append(player.player);
+//                 player.play();
+//                 $.oiplayer.follow(player, timer);
+//                 if ($(ctrls).find('li.pause').length == 0) {
+//                     $(ctrls).find('li.play').addClass('pause');
+//                 }
+//             });        
+            
+/*        });   */
     });
-        
+    
+    /* 
+     * Create player
+     * @param el        video or audio element
+     * @param config    configuration
+     * @return Player
+     */
     function createPlayer(el, config) {
         var player;
-        var mediatag = findTag(el);
         var sources = $(el).find('source');
+        //alert("el type: " + el);
         var types = $.map(sources, function(i) {
             return $(i).attr('type');
         });
@@ -91,36 +124,39 @@ jQuery.fn.oiplayer = function(conf) {
         });
     
         if (urls.length == 0) { // no sources in body
-            urls[0] = $(mediatag).attr('src');
+            urls[0] = $(el).attr('src');
             types[0] = "unknown";   // TODO ? 
         }
-        if (mediatag != undefined) {
-            var selectedPlayer = selectPlayer(mediatag, types, urls);
-            if (selectedPlayer.type == 'media') {
-                player = new MediaPlayer();
-            } else if (selectedPlayer.type == 'cortado') {
-                player = new CortadoPlayer();
-            } else if (selectedPlayer.type == 'msie_cortado') {
-                player = new MSCortadoPlayer();
-            } else if (selectedPlayer.type == 'flash') {
-                player = new FlowPlayer();
-            } else {
-                player = new Player();
-            }
-            player.type = mediatag.type;        // previous .type is of no interest any more
-            player.player = mediatag.element;
-            player.url = selectedPlayer.url;
-            player.info = selectedPlayer.type + ":" + selectedPlayer.url;
-            player.init(el, selectedPlayer.url, config);
-            return player;
+        
+        var selectedPlayer = selectPlayer(el, types, urls);
+        if (selectedPlayer.type == 'media') {
+            player = new MediaPlayer();
+        } else if (selectedPlayer.type == 'cortado') {
+            player = new CortadoPlayer();
+        } else if (selectedPlayer.type == 'msie_cortado') {
+            player = new MSCortadoPlayer();
+        } else if (selectedPlayer.type == 'flash') {
+            player = new FlowPlayer();
+        } else {
+            player = new Player();
         }
+        player.type = el.tagName.toLowerCase();
+        player.player = el;
+        player.url = selectedPlayer.url;
+        player.info = selectedPlayer.type + ":" + selectedPlayer.url;
+        player.init(el, selectedPlayer.url, config);
+        return player;
     }
     
     /* 
      * Selects which player to use and returns a proposal.type and proposal.url. 
      * Adapt this to change the prefered order, here the order is: video, cortado, msie_cortado flash.
+     * @param el    video or audio element
+     * @param types mimetypes
+     * @param urls  media links
      */
-    function selectPlayer(tag, types, urls) {
+    function selectPlayer(el, types, urls) {
+        //alert("types: " + types);
         var proposal = new Object();
         var probably = canPlayMedia(types, urls);
         if (probably != undefined) {
@@ -141,7 +177,7 @@ jQuery.fn.oiplayer = function(conf) {
                         proposal.type = "msie_cortado";
                         proposal.url = probably;
                     }
-                    if (tag.type == 'audio') {      // always use cortado on msie
+                    if (el.tagName.toLowerCase() == 'audio') {      // always use cortado on msie
                         proposal.type = "msie_cortado";
                         proposal.url = probably;
                     }
@@ -202,7 +238,7 @@ jQuery.fn.oiplayer = function(conf) {
             }
         }
     }
-    
+
     function findTag(el) {
         var o = new Object();
         o.type = "video";
@@ -228,7 +264,10 @@ jQuery.fn.oiplayer = function(conf) {
 
     function createPoster(el, player) {
         var src = player.poster;
-        if (src == undefined) src = $(el).find('img').attr('src');
+        if (src == undefined) {
+            //console.log("No poster found, trying img..");
+            src = $(el).find('img').attr('src');
+        }
         return img = '<img src="' + src + '" alt="" class="preview" width="' + player.width + '" height="' + player.height + '" />';
     }
         
@@ -311,6 +350,7 @@ Player.prototype.info = function() { }
 Player.prototype._init = function(el, url, config) {
     this.url = url;
     this.poster = $(this.player).attr('poster');
+    //console.log("this.poster: " + this.poster);
     this.autoplay = $(this.player).attr('autoplay');
     if (this.autoplay == undefined) this.autoplay = false;
     this.autobuffer = $(this.player).attr('autobuffer');
@@ -336,6 +376,7 @@ MediaPlayer.prototype.init = function(el, url, config) {
     this._init(el, url, config); // just init and pass it along
     this.url = url;
     var self = this;
+    //console.log(this.player);
     var timer = $(el).find('ul.controls li.position');
     this.player.addEventListener("playing", 
                                   function(ev) {
@@ -493,8 +534,8 @@ FlowPlayer.prototype.init = function(el, url, config) {
     var flwplayer = config.flash;
     var duration = (this.duration == undefined ? 0 : Math.round(this.duration));
     
-    $(el).append('<div class="playfp" />');
-    var div = $(el).find('div.playfp')[0];
+    var div = document.createElement('div');
+    $(el).replaceWith(div);
     this.player = $f(div, { src : flwplayer, width : this.width, height : this.height }, {
         clip: {
             url: this.url,

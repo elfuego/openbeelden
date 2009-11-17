@@ -37,20 +37,13 @@
 	margin: 0 auto;
 }
 
-div.player
+div.oiplayer
 {
+	position: relative;
+	display: block;
 	margin: 0;
 	padding: 0;
 	height: 240px;
-	margin-bottom: 6px;
-	position: relative;
-}
-
-div.oiplayer
-{
-	margin: 0;
-	padding: 0;
-	position: relative;
 }
 
 img.preview
@@ -58,12 +51,13 @@ img.preview
 	margin: 0;
 	padding: 0;
 	position: absolute;
-	z-index: 99;
+	z-index: 9;
 }
 
-div.player audio, #msie_cortadoplayer_oiplayer
+div.oiplayer audio, #msie_cortadoplayer_oiplayer
 {
 	position: absolute;
+	z-index: 10;
 	bottom: 0;
 	left: 0;
 	width: 320px;

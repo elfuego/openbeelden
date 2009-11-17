@@ -12,7 +12,6 @@
   <script src="../style/js/jquery.oiplayer.js" type="text/javascript"><!-- help ie --></script>
   <script src="../style/js/play.js.jsp" type="text/javascript"><!-- help ie --></script>
   <link href="../style/css/player.css" rel="stylesheet" type="text/css" />
-
 </head>
 <body class="media-item">
 <div id="header">
@@ -41,49 +40,43 @@
 </div>
 
 <div class="main-column">
+  <h2>Media/audio item</h2>
+  <audio class="dummy" controls="true" autobuffer="false">
+    <img src="../html/bril-groot.png" width="319" height="239" class="preview" />
+    <source src="zztop.mp3" type="audio/mpeg" ><!-- leeg voor ie --></source>
+    <source src="zztop.ogg" type="audio/ogg" ><!-- leeg voor ie --></source>
+    <p>
+       Your need a browser that understands the html5 video tag to play this media item.
+       Firefox 3.1 nightly builds, Opera experimental builds and Safari (with XiphQT for Ogg)
+       installed can understand the video tag with varying degrees of success.
+    </p>
+  </audio>
+  <h3 class="subtitle">zztop</h3>
+
   <div id="clientcaps">  </div>
   <h2>Media item</h2>
 
-  <div class="oiplayer">
-    <video controls="false" width="320" height="240" poster="../html/bril-groot.png" autobuffer="false">
-      <!-- <source src="http://www.toly.net/downloads-oip/presto2.mp4" type="video/mp4" /> -->
-      <source src="presto.ogv" type="video/ogg" />
-      <source src="matrix.mp4" type="video/mp4" />
-      <p>
-         Your need a browser that understands the html5 video tag to play this media item.
-         Firefox 3.1 nightly builds, Opera experimental builds and Safari (with XiphQT for Ogg)
-         installed can understand the video tag with varying degrees of success.
-      </p>
-    </video>
-<!-- 
-    <ul class="controls">
-      <li class="play"><a href="#">play</a></li>
-      <li class="position">
-        00:00
-      </li>
-      <li class="screen">
-        <a href="#">fullscreen</a>
-      </li>
-      <li class="sound">
-        <a href="#">sound</a>
-      </li>
-    </ul>
- -->
-  </div>
+  <video controls="false" width="320" height="240" poster="../html/bril-groot.png" autobuffer="false">
+    <source src="presto.ogv" type="video/ogg" ><!-- leeg voor ie --></source>
+    <source src="matrix.mp4" type="video/mp4" ><!-- leeg voor ie --></source>
+    <p>
+       Your need a browser that understands the html5 video tag to play this media item.
+       Firefox 3.1 nightly builds, Opera experimental builds and Safari (with XiphQT for Ogg)
+       installed can understand the video tag with varying degrees of success.
+    </p>
+  </video>
 
   <h3 class="subtitle">Man met grote bril</h3>
   
   <h2>Media item</h2>
-  <div class="oiplayer">
-    <video controls="false" width="320" height="240" poster="matrix.png" autobuffer="false">
-      <source src="matrix.mp4" type="video/mp4" />
-      <p>
-         Your need a browser that understands the html5 video tag to play this media item.
-         Firefox 3.1 nightly builds, Opera experimental builds and Safari (with XiphQT for Ogg)
-         installed can understand the video tag with varying degrees of success.
-      </p>
-    </video>
-  </div>
+  <video controls="false" width="320" height="240" poster="matrix.png" autobuffer="false">
+    <source src="matrix.mp4" type="video/mp4"><!-- leeg voor ie --></source>
+    <p>
+       Your need a browser that understands the html5 video tag to play this media item.
+       Firefox 3.1 nightly builds, Opera experimental builds and Safari (with XiphQT for Ogg)
+       installed can understand the video tag with varying degrees of success.
+    </p>
+  </video>
   <h3 class="subtitle">Matrix</h3>
 
 
