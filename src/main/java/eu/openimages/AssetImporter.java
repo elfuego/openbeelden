@@ -66,7 +66,7 @@ public class AssetImporter implements Runnable, LoggerAccepter {
 
         Handler(Cloud cloud, File file) {
             this.cloud = cloud;
-            this.cloud.setProperty(org.mmbase.streams.CreateCachesProcessor.NOT, "no");
+            this.cloud.setProperty(org.mmbase.streams.createcaches.Processor.NOT, "no");
             this.cloud.setProperty(org.mmbase.streams.DeleteCachesProcessor.NOT, "no");
             this.cloud.setProperty(org.mmbase.datatypes.processors.BinaryFile.DISABLE_DELETE, "disable");
             this.file = file;
@@ -132,7 +132,7 @@ public class AssetImporter implements Runnable, LoggerAccepter {
                             mf.delete(true);
                         }
                     }
-                    
+
                     for (File subFile : directory.listFiles(filter)) {
                         log.info("Importing  " + subFile.getName());
 
@@ -220,7 +220,7 @@ public class AssetImporter implements Runnable, LoggerAccepter {
                             } else {
                                 title = title.trim();
                             }
-                            title = title.charAt(0) + title.substring(1).toLowerCase(); // Another horrible hack 
+                            title = title.charAt(0) + title.substring(1).toLowerCase(); // Another horrible hack
                             mediaFragment.setStringValue("title", title);
                         }
 
@@ -237,7 +237,7 @@ public class AssetImporter implements Runnable, LoggerAccepter {
                                 log.info("'" + text + "' does not match " + pattern2);
                                 mediaFragment.setStringValue("intro", "");
                             }
-                            
+
                             mediaFragment.setStringValue("body", text);
                         }
 
@@ -261,14 +261,14 @@ public class AssetImporter implements Runnable, LoggerAccepter {
                             mediaFragment.commit();
                         }
                         log.info("Matched mediafragment " + mediaFragment.getNumber() + " " + mediaFragment.getStringValue("title"));
-                        
-                        RelationManager rm = cloud.getRelationManager(cloud.getNodeManager("mediafragments"), cloud.getNodeManager("licenses"), "related"); 
+
+                        RelationManager rm = cloud.getRelationManager(cloud.getNodeManager("mediafragments"), cloud.getNodeManager("licenses"), "related");
                         Node licenseNode = cloud.getNodeByAlias("licenses_attributionsharealike");
                         if (SearchUtil.findRelatedNode(mediaFragment, "licenses", "related") == null) {
                             mediaFragment.createRelation(licenseNode, rm).commit();
                             log.info("Related mediafragment " + mediaFragment.getNumber() + " to license " + licenseNode.getStringValue("name"));
                         }
-                        
+
                     } else {
                         log.warn("No files found, ignoring this");
                     }
@@ -353,13 +353,13 @@ public class AssetImporter implements Runnable, LoggerAccepter {
     public void setUser(String u) {
         user = u;
     }
-    
+
     private Node owner = null;
 
     public void setOwner(Node n) {
         owner = n;
     }
-    
+
     private void findOwner(Cloud cloud, String username) {
         final Node node = SearchUtil.findNode(cloud, "mmbaseusers", "username", username);
         if (node == null) {
@@ -371,7 +371,7 @@ public class AssetImporter implements Runnable, LoggerAccepter {
     Pattern XML_PATTERN = Pattern.compile(".*\\.xml$");
     public void read(Cloud cloud) throws IOException, SAXException,java.net.URISyntaxException {
         findOwner(cloud, user);
-        
+
         File file = fileName == null ? new File(FileServlet.getDirectory(), dirNames[0]) : new File(fileName);
         if (file.isDirectory()) {
             FilenameFilter filter = new FilenameFilter() {
