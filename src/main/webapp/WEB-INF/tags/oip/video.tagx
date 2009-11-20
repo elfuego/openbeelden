@@ -39,7 +39,7 @@
 
   <c:choose>
     <c:when test="${empty mediaurls}">
-      <div id="oiplayer" class="inavailable">
+      <div class="inavailable">
         <p>
           <jsp:text>No media sources available.</jsp:text>
           <c:if test="${!empty unsupported}">
@@ -49,31 +49,16 @@
       </div>
     </c:when>
     <c:otherwise>
-      <div id="oiplayer">
-        <div class="player">
-          <video
-                 controls="controls"
-                 width="${w}"
-                 height="${h}"
-                 poster="${poster}">
-            <mm:write referid="mediaurls" escape="none" />
-            <p>
-              You need a browser that understands the html5 video tag to play this media item.
-            </p>
-          </video>
-        </div>
-        <ul class="controls">
-          <li class="play"><a href="#">play</a></li>
-          <li class="position">
-            <c:choose>
-              <c:when test="${!empty length}">
-                <mm:time time="$length" inputformat="S" format="mm:ss" />
-              </c:when>
-              <c:otherwise>00:00</c:otherwise>
-            </c:choose>
-          </li>
-        </ul>
-      </div>
+      <video
+             controls="controls"
+             width="${w}"
+             height="${h}"
+             poster="${poster}">
+        <mm:write referid="mediaurls" escape="none" />
+        <p>
+          You need a browser that understands the html5 video tag to play this media item.
+        </p>
+      </video>
     </c:otherwise>
   </c:choose>
 
