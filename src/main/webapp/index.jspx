@@ -49,24 +49,26 @@
 
       <div class="main-column">
         <oip:h2><fmt:message key="media.featured" /></oip:h2>
-        <mm:node referid="featured_node">
-          <oip:media />
-          <h3 class="subtitle">
-            <mm:link>
-              <mm:frameworkparam name="component">oip</mm:frameworkparam>
-              <mm:frameworkparam name="block">mediafragment</mm:frameworkparam>
-              <mm:frameworkparam name="media">${_node}</mm:frameworkparam>
-              <a href="${_}">
-                <mm:nodefunction name="translation">
-                  <mm:field name="title">
-                    <mm:isnotempty>${_}</mm:isnotempty>
-                    <mm:isempty>Media item</mm:isempty>
-                  </mm:field>
-                </mm:nodefunction>
-              </a>
-            </mm:link>
-          </h3>
-        </mm:node>
+        <mm:present referid="featured_node">
+          <mm:node referid="featured_node">
+            <oip:media />
+            <h3 class="subtitle">
+              <mm:link>
+                <mm:frameworkparam name="component">oip</mm:frameworkparam>
+                <mm:frameworkparam name="block">mediafragment</mm:frameworkparam>
+                <mm:frameworkparam name="media">${_node}</mm:frameworkparam>
+                <a href="${_}">
+                  <mm:nodefunction name="translation">
+                    <mm:field name="title">
+                      <mm:isnotempty>${_}</mm:isnotempty>
+                      <mm:isempty>Media item</mm:isempty>
+                    </mm:field>
+                  </mm:nodefunction>
+                </a>
+              </mm:link>
+            </h3>
+          </mm:node>
+        </mm:present>
       </div>
 
       <div class="right-column">
