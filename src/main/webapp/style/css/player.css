@@ -2,7 +2,7 @@
 * @author   Open Images Platform
 * @since    May 2009
 * @name     Stylesheet to style the player
-* @version  0.3
+* @version  0.4
 */
 
 #clientcaps	/* used by MSIE Java plugin detection, sigh :-( */
@@ -11,42 +11,16 @@
 	display: none;
 }
 
-#oiplayer
-{
-	width: 320px;
-	display: block;
-	margin-bottom: 6px;
-	position: relative;
-}
-
-#oiplayer.inavailable
-{
-	font-weight: bold;
-	height: 240px;
-	font-size: 1.1em;
-	background-image: url(../images/preview_video.png);
-	margin-bottom: 6px;
-}
-
-#oiplayer.inavailable p
-{
-	width: 80%;
-	padding-top: 100px;
-	text-align: center;
-	font-size: 1.4em;
-	margin: 0 auto;
-}
-
 div.oiplayer
 {
 	position: relative;
 	display: block;
-	margin: 0;
+	margin: 0 0 12px 0;
 	padding: 0;
 	height: 240px;
 }
 
-img.preview
+div.oiplayer img.preview
 {
 	margin: 0;
 	padding: 0;
@@ -61,6 +35,24 @@ div.oiplayer audio, #msie_cortadoplayer_oiplayer
 	bottom: 0;
 	left: 0;
 	width: 320px;
+}
+
+div.inavailable
+{
+	font-weight: bold;
+	height: 240px;
+	font-size: 1.1em;
+	background-image: url(../images/preview_video.png);
+	margin-bottom: 6px;
+}
+
+div.inavailable p
+{
+	width: 80%;
+	padding-top: 100px;
+	text-align: center;
+	font-size: 1.4em;
+	margin: 0 auto;
 }
 
 ul.controls
@@ -107,16 +99,6 @@ ul.controls li.play.pause a
 	width: 21px;
 	margin-left: 0;
 }
-
-
-/*
-div#playercontrols li.pause a
-{
-	background-image: url(../images/controls-pause.png);
-	width: 21px;
-	margin-left: 4px;
-}
-*/
 
 ul.controls li.position
 {
