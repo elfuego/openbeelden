@@ -36,14 +36,19 @@ div.b_user-profile h4,
 div.b_user-profile p.description, div.b_user-picture p.description { margin-left: 90px; }
 div.b_user-mediapreview p img { margin: 1em 8px -6px 0; }
 
-div.b_user-mediapreview #oiplayer div.player
+/* oiplayer */
+div.b_user-mediapreview div.oiplayer
 {
 	width: 284px;
 	height: 213px;
 	display: block;
 	margin-bottom: 4px;
 }
-div.b_user-mediapreview #oiplayer.inavailable
+div.b_user-mediapreview div.oiplayer audio
+{
+	width: 284px;
+}
+div.b_user-mediapreview div.inavailable
 {
 	width: 284px;
 	height: 213px;
@@ -51,7 +56,7 @@ div.b_user-mediapreview #oiplayer.inavailable
 	background-position: -20px -14px;
 	background-repeat: no-repeat;
 }
-div.b_user-mediapreview #oiplayer.inavailable p { padding-top: 60px; }
+div.b_user-mediapreview div.inavailable p { padding-top: 60px; }
 
 div.b_user-mediapreview ul.controls { width: 284px; }
 div.b_user-mediapreview dl.media-info { width: 284px; }
