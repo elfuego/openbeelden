@@ -52,11 +52,10 @@ public class DeleteTranslationsProcessor implements CommitProcessor {
             LOG.service("Not doing because of property");
             return;
         }
-        
-        if (node.getNumber() > 0) {
-            NodeList translations = SearchUtil.findRelatedNodeList(node, 
-                node.getNodeManager().getProperty("translations.builders"), "langrel");
-            LOG.info("Deleting " + translations.size() + " translations of #" + node.getNumber());
+        String builder = node.getNodeManager().getProperty("translations.builder");
+        if (node.getNumber() > 0 && builder != null && !"".equals(builder)) {
+            NodeList translations = SearchUtil.findRelatedNodeList(node, builder, "langrel");
+            LOG.info("Deleting " + translations.size() + " " + builder + " of #" + node.getNumber());
             for (Node tr : translations) {
                 if (tr.mayDelete()) {
                     tr.delete(true);
