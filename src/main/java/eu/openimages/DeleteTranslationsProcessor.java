@@ -1,6 +1,7 @@
 /*
 
-This file is part of the Open Images Platform.
+This file is part of the Open Images Platform, a webapplication to manage and publish open media.
+    Copyright (C) 2009 Netherlands Institute for Sound and Vision
 
 The Open Images Platform is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
