@@ -43,7 +43,6 @@
     <loganalyzer name="org.mmbase.streams.transcoders.FFMpegAnalyzer" />
   </transcoder>
 
-
   <transcoder
       label="lo"
       mimetype="video/*" in="v1" id="v2">

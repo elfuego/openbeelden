@@ -41,7 +41,7 @@
     <c:when test="${empty mediaurls}">
       <div class="inavailable">
         <p>
-          <jsp:text>No media sources available.</jsp:text>
+          <jsp:text>No video sources available.</jsp:text>
           <c:if test="${!empty unsupported}">
             <jsp:text> Unsupported original media file.</jsp:text>
           </c:if>

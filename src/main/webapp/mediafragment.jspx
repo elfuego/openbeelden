@@ -40,7 +40,7 @@
       <div class="main-column">
         <oip:h2><fmt:message key="media.item" /></oip:h2>
 
-        <oip:media />
+        <oip:media width="320" height="240" />
 
         <mm:nodefunction name="translation">
           <h3 class="mediatitle"><mm:field name="title" /></h3>
