@@ -219,6 +219,8 @@
           <script src="{REQUEST.getContextPath}/style/js/play.js.jsp" type="text/javascript"> </script>
           <script src="{REQUEST.getContextPath}/player/flowplayer-3.1.1.min.js" type="text/javascript"> </script>
           <link href="{REQUEST.getContextPath}/style/css/player.css" type="text/css" rel="stylesheet" />
+          <meta name="media-width" content="284" />
+          <meta name="media-height" content="213" />
         ]]></param>
       </class>
     </head>
