@@ -12,12 +12,12 @@
 */
 
 function initPlayer() {
-    $('.main-column').oiplayer({
+    $('.main-column, .right-column').oiplayer({
         /* msie (or windows java) has issues with just a dir */
         'server' : '<mm:url page="/" absolute="true" />',
         'jar' : '${mm:link('/player/cortado-ovt-stripped-wm_r38710.jar')}',
         'flash' : '${mm:link('/player/flowplayer-3.1.1.swf')}',
-        'controls' : 'true'
+        'controls' : 'false'
     });
 }
 
