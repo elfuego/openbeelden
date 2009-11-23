@@ -3,11 +3,13 @@ Open Images Platform
 23 november 2009
 
 The Open Images Platform is a Java webapplication to manage and publish open media. 
-
 http://www.openimages.eu
 http://www.openbeelden.nl
 
-Building this with Maven 2
+Installation instructions can be found in INSTALL in this same directory.
+
+
+BUILDING THIS WITH MAVEN 2
 --------------------------
 You can build it with maven2. 
 Standing in this directory:
@@ -15,20 +17,19 @@ Standing in this directory:
 $ mvn clean install
 
 
-Run it
+RUN IT
 ------
 You can run it like so:
 - change jetty-env.xml to point to your database correctly
+
 $ mvn jetty:run
 
-Look at port 8080
+Point your webbrowser at http://localhost:8080.
 
 
 
-License
+LICENSE
 -------
-
-/*
 
 This file is part of the Open Images Platform, a webapplication to manage and publish open media.
     Copyright (C) 2009 Netherlands Institute for Sound and Vision
@@ -45,5 +46,3 @@ GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License
 along with The Open Images Platform.  If not, see <http://www.gnu.org/licenses/>.
-
-*/
