@@ -1,21 +1,26 @@
 /*
-  Inits and controls video- or audioplayer based on the html5 video- or audiotag. Depends on jquery. 
-  It enables the use of three players in a generic way: html5 media-tag, Java applet Cortado (for ogg) 
-  and Flash FlowPlayer (for mp4 and flv). Sifts through the sources provided by the mediatag to find 
-  a suitable player, replaces the mediatag with it and enables some generic controls.
-  This script borrows heavily from the rather brilliant one used at Steal This Footage which enables
-  a multitude of players (but defies MSIE ;-) http://footage.stealthisfilm.com/
-
-  @author: André van Toly
-  @version: 0.4
-  @params:
-    id - id of the element that contains the video-tag
-    config - configuration parameters
-        'server' : server url (think only for ie)
-        'jar' : JAR file of Cortado
-        'flash' : location of flowplayer.swf
-
-  @changes: jQuery plugin
+ * OIPlayer - jQuery plugin to control and serve alternatives for the html5 video- and audiotag.
+ *
+ * Copyright (c) 2009 André van Toly
+ * Licensed under GPL http://www.gnu.org/licenses/gpl.html
+ *
+ * Inits and controls video- or audioplayer based on the html5 video- or audiotag. Depends on jquery. 
+ * It enables the use of three players in a generic way: html5 media-tag, Java applet Cortado (for ogg) 
+ * and Flash FlowPlayer (for mp4 and flv). Sifts through the sources provided by the mediatag to find 
+ * a suitable player, replaces the mediatag with it and enables some generic controls.
+ * This script borrows heavily from the rather brilliant one used at Steal This Footage which enables
+ * a multitude of players (but defies MSIE ;-) http://footage.stealthisfilm.com/
+ *
+ * @version: 0.4
+ * @params:
+ *   id - id of the element that contains the media tag
+ *   config - configuration parameters
+ *       'server' : server url (think only for ie)
+ *       'jar' : JAR file of Cortado
+ *       'flash' : location of flowplayer.swf
+ *       'controls' : to show and use controls or not
+ *
+ * @changes: jQuery plugin, controls on/of
 */
 
 jQuery.fn.oiplayer = function(conf) {
@@ -30,7 +35,6 @@ jQuery.fn.oiplayer = function(conf) {
             
         var mediatags = $(this).find('video, audio');
         $.each(mediatags, function(i, t) {
-            //console.log("t: " + t + " tag: " + t.tagName.toLowerCase() + " nr: " + i);
             var sources = $(t).find('source');
             if (sources.length == 0) {
                 alert("no sources found in mediatag, will use first available");
@@ -43,57 +47,61 @@ jQuery.fn.oiplayer = function(conf) {
             var player = createPlayer(t, sources, config);
             //console.log("info: " + player.info);
             
-            $(div).css("border", "2px solid #c00")
             if (player.myname != 'flowplayer') {
                 $(div).html(player.player);
             }
 
             var poster = createPoster(this, player);
             $(div).prepend(poster);
-            $(div).after(createControls());
             
-            /* click play/pause button */
-            var ctrls = $(div).next('ul.controls');
-            var timer = $(ctrls).find('li.position');
-            $(ctrls).find('li.play').click(function(ev) {
-                ev.preventDefault();
-                if (player.state == 'pause') {
-                    player.play();
-                    if ($(ctrls).find('li.pause').length == 0) {
-                        $(ctrls).find('li.play').addClass('pause');
+            if (config.controls == true) {
+                
+                $(div).after(createControls());
+            
+                /* click play/pause button */
+                var ctrls = $(div).next('ul.controls');
+                var timer = $(ctrls).find('li.position');
+                $(ctrls).find('li.play').click(function(ev) {
+                    ev.preventDefault();
+                    if (player.state == 'pause') {
+                        player.play();
+                        if ($(ctrls).find('li.pause').length == 0) {
+                            $(ctrls).find('li.play').addClass('pause');
+                        }
+                        $.oiplayer.follow(player, timer);
+                    } else if (player.state == 'play') {
+                        player.pause();
+                        $(ctrls).find('li.play').removeClass('pause');
+                    } else {
+                        if (player.type == 'video') {
+                            $(div).find('img.preview').remove();
+                        }
+                        $(div).append(player.player);
+                        player.play();
+                        if ($(ctrls).find('li.pause').length == 0) {
+                            $(ctrls).find('li.play').addClass('pause');
+                        }
+                        $.oiplayer.follow(player, timer);
                     }
-                    $.oiplayer.follow(player, timer);
-                } else if (player.state == 'play') {
-                    player.pause();
-                    $(ctrls).find('li.play').removeClass('pause');
-                } else {
+                    //console.log("player state: " + player.state);
+                });
+                
+                /* click preview: play */
+                $(div).find('img.preview').click(function(ev) {
+                    ev.preventDefault();
                     if (player.type == 'video') {
                         $(div).find('img.preview').remove();
                     }
                     $(div).append(player.player);
                     player.play();
+                    $.oiplayer.follow(player, timer);
                     if ($(ctrls).find('li.pause').length == 0) {
                         $(ctrls).find('li.play').addClass('pause');
                     }
-                    $.oiplayer.follow(player, timer);
-                }
-                //console.log("player state: " + player.state);
-            });
+                });     
             
-            /* click preview: play */
-            $(div).find('img.preview').click(function(ev) {
-                ev.preventDefault();
-                if (player.type == 'video') {
-                    $(div).find('img.preview').remove();
-                }
-                $(div).append(player.player);
-                player.play();
-                $.oiplayer.follow(player, timer);
-                if ($(ctrls).find('li.pause').length == 0) {
-                    $(ctrls).find('li.play').addClass('pause');
-                }
-            });     
-            
+            }
+
         });
 
     });
