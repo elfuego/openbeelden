@@ -17,7 +17,7 @@ function initPlayer() {
         'server' : '<mm:url page="/" absolute="true" />',
         'jar' : '${mm:link('/player/cortado-ovt-stripped-wm_r38710.jar')}',
         'flash' : '${mm:link('/player/flowplayer-3.1.1.swf')}',
-        'controls' : 'false'
+        'controls' : false
     });
 }
 

@@ -14,27 +14,31 @@
 div.oiplayer
 {
 	position: relative;
-	display: block;
 	margin: 0 0 12px 0;
 	padding: 0;
 	height: 240px;
 }
 
-div.oiplayer img.preview
+div.oiplayer img.oipreview
 {
+	position: absolute;
 	margin: 0;
 	padding: 0;
-	position: absolute;
 	z-index: 9;
+}
+
+div.oiplayer div.oiplayer-flash
+{
+	position: relative;
 }
 
 div.oiplayer audio, #msie_cortadoplayer_oiplayer
 {
 	position: absolute;
-	z-index: 10;
 	bottom: 0;
 	left: 0;
 	width: 320px;
+	z-index: 8;
 }
 
 div.inavailable

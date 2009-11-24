@@ -12,7 +12,8 @@
  * a multitude of players (but defies MSIE ;-) http://footage.stealthisfilm.com/
  *
  * MSIE bug (!) : currently I could find no way to makes this plugin behave correctly in MSIE on multiple
- * mediatags in one go. You will have to wrap each mediatag in a div or some other element.
+ * mediatags in one go. You will have to wrap each mediatag in a div or some other element and feed it
+ * to the plugin.
  *
  * @version: 0.4
  * @params:
@@ -33,7 +34,7 @@ jQuery.fn.oiplayer = function(conf) {
             server : 'http://www.openimages.eu',
             jar : '/player/cortado-ovt-stripped-wm_r38710.jar',
             flash : '/player/flowplayer-3.1.1.swf',
-            controls : 'true'
+            controls : true
         }, conf);
             
         var mediatags = $(this).find('video, audio');
@@ -50,23 +51,26 @@ jQuery.fn.oiplayer = function(conf) {
             var player = createPlayer(mt, sources, config);
             //console.log("info: " + player.info);
             
-            if ($.browser.msie) {
-                $('p.oiplayer-warn').remove();  // MSIE places it outside mediatag
+            var poster = createPoster(self, player); // using self (complete input) for MSIE
+            if ($.browser.msie || player.myname == 'flowplayer') { 
+                $('p.oiplayer-warn').hide(); // MSIE places stuff partly outside mediatag
+                $(div).find('div.oiplayer-flash').hide(); // .remove() would indefinitely loop MSIE
+            } else {
+                $(div).empty();
             }
-            if (player.myname != 'flowplayer') {
-                $(div).html(player.player);
-            }
-
-            var poster = createPoster(this, player);
             $(div).prepend(poster);
 
             /* click preview: play */
-            $(div).find('img.preview').click(function(ev) {
+            $(div).find('img.oipreview').click(function(ev) {
                 ev.preventDefault();
                 if (player.type == 'video') {
-                    $(div).find('img.preview').remove();
+                    $(div).find('img.oipreview').remove();
+                } else {
+                    $(div).find('img.oipreview').css("z-index", "1");
                 }
+                $(div).find('div.oiplayer-flash').show();
                 $(div).append(player.player);
+                $(player.player).css("z-index", "9");
                 player.play();
                 if (config.controls == true) {
                     $.oiplayer.follow(player, timer);
@@ -95,7 +99,7 @@ jQuery.fn.oiplayer = function(conf) {
                         $(ctrls).find('li.play').removeClass('pause');
                     } else {
                         if (player.type == 'video') {
-                            $(div).find('img.preview').remove();
+                            $(div).find('img.oipreview').remove();
                         }
                         $(div).append(player.player);
                         player.play();
@@ -268,11 +272,12 @@ jQuery.fn.oiplayer = function(conf) {
 
     function createPoster(el, player) {
         var src = player.poster;
-        if (src == undefined) {
-            //console.log("No poster found, trying img..");
-            src = $(el).find('img').attr('src');
+        if (src == undefined) { // for audio-tags (no attribute poster)
+            var img = $(el).find('img')[0];
+            src = $(img).attr('src');
+            $(img).remove();
         }
-        return img = '<img src="' + src + '" alt="" class="preview" width="' + player.width + '" height="' + player.height + '" />';
+        return '<img src="' + src + '" alt="" class="oipreview" width="' + player.width + '" height="' + player.height + '" />';
     }
         
     function createControls() {
@@ -491,8 +496,8 @@ function MSCortadoPlayer() {
     this.myname = "msie_cortadoplayer";
 }
 MSCortadoPlayer.prototype = new CortadoPlayer();
-MSCortadoPlayer.prototype.init = function(id, url, config) {
-    this._init(id, url, config);
+MSCortadoPlayer.prototype.init = function(el, url, config) {
+    this._init(el, url, config);
     /* msie (or windows java) can only load an applet from the root of a site, not a directory or context */
     var jar = config.server + config.jar; 
     var usevideo = true;
@@ -505,14 +510,15 @@ MSCortadoPlayer.prototype.init = function(id, url, config) {
     var obj_html = '' +
     '<object classid="clsid:8AD9C840-044E-11D1-B3E9-00805F499D93" '+
     '  codebase="http://java.sun.com/update/1.5.0/jinstall-1_5_0-windows-i586.cab" '+
-    '  id="msie_cortadoplayer_' + id + '" '+
+    //'  id="msie_cortadoplayer_' + id + '" '+
+    '  id="msie_cortadoplayer_oiplayer"' +
     '  allowscriptaccess="always" width="' + this.width + '" height="' + useheight + '">'+
     ' <param name="code" value="com.fluendo.player.Cortado" />'+
     ' <param name="archive" value="' + jar + '" />'+
     ' <param name="url" value="' + this.url + '" /> '+
     ' <param name="duration" value="' + Math.round(this.duration) + '" /> '+
     ' <param name="local" value="true" /> ' +
-    ' <param name="keepAspect" value="false" /> ' +
+    ' <param name="keepAspect" value="true" /> ' +
     ' <param name="video" value="' + usevideo + '" /> ' +
     ' <param name="audio" value="true" /> ' +
     ' <param name="seekable" value="auto" /> '+
@@ -539,6 +545,7 @@ FlowPlayer.prototype.init = function(el, url, config) {
     
     var div = document.createElement('div'); // TODO: add (random) id: adding flowplayer and returning it impossible without id
     $(el).parent('div.oiplayer').html(div);
+    $(div).addClass('oiplayer-flash');
     this.player = $f(div, { src : flwplayer, width : this.width, height : this.height }, {
         clip: {
             url: this.url,
