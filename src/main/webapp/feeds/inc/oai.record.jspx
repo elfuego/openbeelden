@@ -5,7 +5,7 @@
     xmlns:mm="http://www.mmbase.org/mmbase-taglib-2.0">
   <jsp:output omit-xml-declaration="true" />
   
-  <jsp:include page="/api/inc/oai.record.header.jspx" />
+  <jsp:include page="/feeds/inc/oai.record.header.jspx" />
   
   <metadata>
     <oai_dc:dc 

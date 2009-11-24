@@ -10,11 +10,11 @@
 
 <!--
 examples of use:
-  api/oai/?verb=Identify
-  api/oai/?verb=ListSets
-  api/oai/?verb=ListIdentifiers
-  api/oai/?verb=ListRecords&set=lastuploaded
-  api/oai/?verb=GetRecord&identifier=oai:openimages.eu:4983
+  feeds/oai/?verb=Identify
+  feeds/oai/?verb=ListSets
+  feeds/oai/?verb=ListIdentifiers
+  feeds/oai/?verb=ListRecords&set=lastuploaded
+  feeds/oai/?verb=GetRecord&identifier=oai:openimages.eu:4983
 -->
 
   <mm:import id="requesturl"><c:out value="${pageContext.request.requestURL}" /><c:if test="${!empty pageContext.request.queryString}">?<c:out value="${pageContext.request.queryString}" /></c:if></mm:import>
@@ -155,7 +155,7 @@ examples of use:
                 <mm:maxnumber value="$max" />
                 <mm:offset value="$offset" />
                 <mm:listnodes>
-                  <jsp:include page="/api/inc/oai.record.header.jspx" />
+                  <jsp:include page="/feeds/inc/oai.record.header.jspx" />
                 </mm:listnodes>
               </mm:listnodescontainer>
               <c:if test="${(offset + max) lt size}">
@@ -180,7 +180,7 @@ examples of use:
                 <mm:maxnumber value="$max" />
                 <mm:offset value="$offset" />
                 <mm:listnodes>
-                  <jsp:include page="/api/inc/oai.record.jspx" />
+                  <jsp:include page="/feeds/inc/oai.record.jspx" />
                 </mm:listnodes>
               </mm:listnodescontainer>
               <c:if test="${(offset + max) lt size}">
@@ -208,7 +208,7 @@ examples of use:
                   or nodetype eq 'images'
                   }">
               <GetRecord>
-                <jsp:include page="/api/inc/oai.record.jspx" />
+                <jsp:include page="/feeds/inc/oai.record.jspx" />
               </GetRecord>
               <c:set var="foundone" value="yes" />
             </c:if>

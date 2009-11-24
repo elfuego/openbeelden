@@ -138,7 +138,7 @@
       
       <mm:present referid="entries">
         <mm:listnodes referid="entries" varStatus="status">
-          <jsp:include page="/api/inc/atom.entry.jspx" />
+          <jsp:include page="/feeds/inc/atom.entry.jspx" />
         </mm:listnodes>
       </mm:present>
       
