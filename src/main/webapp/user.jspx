@@ -16,6 +16,7 @@
 
     <jsp:attribute name="head">
       
+      <mm:component name="oip" block="${block}" render="head" />
       <c:choose>
         <c:when test="${block eq 'user-media'}">
           <mm:component name="oip" block="user-mediapreview" render="head" />
@@ -26,7 +27,6 @@
           <mm:component name="oip" block="user-translations" render="head" />
         </c:when>
         <c:otherwise>
-          <mm:component name="oip" block="${block}" render="head" />
           <mm:component name="oip" block="user-mediaupload" render="head"/>
         </c:otherwise>
       </c:choose>
@@ -46,6 +46,7 @@
     </jsp:attribute>
 
     <jsp:attribute name="body">
+    
       <div class="main-column">
         <mm:component name="oip" block="${block}" />
         <c:if test="${block eq 'user' or block eq 'user-edit'}">
