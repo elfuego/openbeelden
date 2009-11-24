@@ -19,8 +19,8 @@
          mimetype="text/html">
     <title xml:lang="en">Media</title>
     <title xml:lang="nl">Media</title>
-    <description xml:lang="en">List with media</description>
-    <description xml:lang="nl">Lijst met media items.</description>
+    <description xml:lang="en">List with media items</description>
+    <description xml:lang="nl">Lijst met media items</description>
     <body jsp="media.jspx">
     </body>
   </block>
@@ -30,10 +30,10 @@
          mimetype="text/html">
     <title xml:lang="en">Media item</title>
     <title xml:lang="nl">Mediaitem</title>
-    <description xml:lang="en">Media item: video, audio, images</description>
-    <description xml:lang="nl">Mediaitem: video, audio, afbeelding</description>
+    <description xml:lang="en">Media item: video, audio or an image</description>
+    <description xml:lang="nl">Mediaitem: video, audio of een afbeelding</description>
     <body jsp="mediafragment.jspx">
-      <param name="n"     type="org.mmbase.bridge.Node" />
+      <param name="n" type="org.mmbase.bridge.Node" />
     </body>
   </block>
 
@@ -53,6 +53,8 @@
          mimetype="text/html">
     <title xml:lang="en">New user</title>
     <title xml:lang="nl">Nieuwe gebruiker</title>
+    <description xml:lang="en">Registration form for new users</description>
+    <description xml:lang="nl">Formulier waar een gebruiker zich kan registreren</description>
     <xi:include href="http://www.mmbase.org/components/validation.head.xml" />
     <xi:include href="http://www.mmbase.org/components/widgets.head.xml" />
     <body jsp="create_user.jspx" />
@@ -88,8 +90,8 @@
          mimetype="text/html">
     <title xml:lang="en">My profile</title>
     <title xml:lang="nl">Mijn profiel</title>
-    <description xml:lang="en">A user</description>
-    <description xml:lang="nl">Een gebruiker</description>
+    <description xml:lang="en">Information of a user</description>
+    <description xml:lang="nl">Informatie over een gebruiker</description>
     <head>
       <class name="org.mmbase.framework.StringRenderer">
         <param name="string"><![CDATA[<link rel="stylesheet" href="{REQUEST.getContextPath}/style/css/specific-styles.css" type="text/css" />]]></param>
@@ -117,9 +119,9 @@
          classification="oip"
          mimetype="text/html">
     <title xml:lang="en">User picture</title>
-    <title xml:lang="nl">Gebruikers afbeelding</title>
-    <description xml:lang="en"></description>
-    <description xml:lang="nl"></description>
+    <title xml:lang="nl">Gebruikersafbeelding</title>
+    <description xml:lang="en">Form to edit the user picture</description>
+    <description xml:lang="nl">Formulier om gebruiksafbeelding te bewerken</description>
     <xi:include href="http://www.mmbase.org/components/validation.head.xml" />
     <body jsp="user-picture.jspx">
       <param name="n"    type="org.mmbase.bridge.Node" />
@@ -210,8 +212,8 @@
          mimetype="text/html">
     <title xml:lang="en">Preview</title>
     <title xml:lang="nl">Preview</title>
-    <description xml:lang="en">Media item preview</description>
-    <description xml:lang="nl">Preview van een mediaitem</description>
+    <description xml:lang="en">Media item preview in edit environment</description>
+    <description xml:lang="nl">Preview van een mediaitem in editomgeving</description>
     <head>
       <class name="org.mmbase.framework.StringRenderer">
         <param name="string"><![CDATA[
@@ -236,8 +238,8 @@
          mimetype="text/html">
     <title xml:lang="en">Media files</title>
     <title xml:lang="nl">Media files</title>
-    <description xml:lang="en">Your media files and their status.</description>
-    <description xml:lang="nl">Je media files en de status ervan.</description>
+    <description xml:lang="en">Your media files and their status</description>
+    <description xml:lang="nl">Je media files en de status ervan</description>
     <head>
     </head>
     <body jsp="user-streams.jspx">
@@ -253,8 +255,8 @@
          mimetype="text/html">
     <title xml:lang="en">Streamjobs</title>
     <title xml:lang="nl">Stream jobs</title>
-    <description xml:lang="en">Your jobs</description>
-    <description xml:lang="nl">Je jobs</description>
+    <description xml:lang="en">Streams being transcoded</description>
+    <description xml:lang="nl">Streams die getranscodeerd worden</description>
     <head>
     </head>
     <body jsp="user-streamjobs.jspx">
