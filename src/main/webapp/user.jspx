@@ -31,7 +31,7 @@
         </c:otherwise>
       </c:choose>
       
-      <mm:link page="/api/atom/">
+      <mm:link page="/feeds/atom/">
         <mm:hasnode number="$n">
           <mm:node number="$n">
             <mm:param name="user"><mm:field name="username" /></mm:param>

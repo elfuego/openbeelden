@@ -18,7 +18,7 @@
       <script src="${mm:link('/style/js/jquery.oiplayer.js')}" type="text/javascript"><!-- help ie --></script>
       <script src="${mm:link('/style/js/play.js.jsp')}" type="text/javascript"><!-- help ie --></script>
       <link href="${mm:link('/style/css/player.css')}" rel="stylesheet" type="text/css" />
-      <mm:link page="/api/atom/">
+      <mm:link page="/feeds/atom/">
         <mm:param name="related"><mm:field name="number" /></mm:param>
         <link href="${_}" rel="alternate" type="application/atom+xml" title="Open Image Platform related items of ${_node.title}" />
       </mm:link>
