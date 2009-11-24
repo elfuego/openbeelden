@@ -110,6 +110,7 @@ jQuery.fn.oiplayer = function(conf) {
 
         });
 
+        return this; // plugin convention
     });
     
     /* 
@@ -120,14 +121,12 @@ jQuery.fn.oiplayer = function(conf) {
      */
     function createPlayer(el, sources, config) {
         var player;
-        
         var types = $.map(sources, function(i) {
             return $(i).attr('type');
         });
         var urls = $.map(sources, function(i) {
             return $(i).attr('src');
         });
-    
         if (urls.length == 0) { // no sources in body
             urls[0] = $(el).attr('src');
             types[0] = "unknown";   // TODO ? 
@@ -290,8 +289,7 @@ jQuery.fn.oiplayer = function(conf) {
         if ($('#' + id).find('div.playerinfo').length > 0) $('#' + id).find('div.playerinfo').remove();
         $('#' + id).append('<div class="playerinfo">' + text + '</div>');
     }
-    
-    return this; // plugin convention
+
 };
 
 //  ------------------------------------------------------------------------------------------------
