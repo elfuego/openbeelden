@@ -12,7 +12,7 @@
 */
 
 function initPlayer() {
-    $('.main-column, .right-column').oiplayer({
+    $('.main-column, .b_user-mediapreview').oiplayer({
         /* msie (or windows java) has issues with just a dir */
         'server' : '<mm:url page="/" absolute="true" />',
         'jar' : '${mm:link('/player/cortado-ovt-stripped-wm_r38710.jar')}',
