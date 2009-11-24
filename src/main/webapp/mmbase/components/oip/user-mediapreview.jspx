@@ -114,13 +114,15 @@
                   </dd>
                 </dl>
                 
-                <p>
-                  <oip:thumb />
-                  <mm:link referids="media">
-                    <mm:param name="edit">picture</mm:param>
-                    <a href="${_}"><fmt:message key="users.edit_image" /> »</a>
-                  </mm:link>
-                </p>
+                <mm:maywrite>
+                  <p>
+                    <oip:thumb />
+                    <mm:link referids="media">
+                      <mm:param name="edit">picture</mm:param>
+                      <a href="${_}"><fmt:message key="users.edit_image" /> »</a>
+                    </mm:link>
+                  </p>
+                </mm:maywrite>
               
               </c:otherwise>
             </c:choose>
