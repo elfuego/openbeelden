@@ -11,6 +11,9 @@
  * This script borrows heavily from the rather brilliant one used at Steal This Footage which enables
  * a multitude of players (but defies MSIE ;-) http://footage.stealthisfilm.com/
  *
+ * MSIE bug (!) : currently I could find no way to makes this plugin behave correctly in MSIE on multiple
+ * mediatags in one go. You will have to wrap each mediatag in a div or some other element.
+ *
  * @version: 0.4
  * @params:
  *   id - id of the element that contains the media tag
@@ -34,28 +37,46 @@ jQuery.fn.oiplayer = function(conf) {
         }, conf);
             
         var mediatags = $(this).find('video, audio');
-        $.each(mediatags, function(i, t) {
-            var sources = $(t).find('source');
+        $.each(mediatags, function(i, mt) {
+            var sources = $(mt).find('source');
             if (sources.length == 0) {
-                alert("no sources found in mediatag, will use first available");
+                //alert("no sources found in mediatag, will use first available");
                 /* at least this works in MSIE (and other browsers that don't know html5 video or audio ?) */
                 sources = $(self).find('source');
             }
             
-            $(t).wrap('<div class="oiplayer"></div>');
-            var div = $(t).parent('div.oiplayer');
-            var player = createPlayer(t, sources, config);
+            $(mt).wrap('<div class="oiplayer"></div>');
+            var div = $(mt).parent('div.oiplayer');
+            var player = createPlayer(mt, sources, config);
             //console.log("info: " + player.info);
             
+            if ($.browser.msie) {
+                $('p.oiplayer-warn').remove();  // MSIE places it outside mediatag
+            }
             if (player.myname != 'flowplayer') {
                 $(div).html(player.player);
             }
 
             var poster = createPoster(this, player);
             $(div).prepend(poster);
+
+            /* click preview: play */
+            $(div).find('img.preview').click(function(ev) {
+                ev.preventDefault();
+                if (player.type == 'video') {
+                    $(div).find('img.preview').remove();
+                }
+                $(div).append(player.player);
+                player.play();
+                if (config.controls == true) {
+                    $.oiplayer.follow(player, timer);
+                    if ($(ctrls).find('li.pause').length == 0) {
+                        $(ctrls).find('li.play').addClass('pause');
+                    }
+                }
+            });     
             
             if (config.controls == true) {
-                
                 $(div).after(createControls());
             
                 /* click play/pause button */
@@ -85,21 +106,6 @@ jQuery.fn.oiplayer = function(conf) {
                     }
                     //console.log("player state: " + player.state);
                 });
-                
-                /* click preview: play */
-                $(div).find('img.preview').click(function(ev) {
-                    ev.preventDefault();
-                    if (player.type == 'video') {
-                        $(div).find('img.preview').remove();
-                    }
-                    $(div).append(player.player);
-                    player.play();
-                    $.oiplayer.follow(player, timer);
-                    if ($(ctrls).find('li.pause').length == 0) {
-                        $(ctrls).find('li.play').addClass('pause');
-                    }
-                });     
-            
             }
 
         });
@@ -533,7 +539,7 @@ FlowPlayer.prototype.init = function(el, url, config) {
     var flwplayer = config.flash;
     var duration = (this.duration == undefined ? 0 : Math.round(this.duration));
     
-    var div = document.createElement('div'); // adding flowplayer and returning it impossible without id
+    var div = document.createElement('div'); // TODO: add (random) id: adding flowplayer and returning it impossible without id
     $(el).parent('div.oiplayer').html(div);
     this.player = $f(div, { src : flwplayer, width : this.width, height : this.height }, {
         clip: {
