@@ -217,8 +217,11 @@ div.right-column
 
 /* differences per page */
 body.home div#main div.left-column { display: none; }
-body.home div#main div.main-column { margin-left: 340px; }
-body.home div#main div.right-column div.related { /*padding-top: 18px;*/ }
+body.home div#main div.main-column
+{
+	margin-left: 340px;
+	margin-bottom: 4px;
+}
 
 body.home div#main div.wrap div.left-column
 {
@@ -293,3 +296,9 @@ div.related
 
 div.related h2, div.related-grey h2 { margin-top: 0; }
 div.related h3, div.related-grey h3 { margin-top: 0; }
+
+body.home div#main div.right-column div.related
+{
+	margin-bottom: 0;
+	padding-bottom: 0;
+}
