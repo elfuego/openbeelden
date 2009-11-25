@@ -19,7 +19,7 @@
                     maxFractionDigits="0"
                     var="roundedLength" />
   <c:choose>
-    <c:when test="${sessionScope['org.mmbase.uploadInfo'].elapsedTime gt 1000}">
+    <c:when test="${sessionScope['org.mmbase.uploadInfo'].elapsedTime gt 500}">
       <div class="${sessionScope['org.mmbase.uploadInfo'].status}"
            style="width: ${roundedLength}${unit};">
         <p>
