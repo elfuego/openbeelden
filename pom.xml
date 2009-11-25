@@ -12,7 +12,17 @@
   <name>Open Images Platform</name>
 
   <description>Sound &amp; Vision - Open Images Platform Web Application</description>
-
+  <licenses>
+    <license>
+      <name>GNU General Public License</name>
+      <url>http://www.gnu.org/licenses/gpl.txt</url>
+      <distribution>repo</distribution>
+      <comments>
+        The GNU General Public License is a free, copyleft license for software and other kinds of works.
+      </comments>
+    </license>
+  </licenses>
+  
   <properties>
      <mmbase.version.number>1.9</mmbase.version.number>
      <mmbase.version.postfix>-SNAPSHOT</mmbase.version.postfix>
