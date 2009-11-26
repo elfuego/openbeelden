@@ -8,7 +8,8 @@
   <jsp:output doctype-root-element="html"
               doctype-public="-//W3C//DTD XHTML 1.0 Strict//EN"
               doctype-system="http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd" />
-  <mm:cloud loginpage="login.jspx" rank="project manager" jspvar="cloud">
+  
+  <mm:cloud loginpage="login.jspx" rank="project manager">
 
     <mm:import externid="nr" />
     <mm:import externid="msg" />

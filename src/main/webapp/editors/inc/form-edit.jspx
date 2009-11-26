@@ -1,15 +1,20 @@
-<jsp:root
-  xmlns:jsp="http://java.sun.com/JSP/Page"
-  xmlns:c="http://java.sun.com/jsp/jstl/core"
-  xmlns:mm="http://www.mmbase.org/mmbase-taglib-2.0"
-  version="2.0">
+<div
+    class="from-edit"
+    xmlns:jsp="http://java.sun.com/JSP/Page"
+    xmlns:c="http://java.sun.com/jsp/jstl/core"
+    xmlns:mm="http://www.mmbase.org/mmbase-taglib-2.0"
+    xmlns:fmt="http://java.sun.com/jsp/jstl/fmt"
+    >
 
-<mm:content expires="0" type="application/xml">
+<jsp:output omit-xml-declaration="true" />
+
+<mm:import externid="nr" required="true" />
+<mm:import externid="mmajaxeditor" />
+<jsp:directive.include file="settings.jspx" />
+<mm:import externid="locale">client</mm:import>
+
+<mm:content expires="0" type="application/xml" language="${locale}">
 <mm:cloud method="asis">
-
-  <mm:import externid="nr"   required="true" />
-  <jsp:directive.include file="settings.jspx" />
-  <mm:import externid="mmajaxeditor" />
 
   <mm:form id="edit_$nr">
     <c:if test="${!empty mmajaxeditor}">
@@ -95,4 +100,4 @@
 
 </mm:cloud>
 </mm:content>
-</jsp:root>
+</div>
