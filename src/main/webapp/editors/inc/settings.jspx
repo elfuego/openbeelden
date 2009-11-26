@@ -72,6 +72,12 @@
     <mm:import id="editfields" reset="true">${searchfields}</mm:import>
   </mm:compare>
   
+  <mm:compare referid="type" value="attachments">
+    <mm:import id="listfields" reset="true">title,handle,mimetype</mm:import>
+    <mm:import id="searchfields" reset="true">${listfields},filename,description</mm:import>
+    <mm:import id="editfields" reset="true">${searchfields}</mm:import>
+  </mm:compare>
+  
   <mm:compare referid="type" value="images">
     <mm:import id="listfields" reset="true">title,handle</mm:import>
     <mm:import id="searchfields" reset="true">${listfields},description</mm:import>

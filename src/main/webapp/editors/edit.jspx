@@ -175,6 +175,17 @@
                     </mm:include>
                   </p>
                 </mm:hasrelationmanager>
+                <mm:hasrelationmanager sourcemanager="$type" destinationmanager="attachments" role="posrel">
+                  <p>
+                    <mm:include page="inc/searchrelate.jspx" referids="nr">
+                      <mm:param name="type">attachments</mm:param>
+                      <mm:param name="role">posrel</mm:param>
+                      <mm:param name="searchdirs">destination</mm:param>
+                      <mm:param name="sortorder">posrel.pos</mm:param>
+                      <mm:param name="list">title,filename,mimetype</mm:param>
+                    </mm:include>
+                  </p>
+                </mm:hasrelationmanager>
                 <mm:hasrelationmanager sourcemanager="$type" destinationmanager="licenses" role="related">
                   <p>
                     <mm:include page="inc/searchrelate.jspx" referids="nr">

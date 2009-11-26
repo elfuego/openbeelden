@@ -48,7 +48,7 @@
             <mm:relatednodescontainer type="pages" role="posrel" searchdirs="destination">
               <mm:size>
                 <mm:isgreaterthan value="0">
-                  <ul>
+                  <ul class="menu">
                     <mm:relatednodes>
                       <li class="${page eq _node.number ? 'active ' :''}">
                         <mm:link page="page" referids="_node@n">
@@ -83,42 +83,60 @@
               </mm:size>
             </mm:relatednodescontainer>
           </mm:nodefunction>
-          
 
           <mm:relatednodescontainer type="articles" role="posrel" searchdirs="destination">
-            <mm:maxnumber value="1" />
+            <mm:sortorder field="posrel.pos" direction="UP" />
             <mm:relatednodes>
-              <mm:relatednodescontainer type="urls" role="posrel" searchdirs="destination">
-                <mm:size>
-                  <mm:isgreaterthan value="0">
-                    <oip:h3>Links</oip:h3>
-                    <ul>
+              <mm:first>
+                <mm:relatednodescontainer type="urls" role="posrel" searchdirs="destination">
+                  <mm:sortorder field="posrel.pos" direction="UP" />
+                  <mm:size>
+                    <mm:isgreaterthan value="0">
+                      <oip:h3>Links</oip:h3>
+                      <ul>
+                        <mm:relatednodes>
+                          <li>
+                            <mm:field name="url">
+                              <a title="${_node.description}" href="${_}"><mm:field name="name" /></a>
+                            </mm:field>
+                          </li>
+                        </mm:relatednodes>
+                      </ul>
+                    </mm:isgreaterthan>
+                  </mm:size>
+                </mm:relatednodescontainer>
+        
+                <mm:relatednodescontainer type="attachments" role="posrel" searchdirs="destination">
+                  <mm:sortorder field="posrel.pos" direction="UP" />
+                  <mm:size>
+                    <mm:isgreaterthan value="0">
+                      <oip:h3>Documents</oip:h3>
+                      <ul>
                       <mm:relatednodes>
-                        <li>
-                          <mm:field name="url"><a href="${_}"><mm:field name="name" /></a></mm:field>
+                        <li class="TODO">
+                          <mm:attachment><a title="${_node.description}" href="${_}"><mm:field name="title" /></a></mm:attachment>
+                          (<mm:field name="mimetype" />, <mm:field name="size" escape="filesize" />)
                         </li>
                       </mm:relatednodes>
-                    </ul>
-                  </mm:isgreaterthan>
-                </mm:size>
-              </mm:relatednodescontainer>
-      
-              <mm:relatednodescontainer type="attachments" role="posrel" searchdirs="destination">
-                <mm:size>
-                  <mm:isgreaterthan value="0">
-                    <oip:h3>Documents</oip:h3>
-                    <ul>
-                    <mm:relatednodes>
-                      <li class="TODO">
-                        <mm:attachment />
-                      </li>
-                    </mm:relatednodes>
-                    </ul>
-                  </mm:isgreaterthan>
-                </mm:size>
-              </mm:relatednodescontainer>
-            </mm:relatednodes>
-          </mm:relatednodescontainer>
+                      </ul>
+                    </mm:isgreaterthan>
+                  </mm:size>
+                </mm:relatednodescontainer>
+                </mm:first>
+                
+                <!-- article in right column -->
+                <mm:first inverse="true">
+                  <mm:nodefunction name="translation">
+                    <oip:h3><mm:field name="title" /></oip:h3>
+                    <mm:field name="subtitle"><mm:isnotempty><h3 class="subtitle"><mm:write /></h3></mm:isnotempty></mm:field>
+                    <mm:field name="intro" escape="paragraph" />
+                    <mm:field name="body" escape="paragraph" />
+                  </mm:nodefunction>
+                </mm:first>
+                
+              </mm:relatednodes>
+            </mm:relatednodescontainer>
+          
         </div>
       </div>
     </jsp:attribute>

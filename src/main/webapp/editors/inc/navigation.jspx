@@ -24,8 +24,9 @@
      <li id="tab5"><mm:link page="edit.jspx"><mm:param name="type">articles</mm:param><a href="${_}">articles</a></mm:link></li>
      <li id="tab6"><mm:link page="edit.jspx"><mm:param name="type">urls</mm:param><a href="${_}">links</a></mm:link></li>
      <li id="tab7"><mm:link page="edit.jspx"><mm:param name="type">images</mm:param><a href="${_}">afbeeldingen</a></mm:link></li>
-     <li id="tab8"><mm:link page="edit.jspx"><mm:param name="type">tags</mm:param><a href="${_}">tags</a></mm:link></li>
-     <li id="tab9"><mm:link page="edit.jspx"><mm:param name="type">licenses</mm:param><a href="${_}">licenses</a></mm:link></li>
+     <li id="tab8"><mm:link page="edit.jspx"><mm:param name="type">attachments</mm:param><a href="${_}">bestanden</a></mm:link></li>
+     <li id="tab9"><mm:link page="edit.jspx"><mm:param name="type">tags</mm:param><a href="${_}">tags</a></mm:link></li>
+     <li id="tab10"><mm:link page="edit.jspx"><mm:param name="type">licenses</mm:param><a href="${_}">licenses</a></mm:link></li>
    </ul>
  </div>
 
