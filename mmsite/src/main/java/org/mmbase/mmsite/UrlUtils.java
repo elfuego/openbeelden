@@ -1,10 +1,9 @@
 package org.mmbase.mmsite;
 
+import java.util.Collections;
 import javax.servlet.http.HttpServletRequest;
 
 import org.mmbase.bridge.*;
-
-
 import org.mmbase.util.logging.Logger;
 import org.mmbase.util.logging.Logging;
 
@@ -27,6 +26,18 @@ public final class UrlUtils {
     public static NodeList listNodes2Root(Node node) {
         NodeManager nm = node.getNodeManager();
         return listNodes2Root(node, nm);
+    }
+
+    /**
+     * Nodes starting form this node to the root, these require a field 'path'.
+     *
+     * @param  node	A node of some type with a field 'path'
+     * @return list with all the nodes leading to the homepage including the present node
+     */
+    public static NodeList crumbs(Node node) {
+        NodeList l = listNodes2Root(node);
+        Collections.reverse(l);
+        return l;
     }
 
     /**
