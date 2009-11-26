@@ -38,7 +38,6 @@ public final class UrlUtils {
      */
     public static NodeList crumbs(Node node) {
         NodeList l = listNodes2Root(node);
-        Collections.reverse(l);
         return l;
     }
 
@@ -50,7 +49,7 @@ public final class UrlUtils {
      */
     public static Node root(Node node) {
         NodeList l = listNodes2Root(node);
-        return l.get(l.size() - 1);
+        return l.get(0);
     }
     
     /**
@@ -81,7 +80,6 @@ public final class UrlUtils {
      */
     protected static NodeList listNodes2Root(Node node, NodeManager nm) {
         NodeList list = nm.createNodeList();
-        list.add(node);
 
         String path = node.getStringValue("path");
         if (path.startsWith("/")) path = path.substring(1, path.length());
@@ -106,6 +104,7 @@ public final class UrlUtils {
             }
         }
 
+        list.add(node);
         return list;
     }
 
