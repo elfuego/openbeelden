@@ -40,6 +40,21 @@ public final class UrlUtils {
         NodeList l = listNodes2Root(node);
         return l;
     }
+    
+    /**
+     * The parent node in the hierarchy.
+     *
+     * @param  node	A node of some type with a field 'path'
+     * @return parent node
+     */
+    public static Node parent(Node node) {
+        NodeList l = listNodes2Root(node);
+        if (l.size() > 1) {
+            return l.get(l.size() - 2);
+        } else {
+            return l.get(0);
+        }
+    }
 
     /**
      * Get the '(most) root' node, being the (grand)parent of all the nodes in the crumbpath.

@@ -15,6 +15,17 @@
     <return type="org.mmbase.bridge.Node" /> 
   </function>
   
+  <function name="parent">
+	<description>
+	  The parent node in the hierarchy.
+	</description>
+	<type>class</type>
+	<class>org.mmbase.mmsite.UrlUtils</class>
+	<method>parent</method>
+	<param name="node" type="Node" description="A node f.e. of type page" />
+    <return type="org.mmbase.bridge.Node" /> 
+  </function>
+  
   <function name="crumbs">
 	<description>
       Returns a NodeList containing nodes of the same (!) type travelling the path to the 'root' 
