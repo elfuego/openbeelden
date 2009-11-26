@@ -29,10 +29,12 @@ public final class UrlUtils {
     }
 
     /**
-     * Nodes starting form this node to the root, these require a field 'path'.
+     * Generate a crumbpath of nodes of the same type, like for example pages, 
+     * which means you get the 'most root' node first.
+     * Nodes start form this node to the root, these require a field 'path'.
      *
      * @param  node	A node of some type with a field 'path'
-     * @return list with all the nodes leading to the homepage including the present node
+     * @return list with all the nodes from the homepage or 'most root' node to the present node
      */
     public static NodeList crumbs(Node node) {
         NodeList l = listNodes2Root(node);
