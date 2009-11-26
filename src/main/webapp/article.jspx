@@ -36,16 +36,17 @@
       </div>
       <div class="right-column">
         <div class="related-grey">
+          
           <mm:relatednodescontainer type="pages" role="posrel" searchdirs="destination">
             <mm:size>
               <mm:isgreaterthan value="0">
-                <oip:h3>Pagina's</oip:h3>
                 <ul>
                   <mm:relatednodes>
                     <li>
-                      <mm:field name="path">
+                      <mm:link page="page" referids="_node@n">
+                        <mm:frameworkparam name="component">mmsite</mm:frameworkparam>
                         <a href="${_}"><mm:field name="title" /></a>
-                      </mm:field>
+                      </mm:link>
                     </li>
                   </mm:relatednodes>
                 </ul>
