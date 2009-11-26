@@ -5,9 +5,24 @@
 * @version  '$Id$'
 */
 
-div.main-column ul, div.right-column ul
+div.main-column ul, 
+div.right-column ul
 {
     margin-left: 0;
+    list-style: none;
+}
+
+div.main-column ul li ul, 
+div.right-column ul li ul
+{
+    margin-left: 1em;
+    list-style: none;
+}
+
+div.main-column ul li ul li ul, 
+div.right-column ul li ul li ul 
+{
+    margin-left: 2em;
     list-style: none;
 }
 
