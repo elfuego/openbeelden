@@ -36,10 +36,26 @@
       </div>
       <div class="right-column">
         <div class="related-grey">
+          <mm:relatednodescontainer type="pages" role="posrel" searchdirs="destination">
+            <mm:size>
+              <mm:isgreaterthan value="0">
+                <oip:h3>Pagina's</oip:h3>
+                <ul>
+                  <mm:relatednodes>
+                    <li>
+                      <mm:field name="path">
+                        <a href="${_}"><mm:field name="title" /></a>
+                      </mm:field>
+                    </li>
+                  </mm:relatednodes>
+                </ul>
+              </mm:isgreaterthan>
+            </mm:size>
+          </mm:relatednodescontainer>
+
           <mm:relatednodescontainer type="articles" role="posrel" searchdirs="destination">
             <mm:maxnumber value="1" />
             <mm:relatednodes>
-              
               <mm:relatednodescontainer type="urls" role="posrel" searchdirs="destination">
                 <mm:size>
                   <mm:isgreaterthan value="0">

@@ -79,9 +79,9 @@
 
         <body class="${styleClass}">
           <div id="main">
-            <jsp:include page="/inc/header.div.jspx" />
+            <oip:header />
   
-            <jsp:include page="/inc/menu.div.jspx" />
+            <oip:menu />
   
             <div class="left-column">
               <c:choose>
@@ -106,7 +106,7 @@
             </c:choose>
           </div>
   
-          <jsp:include page="/inc/footer.div.jspx" />
+          <oip:footer />
           
           <oip:googleanalytics />
           
