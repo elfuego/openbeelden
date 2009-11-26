@@ -4,6 +4,17 @@
 <version>2</version>
 <description>Taglib functions for MMSite, like sitestructure etc.</description>
 
+  <function name="root">
+	<description>
+	  Get the 'root' node of a crumbpath.
+	</description>
+	<type>class</type>
+	<class>org.mmbase.mmsite.UrlUtils</class>
+	<method>root</method>
+	<param name="node" type="Node" description="A node f.e. of type page" />
+    <return type="org.mmbase.bridge.Node" /> 
+  </function>
+  
   <function name="crumbs">
 	<description>
       Returns a NodeList containing nodes of the same (!) type travelling the path to the 'root' 

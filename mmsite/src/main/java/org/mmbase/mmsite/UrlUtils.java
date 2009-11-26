@@ -43,11 +43,22 @@ public final class UrlUtils {
     }
 
     /**
+     * Get the '(most) root' node, being the (grand)parent of all the nodes in the crumbpath.
+     *
+     * @param  node	A node of some type with a field 'path'
+     * @return the node highest to the top, often the homepage
+     */
+    public static Node root(Node node) {
+        NodeList l = listNodes2Root(node);
+        return l.get(l.size() - 1);
+    }
+    
+    /**
      * Retrieve a pages node with a certain path.
      *
      * @param   cloud   MMBase cloud
      * @param   path    Value of field path, f.e. '/news/new'
-     * @return  null if not found
+     * @return  a 'pages' node or null if not found
      */
     protected static Node getPagebyPath(Cloud cloud, String path) {
         Node node = null;
