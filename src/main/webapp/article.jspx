@@ -7,6 +7,8 @@
   <oip:html styleClass="article">
     <jsp:attribute name="body">
 
+      <mm:import id="page" externid="n" />
+      
       <div class="main-column">
         <mm:relatednodescontainer type="articles" role="posrel" searchdirs="destination">
           <mm:maxnumber value="1" />
@@ -36,23 +38,52 @@
       </div>
       <div class="right-column">
         <div class="related-grey">
+
+          <mm:nodefunction name="parent" referids="_node@node" set="mmsite">
+            <mm:import id="parent" reset="true"><mm:field name="number" /></mm:import>
+          </mm:nodefunction>
           
-          <mm:relatednodescontainer type="pages" role="posrel" searchdirs="destination">
-            <mm:size>
-              <mm:isgreaterthan value="0">
-                <ul>
-                  <mm:relatednodes>
-                    <li>
-                      <mm:link page="page" referids="_node@n">
-                        <mm:frameworkparam name="component">mmsite</mm:frameworkparam>
-                        <a href="${_}"><mm:field name="title" /></a>
-                      </mm:link>
-                    </li>
-                  </mm:relatednodes>
-                </ul>
-              </mm:isgreaterthan>
-            </mm:size>
-          </mm:relatednodescontainer>
+          <mm:nodefunction name="root" referids="_node@node" set="mmsite">
+            <!-- first level -->
+            <mm:relatednodescontainer type="pages" role="posrel" searchdirs="destination">
+              <mm:size>
+                <mm:isgreaterthan value="0">
+                  <ul>
+                    <mm:relatednodes>
+                      <li class="${page eq _node.number ? 'active ' :''}">
+                        <mm:link page="page" referids="_node@n">
+                          <mm:frameworkparam name="component">mmsite</mm:frameworkparam>
+                          <a href="${_}"><mm:field name="title" /></a>
+                        </mm:link>
+                        
+                        <!-- next level -->
+                        <c:if test="${page eq _node.number or parent eq _node.number}">
+                          <mm:relatednodescontainer type="pages" role="posrel" searchdirs="destination">
+                            <mm:size>
+                              <mm:isgreaterthan value="0">
+                                <ul>
+                                  <mm:relatednodes>
+                                    <li class="${page eq _node.number ? 'active ' :''}">
+                                      <mm:link page="page" referids="_node@n">
+                                        <mm:frameworkparam name="component">mmsite</mm:frameworkparam>
+                                        <a href="${_}"><mm:field name="title" /></a>
+                                      </mm:link>
+                                    </li>
+                                  </mm:relatednodes>
+                                </ul>
+                              </mm:isgreaterthan>
+                            </mm:size>
+                          </mm:relatednodescontainer>
+                        </c:if>
+                        
+                      </li>
+                    </mm:relatednodes>
+                  </ul>
+                </mm:isgreaterthan>
+              </mm:size>
+            </mm:relatednodescontainer>
+          </mm:nodefunction>
+          
 
           <mm:relatednodescontainer type="articles" role="posrel" searchdirs="destination">
             <mm:maxnumber value="1" />
