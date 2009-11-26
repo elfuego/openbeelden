@@ -12,18 +12,22 @@ div.right-column ul
     list-style: none;
 }
 
+div.right-column ul li.active { font-weight: bold; }
+
 div.main-column ul li ul, 
 div.right-column ul li ul
 {
     margin-left: 1em;
     list-style: none;
+	font-weight: normal;
 }
 
 div.main-column ul li ul li ul, 
-div.right-column ul li ul li ul 
+div.right-column ul li ul li ul
 {
-    margin-left: 2em;
-    list-style: none;
+	margin-left: 2em;
+	list-style: none;
+	font-weight: normal;
 }
 
 ul.blog li a
