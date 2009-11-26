@@ -42,7 +42,6 @@ div.b_user-mediapreview div.oiplayer
 	width: 284px;
 	height: 213px;
 	display: block;
-	margin-bottom: 4px;
 }
 div.b_user-mediapreview div.oiplayer audio
 {
@@ -56,7 +55,7 @@ div.b_user-mediapreview div.inavailable
 	background-position: -20px -14px;
 	background-repeat: no-repeat;
 }
-div.b_user-mediapreview div.inavailable p { padding-top: 60px; }
+div.b_user-mediapreview div.inavailable p { padding-top: 84px; }
 
 div.b_user-mediapreview ul.controls { width: 284px; }
 div.b_user-mediapreview dl.media-info { width: 284px; }
