@@ -98,7 +98,7 @@ MMAjaxeditor.prototype.bindFormEvents = function() {
                 self.bindMMAjaxeditorEvents();
             } else {
 	            $(self.el).find("form").ajaxForm(options);
-                if (typeof MMBaseValidator == "function") {
+                if (typeof MMBaseValidator == "function" && self.validator == undefined) {
                     self.validator = new MMBaseValidator(self.el);
                 }
                 self.bindMMAjaxeditorEvents( $(self.el).find("form") );
@@ -110,7 +110,7 @@ MMAjaxeditor.prototype.bindFormEvents = function() {
         $(this.el).html(result);   // replace everything (edit/delete)
     }
     $(this.el).find("form").ajaxForm(options);
-	if (typeof MMBaseValidator == "function") {
+	if (typeof MMBaseValidator == "function" && this.validator == undefined) {
         this.validator = new MMBaseValidator(this.el);
     }
     this.bindMMAjaxeditorEvents( $(this.el).find("form") );
