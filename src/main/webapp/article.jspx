@@ -46,6 +46,7 @@
           <mm:nodefunction name="root" referids="_node@node" set="mmsite">
             <!-- first level -->
             <mm:relatednodescontainer type="pages" role="posrel" searchdirs="destination">
+              <mm:sortorder field="posrel.pos" direction="UP" />
               <mm:size>
                 <mm:isgreaterthan value="0">
                   <ul class="menu">
@@ -59,6 +60,7 @@
                         <!-- next level -->
                         <c:if test="${page eq _node.number or parent eq _node.number}">
                           <mm:relatednodescontainer type="pages" role="posrel" searchdirs="destination">
+                            <mm:sortorder field="posrel.pos" direction="UP" />
                             <mm:size>
                               <mm:isgreaterthan value="0">
                                 <ul>
