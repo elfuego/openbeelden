@@ -42,7 +42,7 @@
     </c:when>
     <c:otherwise>
       <div class="PROGRESS">
-        <p>Starting..</p>
+        <p>Uploading...</p>
       </div>
     </c:otherwise>
   </c:choose>
