@@ -14,16 +14,19 @@ $(document).ready(function() {
                         complete: function(data) {
                             result = data.responseText;
                             if (result.indexOf('100%') > -1 && i == 0) {
-                                result = '<div class="PROGRESS"><p>Starting..</p></div>';
+                                result = '<div class="PROGRESS"><p>Uploading...</p></div>';
                             }
                             i++;
                         }
                     });
                 });
                 $(form).find(".progressInfo").html(result);
+                $(form).block( { fadeIn: 0, fadeOut: 400, message: $('div.PROGRESS') } );
                 setTimeout(progress, 1000);
             };
             progress();
+            //$.blockUI({ message: $('.progressInfo') }); 
+            //$().ajaxStart( $.blockUI({ message: $('.progressInfo') }) ).ajaxStop($.unblockUI({ message: $('.progressInfo') }) );
         });
     });
 });

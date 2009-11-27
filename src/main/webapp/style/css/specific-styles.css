@@ -5,11 +5,10 @@
 * @version  '$Id$'
 */
 
-div.right-column ul
-{
-	list-style: none;
-	margin-bottom: 2em;
-}
+div.main-column ul,
+div.right-column ul { list-style: none; }
+
+div.right-column ul { margin-bottom: 2em; }
 
 ul.menu { margin-bottom: 2em; }
 ul.menu li ul { margin-bottom: 0; }
