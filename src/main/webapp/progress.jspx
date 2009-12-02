@@ -9,7 +9,7 @@
   <!--
       Used by /style/js/upload.js
       <div style="width: 2%;" class="PROGRESS">
-        <p><span class="percentage">2%</span><span class="speed">(40 MiB/1832 MiB, 40 MiB/s)</span></p>
+        <span class="percentage">2%</span><span class="speed">(40 MiB/1832 MiB, 40 MiB/s)</span>
       </div>
   -->
   <jsp:output omit-xml-declaration="true" />
@@ -20,30 +20,25 @@
                     var="roundedLength" />
   <c:choose>
     <c:when test="${sessionScope['org.mmbase.uploadInfo'].elapsedTime gt 500}">
-      <div class="${sessionScope['org.mmbase.uploadInfo'].status}"
-           style="width: ${roundedLength}${unit};">
-        <p>
-          <span class="percentage">
-            <fmt:formatNumber
-                value="${sessionScope['org.mmbase.uploadInfo'].fraction}"
-                type="percent" />
-          </span>
-          <span class="speed">
-            <jsp:text>(</jsp:text>
-            <mm:escape escape="filesize">${sessionScope['org.mmbase.uploadInfo'].bytesRead}</mm:escape>
-            <jsp:text>/</jsp:text>
-            <mm:escape escape="filesize">${sessionScope['org.mmbase.uploadInfo'].totalSize}</mm:escape>
-            <jsp:text>, </jsp:text>
-            <mm:escape escape="filesize">${1000 * sessionScope['org.mmbase.uploadInfo'].bytesRead /  sessionScope['org.mmbase.uploadInfo'].elapsedTime}</mm:escape>
-            <jsp:text>/s)</jsp:text>
-          </span>
-        </p>
+      <div class="${sessionScope['org.mmbase.uploadInfo'].status}" style="width: ${roundedLength}${unit};">
+        <span class="percentage">
+          <fmt:formatNumber
+              value="${sessionScope['org.mmbase.uploadInfo'].fraction}"
+              type="percent" />
+        </span>
+        <span class="speed">
+          <jsp:text>(</jsp:text>
+          <mm:escape escape="filesize">${sessionScope['org.mmbase.uploadInfo'].bytesRead}</mm:escape>
+          <jsp:text>/</jsp:text>
+          <mm:escape escape="filesize">${sessionScope['org.mmbase.uploadInfo'].totalSize}</mm:escape>
+          <jsp:text>, </jsp:text>
+          <mm:escape escape="filesize">${1000 * sessionScope['org.mmbase.uploadInfo'].bytesRead /  sessionScope['org.mmbase.uploadInfo'].elapsedTime}</mm:escape>
+          <jsp:text>/s)</jsp:text>
+        </span>
       </div>
     </c:when>
     <c:otherwise>
-      <div class="PROGRESS">
-        <p>Uploading...</p>
-      </div>
+      <div class="PROGRESS">Uploading... </div>
     </c:otherwise>
   </c:choose>
 </mm:content>

@@ -644,7 +644,7 @@ div.progressInfo
 
 div.progressInfo p
 {
-  white-space: nowrap;
+    white-space: nowrap;
 	margin: 0;
 	padding-left: 4px;
 	color: #555;

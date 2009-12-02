@@ -14,19 +14,29 @@ $(document).ready(function() {
                         complete: function(data) {
                             result = data.responseText;
                             if (result.indexOf('100%') > -1 && i == 0) {
-                                result = '<div class="PROGRESS"><p>Uploading...</p></div>';
+                                result = '<div class="PROGRESS">Uploading...</div>';
                             }
                             i++;
                         }
                     });
                 });
-                $(form).find(".progressInfo").html(result);
-                $(form).block( { fadeIn: 0, fadeOut: 400, message: $('div.PROGRESS') } );
-                setTimeout(progress, 1000);
+                $(form).find(".progressInfo").html('<div class="PROGRESS"><p>Uploading...</p></div>');
+                $(form).block( { message: $(result), 
+                                 css: { 
+                                     width: '96%', 
+                                     textAlign: 'left',
+                                     'white-space': 'nowrap',
+                                     color: '#555',
+                                     'font-weight': 'bold',
+                                     padding: '2px 2px 2px 4px',
+                                     border: '2px solid #ccc' 
+                                 }, 
+                                 fadeIn: 0, 
+                                 fadeOut: 0 
+                            });
+                setTimeout(progress, 500);
             };
             progress();
-            //$.blockUI({ message: $('.progressInfo') }); 
-            //$().ajaxStart( $.blockUI({ message: $('.progressInfo') }) ).ajaxStop($.unblockUI({ message: $('.progressInfo') }) );
         });
     });
 });

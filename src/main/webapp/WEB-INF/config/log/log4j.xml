@@ -85,6 +85,14 @@
     <level class="&mmlevel;" value="debug" />
   </logger>
  -->
+
+<!-- 
+  <logger name="org.mmbase.module.lucene" >
+    <level class="&mmlevel;" value="debug" />
+  </logger>
+ -->
+
+
   
 <!-- 
   <logger name="org.mmbase.datatypes.processors.Related" >
