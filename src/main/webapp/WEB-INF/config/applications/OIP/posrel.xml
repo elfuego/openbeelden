@@ -36,20 +36,16 @@
 		<pos>11</pos>
 	</node>
 
-	<node number="402" owner="admin" snumber="335" dnumber="324" rtype="posrel" dir="bidirectional">
+	<node number="404" owner="admin" snumber="335" dnumber="326" rtype="posrel" dir="bidirectional">
 		<pos>12</pos>
 	</node>
 
-	<node number="404" owner="admin" snumber="335" dnumber="326" rtype="posrel" dir="bidirectional">
+	<node number="406" owner="admin" snumber="335" dnumber="328" rtype="posrel" dir="bidirectional">
 		<pos>13</pos>
 	</node>
 
-	<node number="406" owner="admin" snumber="335" dnumber="328" rtype="posrel" dir="bidirectional">
-		<pos>14</pos>
-	</node>
-
 	<node number="408" owner="admin" snumber="335" dnumber="330" rtype="posrel" dir="bidirectional">
-		<pos>15</pos>
+		<pos>14</pos>
 	</node>
 
 	<node number="436" owner="414" snumber="414" dnumber="434" rtype="posrel" dir="bidirectional">

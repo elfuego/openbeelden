@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE application PUBLIC "-//MMBase//DTD application config 1.1//EN" "http://www.mmbase.org/dtd/application_1_1.dtd">
+<application name="MMSite" maintainer="mmbase.org" version="2" auto-deploy="false">
+
+  <requirements>
+    <requires name="Resources" maintainer="mmbase.org"  />
+  </requirements>
+
+  <neededbuilderlist>
+    <builder maintainer="mmbase.org" version="1">articles</builder>
+    <!-- site structure -->
+    <builder maintainer="mmbase.org" version="1">templates</builder>
+    <builder maintainer="mmbase.org" version="1">pages</builder>
+    <builder maintainer="mmbase.org" version="1">pools</builder>
+    <!-- relations -->
+    <builder maintainer="mmbase.org" version="1">insrel</builder>
+    <builder maintainer="mmbase.org" version="1">posrel</builder>
+  </neededbuilderlist>
+
+  <neededreldeflist>
+    <reldef source="related" target="related" direction="bidirectional" guisourcename="Related" guitargetname="Related" builder="insrel" />
+    <reldef source="posrel"  target="posrel" direction="bidirectional" guisourcename="Posrel" guitargetname="Posrel" builder="posrel" />
+ </neededreldeflist>
+
+  <allowedrelationlist>
+    <relation from="pools"  to="templates" type="related" />
+    <relation from="pools"  to="pages"     type="posrel" />
+    <relation from="pages"  to="pages"     type="posrel" />
+    <relation from="pages"  to="articles"  type="posrel" />
+  </allowedrelationlist>
+
+  <datasourcelist>
+  </datasourcelist>
+
+  <relationsourcelist>
+  </relationsourcelist>
+
+  <contextsourcelist>
+  </contextsourcelist>
+
+  <description>
+    This is the MMBase application for MMSite.
+  </description>
+
+  <install-notice>
+    The application MMSite is installed.
+  </install-notice>
+</application>

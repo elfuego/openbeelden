@@ -64,14 +64,6 @@
 		<expires>120</expires>
 	</node>
 
-	<node number="324" owner="default">
-		<title>Feeds</title>
-		<description></description>
-		<template>346</template>
-		<path>/feeds</path>
-		<expires>120</expires>
-	</node>
-
 	<node number="326" owner="default">
 		<title>API</title>
 		<description></description>
