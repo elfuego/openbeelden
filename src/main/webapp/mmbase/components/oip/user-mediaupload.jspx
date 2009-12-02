@@ -55,7 +55,7 @@
           </mm:createnode>
 
           <div class="progressInfo" id="progressInfo">
-            <p>No upload started yet.</p>
+            <p><fmt:message key="users.upload.notstarted" /></p>
           </div>
 
           <fieldset>
@@ -79,7 +79,9 @@
       <mm:present referid="committed">
         <mm:node referid="newsource">
           <mm:voidfunction name="waitUntilRecognized" />
-          <p class="msg"><oip:type /></p>
+          <p class="msg">
+            <fmt:message key="users.upload.finished" /> (<oip:type />)
+          </p>
 
           <!-- p class="msg">Submitted ${_node} URL: ${_node.url} FS: ${_node.filesize}</p -->
 
