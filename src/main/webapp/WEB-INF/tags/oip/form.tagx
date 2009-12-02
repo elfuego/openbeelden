@@ -70,7 +70,7 @@
         <mm:present referid="submit">
           <!-- not valid -->
           <mm:valid inverse="true">
-            <p class="err">The form contains an error.</p>
+            <p class="err"><fmt:message key="users.form.error" /></p>
             <mm:write referid="buffer" escape="none" />
           </mm:valid>
           <!-- valid -->
@@ -90,7 +90,7 @@
               </c:choose>
             </c:if>
             <mm:commit />
-            <p class="msg">Your changes are saved.</p>
+            <p class="msg"><fmt:message key="users.form.saved" /></p>
             <!--
                 Repeating the form, and not the buffer, just because of images
                 (this icache will be deleted by now).
@@ -116,14 +116,20 @@
         </mm:present>
 
         <fieldset>
-          <c:set var="button_save"><fmt:message key="users.save" /></c:set>
+          <c:set var="button_save"><fmt:message key="users.form.save" /></c:set>
           <input name="submit" type="submit" value="${button_save}" id="submit" class="submit" />
         </fieldset>
         
       </mm:form>
     </mm:maywrite>
+    
     <mm:maywrite inverse="true">
-      <p class="err"><mm:cloudinfo type="user" /> <fmt:message key="user.disallowed" /></p>
+      <p class="err">
+        <mm:cloudinfo type="user" />
+        <jsp:text> </jsp:text>
+        <fmt:message key="user.disallowed" />
+      </p>
     </mm:maywrite>
+    
   </mm:cloud>
 </jsp:root>
