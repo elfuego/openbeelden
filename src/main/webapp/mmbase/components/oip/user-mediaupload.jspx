@@ -80,7 +80,7 @@
         <mm:node referid="newsource">
           <mm:voidfunction name="waitUntilRecognized" />
           <p class="msg">
-            <fmt:message key="users.upload.finished" /> (<oip:type />)
+            <fmt:message key="users.upload.finished" />
           </p>
 
           <!-- p class="msg">Submitted ${_node} URL: ${_node.url} FS: ${_node.filesize}</p -->
