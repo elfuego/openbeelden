@@ -3,7 +3,7 @@
 	<node number="305" owner="default" alias="page_home">
 		<title>Home</title>
 		<description>Offering online access to a selection of archive material to stimulate creative reuse.</description>
-		<template></template>
+		<template>324</template>
 		<path>/</path>
 		<expires>120</expires>
 	</node>
@@ -18,7 +18,7 @@
 
 	<node number="310" owner="default">
 		<title>Media</title>
-		<description>OK, the overview media page.</description>
+		<description>The media overview page.</description>
 		<template>348</template>
 		<path>/media</path>
 		<expires>120</expires>
@@ -37,7 +37,7 @@
 		<description></description>
 		<template>418</template>
 		<path>/users</path>
-		<expires>0</expires>
+		<expires>120</expires>
 	</node>
 
 	<node number="316" owner="default" alias="page_register">

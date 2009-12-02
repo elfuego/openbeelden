@@ -1,17 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <templates exportsource="mmbase://grgrijze.toly.net/oip/oi" timestamp="20090610233953">
+	<node number="324" owner="default">
+		<title>Homepage</title>
+		<description>Template for the homepage</description>
+		<url>index.jspx</url>
+		<mimetype>text/html</mimetype>
+	</node>
+	
 	<node number="346" owner="default">
 		<title>Article</title>
 		<description>Template for an article page, like f.e. about</description>
 		<url>article.jspx</url>
-		<mimetype></mimetype>
+		<mimetype>text/html</mimetype>
 	</node>
 
 	<node number="348" owner="default">
 		<title>Media</title>
 		<description>Template for the media overview page</description>
 		<url>media.jspx</url>
-		<mimetype></mimetype>
+		<mimetype>text/html</mimetype>
 	</node>
 
 	<node number="350" owner="default">
