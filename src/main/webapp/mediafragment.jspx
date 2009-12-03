@@ -160,62 +160,8 @@
           <mm:field name="intro" escape="paragraph(media-intro)" />
         </mm:nodefunction>
 
-        <dl class="media-info">
-          <dt><fmt:message key="media.type" />:</dt>
-          <dd>
-            <oip:type />
-            <mm:nodeinfo type="type" id="nodetype" write="false" />
-          </dd>
-          <c:if test="${nodetype ne 'imagefragments' and nodetype ne 'images'}">
-            <dt><fmt:message key="media.length" />:</dt>
-            <dd>
-              <mm:field name="length"><mm:time inputformat="S" format="mm:ss" /></mm:field>
-            </dd>
-          </c:if>
-          <dt><fmt:message key="media.date" />:</dt>
-          <dd>
-            <mm:field name="date"><mm:time format="d MMMM yyyy" /></mm:field>
-          </dd>
-          <dt><fmt:message key="media.user" />:</dt>
-          <dd>
-            <mm:field name="owner" id="owner" write="false" />
-            <mm:hasnode number="$owner">
-              <mm:node number="$owner">
-                <oip:user />
-              </mm:node>
-            </mm:hasnode>
-            <mm:hasnode number="$owner" inverse="true">
-              unknown
-              <mm:remove referid="owner" />
-            </mm:hasnode>
-          </dd>
-          <mm:field name="source">
-            <mm:isnotempty>
-              <dt><fmt:message key="media.source" />:</dt>
-              <dd>${_}</dd>
-            </mm:isnotempty>
-          </mm:field>
-          <!-- <dt><fmt:message key="media.keywords" />:</dt>
-          <dd><mm:field name="keywords" /><jsp:text> </jsp:text></dd> -->
-          <dt><fmt:message key="media.tags" />:</dt>
-          <dd>
-            <mm:listrelationscontainer type="tags" role="related" searchdir="destination">
-              <mm:maxnumber value="99" />
-              <mm:listrelations id="tagrel">
-                <mm:maydelete>
-                  <mm:link referids="tagrel@delete">
-                    <a href="${_}" class="tag delete"><mm:relatednode><mm:field name="name" /></mm:relatednode></a>
-                  </mm:link>
-                </mm:maydelete>
-                <mm:maydelete inverse="true">
-                  <mm:relatednode><mm:field name="name" /></mm:relatednode><mm:last inverse="true">, </mm:last>
-                </mm:maydelete>
-                <jsp:text> </jsp:text>
-              </mm:listrelations>
-            </mm:listrelationscontainer>
-          </dd>
-        </dl>
-
+        <oip:mediainfo />
+        
         <mm:nodefunction name="translation">
           <mm:field name="body" escape="paragraph" />
         </mm:nodefunction>
