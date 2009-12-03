@@ -80,10 +80,12 @@
         <mm:node referid="newsource">
           <mm:voidfunction name="waitUntilRecognized" />
           <p class="msg">
-            <fmt:message key="users.upload.finished" />
+            <fmt:message key="users.upload.finished" /><br />
+            Submitted ${_node} URL: ${_node.url} FS: ${_node.filesize}
+            <oip:type />
           </p>
 
-          <!-- p class="msg">Submitted ${_node} URL: ${_node.url} FS: ${_node.filesize}</p -->
+          <!-- p class="msg">Submitted ${_node} URL: ${_node.url} FS: ${_node.filesize} <oip:type /> </p -->
 
           <mm:log jspvar="log"><!-- Make sure the mediafragment is created outside transactions and so on -->
             <mm:field name="title" jspvar="mf_title" vartype="String" write="false">
