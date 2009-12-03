@@ -300,6 +300,24 @@ p.media-intro
     margin-bottom: 2px;
 }
 
+table.media-info th
+{
+	text-align: left;
+	color: #333;
+	text-transform: lowercase;
+}
+
+table.media-info td
+{
+	text-align: left;
+	padding-left: 4px;
+}
+
+table.media-info a:link { text-decoration: none; }
+table.media-info a:visited { text-decoration: none; }
+table.media-info span.user a:hover { text-decoration: underline; }
+table.media-info span.user a:active { text-decoration: underline; }
+
 dl.media-info
 {
     float: left;
