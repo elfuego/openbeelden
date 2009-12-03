@@ -21,9 +21,9 @@ $(document).ready(function() {
                     });
                 });
                 $(form).find(".progressInfo").html('<div class="PROGRESS"><p>Uploading...</p></div>');
-                $(form).block( { message: $(result), 
+                $.blockUI( { message: $(result), 
                                  css: { 
-                                     width: '96%', 
+                                     width: '300px', 
                                      textAlign: 'left',
                                      'white-space': 'nowrap',
                                      color: '#555',
