@@ -27,9 +27,9 @@
               type="percent" />
         </span>
         <span class="speed">
-          <jsp:text>(</jsp:text>
+          <jsp:text> (</jsp:text>
           <mm:escape escape="filesize">${sessionScope['org.mmbase.uploadInfo'].bytesRead}</mm:escape>
-          <jsp:text>/</jsp:text>
+          <jsp:text> / </jsp:text>
           <mm:escape escape="filesize">${sessionScope['org.mmbase.uploadInfo'].totalSize}</mm:escape>
           <jsp:text>, </jsp:text>
           <mm:escape escape="filesize">${1000 * sessionScope['org.mmbase.uploadInfo'].bytesRead /  sessionScope['org.mmbase.uploadInfo'].elapsedTime}</mm:escape>
