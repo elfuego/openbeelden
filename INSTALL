@@ -1,6 +1,6 @@
 Installation of OIP
 ===================
-23 november 2009
+04-12-2009
 
 The Open Images Platform (OIP) is a Java webapplication to manage and publish open media. 
 
@@ -11,6 +11,7 @@ CONTENTS OF THIS FILE
  * Requirements
  * Optional requirements
  * Installation
+ * Configuration
  * OIP administration
  * More Information
 
@@ -28,6 +29,42 @@ OIP requires several components:
 
 INSTALLATION
 ------------
+Refer to the MMBase installation documentation: 
+http://www.mmbase.org/mmdocs/releases/installation.txt
+
+- Apache Tomcat or other Java web application server
+- MySQL database
+- FFmpeg
+- ImageMagick
+
+
+Note about the Lucene search index:
+You may have to run the Lucene search index for the first time by hand or the pages 'Media' 
+and 'Users' may remain empty. Go to http://127.0.0.1:8080/mmbase/admin/lucene/admin - or the
+equivalent url on your application server - and click "Full index on all indices" at the bottom of 
+the page. This will create (new) search indexes based of all media and user data in your database. 
+
+
+CONFIGURATION
+-------------
+OIP is based on MMBase, uses FFmpeg and some other applications and is because of that highly
+configurable.
+
+Open Images
+-----------
+- FFmpeg, FFmpeg2Theora and other applications 
+- User management, enable a user as project manager.
+- Configure a remote server to handle transcodings
+
+MMBase
+------
+MMBase can use another databases. 
+E-mail configuration
+
+
+OIP ADMINISTRATION
+------------------
+Using the editors, creating content, manage media and users.
 
 
 
