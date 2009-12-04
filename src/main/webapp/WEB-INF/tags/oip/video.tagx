@@ -15,7 +15,14 @@
   <c:set var="h" value="${empty height ? '240' : height}" />
 
   <!-- TODO: doesn't work in a war: -->
-  <c:set var="overlay"><jsp:expression>org.mmbase.module.core.MMBaseContext.getHtmlRoot()</jsp:expression>/style/images/startoverlay.png</c:set>
+  <c:choose>
+    <c:when test="${width eq 320 or width eq 284}">
+      <c:set var="overlay"><jsp:expression>org.mmbase.module.core.MMBaseContext.getHtmlRoot()</jsp:expression>/style/images/startoverlay-${w}x${h}.png</c:set>
+    </c:when>
+    <c:otherwise>
+      <c:set var="overlay"><jsp:expression>org.mmbase.module.core.MMBaseContext.getHtmlRoot()</jsp:expression>/style/images/startoverlay.png</c:set>
+    </c:otherwise>
+  </c:choose>
   <c:set var="template">s(${w}!x${h}!)+adjoin(${overlay})+flatten</c:set>
   <c:set var="basictemplate">s(${w}!x${h}!)</c:set>
   <c:set var="poster"><mm:url absolute="true" page="/style/images/preview_video.png" /></c:set>
