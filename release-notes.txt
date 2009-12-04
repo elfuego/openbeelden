@@ -1,0 +1,167 @@
+﻿
+Release Notes - Open Images Platform - Version OIP 0.7
+
+** Bug
+    * [OIP-49] - Upload status starts with 100% in IE8
+    * [OIP-93] - System logged-out user during uploading procedure
+
+
+
+** Improvement
+    * [OIP-85] - Remove the MPEG-1 from the source in the embed code?
+    * [OIP-86] - What file do we want to put in the (atom) feeds?
+    * [OIP-95] - If you download a movie, it would be nice if the Content-Disposition is set the the filename without the prefixing numbers.
+    * [OIP-102] - It's impossible to have two language versions of a license
+    * [OIP-103] - proper creative commons implementation
+    * [OIP-104] - Clean up download box
+
+** New Feature
+    * [OIP-52] - A dedicated audioplayer is lacking
+    * [OIP-60] - API isn't (fully) implemented yet
+
+** Task
+    * [OIP-77] - Decent testcases for Recognizer
+
+
+
+Release Notes - Open Images Platform - Version OIP 0.6
+
+** Bug
+    * [OIP-35] - Both OGG transcodings are ‚hi'
+    * [OIP-40] - Browser crashed playing a movie
+    * [OIP-61] - Uploaded audio doesn't transcode to specified formats
+    * [OIP-63] - Ogg files are not recognized by Safari and are thus uploaded as application/octet-stream
+    * [OIP-80] - The 'in' parameter does not work in createcaches
+    * [OIP-81] - Uploading an JPEG image results in a 'video'
+    * [OIP-82] - Forgot password functionality is broke
+    * [OIP-87] - Sorting a search is made undone when skipping to another results page
+    * [OIP-89] - System only transcodes to MPEG-1!!!
+    * [OIP-90] - The system doesn't show resolution info for most files in the download box
+    * [OIP-92] - IE crashed while trying to play a movie with Flowplayer
+    * [OIP-94] - System transcodes to an MPEG-4 of the original size, instead of the player size
+    * [OIP-99] - Cannot log in with a newly registered user account
+
+
+
+** Improvement
+    * [OIP-78] - Add favicon
+    * [OIP-84] - How to deal with different aspect ratios
+    * [OIP-88] - Enable the "source" field for (user) uploaded content?
+
+
+** Task
+    * [OIP-79] - Player should get transcoded mp4, not the uploaded
+
+** Sub-task
+    * [OIP-75] - Specify 'logic' names for RSS feeds
+    * [OIP-76] - WMV files may not transcode to all formats
+
+
+Release Notes - Open Images Platform - Version OIP 0.5
+
+** Bug
+    * [OIP-37] - Safari doesn't show a progress bar while uploading
+    * [OIP-38] - Forgot password is a dead link
+    * [OIP-44] - Internet Explorer doesn't play video with Flash fallback
+    * [OIP-45] - Sorting and advanced search clears optional fields
+    * [OIP-46] - Uploading an MP4 results in an image fragement
+    * [OIP-53] - Part of the import is imported as images
+    * [OIP-62] - Uploaded images are 'transcoded' to four versions?
+    * [OIP-64] - Website crashes in Google Chrome (on Mac?)
+    * [OIP-65] - Clicking on mediaitems can cause a Java error
+    * [OIP-66] - Some imported media items contain a double description
+    * [OIP-67] - Some imported media items place the description on the wrong position
+    * [OIP-69] - Loggin-out as a user on the platform gives an 404 error
+
+
+
+** Improvement
+    * [OIP-56] - Maybe filter the default sentence from Polygoon items?
+    * [OIP-71] - Show some metadata with favourites in dashboard
+    * [OIP-72] - Relate imported items to user "beeldengeluid" not "admin"
+
+
+
+** Sub-task
+    * [OIP-73] - Remove ".xml" and not show this information on the media item page
+    * [OIP-74] - Create spaces between imported keywords.
+
+
+
+Release Notes - Open Images Platform - Version OIP 0.4
+
+** Bug
+    * [OIP-25] - FFmpeg can't transcode to MPEG-4
+    * [OIP-34] - Embed code is missing
+    * [OIP-36] - OGG version for the player has a wrong resolution
+    * [OIP-39] - Uploading an WMV didn't work
+    * [OIP-50] - Removing a favourite gives an error (in Firefox 3.5)
+    * [OIP-51] - Image media items pages contain a "length" field
+    * [OIP-54] - (Some) imported items are missing some related media files
+
+
+
+** Improvement
+    * [OIP-16] - Indicate the availabilty of transcoded file formats
+    * [OIP-42] - Show keywords on media item pages
+    * [OIP-55] - Information in the "source" field for imported content should be in the "publisher" field
+    * [OIP-57] - Put the unique identifier in the "source" field for imported content
+    * [OIP-58] - Change "uploaded" to "created" on media items pages
+
+** New Feature
+    * [OIP-59] - Not all feeds are (fully) implemented yet
+
+
+Release Notes - Open Images Platform - Version OIP 0.3
+
+** Bug
+    * [OIP-21] - Adding pictures to video doesn't work
+    * [OIP-23] - Not possible to save media metadata in a different language
+    * [OIP-24] - Transcoding is broken in the beta
+    * [OIP-26] - FFmpeg can't extract length
+    * [OIP-27] - Loggin-out from the editors gives an error
+
+
+
+** Improvement
+    * [OIP-13] - Indicate different OGV version
+    * [OIP-22] - Date missing in the metadata
+    * [OIP-43] - Redirect users to their profile/dashboard after login?
+
+
+** Task
+    * [OIP-17] - Migrate code to MMBase SVN.
+
+** Sub-task
+    * [OIP-29] - Showing the status with a videosource.
+
+
+
+Release Notes - Open Images Platform - Version OIP 0.2
+
+** Bug
+    * [OIP-3] - Some issues with my uploaded video
+    * [OIP-4] - Language switch does not work
+    * [OIP-6] - Add user image: weird message, image not visible
+    * [OIP-7] - Case sensitive usernames aren't able to login
+    * [OIP-8] - Firefox hangs on html 5 <video>, isn't able to start fallback
+    * [OIP-14] - Cortado applet crashes
+    * [OIP-15] - Uploading an MP4 results in an OGV and two UNKNOWN videos
+    * [OIP-18] - Media item page: text runs under footer in Safari
+    * [OIP-19] - Some content is gone
+    * [OIP-20] - Error while uploading content in the beta version
+
+
+
+** Improvement
+    * [OIP-5] - E-mail validator sender and subject
+    * [OIP-9] - Several CC-licenses are missing
+    * [OIP-11] - Users can't edit all metadata
+    
+    
+Release Notes - Open Images Platform - Version OIP 0.1
+
+** Bug
+    * [OIP-1] - Issues not automatically assigned in bugtracker
+    * [OIP-2] - Error while uploading
+
