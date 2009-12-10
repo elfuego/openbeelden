@@ -29,10 +29,7 @@ div.right-column ul li ul li ul
 	font-weight: normal;
 }
 
-ul.blog li a
-{
-    display: block;
-}
+ul.blog li a { display: block; }
 
 ul.blog li a:link,
 ul.blog li a:visited {

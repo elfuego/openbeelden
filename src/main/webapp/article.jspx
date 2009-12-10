@@ -95,7 +95,7 @@
                   <mm:size>
                     <mm:isgreaterthan value="0">
                       <oip:h3>Links</oip:h3>
-                      <ul>
+                      <ul class="links">
                         <mm:relatednodes>
                           <li>
                             <mm:field name="url">
@@ -113,7 +113,7 @@
                   <mm:size>
                     <mm:isgreaterthan value="0">
                       <oip:h3>Documents</oip:h3>
-                      <ul>
+                      <ul class="docs">
                       <mm:relatednodes>
                         <li class="TODO">
                           <mm:attachment><a title="${_node.description}" href="${_}"><mm:field name="title" /></a></mm:attachment>
