@@ -115,7 +115,7 @@
                       <oip:h3>Documents</oip:h3>
                       <ul class="docs">
                       <mm:relatednodes>
-                        <li class="TODO">
+                        <li>
                           <mm:attachment><a title="${_node.description}" href="${_}"><mm:field name="title" /></a></mm:attachment>
                           (<mm:field name="mimetype" />, <mm:field name="size" escape="filesize" />)
                         </li>
