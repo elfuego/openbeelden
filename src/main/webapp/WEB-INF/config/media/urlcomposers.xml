@@ -8,7 +8,7 @@
                format="*"
                protocol="http" class="org.mmbase.streams.urlcomposers.ImagesURLComposer">
     <param name="template">s(81)+part(0,0,81,60)+f(png)</param>
-    <param name="description">thumbnail</param>
+    <param name="description">Thumbnail</param>
   </urlcomposer>
 
 <!-- 
@@ -24,8 +24,16 @@
                format="*"
                protocol="http" class="org.mmbase.streams.urlcomposers.ImagesURLComposer">
     <param name="template">s(320)+part(0,0,320,240)+f(png)</param>
-    <param name="description">preview</param>
+    <param name="description">Preview</param>
   </urlcomposer>
 
+<!-- 
+  <urlcomposer mimetype="image/*"
+               format="*"
+               protocol="http" class="org.mmbase.streams.urlcomposers.ImagesURLComposer">
+    <param name="template">f(png)</param>
+    <param name="description">Original size but as png</param>
+  </urlcomposer>
+ -->
 
 </urlcomposers>
