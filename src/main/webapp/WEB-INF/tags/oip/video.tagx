@@ -70,7 +70,7 @@
   </c:choose>
 
   <!-- media tag to share -->
-  <mm:import id="embedtag"><video controls="controls" width="${w}" height="${h}" poster="${poster}"><mm:write referid="mediaurls" escape="none" /></video></mm:import>
+  <mm:import id="embedtag"><video controls="controls"><mm:write referid="mediaurls" escape="none" /></video></mm:import>
   <div id="clientcaps"><jsp:text> <!-- this waste of space is for msie plugin detection --> </jsp:text></div>
 
 </jsp:root>
