@@ -44,4 +44,24 @@
     </field>
   </fieldlist>
 
+  <field name="keywords">
+    <descriptions>
+      <description xml:lang="en">Comma separated list of subjects or keywords</description>
+      <description xml:lang="nl">Kommagescheiden lijst van onderwerpen of trefwoorden</description>
+    </descriptions>
+    <gui>
+      <guiname xml:lang="en">Keywords</guiname>
+      <guiname xml:lang="nl">Trefwoorden</guiname>
+    </gui>
+    <editor>
+      <positions>
+        <input>10</input>
+        <search>10</search>
+      </positions>
+    </editor>
+    <datatype base="line" xmlns="http://www.mmbase.org/xmlns/datatypes">
+      <maxLength value="511" />
+    </datatype>
+  </field>
+
 </builder>
