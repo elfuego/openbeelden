@@ -60,6 +60,11 @@
       <mmsq:field name="suffix" />
       <mmsq:field name="lastname" />
       <mmsq:field name="status" keyword="true" alias="status" store="true" />
+      <mmsq:relatednodes type="users_translations">
+        <mmsq:field name="firstname" />
+        <mmsq:field name="suffix" />
+        <mmsq:field name="lastname" />
+      </mmsq:relatednodes>
     </list>
   
   </index>
