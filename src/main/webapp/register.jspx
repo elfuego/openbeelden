@@ -25,9 +25,9 @@
           <mm:relatednodes>
             <!-- disclaimer text above registration -->
             <mm:nodefunction name="translation">
-              <mm:import id="legaltext" reset="true"><mm:field name="body" /></mm:import>
+              <mm:import id="legaltext" reset="true"><mm:field name="body" escape="none" /></mm:import>
             </mm:nodefunction>
-            <mm:write request="eu.openimages.legaltext" referid="legaltext" />
+            <mm:write request="eu.openimages.legaltext" referid="legaltext" /> 
           </mm:relatednodes>
         </mm:relatednodescontainer>
 
