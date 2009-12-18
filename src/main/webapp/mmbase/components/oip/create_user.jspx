@@ -43,7 +43,7 @@
               </mm:fieldlist>
             </fieldset>
             <fieldset class="confirm-registration">
-              <textarea rows="12" cols="42">${legaltext}</textarea>
+              <div class="legaltext"><mm:write referid="legaltext" escape="none" /></div>
               <input type="checkbox" name="confirm" id="confirm" value="yes" /> 
               <label for="confirm"><fmt:message key="register.confirm" /></label>
               <c:if test="${!empty submit_registration and empty confirm}">
