@@ -5,12 +5,11 @@
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="http://www.mmbase.org/xmlns/builder
                         http://www.mmbase.org/xmlns/builder.xsd"
-    name="mediafragments_translations"  maintainer="mediaproject.mmbase.org" version="0" extends="object">
+    name="mediafragments_translations" maintainer="mediaproject.mmbase.org" version="0" extends="object">
 
   <names>
     <singular xml:lang="nl">Mediafragment (vertaling)</singular>
     <singular xml:lang="en">Media fragment (translation)</singular>
-
     <plural xml:lang="nl">Mediafragmenten (vertalingen)</plural>
     <plural xml:lang="en">Media fragments (translations)</plural>
   </names>
@@ -42,26 +41,26 @@
         <maxLength value="255" />
       </datatype>
     </field>
+    
+    <field name="keywords">
+      <descriptions>
+        <description xml:lang="en">Comma separated list of subjects or keywords</description>
+        <description xml:lang="nl">Kommagescheiden lijst van onderwerpen of trefwoorden</description>
+      </descriptions>
+      <gui>
+        <guiname xml:lang="en">Keywords</guiname>
+        <guiname xml:lang="nl">Trefwoorden</guiname>
+      </gui>
+      <editor>
+        <positions>
+          <input>10</input>
+          <search>10</search>
+        </positions>
+      </editor>
+      <datatype base="line" xmlns="http://www.mmbase.org/xmlns/datatypes">
+        <maxLength value="511" />
+      </datatype>
+    </field>
   </fieldlist>
-
-  <field name="keywords">
-    <descriptions>
-      <description xml:lang="en">Comma separated list of subjects or keywords</description>
-      <description xml:lang="nl">Kommagescheiden lijst van onderwerpen of trefwoorden</description>
-    </descriptions>
-    <gui>
-      <guiname xml:lang="en">Keywords</guiname>
-      <guiname xml:lang="nl">Trefwoorden</guiname>
-    </gui>
-    <editor>
-      <positions>
-        <input>10</input>
-        <search>10</search>
-      </positions>
-    </editor>
-    <datatype base="line" xmlns="http://www.mmbase.org/xmlns/datatypes">
-      <maxLength value="511" />
-    </datatype>
-  </field>
 
 </builder>
