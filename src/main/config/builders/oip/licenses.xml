@@ -121,6 +121,27 @@
       </datatype>
     </field>
     
+    <field name="you_allow">
+      <descriptions>
+        <description xml:lang="en">The license description or text from the prespective of the licensee</description>
+        <description xml:lang="nl">Beschrijving of tekst van de licentie voor de licentiehouder</description>
+      </descriptions>
+      <gui>
+        <guiname xml:lang="en">You allow</guiname>
+        <guiname xml:lang="nl">Jij staat toe</guiname>
+      </gui>
+      <editor>
+        <positions>
+          <input>8</input>
+          <list>8</list>
+          <search>8</search>
+        </positions>
+      </editor>
+      <datatype base="field" xmlns="http://www.mmbase.org/xmlns/datatypes">
+        <maxLength value="64000" />
+      </datatype>
+    </field>
+    
   </fieldlist>
   
   <functionlist>
