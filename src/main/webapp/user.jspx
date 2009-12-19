@@ -105,6 +105,27 @@
           </mm:maywrite>
         </c:if>
 
+        <c:if test="${block eq 'user-mediaupload'}">
+          <!-- show an article about open images next to upload -->
+          <mm:hasnode number="page_upload">
+            <mm:node number="page_upload">
+              <mm:relatednodescontainer type="articles" role="posrel" searchdirs="destination">
+                <mm:sortorder field="posrel.pos" direction="UP" />
+                <mm:relatednodes>
+                  
+                  <mm:nodefunction name="translation">
+                    <oip:h3><mm:field name="title" /></oip:h3>
+                    <mm:field name="subtitle"><mm:isnotempty><h3 class="subtitle"><mm:write /></h3></mm:isnotempty></mm:field>
+                    <mm:field name="intro" escape="paragraph" />
+                    <mm:field name="body" escape="paragraph" />
+                  </mm:nodefunction>
+                  
+                </mm:relatednodes>
+              </mm:relatednodescontainer>
+            </mm:node>
+          </mm:hasnode>
+        </c:if>
+        
       </div>
     </jsp:attribute>
 
