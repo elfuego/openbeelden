@@ -43,6 +43,7 @@
         <mmsq:field name="intro" />
         <mmsq:field name="body" />
         <mmsq:field name="source" />
+        <mmsq:field name="keywords" keyword="true" split="," boost="4" />
       </mmsq:relatednodes>
     </list>
     
