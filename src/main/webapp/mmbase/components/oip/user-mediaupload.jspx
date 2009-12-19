@@ -30,6 +30,7 @@
 
     <mm:cloud method="asis">
 
+      <!-- 1st form -->
       <mm:import id="buffer">
         <mm:form id="upload_form">
           <mm:createnode id="newsource" type="streamsources" commitonclose="false">
@@ -76,17 +77,15 @@
       </mm:import>
 
 
+      <!-- 2nd form -->
       <mm:present referid="committed">
         <mm:node referid="newsource">
+          
           <mm:voidfunction name="waitUntilRecognized" />
           <p class="msg">
-            <fmt:message key="users.upload.finished" /><br />
-            Submitted ${_node} URL: ${_node.url} FS: ${_node.filesize}
-            <oip:type />
+            <fmt:message key="users.upload.finished" />
+            <!-- Submitted ${_node} URL: ${_node.url} FS: ${_node.filesize} <oip:type /> -->
           </p>
-
-          <!-- p class="msg">Submitted ${_node} URL: ${_node.url} FS: ${_node.filesize} <oip:type /> </p -->
-
           <mm:log jspvar="log"><!-- Make sure the mediafragment is created outside transactions and so on -->
             <mm:field name="title" jspvar="mf_title" vartype="String" write="false">
               <jsp:scriptlet>log.info("Mediafragment title: " + mf_title);</jsp:scriptlet>
