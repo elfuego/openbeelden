@@ -92,7 +92,7 @@
 
   <mm:compare referid="type" value="licenses">
     <mm:import id="listfields" reset="true">name,version,language</mm:import>
-    <mm:import id="searchfields" reset="true">${listfields},url,description</mm:import>
+    <mm:import id="searchfields" reset="true">${listfields},url,description,you_allow</mm:import>
     <mm:import id="editfields" reset="true">${searchfields}</mm:import>
   </mm:compare>
   
