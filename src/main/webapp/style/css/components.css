@@ -75,6 +75,9 @@ fieldset.licenses label
 	margin-left: 8px;
 }
 
+fieldset.licenses a:link, 
+fieldset.licenses a:visited { text-decoration: none; }
+
 div.b_user-streams table
 {
 	padding: 0;
