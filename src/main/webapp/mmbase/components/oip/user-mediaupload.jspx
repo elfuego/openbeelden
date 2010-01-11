@@ -121,9 +121,10 @@
                 <mm:node number="licenses_attributionsharealike">
                   <li>
                     <input name="license" id="lic_0" type="radio" value="${_node}" checked="checked" />
+                    <mm:import id="ya" reset="true"><mm:field name="you_allow" escape="tagstripper" /></mm:import>
                     <label for="lic_0">
                       <mm:nodefunction name="translation">
-                        <span title="${_node.url} ${_node.description}"><mm:field name="name" /></span>
+                        <a class="_blank" href="${_node.url}" title="${ya}"><mm:field name="name" /></a>
                       </mm:nodefunction>
                     </label>
                   </li>
@@ -133,9 +134,10 @@
                   <mm:listnodes varStatus="status">
                     <li>
                       <input name="license" id="lic_${status.index}" type="radio" value="${_node}" />
+                      <mm:import id="ya" reset="true"><mm:field name="you_allow" escape="tagstripper" /></mm:import>
                       <label for="lic_${status.index}">
                         <mm:nodefunction name="translation">
-                          <span title="${_node.url} ${_node.description}"><mm:field name="name" /></span>
+                          <a class="_blank" href="${_node.url}" title="${ya}"><mm:field name="name" /></a>
                         </mm:nodefunction>
                       </label>
                     </li>
