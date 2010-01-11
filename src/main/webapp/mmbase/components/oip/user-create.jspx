@@ -10,7 +10,7 @@
   <jsp:directive.page import="org.mmbase.util.*,java.util.concurrent.*" />
   <mm:cloud method="delegate" authenticate="class" id="cloud">
     <div
-        class="mm_c c_oip b_createuser ${requestScope.className}"
+        class="mm_c c_oip b_user-create ${requestScope.className}"
         id="${requestScope['org.mmbase.componentId']}">
 
       <script type="text/javascript">
@@ -21,7 +21,7 @@
         document.getElementById('submit_registration').disabled = this.invalidElements != 0;
         }
         validator.setup(document.getElementById("${requestScope['org.mmbase.componentId']}"));
-        Widgets.prototype.labelsToInputs(".c_oip.b_createuser label", {emptyisuntouched: true});
+        Widgets.prototype.labelsToInputs(".c_oip.b_user-create label", {emptyisuntouched: true});
       </script>
       
       <mm:import externid="submit_registration" />

@@ -8,7 +8,7 @@
     xmlns:oip="urn:jsptagdir:/WEB-INF/tags/oip">
   <oip:html cacheable="false" styleClass="createuser">
     <jsp:attribute name="head">
-      <mm:component name="oip" block="createuser" render="head" />
+      <mm:component name="oip" block="user-create" render="head" />
     </jsp:attribute>
     <jsp:attribute name="body">
       
@@ -31,7 +31,7 @@
           </mm:relatednodes>
         </mm:relatednodescontainer>
 
-        <mm:component name="oip" block="createuser" />
+        <mm:component name="oip" block="user-create" />
       </div>
       
       <div class="right-column">

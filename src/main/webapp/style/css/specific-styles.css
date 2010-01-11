@@ -635,7 +635,7 @@ select.mm_datetime_hour,
 select.mm_datetime_minute { width: auto; } 
 
 .contact form.notsubmitted div.mm_check_error,
-.createuser form.notsubmitted div.mm_check_error, 
+.user-create form.notsubmitted div.mm_check_error, 
 .reset-password form.notsubmitted div.mm_check_error {
     color: #666;
     display: none;
@@ -655,7 +655,7 @@ div.legaltext
 div.legaltext a:link, div.legaltext a:visited { color: #666; }
 
 .contact form.notsubmitted div.mm_check_updated,
-.createuser form.notsubmitted div.mm_check_updated,
+.user-create form.notsubmitted div.mm_check_updated,
 .reset-password form.notsubmitted div.mm_check_updated {
     display: block;
 }
