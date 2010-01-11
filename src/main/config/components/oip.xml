@@ -48,7 +48,7 @@
     </body>
   </block>
 
-  <block name="createuser"
+  <block name="user-create"
          classification="mmbase.oip"
          mimetype="text/html">
     <title xml:lang="en">New user</title>
@@ -57,7 +57,7 @@
     <description xml:lang="nl">Formulier waar een gebruiker zich kan registreren</description>
     <xi:include href="http://www.mmbase.org/components/validation.head.xml" />
     <xi:include href="http://www.mmbase.org/components/widgets.head.xml" />
-    <body jsp="create_user.jspx" />
+    <body jsp="user-create.jspx" />
   </block>
 
   <block name="user-login"
