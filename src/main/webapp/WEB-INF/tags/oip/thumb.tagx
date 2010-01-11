@@ -14,7 +14,7 @@
       <mm:maxnumber value="1" />
       <mm:import id="hasimage" reset="true"><mm:size /></mm:import>
       <mm:relatednodes>
-        <mm:image mode="url" width="81" height="60" crop="middle" id="img" write="false" />
+        <mm:image mode="url" width="81" height="60" crop="end" id="img" write="false" />
         <img src="${img}" alt="${alt}" width="81" height="60" />
       </mm:relatednodes>
     </mm:relatednodescontainer>
@@ -24,7 +24,7 @@
         <mm:maxnumber value="1" />
         <mm:import id="hasimage" reset="true"><mm:size /></mm:import>
         <mm:relatednodes>
-          <mm:image mode="url" width="81" height="60" crop="middle" id="img" write="false" />
+          <mm:image mode="url" width="81" height="60" crop="end" id="img" write="false" />
           <img src="${img}" alt="${alt}" width="81" height="60" />
         </mm:relatednodes>
       </mm:relatednodescontainer>

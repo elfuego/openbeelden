@@ -23,8 +23,7 @@
       <c:set var="overlay"><jsp:expression>org.mmbase.module.core.MMBaseContext.getHtmlRoot()</jsp:expression>/style/images/startoverlay.png</c:set>
     </c:otherwise>
   </c:choose>
-  <c:set var="template">s(${w}!x${h}!)+adjoin(${overlay})+flatten</c:set>
-  <c:set var="basictemplate">s(${w}!x${h}!)</c:set>
+  <c:set var="template">s(${w})+part(0,0,${w},${h})+adjoin(${overlay})+flatten</c:set>
   <c:set var="poster">${mm:link('/style/images/preview_audio.png')}</c:set>
 
   <mm:relatednodescontainer type="images" role="related" searchdirs="destination">
