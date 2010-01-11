@@ -8,8 +8,7 @@
 /*
   Main javascript file for the Open Images Platform
   @author: Andre van Toly
-  @version: 0.2
-  @changes: initial version
+  @version  '$Id$'
 */
 
 function initLangSwitch() {
@@ -148,6 +147,10 @@ function initFieldInfos() {
         });
     }
 }
+/* Open link in new window or tab */
+function initBlank() {
+    $('._blank').click(function(ev) { ev.preventDefault(); window.open(ev.target); });
+}
 
 $(document).ready(function() {
     initLangSwitch();
@@ -159,6 +162,7 @@ $(document).ready(function() {
     initTabs('tabs');
     initTabs('usertabs');
     initFieldInfos();
+    initBlank()
 });
 
 </mm:content>

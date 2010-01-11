@@ -7,7 +7,7 @@
   This should mainly be integrated in player.js but has configuration that relies on correct urls.
   
   @author: André van Toly
-  @version: 0.3
+  @version  '$Id$'
   @changes: moved methods to player.js, classes for id's
 */
 
