@@ -117,16 +117,17 @@
             </mm:node>
 
             <fieldset class="licenses">
+              <h4><fmt:message key="users.upload.licensetitle" /></h4>
+              <p><fmt:message key="users.upload.licensetext" /></p>
               <ul>
                 <mm:node number="licenses_attributionsharealike">
                   <li>
                     <input name="license" id="lic_0" type="radio" value="${_node}" checked="checked" />
-                    <mm:import id="ya" reset="true"><mm:field name="you_allow" escape="tagstripper" /></mm:import>
-                    <label for="lic_0">
-                      <mm:nodefunction name="translation">
-                        <a class="_blank" href="${_node.url}" title="${ya}"><mm:field name="name" /></a>
-                      </mm:nodefunction>
-                    </label>
+                    <mm:nodefunction name="translation">
+                      <mm:import id="ya" reset="true"><mm:field name="you_allow" escape="tagstripper" /></mm:import>
+                      <label for="lic_0" title="${ya}"><mm:field name="name" /></label>
+                      <a class="_blank" href="${_node.url}" title="${ya}">${_node.url}</a>
+                    </mm:nodefunction>
                   </li>
                 </mm:node>
                 <mm:listnodescontainer type="licenses">
@@ -134,12 +135,11 @@
                   <mm:listnodes varStatus="status">
                     <li>
                       <input name="license" id="lic_${status.index}" type="radio" value="${_node}" />
-                      <mm:import id="ya" reset="true"><mm:field name="you_allow" escape="tagstripper" /></mm:import>
-                      <label for="lic_${status.index}">
-                        <mm:nodefunction name="translation">
-                          <a class="_blank" href="${_node.url}" title="${ya}"><mm:field name="name" /></a>
-                        </mm:nodefunction>
-                      </label>
+                      <mm:nodefunction name="translation">
+                        <mm:import id="ya" reset="true"><mm:field name="you_allow" escape="tagstripper" /></mm:import>
+                        <label for="lic_${status.index}" title="${ya}"><mm:field name="name" /></label>
+                        <a class="_blank" href="${_node.url}" title="${ya}">${_node.url}</a>
+                      </mm:nodefunction>
                     </li>
                   </mm:listnodes>
                 </mm:listnodescontainer>
