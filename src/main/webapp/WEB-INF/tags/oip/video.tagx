@@ -4,6 +4,7 @@
     xmlns:fn="http://java.sun.com/jsp/jstl/functions"
     xmlns:jsp="http://java.sun.com/JSP/Page"
     xmlns:mm="http://www.mmbase.org/mmbase-taglib-2.0"
+    xmlns:oip="urn:jsptagdir:/WEB-INF/tags/oip"
     >
 
   <jsp:directive.attribute name="width"  description="Width of player" />
@@ -23,14 +24,13 @@
       <c:set var="overlay"><jsp:expression>org.mmbase.module.core.MMBaseContext.getHtmlRoot()</jsp:expression>/style/images/startoverlay.png</c:set>
     </c:otherwise>
   </c:choose>
-  <c:set var="template">s(${w})+part(0,0,${w},${h})+adjoin(${overlay})+flatten</c:set>
   <c:set var="poster"><mm:url absolute="true" page="/style/images/preview_video.png" /></c:set>
 
   <mm:relatednodescontainer type="images" role="related" searchdirs="destination">
     <mm:maxnumber value="1" />
     <mm:relatednodes>
+      <c:set var="template"><oip:imagecrop width="${w}" height="${h}" />+adjoin(${overlay})+flatten</c:set>
       <c:set var="poster"><mm:image absolute="true" template="$template" /></c:set>
-      <mm:import id="imgnr" reset="true"><mm:field name="number" /></mm:import>
     </mm:relatednodes>
   </mm:relatednodescontainer>
 
