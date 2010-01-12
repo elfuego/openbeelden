@@ -1,0 +1,36 @@
+<jsp:root
+    version="2.0"
+    xmlns:jsp="http://java.sun.com/JSP/Page"
+    xmlns:c="http://java.sun.com/jsp/jstl/core"
+    xmlns:fmt="http://java.sun.com/jsp/jstl/fmt"
+    xmlns:oip="urn:jsptagdir:/WEB-INF/tags/oip"
+    xmlns:mm="http://www.mmbase.org/mmbase-taglib-2.0"
+    >
+
+  <jsp:directive.attribute name="width"   description="Desired width in pixels" />
+  <jsp:directive.attribute name="height"  description="Desired height in pixels" />
+
+  <c:set var="i_width"><mm:field name="width" /></c:set>  
+  <c:set var="i_height"><mm:field name="height" /></c:set>  
+  
+  <c:set var="h_multi" value="${width / i_width}" />
+  <c:set var="v_multi" value="${height / i_height}" />
+  
+  <fmt:formatNumber var="w_new" value="${i_width * v_multi}" maxFractionDigits="0" />
+  <fmt:formatNumber var="h_new" value="${i_height * h_multi}" maxFractionDigits="0" />
+  
+  <c:choose>
+    <c:when test="${h_multi gt v_multi}">
+      <c:set var="crop">s(${width})+part(0,0,${width},${height})</c:set>
+    </c:when>
+    <c:when test="${h_multi lt v_multi}">
+      <c:set var="crop">s(x${height})+part(0,0,${width},${height})</c:set>
+    </c:when>
+    <c:otherwise>
+      <c:set var="crop">s(${width})</c:set>
+    </c:otherwise>
+  </c:choose>
+  
+  ${crop}
+  
+</jsp:root>
