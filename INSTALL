@@ -1,6 +1,6 @@
 Installation of OIP
 ===================
-04-12-2009
+12-12-2010
 
 The Open Images Platform (OIP) is a Java webapplication to manage and publish open media. 
 
@@ -9,34 +9,32 @@ CONTENTS OF THIS FILE
 ---------------------
 
  * Requirements
- * Optional requirements
  * Installation
  * Configuration
  * OIP administration
  * More Information
+ * License
 
 
 REQUIREMENTS
 ------------
 
-OIP requires several components: 
-- Java runtime environment 1.5
-- a Java web application server like Apache Tomcat 5.5.27
-- MySQL database 5.1
-- FFmpeg for media conversion 0.5
-- FFmpeg2Theora 
+OIP requires several components:
+- Java runtime environment (minimal 1.5)
+- a Java web application server like Apache Tomcat (5.5.27)
+- MySQL database (5.1) or other database supported by MMBase like PostgreSQL.
+- FFmpeg (0.5) for audio and video transcoding
+- FFmpeg2Theora (*)
+- ImageMagick or JAI for image conversions (**)
+
+(*)  Is not really needed, but is configured. FFmpeg should be able to do all transcodings.
+(**) Depending on you system is JAI easier to install, but ImageMAgick offers more options.
 
 
 INSTALLATION
 ------------
 Refer to the MMBase installation documentation: 
 http://www.mmbase.org/mmdocs/releases/installation.txt
-
-- Apache Tomcat or other Java web application server
-- MySQL database
-- FFmpeg
-- ImageMagick
-
 
 Note about the Lucene search index:
 You may have to run the Lucene search index for the first time by hand or the pages 'Media' 
@@ -49,6 +47,17 @@ CONFIGURATION
 -------------
 OIP is based on MMBase, uses FFmpeg and some other applications and is because of that highly
 configurable.
+
+What dou you really need to configure?
+--------------------------------------
+- security
+- a database
+- creation of streams in createcaches.xml 
+
+What can be configured?
+-----------------------
+- email
+- remote server transcodings
 
 Open Images
 -----------
@@ -66,6 +75,11 @@ OIP ADMINISTRATION
 ------------------
 Using the editors, creating content, manage media and users.
 
+
+MORE INFORMATION
+----------------
+More information can be found in the MMBase documentation or on our website 
+www.openimages.org.
 
 
 LICENSE
