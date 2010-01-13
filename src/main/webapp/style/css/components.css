@@ -6,12 +6,21 @@
 */
 
 
-div.b_user-profile { margin-bottom: 12px; }
+div.b_user-profile
+{
+	margin-bottom: 12px;
+/*
+	max-height: 286px;
+	overflow: auto;
+*/
+}
+
 div.b_user-medialist
 {
 	clear: both;
 	padding-top: 1em;
 }
+
 div.b_user-profile img,
 div.b_user-picture img
 {

@@ -99,7 +99,7 @@
 
         <c:if test="${block eq 'user' or block eq 'user-edit'}">
           <mm:maywrite>
-            <div class="related-grey">
+            <div class="related-grey-border">
               <mm:component name="oip" block="user-favorites" />
             </div>
           </mm:maywrite>

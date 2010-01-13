@@ -286,6 +286,8 @@ div.related-grey
 	margin-bottom: 1em;
 }
 
+div.related-grey div.ui-tabs-panel div.ui-tabs { min-height: 200px; }
+
 div.related
 {
 	min-height: 266px;
