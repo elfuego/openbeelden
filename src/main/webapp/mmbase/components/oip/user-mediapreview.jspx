@@ -114,15 +114,17 @@
                   </dd>
                 </dl>
                 
-                <mm:maywrite>
-                  <p>
-                    <oip:thumb />
-                    <mm:link referids="media">
-                      <mm:param name="edit">picture</mm:param>
-                      <a href="${_}"><fmt:message key="users.edit_image" /> »</a>
-                    </mm:link>
-                  </p>
-                </mm:maywrite>
+                <c:if test="${nodetype ne 'images' and nodetype ne 'imagefragments'}">
+                  <mm:maywrite>
+                    <p>
+                      <oip:thumb />
+                      <mm:link referids="media">
+                        <mm:param name="edit">picture</mm:param>
+                        <a href="${_}"><fmt:message key="users.edit_image" /> »</a>
+                      </mm:link>
+                    </p>
+                  </mm:maywrite>
+                </c:if>
               
               </c:otherwise>
             </c:choose>
