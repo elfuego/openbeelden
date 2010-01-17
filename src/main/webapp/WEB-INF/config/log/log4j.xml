@@ -14,7 +14,7 @@
     <param name="Encoding"   value="UTF-8" />
     <param name="Append"   value="true" />
     <layout class="org.mmbase.util.logging.log4j.MMPatternLayout">
-       <param name="ConversionPattern" value="%N %d{ISO8601} %q %c{4} %M.%L - %m%n" />
+       <param name="ConversionPattern" value="%N %t %d{ISO8601} %q %c{4} %M.%L - %m%n" />
     </layout>
   </appender>
 
@@ -79,6 +79,12 @@
   <logger name="org.mmbase.streams" >
     <level class="&mmlevel;" value="debug" />
   </logger>
+  
+<!-- 
+  <logger name="org.mmbase.module.core.MMBase" >
+    <level class="&mmlevel;" value="debug" />
+  </logger>
+ -->
 
 <!-- 
   <logger name="org.mmbase.applications.media" >
