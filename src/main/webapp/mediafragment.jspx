@@ -211,6 +211,7 @@
         </div>
 
         <div class="related-grey-border">
+          <mm:field name="owner" id="owner" write="false" />
           <c:choose>
             <c:when test="${!empty owner}">
               <oip:h3><fmt:message key="media.more_from_user" /></oip:h3>
