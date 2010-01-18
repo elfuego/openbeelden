@@ -77,7 +77,7 @@
   </logger>
   
   <logger name="org.mmbase.streams" >
-    <level class="&mmlevel;" value="debug" />
+    <level class="&mmlevel;" value="info" />
   </logger>
   
 <!-- 
