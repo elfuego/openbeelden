@@ -33,8 +33,8 @@
       </gui>
       <editor>
         <positions>
-          <input>9</input>
-          <search>9</search>
+          <input>22</input>
+          <search>22</search>
         </positions>
       </editor>
       <datatype base="line" xmlns="http://www.mmbase.org/xmlns/datatypes">
@@ -53,8 +53,8 @@
       </gui>
       <editor>
         <positions>
-          <input>10</input>
-          <search>10</search>
+          <input>21</input>
+          <search>21</search>
         </positions>
       </editor>
       <datatype base="line" xmlns="http://www.mmbase.org/xmlns/datatypes">

@@ -18,8 +18,8 @@
     </gui>
     <editor>
       <positions>
-        <input>19</input>
-        <search>19</search>
+        <input>22</input>
+        <search>22</search>
       </positions>
     </editor>
     <datatype base="eline" xmlns="http://www.mmbase.org/xmlns/datatypes">
@@ -38,8 +38,8 @@
     </gui>
     <editor>
       <positions>
-        <input>19</input>
-        <search>19</search>
+        <input>27</input>
+        <search>27</search>
       </positions>
     </editor>
     <datatype base="eline" xmlns="http://www.mmbase.org/xmlns/datatypes">
@@ -58,8 +58,8 @@
     </gui>
     <editor>
       <positions>
-        <input>10</input>
-        <search>10</search>
+        <input>21</input>
+        <search>21</search>
       </positions>
     </editor>
     <datatype base="line" xmlns="http://www.mmbase.org/xmlns/datatypes">
@@ -78,8 +78,8 @@
     </gui>
     <editor>
       <positions>
-        <input>19</input>
-        <search>19</search>
+        <input>25</input>
+        <search>25</search>
       </positions>
     </editor>
     <datatype base="line" xmlns="http://www.mmbase.org/xmlns/datatypes">
