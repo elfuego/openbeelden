@@ -99,9 +99,7 @@
                   <dt>
                     <a href="${_}" title="${mf_title}"><oip:thumb alt="${mf_title}" /></a>
                   </dt>
-                  <dd> 
-                    <mm:nodefunction name="translation"><mm:field name="title" escape="wrapper" /></mm:nodefunction>
-                  </dd>
+                  <dd><mm:write referid="mf_title" escape="wrapper" /></dd>
                 </dl>
               </mm:link>
             </mm:listnodes>

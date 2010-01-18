@@ -199,7 +199,7 @@
                         <dt>
                           <a href="${_}" title="${mf_title}"><oip:thumb alt="${mf_title}" /></a>
                         </dt>
-                        <dd> <mm:field name="title" escape="wrapper" /> </dd>
+                        <dd><mm:write referid="mf_title" escape="wrapper" /></dd>
                       </dl>
                     </mm:link>
                     <jsp:text> </jsp:text>
@@ -247,7 +247,9 @@
                   <dt>
                     <a href="${_}" title="${mf_title}"><oip:thumb alt="${mf_title}" /></a>
                   </dt>
-                  <dd> <mm:field name="title" escape="wrapper" /> </dd>
+                  <dd>
+                    <dd><mm:write referid="mf_title" escape="wrapper" /></dd>
+                  </dd>
                 </dl>
               </mm:link>
             </mm:listnodes>
