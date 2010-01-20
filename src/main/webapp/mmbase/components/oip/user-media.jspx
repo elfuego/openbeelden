@@ -32,10 +32,10 @@
       <mm:node number="${media}">
         
         <mm:hasrank maxvalue="site user">
-          <c:set var="fields">title,language,subtitle,keywords,intro,body,source,date,created,lastmodified</c:set>
+          <c:set var="fields">title,language,subtitle,intro,body,keywords,source,date,created,lastmodified</c:set>
         </mm:hasrank>
         <mm:hasrank minvalue="project manager">
-          <c:set var="fields">title,show,language,subtitle,keywords,intro,body,source,date,created,lastmodified</c:set>
+          <c:set var="fields">title,show,language,subtitle,intro,body,keywords,source,date,created,lastmodified</c:set>
         </mm:hasrank>
         
         <oip:form fields="${fields}" >
