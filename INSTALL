@@ -28,7 +28,7 @@ OIP requires several components:
 - ImageMagick or JAI for image conversions (**)
 
 (*)  Is not really needed, but is configured. FFmpeg should be able to do all transcodings.
-(**) Depending on you system is JAI easier to install, but ImageMAgick offers more options.
+(**) Depending on your system is JAI easier to install, but ImageMagick offers more options.
 
 
 INSTALLATION
