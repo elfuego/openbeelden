@@ -12,8 +12,8 @@
 examples of use:
   feeds/oai/?verb=Identify
   feeds/oai/?verb=ListSets
-  feeds/oai/?verb=ListIdentifiers
-  feeds/oai/?verb=ListRecords&set=lastuploaded
+  feeds/oai/?verb=ListIdentifiers&metadataPrefix=oai_dc
+  feeds/oai/?verb=ListRecords&metadataPrefix=oai_dc&set=lastuploaded
   feeds/oai/?verb=GetRecord&identifier=oai:openimages.eu:4983
 -->
 
@@ -21,37 +21,62 @@ examples of use:
   <mm:import id="max">100</mm:import>
   <mm:import id="offset">0</mm:import>
 
-  <mm:import externid="verb">Identify</mm:import>
+  <mm:import externid="verb" />
   <mm:import externid="identifier" />
-  <mm:import externid="metadataPrefix">oai_dc</mm:import><!-- e.g. oai_dc  -->
-  <mm:import externid="set">lastuploaded</mm:import><!-- e.g. lastuploaded -->
-  
-  <!-- resumptionToken, looks like: !f1969-07-21!u2003-08-18!oai_dc!200 -->
-  <mm:import externid="resumptionToken" /><!-- starts at 0 -->
-  <mm:present referid="resumptionToken">
-    <c:set var="tokens" value="${fn:split(resumptionToken, '!')}" />
-    <c:if test="${fn:length(tokens) eq 4}">
-      <c:set var="tfrom"  value="${fn:substringAfter(tokens[0], 'f')}" />
-      <c:set var="tuntil" value="${fn:substringAfter(tokens[1], 'u')}" />
-      <c:if test="${!empty tfrom}">
-        <mm:time inputformat="yyyy-MM-dd" time="${tfrom}"  precision="days" id="start" write="false" />
-      </c:if>
-      <c:if test="${!empty tuntil}">
-        <mm:time inputformat="yyyy-MM-dd" time="${tuntil}" precision="days" id="end" write="false" />
-      </c:if>
-      <mm:import id="metadataPrefix" reset="true">${tokens[2]}</mm:import>
-      <mm:import id="offset" reset="true">${tokens[3]}</mm:import>
-    </c:if>
-  </mm:present>
+  <mm:import externid="metadataPrefix" />
+  <mm:import externid="set" />
   
   <mm:import externid="from" /><!-- 1998-01-15 -->
   <mm:present referid="from">
-    <mm:time inputformat="yyyy-MM-dd" time="$from" precision="days" id="start" write="false" />
+    <mm:compare referid="from" regexp="[0-9]{4}-[0-9]{2}-[0-9]{2}">
+      <mm:time inputformat="yyyy-MM-dd" time="$from" precision="days" id="start" write="false" />
+    </mm:compare>
+    <mm:compare referid="from" regexp="[0-9]{4}-[0-9]{2}-[0-9]{2}" inverse="true">
+      <c:set var="error" value="badArgument" />
+    </mm:compare>
   </mm:present>
   <mm:import externid="until" />
   <mm:present referid="until">
-    <mm:time inputformat="yyyy-MM-dd" time="$until" precision="days" id="end" write="false" />
+    <mm:compare referid="until" regexp="[0-9]{4}-[0-9]{2}-[0-9]{2}">
+      <mm:time inputformat="yyyy-MM-dd" time="$until" precision="days" id="end" write="false" />
+    </mm:compare>
+    <mm:compare referid="until" regexp="[0-9]{4}-[0-9]{2}-[0-9]{2}" inverse="true">
+      <c:set var="error" value="badArgument" />
+    </mm:compare>
   </mm:present>
+  
+  <!-- resumptionToken, looks like: !f1969-07-21!u2003-08-18!oai_dc!200 -->
+  <mm:import externid="resumptionToken" /><!-- starts at 0 -->
+  <c:choose>
+    <c:when test="${!empty resumptionToken}">
+      <c:if test="${!empty from or !empty until or !empty metadataPrefix or !empty set}">
+        <c:set var="error" value="badArgument" />
+      </c:if>
+      <c:set var="tokens" value="${fn:split(resumptionToken, '!')}" />
+      <c:choose>
+        <c:when test="${fn:length(tokens) eq 4}">
+          <c:set var="tfrom"  value="${fn:substringAfter(tokens[0], 'f')}" />
+          <c:set var="tuntil" value="${fn:substringAfter(tokens[1], 'u')}" />
+          <c:if test="${!empty tfrom}">
+            <mm:time inputformat="yyyy-MM-dd" time="${tfrom}"  precision="days" id="start" write="false" />
+          </c:if>
+          <c:if test="${!empty tuntil}">
+            <mm:time inputformat="yyyy-MM-dd" time="${tuntil}" precision="days" id="end" write="false" />
+          </c:if>
+          <mm:import id="metadataPrefix" reset="true">${tokens[2]}</mm:import>
+          <mm:import id="offset" reset="true">${tokens[3]}</mm:import>
+        </c:when>
+        <c:otherwise>
+          <c:set var="error" value="badResumptionToken" />
+        </c:otherwise>
+      </c:choose>
+    </c:when>
+    <c:otherwise>
+      <c:if test="${empty metadataPrefix and (verb eq 'ListIdentifiers' or verb eq 'ListRecords' or verb eq 'GetRecord')}">
+        <c:set var="error" value="badArgument" />
+      </c:if>
+    </c:otherwise>
+  </c:choose>
   
   <!-- get the nodenumber from the identifier, f.e. oai:openimages.eu:746 -->
   <mm:import id="record" />
@@ -60,6 +85,18 @@ examples of use:
     <c:set var="len" value="${fn:length(pieces)}" />
     <mm:import id="record" reset="true">${pieces[len - 1]}</mm:import>
   </c:if>
+  
+  <!-- fill parameters when empty -->
+  <c:choose>
+    <c:when test="${!empty metadataPrefix and metadataPrefix ne 'oai_dc'}">
+      <c:set var="error" value="badArgument" />
+    </c:when>
+    <c:otherwise>
+      <c:set var="metadataPrefix">oai_dc</c:set>
+    </c:otherwise>
+  </c:choose>
+  <c:if test="${empty verb}"><c:set var="verb">Identify</c:set></c:if>
+  <c:if test="${empty set}"><c:set var="set">lastuploaded</c:set></c:if>
 
   <OAI-PMH 
     xmlns="http://www.openarchives.org/OAI/2.0/" 
@@ -71,6 +108,19 @@ examples of use:
     </responseDate>
 
     <c:choose>
+      <c:when test="${error eq 'badArgument'}">
+        <request>${requesturl}</request>
+        <error code="badArgument">
+          The request includes illegal arguments, is missing required arguments, 
+          includes a repeated argument, or values for arguments have an illegal syntax.        
+        </error>
+      </c:when>
+      <c:when test="${error eq 'badResumptionToken'}">
+        <request>${requesturl}</request>
+        <error code="badResumptionToken">
+          The value of the resumptionToken argument is invalid or expired.
+        </error>
+      </c:when>
       <c:when test="${verb eq 'Identify'}">
         <request verb="${verb}" metadataPrefix="${metadataPrefix}">${requesturl}</request>
         <Identify>
@@ -78,9 +128,9 @@ examples of use:
           <baseURL><mm:url page="/" absolute="true" /></baseURL>
           <protocolVersion>2.0</protocolVersion>
           <adminEmail>info@openimages.eu</adminEmail>
-          <earliestDatestamp>1919-01-01T00:00:00Z</earliestDatestamp>
+          <earliestDatestamp>1919-01-01</earliestDatestamp>
           <deletedRecord>no</deletedRecord>
-          <granularity>YYYY-MM-DDThh:mm:ssZ</granularity>
+          <granularity>YYYY-MM-DD</granularity>
           <description>
             <oai-identifier xmlns="http://www.openarchives.org/OAI/2.0/oai-identifier" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.openarchives.org/OAI/2.0/oai-identifier http://www.openarchives.org/OAI/2.0/oai-identifier.xsd">
             <scheme>oai</scheme>
@@ -139,25 +189,28 @@ examples of use:
           </c:otherwise>
         </c:choose>
         
+        <mm:listnodescontainer type="mediafragments">
+          <mm:constraint field="show" value="true" operator="EQUAL" />
+          <c:if test="${!empty start}">
+            <mm:constraint field="date" value="$start" operator="GREATER_EQUAL" />
+          </c:if>
+          <c:if test="${!empty end}">
+            <mm:constraint field="date" value="$end" operator="LESS_EQUAL" />
+          </c:if>
+          <mm:sortorder field="number" direction="DOWN" />
+          <mm:size id="size" write="false" />
+          <mm:maxnumber value="$max" />
+          <mm:offset value="$offset" />
+          <mm:size id="foundsome" write="false" />
+          <mm:listnodes id="list" />
+        </mm:listnodescontainer>
+        
         <c:choose>
-          <c:when test="${verb eq 'ListIdentifiers'}">
+          <c:when test="${foundsome gt 0 and verb eq 'ListIdentifiers'}">
             <ListIdentifiers>
-              <mm:listnodescontainer type="mediafragments">
-                <mm:constraint field="show" value="true" operator="EQUAL" />
-                <c:if test="${!empty start}">
-                  <mm:constraint field="date" value="$start" operator="GREATER_EQUAL" />
-                </c:if>
-                <c:if test="${!empty end}">
-                  <mm:constraint field="date" value="$end" operator="LESS_EQUAL" />
-                </c:if>
-                <mm:sortorder field="number" direction="DOWN" />
-                <mm:size id="size" write="false" />
-                <mm:maxnumber value="$max" />
-                <mm:offset value="$offset" />
-                <mm:listnodes>
-                  <jsp:include page="/feeds/inc/oai.record.header.jspx" />
-                </mm:listnodes>
-              </mm:listnodescontainer>
+              <mm:listnodes referid="list">
+                <jsp:include page="/feeds/inc/oai.record.header.jspx" />
+              </mm:listnodes>
               <c:if test="${(offset + max) lt size}">
                 <resumptionToken
                     completeListSize="${size}" 
@@ -165,32 +218,26 @@ examples of use:
               </c:if>
             </ListIdentifiers>
           </c:when>
-          <c:otherwise>
+          <c:when test="${foundsome gt 0 and verb eq 'ListRecords'}">
             <ListRecords>
-              <mm:listnodescontainer type="mediafragments">
-                <mm:constraint field="show" value="true" operator="EQUAL" />
-                <c:if test="${!empty start}">
-                  <mm:constraint field="date" value="$start" operator="GREATER_EQUAL" />
-                </c:if>
-                <c:if test="${!empty end}">
-                  <mm:constraint field="date" value="$end" operator="LESS_EQUAL" />
-                </c:if>
-                <mm:sortorder field="number" direction="DOWN" />
-                <mm:size id="size" write="false" />
-                <mm:maxnumber value="$max" />
-                <mm:offset value="$offset" />
-                <mm:listnodes>
-                  <jsp:include page="/feeds/inc/oai.record.jspx" />
-                </mm:listnodes>
-              </mm:listnodescontainer>
+              <mm:listnodes referid="list">
+                <jsp:include page="/feeds/inc/oai.record.jspx" />
+              </mm:listnodes>
               <c:if test="${(offset + max) lt size}">
                 <resumptionToken
                     completeListSize="${size}" 
                     cursor="${offset}">!f${from}!u${until}!${metadataPrefix}!${offset + max}</resumptionToken>
               </c:if>
             </ListRecords>
+          </c:when>
+          <c:otherwise>
+            <error code="noRecordsMatch">
+              The combination of the values of the from, until, set 
+              and metadataPrefix arguments results in an empty list.
+            </error>
           </c:otherwise>
         </c:choose>
+
       </c:when>
       
       <!-- GetRecord -->
