@@ -1,10 +1,40 @@
 ﻿
-Release Notes - Open Images Platform - Version OIP 0.7
+Release Notes - Open Images Platform - Version OIP 1.0
+------------------------------------------------------
+** Bug
+    * [OIP-110] - Uploaded Ogg doesn't transcode
+    * [OIP-111] - Resolution of derivatives is not right for 16:9 material
+    * [OIP-115] - Internal server error for MPEG-1 video
+    * [OIP-118] - Search fails with partial words
+    * [OIP-119] - Please include a PNG in full size
+    * [OIP-120] - What is the low quality MP3 for sounds used for?
+    * [OIP-121] - The field keywords is missing in translations of mediafragments
+    * [OIP-122] - Uploading shows a shadowbox?
+    * [OIP-123] - Images uploaded classified as video
+    * [OIP-126] - Uploading an intermediate mpeg-1 failed
+    * [OIP-127] - Changing language doesn't refresh all titles on the frontpage
+    * [OIP-128] - Opening ogg video in the browser starts a download
+    * [OIP-129] - Video with an aspect ratio other than 4:3 is cropped/letterboxed in the player
+    * [OIP-130] - The MP4 resulting from transcoding isn't in the player format
+    * [OIP-131] - Both Oggs get the same filename
 
+** Improvement
+    * [OIP-101] - Add a language option for user profiles
+    * [OIP-117] - What does the "poster" attribute in the embed code do?
+
+** Task
+    * [OIP-33] - Include security configuration for rank project manager
+    * [OIP-114] - Move feeds from /api to /feeds in application
+
+** Sub-task
+    * [OIP-112] - Only show the browser controls at current stage
+    
+    
+Release Notes - Open Images Platform - Version OIP 0.7
+------------------------------------------------------
 ** Bug
     * [OIP-49] - Upload status starts with 100% in IE8
     * [OIP-93] - System logged-out user during uploading procedure
-
 
 
 ** Improvement
@@ -23,9 +53,8 @@ Release Notes - Open Images Platform - Version OIP 0.7
     * [OIP-77] - Decent testcases for Recognizer
 
 
-
 Release Notes - Open Images Platform - Version OIP 0.6
-
+------------------------------------------------------
 ** Bug
     * [OIP-35] - Both OGG transcodings are ‚hi'
     * [OIP-40] - Browser crashed playing a movie
@@ -58,7 +87,7 @@ Release Notes - Open Images Platform - Version OIP 0.6
 
 
 Release Notes - Open Images Platform - Version OIP 0.5
-
+------------------------------------------------------
 ** Bug
     * [OIP-37] - Safari doesn't show a progress bar while uploading
     * [OIP-38] - Forgot password is a dead link
@@ -89,7 +118,7 @@ Release Notes - Open Images Platform - Version OIP 0.5
 
 
 Release Notes - Open Images Platform - Version OIP 0.4
-
+------------------------------------------------------
 ** Bug
     * [OIP-25] - FFmpeg can't transcode to MPEG-4
     * [OIP-34] - Embed code is missing
@@ -113,7 +142,7 @@ Release Notes - Open Images Platform - Version OIP 0.4
 
 
 Release Notes - Open Images Platform - Version OIP 0.3
-
+------------------------------------------------------
 ** Bug
     * [OIP-21] - Adding pictures to video doesn't work
     * [OIP-23] - Not possible to save media metadata in a different language
@@ -138,7 +167,7 @@ Release Notes - Open Images Platform - Version OIP 0.3
 
 
 Release Notes - Open Images Platform - Version OIP 0.2
-
+------------------------------------------------------
 ** Bug
     * [OIP-3] - Some issues with my uploaded video
     * [OIP-4] - Language switch does not work
@@ -160,7 +189,7 @@ Release Notes - Open Images Platform - Version OIP 0.2
     
     
 Release Notes - Open Images Platform - Version OIP 0.1
-
+------------------------------------------------------
 ** Bug
     * [OIP-1] - Issues not automatically assigned in bugtracker
     * [OIP-2] - Error while uploading
