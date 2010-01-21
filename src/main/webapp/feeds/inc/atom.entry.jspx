@@ -15,6 +15,14 @@
     
     <mm:import id="mediatype" reset="true"><mm:nodeinfo type="type" /></mm:import>
 
+    <mm:field name="length" id="length" write="false" />
+    <c:choose>
+      <c:when test="${length gt -1}">
+        <fmt:formatNumber value="${length / 1000}" var="duration" maxFractionDigits="0" groupingUsed="false" />
+      </c:when>
+      <c:otherwise><c:set var="duration" value="0" /></c:otherwise>
+    </c:choose>
+    
     <title>
       <mm:field name="title"><mm:isnotempty>${_}</mm:isnotempty><mm:isempty>no title</mm:isempty></mm:field>
     </title>
@@ -44,14 +52,6 @@
       </mm:relatednodes>
     </mm:relatednodescontainer>
       
-    <mm:field name="length" id="length" write="false" />
-    <c:choose>
-      <c:when test="${length gt -1}">
-        <fmt:formatNumber value="${length / 1000}" var="duration" maxFractionDigits="0" groupingUsed="false" />
-      </c:when>
-      <c:otherwise><c:set var="duration" value="0" /></c:otherwise>
-    </c:choose>
-
     <mm:function name="filteredurls">
       <c:choose>
         <c:when test="${fn:startsWith(mediatype, 'image')}">
@@ -64,55 +64,57 @@
           <link type="${_[0].mimeType}" href="${mm:escape('url', _[0].URL)}" length="${duration}" rel="enclosure" />
         </c:otherwise>
       </c:choose>
-      <mm:node number="${_[0].source.number}">
-        <format xmlns="http://xmlns.transmission.cc/">
-          <size><mm:field name="filesize" /></size>
-          <c:choose>
-            <c:when test="${fn:startsWith(mediatype, 'audio')}">
-              <duration>${duration}</duration>
-              <audio_codec>${fn:toLowerCase(_[0].codec)}</audio_codec>
-              <audio_bitrate>${_[0].bitrate}</audio_bitrate>
-            </c:when>
-            <c:when test="${fn:startsWith(mediatype, 'image')}">
-              <mm:hasfield name="width">
-                <width><mm:field name="width" /></width>
-                <height><mm:field name="height" /></height>
-              </mm:hasfield>
-            </c:when>
-            <c:otherwise>
-              <duration>${duration}</duration>
-              <video_codec>${fn:toLowerCase(_[0].codec)}</video_codec>
-              <mm:hasfield name="fps">
-                <mm:field name="fps">
-                  <mm:isnotempty>
-                    <c:if test="${_ gt -1}"><framerate><mm:write /></framerate></c:if>
-                  </mm:isnotempty>
-                </mm:field>
-              </mm:hasfield>
-              <c:if test="${_[0].bitrate gt 0}">
-                <video_bitrate>${_[0].bitrate}</video_bitrate> <!-- format 394.570050 ? -->
-              </c:if>
-              <mm:hasfield name="width">
-                <width><mm:field name="width" /></width>
-                <height><mm:field name="height" /></height>
-              </mm:hasfield>
-              <mm:hasfield name="channels">
-                <mm:field name="channels">
-                  <mm:isnotempty>
-                    <c:if test="${_ gt -1}"><channels><mm:write /></channels></c:if>
-                  </mm:isnotempty>
-                </mm:field>
-              </mm:hasfield>
-            </c:otherwise>
-          </c:choose>
-<!--
-          <pixel_aspect_ratio>1/1</pixel_aspect_ratio> 
-          <audio_codec>Vorbis</audio_codec> 
-          <samplerate>48000</samplerate> 
-          <channels>2</channels> 
-          <audio_bitrate>73.261261</audio_bitrate> -->
-        </format> 
-      </mm:node>
+      <mm:hasnode number="${_[0].source.number}">
+        <mm:node number="${_[0].source.number}">
+          <format xmlns="http://xmlns.transmission.cc/">
+            <size><mm:field name="filesize" /></size>
+            <c:choose>
+              <c:when test="${fn:startsWith(mediatype, 'audio')}">
+                <duration>${duration}</duration>
+                <audio_codec>${fn:toLowerCase(_[0].codec)}</audio_codec>
+                <audio_bitrate>${_[0].bitrate}</audio_bitrate>
+              </c:when>
+              <c:when test="${fn:startsWith(mediatype, 'image')}">
+                <mm:hasfield name="width">
+                  <width><mm:field name="width" /></width>
+                  <height><mm:field name="height" /></height>
+                </mm:hasfield>
+              </c:when>
+              <c:otherwise>
+                <duration>${duration}</duration>
+                <video_codec>${fn:toLowerCase(_[0].codec)}</video_codec>
+                <mm:hasfield name="fps">
+                  <mm:field name="fps">
+                    <mm:isnotempty>
+                      <c:if test="${_ gt -1}"><framerate><mm:write /></framerate></c:if>
+                    </mm:isnotempty>
+                  </mm:field>
+                </mm:hasfield>
+                <c:if test="${_[0].bitrate gt 0}">
+                  <video_bitrate>${_[0].bitrate}</video_bitrate> <!-- format 394.570050 ? -->
+                </c:if>
+                <mm:hasfield name="width">
+                  <width><mm:field name="width" /></width>
+                  <height><mm:field name="height" /></height>
+                </mm:hasfield>
+                <mm:hasfield name="channels">
+                  <mm:field name="channels">
+                    <mm:isnotempty>
+                      <c:if test="${_ gt -1}"><channels><mm:write /></channels></c:if>
+                    </mm:isnotempty>
+                  </mm:field>
+                </mm:hasfield>
+              </c:otherwise>
+            </c:choose>
+  <!--
+            <pixel_aspect_ratio>1/1</pixel_aspect_ratio> 
+            <audio_codec>Vorbis</audio_codec> 
+            <samplerate>48000</samplerate> 
+            <channels>2</channels> 
+            <audio_bitrate>73.261261</audio_bitrate> -->
+          </format> 
+        </mm:node>
+      </mm:hasnode>
     </mm:function>
 
     <mm:relatednodescontainer type="licenses" role="related" searchdirs="destination">

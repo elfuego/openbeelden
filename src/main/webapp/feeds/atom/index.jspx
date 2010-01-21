@@ -2,11 +2,13 @@
     type="application/xml"
     postprocessor="none"
     expires="1800"
+    language="en_US" 
     xmlns:c="http://java.sun.com/jsp/jstl/core"
     xmlns:fmt="http://java.sun.com/jsp/jstl/fmt"
     xmlns:jsp="http://java.sun.com/JSP/Page"
     xmlns:mm="http://www.mmbase.org/mmbase-taglib-2.0">
   <jsp:directive.page session="false" />
+  <jsp:directive.page buffer="64kb" />
   <jsp:directive.page import="org.mmbase.bridge.*" />
   <mm:cloud>  
     
