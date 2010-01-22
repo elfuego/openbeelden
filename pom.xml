@@ -24,8 +24,8 @@
   </licenses>
   
   <properties>
-     <mmbase.version.number>1.9</mmbase.version.number>
-     <mmbase.version.postfix>-SNAPSHOT</mmbase.version.postfix>
+     <mmbase.version.number>1.9.3</mmbase.version.number>
+     <mmbase.version.postfix>-oip-1.0</mmbase.version.postfix>
      <mmbase.version>${mmbase.version.number}${mmbase.version.postfix}</mmbase.version>
      <base.version>${mmbase.version.number}${mmbase.version.postfix}</base.version>
      <saxon.version>9.1.0.6</saxon.version>
