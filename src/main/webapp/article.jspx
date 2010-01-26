@@ -11,6 +11,7 @@
       
       <div class="main-column">
         <mm:relatednodescontainer type="articles" role="posrel" searchdirs="destination">
+          <mm:sortorder field="posrel.pos" direction="UP" />
           <mm:maxnumber value="1" />
           <mm:relatednodes>
 
