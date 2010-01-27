@@ -248,9 +248,7 @@
                   <dt>
                     <a href="${_}" title="${mf_title}"><oip:thumb alt="${mf_title}" /></a>
                   </dt>
-                  <dd>
-                    <dd><mm:write referid="mf_title" escape="wrapper" /></dd>
-                  </dd>
+                  <dd><mm:write referid="mf_title" escape="wrapper" /></dd>
                 </dl>
               </mm:link>
             </mm:listnodes>
