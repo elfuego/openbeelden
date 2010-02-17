@@ -47,7 +47,7 @@ public class AfterDeployment implements Runnable {
         "imagefragments", "imagesources", "images",
         "tags",
         "mediafragments", "mediafragments_translations",
-        "user_translations",
+        "users_translations",
         "langrel", "ratingrel", "insrel", "posrel"
     };
 
