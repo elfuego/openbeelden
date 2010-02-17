@@ -9,18 +9,24 @@ http://www.openbeelden.nl
 Installation instructions can be found in INSTALL in this same directory.
 
 
-BUILDING THIS WITH MAVEN 2
---------------------------
-You can build it with maven2. Standing in the directory this file is in:
+CHECKOUT SOURCES WITH SVN
+-------------------------
+Check out OIP-1.0 with: 
+$ svn co http://scm.mmbase.org/view/openimages/tags/1.0/
 
+Or OIP HEAD with: 
+$ svn co https://scm.mmbase.org/openimages/trunk/
+
+
+BUILDING WITH MAVEN
+-------------------
+You can build it with Maven 2. Standing in this directory (or the one you just checked out):
 $ mvn clean install
 
 
 RUN IT (JETTY)
 --------------
-You can run it like so:
-- change jetty-env.xml to correctly refer to your database 
-
+You can run it with Jetty. Change 'jetty-env.xml' to correctly refer to your database and:
 $ mvn jetty:run
 
 Point your webbrowser at http://localhost:8080.
