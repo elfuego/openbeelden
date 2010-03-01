@@ -26,7 +26,7 @@ import org.mmbase.util.logging.Logger;
 import org.mmbase.util.logging.Logging;
 
 /**
- * Authentication of users in Open Images, only users with an activated 
+ * Authentication of users in Open Images, only users with an activated
  * status {@link UserStatus.INUSE} have access.
  *
  * @author Michiel Meeuwissen
@@ -68,7 +68,7 @@ public class Authentication extends Authenticate {
         //return METHOD_SESSIONDELEGATE; // redirect to /login
     }
     @Override
-    public User login(String application, java.util.Map<String, ?> loginInfo, Object[] parameters) throws SecurityException {
+    public org.mmbase.security.UserContext login(String application, java.util.Map<String, ?> loginInfo, Object[] parameters) throws SecurityException {
         return super.login(application, loginInfo, parameters);
     }
 
