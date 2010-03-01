@@ -5,7 +5,7 @@
     xmlns:fn="http://java.sun.com/jsp/jstl/functions"
     xmlns:mm="http://www.mmbase.org/mmbase-taglib-2.0"
     xmlns:oip="urn:jsptagdir:/WEB-INF/tags/oip">
-
+  <jsp:directive.page session="false" />
   <oip:html
       cacheable="false"
       styleClass="media-item"
