@@ -14,8 +14,8 @@
 function initPlayer() {
     $('.main-column, .b_user-mediapreview').oiplayer({
         'server' : '<mm:url page="/" absolute="true" />', /* msie (or windows java) has issues with just a dir */
-        'jar' : '${mm:link('/oiplayer/cortado-ovt-stripped-wm_r38710.jar')}',
-        'flash' : '${mm:link('/oiplayer/flowplayer-3.1.1.swf')}',
+        'jar' : '${mm:link('/oiplayer/plugins/cortado-ovt-stripped-wm_r38710.jar')}',
+        'flash' : '${mm:link('/oiplayer/plugins/flowplayer-3.1.1.swf')}',
         'controls' : false
     });
 }

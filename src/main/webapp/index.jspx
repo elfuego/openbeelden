@@ -10,9 +10,9 @@
   <oip:html styleClass="home">
     <jsp:attribute name="head">
       <script src="${mm:link('/style/js/play.js.jsp')}" type="text/javascript"><!-- help ie --></script>
-      <script src="${mm:link('/player/flowplayer-3.1.1.min.js')}" type="text/javascript"><!-- help ie --></script>
-      <script src="${mm:link('/style/js/jquery.oiplayer.js')}" type="text/javascript"><!-- help ie --></script>
-      <link href="${mm:link('/style/css/player.css')}" rel="stylesheet" type="text/css" />
+      <script src="${mm:link('/oiplayer/flowplayer-3.1.1.min.js')}" type="text/javascript"><!-- help ie --></script>
+      <script src="${mm:link('/oiplayer/js/jquery.oiplayer.js')}" type="text/javascript"><!-- help ie --></script>
+      <link href="${mm:link('/oiplayer/css/oiplayer.css')}" rel="stylesheet" type="text/css" />
       <link href="${mm:link('/feeds/atom/')}" rel="alternate" type="application/atom+xml" title="Open Image Platform latest uploads" />
       <mm:node number="page_home">
         <mm:relatednodescontainer type="mediafragments" role="posrel" searchdirs="destination">

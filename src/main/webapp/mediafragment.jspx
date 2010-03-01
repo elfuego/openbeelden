@@ -14,10 +14,10 @@
     <jsp:attribute name="head">
       <script src="${mm:link('/style/js/typewatch.js')}" type="text/javascript"><!-- help ie --></script>
       <script src="${mm:link('/style/js/mmtag.js')}" type="text/javascript"><!-- help ie --></script>
-      <script src="${mm:link('/player/flowplayer-3.1.1.min.js')}" type="text/javascript"><!-- help ie --></script>
-      <script src="${mm:link('/style/js/jquery.oiplayer.js')}" type="text/javascript"><!-- help ie --></script>
+      <script src="${mm:link('/oiplayer/plugins/flowplayer-3.1.1.min.js')}" type="text/javascript"><!-- help ie --></script>
+      <script src="${mm:link('/oiplayer/js/jquery.oiplayer.js')}" type="text/javascript"><!-- help ie --></script>
       <script src="${mm:link('/style/js/play.js.jsp')}" type="text/javascript"><!-- help ie --></script>
-      <link href="${mm:link('/style/css/player.css')}" rel="stylesheet" type="text/css" />
+      <link href="${mm:link('/oiplayer/css/oiplayer.css')}" rel="stylesheet" type="text/css" />
       <mm:link page="/feeds/atom/">
         <mm:param name="related"><mm:field name="number" /></mm:param>
         <link href="${_}" rel="alternate" type="application/atom+xml" title="Open Image Platform related items of ${_node.title}" />
