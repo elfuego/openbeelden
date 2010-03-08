@@ -57,11 +57,12 @@
         <c:when test="${fn:startsWith(mediatype, 'image')}">
           <mm:relatednodes type="imagesources">
             <mm:image id="img" mode="url" absolute="true" width="320" height="240" crop="middle" write="false" />
+            <mm:import id="enclosuresize" reset="true"><mm:field name="filesize" /></mm:import>
           </mm:relatednodes>
-          <link type="${_[0].mimeType}" href="${img}" length="0" rel="enclosure" />
+          <link type="${_[0].mimeType}" href="${img}" length="${enclosuresize}" rel="enclosure" />
         </c:when>
         <c:otherwise>
-          <link type="${_[0].mimeType}" href="${_[0].URL}" length="${duration}" rel="enclosure" />
+          <link type="${_[0].mimeType}" href="${_[0].URL}" length="${_[0].filesize}" rel="enclosure" />
         </c:otherwise>
       </c:choose>
       <mm:hasnode number="${_[0].source.number}">
@@ -70,7 +71,7 @@
             <size><mm:field name="filesize" /></size>
             <c:choose>
               <c:when test="${fn:startsWith(mediatype, 'audio')}">
-                <duration>${duration}</duration>
+                <duration><!-- ${duration} --><mm:field name="filesize" /></duration>
                 <audio_codec>${fn:toLowerCase(_[0].codec)}</audio_codec>
                 <audio_bitrate>${_[0].bitrate}</audio_bitrate>
               </c:when>
