@@ -58,10 +58,10 @@
           <mm:relatednodes type="imagesources">
             <mm:image id="img" mode="url" absolute="true" width="320" height="240" crop="middle" write="false" />
           </mm:relatednodes>
-          <link type="${_[0].mimeType}" href="${mm:escape('url', img)}" length="0" rel="enclosure" />
+          <link type="${_[0].mimeType}" href="${img}" length="0" rel="enclosure" />
         </c:when>
         <c:otherwise>
-          <link type="${_[0].mimeType}" href="${mm:escape('url', _[0].URL)}" length="${duration}" rel="enclosure" />
+          <link type="${_[0].mimeType}" href="${_[0].URL}" length="${duration}" rel="enclosure" />
         </c:otherwise>
       </c:choose>
       <mm:hasnode number="${_[0].source.number}">
