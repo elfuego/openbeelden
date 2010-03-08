@@ -1,25 +1,39 @@
 <?xml version="1.0" encoding="utf-8"?>
 <mediafragments exportsource="mmbase://grgrijze.toly.net/oip/oi" timestamp="20090610233953">
 	<node number="303" owner="201">
+		<lastmodified>1268058374</lastmodified>
+		<show>true</show>
+		<date>1267437060</date>
+		<offline>4423071600</offline>
+		<online>1267398000</online>
+		<creator>foofoo</creator>
+		<publisher>Foo</publisher>
 		<start>0</start>
-		<title>De man met de grote bril</title>
+		<title>The man with the glasses</title>
 		<length>1</length>
 		<intro>My friends, each of you is a single cel in the great body of the State. And today, that great body has purged itself of parasites. We have triumphed over the unprincipled dissemination of facts. The thugs and wreckers have been cast out. And the poisenous weeds of disinformation have been consigned to the dustbin of history. Let each and every cell rejoice!</intro>
 		<language>en</language>
 		<stop>1</stop>
 		<subtitle>Test 123</subtitle>
-		<body>My friends, each of you is a single cel in the great body of the State. And today, that great body has purged itself of parasites. We have triumphed over the unprincipled dissemination of facts. The thugs and wreckers have been cast out. And the poisenous weeds of disinformation have been consigned to the dustbin of history. Let each and every cell rejoice!
+		<body>&lt;p&gt;My friends, each of you is a single cel in the great body of the State. And today, that great body has purged itself of parasites. We have triumphed over the unprincipled dissemination of facts. The thugs and wreckers have been cast out. And the poisenous weeds of disinformation have been consigned to the dustbin of history. Let each and every cell rejoice!&lt;/p&gt;
 
-For today we celebrate the first glorious anniversary of the Information Purification Directive! We have created, for the first time in all history, a garden of pure ideology, where each worker may bloom secure from the pests of contradictory and confusing truths. Our Unification of Thought is a more powerfull weapon than any fleet or army on Earth! We are one people. With one will. One resolve. One cause. Our enemies shall talk themselves to death. And we will bury them with their own confusion!</body>
+&lt;p&gt;For today we celebrate the first glorious anniversary of the Information Purification Directive! We have created, for the first time in all history, a garden of pure ideology, where each worker may bloom secure from the pests of contradictory and confusing truths. Our Unification of Thought is a more powerfull weapon than any fleet or army on Earth! We are one people. With one will. One resolve. One cause. Our enemies shall talk themselves to death. And we will bury them with their own confusion!&lt;/p&gt;</body>
 	</node>
 
 	<node number="462" owner="414">
+		<lastmodified>1268058374</lastmodified>
+		<show>true</show>
+		<date>1267437060</date>
+		<offline>4423071600</offline>
+		<online>1267398000</online>
+		<creator>foofoo</creator>
+		<publisher>Foo</publisher>
 		<start>0</start>
 		<title>Test</title>
 		<length>14070</length>
 		<intro>test</intro>
-		<language>en</language>
-		<stop></stop>
+		<language>nl</language>
+		<stop>14070</stop>
 		<subtitle>Ah een test dus</subtitle>
 		<body></body>
 	</node>
