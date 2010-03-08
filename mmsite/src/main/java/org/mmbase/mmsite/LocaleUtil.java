@@ -48,6 +48,7 @@ public class LocaleUtil {
     public static final String EXPLICIT_LOCALE_KEY = "org.mmbase.mmsite.language";
 
     protected final List<Locale> acceptedLocales = new ArrayList<Locale>();
+    protected final List<String> acceptedLocaleStrings = new ArrayList<String>();
 
 
     /**
@@ -72,9 +73,9 @@ public class LocaleUtil {
         if (s != null && s.length() > 0) {
             for (String l : s.split(",")) {
                 acceptedLocales.add(new Locale(l));
+                acceptedLocaleStrings.add(l);
             }
             addDegraded(acceptedLocales);
-
         }
     }
 
@@ -119,7 +120,15 @@ public class LocaleUtil {
         int lastDot = path.lastIndexOf(".");
         if (lastDot >= 0) {
             String lang = path.substring(lastDot + 1, path.length());
-            Locale language =  new Locale(lang);
+            
+            if (! acceptedLocaleStrings.contains(lang)) {
+                if (log.isDebugEnabled()) {
+                    log.debug("Returning path because '" + lang + "' not in " + acceptedLocaleStrings);
+                }
+                return path;
+            }
+            
+            Locale language = new Locale(lang);
             if (! acceptedLocales.contains(language)) {
                 throw new NotFoundException("Locale '" + language + "' is not supported (path: " + path + ")");
             }
