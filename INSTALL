@@ -27,12 +27,13 @@ OIP requires several components:
 - FFmpeg (0.5 or preferably a recent build from its repository) for audio and video transcoding
 - FFmpeg2Theora (*)
 - ImageMagick or JAI for image conversions (**)
-- JavaMail to send mail. JavaMail requires the Java Activation Framework (JAF) API, you need both 
-  'mail.jar' and 'activation.jar'.
+- JavaMail to send mail (***)
 
-(*)  Is not really needed. OIP is currently configured to use FFmpeg2Theora for transcoding Ogg media.
-     FFmpeg does the rest. You can configure OIP to use FFmpeg for Ogg and not use FFmpge2Theora.
-(**) Depending on your system is JAI easier to install, but ImageMagick offers more options.
+(*)   Is not really needed. OIP is currently configured to use FFmpeg2Theora for transcoding Ogg media.
+      FFmpeg does the rest. You can configure OIP to use FFmpeg for Ogg and not use FFmpge2Theora.
+(**)  Depending on your system is JAI easier to install, but ImageMagick offers more options.
+(***) Java 1.5 requires the Java Activation Framework (JAF) API for JavaMail. You will then need
+      both 'mail.jar' and 'activation.jar'. Java 1.6 includes JAF.
 
 
 INSTALLATION
@@ -55,8 +56,8 @@ Basically installing OIP boils down to:
    c. Install a MySQL jdbc driver/connector in your application server. 
       For Apache Tomcat 5 it should be in '[catalina-home]/common/lib' and for Apache Tomcat 6 in
       '[catalina-home]/lib'.
-4. Install JavaMail: 'mail.jar' and 'activation.jar' need typically to be in the same directory as 
-   the JDBC driver. 
+4. Install JavaMail: 'mail.jar' (and 'activation.jar' for Java < 1.5) should typically be in the
+   same directory as the jdbc driver. 
 5. Place the 'oip-1.0.war' in your servers webapps directory and start the server.
    Wait a minute or two while the war deploys. Needed tables and some example content are 
    automatically created in the 'oip' database.
