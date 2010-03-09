@@ -1,6 +1,6 @@
 Installation of OIP
 ===================
-07-02-2010
+09-03-2010
 
 The Open Images Platform (OIP) is a Java web application to manage and publish open media. 
 
@@ -22,12 +22,15 @@ REQUIREMENTS
 OIP requires several components:
 - Java runtime environment (minimal 1.5)
 - Java web application server like Apache Tomcat (5.5.27)
-- MySQL database (5.1) or other database supported by MMBase like PostgreSQL.
+- MySQL database (5.1) or other database supported by MMBase like PostgreSQL, including the 
+  appropriate JDBC driver.
 - FFmpeg (0.5 or preferably a recent build from its repository) for audio and video transcoding
 - FFmpeg2Theora (*)
 - ImageMagick or JAI for image conversions (**)
+- JavaMail to send mail. JavaMail requires the Java Activation Framework (JAF) API, you need both 
+  'mail.jar' and 'activation.jar'.
 
-(*)  Is not really needed. OIP is currently configured to use FFmpge2Theora for transcoding Ogg media.
+(*)  Is not really needed. OIP is currently configured to use FFmpeg2Theora for transcoding Ogg media.
      FFmpeg does the rest. You can configure OIP to use FFmpeg for Ogg and not use FFmpge2Theora.
 (**) Depending on your system is JAI easier to install, but ImageMagick offers more options.
 
@@ -52,21 +55,23 @@ Basically installing OIP boils down to:
    c. Install a MySQL jdbc driver/connector in your application server. 
       For Apache Tomcat 5 it should be in '[catalina-home]/common/lib' and for Apache Tomcat 6 in
       '[catalina-home]/lib'.
-4. Place the 'oip-1.0.war' in your servers webapps directory and start the server.
-   Wait a minute or two while the war deploys. Needed tables and some example content is be created
-   in the 'oip' database.
+4. Install JavaMail: 'mail.jar' and 'activation.jar' need typically to be in the same directory as 
+   the JDBC driver. 
+5. Place the 'oip-1.0.war' in your servers webapps directory and start the server.
+   Wait a minute or two while the war deploys. Needed tables and some example content are 
+   automatically created in the 'oip' database.
    A configuration file with the most important settings can now be found in servers configuration 
    directory, in Tomcat that will probably be '[catalina-home]/conf/Catalina/localhost/oip-1.0.xml'
    for database settings, logging etc. Other configuration options are found in the 'WEB-INF/config' 
    directory of oip-1.0.
-5. Visit http://127.0.0.1:8080/oip-1.0 to make sure it runs. 
-6. Login with 'admin' and 'openimages2009'. Or 'foofoo' and 'barbar' as a project manager.
+6. Visit http://127.0.0.1:8080/oip-1.0 to make sure it runs. 
+7. Login with 'admin' and 'openimages2009'. Or 'foofoo' and 'barbar' as a project manager.
 
 When oip is running allright, you may need to configure some other applications to enable the 
 conversion of media, sending of mail etc.
 
-7. Install FFmpeg. 
-8. Install ImageMagick.
+8. Install FFmpeg. 
+9. Install ImageMagick.
 
 Note about the Lucene search index:
 You may have to run the Lucene search index for the first time by hand or the pages 'Media' 
@@ -80,8 +85,8 @@ CONFIGURATION
 OIP is based on MMBase, uses FFmpeg and some other applications and is because of that highly
 configurable.
 
-What dou you really need to configure?
---------------------------------------
+What do you really need to configure?
+-------------------------------------
 * Security: visit '/mmbase/security/index.jsp' to change the admin password. 
 
 * Media: creation of streams is configured in '/WEB-INF/config/createcaches.xml'.
