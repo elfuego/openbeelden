@@ -20,6 +20,10 @@
       <mmsq:field name="body" />
       <mmsq:field name="source" />
       <mmsq:field name="source"  alias="source" keyword="true" />
+      <mmsq:field name="publisher" />
+      <mmsq:field name="publisher" alias="publisher" keyword="true" />
+      <mmsq:field name="coverage" />
+      <mmsq:field name="coverage" alias="coverage" keyword="true" />
       <mmsq:field name="show"    alias="show"   keyword="true" store="true" />
       <mmsq:field name="online"  alias="online" />
       <mmsq:field name="offline" alias="offline" />
