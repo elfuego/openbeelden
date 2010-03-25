@@ -63,13 +63,13 @@
     <loganalyzer name="org.mmbase.streams.transcoders.FFMpeg2TheoraAnalyzer" />
   </transcoder>
 
-  <!-- ffmpeg -i video.mpg -f mp4 -vcodec libx264 -r 25 -b 1024k -acodec libfaac -ab 128k -ac 2 -async 1 -s 320x240 video.mp4 -->
   <transcoder
       label="lo"
       mimetype="video/*" in="v1" id="v4">
     <class name="org.mmbase.streams.transcoders.FFMpegTranscoder">
       <param name="format">mp4</param>
       <param name="vcodec">libx264</param>
+      <param name="vpre">default</param>
       <param name="framesPerSecond">25</param>
       <param name="bitrate">1024k</param>
       <param name="acodec">libfaac</param>
@@ -86,7 +86,7 @@
 <!-- 
   <transcoder
       label="lo"
-      mimetype="video/*" id="v1">
+      mimetype="video/*" in="v1" id="v5">
     <class name="org.mmbase.streams.transcoders.FFMpegTranscoder">
       
       <param name="format">ts</param>
@@ -130,11 +130,11 @@
 
   <transcoder
       label="lo"
-      mimetype="video/*" in="v1" id="v2">
+      mimetype="video/*" in="v5" id="v6">
     <class name="org.mmbase.streams.transcoders.SegmenterTranscoder">
       <param name="format">ts</param>
       <param name="duration">10</param>
-      <param name="httpPrefix">http://www.openimages.eu/</param>
+      <param name="httpPrefix">http://192.168.1.4:8080/</param>
     </class>
     <loganalyzer name="org.mmbase.streams.transcoders.SegmenterAnalyzer" />
   </transcoder>
