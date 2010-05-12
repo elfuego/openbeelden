@@ -134,7 +134,7 @@
               <mm:content escaper="none">
                 <!-- just displaying the rss items with some xsl and java magic -->
                 <ul class="blog">
-                  <mm:formatter escape="tagstripper(xss)">
+                  <mm:formatter escape="tagstripper(xss, false, true)">
                     <mm:write referid="rss" />
                     <mm:xslt>
 
@@ -189,7 +189,7 @@
               <mm:content escaper="none">
                 <!-- just displaying the rss items with some xsl and java magic -->
                 <ul class="blog">
-                  <mm:formatter escape="tagstripper(xss)">
+                  <mm:formatter escape="tagstripper(xss, false, true)">
                     <mm:write referid="rss" />
                     <mm:xslt>
 
