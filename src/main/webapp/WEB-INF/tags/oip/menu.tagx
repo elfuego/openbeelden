@@ -11,7 +11,7 @@
     <mm:node number="pool_oip">
       <c:set var="query_str" value="${requestScope['javax.servlet.forward.query_string']}" />
       <script type="text/javascript">
-        <mm:link page="/you.jspx" escapeamps="true">
+        <mm:link page="/action/you.jspx" escapeamps="true">
           <mm:param name="referrer">${requestScope['javax.servlet.forward.request_uri']}<c:if test="{!empty query_string}">?${query_string}</c:if></mm:param>
           <c:if test="${! empty requestScope['org.mmbase.mmsite.language']}">
             <mm:param name="locale">${requestScope['org.mmbase.mmsite.language']}</mm:param>

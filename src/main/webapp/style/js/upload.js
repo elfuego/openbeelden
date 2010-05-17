@@ -1,5 +1,5 @@
 $(document).ready(function() {
-    var progressUrl = $("head meta[name=ContextRoot]").attr("content") + "progress.jspx";
+    var progressUrl = $("head meta[name=ContextRoot]").attr("content") + "action/progress.jspx";
     $("form[enctype=multipart/form-data]").each(function() {
         $(this).submit(function() {
             var form = this;
