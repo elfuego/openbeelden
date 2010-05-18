@@ -35,6 +35,7 @@
                     <mm:fieldinfo type="forid">
                       <label for="${_}"><mm:fieldinfo type="guiname" /></label>
                     </mm:fieldinfo>
+                    <p class="info"><mm:fieldinfo type="description" escape="inline" /></p>
                     <mm:fieldinfo type="input" />
                     <mm:fieldinfo type="errors" />
                   </mm:fieldlist>
@@ -52,6 +53,7 @@
                     <mm:fieldinfo type="forid">
                       <label for="${_}"><mm:fieldinfo type="guiname" /></label>
                     </mm:fieldinfo>
+                    <p class="info"><mm:fieldinfo type="description" escape="inline" /></p>
                     <mm:fieldinfo type="input" />
                     <mm:fieldinfo type="errors" />
                   </mm:fieldlist>

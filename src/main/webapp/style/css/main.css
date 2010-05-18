@@ -210,13 +210,13 @@ form p.info
 	display: none;
 	position: absolute;
 	z-index: 1;
-	width: 280px;
-	background: #777;
+	width: 314px;
+	background: #999;
 	color: #fff;
 	margin: 0;
 	padding: 4px !important;
 	font-size: 0.9em;
-	text-align: left;	
+	text-align: left;
 }
 
 input.radiobutton { width: auto; }
