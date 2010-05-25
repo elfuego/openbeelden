@@ -162,7 +162,14 @@ $(document).ready(function() {
     initTabs('tabs');
     initTabs('usertabs');
     initFieldInfos();
-    initBlank()
+    initBlank();
+
+    $('.main-column, .b_user-mediapreview').oiplayer({
+        'server' : '<mm:url page="/" absolute="true" />',
+        'jar' : '${mm:link('/oiplayer/plugins/cortado-ovt-stripped-wm_r38710.jar')}',
+        'flash' : '${mm:link('/oiplayer/plugins/flowplayer-3.1.5.swf')}',
+        'controls' : false
+    });
 });
 
 </mm:content>
