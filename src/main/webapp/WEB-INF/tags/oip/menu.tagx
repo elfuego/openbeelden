@@ -16,7 +16,7 @@
           <c:if test="${! empty requestScope['org.mmbase.mmsite.language']}">
             <mm:param name="locale">${requestScope['org.mmbase.mmsite.language']}</mm:param>
           </c:if>
-          <jsp:text>$(document).ready(function() { $("#you").load("${_}"); });</jsp:text>
+          <jsp:text>$(document).ready(function() { $("#menu li.you").load("${_}"); });</jsp:text>
         </mm:link>
       </script>
       <mm:relatednodescontainer type="pages" role="posrel" searchdirs="destination">
@@ -38,7 +38,10 @@
     </mm:node>
   
     <ul class="meta">
-      <li>
+      <li class="you">
+        <jsp:text> </jsp:text>
+      </li>
+      <li class="form">
         <mm:datatype base="oip_language" id="language_selector">
           <required value="false" />
         </mm:datatype>
@@ -57,9 +60,6 @@
             </form>
           </mm:link>
         </mm:virtualnode>
-      </li>
-      <li id="you">
-        <jsp:text> </jsp:text>
       </li>
     </ul>
   

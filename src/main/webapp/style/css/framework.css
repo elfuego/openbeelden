@@ -95,19 +95,22 @@ div#main
 
 #menu ul.meta li
 {
-	float: right;
+	float: left;
 	display: inline;
 	text-align: right;
 }
 
-#menu ul.meta li#you
+#menu ul.meta li.you
 {
 	white-space: nowrap;
 	word-spacing: 2px;
+	width: 172px;
+	text-align: right;
 	padding-right: 8px;
+	overflow: hidden;
 }
 
-
+#menu ul.meta li.form,
 #menu ul.meta li form,
 #menu ul.meta li fieldset,
 #menu select
