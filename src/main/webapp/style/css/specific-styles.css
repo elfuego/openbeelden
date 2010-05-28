@@ -242,8 +242,8 @@ h3.subtitle, h3.mediatitle
     font-weight: bold;
     font-size: 1.2em;
     letter-spacing: 0;
-    margin: 0;
-    clear: none;
+    margin: 8px 0 0 0;
+    clear: both;
 }
 
 div.toolbar
