@@ -314,12 +314,12 @@ public class UsersUrlConverter extends DirectoryUrlConverter {
                                         if (log.isDebugEnabled()) log.debug("trigger: " + action);
                                         result.append("&trigger=").append(nodenr);  // number mediafragment
                                         if (path.size() > 7) {
-                                            String action2 = path.get(7);
-                                            if (log.isDebugEnabled()) log.debug("all or cache: " + action2);
-                                            if (action2.equals("true")) {
+                                            String path8 = path.get(7);
+                                            if (log.isDebugEnabled()) log.debug("all or cache: " + path8);
+                                            if (path8.equals("all")) {
                                                 result.append("&all=true");
                                             } else {
-                                                result.append("&cache=").append(action2);   // number cache
+                                                result.append("&cache=").append(path8);   // number cache
                                             }
                                         
                                         }
