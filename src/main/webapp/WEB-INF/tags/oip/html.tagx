@@ -28,6 +28,7 @@
   <!-- html5 -->
   <mm:content
       expires="${empty cacheable || cacheable ? 120 : -1}"
+      varies="${empty requestScope['org.mmbase.mmsite.language'] ? 'Accept-Language' : ''}"
       type="text/html" 
       encoding="UTF-8"
       postprocessor="none">
