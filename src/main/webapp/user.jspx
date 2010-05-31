@@ -5,7 +5,6 @@
     xmlns:fmt="http://java.sun.com/jsp/jstl/fmt"
     xmlns:oip="urn:jsptagdir:/WEB-INF/tags/oip"
     xmlns:mm="http://www.mmbase.org/mmbase-taglib-2.0"> 
-  <jsp:directive.page session="false" />
   
   <mm:import externid="block"     required="true" />
   <mm:import externid="n"         required="true" />
