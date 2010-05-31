@@ -15,6 +15,7 @@
   
   <c:set var="w" value="${empty width ? '320' : width}" />
   <c:set var="h" value="${empty height ? '240' : height}" />
+  <mm:field name="length" id="l" write="false" />
   
   <mm:nodeinfo type="nodemanager">
     <c:choose>
@@ -25,10 +26,10 @@
         </mm:relatednodes>
       </c:when>
       <c:when test="${_ eq 'audiofragments'}">
-        <oip:audio width="${w}" height="${h}" />
+        <oip:audio width="${w}" height="${h}" length="${l}" />
       </c:when>
       <c:otherwise>
-        <oip:video width="${w}" height="${h}" />
+        <oip:video width="${w}" height="${h}" length="${l}" />
       </c:otherwise>
     </c:choose>
   </mm:nodeinfo>
