@@ -4,7 +4,7 @@
     xmlns:jsp="http://java.sun.com/JSP/Page"
     xmlns:fmt="http://java.sun.com/jsp/jstl/fmt"
     xmlns:mm="http://www.mmbase.org/mmbase-taglib-2.0">
-  <jsp:directive.page session="false" />
+  
   <mm:import externid="locale">client</mm:import>
   <mm:content
       type="application/xml"

@@ -6,7 +6,7 @@
     xmlns:jsp="http://java.sun.com/JSP/Page"
     xmlns:mm="http://www.mmbase.org/mmbase-taglib-2.0">
   <jsp:output omit-xml-declaration="true" />
-  <jsp:directive.page session="false" />
+  
   <mm:cloud>
     <mm:import externid="tag" required="true" />
     <mm:present referid="tag">
