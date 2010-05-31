@@ -79,7 +79,7 @@
                   <mm:setfield name="rank">cloudcontextsecurity_rank_site_user</mm:setfield>
                   <mm:setfield name="groups">${defaultusergroup}</mm:setfield>
                 </mm:node>
-                <p class="msg">
+                <p class="msg stay">
                   <fmt:message key="register.complete">
                     <fmt:param value="${newuser.username}" />
                     <fmt:param value="${newuser.email}" />
