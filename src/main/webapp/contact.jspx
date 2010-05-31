@@ -4,7 +4,7 @@
     xmlns:jsp="http://java.sun.com/JSP/Page"
     xmlns:oip="urn:jsptagdir:/WEB-INF/tags/oip"
     xmlns:mm="http://www.mmbase.org/mmbase-taglib-2.0">
-  <jsp:directive.page session="false" />
+  
   <oip:html>
     <jsp:attribute name="head">
       <jsp:directive.include file="/mmbase/validation/javascript.jspxf" />
@@ -91,7 +91,7 @@
                 <mm:functioncontainer>
                   <mm:param name="type" value="oneshot" />
                   <mm:function name="startmail">
-                    <p class="msg">Your message has been send.</p>
+                    <p class="msg stay">Your message has been send.</p>
                   </mm:function>
                 </mm:functioncontainer>
               </mm:node>
