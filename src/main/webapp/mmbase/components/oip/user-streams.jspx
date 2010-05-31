@@ -16,8 +16,6 @@
   <mm:import externid="all">false</mm:import> 
   <mm:import externid="cache" />
 
-  cache: ${cache}
-  
   <mm:node number="user.admin"><mm:field name="number" id="admin_nodenr" write="false" /></mm:node>
 
   <oip:h2 block="user-streams" />
