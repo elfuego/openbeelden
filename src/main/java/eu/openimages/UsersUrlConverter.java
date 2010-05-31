@@ -37,7 +37,7 @@ import org.mmbase.util.transformers.Identifier;
 import org.mmbase.mmsite.LocaleUtil;
 
 /**
- * UrlConverter that can filter and create urls for the OIP.
+ * UrlConverter that can filter and create urls for OIP.
  *
  * @author André van Toly
  * @version $Id$
@@ -100,7 +100,15 @@ public class UsersUrlConverter extends DirectoryUrlConverter {
     }
 
     /**
-     * Generates a nice url.
+     * Builds nice link for a user. For example:
+     *
+     * &lt;mm:link referids="media"&gt;
+     *   &lt;mm:frameworkparam name="component"&gt;oip&lt;/mm:frameworkparam&gt;
+     *   &lt;mm:frameworkparam name="block"&gt;user-media&lt;/mm:frameworkparam&gt;
+     *   &lt;p&gt;&lt;a href="${_}"&gt;${_}&lt;/a&gt;&lt;/p&gt;
+     * &lt;/mm:link&gt;
+     *     
+     * Can generate a path to a media item page: /users/admin/dashboard/media/1248/ZK_2
      *
      */
     @Override protected void getNiceDirectoryUrl(StringBuilder b,
@@ -174,13 +182,24 @@ public class UsersUrlConverter extends DirectoryUrlConverter {
                     b.append("/streams");
 
                     String trigger = (String) parameters.get("trigger");
-                    log.debug("trigger: " + trigger);
+                    String all     = (String) parameters.get("all");
+                    String cache   = (String) parameters.get("cache");
+                    if (log.isDebugEnabled()) {
+                        log.debug("trigger: " + trigger);
+                        log.debug("cache: " + cache);
+                    }
                     parameters.set("trigger", null);
                     if (trigger != null && !"".equals(trigger)) {
                         b.append("/trigger");
+                        if (all != null && all.equals("true")) {
+                            b.append("/all");
+                        }
+                        if (cache != null && !"".equals(cache)) {
+                            b.append("/").append(cache);
+                        }
                     }
                     String interrupt = (String) parameters.get("interrupt");
-                    log.debug("interrupt: " + interrupt);
+                    if (log.isDebugEnabled()) log.debug("interrupt: " + interrupt);
                     parameters.set("interrupt", null);
                     if (interrupt != null && !"".equals(interrupt)) {
                         b.append("/interrupt");
@@ -195,8 +214,9 @@ public class UsersUrlConverter extends DirectoryUrlConverter {
 
 
     /**
-     * Translates the result of {@link #getNiceUrl} back to an actual JSP which can render the block.
-     * Blocks: users (overview users), user (user profile), ..
+     * Translates the result of {@link #getNiceDirectoryUrl} back to an actual JSP that 
+     * can render the block. 
+     * Blocks: users (overview users), user (user profile), user-media, user-streams etc.
      */
     @Override public Url getFilteredInternalDirectoryUrl(List<String>  path, Map<String, ?> params, Parameters frameworkParameters) throws FrameworkException {
         if (log.isDebugEnabled()) log.debug("path pieces: " + path + ", path size: " + path.size());
@@ -283,7 +303,7 @@ public class UsersUrlConverter extends DirectoryUrlConverter {
                                 result.append("&block=user-mediapreview");
                                 if (path.size() > 6) {
                                     String edit = path.get(6);
-                                    log.debug("edit: " + edit);
+                                    if (log.isDebugEnabled()) log.debug("edit: " + edit);
                                     result.append("&edit=").append(edit);
                                 }
                             } else if (path.size() > 5 && path.get(5).equals("streams")) {
@@ -291,10 +311,20 @@ public class UsersUrlConverter extends DirectoryUrlConverter {
                                 if (path.size() > 6) {
                                     String action = path.get(6);
                                     if (action.equals("trigger")) {
-                                        log.debug("trigger: " + action);
-                                        result.append("&trigger=").append(nodenr);
+                                        if (log.isDebugEnabled()) log.debug("trigger: " + action);
+                                        result.append("&trigger=").append(nodenr);  // number mediafragment
+                                        if (path.size() > 7) {
+                                            String action2 = path.get(7);
+                                            if (log.isDebugEnabled()) log.debug("all or cache: " + action2);
+                                            if (action2.equals("true")) {
+                                                result.append("&all=true");
+                                            } else {
+                                                result.append("&cache=").append(action2);   // number cache
+                                            }
+                                        
+                                        }
                                     } else if (action.equals("interrupt")) {
-                                        log.debug("interrupt: " + action);
+                                        if (log.isDebugEnabled()) log.debug("interrupt: " + action);
                                         result.append("&interrupt=").append(nodenr);
                                     }
                                 }
