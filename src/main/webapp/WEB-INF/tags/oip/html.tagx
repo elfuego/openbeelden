@@ -25,18 +25,15 @@
   <jsp:directive.attribute name="left"  fragment="true" />
   <jsp:directive.attribute name="head"  fragment="true" />
 
-
+  <!-- html5 -->
   <mm:content
-      expires="${empty cacheable || cacheable ? 120 : -1}"
-      type="application/xhtml+xml" 
+      expires="120"
+      type="text/html" 
       encoding="UTF-8"
-      varies="${empty requestScope['org.mmbase.mmsite.language'] ? 'Accept-Language' : ''}"
-      unacceptable="CRIPPLE"
       postprocessor="none">
-
-    <jsp:output doctype-root-element="html"
-                doctype-public="-//W3C//DTD XHTML 1.0 Strict//EN"
-                doctype-system="http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"/>
+    <jsp:output omit-xml-declaration="true" />
+    <jsp:output doctype-root-element="HTML" 
+                doctype-system="about:legacy-compat" />
 
 
 
