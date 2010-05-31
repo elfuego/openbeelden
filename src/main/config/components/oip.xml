@@ -249,7 +249,7 @@
       <param name="media"     type="String" />
       <param name="trigger"   type="String" />
       <param name="cache"     type="String" />
-      <param name="all"       type="java.lang.Boolean" />
+      <param name="all"       type="String" />
       <param name="interrupt" type="String" />
     </body>
   </block>
