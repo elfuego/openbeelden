@@ -92,10 +92,10 @@ public class UsersUrlConverter extends DirectoryUrlConverter {
     @Override
     public boolean isFilteredMode(Parameters fwparams) throws FrameworkException {
         boolean res = super.isFilteredMode(fwparams);
-        if (log.isDebugEnabled()) {
+        /*if (log.isDebugEnabled()) {
             //log.debug("Checking wether filtered mode for " + fwparams + " -> " + res, new Exception());
-            log.debug("Checking wether filtered mode for " + fwparams + " -> " + res);
-        }
+            log.debug("Checking filtered mode: " + fwparams + " -> " + res);
+        }*/
         return  res;
     }
 
