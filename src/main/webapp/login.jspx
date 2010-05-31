@@ -5,7 +5,6 @@
     xmlns:fmt="http://java.sun.com/jsp/jstl/fmt"
     xmlns:mm="http://www.mmbase.org/mmbase-taglib-2.0"
     xmlns:oip="urn:jsptagdir:/WEB-INF/tags/oip">
-  <jsp:directive.page session="false" />
   <oip:html
     cacheable="false"
     styleClass="login">
@@ -30,7 +29,7 @@
             <mm:hasrank minvalue="basic user">
               <p>
                 <fmt:message key="login.you_are" /><br />
-                <mm:include page="/you.jspx" />
+                <mm:include page="/action/you.jspx" />
               </p>
             </mm:hasrank>
             <mm:node number="page_register">
