@@ -186,16 +186,19 @@ public class UsersUrlConverter extends DirectoryUrlConverter {
                     String cache   = (String) parameters.get("cache");
                     if (log.isDebugEnabled()) {
                         log.debug("trigger: " + trigger);
-                        log.debug("cache: " + cache);
+                        log.debug("all:     " + all);
+                        log.debug("cache:   " + cache);
                     }
                     parameters.set("trigger", null);
                     if (trigger != null && !"".equals(trigger)) {
                         b.append("/trigger");
                         if (all != null && all.equals("true")) {
                             b.append("/all");
+                            parameters.set("all", null);
                         }
                         if (cache != null && !"".equals(cache)) {
                             b.append("/").append(cache);
+                            parameters.set("cache", null);
                         }
                     }
                     String interrupt = (String) parameters.get("interrupt");
