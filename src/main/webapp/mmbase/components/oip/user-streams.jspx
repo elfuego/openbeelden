@@ -12,7 +12,12 @@
   <mm:import externid="n" required="true" />
   <mm:import externid="media" />
   <mm:import externid="trigger" />
-  <mm:import externid="interrupt" />
+  <mm:import externid="interrupt" /> <!--  vartype="integer" ?-->
+  <mm:import externid="all">false</mm:import> 
+  <mm:import externid="cache" />
+
+  cache: ${cache}
+  
   <mm:node number="user.admin"><mm:field name="number" id="admin_nodenr" write="false" /></mm:node>
 
   <oip:h2 block="user-streams" />
@@ -40,6 +45,7 @@
         <mm:listfunction name="filteredurls">
           <c:if test="${_.state eq 'SOURCE' or _.state eq 'SOURCE_UNSUPPORTED'}">
             <mm:node number="${_.source.number}">
+              <mm:import id="source" reset="true"><mm:field name="number" /></mm:import>
               <tr>
                 <th>${fn:toLowerCase(_.state)}</th>
                 <td>
@@ -55,37 +61,58 @@
                 <tr>
                   <th>transcoding</th>
                   <td class="action">
-                    <mm:node number="${_.source.number}">
+                    
+                    
+                    <mm:listfunction set="streams" name="runningJobs" id="job">
+                      <c:if test="${_.node.number eq source}">
+                        <c:set var="hasjobrunning" value="true" />
+                      </c:if>
+                    </mm:listfunction>
+                    
+                    <mm:node number="${source}">
                       <c:choose>
-                        <c:when test="${trigger eq mediafragment}">
-                          <mm:voidfunction name="trigger" />
-                          <jsp:text>triggered</jsp:text>
+                        <c:when test="${empty cache and trigger eq mediafragment}">
+                          <mm:voidfunction name="triggerCaches" referids="all" />
+                          <c:set var="triggered" value="true" />
+                          <p class="msg stay">triggered</p>
                         </c:when>
                         <c:otherwise>
-                          <mm:node number="$n">
-                            <mm:link><!-- BUG? seems like a bug you have to get node parameter n this way -->
-                              <mm:param name="media">${mediafragment}</mm:param>
-                              <mm:param name="trigger">${mediafragment}</mm:param>
-                              <a href="${_}">trigger</a>
-                            </mm:link>
-                          </mm:node>
+                          <c:if test="${!hasjobrunning}">
+                            <mm:node number="$n">
+                              <mm:link><!-- BUG? seems like a bug you have to get node parameter n this way -->
+                                <mm:param name="media">${mediafragment}</mm:param>
+                                <mm:param name="trigger">${mediafragment}</mm:param>
+                                <a href="${_}">trigger</a>
+                              </mm:link> |
+                              <mm:link>
+                                <mm:param name="media">${mediafragment}</mm:param>
+                                <mm:param name="trigger">${mediafragment}</mm:param>
+                                <mm:param name="all">true</mm:param>
+                                <a href="${_}">all</a>
+                              </mm:link>
+                            </mm:node>
+                          </c:if>
                         </c:otherwise>
                       </c:choose>
-                      <jsp:text> | </jsp:text>
+                        
+                      <!-- interrupt -->
                       <c:choose>
                         <c:when test="${interrupt eq mediafragment}">
                           <mm:function set="streams" name="cancelJob" referids="_node@node" />
                         </c:when>
                         <c:otherwise>
-                          <mm:node number="$n">
-                            <mm:link><!-- BUG? seems like a bug you have to get node parameter n this way -->
-                              <mm:param name="media">${mediafragment}</mm:param>
-                              <mm:param name="interrupt">${mediafragment}</mm:param>
-                              <a href="${_}">interrupt</a>
-                            </mm:link>
-                          </mm:node>
+                          <c:if test="${triggered or hasjobrunning}">
+                            <mm:node number="$n">
+                              <mm:link><!-- BUG? seems like a bug you have to get node parameter n this way -->
+                                <mm:param name="media">${mediafragment}</mm:param>
+                                <mm:param name="interrupt">${mediafragment}</mm:param>
+                                <a href="${_}">interrupt</a>
+                              </mm:link>
+                            </mm:node>
+                          </c:if>
                         </c:otherwise>
                       </c:choose>
+                      
                     </mm:node>
                   </td>
                 </tr>
@@ -94,11 +121,16 @@
           </c:if>
         </mm:listfunction>
 
-        <mm:listfunction name="filteredurls" id="uc">
+        <mm:listfunction name="filteredurls">
           <c:if test="${_.state ne 'SOURCE' and _.state ne 'SOURCE_UNSUPPORTED'}">
+            <c:set var="recachevalue" value="${mediafragment}:${_.source.number}" />
+            <c:set var="thecache" value="${_.source.number}" /> 
             <tr>
-              <th>${fn:toLowerCase(_.state)}</th>
+              <th>
+                ${fn:toLowerCase(_.state)}
+              </th>
               <td>
+                
                 <mm:import id="more_info" reset="true">${_.mimeType}<jsp:text> </jsp:text><mm:node number="${_.source.number}" notfound="skip"><mm:hasfield name="key"><mm:field name="key" /></mm:hasfield></mm:node></mm:import>
                 <c:choose>
                   <c:when test="${_.available}">
@@ -110,6 +142,35 @@
                     (${_.mimeType})
                   </c:otherwise>
                 </c:choose>
+                
+                <!-- re-transcoding -->
+                <mm:hasrank minvalue="project manager">
+                  <c:choose>
+                    <c:when test="${cache eq recachevalue}">
+                      <mm:node number="${source}">
+                        <mm:booleanfunction name="triggerCaches" referids="thecache@cache">
+                          <c:set var="triggered" value="true" />
+                          <p class="msg stay">Triggered transcoding</p>
+                        </mm:booleanfunction>
+                      </mm:node>
+                    </c:when>
+                    <c:otherwise>
+                      <c:choose>
+                        <c:when test="${_.state != 'BUSY'}">
+                          <c:if test="${!hasjobrunning and empty triggered}">
+                            <mm:link referids="mediafragment@media,source@trigger,recachevalue@cache">
+                              <a href="${_}">trigger</a>
+                            </mm:link>
+                          </c:if>
+                        </c:when>
+                        <c:otherwise>
+                          <p class="msg stay">Transcoding</p>
+                        </c:otherwise>
+                      </c:choose>
+                    </c:otherwise>
+                  </c:choose>
+                </mm:hasrank>
+                
               </td>
             </tr>
           </c:if>
