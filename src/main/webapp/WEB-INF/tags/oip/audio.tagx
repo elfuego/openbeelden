@@ -39,7 +39,7 @@
     <mm:functioncontainer>
       <mm:param name="format">MP3,OGG,OGA</mm:param>
       <mm:listfunction name="filteredurls">
-        <source src="${mm:escape('text/xml', _.URL)}" type="${_.mimeType}; codecs=${mm:escape('lowercase', _.codec)}"><jsp:text> </jsp:text></source>
+        <source src="${mm:escape('text/xml', _.URL)}" type="${_.mimeType}; codecs=${mm:escape('lowercase', _.codec)}" />
       </mm:listfunction>
     </mm:functioncontainer>
   </mm:import>
@@ -56,7 +56,9 @@
       </div>
     </c:when>
     <c:otherwise>
-      <audio controls="controls">
+      <audio 
+        class="oip_ea_duration_${length / 1000} oip_ea_start_0"
+        controls="controls">
         <img src="${poster}" alt="audio" width="${w}" height="${h}" />
         <mm:write referid="mediaurls" escape="none" />
         <p class="oiplayer-warn">
