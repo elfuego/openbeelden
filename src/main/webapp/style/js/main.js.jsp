@@ -34,15 +34,11 @@ function initLangSwitch() {
 }
 
 function initClearMsg() {
-    if ($('body.contact').length == 0 && 
-        $('body.user-create').length == 0 && 
-        $('body.reset-password').length == 0) {
-        setTimeout("clearMsg();", 10000);
-    }
+    setTimeout("clearMsg();", 10000);
 }
 
 function clearMsg() {
-    $('p.msg').slideUp(1000);
+    $('p.msg:not(.stay)').slideUp(1000);
 }
 
 function initToolbar() {
