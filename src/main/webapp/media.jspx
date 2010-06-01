@@ -139,7 +139,8 @@
 
         <p>
           <c:if test="${!empty q}">
-            <fmt:message key="search.searched_with" /><jsp:text> </jsp:text><strong>${q}</strong>
+            <fmt:message key="search.searched_with" /><jsp:text> </jsp:text>
+            <strong>${mm:escape('text/xml', q)}</strong>
           </c:if>
         </p>
 
