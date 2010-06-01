@@ -6,13 +6,8 @@
     xmlns:jsp="http://java.sun.com/JSP/Page"
     xmlns:oip="urn:jsptagdir:/WEB-INF/tags/oip"
     xmlns:mm="http://www.mmbase.org/mmbase-taglib-2.0">
-  <jsp:directive.page session="false" />
   <oip:html styleClass="home">
     <jsp:attribute name="head">
-      <script src="${mm:link('/style/js/play.js.jsp')}" type="text/javascript"><!-- help ie --></script>
-      <script src="${mm:link('/oiplayer/flowplayer-3.1.1.min.js')}" type="text/javascript"><!-- help ie --></script>
-      <script src="${mm:link('/oiplayer/js/jquery.oiplayer.js')}" type="text/javascript"><!-- help ie --></script>
-      <link href="${mm:link('/oiplayer/css/oiplayer.css')}" rel="stylesheet" type="text/css" />
       <link href="${mm:link('/feeds/atom/')}" rel="alternate" type="application/atom+xml" title="Open Image Platform latest uploads" />
       <mm:node number="page_home">
         <mm:relatednodescontainer type="mediafragments" role="posrel" searchdirs="destination">
@@ -84,7 +79,7 @@
             <mm:sortorder field="number" direction="DOWN" />
             <mm:maxnumber value="6" />
             <mm:listnodes varStatus="status">
-              <mm:link>
+              <mm:link encode="false">
                 <mm:frameworkparam name="component">oip</mm:frameworkparam>
                 <mm:frameworkparam name="block">mediafragment</mm:frameworkparam>
                 <mm:frameworkparam name="media">${_node}</mm:frameworkparam>
