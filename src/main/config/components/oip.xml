@@ -221,14 +221,6 @@
     <description xml:lang="en">Media item preview in edit environment</description>
     <description xml:lang="nl">Preview van een mediaitem in editomgeving</description>
     <head>
-      <class name="org.mmbase.framework.StringRenderer">
-        <param name="string"><![CDATA[
-          <link href="{REQUEST.getContextPath}/oiplayer/css/oiplayer.css" rel="stylesheet" type="text/css" />
-          <script src="{REQUEST.getContextPath}/oiplayer/plugins/flowplayer-3.1.4.min.js" type="text/javascript"> </script>
-          <script src="{REQUEST.getContextPath}/oiplayer/js/jquery.oiplayer.js" type="text/javascript"> </script>
-          <script src="{REQUEST.getContextPath}/style/js/play.js.jsp" type="text/javascript"> </script>
-        ]]></param>
-      </class>
     </head>
     <body jsp="user-mediapreview.jspx">
       <param name="n" type="org.mmbase.bridge.Node" />
