@@ -9,8 +9,10 @@
     xsi:schemaLocation="http://www.mmbase.org/xmlns/component
                         http://www.mmbase.org/xmlns/component.xsd">
 
-  <description xml:lang="en">OIP</description>
-  <description xml:lang="nl">OIP</description>
+  <title xml:lang="nl">OIP</title>
+  <title xml:lang="en">OIP</title>
+  <description xml:lang="en">Open Images Platform: upload, manage, view, listen and download open media.</description>
+  <description xml:lang="nl">Open Images Platform: Open Beelden. Upload, beheer, bekijk, beluister en download open media.</description>
 
   <bundle name="eu.openimages.messages" />
 
