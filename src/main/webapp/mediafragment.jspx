@@ -5,7 +5,6 @@
     xmlns:fn="http://java.sun.com/jsp/jstl/functions"
     xmlns:mm="http://www.mmbase.org/mmbase-taglib-2.0"
     xmlns:oip="urn:jsptagdir:/WEB-INF/tags/oip">
-  <jsp:directive.page session="false" />
   <oip:html
       cacheable="false"
       styleClass="media-item"
@@ -14,26 +13,23 @@
     <jsp:attribute name="head">
       <script src="${mm:link('/style/js/typewatch.js')}" type="text/javascript"><!-- help ie --></script>
       <script src="${mm:link('/style/js/mmtag.js')}" type="text/javascript"><!-- help ie --></script>
-      <script src="${mm:link('/oiplayer/plugins/flowplayer-3.1.1.min.js')}" type="text/javascript"><!-- help ie --></script>
-      <script src="${mm:link('/oiplayer/js/jquery.oiplayer.js')}" type="text/javascript"><!-- help ie --></script>
-      <script src="${mm:link('/style/js/play.js.jsp')}" type="text/javascript"><!-- help ie --></script>
-      <link href="${mm:link('/oiplayer/css/oiplayer.css')}" rel="stylesheet" type="text/css" />
       <mm:link page="/feeds/atom/">
         <mm:param name="related"><mm:field name="number" /></mm:param>
         <link href="${_}" rel="alternate" type="application/atom+xml" title="Open Image Platform related items of ${_node.title}" />
       </mm:link>
-      <mm:field name="length">
-        <meta name="media-duration" content="${_ / 1000}" />
-      </mm:field>
-      <meta name="media-width" content="320" />
-      <meta name="media-height" content="240" />
     </jsp:attribute>
+    
     <jsp:attribute name="body">
 
       <mm:time time="now" id="today" precision="hours" write="false" />
       <mm:escaper id="wrapper" type="substring">
         <mm:param name="from" value="0" />
         <mm:param name="to" value="30" />
+        <mm:param name="ellipsis" value="..." />
+      </mm:escaper>
+      <mm:escaper id="filenamewrapper" type="substring">
+        <mm:param name="from" value="0" />
+        <mm:param name="to" value="48" />
         <mm:param name="ellipsis" value="..." />
       </mm:escaper>
 
@@ -112,14 +108,15 @@
                     <c:otherwise> ${_.info.bitrate} </c:otherwise>
                   </c:choose>
                   ${mm:escape('filesize',_.filesize)}<jsp:text>): </jsp:text>
+                  <mm:import id="filename" reset="true">${_.filename}</mm:import>
                   <c:choose>
                     <c:when test="${_.available}">
                       <a href="${mm:escape('text/xml', _.URL)}">
-                        <jsp:text><mm:escape>${_.filename}</mm:escape></jsp:text>
+                        <mm:write referid="filename" escape="filenamewrapper" />
                       </a>
                     </c:when>
                     <c:otherwise>
-                      <jsp:text><mm:escape>${_.filename}</mm:escape></jsp:text>
+                      <mm:write referid="filename" escape="filenamewrapper" />
                     </c:otherwise>
                   </c:choose>
                 </li>
