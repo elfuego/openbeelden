@@ -9,26 +9,33 @@
                            description="An extra text to add to the page's title"
                            />
   <fmt:bundle basename="eu.openimages.messages">
-    <head>
-      <meta http-equiv="content-type" content="text/html; charset=utf-8" />
-      <mm:cloudinfo type="mmbaseversion">
-        <meta name="MMBase" content="${_}" />
-      </mm:cloudinfo>
-      <mm:time time="now" format=":FULL.FULL">
-        <meta name="Calculate" content="${_}" />
-      </mm:time>
-      <meta name="ContextRoot" content="${mm:link('/')}" />
-      <title>
-        <c:if test="${! empty title}">${title} - </c:if>
-        <fmt:message key="head.title" />
-      </title>
-      <link href="${mm:link('/style/css/main.css')}" rel="stylesheet" type="text/css" />
-      <![CDATA[<!--[if IE 6]><link href="${mm:link('/style/css/ie6.css')}" rel="stylesheet" type="text/css"/><![endif]-->]]>
-      <link href="${mm:link('/style/images/favicon.ico')}" rel="shortcut icon" />
-      <jsp:include page="/mmbase/jquery/jquery.jspx" />
-      <script src="${mm:link('/style/js/main.js.jsp')}" type="text/javascript"><!-- help ie --></script>
-      <script src="${mm:link('/mmbase/validation/Widgets.js')}" type="text/javascript"><!-- help ie --></script>
-      <jsp:doBody />
-    </head>
+    <mm:formatter xslt="xslt/framework/head.xslt" escape="none">
+      <head>
+        <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+        <mm:cloudinfo type="mmbaseversion">
+          <meta name="MMBase" content="${_}" />
+        </mm:cloudinfo>
+        <mm:time time="now" format=":FULL.FULL">
+          <meta name="Calculate" content="${_}" />
+        </mm:time>
+        <meta name="ContextRoot" content="${mm:link('/')}" />
+        <title>
+          <c:if test="${! empty title}">${title} - </c:if>
+          <fmt:message key="head.title" />
+        </title>
+        <link href="${mm:link('/style/css/main.css')}" rel="stylesheet" type="text/css" />
+        <![CDATA[<!--[if IE 6]><link href="${mm:link('/style/css/ie6.css')}" rel="stylesheet" type="text/css"/><![endif]-->]]>
+        <link href="${mm:link('/style/images/favicon.ico')}" rel="shortcut icon" />
+        <jsp:include page="/mmbase/jquery/jquery.jspx" />
+        <!--
+        <link href="${mm:link('/oiplayer/css/oiplayer.css')}" rel="stylesheet" type="text/css" />
+        <script src="${mm:link('/oiplayer/plugins/flowplayer-3.1.4.min.js')}" type="text/javascript"><jsp:text> </jsp:text></script>
+        <script src="${mm:link('/oiplayer/js/jquery.oiplayer.js')}" type="text/javascript"><jsp:text> </jsp:text></script>
+        <script src="${mm:link('/style/js/play.js.jsp')}" type="text/javascript"><jsp:text> </jsp:text></script> 
+        -->
+        <script src="${mm:link('/style/js/main.js.jsp')}" type="text/javascript"><jsp:text> </jsp:text></script>
+        <jsp:doBody />
+      </head>
+    </mm:formatter>
   </fmt:bundle>
 </jsp:root>
