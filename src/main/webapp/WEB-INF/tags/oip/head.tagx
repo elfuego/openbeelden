@@ -27,12 +27,12 @@
         <![CDATA[<!--[if IE 6]><link href="${mm:link('/style/css/ie6.css')}" rel="stylesheet" type="text/css"/><![endif]-->]]>
         <link href="${mm:link('/style/images/favicon.ico')}" rel="shortcut icon" />
         <jsp:include page="/mmbase/jquery/jquery.jspx" />
-        <!--
+
+        <!-- oiplayer stuff -->
         <link href="${mm:link('/oiplayer/css/oiplayer.css')}" rel="stylesheet" type="text/css" />
         <script src="${mm:link('/oiplayer/plugins/flowplayer-3.1.4.min.js')}" type="text/javascript"><jsp:text> </jsp:text></script>
         <script src="${mm:link('/oiplayer/js/jquery.oiplayer.js')}" type="text/javascript"><jsp:text> </jsp:text></script>
-        <script src="${mm:link('/style/js/play.js.jsp')}" type="text/javascript"><jsp:text> </jsp:text></script> 
-        -->
+
         <script src="${mm:link('/style/js/main.js.jsp')}" type="text/javascript"><jsp:text> </jsp:text></script>
         <jsp:doBody />
       </head>
