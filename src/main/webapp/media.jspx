@@ -13,8 +13,8 @@
       <script type="text/javascript" src="${mm:link('/style/js/jquery-ui-1.7.2.custom.min.js')}"><!-- help ie --></script>
       <c:if test="${!empty q}">
         <mm:link page="/feeds/atom/">
-          <mm:param name="search">${q}</mm:param>
-          <link href="${_}" rel="alternate" type="application/atom+xml" title="Open Image Platform search results for ${q}" />
+          <mm:param name="search">${mm:escape("urlparam", q)}</mm:param>
+          <link href="${_}" rel="alternate" type="application/atom+xml" title="Open Image Platform search results for ${mm:escape('text/xml', q)}" />
         </mm:link>
       </c:if>
     </jsp:attribute>
