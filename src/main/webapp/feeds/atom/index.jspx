@@ -16,6 +16,9 @@
     <mm:import externid="search" />
     <mm:import externid="related" />
     
+    <mm:escaper referid="urlparam" inverse="true" id="undo" />
+
+    
     <c:choose>
       <c:when test="${!empty related}">
         <mm:hasnode number="$related">
@@ -60,7 +63,7 @@
             <mm:import id="sortfields">REVERSE:created</mm:import>
           </c:when>
           <c:otherwise>
-            <mm:import id="value" reset="true">${search}</mm:import>
+            <mm:import id="value" reset="true"><mm:write referid="search" escape="undo" /></mm:import>
           </c:otherwise>
         </c:choose>
         
@@ -86,7 +89,7 @@
       <subtitle>
         <c:choose>
           <c:when test="${!empty search}">
-            ${total} search results for "${search}" on Open Images / ${total} zoekresultaten voor "${search}" op Open Beelden
+            ${total} search results for "<mm:write referid="search" escape="undo" />" on Open Images / ${total} zoekresultaten voor "<mm:write referid="search" escape="undo" />" op Open Beelden
           </c:when>
           <c:when test="${!empty user}">
             Latest uploads of ${user} on Open Images / Laatste uploads van ${user} op Open Beelden
