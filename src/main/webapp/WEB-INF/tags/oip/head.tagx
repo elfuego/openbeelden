@@ -27,6 +27,7 @@
         <![CDATA[<!--[if IE 6]><link href="${mm:link('/style/css/ie6.css')}" rel="stylesheet" type="text/css"/><![endif]-->]]>
         <link href="${mm:link('/favicon.ico')}" rel="shortcut icon" />
         <jsp:include page="/mmbase/jquery/jquery.jspx" />
+        <jsp:include page="/mmbase/jquery/jquery-ui.jspx" />
 
         <!-- oiplayer stuff -->
         <link href="${mm:link('/oiplayer/css/oiplayer.css')}" rel="stylesheet" type="text/css" />
