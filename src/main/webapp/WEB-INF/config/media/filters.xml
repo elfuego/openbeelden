@@ -45,6 +45,7 @@
         <source format="mp3" />
         <source format="flv" />
         <source format="avi" />
+        <source format="m3u8" />
       </preferredSource>
     </config>
     <config filter="dimensions">
