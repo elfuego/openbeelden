@@ -19,7 +19,7 @@
       <mmsq:field name="intro" />
       <mmsq:field name="body" />
       <mmsq:field name="source" />
-      <mmsq:field name="source"  alias="source" keyword="true" />
+      <mmsq:field name="source"  alias="source" keyword="true" escape="lowercase" />
       <mmsq:field name="publisher" />
       <mmsq:field name="publisher" alias="publisher" keyword="true" />
       <mmsq:field name="coverage" />
