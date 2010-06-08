@@ -64,7 +64,12 @@ div.b_user-mediapreview div.inavailable
 	background-position: -20px -14px;
 	background-repeat: no-repeat;
 }
-div.b_user-mediapreview div.inavailable p { padding-top: 84px; }
+div.b_user-mediapreview div.inavailable p
+{
+	padding-top: 84px;
+	text-align: center;
+	font-weight: bold;
+}
 
 div.b_user-mediapreview ul.controls { width: 284px; }
 div.b_user-mediapreview dl.media-info { width: 284px; }
