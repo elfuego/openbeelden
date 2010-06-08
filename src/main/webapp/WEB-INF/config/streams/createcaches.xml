@@ -54,6 +54,7 @@
     <loganalyzer name="org.mmbase.streams.transcoders.FFMpeg2TheoraAnalyzer" />
   </transcoder>
 
+<!-- 
   <transcoder
       label="hi"
       mimetype="video/*" in="v1" id="v3">
@@ -62,6 +63,7 @@
     </class>
     <loganalyzer name="org.mmbase.streams.transcoders.FFMpeg2TheoraAnalyzer" />
   </transcoder>
+ -->
 
   <transcoder
       label="lo"
@@ -132,9 +134,9 @@
       label="lo"
       mimetype="video/*" in="v5" id="v6">
     <class name="org.mmbase.streams.transcoders.SegmenterTranscoder">
-      <param name="format">ts</param>
+      <param name="format">m3u8</param>
       <param name="duration">10</param>
-      <param name="httpPrefix">http://192.168.1.4:8080/</param>
+      <param name="httpPrefix">http://www.openimages.eu/</param>
     </class>
     <loganalyzer name="org.mmbase.streams.transcoders.SegmenterAnalyzer" />
   </transcoder>
