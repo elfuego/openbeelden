@@ -27,11 +27,6 @@
         <mm:param name="to" value="30" />
         <mm:param name="ellipsis" value="..." />
       </mm:escaper>
-      <mm:escaper id="filenamewrapper" type="substring">
-        <mm:param name="from" value="0" />
-        <mm:param name="to" value="48" />
-        <mm:param name="ellipsis" value="..." />
-      </mm:escaper>
 
       <div class="main-column">
         <oip:h2><fmt:message key="media.item" /></oip:h2>
@@ -112,11 +107,11 @@
                   <c:choose>
                     <c:when test="${_.available}">
                       <a href="${mm:escape('text/xml', _.URL)}">
-                        <mm:write referid="filename" escape="filenamewrapper" />
+                        <oip:filesubstr filename="${filename}" length="52" />
                       </a>
                     </c:when>
                     <c:otherwise>
-                      <mm:write referid="filename" escape="filenamewrapper" />
+                      <oip:filesubstr filename="${filename}" length="52" />
                     </c:otherwise>
                   </c:choose>
                 </li>
