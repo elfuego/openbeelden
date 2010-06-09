@@ -63,7 +63,7 @@
   </c:if>
 
   <mm:maycreate type="tags">
-    <div class="popup" id="popup-tags">
+    <div class="popup" id="tag">
       <h4><a class="close" href="#">close</a> Add tags</h4>
       <mm:link>
         <form action="${_}" method="post">
