@@ -97,7 +97,7 @@
               <groupId>org.mmbase.tinymce</groupId>
               <artifactId>tinymce</artifactId>
               <type>war</type>
-              <targetPath>editors</targetPath>
+              <targetPath>mmbase</targetPath>
             </overlay>
           </overlays>
           
