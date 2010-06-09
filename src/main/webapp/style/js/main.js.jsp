@@ -42,32 +42,36 @@ function clearMsg() {
 }
 
 function initToolbar() {
+    if ($("div.popup").length) {
+        var loc = document.location.href;
+        $(loc.substring(loc.indexOf('#'))).toggle();
+    }
     $('li.tag a').click(function(ev) {
-        ev.preventDefault();
+        //ev.preventDefault();
         var link = ev.target.href;  // id of el. to show is in fragment
         var id = link.substring(link.indexOf("#") + 1);
         $('#' + id).toggle('fast');
     });
     $('li.license a').click(function(ev) {
-        ev.preventDefault();
+        //ev.preventDefault();
         var link = ev.target.href;
         var id = link.substring(link.indexOf("#") + 1);
         $('#' + id).toggle('fast');
     });
     $('li.share a').click(function(ev) {
-        ev.preventDefault();
+        //ev.preventDefault();
         var link = ev.target.href;
         var id = link.substring(link.indexOf("#") + 1);
         $('#' + id).toggle('fast');
     });
     $('li.download a').click(function(ev) {
-        ev.preventDefault();
+        //ev.preventDefault();
         var link = ev.target.href;
         var id = link.substring(link.indexOf("#") + 1);
         $('#' + id).toggle('fast');
     });
     $('li.embed a').click(function(ev) {
-        ev.preventDefault();
+        //ev.preventDefault();
         var link = ev.target.href;
         var id = link.substring(link.indexOf("#") + 1);
         $('#' + id).toggle('fast');
@@ -164,7 +168,7 @@ $(document).ready(function() {
         'server' : '<mm:url page="/" absolute="true" />',
         'jar' : '${mm:link('/oiplayer/plugins/cortado-ovt-stripped-wm_r38710.jar')}',
         'flash' : '${mm:link('/oiplayer/plugins/flowplayer-3.1.5.swf')}',
-        'controls' : false
+        'controls' : 'dark top'
     });
 });
 
