@@ -1,0 +1,37 @@
+<jsp:root
+    version="2.0"
+    xmlns:c="http://java.sun.com/jsp/jstl/core"
+    xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+    xmlns:jsp="http://java.sun.com/JSP/Page"
+    xmlns:mm="http://www.mmbase.org/mmbase-taglib-2.0"
+    >
+
+  <jsp:directive.attribute name="filename" description="Text to use substring" />
+  <jsp:directive.attribute name="length"   
+    description="Maximum length in characters including extension" type="java.lang.Integer" />
+
+  <c:choose>
+    <c:when test="${fn:length(filename) gt length}">
+      <jsp:scriptlet>
+      String filename = (String) jspContext.getAttribute("filename");
+      int length = (Integer) jspContext.getAttribute("length");      
+      
+      String ext = filename.substring(filename.lastIndexOf('.'), filename.length());
+      String result = filename;
+      int max = length - 4 - ext.length();
+      int max2 = length - ext.length();
+      
+      if (filename.length() &gt; max &amp;&amp; max &gt; 0) {
+          result = filename.substring(0, max) + "[..]" + ext;
+      } else if (filename.length() &gt; max2 &amp;&amp; max2 &gt; 0) {
+          result = filename.substring(0, max2) + ext;
+      } else {
+          result = filename.substring(0, length);
+      }
+      out.println(result);
+      </jsp:scriptlet>
+    </c:when>
+    <c:otherwise>${filename}</c:otherwise>
+  </c:choose>
+
+</jsp:root>
