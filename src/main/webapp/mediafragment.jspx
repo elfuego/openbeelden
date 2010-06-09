@@ -107,11 +107,11 @@
                   <c:choose>
                     <c:when test="${_.available}">
                       <a href="${mm:escape('text/xml', _.URL)}">
-                        <oip:filesubstr filename="${filename}" length="52" />
+                        <oip:filesubstr filename="${filename}" length="50" />
                       </a>
                     </c:when>
                     <c:otherwise>
-                      <oip:filesubstr filename="${filename}" length="52" />
+                      <oip:filesubstr filename="${filename}" length="50" />
                     </c:otherwise>
                   </c:choose>
                 </li>
