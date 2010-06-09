@@ -49,7 +49,9 @@
                 <th>${fn:toLowerCase(_.state)}</th>
                 <td>
                   <mm:import id="mimetype" reset="true"><mm:field name="mimetype" /></mm:import>
-                  <a title="${mimetype} ${_.dimension}" href="${mm:escape('text/xml', _.URL)}">${_.filename}</a>
+                  <a title="${mimetype} ${_.dimension}" href="${mm:escape('text/xml', _.URL)}">
+                    <oip:filesubstr filename="${_.filename}" length="36" />
+                  </a>
                   (${mimetype}<c:if test="${!empty _.dimension}">, ${_.dimension}</c:if>)
                 </td>
               </tr>
@@ -136,11 +138,13 @@
                 <mm:import id="more_info" reset="true">${_.mimeType}<jsp:text> </jsp:text><mm:node number="${_.source.number}" notfound="skip"><mm:hasfield name="key"><mm:field name="key" /></mm:hasfield></mm:node></mm:import>
                 <c:choose>
                   <c:when test="${_.available}">
-                    <a title="${more_info}" href="${mm:escape('text/xml', _.URL)}">${_.filename}</a>
+                    <a title="${more_info}" href="${mm:escape('text/xml', _.URL)}">
+                      <oip:filesubstr filename="${_.filename}" length="36" />
+                    </a>
                     (${_.mimeType}<c:if test="${!empty _.dimension}">, ${_.dimension}</c:if>)
                   </c:when>
                   <c:otherwise>
-                    <span title="${more_info}">${_.filename}</span>
+                    <span title="${more_info}"><oip:filesubstr filename="${_.filename}" length="36" /></span>
                     (${_.mimeType})
                   </c:otherwise>
                 </c:choose>
