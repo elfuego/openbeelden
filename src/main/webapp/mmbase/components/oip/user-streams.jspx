@@ -14,11 +14,12 @@
   <mm:import externid="trigger" />
   <mm:import externid="interrupt" /> <!--  vartype="integer" ?-->
   <mm:import externid="all">false</mm:import> 
-  <mm:import externid="cache" />
+  <mm:import externid="stream" />
 
   <mm:node number="user.admin"><mm:field name="number" id="admin_nodenr" write="false" /></mm:node>
 
   <oip:h2 block="user-streams" />
+  
   <table summary="my streams" border="0">
     <caption>${mm:string(requestScope['org.mmbase.framework.state'].renderer.block.description)}</caption>
     <tbody>
@@ -57,9 +58,8 @@
               <mm:nodeinfo type="type" id="nodetype" write="false" />
               <c:if test="${nodetype ne 'imagefragments'}">
                 <tr>
-                  <th>transcoding</th>
+                  <th>transcode</th>
                   <td class="action">
-                    
                     
                     <mm:listfunction set="streams" name="runningJobs" id="job">
                       <c:if test="${_.node.number eq source}">
@@ -68,25 +68,29 @@
                     </mm:listfunction>
                     
                     <mm:node number="${source}">
+                      
                       <c:choose>
-                        <c:when test="${empty cache and trigger eq mediafragment}">
+                        <c:when test="${stream eq source and trigger eq mediafragment}">
                           <mm:voidfunction name="triggerCaches" referids="all" />
                           <c:set var="triggered" value="true" />
-                          <p class="msg stay">triggered</p>
+                          <p class="msg stay">Transcoding triggered (all:${all})</p>
                         </c:when>
                         <c:otherwise>
                           <c:if test="${!hasjobrunning}">
                             <mm:node number="$n">
-                              <mm:link><!-- BUG? seems like a bug you have to get node parameter n this way -->
-                                <mm:param name="media">${mediafragment}</mm:param>
-                                <mm:param name="trigger">${mediafragment}</mm:param>
-                                <a href="${_}">trigger</a>
-                              </mm:link> |
                               <mm:link>
                                 <mm:param name="media">${mediafragment}</mm:param>
                                 <mm:param name="trigger">${mediafragment}</mm:param>
+                                <mm:param name="stream">${source}</mm:param>
                                 <mm:param name="all">true</mm:param>
                                 <a href="${_}">all</a>
+                              </mm:link> 
+                              |
+                              <mm:link><!-- BUG? seems like a bug you have to get node parameter n this way -->
+                                <mm:param name="media">${mediafragment}</mm:param>
+                                <mm:param name="trigger">${mediafragment}</mm:param>
+                                <mm:param name="stream">${source}</mm:param>
+                                <a href="${_}">only new</a>
                               </mm:link>
                             </mm:node>
                           </c:if>
@@ -122,7 +126,7 @@
         <mm:listfunction name="filteredurls">
           <c:if test="${_.state ne 'SOURCE' and _.state ne 'SOURCE_UNSUPPORTED'}">
             <c:set var="recachevalue" value="${mediafragment}:${_.source.number}" />
-            <c:set var="thecache" value="${_.source.number}" /> 
+            <c:set var="thecache" value="${_.source.number}" /> <!-- stream number -->
             <tr>
               <th>
                 ${fn:toLowerCase(_.state)}
@@ -144,11 +148,11 @@
                 <!-- re-transcoding -->
                 <mm:hasrank minvalue="project manager">
                   <c:choose>
-                    <c:when test="${cache eq recachevalue}">
+                    <c:when test="${stream eq recachevalue}">
                       <mm:node number="${source}">
                         <mm:booleanfunction name="triggerCaches" referids="thecache@cache">
                           <c:set var="triggered" value="true" />
-                          <p class="msg stay">Triggered transcoding</p>
+                          <p class="msg stay">Transcoding triggered</p>
                         </mm:booleanfunction>
                       </mm:node>
                     </c:when>
@@ -156,7 +160,7 @@
                       <c:choose>
                         <c:when test="${_.state != 'BUSY'}">
                           <c:if test="${!hasjobrunning and empty triggered}">
-                            <mm:link referids="mediafragment@media,source@trigger,recachevalue@cache">
+                            <mm:link referids="mediafragment@media,source@trigger,recachevalue@stream">
                               <a href="${_}">trigger</a>
                             </mm:link>
                           </c:if>
