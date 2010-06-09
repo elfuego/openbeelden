@@ -183,11 +183,11 @@ public class UsersUrlConverter extends DirectoryUrlConverter {
 
                     String trigger = (String) parameters.get("trigger");
                     String all     = (String) parameters.get("all");
-                    String cache   = (String) parameters.get("cache");
+                    String stream  = (String) parameters.get("stream");
                     if (log.isDebugEnabled()) {
                         log.debug("trigger: " + trigger);
                         log.debug("all:     " + all);
-                        log.debug("cache:   " + cache);
+                        log.debug("stream:  " + stream);
                     }
                     parameters.set("trigger", null);
                     if (trigger != null && !"".equals(trigger)) {
@@ -196,9 +196,9 @@ public class UsersUrlConverter extends DirectoryUrlConverter {
                             b.append("/all");
                             parameters.set("all", null);
                         }
-                        if (cache != null && !"".equals(cache)) {
-                            b.append("/").append(cache);
-                            parameters.set("cache", null);
+                        if (stream != null && !"".equals(stream)) {
+                            b.append("/").append(stream);
+                            parameters.set("stream", null);
                         }
                     }
                     String interrupt = (String) parameters.get("interrupt");
@@ -270,15 +270,15 @@ public class UsersUrlConverter extends DirectoryUrlConverter {
                 if (path.size() > 1) {
                     String editing = path.get(1);
 
-                    /* user/[username]/dasboard */
+                    /* users/[username]/dasboard */
                     if (editing.equals(editpath) && path.size() == 2) {
                         result.append("&block=user-edit&cacheable=false");
 
-                    /* user/[username]/upload */
+                    /* users/[username]/upload */
                     } else if (editing.equals("upload") && path.size() == 2) {
                         result.append("&block=user-mediaupload&cacheable=false");
 
-                    /* user/[username]/dasboard/picture */
+                    /* users/[username]/dasboard/picture */
                     } else if (editing.equals(editpath) && path.size() > 2) {
                         String type = path.get(2);  // f.e. media
 
@@ -291,7 +291,7 @@ public class UsersUrlConverter extends DirectoryUrlConverter {
                                 result.append("&edit=").append(edit);
                             }
 
-                        /* /user/[username]/dashboard/media/[234]/my_title */
+                        /* /users/[username]/dashboard/media/[234]/my_title */
                         } else if (type.equals("media") && path.size() > 3) {
                             String nodenr = path.get(3);
                             String title = path.get(4);
@@ -309,22 +309,28 @@ public class UsersUrlConverter extends DirectoryUrlConverter {
                                     if (log.isDebugEnabled()) log.debug("edit: " + edit);
                                     result.append("&edit=").append(edit);
                                 }
+                            /* /users/[username]/dashboard/media/[234]/my_title/streams */
                             } else if (path.size() > 5 && path.get(5).equals("streams")) {
                                 result.append("&block=user-streams");
                                 if (path.size() > 6) {
                                     String action = path.get(6);
+                                    /* f.e. /users/[username]/dashboard/media/[234]/my_title/streams/trigger/all/[123] */
                                     if (action.equals("trigger")) {
                                         if (log.isDebugEnabled()) log.debug("trigger: " + action);
                                         result.append("&trigger=").append(nodenr);  // number mediafragment
                                         if (path.size() > 7) {
                                             String path8 = path.get(7);
-                                            if (log.isDebugEnabled()) log.debug("all or cache: " + path8);
+                                            if (log.isDebugEnabled()) log.debug("all or node: " + path8);
                                             if (path8.equals("all")) {
                                                 result.append("&all=true");
+                                                if (path.size() > 8) {
+                                                    result.append("&stream=").append(path.get(8));
+                                                }
                                             } else {
-                                                result.append("&cache=").append(path8);   // number cache
+                                                result.append("&stream=").append(path8);    // node number
                                             }
-                                        
+                                            
+                                            
                                         }
                                     } else if (action.equals("interrupt")) {
                                         if (log.isDebugEnabled()) log.debug("interrupt: " + action);
