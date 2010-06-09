@@ -41,10 +41,10 @@
         <!-- toolbar -->
         <div class="toolbar">
           <ul class="toolbar">
-            <li class="license"><a title="license" href="#popup-license">license</a></li>
-            <li class="download todo"><a title="download" href="#popup-download">download</a></li>
-            <li class="embed todo"><a title="embed" href="#popup-embed">embed</a></li>
-            <li class="share todo"><a title="share" href="#popup-share">share</a></li>
+            <li class="license"><a title="license" href="#license">license</a></li>
+            <li class="download"><a title="download" href="#download">download</a></li>
+            <li class="embed"><a title="embed" href="#embed">embed</a></li>
+            <li class="share"><a title="share" href="#share">share</a></li>
             <mm:maycreate type="ratingrel">
               <oip:favorite />
               <li class="favorite">
@@ -52,7 +52,7 @@
               </li>
             </mm:maycreate>
             <mm:maycreate type="tags">
-              <li class="tag"><a title="tag" href="#popup-tags">tag</a></li>
+              <li class="tag"><a title="tag" href="#tag">tag</a></li>
             </mm:maycreate>
             <mm:maywrite>
               <li class="edit">
@@ -69,7 +69,7 @@
         </div>
 
         <!-- popups (pop-up tag?) -->
-        <div class="popup" id="popup-license">
+        <div class="popup" id="license">
           <h4><a class="close" href="#toolbar">close</a> License</h4>
           <mm:relatednodescontainer type="licenses" role="related" searchdirs="destination">
             <mm:relatednodes>
@@ -89,7 +89,7 @@
           </mm:relatednodescontainer>
         </div>
 
-        <div class="popup" id="popup-download">
+        <div class="popup" id="download">
           <h4><a class="close" href="#toolbar">close</a> Download</h4>
           <ul>
             <mm:listfunction name="filteredurls">
@@ -120,7 +120,7 @@
           </ul>
         </div>
 
-        <div class="popup" id="popup-embed">
+        <div class="popup" id="embed">
           <h4><a class="close" href="#toolbar">close</a> Embed</h4>
           <p>
             <label for="inputembed">HTML tag to copy</label>
@@ -136,7 +136,7 @@
           </p>
         </div>
 
-        <div class="popup" id="popup-share">
+        <div class="popup" id="share">
           <h4><a class="close" href="#toolbar">close</a> Share</h4>
           <p>
             <label for="inputshare">Link</label>
