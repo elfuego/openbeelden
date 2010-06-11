@@ -17,52 +17,41 @@
         <mm:import externid="remove" />
         <mm:import externid="user"><mm:cloudinfo type="usernode" /></mm:import>
         
-        <mm:node number="$favorite" notfound="skip">
+        <mm:node number="$favorite" notfound="skip" id="fav">
           <mm:nodeinfo type="type" id="type" write="false" />
-          <c:if test="${type eq 'mediafragments' or type eq 'videofragments' or type eq 'audiofragments' or type eq 'imagefragments'}">
-            <!-- from mmbaseusers to media -->
+          
+          <mm:hasrelationmanager sourcemanager="mmbaseusers" destinationmanager="$type" role="ratingrel">
+            
             <mm:listrelationscontainer type="mmbaseusers" role="ratingrel" searchdir="source">
               <mm:constraint field="ratingrel.snumber" value="$user" operator="EQUAL" />
               <mm:listrelations>
-                <mm:node id="favrel" /> <c:set var="favselected" value="selected" />
+                <mm:node id="favrel" />
               </mm:listrelations>
             </mm:listrelationscontainer>
-          </c:if>
-        </mm:node>
         
-        <c:if test="${!empty favorite}">
+            <c:choose>
+              <c:when test="${empty favrel}">
+                <mm:createrelation source="user" destination="fav" role="ratingrel" />
+                <p class="msg">This media item has been selected as a favorite.</p>
+              </c:when>
+              <c:otherwise>
+                <mm:deletenode referid="favrel" />
+                <p class="msg">Your favorite selection is removed.</p>
+              </c:otherwise>
+            </c:choose>
           
-          <c:if test="${empty favrel}">
-            <mm:node number="$favorite" id="newfav">
-              <mm:listrelationscontainer type="mmbaseusers" role="ratingrel" searchdir="source">
-                <mm:constraint field="ratingrel.snumber" value="$user" operator="EQUAL" />
-                <mm:listrelations>
-                  <mm:node id="favrel" />
-                </mm:listrelations>
-              </mm:listrelationscontainer>
-            </mm:node>
-          </c:if>
-          
-          <c:if test="${empty remove and empty favrel}">
-            <mm:createrelation source="user" destination="newfav" role="ratingrel" />
-            <c:set var="favselected" value="selected" />
-              <p class="msg">This media item has been selected as a favorite.</p>
-          </c:if>
-          <c:if test="${!empty remove and !empty favrel}">
-            <mm:deletenode referid="favrel" />
-            <c:set var="favselected" value="" />
-              <p class="msg">Your favorite selection is removed.</p>
-          </c:if>
-        </c:if> 
-      
-        <p class="msg">Sorry, nix gebeurd.</p>
+          </mm:hasrelationmanager>
+          <mm:hasrelationmanager sourcemanager="mmbaseusers" destinationmanager="$type" role="ratingrel" inverse="true">
+            <p class="err">Making favorite not possible (no 'ratingrel' between these nodes).</p>
+          </mm:hasrelationmanager>
+        </mm:node>
+        <c:if test="${empty fav}">
+          <p class="err">No favorite.</p>
+        </c:if>
       </mm:maycreate>
-      
       <mm:maycreate type="ratingrel" inverse="true">
         <p class="err">Not allowed.</p>
       </mm:maycreate>
-    
     </mm:cloud>
-    
   </mm:content>
 </jsp:root>
