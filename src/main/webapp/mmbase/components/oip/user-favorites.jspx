@@ -14,8 +14,8 @@
 
       <mm:maywrite>
         <oip:h2><fmt:message key="users.my_favorites" /></oip:h2>
-
-        <oip:favorite messages="true" />
+        
+        <div class="msgspot"><jsp:text><!-- empty --></jsp:text></div>
 
         <mm:import externid="n" required="true" />
         <mm:node referid="n">
@@ -35,9 +35,8 @@
                 <dl class="${gridclass} noverflow">
                   <dt>
                     <a title="${favorite.title}" href="${_}"><oip:thumb /></a>
-                    <mm:link referids="favorite">
-                      <mm:param name="remove">please</mm:param>
-                      <a title="remove favorite" class="remove" href="${_}">remove</a>
+                    <mm:link page="/action/favorite.jspx" referids="favorite">
+                      <a title="remove favorite" class="remove favorite" href="${_}">remove</a>
                     </mm:link>
                   </dt>
                 </dl>
