@@ -75,12 +75,12 @@ div.b_user-mediapreview ul.controls { width: 284px; }
 div.b_user-mediapreview dl.media-info { width: 284px; }
 
 /* larger sizes because of html-editor */
-div.b_user-media textarea.small {
-    height: 180px;
-}
-div.b_user-media textarea.big {
-    height: 360px;
-}
+div.b_user-media textarea.small,
+div.b_user-translations textarea.small { height: 180px; }
+
+div.b_user-edit textarea.big,
+div.b_user-translations textarea.big,
+div.b_user-media textarea.big { height: 360px; }
 
 fieldset.confirm-registration input { width: auto; }
 fieldset.confirm-registration label
