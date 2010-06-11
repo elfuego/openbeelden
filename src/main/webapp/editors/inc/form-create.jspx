@@ -2,8 +2,8 @@
     class="from-create"
     xmlns:jsp="http://java.sun.com/JSP/Page"
     xmlns:c="http://java.sun.com/jsp/jstl/core"
-    xmlns:mm="http://www.mmbase.org/mmbase-taglib-2.0"
     xmlns:fmt="http://java.sun.com/jsp/jstl/fmt"
+    xmlns:mm="http://www.mmbase.org/mmbase-taglib-2.0"
     >
 
 <jsp:output omit-xml-declaration="true" />
@@ -12,16 +12,19 @@
 <mm:import externid="type" />
 
 <jsp:directive.include file="settings.jspx" />
+<fmt:setBundle basename="eu.openimages.messages" scope="request" />
+<mm:import externid="locale">client</mm:import>
 
 <mm:import externid="mmajaxeditor" />
 <mm:import externid="role">related</mm:import>
 <mm:import externid="dir" />
 <mm:import externid="submit$type" />
-<mm:import externid="locale">client</mm:import>
 
 <mm:content expires="0" type="application/xml" language="${locale}">
 <mm:cloud method="asis">
   
+  <jsp:directive.include file="htmleditorsmall.jspx" />
+
   <mm:form id="create_$type">
     <mm:import id="buffer">
       <mm:createnode type="$type" id="new_node" commitonclose="false">
@@ -42,7 +45,8 @@
           <input name="dir"    type="hidden" value="${dir}" />
           <input name="mmajaxeditor" type="hidden" value="${mmajaxeditor}" />
           <div>
-            <input type="submit" name="submit${type}" value="Save" class="submit" />
+            <c:set var="button_save"><fmt:message key="users.form.save" /></c:set>
+            <input type="submit" name="submit${type}" value="${button_save}" class="submit" />
           </div>
         </fieldset>
       </mm:createnode>

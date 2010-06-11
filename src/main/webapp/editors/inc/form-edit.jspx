@@ -2,20 +2,24 @@
     class="from-edit"
     xmlns:jsp="http://java.sun.com/JSP/Page"
     xmlns:c="http://java.sun.com/jsp/jstl/core"
-    xmlns:mm="http://www.mmbase.org/mmbase-taglib-2.0"
     xmlns:fmt="http://java.sun.com/jsp/jstl/fmt"
+    xmlns:mm="http://www.mmbase.org/mmbase-taglib-2.0"
     >
 
 <jsp:output omit-xml-declaration="true" />
 
 <mm:import externid="nr" required="true" />
 <mm:import externid="mmajaxeditor" />
+
 <jsp:directive.include file="settings.jspx" />
+<fmt:setBundle basename="eu.openimages.messages" scope="request" />
 <mm:import externid="locale">client</mm:import>
 
 <mm:content expires="0" type="application/xml" language="${locale}">
 <mm:cloud method="asis">
 
+  <jsp:directive.include file="htmleditorsmall.jspx" />
+  
   <mm:form id="edit_$nr">
     <c:if test="${!empty mmajaxeditor}">
       <mm:hasrank minvalue="project manager">
@@ -34,6 +38,7 @@
               <mm:fieldinfo type="forid">
                 <label for="${_}"><mm:fieldinfo type="guiname" /></label>
               </mm:fieldinfo>
+              <p class="info"><mm:fieldinfo type="description" escape="inline" /></p>
               <mm:maywrite><mm:fieldinfo type="input" /><mm:fieldinfo type="errors" /></mm:maywrite>
               <mm:maywrite inverse="true"><mm:fieldinfo type="guivalue" escape="none" /></mm:maywrite>
             </div>
@@ -45,7 +50,8 @@
             <mm:nodeinfo type="type"><input name="type" type="hidden" value="${_}" /></mm:nodeinfo>
             <input name="mmajaxeditor" type="hidden" value="${mmajaxeditor}" />
             <div>
-              <input type="submit" name="submit${nr}" value="Save" class="submit" />
+              <c:set var="button_save"><fmt:message key="users.form.save" /></c:set>
+              <input type="submit" name="submit${nr}" value="${button_save}" class="submit" />
             </div>
           </fieldset>
         </mm:maywrite>
