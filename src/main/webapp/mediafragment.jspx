@@ -38,7 +38,11 @@
           <mm:field name="subtitle"><mm:isnotempty><h4>${_}</h4></mm:isnotempty></mm:field>
         </mm:nodefunction>
         <p class="nr_of_views">
+          <mm:time time="now" id="current_month" precision="hours" write="false" />
           <mm:relatednodescontainer type="stats" role="related" searchdirs="destination">
+            <mm:constraint field="created" value="$current_month" operator="GREATER_EQUAL" />
+            <mm:sortorder field="created" direction="DOWN" />
+            <mm:maxnumber value="1" />
             <mm:relatednodes>
               ${_node.total} plays
             </mm:relatednodes>
