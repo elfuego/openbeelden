@@ -36,7 +36,7 @@
                   <dt>
                     <a title="${favorite.title}" href="${_}"><oip:thumb /></a>
                     <mm:link page="/action/favorite.jspx" referids="favorite">
-                      <a title="remove favorite" class="remove favorite" href="${_}">remove</a>
+                      <a title="Click to remove favorite" class="remove favorite" href="${_}">remove</a>
                     </mm:link>
                   </dt>
                 </dl>
