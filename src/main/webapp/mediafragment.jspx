@@ -37,18 +37,33 @@
           <h3 class="mediatitle"><mm:field name="title" /></h3>
           <mm:field name="subtitle"><mm:isnotempty><h4>${_}</h4></mm:isnotempty></mm:field>
         </mm:nodefunction>
+        <p class="nr_of_views">
+          <mm:relatednodescontainer type="stats" role="related" searchdirs="destination">
+            <mm:relatednodes>
+              ${_node.total} plays
+            </mm:relatednodes>
+          </mm:relatednodescontainer>          
+        </p>
 
         <!-- toolbar -->
         <div class="toolbar">
+          <mm:cloudinfo type="usernode" id="iam" write="false" />
           <ul class="toolbar">
             <li class="license"><a title="license" href="#license">license</a></li>
             <li class="download"><a title="download" href="#download">download</a></li>
             <li class="embed"><a title="embed" href="#embed">embed</a></li>
             <li class="share"><a title="share" href="#share">share</a></li>
             <mm:maycreate type="ratingrel">
-              <oip:favorite />
               <li class="favorite">
-                <mm:link referids="_node@favorite"><a title="favorite" class="${favselected}" href="${_}">favorite</a></mm:link>
+                <mm:listrelationscontainer type="mmbaseusers" role="ratingrel" searchdir="source">
+                  <mm:constraint field="ratingrel.snumber" value="$iam" operator="EQUAL" />
+                  <mm:listrelations>
+                    <mm:node id="favrel" /> <c:set var="favselected" value="selected" />
+                  </mm:listrelations>
+                </mm:listrelationscontainer>
+                <mm:link page="/action/favorite.jspx" referids="_node@favorite">
+                  <a title="favorite" class="${favselected}" href="${_}">favorite</a>
+                </mm:link>
               </li>
             </mm:maycreate>
             <mm:maycreate type="tags">
@@ -56,7 +71,6 @@
             </mm:maycreate>
             <mm:maywrite>
               <li class="edit">
-                <mm:cloudinfo type="usernode" id="iam" write="false" />
                 <mm:link referids="_node@media">
                   <mm:frameworkparam name="component">oip</mm:frameworkparam>
                   <mm:frameworkparam name="block">user-media</mm:frameworkparam>
@@ -146,7 +160,9 @@
           </p>
         </div>
 
-        <oip:tag />
+        <mm:maycreate type="tags">
+          <oip:tag />
+        </mm:maycreate>
 
         <mm:nodefunction name="translation">
           <mm:field name="intro" escape="paragraph(media-intro)" />
