@@ -10,7 +10,7 @@
   <jsp:output omit-xml-declaration="true" />
     <mm:cloud method="asis">
       <div
-          class="mm_c c_oip b_user-profile ${requestScope.className}"
+          class="mm_c c_oip b_user-edit ${requestScope.className}"
           id="${requestScope['org.mmbase.componentId']}">
 
         <script type="text/javascript">
