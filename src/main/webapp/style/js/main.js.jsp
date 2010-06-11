@@ -46,35 +46,38 @@ function initToolbar() {
         var loc = document.location.href;
         $(loc.substring(loc.indexOf('#'))).toggle();
     }
-    $('li.tag a').click(function(ev) {
-        //ev.preventDefault();
-        var link = ev.target.href;  // id of el. to show is in fragment
-        var id = link.substring(link.indexOf("#") + 1);
-        $('#' + id).toggle('fast');
-    });
-    $('li.license a').click(function(ev) {
-        //ev.preventDefault();
+    $('li.license a, li.download a, li.embed a, li.share a, li.tag a').click(function(ev) {
         var link = ev.target.href;
-        var id = link.substring(link.indexOf("#") + 1);
-        $('#' + id).toggle('fast');
+        $( link.substring(link.indexOf("#")) ).slideToggle('fast');
     });
-    $('li.share a').click(function(ev) {
-        //ev.preventDefault();
-        var link = ev.target.href;
-        var id = link.substring(link.indexOf("#") + 1);
-        $('#' + id).toggle('fast');
+    $('li.favorite a').click(function(ev) {
+        ev.preventDefault();
+        var url = ev.target.href;
+        $(ev.target).toggleClass('selected');
+        $.ajax({ 
+            url: url, 
+            dataType: 'html', 
+            success: function(xml) { 
+                //console.log('ok: ' + xml); 
+            }
+        });
     });
-    $('li.download a').click(function(ev) {
-        //ev.preventDefault();
-        var link = ev.target.href;
-        var id = link.substring(link.indexOf("#") + 1);
-        $('#' + id).toggle('fast');
-    });
-    $('li.embed a').click(function(ev) {
-        //ev.preventDefault();
-        var link = ev.target.href;
-        var id = link.substring(link.indexOf("#") + 1);
-        $('#' + id).toggle('fast');
+}
+
+function initRemoveFav() {
+    $('div.b_user-favorites a.favorite').click(function(ev) {
+        ev.preventDefault();
+        var url = ev.target.href;
+        var msg_spot = $(ev.target).closest('div.b_user-favorites').find('div.msgspot');
+        var fav = $(ev.target).closest('dt');
+        $.ajax({ 
+            url: url, 
+            dataType: 'html', 
+            success: function(xml) { 
+                $(fav).fadeOut('slow');
+                $(msg_spot).html(xml);
+            }
+        });
     });
 }
 
@@ -86,8 +89,9 @@ function initTagsuggest() {
 }
 
 function initClose() {
-    $('a.close').click(function() {
-        $(this).parents('div.popup').hide('normal');
+    $('a.close').click(function(ev) {
+        ev.preventDefault();
+        $(this).closest('div.popup').slideUp(400);
     });
 }
 
@@ -152,10 +156,22 @@ function initBlank() {
     $('._blank').click(function(ev) { ev.preventDefault(); window.open(ev.target); });
 }
 
+function initPlayStats() {
+    $('div.oiplayer').bind("oiplayerstart", function(ev, pl) {
+        var url = "${mm:link('/action/stats.jspx')}?id=" + pl.id;
+        $.ajax({ 
+            url: url, 
+            dataType: 'html', 
+            success: function(xml) { $('p.nr_of_views').html(xml); }
+        });
+    });
+}
+
 $(document).ready(function() {
     initLangSwitch();
     initClearMsg();
     initToolbar();
+    initRemoveFav();
     initCopyInput();
     if ($("input.tagsuggest").length) initTagsuggest();
     initClose();
@@ -170,6 +186,8 @@ $(document).ready(function() {
         'flash' : '${mm:link('/oiplayer/plugins/flowplayer-3.1.5.swf')}',
         'controls' : 'dark top'
     });
+    
+    if ($('video, audio').length) initPlayStats();
 });
 
 </mm:content>
