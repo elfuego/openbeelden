@@ -14,7 +14,7 @@
     <mm:cloud method="delegate" authenticate="class">
       
       <mm:import externid="id" />
-      <!-- change hours to months -->
+      <!-- this is to test: change hours to months -->
       <mm:time time="now" id="current_month" precision="hours" write="false" />
       
       <mm:node number="$id" id="the_node" notfound="skip">
