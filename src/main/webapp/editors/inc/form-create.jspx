@@ -23,7 +23,9 @@
 <mm:content expires="0" type="application/xml" language="${locale}">
 <mm:cloud method="asis">
   
-  <jsp:directive.include file="htmleditorsmall.jspx" />
+  <c:if test="${!empty mmajaxeditor}">
+    <jsp:directive.include file="htmleditorsmall.jspx" />
+  </c:if>
 
   <mm:form id="create_$type">
     <mm:import id="buffer">
