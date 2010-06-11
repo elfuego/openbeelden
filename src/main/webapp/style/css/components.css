@@ -139,3 +139,19 @@ div.b_user-streams td.action a
 div.b_user-streams td.action a { color: #c00; }
 
 div.b_user-streams td.info { font-size: 0.85em; }
+
+div.b_user-favorites a.favorite.remove
+{
+    position: relative;
+    float: left;
+    z-index: 10;
+    top: -15px;
+    left: 70px;
+    width: 20px;
+    padding-top: 20px;
+    background-image: url(icons/close.png);
+    overflow: hidden;
+    height: 0px !important;
+    height /**/: 20px;  /* for IE5/Win */
+}
+div.b_user-favorites a.favorite.remove img { border: none; }
