@@ -57,7 +57,7 @@
     </c:when>
     <c:otherwise>
       <audio 
-        class="oip_ea_duration_${length / 1000} oip_ea_start_0"
+        class="oip_ea_duration_${length / 1000} oip_ea_start_0 oip_ea_id_${_node.number}"
         controls="controls">
         <img src="${poster}" alt="audio" width="${w}" height="${h}" />
         <mm:write referid="mediaurls" escape="none" />
