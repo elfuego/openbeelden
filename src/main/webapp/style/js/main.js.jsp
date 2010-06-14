@@ -182,8 +182,8 @@ $(document).ready(function() {
 
     $('.main-column, .b_user-mediapreview').oiplayer({
         'server' : '<mm:url page="/" absolute="true" />',
-        'jar' : '${mm:link('/oiplayer/plugins/cortado-ovt-stripped-wm_r38710.jar')}',
-        'flash' : '${mm:link('/oiplayer/plugins/flowplayer-3.1.5.swf')}',
+        'jar' : '/oiplayer/plugins/cortado-ovt-stripped-wm_r38710.jar',
+        'flash' : '/oiplayer/plugins/flowplayer-3.1.5.swf',
         'controls' : 'dark top'
     });
     
