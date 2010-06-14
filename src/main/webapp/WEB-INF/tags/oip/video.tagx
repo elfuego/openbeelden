@@ -36,10 +36,19 @@
 
   <mm:import id="mediaurls">
     <mm:functioncontainer>
-      <mm:param name="format">OGV,MP4,OGG,M3U8</mm:param>
+      <mm:param name="format">WEBM,OGV,MP4,OGG,M3U8</mm:param>
       <mm:listfunction name="filteredurls">
+        <!-- <c:choose>
+          <c:when test="${!empty _.acodec}">
+            <c:set var="codecs">${mm:escape('lowercase', _.codec)}, ${mm:escape('lowercase', _.acodec)}</c:set>
+          </c:when>
+          <c:otherwise>
+            <c:set var="codecs">${mm:escape('lowercase', _.codec)}</c:set>
+          </c:otherwise>
+        </c:choose> -->
+        <c:set var="codecs">${mm:escape('lowercase', _.codec)}</c:set>
         <source src="${mm:escape('text/xml', _.URL)}" 
-                type="${_.mimeType}; codecs=${mm:escape('lowercase', _.codec)}" />
+                type="${_.mimeType}; codecs=${codecs}" />
       </mm:listfunction>
     </mm:functioncontainer>
   </mm:import>
