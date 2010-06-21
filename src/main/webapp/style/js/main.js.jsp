@@ -157,7 +157,7 @@ function initBlank() {
 }
 
 function initPlayStats() {
-    $('div.oiplayer').bind("oiplayerstart", function(ev, pl) {
+    $('div.oiplayer').bind("oiplayerplay", function(ev, pl) {
         var url = "${mm:link('/action/stats.jspx')}?id=" + pl.id;
         $.ajax({ 
             url: url, 
