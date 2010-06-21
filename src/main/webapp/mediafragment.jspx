@@ -147,8 +147,7 @@
                 <input name="share" id="inputembed" class="copyvalue" type="text" value="${embedtag}" />
               </c:when>
               <c:otherwise>
-                The originale uploaded media file was not supported, therefore no media sources
-                could be generated.
+                <fmt:message key="media.nosources" />
               </c:otherwise>
             </c:choose>
           </p>
@@ -191,7 +190,7 @@
           </mm:functioncontainer>
           <c:choose>
             <c:when test="${empty hits}">
-              <p>This item has no tags and therefore no related items yet.</p>
+              <p><fmt:message key="media.related.notfound" /></p>
             </c:when>
             <c:otherwise>
               <c:forEach var="hit" items="${hits}" varStatus="status">
