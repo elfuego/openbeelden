@@ -107,6 +107,11 @@
   </logger>
  -->
 
+<!-- 
+  <logger name="eu.openimages.UsersUrlConverter" >
+    <level class="&mmlevel;" value="debug" />
+  </logger>
+ -->
 
   
 <!-- 
