@@ -164,6 +164,10 @@
     <extension>ts</extension>
     <mime-type>video/MP2T</mime-type>
   </mime-mapping>
+  <mime-mapping>
+    <extension>webm</extension>
+    <mime-type>video/webm</mime-type>
+  </mime-mapping>
 
   <welcome-file-list>
     <welcome-file>index.jspx</welcome-file>
