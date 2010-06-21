@@ -46,9 +46,14 @@
             <c:set var="codecs">${mm:escape('lowercase', _.codec)}</c:set>
           </c:otherwise>
         </c:choose> -->
-        <c:set var="codecs">${mm:escape('lowercase', _.codec)}</c:set>
+        <c:choose>
+          <c:when test="${!empty _.codec and _.codec ne 'UNKNOWN'}">
+            <c:set var="codecs">; codecs=${mm:escape('lowercase', _.codec)}</c:set>
+          </c:when>
+          <c:otherwise><c:set var="codecs" value="" /></c:otherwise>
+        </c:choose>
         <source src="${mm:escape('text/xml', _.URL)}" 
-                type="${_.mimeType}; codecs=${codecs}" />
+                type="${_.mimeType}${codecs}" />
       </mm:listfunction>
     </mm:functioncontainer>
   </mm:import>
@@ -70,7 +75,7 @@
             controls="controls"
             width="${w}"
             height="${h}"
-            poster="${poster}">
+            >
         <mm:write referid="mediaurls" escape="none" />
         <p class="oiplayer-warn">
           You need a browser that understands the html5 video tag to play this media item.

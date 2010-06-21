@@ -39,7 +39,13 @@
     <mm:functioncontainer>
       <mm:param name="format">MP3,OGG,OGA</mm:param>
       <mm:listfunction name="filteredurls">
-        <source src="${mm:escape('text/xml', _.URL)}" type="${_.mimeType}; codecs=${mm:escape('lowercase', _.codec)}" />
+        <c:choose>
+          <c:when test="${!empty _.codec and _.codec ne 'UNKNOWN'}">
+            <c:set var="codecs">; codecs=${mm:escape('lowercase', _.codec)}</c:set>
+          </c:when>
+          <c:otherwise><c:set var="codecs" value="" /></c:otherwise>
+        </c:choose>
+        <source src="${mm:escape('text/xml', _.URL)}" type="${_.mimeType}${codecs}" />
       </mm:listfunction>
     </mm:functioncontainer>
   </mm:import>
