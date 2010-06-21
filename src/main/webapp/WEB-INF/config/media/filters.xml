@@ -39,6 +39,7 @@
     </config>
     <config filter="format">
       <preferredSource>
+        <source format="webm" />
         <source format="ogv" />
         <source format="ogg" />
         <source format="mp4" />
