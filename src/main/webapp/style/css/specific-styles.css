@@ -648,33 +648,39 @@ div.progressInfo
 {
 	width: auto;
 	border: 2px solid #ccc;
-	padding: 2px;
+	padding: 2px 4px 0;
 	font-weight: bold;
 	text-align: left;
-	color: white;
+	position: relative;
+	height: 22px;
 }
 
-div.progressInfo p
-{
-    white-space: nowrap;
-	margin: 0;
-	padding-left: 4px;
-	color: #555;
-}
-div.progressInfo p span.speed {
-  margin-left: 1ex;
-}
 
-div.progress
+div.PROGRESS
 {
 	background-image: url(../images/progress.png);
-	background-color: #FFF;
-	background-repeat: repeat-x;
-	background-position: 0 50%;
+	background-color: #fff;
+	background-repeat: repeat;
+	height: 24px;
+	position: absolute;
+	top: 0;
+	left: 0;
 }
 
-div.progess span {
-  display: inline;
+div.progressInfo span.percentage
+{
+	position: relative;
+	top: 0;
+	left: 2px;
+	color: #555;
+}
+
+div.progressInfo span.speed
+{
+	position: relative;
+	top: 0;
+	left: 12px;
+	color: #555;
 }
 
 body.home p.logobeng
