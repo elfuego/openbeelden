@@ -1,42 +1,38 @@
 $(document).ready(function() {
     var progressUrl = $("head meta[name=ContextRoot]").attr("content") + "action/progress.jspx";
     $("form[enctype=multipart/form-data]").each(function() {
+        var pInfo = $(this).find(".progressInfo").first();
         $(this).submit(function() {
             var form = this;
-            var result;
+            var result = "<div>Uploading...</div>";
             var i = 0;
-            var progress = function() {
-                $(form).find(".progressInfo").each(function() {
-                    $.ajax({
-                        url: progressUrl,
-                        async: false,
-                        contentType: 'xml',
-                        complete: function(data) {
-                            result = data.responseText;
-                            if (result.indexOf('100%') > -1 && i == 0) {
-                                result = '<div class="PROGRESS">Uploading...</div>';
-                            }
-                            i++;
+            var progress = null;
+            window.clearInterval(progress);
+            progress = window.setInterval(function() {
+                $.ajax({
+                    url: progressUrl,
+                    async: false,
+                    cache: false,
+                    contentType: 'xml',
+                    error: function(xhr, status, err) {
+                        result = '<div>Error: ' + status + " : " + err + '</div>';
+                    },
+                    complete: function(data) {
+                        result = data.responseText;
+                        if (result.indexOf('100%') > -1 && i == 0) {
+                            $(pInfo).html("<div>Uploading...</div>");
+                        } else {
+                            $(pInfo).html(result);
                         }
-                    });
+                        i++;
+                    },
+                    success: function(data) {
+                        result = data.responseText;
+                        $(pInfo).html(result);
+                        window.clearInterval(progress);
+                    }
                 });
-                $(form).find(".progressInfo").html('<div class="PROGRESS"><p>Uploading...</p></div>');
-                $.blockUI( { message: $(result), 
-                                 css: { 
-                                     width: '300px', 
-                                     textAlign: 'left',
-                                     'white-space': 'nowrap',
-                                     color: '#555',
-                                     'font-weight': 'bold',
-                                     padding: '2px 2px 2px 4px',
-                                     border: '2px solid #ccc' 
-                                 }, 
-                                 fadeIn: 0, 
-                                 fadeOut: 0 
-                            });
-                setTimeout(progress, 500);
-            };
-            progress();
+            }, 500);
         });
     });
 });
