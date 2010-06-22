@@ -18,15 +18,22 @@
       <mm:param name="to" value="30" />
       <mm:param name="ellipsis" value="..." />
     </mm:escaper>
-    <mm:escaper id="wrap_subtitle" type="substring">
+    
+    <mm:escaper type="substring" id="wrap_subtitle">
       <mm:param name="from" value="0" />
       <mm:param name="to" value="38" />
       <mm:param name="ellipsis" value="..." />
     </mm:escaper>
-    <mm:escaper id="wrap_intro" type="substring">
-      <mm:param name="from" value="0" />
-      <mm:param name="to" value="56" />
-      <mm:param name="ellipsis" value="..." />
+    
+    <mm:escaper id="wrap_intro">
+      <mm:escaper type="tagstripper">
+        <mm:param name="escapeamps" value="false" />
+      </mm:escaper>
+      <mm:escaper type="substring">
+        <mm:param name="from" value="0" />
+        <mm:param name="to" value="56" />
+        <mm:param name="ellipsis" value="..." />
+      </mm:escaper>
     </mm:escaper>
     
     <mm:listnodes referid="list" varStatus="status" id="mediafragment">
@@ -82,10 +89,12 @@
               </dd>
               <dd>
                 <mm:nodefunction name="translation">
-                  <strong><mm:field name="subtitle" escape="wrap_subtitle" /></strong>
-                  <em> 
-                    <mm:field name="intro" escape="wrap_intro" />
-                  </em>
+                  <mm:field name="subtitle">
+                    <mm:isnotempty><strong><mm:write escape="wrap_subtitle" /></strong></mm:isnotempty>
+                  </mm:field>
+                  <mm:field name="intro">
+                    <mm:isnotempty><em><mm:write escape="wrap_intro" /></em></mm:isnotempty>
+                  </mm:field>
                   <mm:nodeinfo type="type" id="nodetype" write="false" />
                   <c:if test="${nodetype ne 'imagefragments' and nodetype ne 'images'}">
                     <mm:field name="length">
