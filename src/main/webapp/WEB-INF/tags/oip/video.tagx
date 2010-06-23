@@ -72,7 +72,6 @@
     <c:otherwise>
       <video 
             class="oip_ea_duration_${length / 1000} oip_ea_start_0 oip_ea_id_${_node.number}"
-            controls="controls"
             width="${w}"
             height="${h}"
             >
