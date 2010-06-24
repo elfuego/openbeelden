@@ -204,6 +204,7 @@
               editor_selector : /(mm_f_intro|mm_f_body|mm_f_description)/,
               plugins : "fullscreen,xhtmlxtras",
               content_css : "{REQUEST.getContextPath}/style/css/tiny_mce.css",
+              entity_encoding : "raw",
               // language : "${requestScope['javax.servlet.jsp.jstl.fmt.locale.request']}",
               
               theme_advanced_toolbar_align : "left",
