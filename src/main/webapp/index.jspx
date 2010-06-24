@@ -14,13 +14,7 @@
           <mm:constraint field="show" value="true" operator="EQUAL" />
           <mm:sortorder field="posrel.pos" direction="UP" />
           <mm:maxnumber value="1" />
-          <mm:relatednodes id="featured_node">
-            <mm:field name="length">
-              <meta name="media-duration" content="${_ / 1000}" />
-            </mm:field>
-            <meta name="media-width" content="320" />
-            <meta name="media-height" content="240" />
-          </mm:relatednodes>
+          <mm:relatednodes id="featured_node" />
         </mm:relatednodescontainer>
       </mm:node>
     </jsp:attribute>
@@ -46,7 +40,8 @@
         <oip:h2><fmt:message key="media.featured" /></oip:h2>
         <mm:present referid="featured_node">
           <mm:node referid="featured_node">
-            <oip:media />
+            
+            <oip:media width="320" height="240" />
             <h3 class="subtitle">
               <mm:link>
                 <mm:frameworkparam name="component">oip</mm:frameworkparam>
@@ -62,6 +57,7 @@
                 </a>
               </mm:link>
             </h3>
+            
           </mm:node>
         </mm:present>
       </div>
