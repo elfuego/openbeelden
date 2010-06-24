@@ -25,7 +25,7 @@
   
   <mm-sr:relate current="${curr}" repository="${repos}"
     pagesize="10" forms="true" unrelate="true" create="${create}"
-    relations="true" fields="${listfields}" customizedir="/editors/sr/">
+    relations="true" fields="${listfields}" customizedir="/mmbase/searchrelate/styles/">
     <jsp:attribute name="currentTitle">
       <strong>Gerelateerde <mm:nodeinfo type="plural_guitype" nodetype="$type" escape="lowercase" /></strong>
     </jsp:attribute>

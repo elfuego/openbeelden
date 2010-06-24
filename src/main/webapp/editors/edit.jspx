@@ -14,6 +14,7 @@
     <mm:import externid="nr" />
     <mm:import externid="msg" />
     <mm:import id="pagetitle" />
+    <mm:import id="crumbs" />
 
     <mm:present referid="nr">
       <mm:hasnode number="$nr" inverse="true"><mm:redirect referids="type" /></mm:hasnode>
@@ -27,6 +28,18 @@
           <mm:hasfield name="title" inverse="true"><mm:function name="gui" escape="tagstripper" /></mm:hasfield>
           : ${pagetitle}
         </mm:import>
+        <mm:import id="crumbs" reset="true">
+          <mm:link page="edit.jspx" referids="type?">
+            <a href="${_}">
+              <mm:nodeinfo type="plural_guitype" escape="lowercase" />
+            </a>
+          </mm:link>
+        </mm:import>
+        <mm:import id="crumbs" reset="true">
+          / <mm:write referid="crumbs" escape="none" /> /
+          <mm:hasfield name="title"><mm:field name="title" escape="inline" /></mm:hasfield>
+          <mm:hasfield name="title" inverse="true"><mm:function name="gui" escape="tagstripper" /></mm:hasfield>
+        </mm:import>
       </mm:node>
     </mm:present>
 
@@ -38,6 +51,21 @@
         <jsp:include page="inc/navigation.jspx" />
         <div id="wrap">
           <div id="content">
+            <a href="${mm:link('index.jspx')}">home</a> <mm:write referid="crumbs" escape="none" />
+            <h1>
+              <c:choose>
+                <c:when test="${!empty nr}">
+                  Edit 
+                  <mm:node number="$nr">
+                    <mm:nodeinfo type="guitype" escape="lowercase" />
+                    '<mm:nodeinfo type="gui" />'
+                  </mm:node>
+                </c:when>
+                <c:otherwise>
+                  <mm:nodeinfo type="plural_guitype" nodetype="$type" />
+                </c:otherwise>
+              </c:choose>
+            </h1>
             
             <div id="mmajaxeditor-msg"> <!-- target for mmajaxeditor --> </div>
             <mm:present referid="msg">
