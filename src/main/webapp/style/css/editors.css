@@ -387,6 +387,11 @@ a.createnode
 	margin: 0;
 }
 
+.mm_f_intro { height: 120px; }
+.mm_f_body, 
+.mm_f_desciption, 
+.mm_f_text { height: 560px; }
+
 .invalid { background-color: #fee; }
 #searchform .invalid { background-color: #fff; }
 .displaynone { display: none; }
@@ -418,15 +423,10 @@ a.mmajaxeditor_close
 
 div#content div.mm_related
 {
-	border: 1px #ccc solid;
 	width: 560px;
+	margin-bottom: 1em;
 }
-
-div#sidebar div.mm_related
-{
-	border: 1px #ccc solid;
-	width: 360px;
-}
+div#sidebar div.mm_related { width: 360px; }
 
 div#content div.mm_related tr.relation input.small
 {
