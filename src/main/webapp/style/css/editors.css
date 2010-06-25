@@ -237,12 +237,16 @@ label
 /* mmbase styles */
 #content div input.small, #content div textarea.small { width: 570px; }
 #content div input.big, #content div textarea.big { width: 570px; }
-#sidebar div input.small, #sidebar div textarea.small { width: 360px; }
-#sidebar div input.big, #sidebar div textarea.big { width: 360px; }
+
 #content div.create th.node { text-align: right; }
 #content div.create input.small,
 #content div.create textarea.small,
 #content div.create textarea.big { width: 446px; }
+
+#sidebar div input.small, 
+#sidebar div textarea.small { /*width: 360px;*/ }
+#sidebar div input.big, #sidebar div textarea.big { width: 360px; }
+
 
 /* end mmbase styles */
 /*label:hover { cursor: help; }*/
