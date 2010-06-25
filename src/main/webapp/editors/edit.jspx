@@ -51,7 +51,9 @@
         <jsp:include page="inc/navigation.jspx" />
         <div id="wrap">
           <div id="content">
-            <a href="${mm:link('index.jspx')}">home</a> <mm:write referid="crumbs" escape="none" />
+            <p>
+              <a href="${mm:link('index.jspx')}">home</a> <mm:write referid="crumbs" escape="none" />
+            </p>
             <h1>
               <c:choose>
                 <c:when test="${!empty nr}">

@@ -24,10 +24,20 @@
   <mm:listnodescontainer type="$type" id="repos" />
   
   <mm-sr:relate current="${curr}" repository="${repos}"
-    pagesize="10" forms="true" unrelate="true" create="${create}"
-    relations="true" fields="${listfields}" customizedir="/mmbase/searchrelate/styles/">
+    pagesize="10" 
+    forms="true" 
+    unrelate="true" 
+    create="${create}"
+    relations="true" 
+    submit=".save"
+    fields="${listfields}" 
+    customizedir="/mmbase/searchrelate/styles/">
     <jsp:attribute name="currentTitle">
-      <strong>Gerelateerde <mm:nodeinfo type="plural_guitype" nodetype="$type" escape="lowercase" /></strong>
+      <strong>Related <mm:nodeinfo type="plural_guitype" nodetype="$type" escape="lowercase" /></strong>
+    </jsp:attribute>
+    <jsp:attribute name="repositoryTitle">
+      <input class="save" type="submit" value="Save" />
+      <strong>Search and add <mm:nodeinfo type="plural_guitype" nodetype="$type" escape="lowercase" /></strong>
     </jsp:attribute>
   </mm-sr:relate>
 

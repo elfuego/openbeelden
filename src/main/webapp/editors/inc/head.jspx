@@ -38,7 +38,28 @@
          bind(relater);
       });
       
+      $("div.mm_related").bind("mmsrCommitted", function (e, submitter, status, relater, related, unrelated, deleted) {
+          //$(relater.div).find('tr.relation').hide();
+
+          if (status == "failed") {
+              $(relater.div).find('div.mm_relate_repository').prepend('<div class="error">Some error!</div>');
+          }
+          
+          if (status == "success") {
+              $(relater.div).find('tr.relation').hide();
+              var msg = "";
+              if (unrelated) msg += " Removed relation(s) with node #" + unrelated + ". ";
+              if (related) msg += " Saved new relation(s) with node #" + related + ". ";
+              
+              $(relater.div).find('div.mm_relate_repository').prepend('<div class="message">' + msg + '</div>');
+              $(relater.div).find('div.message').fadeOut(2400);
+          }
+        
+        
+      });
+  
   });
+  
   
   function bind(relater) {
       if (relater.canEditrelations) {
