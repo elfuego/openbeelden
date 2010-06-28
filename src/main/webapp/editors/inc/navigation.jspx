@@ -27,6 +27,7 @@
      <li id="tab8"><mm:link page="edit.jspx"><mm:param name="type">attachments</mm:param><a href="${_}">bijlagen</a></mm:link></li>
      <li id="tab9"><mm:link page="edit.jspx"><mm:param name="type">tags</mm:param><a href="${_}">tags</a></mm:link></li>
      <li id="tab10"><mm:link page="edit.jspx"><mm:param name="type">licenses</mm:param><a href="${_}">licenses</a></mm:link></li>
+     <li id="tab11"><mm:link page="plays.jspx"><a href="${_}"># of plays</a></mm:link></li>
    </ul>
  </div>
 

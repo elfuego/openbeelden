@@ -1,0 +1,35 @@
+<mm:content 
+    xmlns:jsp="http://java.sun.com/JSP/Page"
+    xmlns:c="http://java.sun.com/jsp/jstl/core"
+    xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+    xmlns:mm="http://www.mmbase.org/mmbase-taglib-2.0"
+    xmlns:sr="http://www.mmbase.org/tags/mm/searchrelate"
+    expires="0" type="text/html" language="client" postprocessor="none">
+<jsp:output doctype-root-element="html"
+      doctype-public="-//W3C//DTD XHTML 1.0 Strict//EN"
+      doctype-system="http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd" />
+<mm:cloud loginpage="login.jspx" rank="project manager">
+
+<mm:import externid="type">stats</mm:import>
+<mm:import externid="nr" />
+<mm:import externid="msg" />
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="nl">
+<mm:include page="inc/head.jspx" referids="type,pagetitle?" />
+<body class="${type}">
+<jsp:include page="inc/navigation.jspx" />
+<div id="wrap">
+  <div id="content">
+    <h2># of plays</h2>
+    
+    
+  
+  
+  </div><!-- /#content -->
+  <div id="sidebar"> <jsp:text>  </jsp:text> </div><!-- /#sidebar -->
+</div><!-- /#wrap -->
+
+</body>
+</html>
+</mm:cloud>
+</mm:content>

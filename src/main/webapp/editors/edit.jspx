@@ -173,6 +173,49 @@
           <div id="sidebar">
             <mm:present referid="nr">
               <mm:node number="$nr">
+                <!-- stats -->
+                <mm:hasrelationmanager sourcemanager="$type" destinationmanager="stats" role="related">
+                  <mm:relatednodescontainer type="stats" role="related" searchdirs="destination">
+                    <mm:sortorder field="created" direction="DOWN" />
+                    <table summary="Statistics for this node" border="0" cellspacing="0" cellpadding="3" class="stats">
+                      <thead>
+                        <tr>
+                          <th>date</th>
+                          <th># of plays</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <mm:relatednodes>
+                        
+                          <mm:import id="jaar" reset="true"><mm:field name="created"><mm:time format="yyyy" /></mm:field></mm:import>
+                          <mm:import id="maand" reset="true"><mm:field name="created"><mm:time format="M" /></mm:field></mm:import>
+                          <mm:import id="week" reset="true"><mm:field name="created"><mm:time format="w" /></mm:field></mm:import>
+                          <mm:import id="day" reset="true"><mm:field name="created"><mm:time format="D" /></mm:field></mm:import>
+                          <mm:import id="hour" reset="true"><mm:field name="created"><mm:time format="k" /></mm:field></mm:import>
+                          
+                          <mm:index write="false">
+                            <c:choose>
+                              <c:when test="${(_ mod 2) eq 0}"><c:set var="tdclass" value="even" /></c:when>
+                              <c:otherwise><c:set var="tdclass" value="odd" /></c:otherwise>
+                            </c:choose>
+                          </mm:index>
+                          <tr class="${tdclass}">
+                            <td class="date">
+                              <mm:field name="created"><mm:time format="dd-MM-yyyy k" />:00</mm:field>
+                            </td>
+                            <td class="total">
+                              <mm:field name="total" />
+                            </td>
+                          </tr>
+                        </mm:relatednodes>
+                      </tbody>
+                    </table>
+                  </mm:relatednodescontainer>
+
+                
+                </mm:hasrelationmanager>
+                <!-- /stats -->
+                
                 <mm:hasrelationmanager sourcemanager="$type" destinationmanager="images" role="posrel">
                   <p>
                     <mm:include page="inc/searchrelate.jspx" referids="nr">
@@ -256,6 +299,7 @@
                       </mm:link>
                     </p>                      
                     <ul>
+                      
                       <mm:relatednodescontainer type="${ttype}" role="langrel" searchdirs="destination">
                         <mm:relatednodes>
                           <li id="node_${_node}">
@@ -274,7 +318,7 @@
                         </mm:relatednodes>
                       </mm:relatednodescontainer>
                       
-                      </ul>
+                    </ul>
                     <div id="create_translation" class="displaynone">  </div>
                   </mm:hasrelationmanager>
                 </mm:hasnodemanager>
@@ -282,11 +326,6 @@
             </mm:present><!-- /nr -->
           </div><!-- /#sidebar -->
         </div><!-- /#wrap -->
-
-        <mm:link page="/editors/sr/searchrelate.js.jsp">
-          <mm:param name="editor">/editors/edit.jspx</mm:param>
-          <script type="text/javascript" src="${_}"><!-- for ie --></script>
-        </mm:link>
 
       </body>
     </html>
