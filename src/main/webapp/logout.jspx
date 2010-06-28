@@ -19,7 +19,7 @@
       </mm:import>
       <script type="text/javascript">
         $(document).ready(function() {
-        document.location = "${referrer}";
+            document.location = "${referrer}";
         });
       </script>
     </jsp:attribute>
