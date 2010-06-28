@@ -8,8 +8,8 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="nl">
 <head>
   <title>OIP editors - Login</title>
-  <link href="${mm:link('/style/css/login.css')}" rel="stylesheet" type="text/css" />
-  <link href="${mm:link('/style/images/favicon.ico')}" rel="shortcut icon" />
+  <link href="${mm:link('/style/css/editors.css')}" rel="stylesheet" type="text/css" />
+  <link href="${mm:link('/favicon.ico')}" rel="shortcut icon" />
 </head>
 <body class="login" onload="document.loginbox.username.focus()">
 

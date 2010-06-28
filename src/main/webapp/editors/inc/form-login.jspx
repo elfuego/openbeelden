@@ -8,17 +8,16 @@
   <mm:import externid="username" from="parameters" />
   <mm:import externid="reason">please</mm:import>
   <mm:import externid="referrer">index.jspx</mm:import>
-  
+
+      
   <form id="loginbox" name="loginbox" method="post" action="${referrer}">
     <fieldset>
+      <mm:compare referid="reason" value="failed">
+        <p class="msg">Het inloggen is niet gelukt.</p>
+      </mm:compare>
       <input type="hidden" name="command" value="login" />
       <input type="hidden" name="authenticate" value="name/password" />
-      <div class="first">
-        <h2>editors</h2>
-      </div>
-      <mm:compare referid="reason" value="failed">
-        <div class="msg">Het inloggen is niet gelukt.</div>
-      </mm:compare>
+      <h2>editors</h2>
       <div>
         <label for="username">Naam</label>
         <input type="text" id="username" name="username" tabindex="1" />
