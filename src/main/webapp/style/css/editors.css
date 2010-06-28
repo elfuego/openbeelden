@@ -179,7 +179,7 @@ body.images #tab7 a,
 body.attachments #tab8 a,
 body.tags #tab9 a,
 body.licenses #tab10 a,
-body.licenses_translations #tab11 a
+body.stats #tab11 a
 {
 	color: #222;
 	padding-bottom: 5px;
@@ -446,3 +446,21 @@ div#content div.mm_related tr.relation input.small
 	width: 200px;
 	min-width: 100px;
 }
+
+table.stats
+{
+	border-bottom: 1px #ccc solid;
+	border-left: 1px #ccc solid;
+	font-size: 0.9em;
+}
+table.stats th, table.stats td
+{
+	border-top: 1px solid #ccc;
+	border-right: 1px solid #ccc;
+}
+table.stats th { background-color: #E8E8E8; }
+
+table.stats td.date, 
+table.stats td.total { text-align: right; }
+
+table.stats tr.even { background-color:#E6E9DD; }
