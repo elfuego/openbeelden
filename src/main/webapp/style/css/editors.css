@@ -1,3 +1,12 @@
+/**
+* @author   Open Images Platform
+* @since    May 2010
+* @name     Stylesheet for editors
+* @version  '$Id$'
+*/
+
+@import url("login.css");
+
 body
 {
 	font-family: Helvetica, sans-serif;

@@ -1,4 +1,10 @@
-/* ### ### ### ### loginbox ### ### ### ### ### ### */
+/**
+* @author   Open Images Platform
+* @since    May 2009
+* @name     Main stylesheet
+* @version  '$Id$'
+*/
+
 body.login
 {
 	font-family: Helvetica, sans-serif;
@@ -16,26 +22,23 @@ body.login
 #loginbox div
 {
 	clear: both;
-	padding: 0.2em 0.8em 0.8em 0;
+	padding: 4px 0.8em 0 0;
 }
 
-#loginbox div.first
+#loginbox h2
 {
 	clear: both;
-    padding: 32px 0 0 8.4em;
-    height: 35px;
-	background-image: url(../images/oip-logo.png);
-	background-repeat: no-repeat;
-	background-position: 34px 10px;
+	padding-left: 5.8em;
+	margin: 100px 0 0 0;
 }
 
 #loginbox div.last
 {
 	clear: both;
-    padding: 0 0 0.8em 8.4em;
+    padding-left: 8.4em;
 }
 
-#loginbox div label
+#loginbox label
 {
 	float: left;
 	width: 8em;
@@ -48,25 +51,19 @@ body.login
 {
 	width: 320px;
 	border: 1px solid #c8cfd9;
-	background-color: #fff;
-	padding: 0;
+	background-color: #FFF;
+	padding: 1em 1em 0 1em;
+	background-image: url(../images/oip-logo.png);
+	background-repeat: no-repeat;
+	background-position: 50px 10px;
 }
 
 #username, #password { width: 12em; }
 
-#loginbox h2, #loginbox h4, #loginbox p
+#loginbox h4
 {
-	padding: 2px 0 0 0;
+	padding: 0;
 	margin: 0;
 }
 
-div.msg
-{
-	font-family: Helvetica, sans-serif;
-	text-align: center;
-	border: 2px solid #002828;
-	background-color: #d6e44b;
-	margin: 0 auto 4px auto;
-	padding: 0.7em;
-}
-
+#loginbox p { padding: 6px; }
