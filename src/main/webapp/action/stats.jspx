@@ -15,7 +15,7 @@
       
       <mm:import externid="id" />
       <!-- this is to test: change hours to months -->
-      <mm:time time="now" id="current_month" precision="hours" write="false" />
+      <mm:time time="now" id="current_month" precision="months" write="false" />
       
       <mm:node number="$id" id="the_node" notfound="skip">
         <mm:nodeinfo type="type" id="type" write="false" />
