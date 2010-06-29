@@ -1,10 +1,13 @@
 <mm:content 
     xmlns:jsp="http://java.sun.com/JSP/Page"
     xmlns:c="http://java.sun.com/jsp/jstl/core"
+    xmlns:fmt="http://java.sun.com/jsp/jstl/fmt"
     xmlns:mm="http://www.mmbase.org/mmbase-taglib-2.0"
     expires="0" type="text/html" language="client" postprocessor="none">
   <jsp:output omit-xml-declaration="true" />
     
+  <fmt:setBundle basename="eu.openimages.messages" scope="request" />
+
   <mm:import externid="username" from="parameters" />
   <mm:import externid="reason">please</mm:import>
   <mm:import externid="referrer">index.jspx</mm:import>
@@ -13,17 +16,21 @@
   <form id="loginbox" name="loginbox" method="post" action="${referrer}">
     <fieldset>
       <mm:compare referid="reason" value="failed">
-        <p class="msg">Het inloggen is niet gelukt.</p>
+        <p class="msg">
+          <fmt:message key="login.error" >
+            <fmt:param value="${username}" />
+          </fmt:message>
+        </p>
       </mm:compare>
       <input type="hidden" name="command" value="login" />
       <input type="hidden" name="authenticate" value="name/password" />
       <h2>editors</h2>
       <div>
-        <label for="username">Naam</label>
+        <label for="username"><fmt:message key="users.username" /></label>
         <input type="text" id="username" name="username" tabindex="1" />
       </div>
       <div>
-        <label for="password">Wachtwoord</label>
+        <label for="password"><fmt:message key="login.password" /></label>
         <input type="password" id="password" name="password" tabindex="2" />
       </div>
       <div class="last">
