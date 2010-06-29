@@ -20,7 +20,6 @@
 <jsp:include page="inc/navigation.jspx" />
 <div id="wrap">
   <div id="content">
-    <h2># of plays</h2>
     
 <mm:import externid="offset">0</mm:import>
 <mm:import id="max">50</mm:import>
@@ -50,6 +49,10 @@
   <c:otherwise><c:set var="sortorder" value="DOWN" /></c:otherwise>
 </c:choose>
 
+<h2>
+  # of plays 
+  <mm:time format="MMMM yyyy" time="$from" />
+</h2>
 
 <!-- the table -->
 <mm:url id="baseurl" absolute="true" escapeamps="false" referids="w?,m?,y?,sf?,so?" write="false" />
