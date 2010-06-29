@@ -54,12 +54,12 @@
               $(relater.div).find('div.mm_relate_repository').prepend('<div class="message">' + msg + '</div>');
               $(relater.div).find('div.message').fadeOut(2400);
           }
-        
-        
       });
+      
+      /* rest */
+      hideLastRows();
   
   });
-  
   
   function bind(relater) {
       if (relater.canEditrelations) {
@@ -85,6 +85,18 @@
           });
       }
   }
+    
+  /* show only the first 10 rows of table with class 'shorten' */
+  function hideLastRows() {
+      if ($('table.shorten').length &lt; 0) return;
+      
+      $('table.shorten tr:gt(10)').hide();
+      
+      $('a.showrest').click(function(ev) {
+          $('table.shorten tr:gt(10)').toggle();
+      });
+  }
+
   </script>
   <mm:include page="htmleditor.jspx" />
 </head>
