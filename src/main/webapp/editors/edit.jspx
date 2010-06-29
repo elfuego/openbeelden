@@ -177,31 +177,37 @@
                 <mm:hasrelationmanager sourcemanager="$type" destinationmanager="stats" role="related">
                   <mm:relatednodescontainer type="stats" role="related" searchdirs="destination">
                     <mm:sortorder field="created" direction="DOWN" />
-                    <table summary="Statistics for this node" border="0" cellspacing="0" cellpadding="3" class="stats">
+                    
+                    <table class="stats shorten" summary="Statistics for this node" border="0" cellspacing="0" cellpadding="3">
                       <thead>
                         <tr>
                           <th>date</th>
                           <th># of plays</th>
                         </tr>
                       </thead>
+                      <tfoot>
+                        <tr>
+                          <th colspan="2">
+                            <mm:size write="false">
+                              <c:if test="${_ gt 10}">
+                                <a class="showrest" href="#show-rest">Show/hide more</a>
+                              </c:if>
+                            </mm:size>
+                          </th>
+                        </tr>
+                      </tfoot>
                       <tbody>
+                      
                         <mm:relatednodes>
-                        
-                          <mm:import id="jaar" reset="true"><mm:field name="created"><mm:time format="yyyy" /></mm:field></mm:import>
-                          <mm:import id="maand" reset="true"><mm:field name="created"><mm:time format="M" /></mm:field></mm:import>
-                          <mm:import id="week" reset="true"><mm:field name="created"><mm:time format="w" /></mm:field></mm:import>
-                          <mm:import id="day" reset="true"><mm:field name="created"><mm:time format="D" /></mm:field></mm:import>
-                          <mm:import id="hour" reset="true"><mm:field name="created"><mm:time format="k" /></mm:field></mm:import>
-                          
                           <mm:index write="false">
                             <c:choose>
-                              <c:when test="${(_ mod 2) eq 0}"><c:set var="tdclass" value="even" /></c:when>
-                              <c:otherwise><c:set var="tdclass" value="odd" /></c:otherwise>
+                              <c:when test="${(_ mod 2) eq 0}"><c:set var="oddeven" value="even" /></c:when>
+                              <c:otherwise><c:set var="oddeven" value="odd" /></c:otherwise>
                             </c:choose>
                           </mm:index>
-                          <tr class="${tdclass}">
+                          <tr class="${oddeven}">
                             <td class="date">
-                              <mm:field name="created"><mm:time format="dd-MM-yyyy k" />:00</mm:field>
+                              <mm:field name="created"><mm:time format="dd-MM-yyyy kk:mm" /></mm:field>
                             </td>
                             <td class="total">
                               <mm:field name="total" />
