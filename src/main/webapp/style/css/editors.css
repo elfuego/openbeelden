@@ -439,7 +439,7 @@ div#content div.mm_related
 	width: 560px;
 	margin-bottom: 1em;
 }
-div#sidebar div.mm_related { width: 360px; }
+div#sidebar div.mm_related { width: 380px; }
 
 div#content div.mm_related tr.relation input.small
 {
@@ -452,6 +452,7 @@ table.stats
 	border-bottom: 1px #ccc solid;
 	border-left: 1px #ccc solid;
 	font-size: 0.9em;
+	width: 100%;
 }
 table.stats th, table.stats td
 {
