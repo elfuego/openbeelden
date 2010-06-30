@@ -28,7 +28,7 @@
       <c:when test="${sessionScope['org.mmbase.uploadInfo'].elapsedTime gt 100}">
         <div>
           <div class="${sessionScope['org.mmbase.uploadInfo'].status}" style="width: ${roundedLength}${unit};">
-            <jsp:text><!-- empty --></jsp:text>
+            <jsp:text> <!-- empty --> </jsp:text>
           </div>
           <span class="percentage">
             <fmt:formatNumber
