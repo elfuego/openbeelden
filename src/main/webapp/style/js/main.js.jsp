@@ -187,7 +187,7 @@ $(document).ready(function() {
         'controls' : 'top'
     });
     
-    if ($('video, audio').length) initPlayStats();
+    initPlayStats();
 });
 
 </mm:content>
