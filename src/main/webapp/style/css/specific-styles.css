@@ -656,7 +656,7 @@ div.progressInfo
 }
 
 
-div.PROGRESS
+div.PROGRESS, div.DONE
 {
 	background-image: url(../images/progress.png);
 	background-color: #fff;
