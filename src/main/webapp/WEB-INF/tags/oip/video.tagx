@@ -74,7 +74,7 @@
             class="oip_ea_duration_${length / 1000} oip_ea_start_0 oip_ea_id_${_node.number}"
             width="${w}"
             height="${h}"
-            >
+            poster="${poster}">
         <mm:write referid="mediaurls" escape="none" />
         <p class="oiplayer-warn">
           You need a browser that understands the html5 video tag to play this media item.
