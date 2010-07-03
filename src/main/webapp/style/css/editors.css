@@ -454,6 +454,15 @@ table.stats
 	font-size: 0.9em;
 	width: 100%;
 }
+table.stats caption
+{
+	border-top: 1px #CCC solid;
+	border-right: 1px #CCC solid;
+	border-bottom: 0;
+	border-left: 1px #CCC solid;
+	padding: 2px;
+	background-color:#E6E9DD;
+}
 table.stats th, table.stats td
 {
 	border-top: 1px solid #ccc;
@@ -462,6 +471,6 @@ table.stats th, table.stats td
 table.stats th { background-color: #E8E8E8; }
 
 table.stats td.date, 
-table.stats td.total { text-align: right; }
+table.stats td.total { text-align: center; }
 
 table.stats tr.even { background-color:#E6E9DD; }
