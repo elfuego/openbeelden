@@ -179,6 +179,7 @@
                     <mm:sortorder field="created" direction="DOWN" />
                     
                     <table class="stats shorten" summary="Statistics for this node" border="0" cellspacing="0" cellpadding="3">
+                      <caption>Times a media item has been played monthly.</caption>
                       <thead>
                         <tr>
                           <th>date</th>
@@ -188,7 +189,7 @@
                       <tfoot>
                         <tr>
                           <th colspan="2">
-                            <mm:size write="false">
+                            <mm:size id="row_count" write="false">
                               <c:if test="${_ gt 10}">
                                 <a class="showrest" href="#show-rest">Show/hide more</a>
                               </c:if>
@@ -214,6 +215,12 @@
                             </td>
                           </tr>
                         </mm:relatednodes>
+                        <c:if test="${empty row_count or row_count == 0}">
+                          <tr class="${oddeven}">
+                            <td class="date">Not played yet</td>
+                            <td class="total">0</td>
+                          </tr>
+                        </c:if>
                       </tbody>
                     </table>
                   </mm:relatednodescontainer>
