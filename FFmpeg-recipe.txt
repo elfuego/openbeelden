@@ -1,4 +1,5 @@
 ﻿Recipe for building FFmpeg
+version: '$Id$'
 --------------------------
 I build FFmpeg with the goal to be able to create OGG audio from mp3 files, OGV video files from mpeg and H264 video from mpeg. But of course it can do a lot more. I did this on Mac OS X, but I think it will apply to other Unix flavors as well. A lot of systems, like Ubuntu already have FFmpeg installed. I found a lot of information about doing this in:
 
