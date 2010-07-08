@@ -82,4 +82,9 @@ And then:
   make
   sudo make install
 
+NOTE: WebM/VP8 support
+You can add WebM/VP8 support by including libvpx in one of the more recent checkouts of ffmpeg. Download a recente version of libvpx at http://code.google.com/p/webm/downloads/list, follow the steps like for one of the other libraries and include libvpx while building ffmpeg:
+
+   ./configure --prefix=/usr/local --enable-gpl --enable-nonfree --enable-shared --enable-postproc --enable-avfilter --enable-avfilter-lavf --enable-pthreads --enable-x11grab --enable-bzlib --enable-libmp3lame --enable-libtheora --enable-libvorbis --enable-libx264 --enable-zlib --enable-libfaac --enable-libfaad --enable-libvpx
+
 --André
