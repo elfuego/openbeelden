@@ -2,7 +2,7 @@
 <!DOCTYPE caches PUBLIC "-//MMBase//DTD cache config 1.0//EN" "http://www.mmbase.org/dtd/caches_1_0.dtd">
 <caches>
   <releaseStrategies>
-    <strategy>org.mmbase.cache.BetterStrategy</strategy>
+    <strategy>org.mmbase.cache.BetterStrategy</strategy>   
     <!--
         ConstraintsMatchingStrategy will sometimes give more CPU overhead then it is worth.
         Therefore it is commented out. You can try it if your caches still don't perform well enough.
@@ -25,7 +25,7 @@
   <!-- simple node lists -->
   <cache name="NodeListCache">
     <status>active</status>
-    <size>300</size>
+    <size>512</size>
     <!--
       If you want to use the OSCache implementation to overflow on disk, you can uncomment
       this code
@@ -41,19 +41,19 @@
   <!-- cluster nodes -->
   <cache name="MultilevelCache">
     <status>active</status>
-    <size>300</size>
+    <size>1024</size>
   </cache>
 
   <!-- used for queries like select max(votes) and select count(title) -->
   <cache name="AggregatedResultCache">
     <status>active</status>
-    <size>300</size>
+    <size>512</size>
   </cache>
 
   <!-- related nodes -->
   <cache name="RelatedNodesCache">
     <status>active</status>
-    <size>300</size>
+    <size>512</size>
   </cache>
 
   <!-- relation nodes -->
@@ -136,12 +136,12 @@
 
 
   <!-- ================================================================================
-  Media caches
+  Jumpers cache
   ================================================================================  -->
-
-  <cache name="MediaURLS">
-    <status>inactive</status>
-    <size>4096</size>
+  <!-- If you use jumpers, you might want to configure its cache
+  <cache name="JumpersCache">
+    <status>active</status>
+    <size>1000</size>
   </cache>
-
+  -->
 </caches>
