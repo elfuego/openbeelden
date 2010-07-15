@@ -8,29 +8,32 @@
   <jsp:directive.attribute name="alt" description="Text to use in alt attribute of image" />
 
     <mm:nodeinfo type="type" write="false" id="nodetype" />
+    <mm:import id="img" reset="true" />
 
-    <mm:relatednodescontainer type="images" role="posrel" searchdirs="destination">
-      <mm:sortorder field="posrel.pos" direction="UP" />
-      <mm:maxnumber value="1" />
-      <mm:import id="hasimage" reset="true"><mm:size /></mm:import>
-      <mm:relatednodes>
-        <mm:image mode="url" width="81" height="60" crop="end" id="img" write="false" />
-        <img src="${img}" alt="${alt}" width="81" height="60" />
-      </mm:relatednodes>
-    </mm:relatednodescontainer>
-
-    <c:if test="${hasimage eq 0}">
+    <mm:hasrelationmanager sourcemanager="$nodetype" destinationmanager="images" role="related">
       <mm:relatednodescontainer type="images" role="related" searchdirs="destination">
         <mm:maxnumber value="1" />
-        <mm:import id="hasimage" reset="true"><mm:size /></mm:import>
         <mm:relatednodes>
           <mm:image mode="url" width="81" height="60" crop="end" id="img" write="false" />
           <img src="${img}" alt="${alt}" width="81" height="60" />
         </mm:relatednodes>
       </mm:relatednodescontainer>
+    </mm:hasrelationmanager>
+
+    <c:if test="${empty img}">
+      <mm:hasrelationmanager sourcemanager="$nodetype" destinationmanager="images" role="posrel">
+        <mm:relatednodescontainer type="images" role="posrel" searchdirs="destination">
+          <mm:sortorder field="posrel.pos" direction="UP" />
+          <mm:maxnumber value="1" />
+          <mm:relatednodes>
+            <mm:image mode="url" width="81" height="60" crop="end" id="img" write="false" />
+            <img src="${img}" alt="${alt}" width="81" height="60" />
+          </mm:relatednodes>
+        </mm:relatednodescontainer>
+      </mm:hasrelationmanager>
     </c:if>
 
-    <c:if test="${hasimage eq '0'}">
+    <c:if test="${empty img}">
       <c:choose>
         <c:when test="${nodetype eq 'mmbaseusers'}">
           <img src="${mm:link('/style/images/user.png')}" alt="${empty alt ? 'user' : alt}" width="81" height="60" />
