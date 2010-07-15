@@ -6,7 +6,7 @@
 
   <function name="root">
 	<description>
-	  Get the 'root' node of a crumbpath.
+	  Get the 'root' node of a crumbpath (not necessarily home) based on field 'path'.
 	</description>
 	<type>class</type>
 	<class>org.mmbase.mmsite.UrlUtils</class>
@@ -17,7 +17,7 @@
   
   <function name="parent">
 	<description>
-	  The parent node in the hierarchy.
+	  The parent node - or one node 'up' - in the hierarchy based on field 'path'.
 	</description>
 	<type>class</type>
 	<class>org.mmbase.mmsite.UrlUtils</class>
@@ -29,7 +29,8 @@
   <function name="crumbs">
 	<description>
       Returns a NodeList containing nodes of the same (!) type travelling the path to the 'root' 
-      node. Can be used to create a crumbpath. Does not include the original node.
+      node based on field 'path', f.e. /news/more/article gives more and news (not home).
+      Can be used to create a crumbpath. Does not include the original node.
 	</description>
 	<type>class</type>
 	<class>org.mmbase.mmsite.UrlUtils</class>
