@@ -8,13 +8,13 @@
   <jsp:directive.attribute name="alt" description="Text to use in alt attribute of image" />
 
     <mm:nodeinfo type="type" write="false" id="nodetype" />
-    <mm:import id="img" reset="true" />
+    <c:set var="img" value="" />
 
     <mm:hasrelationmanager sourcemanager="$nodetype" destinationmanager="images" role="related">
       <mm:relatednodescontainer type="images" role="related" searchdirs="destination">
         <mm:maxnumber value="1" />
         <mm:relatednodes>
-          <mm:image mode="url" width="81" height="60" crop="end" id="img" write="false" />
+          <c:set var="img"><mm:image mode="url" width="81" height="60" crop="end" /></c:set>
           <img src="${img}" alt="${alt}" width="81" height="60" />
         </mm:relatednodes>
       </mm:relatednodescontainer>
@@ -26,13 +26,13 @@
           <mm:sortorder field="posrel.pos" direction="UP" />
           <mm:maxnumber value="1" />
           <mm:relatednodes>
-            <mm:image mode="url" width="81" height="60" crop="end" id="img" write="false" />
+            <c:set var="img"><mm:image mode="url" width="81" height="60" crop="end" /></c:set>
             <img src="${img}" alt="${alt}" width="81" height="60" />
           </mm:relatednodes>
         </mm:relatednodescontainer>
       </mm:hasrelationmanager>
     </c:if>
-
+    
     <c:if test="${empty img}">
       <c:choose>
         <c:when test="${nodetype eq 'mmbaseusers'}">
@@ -43,12 +43,12 @@
         </c:when>
         <c:when test="${nodetype eq 'imagefragments'}">
           <mm:relatednodes type="imagesources" max="1">
-            <mm:image mode="url" width="81" height="60" crop="end" id="img" write="false" />
-            <img src="${img}" alt="${alt}" width="81" height="60" />
+            <c:set var="img"><mm:image mode="url" width="81" height="60" crop="end" /></c:set>
+            <img src="${img}" alt="${empty alt ? 'image' : alt}" width="81" height="60" />
           </mm:relatednodes>
-          <mm:notpresent referid="img">
+          <c:if test="${empty img}">
             <img src="${mm:link('/style/images/thumb_image.png')}" alt="${empty alt ? 'image' : alt}" width="81" height="60" />
-          </mm:notpresent>
+          </c:if>
         </c:when>
         <c:when test="${nodetype eq 'images'}">
           <img src="${mm:link('/style/images/thumb_image.png')}" alt="${empty alt ? 'image' : alt}" width="81" height="60" />
