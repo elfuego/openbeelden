@@ -21,7 +21,7 @@ REQUIREMENTS
 
 OIP requires several components:
 - Java runtime environment (minimal 1.5)
-- Java web application server like Apache Tomcat (5.5.27)
+- Java web application server like Apache Tomcat (preferably > 5.5.27)
 - MySQL database (5.1) or other database supported by MMBase like PostgreSQL, including the 
   appropriate JDBC driver.
 - FFmpeg (0.5 or preferably a recent build from its repository) for audio and video transcoding
@@ -50,14 +50,15 @@ Basically installing OIP boils down to:
    depending on your configuration.
 3. Install a database server and the appropriate jdbc driver.
    Other types of databases are possible, but OIP was developed using MySQL. For MySQL: 
-   a. Create a database 'oip': CREATE DATABASE oip;
+   a. Create a database 'oip': 
+      CREATE DATABASE oip;
    b. Give the application the appropriate login credentials:
       GRANT ALL PRIVILEGES ON oip.* TO mmbase@localhost IDENTIFIED BY "admin2k";
    c. Install a MySQL jdbc driver/connector in your application server. 
       For Apache Tomcat 5 it should be in '[catalina-home]/common/lib' and for Apache Tomcat 6 in
       '[catalina-home]/lib'.
-4. Install JavaMail: 'mail.jar' (and 'activation.jar' for Java < 1.5) should typically be in the
-   same directory as the jdbc driver. 
+4. Install JavaMail: 'mail.jar' (and 'activation.jar' for Java < 1.5). These should typically be 
+   in the same directory as the jdbc driver. 
 5. Place the 'oip-1.0.war' in your servers webapps directory and start the server.
    Wait a minute or two while the war deploys. Needed tables and some example content are 
    automatically created in the 'oip' database.
@@ -68,7 +69,7 @@ Basically installing OIP boils down to:
 6. Visit http://127.0.0.1:8080/oip-1.0 to make sure it runs. 
 7. Login with 'admin' and 'openimages2009'. Or 'foofoo' and 'barbar' as a project manager.
 
-When oip is running allright, you may need to configure some other applications to enable the 
+When OIP is running allright, you may need to configure some other applications to enable the 
 conversion of media, sending of mail etc.
 
 8. Install FFmpeg. 
