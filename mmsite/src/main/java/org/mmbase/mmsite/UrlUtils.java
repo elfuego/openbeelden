@@ -97,6 +97,10 @@ public final class UrlUtils {
      */
     protected static Node getPagebyPath(Cloud cloud, String path) {
         Node node = null;
+        if (path == null || "".equals(path)) {
+            log.warn("No path '" + path "', returning null.");
+            return node;
+        }
         NodeManager nm = cloud.getNodeManager("pages");
         NodeList nl = nm.getList("LOWER(path) = '" + path + "'", null, null);
         nl.addAll(nm.getList("LOWER(path) = '" + path + "/'", null, null));

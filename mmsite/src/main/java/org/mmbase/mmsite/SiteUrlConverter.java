@@ -200,7 +200,9 @@ public class SiteUrlConverter extends DirectoryUrlConverter {
             char connector = template.indexOf("?") == -1 ? '?' : '&';
             result.append(template).append(connector).append("n=" + node.getNumber());
         } else {
-            log.debug("No node found for " + path);
+            if (log.isDebugEnabled()) {
+                log.debug("No node found for '" + path + "'");
+            }
             return Url.NOT;
         }
 
