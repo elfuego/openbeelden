@@ -85,7 +85,7 @@
   </transcoder>
 
   <!-- example config for ts streams over cellular networks (for iPhone etc.) -->
-<!-- 
+  <!--
   <transcoder
       label="lo"
       mimetype="video/*" in="v1" id="v5">
@@ -95,9 +95,9 @@
       <param name="forceFormat">mpegts</param>
       <param name="vcodec">libx264</param>
       <param name="framesPerSecond">25</param>
-      <param name="bitrate">96k</param>
+      <param name="bitrate">256k</param>
       <param name="acodec">libmp3lame</param>
-      <param name="abitrate">48000</param>
+      <param name="abitrate">64000</param>
       <param name="audioChannels">2</param>
       <param name="async">2</param>
       <param name="width">320</param>
@@ -115,8 +115,8 @@
       <param name="-sc_threshold">40</param>
       <param name="-i_qfactor">0.71</param>
       <param name="-bt">200k</param>
-      <param name="-maxrate">96k</param>
-      <param name="-bufsize">96k</param>
+      <param name="-maxrate">256k</param>
+      <param name="-bufsize">256k</param>
       <param name="-rc_eq">'blurCplx^(1-qComp)'</param>
       <param name="-qcomp">0.6</param>
       <param name="-qmin">10</param>
@@ -129,7 +129,7 @@
     </class>
     <loganalyzer name="org.mmbase.streams.transcoders.FFMpegAnalyzer" />
   </transcoder>
-
+  
   <transcoder
       label="lo"
       mimetype="video/*" in="v5" id="v6">
@@ -140,7 +140,45 @@
     </class>
     <loganalyzer name="org.mmbase.streams.transcoders.SegmenterAnalyzer" />
   </transcoder>
- -->
+  -->
+
+  <!-- extra mp4 example for iPad -->
+  <!--
+  <transcoder
+      label="lo"
+      mimetype="video/*" in="v1" id="v7">
+    <class name="org.mmbase.streams.transcoders.FFMpegTranscoder">
+      <param name="format">mp4</param>
+      <param name="vcodec">libx264</param>
+      <param name="bitrate">512k</param>
+      <param name="acodec">libfaac</param>
+      <param name="abitrate">96k</param>
+      <param name="audioChannels">2</param>
+      <param name="async">1</param>
+      <param name="width">320</param>
+      <param name="height">240</param>
+      
+      <param name="-flags">+loop+mv4</param>
+      <param name="-cmp">256</param>
+      <param name="-partitions">+parti4x4+parti8x8+partp4x4+partp8x8+partb8x8</param>
+      <param name="-me_method">hex</param>
+      <param name="-subq">7</param>
+      <param name="-trellis">1</param>
+      <param name="-refs">5</param>
+      <param name="-bf">0</param>
+      <param name="-flags2">+mixed_refs</param>
+      <param name="-coder">0</param>
+      <param name="-me_range">16</param>
+      <param name="-g">250</param>
+      <param name="-keyint_min">25</param>
+      <param name="-sc_threshold">40</param>
+      <param name="-i_qfactor">0.71</param>
+      <param name="-qmin">10</param>
+      <param name="-qmax">51</param>
+      <param name="-qdiff">4</param>
+    </class>
+    <loganalyzer name="org.mmbase.streams.transcoders.FFMpegAnalyzer" />
+  </transcoder> -->
  
   <!-- ffmpeg -i audio.wav -acodec libvorbis -aq 32 -ab 192k audio.ogg -->
   <transcoder mimetype="audio/*" id="a1" in="recognizer">
