@@ -45,7 +45,7 @@
        <mm:listfunction name="filteredurls">
          <c:if test="${_.available}">
            <dc:format>${fn:toLowerCase(_.format)}</dc:format>
-           <dc:identifier>http://<c:out value="${pageContext.request.serverName}" />${_.URL}</dc:identifier>
+           <dc:identifier>${_.URL}</dc:identifier>
          </c:if>
        </mm:listfunction>
        <!-- dc:rights -->
