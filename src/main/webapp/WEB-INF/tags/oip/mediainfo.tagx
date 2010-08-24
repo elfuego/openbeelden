@@ -6,7 +6,7 @@
     xmlns:oip="urn:jsptagdir:/WEB-INF/tags/oip"
     xmlns:mm="http://www.mmbase.org/mmbase-taglib-2.0">
 
-  <table border="0" class="media-info">
+  <table class="media-info">
     <tr>
       <th><fmt:message key="media.type" />:</th>
       <td>
