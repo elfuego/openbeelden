@@ -23,7 +23,7 @@
 
         <form action="${mm:link('/users')}" method="post" id="usersearch">
           <fieldset>
-            <label for="seachuser"><fmt:message key="users.search" /></label>
+            <label for="searchuser"><fmt:message key="users.search" /></label>
             <input name="qu" id="searchuser" type="text" tabindex="5" value="${qu}" />
             <input type="submit" value="Search" class="hidden" />
           </fieldset>
