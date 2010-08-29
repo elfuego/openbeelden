@@ -37,6 +37,7 @@
           <h3 class="mediatitle"><mm:field name="title" /></h3>
           <mm:field name="subtitle"><mm:isnotempty><h4>${_}</h4></mm:isnotempty></mm:field>
         </mm:nodefunction>
+        <!--
         <p class="nr_of_views">
           <mm:time time="now" id="current_month" precision="months" write="false" />
           <mm:relatednodescontainer type="stats" role="related" searchdirs="destination">
@@ -47,7 +48,7 @@
               ${_node.total} plays
             </mm:relatednodes>
           </mm:relatednodescontainer>          
-        </p>
+        </p> -->
 
         <!-- toolbar -->
         <div class="toolbar">

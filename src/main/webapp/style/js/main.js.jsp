@@ -169,7 +169,7 @@ function initPlayStats() {
         $.ajax({ 
             url: url, 
             dataType: 'html', 
-            success: function(xml) { $('p.nr_of_views').html(xml); }
+            success: function(xml) { /* $('p.nr_of_views').html(xml); */ }
         });
     });
 }
