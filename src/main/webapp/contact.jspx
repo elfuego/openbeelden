@@ -100,8 +100,7 @@
         </mm:form>
       </div>
 
-      <div class="right-column">
-      </div>
+      <div class="right-column"><jsp:text> </jsp:text></div>
     </jsp:attribute>
   </oip:html>
 </jsp:root>
