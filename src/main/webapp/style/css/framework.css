@@ -112,13 +112,12 @@ div#main
 
 #menu ul.meta li.form,
 #menu ul.meta li form,
-#menu ul.meta li fieldset,
-#menu select
-{
+#menu ul.meta li fieldset {
 	margin: 0;
 	padding: 0;
 	width: 120px;
 }
+#menu select { width: 120px; }
 
 #menu ul.meta label { display: none; }
 #menu ul.meta li a { color: #c00; }
@@ -138,6 +137,14 @@ div#main
 	width: 100%;
 	height: 24px;
 	background: #9c9c9c;
+}
+
+/* special class for webkit mobile devices */
+#footer div.static
+{
+	position: static;
+	height: 120px;
+	background-image: -webkit-gradient(linear, left top, left bottom, from(#9c9c9c), to(#fff));
 }
 
 #footer ul
