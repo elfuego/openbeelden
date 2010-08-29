@@ -151,7 +151,7 @@ dl.list dt
 	font-weight: bold;
 	width: 230px;
 }
-
+dl.thumbs dt { display: none; }
 dl.list dd.img { margin-left: 0;}
 
 dl.list dd
