@@ -52,14 +52,29 @@
               <c:when test="${(status.index + 2) % 3 == 0}"><c:set var="gridclass" value="grid first" /></c:when>
               <c:otherwise><c:set var="gridclass" value="grid" /></c:otherwise>
             </c:choose>
-            <dl class="${gridclass}">
+            <dl class="${gridclass} thumbs">
               <dt>
+                <mm:maywrite>
+                  <mm:link referids="_node@media">
+                    <mm:frameworkparam name="component">oip</mm:frameworkparam>
+                    <mm:frameworkparam name="block">user-media</mm:frameworkparam>
+                    <mm:frameworkparam name="user">${iam}</mm:frameworkparam>
+                    <a href="${_}" title="edit" class="edit">edit</a><jsp:text> </jsp:text>
+                  </mm:link>
+                </mm:maywrite>
+                <a title="${mf_title}" href="${_}">
+                  <mm:nodefunction name="translation">
+                    <mm:field name="title" escape="wrap_title" />
+                  </mm:nodefunction>
+                </a>
+              </dt>
+              <dd class="img">
                 <a title="${mf_title}" href="${_}">
                   <c:catch>
                     <oip:thumb alt="${mf_title}" />
                   </c:catch>
                 </a>
-              </dt>
+              </dd>
             </dl>
           </c:when>
           
