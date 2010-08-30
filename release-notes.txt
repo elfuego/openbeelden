@@ -1,4 +1,45 @@
-﻿
+﻿Release Notes - Open Images Platform - Version OIP 1.0.1
+--------------------------------------------------------
+
+UPGRADING 1.0 -> 1.0.1
+======================
+The builder videosources has a new field to store audio codec, named 'acodec'. You will need
+to add this field to your database before upgrading to 1.0.1 (from 1.0). 
+In MySQL that would normally be:
+
+  ALTER TABLE oi_videosources_table ADD acodec INTEGER(11);
+
+When you have MySQL configured with views, do also:
+
+  DROP VIEW oi_videosources;
+  DROP VIEW oi_videostreamsources;
+  DROP VIEW oi_videostreamsourcescaches;
+
+This release is build with MMBase 1.9.4, its release notes:
+http://www.mmbase.org/jira/secure/ReleaseNote.jspa?projectId=10000&version=10191
+
+
+** Bug
+    * [OIP-125] - OAI-PMH testing errors
+    * [OIP-132] - SiteUrlConverter warns about extensions not being locales
+    * [OIP-137] - Player error with Java 6
+    * [OIP-138] - Searching for an exact media item title, doesn't make it end up at the top of the results
+    * [OIP-140] - Using the "source" field while doing an advanced search fails to provide a result
+    * [OIP-142] - Media item won't generate an MPEG-4 H.264 version
+    * [OIP-144] - Uploading of a 'large item' of 200 MB failed
+
+** Improvement
+    * [OIP-12] - More player controls possible?
+    * [OIP-70] - Don't reload pages when favouriting a media item
+    * [OIP-97] - Some navigation, e.g. to unfold the blocks is in javascript, but is not 'persistent' in the url.
+    * [OIP-135] - Dealing with diacritics while searching
+    * [OIP-136] - Keywords in the backend aren't included in the search functionality
+    * [OIP-139] - OAI-PMH feed should offer "Tekst" in the <dc:description> field, not "Introductie"
+    * [OIP-143] - Updated "Beeld en Geluid" logo
+    * [OIP-146] - Build against and run on MMBase 1.9.4
+
+
+
 Release Notes - Open Images Platform - Version OIP 1.0
 ------------------------------------------------------
 ** Bug
