@@ -20,7 +20,7 @@
   </mm:notpresent>
   
   <!-- fields: 1st (default) ones are from mediafragments  -->
-  <mm:import id="listfields">title,subtitle,language,show,date,created,lastmodified</mm:import>
+  <mm:import id="listfields">title,language,show,date,lastmodified</mm:import>
   <mm:import id="searchfields">title,subtitle,language,show,date,intro,body,keywords</mm:import>
   <mm:import id="editfields">${searchfields},length,source,coverage,publisher,offline,online,creator,created,lastmodifier,lastmodified</mm:import>
 
