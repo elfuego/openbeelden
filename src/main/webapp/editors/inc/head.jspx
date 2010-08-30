@@ -27,7 +27,8 @@
   var editor = '<mm:link page="/editors/edit.jspx" />';
   
   $(document).ready(function() {
-      
+      $("div.mm_related").find('tr.relation').hide();
+
       /* when ready */
       $("div.mm_related").bind("mmsrRelaterReady", function (e, relater) { 
          bind(relater);
@@ -64,7 +65,7 @@
   function bind(relater) {
       if (relater.canEditrelations) {
           $(relater.div).find('tr.relation').hide();
-          
+
           /* edit node */
           $(relater.div).find('img.editnode').click(function(ev) {
               ev.stopPropagation();
