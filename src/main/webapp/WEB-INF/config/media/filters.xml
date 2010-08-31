@@ -39,11 +39,11 @@
     </config>
     <config filter="format">
       <preferredSource>
-        <source format="m3u8" />
         <source format="webm" />
         <source format="ogv" />
         <source format="ogg" />
         <source format="mp4" />
+        <source format="m3u8" />
         <source format="mp3" />
         <source format="flv" />
         <source format="avi" />
