@@ -35,7 +35,7 @@ When you have them all you can do the following commands tho install
    make
    sudo make install
    
-I download and installed several sources. Notice that several of them are non-free. You can query FFmpeg to check the status of yours.
+I've downloaded and installed several sources. Notice that several of them are non-free. Query FFmpeg to check the status of yours:
 
   ffmpeg -L
   FFmpeg version SVN-r19314, Copyright (c) 2000-2009 Fabrice Bellard, et al.

@@ -37,6 +37,7 @@ http://www.mmbase.org/jira/secure/ReleaseNote.jspa?projectId=10000&version=10191
     * [OIP-139] - OAI-PMH feed should offer "Tekst" in the <dc:description> field, not "Introductie"
     * [OIP-143] - Updated "Beeld en Geluid" logo
     * [OIP-146] - Build against and run on MMBase 1.9.4
+    * [OIP-147] - Batch transcoding page
 
 
 
