@@ -15,7 +15,7 @@
 
       <c:if test="${!empty property_gacode}">
         
-        <script type="text/javascript" src="http://www.google-analytics.com/ga.js"> </script>
+        <script type="text/javascript" src="http://www.google-analytics.com/ga.js"><jsp:text> </jsp:text></script>
         <script type="text/javascript">
           try {
           var pageTracker = _gat._getTracker("${property_gacode}");
