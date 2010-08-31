@@ -25,8 +25,7 @@
   
   <properties>
      <mmbase.version.number>1.9</mmbase.version.number>
-     <!-- <mmbase.version.postfix>-SNAPSHOT</mmbase.version.postfix> -->
-     <mmbase.version.postfix>.4</mmbase.version.postfix>
+     <mmbase.version.postfix>-SNAPSHOT</mmbase.version.postfix>
      <mmbase.version>${mmbase.version.number}${mmbase.version.postfix}</mmbase.version>
      <base.version>${mmbase.version.number}${mmbase.version.postfix}</base.version>
      <saxon.version>9.1.0.6</saxon.version>
@@ -167,8 +166,7 @@
     <dependency>
       <groupId>org.mmbase</groupId>
       <artifactId>mmbase-streams</artifactId>
-      <!-- <version>${mmbase.version}</version> -->
-      <version>1.9-SNAPSHOT</version>
+      <version>${mmbase.version}</version>
       <type>war</type>
     </dependency>
     <dependency>
