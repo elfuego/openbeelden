@@ -3,21 +3,23 @@
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="http://www.mmbase.org/xmlns/createcaches http://www.mmbase.org/xmlns/createcaches.xsd"
     >
+  <!-- minimal config, works on most hosts -->
   <localhost max_simultaneous_transcoders="1" stage="recognizer"  />
   <localhost max_simultaneous_transcoders="1" stage="transcoder" />
 
   <!--
   <server max_simultaneous_transcoders="2" host="localhost" port="1679" />
-  <server max_simultaneous_transcoders="2" host="openbeelden2.tuxic.nl" port="1679" />
+  <server max_simultaneous_transcoders="2" host="192.168.1.13" port="1679" />
   -->
 
-<!--
+  <!-- 
   <transcoder>
     <class name="org.mmbase.streams.transcoders.InfiniteTranscoder">
     </class>
   </transcoder>
- -->
+  -->
 
+  <!-- uses ffmpeg -i to recognize uploaded video, audio or image -->
   <recognizer label="source hi"
               id="recognizer" >
     <class name="org.mmbase.streams.transcoders.FFMpegRecognizer">
@@ -27,7 +29,7 @@
     </loganalyzer>
   </recognizer>
 
-
+  <!-- intermediate mpeg used as input for all other video files -->
   <transcoder label="intermediate hi"
               mimetype="video/*" id="v1" in="recognizer">
     <class name="org.mmbase.streams.transcoders.FFMpegTranscoder">
@@ -84,7 +86,28 @@
     <loganalyzer name="org.mmbase.streams.transcoders.FFMpegAnalyzer" />
   </transcoder>
 
-  <!-- example config for ts streams over cellular networks (for iPhone etc.) -->
+  <!-- config for webm/vp8, can maybe done better with vpre:
+       ffmpeg -i video.mpg -vpre libvpx_vp8-360p -b 1700k -pass 2 
+       -acodec libvorbis -ab 128k -ar 44100 -threads 0 video.webm
+  -->
+  <!--
+  <transcoder label="lo" mimetype="video/*" in="v1" id="v8">
+    <class name="org.mmbase.streams.transcoders.FFMpegTranscoder">
+      <param name="format">webm</param>
+      <param name="vcodec">libvpx</param>
+      <param name="bitrate">1024k</param>
+      <param name="acodec">libvorbis</param>
+      <param name="abitrate">128k</param>
+      <param name="-ar">44100</param>
+      <param name="-threads">0</param>
+      <param name="audioChannels">2</param>
+      <param name="async">1</param>
+    </class>
+    <loganalyzer name="org.mmbase.streams.transcoders.FFMpegAnalyzer" />
+  </transcoder>
+  -->
+  
+  <!-- config for ts streams over cellular networks (for iPhone etc.) -->
   <!--
   <transcoder
       label="lo"
@@ -142,7 +165,7 @@
   </transcoder>
   -->
 
-  <!-- extra mp4 example for iPad -->
+  <!-- mp4 iPad configuration -->
   <!--
   <transcoder
       label="lo"
@@ -178,7 +201,8 @@
       <param name="-qdiff">4</param>
     </class>
     <loganalyzer name="org.mmbase.streams.transcoders.FFMpegAnalyzer" />
-  </transcoder> -->
+  </transcoder>
+ -->
  
   <!-- ffmpeg -i audio.wav -acodec libvorbis -aq 32 -ab 192k audio.ogg -->
   <transcoder mimetype="audio/*" id="a1" in="recognizer">
