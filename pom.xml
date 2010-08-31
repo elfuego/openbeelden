@@ -7,7 +7,7 @@
 
   <groupId>eu.openimages</groupId>
   <artifactId>oip</artifactId>
-  <version>1.0.1-SNAPSHOT</version>
+  <version>1.0.2-SNAPSHOT</version>
   <packaging>war</packaging>
   <name>Open Images Platform</name>
 
@@ -25,7 +25,8 @@
   
   <properties>
      <mmbase.version.number>1.9</mmbase.version.number>
-     <mmbase.version.postfix>-SNAPSHOT</mmbase.version.postfix>
+     <!-- <mmbase.version.postfix>-SNAPSHOT</mmbase.version.postfix> -->
+     <mmbase.version.postfix>.4</mmbase.version.postfix>
      <mmbase.version>${mmbase.version.number}${mmbase.version.postfix}</mmbase.version>
      <base.version>${mmbase.version.number}${mmbase.version.postfix}</base.version>
      <saxon.version>9.1.0.6</saxon.version>
@@ -166,7 +167,8 @@
     <dependency>
       <groupId>org.mmbase</groupId>
       <artifactId>mmbase-streams</artifactId>
-      <version>${mmbase.version}</version>
+      <!-- <version>${mmbase.version}</version> -->
+      <version>1.9-SNAPSHOT</version>
       <type>war</type>
     </dependency>
     <dependency>
