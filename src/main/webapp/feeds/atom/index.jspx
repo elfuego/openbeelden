@@ -8,7 +8,6 @@
     xmlns:jsp="http://java.sun.com/JSP/Page"
     xmlns:mm="http://www.mmbase.org/mmbase-taglib-2.0">
   <jsp:directive.page session="false" />
-  <jsp:directive.page buffer="64kb" />
   <jsp:directive.page import="org.mmbase.bridge.*" />
   <mm:cloud>  
     
@@ -50,16 +49,21 @@
         <mm:import id="index">media</mm:import>
         <mm:import id="max">25</mm:import>
         <mm:import id="offset">0</mm:import>
-        <mm:import id="extraconstraints">show:EQ:1
-          <c:if test="${!empty user}">user:EQ:${user}</c:if>
-        </mm:import>
+        <mm:import id="extraconstraints">show:EQ:1</mm:import>
         <mm:import id="filter"> </mm:import>
         
         <c:choose>
           <c:when test="${empty search}"><!-- not searched, display latest -->
             <c:set var="searched" value="empty" />
-            <mm:import id="value" reset="true">${index}*</mm:import>
-            <mm:import id="fields" reset="true">indexId</mm:import>
+            <c:choose>
+              <c:when test="${!empty user}">
+                <mm:import id="value" reset="true">user:<mm:write referid="user" escape="undo" /></mm:import>
+              </c:when>
+              <c:otherwise>
+                <mm:import id="value" reset="true">${index}*</mm:import>
+                <mm:import id="fields" reset="true">indexId</mm:import>
+              </c:otherwise>
+            </c:choose>
             <mm:import id="sortfields">REVERSE:created</mm:import>
           </c:when>
           <c:otherwise>
@@ -69,14 +73,16 @@
         
 
         <mm:function
-            write="false"
-            id="total"
             module="lucene"
+            id="total"
             name="searchsize"
-            referids="index,value,fields?,filter,extraconstraints" />
+            referids="index,value,fields?,filter,extraconstraints" 
+            write="false" />
             
         <mm:nodelistfunction
-            module="lucene" name="search" id="entries"
+            module="lucene" 
+            id="entries"
+            name="search" 
             referids="index,value,fields?,sortfields?,filter,offset,max,extraconstraints" />
       
       </c:otherwise>
@@ -92,7 +98,7 @@
             ${total} search results for "<mm:write referid="search" escape="undo" />" on Open Images / ${total} zoekresultaten voor "<mm:write referid="search" escape="undo" />" op Open Beelden
           </c:when>
           <c:when test="${!empty user}">
-            Latest uploads of ${user} on Open Images / Laatste uploads van ${user} op Open Beelden
+            Latest uploads of <mm:write referid="user" escape="undo" /> on Open Images / Laatste uploads van <mm:write referid="user" escape="undo" /> op Open Beelden
           </c:when>
           <c:when test="${!empty related}">
             <mm:hasnode number="$related">
@@ -104,7 +110,7 @@
                         or nodetype eq 'imagefragments' 
                         or nodetype eq 'images'
                         }">
-                    Related items of <mm:field name="title" /> on Open Images / Gerelateerde items van <mm:field name="title" /> op Open Beelden 
+                    Related items of "<mm:field name="title" />" on Open Images / Gerelateerde items van "<mm:field name="title" />" op Open Beelden
                   </c:when>
                   <c:otherwise>No such media item.</c:otherwise>
                 </c:choose>
