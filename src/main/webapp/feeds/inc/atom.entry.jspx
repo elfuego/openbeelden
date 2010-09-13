@@ -36,7 +36,7 @@
       <mm:field name="date"><mm:time format="yyyy-MM-dd" time="${_}" />T<mm:time format="HH:mm:ss" time="${_}" />Z</mm:field>
     </published> 
     <mm:field name="intro">
-      <mm:isnotempty><summary type="text"><mm:write /></summary></mm:isnotempty>
+      <mm:isnotempty><summary type="html"><mm:write /></summary></mm:isnotempty>
     </mm:field>
     <mm:field name="body">
       <mm:isnotempty><content type="html"><mm:write /></content></mm:isnotempty>

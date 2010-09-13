@@ -79,7 +79,7 @@
   </logger>
   
   <logger name="org.mmbase.streams" >
-    <level class="&mmlevel;" value="service" />
+    <level class="&mmlevel;" value="debug" />
   </logger>
   
 <!-- 
@@ -107,11 +107,9 @@
   </logger>
  -->
 
-<!-- 
-  <logger name="eu.openimages.UsersUrlConverter" >
-    <level class="&mmlevel;" value="debug" />
+  <logger name="eu.openimages.MediaUrlConverter" >
+    <level class="&mmlevel;" value="info" />
   </logger>
- -->
 
   
 <!-- 
@@ -166,6 +164,23 @@
   <logger name="org.mmbase.util.SerializableInputStream">
     <level class="&mmlevel;" value ="info" />
   </logger>
+
+<!-- 
+  <logger name="org.mmbase.util.transformers.Asciifier">
+    <level class="&mmlevel;" value ="debug" />
+  </logger>
+ -->
+  
+<!-- 
+  <logger name="org.mmbase.datatypes.processors.BinaryFile">
+    <level class="&mmlevel;" value ="debug" />
+  </logger>
+  <logger name="org.mmbase.datatypes.handlers.html.MultiPart">
+    <level class="&mmlevel;" value ="debug" />
+  </logger>
+ -->
+
+
 
 
   <logger name="org.mmbase.storage.implementation.database">

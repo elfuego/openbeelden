@@ -57,7 +57,7 @@
             <c:set var="searched" value="empty" />
             <c:choose>
               <c:when test="${!empty user}">
-                <mm:import id="value" reset="true">user:<mm:write referid="user" escape="undo" /></mm:import>
+                <mm:import id="value" reset="true">user:<mm:write referid="user" /></mm:import>
               </c:when>
               <c:otherwise>
                 <mm:import id="value" reset="true">${index}*</mm:import>
@@ -98,7 +98,7 @@
             ${total} search results for "<mm:write referid="search" escape="undo" />" on Open Images / ${total} zoekresultaten voor "<mm:write referid="search" escape="undo" />" op Open Beelden
           </c:when>
           <c:when test="${!empty user}">
-            Latest uploads of <mm:write referid="user" escape="undo" /> on Open Images / Laatste uploads van <mm:write referid="user" escape="undo" /> op Open Beelden
+            Latest uploads of <mm:write referid="user" /> on Open Images / Laatste uploads van <mm:write referid="user" /> op Open Beelden
           </c:when>
           <c:when test="${!empty related}">
             <mm:hasnode number="$related">
