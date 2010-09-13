@@ -14,22 +14,12 @@
 
   <c:set var="w" value="${empty width ? '320' : width}" />
   <c:set var="h" value="${empty height ? '240' : height}" />
-
-  <!-- TODO: doesn't work in a war: -->
-  <c:choose>
-    <c:when test="${width eq 320 or width eq 284}">
-      <c:set var="overlay"><jsp:expression>org.mmbase.module.core.MMBaseContext.getHtmlRoot()</jsp:expression>/style/images/startoverlay-${w}x${h}.png</c:set>
-    </c:when>
-    <c:otherwise>
-      <c:set var="overlay"><jsp:expression>org.mmbase.module.core.MMBaseContext.getHtmlRoot()</jsp:expression>/style/images/startoverlay.png</c:set>
-    </c:otherwise>
-  </c:choose>
   <c:set var="poster"><mm:url absolute="true" page="/style/images/preview_video.png" /></c:set>
 
   <mm:relatednodescontainer type="images" role="related" searchdirs="destination">
     <mm:maxnumber value="1" />
     <mm:relatednodes>
-      <c:set var="template"><oip:imagecrop width="${w}" height="${h}" />+adjoin(${overlay})+flatten</c:set>
+      <c:set var="template"><oip:imagecrop width="${w}" height="${h}" /></c:set>
       <c:set var="poster"><mm:image absolute="true" template="$template" /></c:set>
     </mm:relatednodes>
   </mm:relatednodescontainer>
