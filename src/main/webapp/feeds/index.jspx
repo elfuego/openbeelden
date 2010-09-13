@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<jsp:root
+    version="2.0"
+    xmlns:jsp="http://java.sun.com/JSP/Page"
+    xmlns:c="http://java.sun.com/jsp/jstl/core"
+    xmlns:fmt="http://java.sun.com/jsp/jstl/fmt"
+    xmlns:mm="http://www.mmbase.org/mmbase-taglib-2.0"
+    xmlns:oip="urn:jsptagdir:/WEB-INF/tags/oip">
+  <oip:html cacheable="true">
+    <jsp:attribute name="body">
+
+      <div class="main-column">
+        <oip:h2>Feeds</oip:h2>
+        <ul>
+          <li><mm:link page="/feeds/atom"><a href="${_}">Atom RSS</a></mm:link></li>
+          <li>
+            <mm:link page="/feeds/oai">
+              <mm:param name="verb">Identify</mm:param>
+              <a href="${_}">OAI-PMH</a>
+            </mm:link>
+          </li>
+        </ul>
+      </div>
+
+    </jsp:attribute>
+  </oip:html>
+</jsp:root>
