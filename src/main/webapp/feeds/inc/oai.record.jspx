@@ -17,9 +17,11 @@
        <dc:creator><mm:field name="creator" /></dc:creator>
        <!-- dc:subject -->
        <mm:field name="keywords">
-         <c:forTokens items="${_}" delims="," var="subject">
-           <dc:subject><c:out value="${fn:trim(subject)}" /></dc:subject>
-         </c:forTokens>
+         <mm:isnotempty>
+           <c:forTokens items="${_}" delims="," var="subject">
+             <dc:subject><c:out value="${fn:trim(subject)}" /></dc:subject>
+           </c:forTokens>
+         </mm:isnotempty>
        </mm:field>
        <dc:description>
          <mm:field name="intro">
