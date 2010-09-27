@@ -7,6 +7,26 @@
                         http://www.mmbase.org/xmlns/builder.xsd">
 
   <!-- Relavant subset of dublin core fields -->
+  <field name="keywords">
+    <descriptions>
+      <description xml:lang="en">Comma separated list of subjects or keywords</description>
+      <description xml:lang="nl">Kommagescheiden lijst van onderwerpen of trefwoorden</description>
+    </descriptions>
+    <gui>
+      <guiname xml:lang="en">Keywords</guiname>
+      <guiname xml:lang="nl">Trefwoorden</guiname>
+    </gui>
+    <editor>
+      <positions>
+        <input>21</input>
+        <search>21</search>
+      </positions>
+    </editor>
+    <datatype base="line" xmlns="http://www.mmbase.org/xmlns/datatypes">
+      <maxLength value="511" />
+    </datatype>
+  </field>
+  
   <field name="source">
     <descriptions>
       <description xml:lang="en">Reference to a resource from which the present item is derived</description>
@@ -24,6 +44,46 @@
     </editor>
     <datatype base="eline" xmlns="http://www.mmbase.org/xmlns/datatypes">
       <maxLength value="255" />
+    </datatype>
+  </field>
+
+  <field name="identifier">
+    <descriptions>
+      <description xml:lang="en">Identifier corresponding with an external source, like catalogue id or url</description>
+      <description xml:lang="nl">Identicatie die overeenkomt met die van een externe bron, zoals een catalogusnummer of url</description>
+    </descriptions>
+    <gui>
+      <guiname xml:lang="en">Identifier</guiname>
+      <guiname xml:lang="nl">Identificatie</guiname>
+    </gui>
+    <editor>
+      <positions>
+        <input>23</input>
+        <search>23</search>
+      </positions>
+    </editor>
+    <datatype base="eline" xmlns="http://www.mmbase.org/xmlns/datatypes">
+      <maxLength value="255" />
+    </datatype>
+  </field>
+  
+  <field name="coverage">
+    <descriptions>
+      <description xml:lang="en">Comma seperated list with coverage: typically a spatial location, temporal period or jurisdiction</description>
+      <description xml:lang="nl">Kommageschieden lijst met 'coverage': over het algemeen een geografische locatie, periode of jurisdictie</description>
+    </descriptions>
+    <gui>
+      <guiname xml:lang="en">Coverage</guiname>
+      <guiname xml:lang="nl">Coverage</guiname>
+    </gui>
+    <editor>
+      <positions>
+        <input>25</input>
+        <search>25</search>
+      </positions>
+    </editor>
+    <datatype base="line" xmlns="http://www.mmbase.org/xmlns/datatypes">
+      <maxLength value="511" />
     </datatype>
   </field>
 
@@ -46,47 +106,47 @@
       <maxLength value="255" />
     </datatype>
   </field>
-
-  <field name="keywords">
+  
+  <field name="contributor">
     <descriptions>
-      <description xml:lang="en">Comma separated list of subjects or keywords</description>
-      <description xml:lang="nl">Kommagescheiden lijst van onderwerpen of trefwoorden</description>
+      <description xml:lang="en">Someone or organisation that made contributions to the resource.</description>
+      <description xml:lang="nl">Organisaties of personen (contributor) die bijdragen aan dit werk leverden.</description>
     </descriptions>
     <gui>
-      <guiname xml:lang="en">Keywords</guiname>
-      <guiname xml:lang="nl">Trefwoorden</guiname>
+      <guiname xml:lang="en">Contributor</guiname>
+      <guiname xml:lang="nl">Bijdragen</guiname>
     </gui>
     <editor>
       <positions>
-        <input>21</input>
-        <search>21</search>
+        <input>28</input>
+        <search>28</search>
       </positions>
     </editor>
-    <datatype base="line" xmlns="http://www.mmbase.org/xmlns/datatypes">
-      <maxLength value="511" />
+    <datatype base="eline" xmlns="http://www.mmbase.org/xmlns/datatypes">
+      <maxLength value="255" />
     </datatype>
   </field>
 
-  <field name="coverage">
+  <field name="relation">
     <descriptions>
-      <description xml:lang="en">Comma seperated list with coverage: typically a spatial location, temporal period or jurisdiction</description>
-      <description xml:lang="nl">Kommageschieden lijst met 'coverage': over het algemeen een geografische locatie, periode of jurisdictie</description>
+      <description xml:lang="en">A related resource</description>
+      <description xml:lang="nl">Gerelateerd werk, gerelateerde bronnen</description>
     </descriptions>
     <gui>
-      <guiname xml:lang="en">Coverage</guiname>
-      <guiname xml:lang="nl">Coverage</guiname>
+      <guiname xml:lang="en">Relation</guiname>
+      <guiname xml:lang="nl">Relaties</guiname>
     </gui>
     <editor>
       <positions>
-        <input>25</input>
-        <search>25</search>
+        <input>29</input>
+        <search>29</search>
       </positions>
     </editor>
-    <datatype base="line" xmlns="http://www.mmbase.org/xmlns/datatypes">
-      <maxLength value="511" />
+    <datatype base="field" xmlns="http://www.mmbase.org/xmlns/datatypes">
+      <maxLength value="1024" />
     </datatype>
   </field>
-
+  
   <field name="date">
     <descriptions>
       <description xml:lang="nl">Publicatiedatum, in veel gevallen de creatiedatum</description>
