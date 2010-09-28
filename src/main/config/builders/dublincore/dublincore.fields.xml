@@ -7,6 +7,33 @@
                         http://www.mmbase.org/xmlns/builder.xsd">
 
   <!-- Relavant subset of dublin core fields -->
+  <field name="dc_creator">
+    <descriptions>
+      <description xml:lang="en">Creator of the resource (dc:creator).</description>
+      <description xml:lang="nl">Maker van dit werk (dc:creator).</description>
+    </descriptions>
+    <gui>
+      <guiname xml:lang="en">Creator</guiname>
+      <guiname xml:lang="nl">Maker</guiname>
+    </gui>
+    <editor>
+      <positions>
+        <input>20</input>
+        <search>20</search>
+      </positions>
+    </editor>
+    <datatype base="eline" xmlns="http://www.mmbase.org/xmlns/datatypes">
+      <required value="false" />
+      <minLength value="5" enforce="never" />
+      <maxLength value="255" />
+      <commitprocessor>
+        <class name="org.mmbase.datatypes.processors.FunctionValueIfEmptyCommitProcessor">
+          <param name="functionName">getPublisher</param>
+        </class>
+      </commitprocessor>
+    </datatype> 
+  </field>
+  
   <field name="keywords">
     <descriptions>
       <description xml:lang="en">Point comma separated list of subjects or keywords (dc:subject).</description>
@@ -102,7 +129,6 @@
         <search>27</search>
       </positions>
     </editor>
-
     <datatype base="eline" xmlns="http://www.mmbase.org/xmlns/datatypes">
       <required value="false" />
       <minLength value="5" enforce="never" />
