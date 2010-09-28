@@ -46,8 +46,8 @@ public final class DublinCoreFunctions {
     
 
     /**
-     * Generate default value for dc:creator and/or dc:publisherbased on firstname, suffix 
-     * and lastname (Vliet, Paul van) or just username if none of these is known.
+     * Generate default value for dc:creator and/or dc:publisher based on firstname, suffix 
+     * and lastname (f.e. Vliet, Paul van) or just username if none of these is known.
      */
     public String getPublisher() {
 
@@ -59,25 +59,37 @@ public final class DublinCoreFunctions {
         Queries.addConstraint(q, Queries.createConstraint(q, "username", FieldCompareConstraint.EQUAL, username));
         Node user = mmbaseusers.getList(q).get(0);
         
-        String firstname = user.getStringValue("firstname");
-        String suffix    = user.getStringValue("suffix");
-        String lastname  = user.getStringValue("lastname");
-        
         StringBuilder sb = new StringBuilder();
         
-        sb.append(lastname);
-        if (sb.length() > 0) sb.append(", ");
-        sb.append(firstname);
-        if (sb.length() > 0) sb.append(" ");
-        sb.append(suffix);
+        if (user != null) {
+            String firstname = user.getStringValue("firstname");
+            String suffix    = user.getStringValue("suffix");
+            String lastname  = user.getStringValue("lastname");
+            boolean organisation = user.getBooleanValue("organisation");
+            
+            if (organisation) {     // Netherlands Institute for Sound and Vision
+                sb.append(firstname);
+                if (sb.length() > 0) sb.append(" ");
+                sb.append(suffix);
+                if (sb.length() > 0) sb.append(" ");
+                sb.append(lastname);
+            } else {                // Vliet, Paul van
+                sb.append(lastname);
+                if (sb.length() > 0) sb.append(", ");
+                sb.append(firstname);
+                if (sb.length() > 0) sb.append(" ");
+                sb.append(suffix);
+            }
+        } else {
+            log.warn("user null");
+        }
         if (sb.length() == 0) { 
             sb.append(node.getCloud().getUser().getIdentifier());
         }
         
-        log.debug("setting field to: " + sb.toString());
+        log.debug("returning field value: " + sb.toString());
         
         return sb.toString();
-
     }
     
 
