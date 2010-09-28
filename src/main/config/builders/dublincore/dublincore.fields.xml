@@ -9,8 +9,8 @@
   <!-- Relavant subset of dublin core fields -->
   <field name="keywords">
     <descriptions>
-      <description xml:lang="en">Comma separated list of subjects or keywords</description>
-      <description xml:lang="nl">Kommagescheiden lijst van onderwerpen of trefwoorden</description>
+      <description xml:lang="en">Point comma separated list of subjects or keywords (dc:subject).</description>
+      <description xml:lang="nl">Puntkomma gescheiden lijst van onderwerpen of trefwoorden (dc:subject).</description>
     </descriptions>
     <gui>
       <guiname xml:lang="en">Keywords</guiname>
@@ -29,8 +29,8 @@
   
   <field name="source">
     <descriptions>
-      <description xml:lang="en">Reference to a resource from which the present item is derived</description>
-      <description xml:lang="nl">Referentie naar de (oorspronkelijke) bron van dit item</description>
+      <description xml:lang="en">Reference to a resource from which the present item is derived (dc:source).</description>
+      <description xml:lang="nl">Referentie naar de (oorspronkelijke) bron van dit item (dc:source).</description>
     </descriptions>
     <gui>
       <guiname xml:lang="en">Source</guiname>
@@ -49,8 +49,8 @@
 
   <field name="identifier">
     <descriptions>
-      <description xml:lang="en">Identifier corresponding with an external source, like catalogue id or url</description>
-      <description xml:lang="nl">Identicatie die overeenkomt met die van een externe bron, zoals een catalogusnummer of url</description>
+      <description xml:lang="en">Identifier corresponding with an external source, like catalogue id or url (dc:identifier).</description>
+      <description xml:lang="nl">Identicatie die overeenkomt met die van een externe bron, zoals een catalogusnummer of url (dc:identifier).</description>
     </descriptions>
     <gui>
       <guiname xml:lang="en">Identifier</guiname>
@@ -69,8 +69,8 @@
   
   <field name="coverage">
     <descriptions>
-      <description xml:lang="en">Comma seperated list with coverage: typically a spatial location, temporal period or jurisdiction</description>
-      <description xml:lang="nl">Kommageschieden lijst met 'coverage': over het algemeen een geografische locatie, periode of jurisdictie</description>
+      <description xml:lang="en">Point comma separated list with coverage: typically a spatial location, temporal period or jurisdiction (dc:coverage).</description>
+      <description xml:lang="nl">Puntkomma gescheiden lijst met 'coverage': over het algemeen een geografische locatie, periode of jurisdictie (dc:coverage).</description>
     </descriptions>
     <gui>
       <guiname xml:lang="en">Coverage</guiname>
@@ -89,8 +89,8 @@
 
   <field name="publisher">
     <descriptions>
-      <description xml:lang="en">Entity (normally an organisation) responsible for making the resource available</description>
-      <description xml:lang="nl">De voor dit item verantwoordelijk entiteit (meestal een organisatie)</description>
+      <description xml:lang="en">Entity - typically an organisation - responsible for making the resource available (dc:publisher).</description>
+      <description xml:lang="nl">De voor dit item verantwoordelijk entiteit, meestal een organisatie (dc:publisher).</description>
     </descriptions>
     <gui>
       <guiname xml:lang="en">Publisher</guiname>
@@ -102,15 +102,23 @@
         <search>27</search>
       </positions>
     </editor>
+
     <datatype base="eline" xmlns="http://www.mmbase.org/xmlns/datatypes">
+      <required value="false" />
+      <minLength value="5" enforce="never" />
       <maxLength value="255" />
-    </datatype>
+      <commitprocessor>
+        <class name="org.mmbase.datatypes.processors.FunctionValueIfEmptyCommitProcessor">
+          <param name="functionName">getPublisher</param>
+        </class>
+      </commitprocessor>
+    </datatype> 
   </field>
   
   <field name="contributor">
     <descriptions>
-      <description xml:lang="en">Someone or organisation that made contributions to the resource.</description>
-      <description xml:lang="nl">Organisaties of personen (contributor) die bijdragen aan dit werk leverden.</description>
+      <description xml:lang="en">Point comma separated list with people or organisations that made contributions to the resource (dc:contributor).</description>
+      <description xml:lang="nl">Puntkommagescheiden lijst met organisaties of personen die bijdragen aan dit werk leverden (dc:contributor).</description>
     </descriptions>
     <gui>
       <guiname xml:lang="en">Contributor</guiname>
@@ -129,8 +137,8 @@
 
   <field name="relation">
     <descriptions>
-      <description xml:lang="en">A related resource</description>
-      <description xml:lang="nl">Gerelateerd werk, gerelateerde bronnen</description>
+      <description xml:lang="en">Related resources or related works (dc:relation).</description>
+      <description xml:lang="nl">Gerelateerd werk, gerelateerde bronnen (dc:relation).</description>
     </descriptions>
     <gui>
       <guiname xml:lang="en">Relation</guiname>
@@ -149,8 +157,8 @@
   
   <field name="date">
     <descriptions>
-      <description xml:lang="nl">Publicatiedatum, in veel gevallen de creatiedatum</description>
-      <description xml:lang="en">Date of publication, in most cases the creation date</description>
+      <description xml:lang="nl">Publicatiedatum, in veel gevallen de creatiedatum (dc:date).</description>
+      <description xml:lang="en">Date of publication, in most cases the creation date (dc:date).</description>
     </descriptions>
     <gui>
       <guiname xml:lang="nl">Datum</guiname>

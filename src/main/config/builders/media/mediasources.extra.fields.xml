@@ -5,6 +5,7 @@
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="http://www.mmbase.org/xmlns/builder
                         http://www.mmbase.org/xmlns/builder.xsd" >
+
   <field name="label">
     <descriptions>
       <description xml:lang="en">An extra label which can be used to describe or filter this source item</description>
@@ -24,4 +25,9 @@
       <maxLength value="255" />
     </datatype>
   </field>
+  
+<!-- 
+  <xi:include href="http://www.mmbase.org/builders/oip/language.field.xml" />
+ -->
+  
 </fieldlist>

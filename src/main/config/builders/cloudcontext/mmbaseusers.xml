@@ -29,6 +29,10 @@
     </field>
     
     <field name="password">
+      <descriptions>
+        <description xml:lang="en">Password for this account</description>
+        <description xml:lang="nl">Wachtwoord voor dit account</description>
+      </descriptions>
       <gui>
         <guiname xml:lang="nl">Wachtwoord</guiname>
         <guiname xml:lang="eo">Pasvorto</guiname>
@@ -44,17 +48,50 @@
           <description xml:lang="en">A password is required and should be at least 6 characters.</description>
         </minLength>
         <maxLength value="32">
-          <description xml:lang="nl">Wachtwoord is te lang</description>
-          <description xml:lang="en">Password is too long</description>
+          <description xml:lang="nl">Het wachtwoord is te lang, het mag niet langer zijn dan 32 karakters.</description>
+          <description xml:lang="en">Your password is too long, it should be no more then 32 characters.</description>
         </maxLength>
       </datatype>
     </field>
 
+    <field name="organisation">
+      <descriptions>
+        <description xml:lang="en">Specify whether this is an organisation, institution or company.</description>
+        <description xml:lang="nl">Geeft aan of dit een organisatie, instituut of bedrijf is.</description>
+      </descriptions>
+      <gui>
+        <guiname xml:lang="nl">Organisatie</guiname>
+        <guiname xml:lang="en">Organisation</guiname>
+      </gui>
+      <editor>
+        <positions>
+          <list>-1</list>
+          <input>5</input>
+          <search>5</search>
+        </positions>
+      </editor>
+      <datatype base="yesno" xmlns="http://www.mmbase.org/xmlns/datatypes" >
+        <default value="false" />
+        <required value="false" />
+      </datatype>
+    </field>
+    
     <field name="wantmail">
+      <descriptions>
+        <description xml:lang="en">Wants to receive email from Open Images</description>
+        <description xml:lang="nl">Wil e-mail ontvangen van Open Beelden</description>
+      </descriptions>
       <gui>
         <guiname xml:lang="nl">Wil mail ontvangen</guiname>
         <guiname xml:lang="en">Wants to receive mail</guiname>
       </gui>
+      <editor>
+        <positions>
+          <list>-1</list>
+          <input>29</input>
+          <search>29</search>
+        </positions>
+      </editor>
       <datatype base="yesno" xmlns="http://www.mmbase.org/xmlns/datatypes" >
         <default value="true" />
         <required value="true" />
@@ -80,6 +117,10 @@
     </field>
 
     <field name="email">
+      <descriptions>
+        <description xml:lang="en">Email adress</description>
+        <description xml:lang="nl">E-mail adres</description>
+      </descriptions>
       <gui>
         <guiname xml:lang="nl">E-mail</guiname>
         <guiname xml:lang="en">Email</guiname>
@@ -92,6 +133,10 @@
     </field>
 
     <field name="verify_email" state="system">
+      <descriptions>
+        <description xml:lang="en">Verify your e-mail address.</description>
+        <description xml:lang="nl">Bevestig het email adres.</description>
+      </descriptions>
       <gui>
         <guiname xml:lang="nl">Controleveld e-mail</guiname>
         <guiname xml:lang="en">Verify email</guiname>
@@ -105,9 +150,6 @@
           <class name="org.mmbase.datatypes.VerifyEmailProcessor">
             <param name="textBundle" value="eu.openimages.verifyemailtemplate" />
             <param name="url"        value="/usersoip/thanks.jspx" />
-            <!--
-            <param name="includeUrl" value="/usersoip/verifyMail.jspx" />
-            -->
           </class>
         </commitprocessor>
       </datatype>
