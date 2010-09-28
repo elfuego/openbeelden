@@ -15,6 +15,7 @@ need similar statements:
   DROP VIEW oi_audiostreamsources;
   
   ALTER TABLE oi_mediafragments_table ADD contributor VARCHAR(255);
+  ALTER TABLE oi_mediafragments_table ADD dc_creator VARCHAR(255);
   ALTER TABLE oi_mediafragments_table ADD identifier VARCHAR(255);
   ALTER TABLE oi_mediafragments_table ADD relation TEXT;
   
