@@ -10,22 +10,22 @@ need similar statements:
 
   ALTER TABLE oi_mediastreamsources_table ADD language CHAR(12);
   ALTER TABLE oi_audiostreamsources_table ADD language CHAR(12);
-  
   DROP VIEW oi_videostreamsources;
   DROP VIEW oi_audiostreamsources;
+
+  ALTER TABLE oi_imagesources_table ADD language CHAR(12);
+  DROP VIEW oi_imagesources;
   
   ALTER TABLE oi_mediafragments_table ADD contributor VARCHAR(255);
   ALTER TABLE oi_mediafragments_table ADD dc_creator VARCHAR(255);
   ALTER TABLE oi_mediafragments_table ADD identifier VARCHAR(255);
   ALTER TABLE oi_mediafragments_table ADD relation TEXT;
-  
   DROP VIEW oi_mediafragments;
   DROP VIEW oi_videofragments;
   DROP VIEW oi_audiofragments;
   DROP VIEW oi_imagefragments;
 
   ALTER TABLE oi_mmbaseusers_table ADD organisation BIT(1);
-  
   DROP VIEW oi_mmbaseusers;
 
 UPGRADING 1.0 -> 1.0.1
