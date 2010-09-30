@@ -1,0 +1,31 @@
+<?xml version="1.0"?>
+<field
+    xmlns="http://www.mmbase.org/xmlns/builder"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.mmbase.org/xmlns/builder
+                        http://www.mmbase.org/xmlns/builder.xsd"
+    name="language">
+
+    <descriptions>
+      <description xml:lang="en">Language of media item itself, not its description.</description>
+      <description xml:lang="nl">Taal van het media item, niet z'n beschrijving.</description>
+    </descriptions>
+    <gui>
+      <guiname xml:lang="nl">Taal</guiname>
+      <guiname xml:lang="en">Language</guiname>
+    </gui>
+    <editor>
+      <positions>
+        <input>2</input>
+        <list>2</list>
+        <search>2</search>
+      </positions>
+    </editor>
+    <datatype base="iso639" xmlns="http://www.mmbase.org/xmlns/datatypes">
+  
+      <property name="inSelf" value="true" />
+      <required value="false" />
+      
+    </datatype>
+</field>
+  
