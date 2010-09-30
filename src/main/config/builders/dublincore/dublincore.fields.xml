@@ -23,14 +23,18 @@
       </positions>
     </editor>
     <datatype base="eline" xmlns="http://www.mmbase.org/xmlns/datatypes">
-      <required value="false" />
-      <minLength value="5" enforce="never" />
+      <required value="true">
+        <description xml:lang="en">... is required.</description>
+        <description xml:lang="nl">... is verplicht.</description>
+      </required>
+      <minLength value="3" enforce="onvalidate">
+        <description xml:lang="en">... is required and should be at least 3 characters.</description>        
+        <description xml:lang="nl">... is verplicht en moet tenminste 3 karakters lang zijn.</description>
+      </minLength>
       <maxLength value="255" />
-      <commitprocessor>
-        <class name="org.mmbase.datatypes.processors.FunctionValueIfEmptyCommitProcessor">
-          <param name="functionName">getPublisher</param>
-        </class>
-      </commitprocessor>
+      <getprocessor>
+        <class name="eu.openimages.processors.CreatorName" />
+      </getprocessor>
     </datatype> 
   </field>
   
@@ -129,16 +133,22 @@
         <search>27</search>
       </positions>
     </editor>
+
     <datatype base="eline" xmlns="http://www.mmbase.org/xmlns/datatypes">
-      <required value="false" />
-      <minLength value="5" enforce="never" />
+      <required value="true">
+        <description xml:lang="en">... is required.</description>
+        <description xml:lang="nl">... is verplicht.</description>
+      </required>
+      <minLength value="3" enforce="onvalidate">
+        <description xml:lang="en">... is required and should be at least 3 characters.</description>        
+        <description xml:lang="nl">... is verplicht en moet tenminste 3 karakters lang zijn.</description>
+      </minLength>
       <maxLength value="255" />
-      <commitprocessor>
-        <class name="org.mmbase.datatypes.processors.FunctionValueIfEmptyCommitProcessor">
-          <param name="functionName">getPublisher</param>
-        </class>
-      </commitprocessor>
+      <getprocessor>
+        <class name="eu.openimages.processors.CreatorName" />
+      </getprocessor>
     </datatype> 
+  
   </field>
   
   <field name="contributor">
