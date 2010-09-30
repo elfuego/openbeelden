@@ -664,3 +664,25 @@ body.home p.logobeng
 }
 
 body.home p.logobeng img { margin-top: 8px; }
+
+h4.plusfields
+{
+	padding-left: 16px;
+	background-image: url(images/icon_plus.gif);
+	background-repeat: no-repeat;
+	background-position: left 4px;
+	border-bottom: 1px #555 solid;
+	padding-bottom: 2px;
+}
+
+h4.plusfields.open { background-image: url(images/icon_minus.gif); }
+
+h4.plusfields a:link { color: #555; }
+
+fieldset.plus
+{
+	padding: 6px 0;
+	border-bottom: 1px #555 solid;
+}
+
+

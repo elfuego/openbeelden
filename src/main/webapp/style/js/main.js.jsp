@@ -174,6 +174,16 @@ function initPlayStats() {
     });
 }
 
+function initPlusfields() {
+    $('fieldset.plus').hide();
+
+    $('h4.plusfields').find('a').click(function(ev) {
+        var link = ev.target.href;
+        $( link.substring(link.indexOf("#")) ).slideToggle('slow');
+        $(this).closest('h4').toggleClass('open');
+    });
+}
+
 $(document).ready(function() {
     initLangSwitch();
     initClearMsg();
@@ -184,6 +194,7 @@ $(document).ready(function() {
     initClose();
     initTabs('tabs');
     initTabs('usertabs');
+    initPlusfields();
     initFieldInfos();
     initBlank();
     staticFooter();

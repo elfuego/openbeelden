@@ -34,3 +34,4 @@ select.mm_datetime_minute { width: auto; }
     display: block;
 }
 
+.mm_validate.invalid { /* border: 1px solid #CE8A8A; */ }
