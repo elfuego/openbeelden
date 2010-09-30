@@ -18,7 +18,7 @@
         validator.prefetchNodeManager('mediafragments');
         validator.lang = "${requestScope['javax.servlet.jsp.jstl.fmt.locale.request']}";
         validator.validateHook = function(valid) {
-            //document.getElementById('submit').disabled = this.invalidElements != 0;
+            document.getElementById('submit').disabled = this.invalidElements != 0;
         }
         validator.setup(document.getElementById("${requestScope['org.mmbase.componentId']}"));
       </script>
@@ -32,13 +32,13 @@
       <mm:node number="${media}">
         
         <mm:hasrank maxvalue="site user">
-          <c:set var="fields">title,language,subtitle,intro,body,keywords,source,date,created,lastmodified</c:set>
+          <c:set var="fields">title,subtitle,language,dc_creator,intro,body,publisher,date</c:set>
         </mm:hasrank>
         <mm:hasrank minvalue="project manager">
-          <c:set var="fields">title,show,language,subtitle,intro,body,keywords,source,date,created,lastmodified</c:set>
+          <c:set var="fields">title,show,subtitle,language,dc_creator,intro,body,publisher,date</c:set>
         </mm:hasrank>
         
-        <oip:form fields="${fields}" >
+        <oip:form fields="${fields}" plusfields="keywords,source,identifier,contributor,relation,coverage,created,lastmodified">
           <jsp:attribute name="action"><mm:url page="user-media" referids="n,media" absolute="true" /></jsp:attribute>
         </oip:form>
 

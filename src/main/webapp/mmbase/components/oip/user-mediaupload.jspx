@@ -21,10 +21,17 @@
           if (document.getElementById('submit_upload') != undefined) {
               document.getElementById('submit_upload').disabled = this.invalidElements != 0;
           }
+          if (document.getElementById('submit2') != undefined) {
+              document.getElementById('submit2').disabled = this.invalidElements != 0;
+          }
       }
       validator.setup(document.getElementById("${requestScope['org.mmbase.componentId']}"));
-      Widgets.prototype.labelsToInputs("form#upload_form label");
+      //Widgets.prototype.labelsToInputs("#upload_form label");
     </script>
+
+      <script type="text/javascript">
+        Widgets.prototype.labelsToInputs("#upload_form label");
+      </script>
 
     <oip:h3>Upload</oip:h3>
 
@@ -36,22 +43,22 @@
           <mm:createnode id="newsource" type="streamsources" commitonclose="false">
             <fieldset>
               <mm:fieldlist fields="url" id="urlfield">
-                <mm:fieldinfo type="input" />
                 <mm:fieldinfo type="errors" />
+                <mm:fieldinfo type="input" />
               </mm:fieldlist>
               <mm:fieldlist fields="title" id="field">
                 <mm:fieldinfo type="forid">
                   <label for="${_}"><mm:fieldinfo type="guiname" /></label>
-                  <!-- <p class="info"><mm:fieldinfo type="description" escape="inline" /></p> -->
+                  <p class="info"><mm:fieldinfo type="description" escape="inline" /></p>
                 </mm:fieldinfo>
-                <mm:fieldinfo type="input" />
                 <mm:fieldinfo type="errors" />
+                <mm:fieldinfo type="input" />
               </mm:fieldlist>
             </fieldset>
             <fieldset class="hidden">
               <mm:fieldlist fields="mediaprovider">
-                <mm:fieldinfo type="input" />
                 <mm:fieldinfo type="errors" />
+                <mm:fieldinfo type="input" />
               </mm:fieldlist>
             </fieldset>
           </mm:createnode>
@@ -103,12 +110,13 @@
           <mm:form page="$editlink">
             <mm:node number="$media" id="medianode">
               <fieldset>
-                <mm:fieldlist fields="title,language,subtitle,intro">
+                <mm:fieldlist fields="title,dc_creator,subtitle,language,intro,date">
                   <mm:fieldinfo type="forid">
                     <label for="${_}"><mm:fieldinfo type="guiname" /></label>
                   </mm:fieldinfo>
-                  <mm:fieldinfo type="input" />
+                  <p class="info"><mm:fieldinfo type="description" escape="inline" /></p>
                   <mm:fieldinfo type="errors" />
+                  <mm:fieldinfo type="input" />
                 </mm:fieldlist>
               </fieldset>
 
@@ -149,7 +157,7 @@
 
             <fieldset>
               <c:set var="button_save"><fmt:message key="users.save" /></c:set>
-              <input type="submit" name="submit" value="${button_save}" class="submit" />
+              <input type="submit" id="submit2" name="submit" value="${button_save}" class="submit" />
             </fieldset>
           </mm:form>
 
