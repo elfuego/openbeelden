@@ -40,11 +40,6 @@
 
   <functionlist>
     <xi:include href="http://www.mmbase.org/builders/oip/translation.function.xml" />
-
-    <function key="getPublisher" name="getPublisher">
-      <class>eu.openimages.DublinCoreFunctions</class>
-    </function>
-
   </functionlist>
 
 </builder>
