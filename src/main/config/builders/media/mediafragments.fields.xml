@@ -63,7 +63,7 @@
     </gui>
     <datatype base="field" xmlns="http://www.mmbase.org/xmlns/datatypes">
 
-      <required value="true">
+      <required value="true" enforce="never">
         <description xml:lang="en">... is required.</description>
         <description xml:lang="nl">... is verplicht.</description>
       </required>
