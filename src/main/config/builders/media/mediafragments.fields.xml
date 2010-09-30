@@ -67,9 +67,9 @@
         <description xml:lang="en">... is required.</description>
         <description xml:lang="nl">... is verplicht.</description>
       </required>
-      <minLength value="1" enforce="onvalidate">
-        <description xml:lang="en">... is required.</description>
-        <description xml:lang="nl">... is verplicht.</description>
+      <minLength value="3" enforce="onvalidate">
+        <description xml:lang="en">... is required, at least 3 characters.</description>
+        <description xml:lang="nl">... is verplicht, tenminste 3 karakters.</description>
       </minLength>
 
       <maxLength value="2048" enforce="never" />
