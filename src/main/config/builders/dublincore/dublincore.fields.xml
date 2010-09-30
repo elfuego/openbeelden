@@ -28,8 +28,8 @@
         <description xml:lang="nl">... is verplicht.</description>
       </required>
       <minLength value="3" enforce="onvalidate">
-        <description xml:lang="en">... is required and should be at least 3 characters.</description>        
-        <description xml:lang="nl">... is verplicht en moet tenminste 3 karakters lang zijn.</description>
+        <description xml:lang="en">... is required, at least 3 characters.</description>        
+        <description xml:lang="nl">... is verplicht, tenminste 3 karakters.</description>
       </minLength>
       <maxLength value="255" />
       <getprocessor>
@@ -140,8 +140,8 @@
         <description xml:lang="nl">... is verplicht.</description>
       </required>
       <minLength value="3" enforce="onvalidate">
-        <description xml:lang="en">... is required and should be at least 3 characters.</description>        
-        <description xml:lang="nl">... is verplicht en moet tenminste 3 karakters lang zijn.</description>
+        <description xml:lang="en">... is required, at least 3 characters.</description>        
+        <description xml:lang="nl">... is verplicht, tenminste 3 karakters.</description>
       </minLength>
       <maxLength value="255" />
       <getprocessor>
