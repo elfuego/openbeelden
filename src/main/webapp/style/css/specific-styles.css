@@ -604,27 +604,6 @@ a.close
 #popup-license p { clear: both; }
 
 
-/* mmbase styles */
-.mm_form { clear: both; }
-
-.mm_check_error {
-    color: #C00;
-    font-size: 1em;
-}
-
-select.mm_datetime_day, 
-select.mm_datetime_month, 
-select.mm_datetime_year, 
-select.mm_datetime_hour, 
-select.mm_datetime_minute { width: auto; } 
-
-.contact form.notsubmitted div.mm_check_error,
-.user-create form.notsubmitted div.mm_check_error, 
-.reset-password form.notsubmitted div.mm_check_error {
-    color: #666;
-    display: none;
-}
-
 div.legaltext
 {
 	height: 400px;
@@ -637,12 +616,6 @@ div.legaltext
 	width: 312px;
 }
 div.legaltext a:link, div.legaltext a:visited { color: #666; }
-
-.contact form.notsubmitted div.mm_check_updated,
-.user-create form.notsubmitted div.mm_check_updated,
-.reset-password form.notsubmitted div.mm_check_updated {
-    display: block;
-}
 
 div.progressInfo
 {

@@ -1,0 +1,36 @@
+/**
+* @author   Open Images Platform
+* @since    OIP v.1.0.2, October 2010
+* @name     Stylesheet for all mmbase taglib styles starting with mm_
+* @version  '$Id: specific-styles.css 43190 2010-08-29 12:16:41Z andre $'
+*/
+
+
+.mm_form { clear: both; }
+
+form.mm_form label { cursor: help; }
+
+.mm_check_error {
+    color: #C00;
+    font-size: 1em;
+}
+
+select.mm_datetime_day, 
+select.mm_datetime_month, 
+select.mm_datetime_year, 
+select.mm_datetime_hour, 
+select.mm_datetime_minute { width: auto; } 
+
+.contact form.notsubmitted div.mm_check_error,
+.user-create form.notsubmitted div.mm_check_error, 
+.reset-password form.notsubmitted div.mm_check_error {
+    color: #666;
+    display: none;
+}
+
+.contact form.notsubmitted div.mm_check_updated,
+.user-create form.notsubmitted div.mm_check_updated,
+.reset-password form.notsubmitted div.mm_check_updated {
+    display: block;
+}
+

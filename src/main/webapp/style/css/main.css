@@ -7,6 +7,7 @@
 
 @import url("framework.css");
 @import url("specific-styles.css");
+@import url("mmbase.css");
 @import url("components.css");
 @import url("smallscreen.css");
 
@@ -205,7 +206,6 @@ label
 	display: block;
 }
 
-form.mm_form label { cursor: help; }
 form p.info
 {
 	display: none;
