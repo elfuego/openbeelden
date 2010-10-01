@@ -15,7 +15,6 @@
         validator.validateHook = function(valid) {
             document.getElementById('submit').disabled = this.invalidElements != 0;
         }
-        Widgets.prototype.labelsToInputs("#contactform label");
       </script>
     </jsp:attribute>
     <jsp:attribute name="styleClass">contact</jsp:attribute>
@@ -61,10 +60,12 @@
           <mm:import id="buffer">
             <mm:createnode type="email" id="email" commitonclose="false">
               <mm:setfield name="to">${property_to_email}</mm:setfield>
-              <fieldset>
+              <fieldset class="labelininput">
                 <mm:fieldlist fields="from,subject,body">
                   <mm:fieldinfo type="forid">
-                    <label for="${_}"><mm:fieldinfo type="guiname" /></label>
+                    <label for="${_}">
+                      <span><mm:fieldinfo type="guiname" /></span>
+                    </label>
                   </mm:fieldinfo>
                   <mm:fieldinfo type="input" />
                   <mm:fieldinfo type="errors" />
