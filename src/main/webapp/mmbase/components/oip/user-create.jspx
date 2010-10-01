@@ -21,7 +21,6 @@
         document.getElementById('submit_registration').disabled = this.invalidElements != 0;
         }
         validator.setup(document.getElementById("${requestScope['org.mmbase.componentId']}"));
-        Widgets.prototype.labelsToInputs(".c_oip.b_user-create label", {emptyisuntouched: true});
       </script>
       
       <mm:import externid="submit_registration" />
@@ -33,10 +32,10 @@
 
         <mm:import id="form">
           <mm:createnode id="newuser" type="mmbaseusers" commitonclose="false">
-            <fieldset>
+            <fieldset class="labelininput">
               <mm:fieldlist fields="username,password,confirmpassword,email">
                 <mm:fieldinfo type="forid">
-                  <label for="${_}"><mm:fieldinfo type="guiname" /></label>
+                  <label for="${_}"><span><mm:fieldinfo type="guiname" /></span></label>
                 </mm:fieldinfo>
                 <mm:fieldinfo type="input" />
                 <mm:fieldinfo type="errors" />

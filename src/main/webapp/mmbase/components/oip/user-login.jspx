@@ -11,10 +11,6 @@
   <div
       class="mm_c c_oip b_user-login ${requestScope.className}"
       id="${requestScope['org.mmbase.componentId']}">
-
-      <script type="text/javascript">
-        Widgets.prototype.labelsToInputs("#loginform label");
-      </script>
       
       <mm:import externid="username" />
       <mm:import externid="password" />
@@ -49,11 +45,15 @@
       <c:if test="${empty submit_login or ! empty error}">
         <mm:url id="link" write="false" />
         <form method="post" action="${link}" id="loginform">
-          <fieldset>
+          <fieldset class="labelininput">
             <input type="hidden" name="referrer" value="${referrer}" />
-            <label for="username"><fmt:message key="login.account_name" /></label>
+            <label for="username">
+              <span><fmt:message key="login.account_name" /></span>
+            </label>
             <input id="username" name="username" value="${username}" />
-            <label for="password"><fmt:message key="login.password" /></label>
+            <label for="password">
+              <span><fmt:message key="login.password" /></span>
+            </label>
             <input id="password" name="password" value="${password}" type="password" />
             <fmt:message key="login.login" var="login" />
             <p>
