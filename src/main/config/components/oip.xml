@@ -59,7 +59,6 @@
     <description xml:lang="en">Registration form for new users</description>
     <description xml:lang="nl">Formulier waar een gebruiker zich kan registreren</description>
     <xi:include href="http://www.mmbase.org/components/validation.head.xml" />
-    <xi:include href="http://www.mmbase.org/components/widgets.head.xml" />
     <body jsp="user-create.jspx" />
   </block>
 
@@ -71,7 +70,6 @@
     <description xml:lang="en">Login to Open Images</description>
     <description xml:lang="nl">Login bij Open Beelden</description>
     <xi:include href="http://www.mmbase.org/components/validation.head.xml" />
-    <xi:include href="http://www.mmbase.org/components/widgets.head.xml" />
     <body jsp="user-login.jspx">
     </body>
   </block>
@@ -83,7 +81,6 @@
     <title xml:lang="nl">Wachtwoord vergeten</title>
     <description xml:lang="en">Forgot password of Open Images</description>
     <description xml:lang="nl">Wachtwoord vergeten van Open Beelden</description>
-    <xi:include href="http://www.mmbase.org/components/widgets.head.xml" />
     <body jsp="user-resetpassword.jspx">
     </body>
   </block>
@@ -235,7 +232,6 @@
     <description xml:lang="en">Includes stream upload</description>
     <description xml:lang="nl">Includes stream upload</description>
     <xi:include href="http://www.mmbase.org/components/validation.head.xml" />
-    <xi:include href="http://www.mmbase.org/components/widgets.head.xml" />
     <head>
       <class name="org.mmbase.framework.StringRenderer">
         <param name="string"><![CDATA[
