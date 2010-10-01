@@ -168,37 +168,28 @@ fieldset
 
 input
 {
-	padding: 3px;
+	padding: 5px;
 	margin: 0 0 6px 0;
 	color: #888;
-	width: 312px;
 	font-size: 1em;
+	font-family: Helvetica, sans-serif;
+	line-height: 15pt;
+	width: 312px;
 	border: 1px solid #cfcfcf;
 }
-
-/*
-select
-{
-	margin-bottom: 6px;
-	padding: 2px;
-}
-
-select option
-{
-	padding: 2px;
-	margin: 0;
-}
-*/
-
 
 textarea
 {
 	width: 314px;
-	padding: 3px;
-	font-size: 1em;
+	padding: 5px;
 	color: #888;
+	font-size: 1em;
+	font-family: Helvetica, sans-serif;
+	line-height: 15pt;
 	border: 1px solid #cfcfcf;
 }
+
+@media screen and (-webkit-min-device-pixel-ratio:0) { input, textarea { padding: 2px; } }
 
 label
 {
