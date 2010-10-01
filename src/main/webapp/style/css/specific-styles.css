@@ -405,7 +405,7 @@ body.home p.more
 }
 
 div.right-column > p.more { margin-right: 16px; }
-div.right-column input, div.right-column textarea, div.right-column select { width: 280px; }
+div.right-column input, div.right-column textarea { width: 280px; }
 div.right-column input.submit, div.right-column input.cancel { width: auto; }
 
 form#loginform p { line-height: 3em; }
@@ -423,7 +423,6 @@ form#search fieldset { width: 256px; }
 form#search input
 {
 	width: 250px;
-	padding: 2px;
 	margin: 0 0 8px 0;
 }
 
@@ -685,4 +684,34 @@ fieldset.plus
 	border-bottom: 1px #555 solid;
 }
 
+/* labels in/over inputs and textareas */
+form.mm_form fieldset.labelininput label.ininput { cursor: text; }
 
+fieldset.labelininput label.ininput { display: block; }
+
+fieldset.labelininput label.ininput { font-weight: normal; }
+fieldset.labelininput label.ininput span
+{
+	position: absolute;
+	padding: 13px 3px 5px 3px;
+	margin-left: 3px;
+	color: #888;
+	/*z-index: 0;*/
+	cursor: text;
+}
+
+fieldset.labelininput label.ininput span.transparent { visibility: hidden; }
+
+fieldset.labelininput input,
+fieldset.labelininput textarea {
+    /*z-index: 1;*/
+    padding: 5px;
+    margin: 0;
+    margin-top: 8px;
+    font: inherit;
+}
+
+@media screen and (-webkit-min-device-pixel-ratio:0) {
+    fieldset.labelininput input,
+    fieldset.labelininput textarea { padding: 2px 4px; }
+}
