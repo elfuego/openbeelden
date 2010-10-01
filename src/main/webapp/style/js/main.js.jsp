@@ -105,7 +105,7 @@ function initCopyInput() {
 
 function initTabs(id) {
     if ($('#' + id).length) {
-        var $tabs = $('#' + id).tabs();   // the jquery-ui.js for this has to be included in the page
+        var $tabs = $('#' + id).tabs();   /* jquery-ui.js must be included */
         var loc = document.location.href;
         var anchorIndex = loc.indexOf('#');
         if (anchorIndex > 0) {
@@ -141,7 +141,7 @@ function initTabs(id) {
     }
 }
 
-/* Shows and hides information about form fields */
+/* show/hide information about form fields */
 function initFieldInfos() {
     if ($('form fieldset p.info').length) {
         $('form fieldset label').hover(function(ev) {
@@ -151,6 +151,40 @@ function initFieldInfos() {
         });
     }
 }
+
+/* put and show/hide labels behind inputs and textareas */
+function initLabelsInInput() {
+    $('fieldset.labelininput label').each(function(index) {
+        var label = this;
+        var inputId = $(this).attr('for');
+        if ($('textarea#' +inputId).length > 0 || $('input#' +inputId).length > 0) {
+            $(label).addClass('ininput');
+            var input = $('#' + inputId);
+            if (input.val().length > 0) {
+                $(label).find('span').addClass('transparent');
+            }
+            input.focusin(function() {
+                if (input.val().length == 0) {
+                    $(label).find('span').animate({ 'opacity': 0.70 }, 'fast');
+                }
+            });
+            input.live('keydown', function() {
+                $(label).find('span').animate({ 'opacity': 0 }, 'fast');
+            });
+            input.live('paste', function() {
+                $(label).find('span').animate({ 'opacity': 0 }, 'fast');
+            });
+            input.focusout(function() {
+                if (input.val().length == 0) {
+                    $(label).find('span').removeClass('transparent'); 
+                    $(label).find('span').animate({ 'opacity': 1 });
+                }
+            });
+        }
+    });
+}
+
+
 /* Open link in new window or tab */
 function initBlank() {
     $('._blank').click(function(ev) { ev.preventDefault(); window.open(ev.target); });
@@ -174,6 +208,7 @@ function initPlayStats() {
     });
 }
 
+/* show/hide fieldset.plus */
 function initPlusfields() {
     $('fieldset.plus').hide();
 
@@ -190,22 +225,23 @@ $(document).ready(function() {
     initToolbar();
     initRemoveFav();
     initCopyInput();
-    if ($("input.tagsuggest").length) initTagsuggest();
+    if ($('input.tagsuggest').length) initTagsuggest();
     initClose();
     initTabs('tabs');
     initTabs('usertabs');
-    initPlusfields();
-    initFieldInfos();
     initBlank();
     staticFooter();
-
+    
+    initPlusfields();
+    if ($('fieldset.labelininput').length) initLabelsInInput();
+    initFieldInfos();
+    
     $('.main-column, .b_user-mediapreview').oiplayer({
         'server' : '<mm:url page="/" absolute="true" />',
         'jar' : '/oiplayer/plugins/cortado-ovt-stripped-wm_r38710.jar',
         'flash' : '/oiplayer/plugins/flowplayer-3.1.5.swf',
         'controls' : 'top'
     });
-    
     initPlayStats();
 });
 
