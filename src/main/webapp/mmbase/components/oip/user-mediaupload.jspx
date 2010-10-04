@@ -14,18 +14,19 @@
       id="${requestScope['org.mmbase.componentId']}">
 
     <script type="text/javascript">
-      var validator = new MMBaseValidator();
+      var validator = new MMBaseValidator(document.getElementById("${requestScope['org.mmbase.componentId']}"));
       validator.prefetchNodeManager('streamsources');
       validator.lang = "${requestScope['javax.servlet.jsp.jstl.fmt.locale.request']}";
       validator.validateHook = function(valid) {
           if (document.getElementById('submit_upload') != undefined) {
               document.getElementById('submit_upload').disabled = this.invalidElements != 0;
           }
-          if (document.getElementById('submit2') != undefined) {
-              document.getElementById('submit2').disabled = this.invalidElements != 0;
+          if (document.getElementById('submit') != undefined) {
+              document.getElementById('submit').disabled = this.invalidElements != 0;
+              //console.log("invalid: " + this.invalidElements);
           }
       }
-      validator.setup(document.getElementById("${requestScope['org.mmbase.componentId']}"));
+      //validator.setup(document.getElementById("${requestScope['org.mmbase.componentId']}"));
     </script>
 
     <oip:h3>Upload</oip:h3>
@@ -36,12 +37,12 @@
       <mm:import id="buffer">
         <mm:form id="upload_form">
           <mm:createnode id="newsource" type="streamsources" commitonclose="false">
-            <fieldset class="labelininput">
+            <fieldset>
               <mm:fieldlist fields="url" id="urlfield">
                 <mm:fieldinfo type="errors" />
                 <mm:fieldinfo type="input" />
               </mm:fieldlist>
-              <mm:fieldlist fields="title" id="field">
+              <mm:fieldlist fields="title,language,dc_creator">
                 <mm:fieldinfo type="forid">
                   <label for="${_}">
                     <span><mm:fieldinfo type="guiname" /></span>
@@ -106,8 +107,8 @@
 
           <mm:form page="$editlink">
             <mm:node number="$media" id="medianode">
-              <fieldset class="labelininput">
-                <mm:fieldlist fields="title,dc_creator,subtitle,language,intro,date">
+              <fieldset>
+                <mm:fieldlist fields="title,subtitle,language,intro,date,dc_creator">
                   <mm:fieldinfo type="forid">
                     <label for="${_}"><mm:fieldinfo type="guiname" /></label>
                   </mm:fieldinfo>
@@ -154,7 +155,7 @@
 
             <fieldset>
               <c:set var="button_save"><fmt:message key="users.save" /></c:set>
-              <input type="submit" id="submit2" name="submit" value="${button_save}" class="submit" />
+              <input type="submit" id="submit" name="submit" value="${button_save}" class="submit" />
             </fieldset>
           </mm:form>
 
