@@ -1,0 +1,79 @@
+<builder
+    xmlns="http://www.mmbase.org/xmlns/builder"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.mmbase.org/xmlns/builder
+                        http://www.mmbase.org/xmlns/builder.xsd"
+    xmlns:xi="http://www.w3.org/2001/XInclude"
+    name="streamsources" maintainer="mmbase.org" version="1" extends="undefsources">
+
+  <searchage>31</searchage>
+  <names>
+    <singular xml:lang="en">Streambron</singular>
+    <singular xml:lang="nl">Streamsource</singular>
+    <plural xml:lang="en">Streamsources</plural>
+    <plural xml:lang="nl">Streamsources</plural>
+  </names>
+
+  <descriptions>
+  </descriptions>
+
+  <properties>
+    <property name="org.mmbase.streams.cachestype">streamsourcescaches</property>
+  </properties>
+
+  <!-- mediafragment, length, objecttype -->
+  <xi:include href="http://www.mmbase.org/builders/media/mediasources.virtual.fields.xml" />
+  <!-- title, subtitle, intro, body (from mediafragments really) -->
+  <xi:include href="http://www.mmbase.org/builders/media/mediasources.main.virtual.fields.xml" />
+  <!-- state, url, mimetype, objecttype, mediaprovider -->
+  <xi:include href="http://www.mmbase.org/builders/streams/streamsources.fields.xml" />
+
+  <!-- only difference with mmbase streams app is this language field -->
+  <fieldlist>
+    <xi:include href="http://www.mmbase.org/builders/oip/source.language.field.xml" />
+
+    <field
+        name="dc_creator"
+        state="virtual"
+        readonly="false">
+      <descriptions>
+        <description xml:lang="en">Creator of the resource (dc:creator).</description>
+        <description xml:lang="nl">Maker van dit werk (dc:creator).</description>
+      </descriptions>
+      <gui>
+        <guiname xml:lang="nl">Creater</guiname>
+        <guiname xml:lang="en">Creator</guiname>
+      </gui>
+      <datatype base="eline" xmlns="http://www.mmbase.org/xmlns/datatypes" >
+        <required value="true">
+          <description xml:lang="en">... is required.</description>
+          <description xml:lang="nl">... is verplicht.</description>
+        </required>
+        <minLength value="3" enforce="onvalidate">
+          <description xml:lang="en">... is required, at least 3 characters.</description>        
+          <description xml:lang="nl">... is verplicht, tenminste 3 karakters.</description>
+        </minLength>
+        <setprocessor>
+          <class name="org.mmbase.datatypes.processors.RelatedField$Setter">
+            <param name="type">mediafragments</param>
+            <param name="searchDir">source</param>
+          </class>
+        </setprocessor>
+        <getprocessor>
+          <class name="org.mmbase.datatypes.processors.RelatedField$Creator">
+            <param name="createTypeProperty">org.mmbase.media.containertype</param>
+            <param name="searchDir">source</param>
+          </class>
+          <class name="org.mmbase.datatypes.processors.RelatedField$Getter">
+            <param name="type">mediafragments</param>
+            <param name="searchDir">source</param>
+          </class>
+        </getprocessor>
+      </datatype>
+    </field>
+    
+  </fieldlist>
+  
+  <xi:include href="http://www.mmbase.org/builders/streams/streamsources.functions.xml" />
+
+</builder>
