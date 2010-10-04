@@ -177,6 +177,11 @@ input
 	width: 312px;
 	border: 1px solid #cfcfcf;
 }
+input[type="radio"], input[type="checkbox"]
+{
+	width: auto;
+	border: none;
+}
 
 textarea
 {
