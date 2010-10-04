@@ -17,14 +17,14 @@
     </gui>
     <editor><positions><list>1</list></positions></editor>
     <datatype base="line" xmlns="http://www.mmbase.org/xmlns/datatypes">
-      <default value="title" />
+      <default value="Title" />
       <required value="true">
         <description xml:lang="en">A title is required.</description>
         <description xml:lang="nl">Een titel is verplicht.</description>
       </required>
       <minLength value="2" enforce="onvalidate">
-        <description xml:lang="en">A title is required and should be at least 2 characters.</description>        
-        <description xml:lang="nl">Een titel is verplicht en moet tenminste 2 karakters lang zijn.</description>
+        <description xml:lang="en">... is required, at least 2 characters.</description>        
+        <description xml:lang="nl">... is verplicht, tenminste 2 karakters.</description>
       </minLength>
       <maxLength value="255" enforce="onvalidate">
         <description xml:lang="en">.. max 255 characters.</description>        
@@ -51,7 +51,6 @@
     </datatype>
   </field>
 
-
   <field name="intro">
     <descriptions>
       <description xml:lang="nl">Korte inleidende beschrijving</description>
@@ -63,7 +62,7 @@
     </gui>
     <datatype base="field" xmlns="http://www.mmbase.org/xmlns/datatypes">
 
-      <required value="true" enforce="never">
+      <required value="true" enforce="onvalidate">
         <description xml:lang="en">... is required.</description>
         <description xml:lang="nl">... is verplicht.</description>
       </required>
