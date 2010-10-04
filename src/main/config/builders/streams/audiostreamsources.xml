@@ -18,10 +18,11 @@
     <property name="org.mmbase.streams.cachestype">audiostreamsourcescaches</property>
   </properties>
 
-  <xi:include href="http://www.mmbase.org/builders/streams/streamsources.fields.xml" />
   <xi:include href="http://www.mmbase.org/builders/media/mediasources.virtual.fields.xml" />
-  <xi:include href="http://www.mmbase.org/builders/streams/streamsources.virtual.fields.xml" />
   <xi:include href="http://www.mmbase.org/builders/media/mediasources.main.virtual.fields.xml" />
+  
+  <xi:include href="http://www.mmbase.org/builders/streams/streamsources.fields.xml" />
+  <xi:include href="http://www.mmbase.org/builders/streams/streamsources.virtual.fields.xml" />
   
   <!-- only difference with mmbase streams app is this language field -->
   <fieldlist>
