@@ -3,19 +3,20 @@
 
 UPGRADING 1.0.1 -> 1.0.2
 ========================
-New fields were added to the builders mediafragments, audiostreamsources, videostreamsources 
-and mmbaseusers. Add these fields to your database. 
+New fields were added to the builders mediafragments, audiostreamsources, imagesources, 
+streamsources, videostreamsources and mmbaseusers. Add these fields to your database. 
 Default OIP is configured to use MySQL with views, other configurations or databases typically
 need similar statements:
 
-  ALTER TABLE oi_mediastreamsources_table ADD language CHAR(12);
   ALTER TABLE oi_audiostreamsources_table ADD language CHAR(12);
-  DROP VIEW oi_videostreamsources;
-  DROP VIEW oi_audiostreamsources;
-
   ALTER TABLE oi_imagesources_table ADD language CHAR(12);
+  ALTER TABLE oi_streamsources_table ADD language CHAR(12);
+  ALTER TABLE oi_videostreamsources_table ADD language CHAR(12);
+  DROP VIEW oi_audiostreamsources;
   DROP VIEW oi_imagesources;
-  
+  DROP VIEW oi_streamsources;
+  DROP VIEW oi_videostreamsources;
+
   ALTER TABLE oi_mediafragments_table ADD contributor VARCHAR(255);
   ALTER TABLE oi_mediafragments_table ADD dc_creator VARCHAR(255);
   ALTER TABLE oi_mediafragments_table ADD identifier VARCHAR(255);
@@ -27,6 +28,7 @@ need similar statements:
 
   ALTER TABLE oi_mmbaseusers_table ADD organisation BIT(1);
   DROP VIEW oi_mmbaseusers;
+
 
 UPGRADING 1.0 -> 1.0.1
 ======================
