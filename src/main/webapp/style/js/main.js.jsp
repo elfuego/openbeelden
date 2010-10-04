@@ -28,9 +28,20 @@ function initLangSwitch() {
     var choose_lang = $("#menu label[for='mm_org.mmbase.mmsite.language']").text();
     $("select[id='mm_org.mmbase.mmsite.language'] option[value='']").text(choose_lang);
     $("select[id='mm_searchlang'] option[value='']").text("${any_lang}");
-    // change selected language in adv. search
-    var la = $("#hiddensearchlang").val()
-    $("select[id='mm_searchlang'] option[value='" + la + "']").attr("selected", "selected");
+    if ($('form#search').length) {  // change selected language in adv. search
+        var la = $("#hiddensearchlang").val();
+        $("select[id='mm_searchlang'] option[value='" + la + "']").attr("selected", "selected");
+    }
+    if ($('form#upload_form').length) {
+        var loc = location.href;
+        var langs = loc.split('.');
+        var lang = langs[langs.length - 1];
+        //console.log("loc: " + loc + " lang: " + lang);
+        if (lang.length < 3) {
+            $("select[id='mm_upload_form_language'] option[value='" + lang + "']").attr("selected", "selected");
+        }
+    }
+
 }
 
 function initClearMsg() {
