@@ -200,8 +200,8 @@
                             <xsl:if test="$pos lt $max and $pos gt 1">
                               <li>
                                 <xsl:variable name="rssdate" select="pubDate" />
-                            <strong><a href="{link}"><xsl:value-of select="title" /></a></strong>
-                            <xsl:value-of select="oip:reformatDate($rssdate,$format,$newformat)" />
+                                <strong><a href="{link}"><xsl:value-of select="title" /></a></strong>
+                                <xsl:value-of select="oip:reformatDate($rssdate,$format,$newformat)" />
                               </li>
                             </xsl:if>
                           </xsl:for-each>
