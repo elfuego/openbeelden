@@ -2,6 +2,7 @@
     xmlns:jsp="http://java.sun.com/JSP/Page"
     xmlns:c="http://java.sun.com/jsp/jstl/core"
     xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+    xmlns:fmt="http://java.sun.com/jsp/jstl/fmt"
     xmlns:mm="http://www.mmbase.org/mmbase-taglib-2.0">
   <jsp:output omit-xml-declaration="true" />
   
@@ -91,7 +92,21 @@
          </mm:nodeinfo>                 
        </oi:type>
        
-       <oi:extent></oi:extent>
+       <!-- P[n]Y[n]M[n]DT[n]H[n]M[n]S or P[n]W f.e. P3Y6M4DT12H30M5S -->
+       <oi:extent>
+         <mm:field name="length" id="length" write="false" />
+         <c:choose>
+           <c:when test="${length gt -1}">
+             <fmt:formatNumber value="${length / 1000}" var="duration" maxFractionDigits="0" groupingUsed="false" />
+           </c:when>
+           <c:otherwise><c:set var="duration" value="0" /></c:otherwise>
+         </c:choose>
+         <c:choose>
+           <c:when test="${duration gt 3600}">PT<mm:time format="h'H'm'M's'S'" time="${duration}" /></c:when>
+           <c:when test="${duration lt 3600 and duration gt 60}">PT<mm:time format="m'M's'S'" time="${duration}" /></c:when>
+           <c:otherwise>PT<mm:time format="s'S'" time="${duration}" /></c:otherwise>
+         </c:choose>
+       </oi:extent>
 
        <mm:field name="identifier">
          <mm:isnotempty><oi:identifier xml:lang="${_node.language}"><mm:write /></oi:identifier></mm:isnotempty>
