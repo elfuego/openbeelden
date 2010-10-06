@@ -1,0 +1,70 @@
+﻿<record
+    xmlns:jsp="http://java.sun.com/JSP/Page"
+    xmlns:c="http://java.sun.com/jsp/jstl/core"
+    xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+    xmlns:mm="http://www.mmbase.org/mmbase-taglib-2.0">
+  <jsp:output omit-xml-declaration="true" />
+  
+  <jsp:include page="/feeds/inc/oai.record.header.jspx" />
+  
+  <metadata>
+    <oai_dc:dc 
+         xmlns:oai_dc="http://www.openarchives.org/OAI/2.0/oai_dc/" 
+         xmlns:dc="http://purl.org/dc/elements/1.1/" 
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+         xsi:schemaLocation="http://www.openarchives.org/OAI/2.0/oai_dc/ http://www.openarchives.org/OAI/2.0/oai_dc.xsd">
+       <dc:title><mm:field name="title" /></dc:title>
+       <dc:creator><mm:field name="creator" /></dc:creator>
+       <!-- dc:subject -->
+       <mm:field name="keywords">
+         <mm:isnotempty>
+           <c:forTokens items="${_}" delims=";" var="subject">
+             <dc:subject><c:out value="${fn:trim(subject)}" /></dc:subject>
+           </c:forTokens>
+         </mm:isnotempty>
+       </mm:field>
+       <dc:description>
+         <mm:field name="intro">
+           <mm:isempty>
+             <mm:field name="body" />
+           </mm:isempty>
+           <mm:isnotempty>
+             <mm:write />
+           </mm:isnotempty>
+         </mm:field>
+       </dc:description>
+       <dc:date><mm:field name="date"><mm:time format="yyyy-MM-dd" /></mm:field></dc:date>
+       <dc:type>
+         <mm:nodeinfo type="nodemanager">
+           <c:choose>
+             <c:when test="${_ eq 'imagefragments'}">image</c:when>
+             <c:when test="${_ eq 'audiofragments'}">audio</c:when>
+             <c:otherwise>video</c:otherwise>
+           </c:choose>
+         </mm:nodeinfo>                 
+       </dc:type>
+       <!-- dc:format + dc:identifier -->
+       <mm:listfunction name="filteredurls">
+         <c:if test="${_.available}">
+           <dc:format>${fn:toLowerCase(_.format)}</dc:format>
+           <dc:identifier>${_.URL}</dc:identifier>
+         </c:if>
+       </mm:listfunction>
+       <!-- dc:rights -->
+       <mm:relatednodescontainer type="licenses" role="related" searchdirs="destination">
+         <mm:relatednodes>
+           <dc:rights>
+             <mm:field name="name" /> - <mm:field name="url" />
+           </dc:rights>
+         </mm:relatednodes>
+       </mm:relatednodescontainer>
+       <dc:language><mm:field name="language" /></dc:language>
+       <dc:coverage><mm:field name="coverage" /></dc:coverage>
+       <dc:source><mm:field name="source" /></dc:source>
+       <dc:publisher>
+         Netherlands Institute for Sound and Vision / Nederlands Instituut voor Beeld en Geluid
+       </dc:publisher>
+     </oai_dc:dc>
+  </metadata>
+
+</record>
