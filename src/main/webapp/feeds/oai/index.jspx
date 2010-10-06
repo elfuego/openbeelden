@@ -95,17 +95,15 @@
       <mm:import id="record" reset="true">${pieces[len - 1]}</mm:import>
     </c:if>
     
+    <!-- metadataPrefix -->
+    <c:if test="${verb ne 'Identify' 
+                   and verb ne 'ListMetadataFormats' 
+                   and (empty metadataPrefix or metadataPrefix ne 'oai_dc' or metadataPrefix ne 'oai_oi')
+                   and empty error}">
+      <c:set var="error" value="badArgument" />
+    </c:if>
+    
     <!-- fill parameters when empty -->
-    <c:choose>
-      <c:when test="${verb ne 'Identify' and verb ne 'ListMetadataFormats' and (empty metadataPrefix or metadataPrefix ne 'oai_dc')}">
-        <c:if test="${empty error}">
-          <c:set var="error" value="badArgument" />
-        </c:if>
-      </c:when>
-      <c:otherwise>
-        <c:set var="metadataPrefix">oai_dc</c:set>
-      </c:otherwise>
-    </c:choose>
     <c:if test="${empty verb}"><c:set var="verb">Identify</c:set></c:if>
     <c:if test="${empty set}"><c:set var="set">lastuploaded</c:set></c:if>
   
@@ -227,9 +225,18 @@
             </c:when>
             <c:when test="${foundsome gt 0 and verb eq 'ListRecords'}">
               <ListRecords>
-                <mm:listnodes referid="list">
-                  <jsp:include page="/feeds/inc/oai.record.jspx" />
-                </mm:listnodes>
+                <c:choose>
+                  <c:when test="${metadataPrefix eq 'oai_oi'}">
+                    <mm:listnodes referid="list">
+                      <jsp:include page="/feeds/inc/oai.record.oai_oi.jspx" />
+                    </mm:listnodes>
+                  </c:when>
+                  <c:otherwise>
+                    <mm:listnodes referid="list">
+                      <jsp:include page="/feeds/inc/oai.record.oai_dc.jspx" />
+                    </mm:listnodes>
+                  </c:otherwise>
+                </c:choose>
                 <c:if test="${(offset + max) lt size}">
                   <resumptionToken
                       completeListSize="${size}" 
@@ -262,7 +269,14 @@
                     or nodetype eq 'images'
                     }">
                 <GetRecord>
-                  <jsp:include page="/feeds/inc/oai.record.jspx" />
+                  <c:choose>
+                    <c:when test="${metadataPrefix eq 'oai_oi'}">
+                      <jsp:include page="/feeds/inc/oai.record.oai_oi.jspx" />
+                    </c:when>
+                    <c:otherwise>
+                      <jsp:include page="/feeds/inc/oai.record.oai_dc.jspx" />
+                    </c:otherwise>
+                  </c:choose>
                 </GetRecord>
                 <c:set var="foundone" value="yes" />
               </c:if>
@@ -297,12 +311,17 @@
               </error>
             </c:when>
             <c:otherwise>
-              <request verb="${verb}" metadataPrefix="${metadataPrefix}">${requesturl}</request>
+              <request verb="${verb}">${requesturl}</request>
               <ListMetadataFormats>
                 <metadataFormat>
                   <metadataPrefix>oai_dc</metadataPrefix>
                   <schema>http://www.openarchives.org/OAI/2.0/oai_dc.xsd</schema>
                   <metadataNamespace>http://www.openarchives.org/OAI/2.0/oai_dc/</metadataNamespace>
+                </metadataFormat>
+                <metadataFormat>
+                  <metadataPrefix>oai_oi</metadataPrefix>
+                  <schema>http://www.openbeelden.nl/oai/oai_oi.xsd</schema>
+                  <metadataNamespace>http://www.openbeelden.nl/oai/</metadataNamespace>
                 </metadataFormat>
               </ListMetadataFormats>
             </c:otherwise>
