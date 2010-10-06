@@ -20,10 +20,9 @@
       <mmsq:field name="body" />
       <mmsq:field name="source" />
       <mmsq:field name="source"  alias="source" keyword="true" escape="lowercase" />
+      <mmsq:field name="dc_creator" />
       <mmsq:field name="publisher" />
       <mmsq:field name="publisher" alias="publisher" keyword="true" />
-      <mmsq:field name="coverage" />
-      <mmsq:field name="coverage" alias="coverage" keyword="true" />
       <mmsq:field name="show"    alias="show"   keyword="true" store="true" />
       <mmsq:field name="online"  alias="online" />
       <mmsq:field name="offline" alias="offline" />
@@ -32,7 +31,14 @@
       <mmsq:field name="creator" alias="user"   keyword="true" />
       <mmsq:field name="created" alias="created" />
       <mmsq:field name="date"    alias="date" />
-      <mmsq:field name="keywords" alias="keywords" keyword="true" split="," boost="4" />
+      <mmsq:field name="identifier" />
+      <mmsq:field name="relation" />
+      <mmsq:field name="keywords" />
+      <mmsq:field name="keywords" alias="keywords" keyword="true" split=";" boost="4" />
+      <mmsq:field name="coverage" />
+      <mmsq:field name="coverage" alias="coverage" keyword="true" split=";" boost="4" />
+      <mmsq:field name="contributor" />
+      <mmsq:field name="contributor" alias="coverage" keyword="true" split=";" boost="4" />
       <mmsq:relatednodes type="tags">
         <mmsq:field name="name" boost="3" />
       </mmsq:relatednodes>
@@ -48,7 +54,8 @@
         <mmsq:field name="intro" />
         <mmsq:field name="body" />
         <mmsq:field name="source" />
-        <mmsq:field name="keywords" keyword="true" split="," boost="4" />
+        <mmsq:field name="keywords" />
+        <mmsq:field name="keywords" keyword="true" split=";" boost="4" />
       </mmsq:relatednodes>
     </list>
     
