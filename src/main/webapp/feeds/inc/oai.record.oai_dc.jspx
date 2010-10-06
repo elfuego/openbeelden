@@ -5,6 +5,7 @@
     xmlns:mm="http://www.mmbase.org/mmbase-taglib-2.0">
   <jsp:output omit-xml-declaration="true" />
   
+  <mm:escaper type="tagstripper" id="tagstripper" /><!-- to strip html -->
   <jsp:include page="/feeds/inc/oai.record.header.jspx" />
   
   <metadata>
@@ -13,57 +14,115 @@
          xmlns:dc="http://purl.org/dc/elements/1.1/" 
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
          xsi:schemaLocation="http://www.openarchives.org/OAI/2.0/oai_dc/ http://www.openarchives.org/OAI/2.0/oai_dc.xsd">
-       <dc:title><mm:field name="title" /></dc:title>
-       <dc:creator><mm:field name="creator" /></dc:creator>
+       
+       <dc:title xml:lang="${_node.language}"><mm:field name="title" /></dc:title>
+       <mm:relatednodescontainer type="mediafragments_translations" role="langrel" searchdirs="destination">
+         <mm:relatednodes>
+           <dc:title xml:lang="${_node.language}"><mm:field name="title" /></dc:title>
+         </mm:relatednodes>
+       </mm:relatednodescontainer>
+       
+       <dc:creator xml:lang="${_node.language}"><mm:field name="creator" /></dc:creator>
+
        <!-- dc:subject -->
        <mm:field name="keywords">
          <mm:isnotempty>
            <c:forTokens items="${_}" delims=";" var="subject">
-             <dc:subject><c:out value="${fn:trim(subject)}" /></dc:subject>
+             <dc:subject xml:lang="${_node.language}"><c:out value="${fn:trim(subject)}" /></dc:subject>
            </c:forTokens>
          </mm:isnotempty>
        </mm:field>
-       <dc:description>
-         <mm:field name="intro">
-           <mm:isempty>
-             <mm:field name="body" />
-           </mm:isempty>
-           <mm:isnotempty>
-             <mm:write />
-           </mm:isnotempty>
-         </mm:field>
+       <mm:relatednodescontainer type="mediafragments_translations" role="langrel" searchdirs="destination">
+         <mm:relatednodes>
+           <mm:field name="keywords">
+             <mm:isnotempty>
+               <c:forTokens items="${_}" delims=";" var="subject">
+                 <dc:subject xml:lang="${_node.language}"><c:out value="${fn:trim(subject)}" /></dc:subject>
+               </c:forTokens>
+             </mm:isnotempty>
+           </mm:field>
+         </mm:relatednodes>
+       </mm:relatednodescontainer>
+
+       <dc:description xml:lang="${_node.language}">
+         <mm:field name="intro" escape="tagstripper" />
+         <mm:field name="body"><mm:isnotempty>
+<jsp:text>
+
+</jsp:text><mm:write escape="tagstripper" /></mm:isnotempty></mm:field>
        </dc:description>
+       <mm:relatednodescontainer type="mediafragments_translations" role="langrel" searchdirs="destination">
+         <mm:relatednodes>
+           <dc:description xml:lang="${_node.language}">
+         <mm:field name="intro" escape="tagstripper" />
+         <mm:field name="body"><mm:isnotempty>
+<jsp:text>
+
+</jsp:text><mm:write escape="tagstripper" /></mm:isnotempty></mm:field>
+           </dc:description>
+         </mm:relatednodes>
+       </mm:relatednodescontainer>
+
+       <dc:publisher xml:lang="${_node.language}"><mm:field name="publisher" /></dc:publisher>
+       
+       <dc:contributor xml:lang="${_node.language}"><mm:field name="contributor" /></dc:contributor>
+
        <dc:date><mm:field name="date"><mm:time format="yyyy-MM-dd" /></mm:field></dc:date>
+       
        <dc:type>
          <mm:nodeinfo type="nodemanager">
            <c:choose>
-             <c:when test="${_ eq 'imagefragments'}">image</c:when>
-             <c:when test="${_ eq 'audiofragments'}">audio</c:when>
-             <c:otherwise>video</c:otherwise>
+             <c:when test="${_ eq 'imagefragments'}">still image</c:when>
+             <c:when test="${_ eq 'audiofragments'}">sound recording</c:when>
+             <c:otherwise>moving image</c:otherwise>
            </c:choose>
          </mm:nodeinfo>                 
        </dc:type>
-       <!-- dc:format + dc:identifier -->
-       <mm:listfunction name="filteredurls">
-         <c:if test="${_.available}">
-           <dc:format>${fn:toLowerCase(_.format)}</dc:format>
-           <dc:identifier>${_.URL}</dc:identifier>
-         </c:if>
-       </mm:listfunction>
+       
+       <!-- dc:format -->
+       <mm:functioncontainer>
+         <mm:param name="format">WEBM,OGV,MP4,OGG,TS,M3U8,MP3,OGG,OGA,PNG,JPG,JPEG</mm:param>
+         <mm:listfunction name="filteredurls">
+           <c:if test="${_.available}">
+             <!-- <dc:format>${fn:toLowerCase(_.format)}</dc:format> -->
+             <dc:format>${_.URL}</dc:format>
+           </c:if>
+         </mm:listfunction>
+       </mm:functioncontainer>
+       
+       <dc:identifier><mm:field name="identifier" /></dc:identifier>
+       
+       <dc:source xml:lang="${_node.language}"><mm:field name="source" /></dc:source>
+       <mm:relatednodescontainer type="mediafragments_translations" role="langrel" searchdirs="destination">
+         <mm:relatednodes>
+           <dc:source xml:lang="${_node.language}"><mm:field name="source" /></dc:source>
+         </mm:relatednodes>
+       </mm:relatednodescontainer>
+       
+       <dc:relation><mm:field name="relation" /></dc:relation>
+       
+       <!-- dc:language -->
+       <mm:relatednodescontainer type="streamsources" role="related" searchdirs="destination">
+         <mm:relatednodes>
+           <dc:language><mm:field name="language" /></dc:language>
+         </mm:relatednodes>
+       </mm:relatednodescontainer>
+       
+       <!-- dc:coverage -->
+       <mm:field name="coverage">
+         <mm:isnotempty>
+           <c:forTokens items="${_}" delims=";" var="coverage">
+             <dc:coverage xml:lang="${_node.language}"><c:out value="${fn:trim(coverage)}" /></dc:coverage>
+           </c:forTokens>
+         </mm:isnotempty>
+       </mm:field>
+
        <!-- dc:rights -->
        <mm:relatednodescontainer type="licenses" role="related" searchdirs="destination">
          <mm:relatednodes>
-           <dc:rights>
-             <mm:field name="name" /> - <mm:field name="url" />
-           </dc:rights>
+           <dc:rights><mm:field name="url" /></dc:rights>
          </mm:relatednodes>
        </mm:relatednodescontainer>
-       <dc:language><mm:field name="language" /></dc:language>
-       <dc:coverage><mm:field name="coverage" /></dc:coverage>
-       <dc:source><mm:field name="source" /></dc:source>
-       <dc:publisher>
-         Netherlands Institute for Sound and Vision / Nederlands Instituut voor Beeld en Geluid
-       </dc:publisher>
      </oai_dc:dc>
   </metadata>
 
