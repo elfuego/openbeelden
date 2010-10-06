@@ -1,0 +1,16 @@
+<xs:schema elementFormDefault="qualified" attributeFormDefault="unqualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+	<xs:annotation>
+		<xs:documentation xml:lang="nl">
+		
+			Dit document beschrijft de mogelijke opties van de OpenBeelden namespace.
+			Deze namespace rust op DCTerms en ccREL
+			
+		</xs:documentation>
+	</xs:annotation>
+
+	<xs:import namespace="http://purl.org/dc/terms/" schemaLocation="http://dublincore.org/schemas/xmls/qdc/dcterms.xsd"/>
+	<xs:element name="attributionName" type="xs:string"/>
+	<xs:element name="attributionURL" type="xs:anyURI"/>
+	<xs:element name="license" type="xs:anyURI"/>
+</xs:schema>
+
