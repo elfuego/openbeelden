@@ -98,7 +98,8 @@
     <!-- metadataPrefix -->
     <c:if test="${verb ne 'Identify' 
                    and verb ne 'ListMetadataFormats' 
-                   and (empty metadataPrefix or metadataPrefix ne 'oai_dc' or metadataPrefix ne 'oai_oi')
+                   and (empty metadataPrefix or metadataPrefix ne 'oai_dc')
+                   and (empty metadataPrefix or metadataPrefix ne 'oai_oi')
                    and empty error}">
       <c:set var="error" value="badArgument" />
     </c:if>
@@ -126,7 +127,7 @@
         </c:when>
         <c:when test="${error eq 'badArgument'}">
           <request>${requesturl}</request>
-          <error code="badArgument">
+          <error code="badArgument">1:
             The request includes illegal arguments, is missing required arguments, 
             includes a repeated argument, or values for arguments have an illegal syntax.
           </error>
@@ -286,7 +287,7 @@
           <c:if test="${empty foundone}">
             <c:choose>
               <c:when test="${empty identifier}">
-                <error code="badArgument">
+                <error code="badArgument">2:
                   The request includes illegal arguments, is missing required arguments, 
                   includes a repeated argument, or values for arguments have an illegal syntax.
                 </error>
@@ -305,7 +306,7 @@
           <c:choose>
             <c:when test="${!empty identifier and empty hasnode}">
               <request>${requesturl}</request>
-              <error code="badArgument">
+              <error code="badArgument">3:
                 The request includes illegal arguments, is missing required arguments, 
                 includes a repeated argument, or values for arguments have an illegal syntax.
               </error>
