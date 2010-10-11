@@ -108,7 +108,17 @@
            <c:otherwise>PT<mm:time format="s'S'" time="${duration}" /></c:otherwise>
          </c:choose>
        </oi:extent>
-
+       
+       <!-- oi:medium -->
+       <mm:functioncontainer>
+         <mm:param name="format">WEBM,OGV,MP4,OGG,TS,M3U8,MP3,OGG,OGA,PNG,JPG,JPEG</mm:param>
+         <mm:listfunction name="filteredurls">
+           <c:if test="${_.available}">
+             <oi:medium>${_.URL}</oi:medium>
+           </c:if>
+         </mm:listfunction>
+       </mm:functioncontainer>
+       
        <mm:field name="identifier">
          <mm:isnotempty><oi:identifier xml:lang="${_node.language}"><mm:write /></oi:identifier></mm:isnotempty>
        </mm:field>
@@ -131,7 +141,7 @@
          </mm:relatednodes>
        </mm:relatednodescontainer>
 
-       <oi:reference xml:lang="${_node.language}"><mm:field name="relation" /></oi:reference>
+       <oi:references xml:lang="${_node.language}"><mm:field name="relation" /></oi:references>
 
        <!-- oi:spatial -->
        <mm:field name="coverage">
@@ -142,7 +152,7 @@
          </mm:isnotempty>
        </mm:field>
 
-       <!-- oi:rights -->
+       <!-- oi:license etc. -->
        <mm:url absolute="true" id="page_link" write="false">
          <mm:frameworkparam name="component">oip</mm:frameworkparam>
          <mm:frameworkparam name="block">mediafragment</mm:frameworkparam>
