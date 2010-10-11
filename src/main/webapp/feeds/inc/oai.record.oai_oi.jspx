@@ -84,10 +84,10 @@
        <oi:date><mm:field name="date"><mm:time format="yyyy-MM-dd" /></mm:field></oi:date>
        
        <oi:type>
-         <mm:nodeinfo type="nodemanager">
+         <mm:nodeinfo type="type">
            <c:choose>
-             <c:when test="${_ eq 'imagefragments'}">still image</c:when>
-             <c:when test="${_ eq 'audiofragments'}">sound recording</c:when>
+             <c:when test="${fn:startsWith(_,'image')}">still image</c:when>
+             <c:when test="${fn:startsWith(_,'audio')}">sound recording</c:when>
              <c:otherwise>moving image</c:otherwise>
            </c:choose>
          </mm:nodeinfo>                 
@@ -114,7 +114,7 @@
          <mm:param name="format">WEBM,OGV,MP4,OGG,TS,M3U8,MP3,OGG,OGA,PNG,JPG,JPEG</mm:param>
          <mm:listfunction name="filteredurls">
            <c:if test="${_.available}">
-             <oi:medium>${_.URL}</oi:medium>
+             <oi:medium><mm:url page="${_.URL}" absolute="true" /></oi:medium>
            </c:if>
          </mm:listfunction>
        </mm:functioncontainer>
