@@ -29,7 +29,7 @@
         <description xml:lang="nl">... is verplicht.</description>
       </required>
       
-      <pattern value="en|nl|fr" />
+      <pattern value="nl|fy|en|de|fr" />
       
     </datatype>
 </field>
