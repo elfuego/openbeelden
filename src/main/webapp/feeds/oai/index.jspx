@@ -14,6 +14,8 @@
     feeds/oai/?verb=ListIdentifiers&metadataPrefix=oai_dc
     feeds/oai/?verb=ListRecords&metadataPrefix=oai_dc&set=lastuploaded
     feeds/oai/?verb=GetRecord&identifier=oai:openimages.eu:23173
+    
+  version: '$Id$'
   -->
   <mm:cloud>
     <mm:import id="requesturl"><c:out value="${pageContext.request.requestURL}" /><c:if test="${!empty pageContext.request.queryString}">?<c:out value="${pageContext.request.queryString}" /></c:if></mm:import>

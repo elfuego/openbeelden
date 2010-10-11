@@ -7,7 +7,8 @@
     xmlns:media="http://search.yahoo.com/mrss/">
   <jsp:output omit-xml-declaration="true" />
   <jsp:directive.page session="false" />
-  
+
+  <!-- version: '$Id$' -->
   <mm:link absolute="true">
     <mm:frameworkparam name="component">oip</mm:frameworkparam>
     <mm:frameworkparam name="block">mediafragment</mm:frameworkparam>

@@ -9,6 +9,7 @@
     xmlns:mm="http://www.mmbase.org/mmbase-taglib-2.0">
   <jsp:directive.page session="false" />
   <jsp:directive.page import="org.mmbase.bridge.*" />
+  <!-- version: '$Id$' -->
   <mm:cloud>  
     
     <mm:import externid="user" />
@@ -16,7 +17,6 @@
     <mm:import externid="related" />
     
     <mm:escaper referid="urlparam" inverse="true" id="undo" />
-
     
     <c:choose>
       <c:when test="${!empty related}">

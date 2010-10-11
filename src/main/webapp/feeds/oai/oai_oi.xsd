@@ -1,4 +1,5 @@
 <xs:schema elementFormDefault="qualified" attributeFormDefault="unqualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+    <!-- version: '$Id$' -->
 	<xs:annotation>
 		<xs:documentation xml:lang="nl">
 		

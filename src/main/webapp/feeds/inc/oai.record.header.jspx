@@ -4,6 +4,7 @@
     xmlns:fn="http://java.sun.com/jsp/jstl/functions"
     xmlns:mm="http://www.mmbase.org/mmbase-taglib-2.0">
   <jsp:output omit-xml-declaration="true" />
+  <!-- version: '$Id$' -->
     
     <!-- oai:HUBerlin.de:3000218 -->
     <identifier>oai:openimages.eu:${_node}</identifier>
