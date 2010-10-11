@@ -86,7 +86,7 @@
          <mm:listfunction name="filteredurls">
            <c:if test="${_.available}">
              <!-- <dc:format>${fn:toLowerCase(_.format)}</dc:format> -->
-             <dc:format>${_.URL}</dc:format>
+             <dc:format><mm:url page="${_.URL}" absolute="true" /></dc:format>
            </c:if>
          </mm:listfunction>
        </mm:functioncontainer>
@@ -100,7 +100,7 @@
          </mm:relatednodes>
        </mm:relatednodescontainer>
        
-       <dc:relation><mm:field name="relation" /></dc:relation>
+       <dc:relation xml:lang="${_node.language}"><mm:field name="relation" /></dc:relation>
        
        <!-- dc:language -->
        <mm:relatednodescontainer type="streamsources" role="related" searchdirs="destination">
@@ -121,7 +121,7 @@
        <!-- dc:rights -->
        <mm:relatednodescontainer type="licenses" role="related" searchdirs="destination">
          <mm:relatednodes>
-           <dc:rights><mm:field name="url" /></dc:rights>
+           <dc:rights xml:lang="${_node.language}"><mm:field name="url" /></dc:rights>
          </mm:relatednodes>
        </mm:relatednodescontainer>
      </oai_dc:dc>
