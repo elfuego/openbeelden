@@ -80,7 +80,7 @@
                 </fieldset>
                 
                 <c:if test="${!empty plusfields}">
-                  <p><a class="plusfields" href="#plus">plus</a></p>
+                  <h4 class="plusfields"><a href="#plus">Extra fields</a></h4>
                   <fieldset class="plus" id="plus">
                     <mm:fieldlist fields="${plusfields}">
                       <mm:fieldinfo type="forid">
@@ -146,7 +146,7 @@
                 </mm:fieldlist>
               </fieldset>
               <c:if test="${!empty plusfields}">
-                <h4><a class="plusfields" href="#plus">plus</a></h4>
+                <h4 class="plusfields"><a href="#plus">Extra fields</a></h4>
                 <fieldset class="plus" id="plus">
                   <mm:fieldlist fields="${plusfields}">
                     <mm:fieldinfo type="forid">
