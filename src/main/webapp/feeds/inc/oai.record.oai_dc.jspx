@@ -105,7 +105,12 @@
        <!-- dc:language -->
        <mm:relatednodescontainer type="streamsources" role="related" searchdirs="destination">
          <mm:relatednodes>
-           <dc:language><mm:field name="language" /></dc:language>
+           <dc:language>
+             <mm:field name="language">
+               <mm:isempty>nl</mm:isempty>
+               <mm:isnotempty>${_}</mm:isnotempty>
+             </mm:field>
+           </dc:language>
          </mm:relatednodes>
        </mm:relatednodescontainer>
        
@@ -121,7 +126,7 @@
        <!-- dc:rights -->
        <mm:relatednodescontainer type="licenses" role="related" searchdirs="destination">
          <mm:relatednodes>
-           <dc:rights xml:lang="${_node.language}"><mm:field name="url" /></dc:rights>
+           <dc:rights><mm:field name="url" /></dc:rights>
          </mm:relatednodes>
        </mm:relatednodescontainer>
      </oai_dc:dc>

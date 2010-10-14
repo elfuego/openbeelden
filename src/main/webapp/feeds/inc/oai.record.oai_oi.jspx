@@ -137,7 +137,12 @@
        <!-- oi:language -->
        <mm:relatednodescontainer type="streamsources" role="related" searchdirs="destination">
          <mm:relatednodes>
-           <oi:language><mm:field name="language" /></oi:language>
+           <oi:language>
+             <mm:field name="language">
+               <mm:isempty>nl</mm:isempty>
+               <mm:isnotempty>${_}</mm:isnotempty>
+             </mm:field>
+           </oi:language>
          </mm:relatednodes>
        </mm:relatednodescontainer>
 
@@ -161,8 +166,8 @@
        <mm:relatednodescontainer type="licenses" role="related" searchdirs="destination">
          <mm:relatednodes>
            <oi:attributionName xml:lang="${_node.language}"><mm:field name="name" /></oi:attributionName>
-           <oi:attributionURL xml:lang="${_node.language}"><mm:write referid="page_link" /></oi:attributionURL>
-           <oi:license xml:lang="${_node.language}"><mm:field name="url" /></oi:license>
+           <oi:attributionURL><mm:write referid="page_link" /></oi:attributionURL>
+           <oi:license><mm:field name="url" /></oi:license>
          </mm:relatednodes>
        </mm:relatednodescontainer>
 
