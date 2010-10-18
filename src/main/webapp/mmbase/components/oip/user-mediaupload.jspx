@@ -23,7 +23,7 @@
           }
           if (document.getElementById('submit') != undefined) {
               document.getElementById('submit').disabled = this.invalidElements != 0;
-              //console.log("invalid: " + this.invalidElements);
+              console.log("invalid: " + this.invalidElements);
           }
       }
       //validator.setup(document.getElementById("${requestScope['org.mmbase.componentId']}"));
@@ -97,7 +97,7 @@
               <jsp:scriptlet>log.info("Mediafragment title: " + mf_title);</jsp:scriptlet>
             </mm:field>
           </mm:log>
-
+          
           <mm:url id="editlink" absolute="true" write="false">
             <mm:frameworkparam name="component">oip</mm:frameworkparam>
             <mm:frameworkparam name="block">user-media</mm:frameworkparam>
@@ -105,8 +105,14 @@
             <mm:param name="media"><mm:field name="mediafragment" id="media" /></mm:param>
           </mm:url>
 
+          <!-- make sure there is always a license related (also when user leaves form without saving) -->
+          <mm:node number="$media" id="mediafr">
+            <mm:node number="licenses_attributionsharealike" id="lic" />
+            <mm:createrelation source="mediafr" destination="lic" role="related" />
+          </mm:node>
+
           <mm:form page="$editlink">
-            <mm:node number="$media" id="medianode">
+            <mm:node number="$media">
               <fieldset>
                 <mm:fieldlist fields="title,subtitle,language,intro,date,dc_creator">
                   <mm:fieldinfo type="forid">
@@ -117,10 +123,6 @@
                   <mm:fieldinfo type="input" />
                 </mm:fieldlist>
               </fieldset>
-
-              <!-- make sure there is always a license related (also when user leaves form without saving) -->
-              <mm:node number="licenses_attributionsharealike" id="lic" />
-              <mm:createrelation source="medianode" destination="lic" role="related" />
             </mm:node>
 
             <fieldset class="licenses">
