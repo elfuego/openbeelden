@@ -9,8 +9,8 @@
   <!-- Relavant subset of dublin core fields -->
   <field name="dc_creator">
     <descriptions>
-      <description xml:lang="en">Creator of the resource (dc:creator).</description>
-      <description xml:lang="nl">Maker van dit werk (dc:creator).</description>
+      <description xml:lang="en">Creator of this work.</description>
+      <description xml:lang="nl">Maker van dit werk.</description>
     </descriptions>
     <gui>
       <guiname xml:lang="en">Creator</guiname>
@@ -24,12 +24,12 @@
     </editor>
     <datatype base="eline" xmlns="http://www.mmbase.org/xmlns/datatypes">
       <required value="true">
-        <description xml:lang="en">... is required.</description>
-        <description xml:lang="nl">... is verplicht.</description>
+        <description xml:lang="en">... this field is required.</description>
+        <description xml:lang="nl">... dit veld is verplicht.</description>
       </required>
       <minLength value="3" enforce="onvalidate">
-        <description xml:lang="en">... is required, at least 3 characters.</description>        
-        <description xml:lang="nl">... is verplicht, tenminste 3 karakters.</description>
+        <description xml:lang="en">... this field is required, at least 3 characters.</description>        
+        <description xml:lang="nl">... dit veld is verplicht, tenminste 3 karakters.</description>
       </minLength>
       <maxLength value="255" />
       <getprocessor>
@@ -40,8 +40,8 @@
   
   <field name="keywords">
     <descriptions>
-      <description xml:lang="en">Point comma separated list of subjects or keywords (dc:subject).</description>
-      <description xml:lang="nl">Puntkomma gescheiden lijst van onderwerpen of trefwoorden (dc:subject).</description>
+      <description xml:lang="en">Semicolon separated list of subjects or keywords.</description>
+      <description xml:lang="nl">Puntkomma-gescheiden lijst van onderwerpen of trefwoorden.</description>
     </descriptions>
     <gui>
       <guiname xml:lang="en">Keywords</guiname>
@@ -60,8 +60,8 @@
   
   <field name="source">
     <descriptions>
-      <description xml:lang="en">Reference to a resource from which the present item is derived (dc:source).</description>
-      <description xml:lang="nl">Referentie naar de (oorspronkelijke) bron van dit item (dc:source).</description>
+      <description xml:lang="en">Reference to a resource from which this work is derived.</description>
+      <description xml:lang="nl">Referentie naar de (oorspronkelijke) bron van dit werk.</description>
     </descriptions>
     <gui>
       <guiname xml:lang="en">Source</guiname>
@@ -80,12 +80,12 @@
 
   <field name="identifier">
     <descriptions>
-      <description xml:lang="en">Identifier corresponding with an external source, like catalogue id or url (dc:identifier).</description>
-      <description xml:lang="nl">Identicatie die overeenkomt met die van een externe bron, zoals een catalogusnummer of url (dc:identifier).</description>
+      <description xml:lang="en">Identifier corresponding with an external source, like catalogue.</description>
+      <description xml:lang="nl">Identicatienummer dat overeenkomt met die van een externe bron, zoals een catalogus.</description>
     </descriptions>
     <gui>
       <guiname xml:lang="en">Identifier</guiname>
-      <guiname xml:lang="nl">Identificatie</guiname>
+      <guiname xml:lang="nl">Identificatienummer</guiname>
     </gui>
     <editor>
       <positions>
@@ -100,12 +100,12 @@
   
   <field name="coverage">
     <descriptions>
-      <description xml:lang="en">Point comma separated list with coverage: typically a spatial location, temporal period or jurisdiction (dc:coverage).</description>
-      <description xml:lang="nl">Puntkomma gescheiden lijst met 'coverage': over het algemeen een geografische locatie, periode of jurisdictie (dc:coverage).</description>
+      <description xml:lang="en">Semicolon separated list with spatial locations.</description>
+      <description xml:lang="nl">Puntkomma-gescheiden lijst met geografische locaties.</description>
     </descriptions>
     <gui>
-      <guiname xml:lang="en">Coverage</guiname>
-      <guiname xml:lang="nl">Coverage</guiname>
+      <guiname xml:lang="en">Locations</guiname>
+      <guiname xml:lang="nl">Locaties</guiname>
     </gui>
     <editor>
       <positions>
@@ -120,8 +120,8 @@
 
   <field name="publisher">
     <descriptions>
-      <description xml:lang="en">Entity - typically an organisation - responsible for making the resource available (dc:publisher).</description>
-      <description xml:lang="nl">De voor dit item verantwoordelijk entiteit, meestal een organisatie (dc:publisher).</description>
+      <description xml:lang="en">Entity - typically an organisation - responsible for making this work available.</description>
+      <description xml:lang="nl">De voor het beschikbaarstellen van dit werk verantwoordelijk entiteit, meestal een organisatie.</description>
     </descriptions>
     <gui>
       <guiname xml:lang="en">Publisher</guiname>
@@ -136,12 +136,12 @@
 
     <datatype base="eline" xmlns="http://www.mmbase.org/xmlns/datatypes">
       <required value="true">
-        <description xml:lang="en">... is required.</description>
-        <description xml:lang="nl">... is verplicht.</description>
+        <description xml:lang="en">... this field is required.</description>
+        <description xml:lang="nl">... dit veld is verplicht.</description>
       </required>
       <minLength value="3" enforce="onvalidate">
-        <description xml:lang="en">... is required, at least 3 characters.</description>        
-        <description xml:lang="nl">... is verplicht, tenminste 3 karakters.</description>
+        <description xml:lang="en">... this field is required, at least 3 characters.</description>        
+        <description xml:lang="nl">... dit veld is verplicht, tenminste 3 karakters.</description>
       </minLength>
       <maxLength value="255" />
       <getprocessor>
@@ -153,8 +153,8 @@
   
   <field name="contributor">
     <descriptions>
-      <description xml:lang="en">Point comma separated list with people or organisations that made contributions to the resource (dc:contributor).</description>
-      <description xml:lang="nl">Puntkommagescheiden lijst met organisaties of personen die bijdragen aan dit werk leverden (dc:contributor).</description>
+      <description xml:lang="en">Semicolon separated list with people or organisations that made contributions to this work.</description>
+      <description xml:lang="nl">Puntkomma-gescheiden lijst met organisaties of personen die bijdragen aan dit werk leverden.</description>
     </descriptions>
     <gui>
       <guiname xml:lang="en">Contributor</guiname>
@@ -193,12 +193,12 @@
   
   <field name="date">
     <descriptions>
-      <description xml:lang="nl">Publicatiedatum, in veel gevallen de creatiedatum (dc:date).</description>
-      <description xml:lang="en">Date of publication, in most cases the creation date (dc:date).</description>
+      <description xml:lang="nl">Publicatiedatum, in veel gevallen de creatiedatum.</description>
+      <description xml:lang="en">Date of publication, in most cases the creation date.</description>
     </descriptions>
     <gui>
-      <guiname xml:lang="nl">Datum</guiname>
-      <guiname xml:lang="en">Date</guiname>
+      <guiname xml:lang="nl">Publicatiedatum</guiname>
+      <guiname xml:lang="en">Date of publication</guiname>
     </gui>
     <editor>
       <positions>
@@ -222,4 +222,3 @@
   -->
 
 </fieldlist>
-
