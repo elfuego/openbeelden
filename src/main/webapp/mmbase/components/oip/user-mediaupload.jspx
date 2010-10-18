@@ -23,7 +23,7 @@
           }
           if (document.getElementById('submit') != undefined) {
               document.getElementById('submit').disabled = this.invalidElements != 0;
-              console.log("invalid: " + this.invalidElements);
+              //console.log("invalid: " + this.invalidElements);
           }
       }
       //validator.setup(document.getElementById("${requestScope['org.mmbase.componentId']}"));
