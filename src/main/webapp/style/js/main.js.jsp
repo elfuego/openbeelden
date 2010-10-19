@@ -176,18 +176,15 @@ function initLabelsInInput() {
             }
             input.focusin(function() {
                 if (input.val().length == 0) {
-                    $(label).find('span').animate({ 'opacity': 0.70 }, 'fast');
+                    $(label).find('span').animate( {'opacity': 0.50}, 'normal', 
+                        function(){ $(label).find('span').addClass('grey').css('opacity', 1.0); });
                 }
             });
-            input.live('keydown', function() {
-                $(label).find('span').animate({ 'opacity': 0 }, 'fast');
-            });
-            input.live('paste', function() {
-                $(label).find('span').animate({ 'opacity': 0 }, 'fast');
-            });
+            input.live('keydown', function() { $(label).find('span').animate({'opacity': 0}, 'fast'); });
+            input.live('paste', function() { $(label).find('span').animate({'opacity': 0}, 'fast'); });
             input.focusout(function() {
                 if (input.val().length == 0) {
-                    $(label).find('span').removeClass('transparent'); 
+                    $(label).find('span').removeClass('grey transparent'); 
                     $(label).find('span').animate({ 'opacity': 1 });
                 }
             });
