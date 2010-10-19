@@ -21,15 +21,15 @@
   
   <!-- fields: 1st (default) ones are from mediafragments  -->
   <mm:import id="listfields">title,language,show,date,lastmodified</mm:import>
-  <mm:import id="searchfields">title,subtitle,language,show,date,intro,body,keywords</mm:import>
-  <mm:import id="editfields">${searchfields},length,source,coverage,publisher,offline,online,creator,created,lastmodifier,lastmodified</mm:import>
+  <mm:import id="searchfields">title,dc_creator,subtitle,language,show,date,intro,body,keywords,coverage,source,publisher,contributor,identifier,relation</mm:import>
+  <mm:import id="editfields">${searchfields},length,offline,online,creator,created,lastmodifier,lastmodified</mm:import>
 
   <mm:compare referid="type" value="mediafragments_translations">
     <mm:import id="editfields" reset="true">title,language,subtitle,intro,body,keywords,source</mm:import>
   </mm:compare>
   
   <mm:compare referid="type" value="mmbaseusers">
-    <mm:import id="listfields" reset="true">username,status,lastlogon,language</mm:import>
+    <mm:import id="listfields" reset="true">username,organisation,status,lastlogon,language</mm:import>
     <mm:import id="searchfields" reset="true">${listfields},validfrom,firstname,suffix,lastname</mm:import>
     <mm:import id="editfields" reset="true">${searchfields},description,email</mm:import>
   </mm:compare>
