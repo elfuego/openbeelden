@@ -696,15 +696,16 @@ fieldset.labelininput label.ininput span
 	padding: 13px 3px 5px 3px;
 	margin-left: 3px;
 	color: #888;
-	/*z-index: 0;*/
+	z-index: 0;
 	cursor: text;
 }
 
+fieldset.labelininput label.ininput span.grey { color: #cfcfcf; }
 fieldset.labelininput label.ininput span.transparent { visibility: hidden; }
 
 fieldset.labelininput input,
 fieldset.labelininput textarea {
-    /*z-index: 1;*/
+    z-index: 1;
     padding: 5px;
     margin: 0;
     margin-top: 8px;
