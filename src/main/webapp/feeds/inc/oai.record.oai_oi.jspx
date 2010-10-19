@@ -1,9 +1,10 @@
 ﻿<record
-    xmlns:jsp="http://java.sun.com/JSP/Page"
-    xmlns:c="http://java.sun.com/jsp/jstl/core"
-    xmlns:fn="http://java.sun.com/jsp/jstl/functions"
-    xmlns:fmt="http://java.sun.com/jsp/jstl/fmt"
-    xmlns:mm="http://www.mmbase.org/mmbase-taglib-2.0">
+     xmlns:jsp="http://java.sun.com/JSP/Page"
+     xmlns:c="http://java.sun.com/jsp/jstl/core"
+     xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+     xmlns:fmt="http://java.sun.com/jsp/jstl/fmt"
+     xmlns:mm="http://www.mmbase.org/mmbase-taglib-2.0"
+     xmlns:oip="urn:jsptagdir:/WEB-INF/tags/oip">
   <jsp:output omit-xml-declaration="true" />
   <!-- version: '$Id$' -->
   
@@ -12,166 +13,201 @@
   
   <metadata>
     <oai_oi:oi 
-         xmlns:oi="http://www.openbeelden.nl/oai/" 
-         xmlns:oai_oi="http://www.openarchives.org/OAI/2.0/oai_dc/" 
-         xmlns:dc="http://purl.org/dc/elements/1.1/" 
-         xmlns:dcterms="http://purl.org/dc/terms"
-         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
-         xsi:schemaLocation="http://www.openbeelden.nl/oai/ http://www.openbeelden.nl/oai/oai_oi.xsd">
+        xmlns:oi="http://www.openbeelden.nl/oai/" 
+        xmlns:oai_oi="http://www.openarchives.org/OAI/2.0/oai_dc/" 
+        xmlns:dc="http://purl.org/dc/elements/1.1/" 
+        xmlns:dcterms="http://purl.org/dc/terms"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+        xsi:schemaLocation="http://www.openbeelden.nl/oai/ http://www.openbeelden.nl/oai/oai_oi.xsd">
+ 
+      <oi:title xml:lang="${_node.language}"><mm:field name="title" /></oi:title>
+      <mm:relatednodescontainer type="mediafragments_translations" role="langrel" searchdirs="destination">
+        <mm:relatednodes>
+          <oi:title xml:lang="${_node.language}"><mm:field name="title" /></oi:title>
+        </mm:relatednodes>
+      </mm:relatednodescontainer>
+      
+      <oi:alternative xml:lang="${_node.language}"><mm:field name="subtitle" /></oi:alternative>
+      <mm:relatednodescontainer type="mediafragments_translations" role="langrel" searchdirs="destination">
+        <mm:relatednodes>
+          <oi:alternative xml:lang="${_node.language}"><mm:field name="subtitle" /></oi:alternative>
+        </mm:relatednodes>
+      </mm:relatednodescontainer>
+      
+      <oi:creator xml:lang="${_node.language}"><mm:field name="creator" /></oi:creator>
 
-       <oi:title xml:lang="${_node.language}"><mm:field name="title" /></oi:title>
-       <mm:relatednodescontainer type="mediafragments_translations" role="langrel" searchdirs="destination">
-         <mm:relatednodes>
-           <oi:title xml:lang="${_node.language}"><mm:field name="title" /></oi:title>
-         </mm:relatednodes>
-       </mm:relatednodescontainer>
-       
-       <oi:alternative xml:lang="${_node.language}"><mm:field name="subtitle" /></oi:alternative>
-       <mm:relatednodescontainer type="mediafragments_translations" role="langrel" searchdirs="destination">
-         <mm:relatednodes>
-           <oi:alternative xml:lang="${_node.language}"><mm:field name="subtitle" /></oi:alternative>
-         </mm:relatednodes>
-       </mm:relatednodescontainer>
-       
-       <oi:creator xml:lang="${_node.language}"><mm:field name="creator" /></oi:creator>
+      <!-- oi:subject -->
+      <mm:field name="keywords">
+        <mm:isnotempty>
+          <c:forTokens items="${_}" delims=";" var="subject">
+            <oi:subject xml:lang="${_node.language}"><c:out value="${fn:trim(subject)}" /></oi:subject>
+          </c:forTokens>
+        </mm:isnotempty>
+      </mm:field>
+      <mm:relatednodescontainer type="mediafragments_translations" role="langrel" searchdirs="destination">
+        <mm:relatednodes>
+          <mm:field name="keywords">
+            <mm:isnotempty>
+              <c:forTokens items="${_}" delims=";" var="subject">
+                <oi:subject xml:lang="${_node.language}"><c:out value="${fn:trim(subject)}" /></oi:subject>
+              </c:forTokens>
+            </mm:isnotempty>
+          </mm:field>
+        </mm:relatednodes>
+      </mm:relatednodescontainer>
 
-       <!-- oi:subject -->
-       <mm:field name="keywords">
-         <mm:isnotempty>
-           <c:forTokens items="${_}" delims=";" var="subject">
-             <oi:subject xml:lang="${_node.language}"><c:out value="${fn:trim(subject)}" /></oi:subject>
-           </c:forTokens>
-         </mm:isnotempty>
-       </mm:field>
-       <mm:relatednodescontainer type="mediafragments_translations" role="langrel" searchdirs="destination">
-         <mm:relatednodes>
-           <mm:field name="keywords">
-             <mm:isnotempty>
-               <c:forTokens items="${_}" delims=";" var="subject">
-                 <oi:subject xml:lang="${_node.language}"><c:out value="${fn:trim(subject)}" /></oi:subject>
-               </c:forTokens>
-             </mm:isnotempty>
-           </mm:field>
-         </mm:relatednodes>
-       </mm:relatednodescontainer>
+      <oi:description xml:lang="${_node.language}">
+        <mm:field name="intro" escape="tagstripper" />
+      </oi:description>
+      <mm:relatednodescontainer type="mediafragments_translations" role="langrel" searchdirs="destination">
+        <mm:relatednodes>
+          <oi:description xml:lang="${_node.language}">
+            <mm:field name="intro" escape="tagstripper" />
+          </oi:description>
+        </mm:relatednodes>
+      </mm:relatednodescontainer>
 
-       <oi:description xml:lang="${_node.language}">
-         <mm:field name="intro" escape="tagstripper" />
-       </oi:description>
-       <mm:relatednodescontainer type="mediafragments_translations" role="langrel" searchdirs="destination">
-         <mm:relatednodes>
-           <oi:description xml:lang="${_node.language}">
-             <mm:field name="intro" escape="tagstripper" />
-           </oi:description>
-         </mm:relatednodes>
-       </mm:relatednodescontainer>
+      <oi:abstract xml:lang="${_node.language}">
+        <mm:field name="body" escape="tagstripper" />
+      </oi:abstract>
+      <mm:relatednodescontainer type="mediafragments_translations" role="langrel" searchdirs="destination">
+        <mm:relatednodes>
+          <oi:abstract xml:lang="${_node.language}">
+            <mm:field name="body" escape="tagstripper" />
+          </oi:abstract>
+        </mm:relatednodes>
+      </mm:relatednodescontainer>
 
-       <oi:abstract xml:lang="${_node.language}">
-         <mm:field name="body" escape="tagstripper" />
-       </oi:abstract>
-       <mm:relatednodescontainer type="mediafragments_translations" role="langrel" searchdirs="destination">
-         <mm:relatednodes>
-           <oi:abstract xml:lang="${_node.language}">
-             <mm:field name="body" escape="tagstripper" />
-           </oi:abstract>
-         </mm:relatednodes>
-       </mm:relatednodescontainer>
+      <!-- oi:publisher -->
+      <mm:field name="publisher">
+        <mm:isnotempty><oi:publisher xml:lang="${_node.language}"><mm:write /></oi:publisher></mm:isnotempty>
+      </mm:field>
+      <oi:publisher>
+        <mm:field name="owner" write="false">
+          <mm:hasnode number="$_" inverse="true">unknown</mm:hasnode>       
+          <mm:hasnode number="$_">
+            <mm:node number="$_">
+              <mm:link>
+                <mm:frameworkparam name="component">oip</mm:frameworkparam>
+                <mm:frameworkparam name="block">user</mm:frameworkparam>
+                <mm:frameworkparam name="user">${_node}</mm:frameworkparam>
+                <mm:url page="${_}" absolute="true" />
+              </mm:link>
+            </mm:node>
+          </mm:hasnode>
+        </mm:field>
+      </oi:publisher>
+      
+      <!-- oi:contributor -->
+      <mm:field name="contributor">
+        <mm:isnotempty>
+          <c:forTokens items="${_}" delims=";" var="key">
+            <oi:contributor><c:out value="${fn:trim(key)}" /></oi:contributor>
+          </c:forTokens>
+        </mm:isnotempty>
+      </mm:field>
+      
+      <oi:date><mm:field name="date"><mm:time format="yyyy-MM-dd" /></mm:field></oi:date>
+      
+      <oi:type>
+        <mm:nodeinfo type="type">
+          <c:choose>
+            <c:when test="${fn:startsWith(_,'image')}">Still Image</c:when>
+            <c:when test="${fn:startsWith(_,'audio')}">Sound Recording</c:when>
+            <c:otherwise>Moving Image</c:otherwise>
+          </c:choose>
+        </mm:nodeinfo>                 
+      </oi:type>
+      
+      <!-- P[n]Y[n]M[n]DT[n]H[n]M[n]S or P[n]W f.e. P3Y6M4DT12H30M5S -->
+      <oi:extent>
+        <mm:field name="length" id="length" write="false" />
+        <c:choose>
+          <c:when test="${length gt -1}">
+            <fmt:formatNumber value="${length / 1000}" var="duration" maxFractionDigits="0" groupingUsed="false" />
+          </c:when>
+          <c:otherwise><c:set var="duration" value="0" /></c:otherwise>
+        </c:choose>
+        <c:choose>
+          <c:when test="${duration gt 3600}">PT<mm:time format="h'H'm'M's'S'" time="${duration}" /></c:when>
+          <c:when test="${duration lt 3600 and duration gt 60}">PT<mm:time format="m'M's'S'" time="${duration}" /></c:when>
+          <c:otherwise>PT<mm:time format="s'S'" time="${duration}" /></c:otherwise>
+        </c:choose>
+      </oi:extent>
+      
+      <!-- oi:medium -->
+      <mm:functioncontainer>
+        <mm:param name="format">WEBM,OGV,MP4,OGG,TS,M3U8,MP3,OGG,OGA,PNG,JPG,JPEG</mm:param>
+        <mm:listfunction name="filteredurls">
+          <c:if test="${_.available}">
+            <oi:medium><mm:url page="${_.URL}" absolute="true" /></oi:medium>
+          </c:if>
+        </mm:listfunction>
+      </mm:functioncontainer>
+      <!-- oi:medium thumbnail -->
+      <mm:relatednodescontainer type="images" role="related" searchdirs="destination">
+        <mm:maxnumber value="1" />
+        <mm:relatednodes>
+          <c:set var="thumbnail"><oip:imagecrop width="320" height="240" /></c:set>
+          <oi:medium><mm:image absolute="true" template="$thumbnail" /></oi:medium>
+        </mm:relatednodes>
+      </mm:relatednodescontainer>
+      
+      <mm:field name="identifier">
+        <mm:isnotempty><oi:identifier xml:lang="${_node.language}"><mm:write /></oi:identifier></mm:isnotempty>
+      </mm:field>
+      
+      <mm:field name="source">
+        <mm:isnotempty><oi:source xml:lang="${_node.language}"><mm:write /></oi:source></mm:isnotempty>
+      </mm:field>
+      <mm:relatednodescontainer type="mediafragments_translations" role="langrel" searchdirs="destination">
+        <mm:relatednodes>
+          <mm:field name="source">
+            <mm:isnotempty><oi:source xml:lang="${_node.language}"><mm:write /></oi:source></mm:isnotempty>
+          </mm:field>
+        </mm:relatednodes>
+      </mm:relatednodescontainer>
+      
+      <!-- oi:language -->
+      <oi:language>
+        <mm:listfunction name="filteredurls">
+          <c:if test="${_.main}">
+            <mm:node number="${_.source.number}">
+              <mm:field name="language">
+                <mm:isempty>nl</mm:isempty>
+                <mm:isnotempty>${_}</mm:isnotempty>
+              </mm:field>
+            </mm:node>
+          </c:if>
+        </mm:listfunction>
+      </oi:language>
 
-       <oi:publisher xml:lang="${_node.language}"><mm:field name="publisher" /></oi:publisher>
-       
-       <oi:contributor xml:lang="${_node.language}"><mm:field name="contributor" /></oi:contributor>
-       
-       <oi:date><mm:field name="date"><mm:time format="yyyy-MM-dd" /></mm:field></oi:date>
-       
-       <oi:type>
-         <mm:nodeinfo type="type">
-           <c:choose>
-             <c:when test="${fn:startsWith(_,'image')}">still image</c:when>
-             <c:when test="${fn:startsWith(_,'audio')}">sound recording</c:when>
-             <c:otherwise>moving image</c:otherwise>
-           </c:choose>
-         </mm:nodeinfo>                 
-       </oi:type>
-       
-       <!-- P[n]Y[n]M[n]DT[n]H[n]M[n]S or P[n]W f.e. P3Y6M4DT12H30M5S -->
-       <oi:extent>
-         <mm:field name="length" id="length" write="false" />
-         <c:choose>
-           <c:when test="${length gt -1}">
-             <fmt:formatNumber value="${length / 1000}" var="duration" maxFractionDigits="0" groupingUsed="false" />
-           </c:when>
-           <c:otherwise><c:set var="duration" value="0" /></c:otherwise>
-         </c:choose>
-         <c:choose>
-           <c:when test="${duration gt 3600}">PT<mm:time format="h'H'm'M's'S'" time="${duration}" /></c:when>
-           <c:when test="${duration lt 3600 and duration gt 60}">PT<mm:time format="m'M's'S'" time="${duration}" /></c:when>
-           <c:otherwise>PT<mm:time format="s'S'" time="${duration}" /></c:otherwise>
-         </c:choose>
-       </oi:extent>
-       
-       <!-- oi:medium -->
-       <mm:functioncontainer>
-         <mm:param name="format">WEBM,OGV,MP4,OGG,TS,M3U8,MP3,OGG,OGA,PNG,JPG,JPEG</mm:param>
-         <mm:listfunction name="filteredurls">
-           <c:if test="${_.available}">
-             <oi:medium><mm:url page="${_.URL}" absolute="true" /></oi:medium>
-           </c:if>
-         </mm:listfunction>
-       </mm:functioncontainer>
-       
-       <mm:field name="identifier">
-         <mm:isnotempty><oi:identifier xml:lang="${_node.language}"><mm:write /></oi:identifier></mm:isnotempty>
-       </mm:field>
-       
-       <mm:field name="source">
-         <mm:isnotempty><oi:source xml:lang="${_node.language}"><mm:write /></oi:source></mm:isnotempty>
-       </mm:field>
-       <mm:relatednodescontainer type="mediafragments_translations" role="langrel" searchdirs="destination">
-         <mm:relatednodes>
-           <mm:field name="source">
-             <mm:isnotempty><oi:source xml:lang="${_node.language}"><mm:write /></oi:source></mm:isnotempty>
-           </mm:field>
-         </mm:relatednodes>
-       </mm:relatednodescontainer>
-       
-       <!-- oi:language -->
-       <mm:relatednodescontainer type="streamsources" role="related" searchdirs="destination">
-         <mm:relatednodes>
-           <oi:language>
-             <mm:field name="language">
-               <mm:isempty>nl</mm:isempty>
-               <mm:isnotempty>${_}</mm:isnotempty>
-             </mm:field>
-           </oi:language>
-         </mm:relatednodes>
-       </mm:relatednodescontainer>
+      <oi:references xml:lang="${_node.language}"><mm:field name="relation" /></oi:references>
 
-       <oi:references xml:lang="${_node.language}"><mm:field name="relation" /></oi:references>
+      <!-- oi:spatial -->
+      <mm:field name="coverage">
+        <mm:isnotempty>
+          <c:forTokens items="${_}" delims=";" var="coverage">
+            <oi:spatial xml:lang="${_node.language}"><c:out value="${fn:trim(coverage)}" /></oi:spatial>
+          </c:forTokens>
+        </mm:isnotempty>
+      </mm:field>
 
-       <!-- oi:spatial -->
-       <mm:field name="coverage">
-         <mm:isnotempty>
-           <c:forTokens items="${_}" delims=";" var="coverage">
-             <oi:spatial xml:lang="${_node.language}"><c:out value="${fn:trim(coverage)}" /></oi:spatial>
-           </c:forTokens>
-         </mm:isnotempty>
-       </mm:field>
-
-       <!-- oi:license etc. -->
-       <mm:url absolute="true" id="page_link" write="false">
-         <mm:frameworkparam name="component">oip</mm:frameworkparam>
-         <mm:frameworkparam name="block">mediafragment</mm:frameworkparam>
-         <mm:frameworkparam name="media">${_node}</mm:frameworkparam>
-       </mm:url>
-       <mm:relatednodescontainer type="licenses" role="related" searchdirs="destination">
-         <mm:relatednodes>
-           <oi:attributionName xml:lang="${_node.language}"><mm:field name="name" /></oi:attributionName>
-           <oi:attributionURL><mm:write referid="page_link" /></oi:attributionURL>
-           <oi:license><mm:field name="url" /></oi:license>
-         </mm:relatednodes>
-       </mm:relatednodescontainer>
-
-     </oai_oi:oi>
+      <!-- oi:license etc. -->
+      <mm:url absolute="true" id="page_link" write="false">
+        <mm:frameworkparam name="component">oip</mm:frameworkparam>
+        <mm:frameworkparam name="block">mediafragment</mm:frameworkparam>
+        <mm:frameworkparam name="media">${_node}</mm:frameworkparam>
+      </mm:url>
+      <mm:relatednodescontainer type="licenses" role="related" searchdirs="destination">
+        <mm:relatednodes>
+          <oi:attributionName xml:lang="${_node.language}"><mm:field name="name" /></oi:attributionName>
+          <oi:attributionURL><mm:write referid="page_link" /></oi:attributionURL>
+          <oi:license><mm:field name="url" /></oi:license>
+        </mm:relatednodes>
+      </mm:relatednodescontainer>
+ 
+    </oai_oi:oi>
   </metadata>
 
 </record>

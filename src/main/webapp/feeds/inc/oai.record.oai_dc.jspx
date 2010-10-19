@@ -64,18 +64,43 @@
          </mm:relatednodes>
        </mm:relatednodescontainer>
 
-       <dc:publisher xml:lang="${_node.language}"><mm:field name="publisher" /></dc:publisher>
+      <!-- dc:publisher -->
+      <mm:field name="publisher">
+        <mm:isnotempty><dc:publisher xml:lang="${_node.language}"><mm:write /></dc:publisher></mm:isnotempty>
+      </mm:field>
+      <dc:publisher>
+        <mm:field name="owner" write="false">
+          <mm:hasnode number="$_" inverse="true">unknown</mm:hasnode>       
+          <mm:hasnode number="$_">
+            <mm:node number="$_">
+              <mm:link>
+                <mm:frameworkparam name="component">oip</mm:frameworkparam>
+                <mm:frameworkparam name="block">user</mm:frameworkparam>
+                <mm:frameworkparam name="user">${_node}</mm:frameworkparam>
+                <mm:url page="${_}" absolute="true" />
+              </mm:link>
+            </mm:node>
+          </mm:hasnode>
+        </mm:field>
+      </dc:publisher>
        
-       <dc:contributor xml:lang="${_node.language}"><mm:field name="contributor" /></dc:contributor>
+      <!-- dc:contributor -->
+      <mm:field name="contributor">
+        <mm:isnotempty>
+          <c:forTokens items="${_}" delims=";" var="key">
+            <dc:contributor><c:out value="${fn:trim(key)}" /></dc:contributor>
+          </c:forTokens>
+        </mm:isnotempty>
+      </mm:field>
 
        <dc:date><mm:field name="date"><mm:time format="yyyy-MM-dd" /></mm:field></dc:date>
        
        <dc:type>
          <mm:nodeinfo type="nodemanager">
            <c:choose>
-             <c:when test="${_ eq 'imagefragments'}">still image</c:when>
-             <c:when test="${_ eq 'audiofragments'}">sound recording</c:when>
-             <c:otherwise>moving image</c:otherwise>
+             <c:when test="${_ eq 'imagefragments'}">Still Image</c:when>
+             <c:when test="${_ eq 'audiofragments'}">Sound Recording</c:when>
+             <c:otherwise>Moving Image</c:otherwise>
            </c:choose>
          </mm:nodeinfo>                 
        </dc:type>
@@ -85,11 +110,18 @@
          <mm:param name="format">WEBM,OGV,MP4,OGG,TS,M3U8,MP3,OGG,OGA,PNG,JPG,JPEG</mm:param>
          <mm:listfunction name="filteredurls">
            <c:if test="${_.available}">
-             <!-- <dc:format>${fn:toLowerCase(_.format)}</dc:format> -->
              <dc:format><mm:url page="${_.URL}" absolute="true" /></dc:format>
            </c:if>
          </mm:listfunction>
        </mm:functioncontainer>
+       <!-- dc:format thumbnail -->
+       <mm:relatednodescontainer type="images" role="related" searchdirs="destination">
+         <mm:maxnumber value="1" />
+         <mm:relatednodes>
+           <c:set var="thumbnail"><oip:imagecrop width="320" height="240" /></c:set>
+           <dc:format><mm:image absolute="true" template="$thumbnail" /></dc:format>
+         </mm:relatednodes>
+       </mm:relatednodescontainer>
        
        <dc:identifier><mm:field name="identifier" /></dc:identifier>
        
@@ -103,16 +135,18 @@
        <dc:relation xml:lang="${_node.language}"><mm:field name="relation" /></dc:relation>
        
        <!-- dc:language -->
-       <mm:relatednodescontainer type="streamsources" role="related" searchdirs="destination">
-         <mm:relatednodes>
-           <dc:language>
-             <mm:field name="language">
-               <mm:isempty>nl</mm:isempty>
-               <mm:isnotempty>${_}</mm:isnotempty>
-             </mm:field>
-           </dc:language>
-         </mm:relatednodes>
-       </mm:relatednodescontainer>
+       <dc:language>
+         <mm:listfunction name="filteredurls">
+           <c:if test="${_.main}">
+             <mm:node number="${_.source.number}">
+               <mm:field name="language">
+                 <mm:isempty>nl</mm:isempty>
+                 <mm:isnotempty>${_}</mm:isnotempty>
+               </mm:field>
+             </mm:node>
+           </c:if>
+         </mm:listfunction>
+       </dc:language>
        
        <!-- dc:coverage -->
        <mm:field name="coverage">
