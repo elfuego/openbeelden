@@ -24,7 +24,7 @@
          </mm:relatednodes>
        </mm:relatednodescontainer>
        
-       <dc:creator xml:lang="${_node.language}"><mm:field name="creator" /></dc:creator>
+       <dc:creator xml:lang="${_node.language}"><mm:field name="dc_creator" /></dc:creator>
 
        <!-- dc:subject -->
        <mm:field name="keywords">
