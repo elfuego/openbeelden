@@ -16,11 +16,20 @@
 
 <mm:url referids="type,rnr?,role?,dir?" id="formlink" write="false" />
 
-<mm:link page="create.jspx" referids="type">
-  <a class="create createnode" href="${_}">
-    nieuw <mm:nodeinfo type="guitype" nodetype="$type" escape="lowercase" />
-  </a>
-</mm:link>
+<c:if test="${type eq 'pages' 
+              or type eq 'articles' 
+              or type eq 'licenses' 
+              or type eq 'urls'
+              or type eq 'images'
+              or type eq 'attachments'
+              or type eq 'tags'
+              }">
+  <mm:link page="create.jspx" referids="type">
+    <a class="create createnode" href="${_}">
+      nieuw <mm:nodeinfo type="guitype" nodetype="$type" escape="lowercase" />
+    </a>
+  </mm:link>
+</c:if>
 
 <form id="searchform" method="post" action="${formlink}">
   <fieldset>
