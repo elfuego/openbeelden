@@ -179,7 +179,11 @@ body.images #tab7 a,
 body.attachments #tab8 a,
 body.tags #tab9 a,
 body.licenses #tab10 a,
-body.stats #tab11 a
+body.stats #tab11 a,
+body.tools #tab12 a,
+body.videostreamsources #tab13 a,
+body.audiostreamsources #tab14 a,
+body.imagesources #tab15 a
 {
 	color: #222;
 	padding-bottom: 5px;
