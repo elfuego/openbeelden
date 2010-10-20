@@ -143,7 +143,7 @@
           </error>
         </c:when>
         <c:when test="${verb eq 'Identify'}">
-          <request verb="${verb}" metadataPrefix="${metadataPrefix}">${requesturl}</request>
+          <request verb="${verb}">${requesturl}</request>
           <Identify>
             <repositoryName>Open Images Platform</repositoryName>
             <baseURL><mm:url page="/" absolute="true" /></baseURL>
@@ -164,7 +164,7 @@
         </c:when>
         
         <c:when test="${verb eq 'ListSets'}">
-          <request verb="${verb}" metadataPrefix="${metadataPrefix}">${requesturl}</request>
+          <request verb="${verb}">${requesturl}</request>
           <ListSets>
             <set>
               <setSpec>lastuploaded</setSpec>
