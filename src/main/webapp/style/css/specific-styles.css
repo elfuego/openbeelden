@@ -666,17 +666,17 @@ body.home p.logobeng img { margin-top: 8px; }
 
 h4.plusfields
 {
-	padding-left: 16px;
+	padding-left: 12px;
 	background-image: url(images/icon_plus.gif);
 	background-repeat: no-repeat;
-	background-position: left 4px;
+	background-position: left 6px;
 	border-bottom: 1px #555 solid;
 	padding-bottom: 2px;
 }
 
 h4.plusfields.open { background-image: url(images/icon_minus.gif); }
-
-h4.plusfields a:link { color: #555; }
+h4.plusfields a:link, h4.plusfields a:visited { color: #555; }
+h4.plusfields a:hover, h4.plusfields a:active { color: #c00; }
 
 fieldset.plus
 {
