@@ -1,0 +1,42 @@
+<mm:content 
+    xmlns:jsp="http://java.sun.com/JSP/Page"
+    xmlns:c="http://java.sun.com/jsp/jstl/core"
+    xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+    xmlns:mm="http://www.mmbase.org/mmbase-taglib-2.0"
+    xmlns:oip="urn:jsptagdir:/WEB-INF/tags/oip"
+    expires="0" type="text/html" language="client" postprocessor="none">
+<jsp:output doctype-root-element="html"
+      doctype-public="-//W3C//DTD XHTML 1.0 Strict//EN"
+      doctype-system="http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd" />
+<mm:cloud loginpage="../login.jspx" rank="project manager">
+
+<mm:import externid="msg" />
+<mm:import externid="type" />
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="nl">
+<mm:include page="../inc/head.jspx" referids="type,pagetitle?" />
+<body class="tools ${type}">
+<jsp:include page="../inc/navigation.jspx" />
+<div id="wrap">
+  <div id="content">
+    
+<mm:import externid="offset">0</mm:import>
+<mm:import id="max">50</mm:import>
+
+<h2>Tools</h2>
+
+<ul>
+  <li><a href="keywords.jspx">Convert , in keywords to ;</a></li>
+</ul>
+  
+  
+  </div><!-- /#content -->
+  <div id="sidebar">
+
+  </div><!-- /#sidebar -->
+</div><!-- /#wrap -->
+
+</body>
+</html>
+</mm:cloud>
+</mm:content>

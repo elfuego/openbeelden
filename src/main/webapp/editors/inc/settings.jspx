@@ -28,6 +28,22 @@
     <mm:import id="editfields" reset="true">title,language,subtitle,intro,body,keywords,source</mm:import>
   </mm:compare>
   
+  <mm:compare referid="type" value="videostreamsources">
+    <mm:import id="listfields" reset="true">mimetype,url,format,language,state</mm:import>
+    <mm:import id="searchfields" reset="true">${listfields}</mm:import>
+    <mm:import id="editfields" reset="true">title,language,subtitle,mimetype,url,state</mm:import>
+  </mm:compare>
+  <mm:compare referid="type" value="audiostreamsources">
+    <mm:import id="listfields" reset="true">mimetype,url,format,language,state</mm:import>
+    <mm:import id="searchfields" reset="true">${listfields}</mm:import>
+    <mm:import id="editfields" reset="true">title,language,subtitle,mimetype,url,state</mm:import>
+  </mm:compare>
+  <mm:compare referid="type" value="imagesources">
+    <mm:import id="listfields" reset="true">mimetype,url,format,language,state</mm:import>
+    <mm:import id="searchfields" reset="true">${listfields}</mm:import>
+    <mm:import id="editfields" reset="true">title,language,subtitle,mimetype,url,state</mm:import>
+  </mm:compare>
+  
   <mm:compare referid="type" value="mmbaseusers">
     <mm:import id="listfields" reset="true">username,organisation,status,lastlogon,language</mm:import>
     <mm:import id="searchfields" reset="true">${listfields},validfrom,firstname,suffix,lastname</mm:import>

@@ -1,0 +1,126 @@
+<mm:content 
+    xmlns:jsp="http://java.sun.com/JSP/Page"
+    xmlns:c="http://java.sun.com/jsp/jstl/core"
+    xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+    xmlns:mm="http://www.mmbase.org/mmbase-taglib-2.0"
+    xmlns:oip="urn:jsptagdir:/WEB-INF/tags/oip"
+    expires="0" type="text/html" language="client" postprocessor="none">
+<jsp:output doctype-root-element="html"
+      doctype-public="-//W3C//DTD XHTML 1.0 Strict//EN"
+      doctype-system="http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd" />
+<mm:cloud loginpage="../login.jspx" rank="project manager">
+
+<mm:import externid="msg" />
+<mm:import externid="type" />
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="nl">
+<mm:include page="../inc/head.jspx" referids="type,pagetitle?" />
+<body class="tools ${type}">
+<jsp:include page="../inc/navigation.jspx" />
+<div id="wrap">
+  <div id="content">
+    
+<mm:import externid="convert" />
+
+<mm:import externid="offset">0</mm:import>
+<mm:import id="max">10</mm:import>
+
+<!-- sortorder and field to sort on -->
+<mm:import externid="sf">number</mm:import>
+<mm:import externid="so">up</mm:import>
+<c:choose>
+  <c:when test="${so eq 'up'}"><c:set var="sortorder" value="UP" /></c:when>
+  <c:otherwise><c:set var="sortorder" value="DOWN" /></c:otherwise>
+</c:choose>
+
+<h2>
+  Convert , to ; in keywords:
+  <mm:link>
+    <mm:param name="convert">ok</mm:param>
+    <a href="${_}">[ok]</a>
+  </mm:link>
+</h2>
+
+
+
+<mm:url id="baseurl" absolute="true" escapeamps="false" referids="convert?,sf?,so?" write="false" />
+
+<mm:listnodescontainer type="mediafragments">
+  
+  <mm:sortorder field="$sf" direction="$so" />
+  <mm:size id="total" write="false" />
+  <mm:offset value="$offset" />
+  <mm:maxnumber value="$max" />
+
+  <table summary="Convert mediafragments" border="0" cellspacing="0" cellpadding="3" class="stats">
+    <thead>
+      <tr>
+        <th>#</th>
+        <th>title</th>
+        <th>keywords</th>
+      </tr>
+    </thead>
+    <tfoot>
+      <tr>
+        <th colspan="4">
+          <oip:pager total="${total}" offset="${offset}" max="${max}" baseurl="${baseurl}" />
+        </th>
+      </tr>
+    </tfoot>
+
+    <mm:listnodes>
+      
+      <mm:index write="false">
+        <c:choose>
+          <c:when test="${(_ mod 2) eq 0}"><c:set var="oddeven" value="even" /></c:when>
+          <c:otherwise><c:set var="oddeven" value="odd" /></c:otherwise>
+        </c:choose>
+      </mm:index>
+      
+      <tr class="${oddeven}">
+        <td><mm:index offset="${offset + 1}" /></td>
+        <td> 
+          <mm:link page="../edit.jspx" referids="_node@nr">
+            <a href="${_}">
+              <mm:hasfield name="title"><mm:field name="title" /></mm:hasfield>
+              <mm:hasfield name="title" inverse="true"><mm:field name="number" /></mm:hasfield>
+            </a>
+          </mm:link>
+        </td>
+        <td>
+          
+          <mm:compare referid="convert" value="ok">
+            <mm:field name="keywords">
+              <mm:isnotempty>
+                <c:if test="${fn:indexOf(_, ',') > -1}">
+                  <mm:import id="new" reset="true">
+                    <c:forTokens items="${_}" delims="," var="item" varStatus="status">
+                      <c:out value="${fn:trim(item)}" />
+                      <c:if test="${! status.last}"><jsp:text>; </jsp:text></c:if>
+                    </c:forTokens>
+                  </mm:import>
+                 <strong><em>converted: </em></strong>  
+                 <mm:setfield name="keywords"><mm:write referid="new" /></mm:setfield>
+                </c:if>
+              </mm:isnotempty>
+            </mm:field>
+          </mm:compare>
+          
+          <mm:field name="keywords" />
+          
+        </td>
+      </tr>
+      
+    </mm:listnodes>
+  </table>
+</mm:listnodescontainer>
+    
+  
+  
+  </div><!-- /#content -->
+</div><!-- /#wrap -->
+
+</body>
+</html>
+</mm:cloud>
+</mm:content>

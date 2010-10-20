@@ -18,16 +18,20 @@
  <div id="topnav">
    <ul id="nav">
      <li id="tab1"><a href="index.jspx">home</a></li>
-     <li id="tab2"><mm:link page="edit.jspx"><a href="${_}">media</a></mm:link></li>
-     <li id="tab3"><mm:link page="edit.jspx"><mm:param name="type">mmbaseusers</mm:param><a href="${_}">users</a></mm:link></li>
-     <li id="tab4"><mm:link page="edit.jspx"><mm:param name="type">pages</mm:param><a href="${_}">pages</a></mm:link></li>
-     <li id="tab5"><mm:link page="edit.jspx"><mm:param name="type">articles</mm:param><a href="${_}">articles</a></mm:link></li>
-     <li id="tab6"><mm:link page="edit.jspx"><mm:param name="type">urls</mm:param><a href="${_}">links</a></mm:link></li>
-     <li id="tab7"><mm:link page="edit.jspx"><mm:param name="type">images</mm:param><a href="${_}">afbeeldingen</a></mm:link></li>
-     <li id="tab8"><mm:link page="edit.jspx"><mm:param name="type">attachments</mm:param><a href="${_}">bijlagen</a></mm:link></li>
-     <li id="tab9"><mm:link page="edit.jspx"><mm:param name="type">tags</mm:param><a href="${_}">tags</a></mm:link></li>
-     <li id="tab10"><mm:link page="edit.jspx"><mm:param name="type">licenses</mm:param><a href="${_}">licenses</a></mm:link></li>
-     <li id="tab11"><mm:link page="plays.jspx"><a href="${_}"># of plays</a></mm:link></li>
+     <li id="tab2"><mm:link page="/editors/edit.jspx"><a href="${_}">media</a></mm:link></li>
+     <li id="tab3"><mm:link page="/editors/edit.jspx"><mm:param name="type">mmbaseusers</mm:param><a href="${_}">users</a></mm:link></li>
+     <li id="tab4"><mm:link page="/editors/edit.jspx"><mm:param name="type">pages</mm:param><a href="${_}">pages</a></mm:link></li>
+     <li id="tab5"><mm:link page="/editors/edit.jspx"><mm:param name="type">articles</mm:param><a href="${_}">articles</a></mm:link></li>
+     <li id="tab6"><mm:link page="/editors/edit.jspx"><mm:param name="type">urls</mm:param><a href="${_}">links</a></mm:link></li>
+     <li id="tab7"><mm:link page="/editors/edit.jspx"><mm:param name="type">images</mm:param><a href="${_}">afbeeldingen</a></mm:link></li>
+     <li id="tab8"><mm:link page="/editors/edit.jspx"><mm:param name="type">attachments</mm:param><a href="${_}">bijlagen</a></mm:link></li>
+     <li id="tab9"><mm:link page="/editors/edit.jspx"><mm:param name="type">tags</mm:param><a href="${_}">tags</a></mm:link></li>
+     <li id="tab10"><mm:link page="/editors/edit.jspx"><mm:param name="type">licenses</mm:param><a href="${_}">licenses</a></mm:link></li>
+     <li id="tab11"><mm:link page="/editors/plays.jspx"><a href="${_}"># of plays</a></mm:link></li>
+     <li id="tab12"><mm:link page="/editors/tools/tools.jspx"><a href="${_}">tools</a></mm:link></li>
+     <li id="tab13"><mm:link page="/editors/edit.jspx"><mm:param name="type">videostreamsources</mm:param><a href="${_}">videosources</a></mm:link></li>
+     <li id="tab14"><mm:link page="/editors/edit.jspx"><mm:param name="type">audiostreamsources</mm:param><a href="${_}">audiosources</a></mm:link></li>
+     <li id="tab15"><mm:link page="/editors/edit.jspx"><mm:param name="type">imagesources</mm:param><a href="${_}">imagesources</a></mm:link></li>
    </ul>
  </div>
 
