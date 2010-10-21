@@ -34,7 +34,7 @@
         </mm:relatednodes>
       </mm:relatednodescontainer>
       
-      <oi:creator xml:lang="${_node.language}"><mm:field name="dc_creator" /></oi:creator>
+      <oi:creator xml:lang="${_node.language}"><mm:field name="dc_creator" id="dc_creator" /></oi:creator>
 
       <!-- oi:subject -->
       <mm:field name="keywords">
@@ -201,7 +201,7 @@
       </mm:url>
       <mm:relatednodescontainer type="licenses" role="related" searchdirs="destination">
         <mm:relatednodes>
-          <oi:attributionName xml:lang="${_node.language}"><mm:field name="dc_creator" /></oi:attributionName>
+          <oi:attributionName xml:lang="${_node.language}"><mm:write referid="dc_creator" /></oi:attributionName>
           <oi:attributionURL><mm:write referid="page_link" /></oi:attributionURL>
           <oi:license><mm:field name="url" /></oi:license>
         </mm:relatednodes>
