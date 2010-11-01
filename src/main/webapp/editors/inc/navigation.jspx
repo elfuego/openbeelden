@@ -17,7 +17,7 @@
  </div>
  <div id="topnav">
    <ul id="nav">
-     <li id="tab1"><a href="index.jspx">home</a></li>
+     <li id="tab1"><a href="${mm:link('/editors/index.jspx')}">home</a></li>
      <li id="tab2"><mm:link page="/editors/edit.jspx"><a href="${_}">media</a></mm:link></li>
      <li id="tab3"><mm:link page="/editors/edit.jspx"><mm:param name="type">mmbaseusers</mm:param><a href="${_}">users</a></mm:link></li>
      <li id="tab4"><mm:link page="/editors/edit.jspx"><mm:param name="type">pages</mm:param><a href="${_}">pages</a></mm:link></li>
