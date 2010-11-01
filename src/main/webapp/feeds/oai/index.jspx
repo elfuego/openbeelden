@@ -167,8 +167,8 @@
           <request verb="${verb}">${requesturl}</request>
           <ListSets>
             <set>
-              <setSpec>lastuploaded</setSpec>
-              <setName>Last uploaded media items</setName>
+              <setSpec>openimages</setSpec>
+              <setName>Open Images media items</setName>
             </set>
           </ListSets>
         </c:when>
