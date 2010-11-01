@@ -47,12 +47,15 @@ public class CreatorName implements Processor {
     public final Object process(Node node, Field field, Object value) {
         Object v = node.getValueWithoutProcess(field.getName());
         if (log.isDebugEnabled()) {
-            log.debug("Getting (default) value '" + value + "' for field: " + field);
+            log.debug("Getting value for field: " + field + " of node #" + node.getNumber());
         }
         
         if (node != null && node.mayWrite() && (v == null || "".equals(v))) {
             value = getCreatorName(node);
             node.setValueWithoutProcess(field.getName(), value);
+            if (log.isDebugEnabled()) {
+                log.debug("Value was null, it was set to: " + value);
+            }
         }
         return value;
     }
