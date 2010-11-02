@@ -30,34 +30,56 @@ import org.mmbase.util.logging.Logging;
 
 
 /**
- * Processor that generates creator name ("Vliet, Paul van" or "Filmmuseum") based upon this node's creator.
- * For 'dc:publisher' and 'dc:creator' fields, fills these per default with values from user.
+ * Processor that generates creator name ("Vliet, Paul van" or "Filmmuseum") based upon a node's creator.
+ * For the 'dc:creator' field, fills these per default with values from user. 
+ * Except for already existing nodes when the new value is 'admin', then it tries to use the current 
+ * value of publisher which can be more meaningful. See its equivalent {@link PublisherName}.
  *
  * @author Andr&eacute; van Toly
  * @version $Id$
  */
 
-public class CreatorName implements Processor {
+public class CreatorName {
 
     private static final Logger log = Logging.getLoggerInstance(CreatorName.class);
-    
     private static final long serialVersionUID = 1L;
 
-
-    public final Object process(Node node, Field field, Object value) {
-        Object v = node.getValueWithoutProcess(field.getName());
-        if (log.isDebugEnabled()) {
-            log.debug("Getting value for field: " + field + " of node #" + node.getNumber());
-        }
+    public static class Getter implements Processor {
         
-        if (node != null && node.mayWrite() && (v == null || "".equals(v))) {
-            value = getCreatorName(node);
-            node.setValueWithoutProcess(field.getName(), value);
-            if (log.isDebugEnabled()) {
-                log.debug("Value was null, it was set to: " + value);
+        private static final long serialVersionUID = 1L;
+        
+        public Object process(Node node, Field field, Object value) {
+            if (node != null && (value == null || "".equals(value)) ) {
+                if (log.isDebugEnabled()) {
+                    log.debug("Value of field " + field + " is null, setting default");
+                }
+                
+                return getCreatorName(node);
             }
+            return value;
         }
-        return value;
+    }
+    
+    public static class Setter implements Processor {
+        
+        private static final long serialVersionUID = 1L;
+        
+        public Object process(Node node, Field field, Object value) {
+            if (node != null && (value == null || "".equals(value)) ) {
+                if (log.isDebugEnabled()) {
+                    log.debug("Value of field " + field + " is null, getting default");
+                }
+
+                String creator = getCreatorName(node);
+                String publisher = (String) node.getValueWithoutProcess("publisher");
+                if ("admin".equals(creator) && !"".equals(publisher)) {
+                    creator = publisher;
+                }
+                
+                return creator;
+            }
+            return value;
+        }
     }
 
     @Override
@@ -71,7 +93,7 @@ public class CreatorName implements Processor {
      * @param   node to find creators name for 
      * @return 'real name' of this nodes creator or just current clouds user if none is known
      */
-    public String getCreatorName(Node node) {
+    protected static String getCreatorName(Node node) {
         StringBuilder sb = new StringBuilder();
         
         String username = node.getStringValue("creator");

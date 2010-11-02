@@ -32,8 +32,11 @@
         <description xml:lang="nl">... dit veld is verplicht, tenminste 3 karakters.</description>
       </minLength>
       <maxLength value="255" />
+      <setprocessor>
+        <class name="eu.openimages.processors.CreatorName$Setter" />
+      </setprocessor>
       <getprocessor>
-        <class name="eu.openimages.processors.CreatorName" />
+        <class name="eu.openimages.processors.CreatorName$Getter" />
       </getprocessor>
     </datatype> 
   </field>
@@ -144,8 +147,11 @@
         <description xml:lang="nl">... dit veld is verplicht, tenminste 3 karakters.</description>
       </minLength>
       <maxLength value="255" />
+      <setprocessor>
+        <class name="eu.openimages.processors.PublisherName$Setter" />
+      </setprocessor>
       <getprocessor>
-        <class name="eu.openimages.processors.CreatorName" />
+        <class name="eu.openimages.processors.PublisherName$Getter" />
       </getprocessor>
     </datatype> 
   
