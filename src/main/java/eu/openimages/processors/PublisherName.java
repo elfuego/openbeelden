@@ -53,7 +53,9 @@ public class PublisherName {
                 }
                 
                 String creator = CreatorName.getCreatorName(node);
-                node.setValueWithoutProcess(field.getName(), creator);
+                if (node.mayWrite()) {
+                    node.setValueWithoutProcess(field.getName(), creator);
+                }
                 
                 return creator;
             }

@@ -60,7 +60,9 @@ public class CreatorName {
                 if ("admin".equals(creator) && !"".equals(publisher)) {
                     creator = publisher;
                 }
-                node.setValueWithoutProcess(field.getName(), creator);
+                if (node.mayWrite()) {
+                    node.setValueWithoutProcess(field.getName(), creator);
+                }
                 
                 return creator;
             }
