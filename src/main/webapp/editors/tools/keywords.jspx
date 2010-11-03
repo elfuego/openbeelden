@@ -20,10 +20,14 @@
 <div id="wrap">
   <div id="content">
     
+<ul>
+  <li><a href="keywords.jspx">Convert keywords</a></li>
+</ul>
+
 <mm:import externid="convert" />
 
 <mm:import externid="offset">0</mm:import>
-<mm:import id="max">10</mm:import>
+<mm:import id="max">50</mm:import>
 
 <!-- sortorder and field to sort on -->
 <mm:import externid="sf">number</mm:import>
@@ -35,7 +39,7 @@
 
 <h2>
   Convert , to ; in keywords:
-  <mm:link>
+  <mm:link referids="offset?,max?">
     <mm:param name="convert">ok</mm:param>
     <a href="${_}">[ok]</a>
   </mm:link>
@@ -43,7 +47,7 @@
 
 
 
-<mm:url id="baseurl" absolute="true" escapeamps="false" referids="convert?,sf?,so?" write="false" />
+<mm:url id="baseurl" absolute="true" escapeamps="false" referids="sf?,so?" write="false" />
 
 <mm:listnodescontainer type="mediafragments">
   
@@ -88,7 +92,6 @@
           </mm:link>
         </td>
         <td>
-          
           <mm:compare referid="convert" value="ok">
             <mm:field name="keywords">
               <mm:isnotempty>
@@ -104,8 +107,16 @@
                 </c:if>
               </mm:isnotempty>
             </mm:field>
-          </mm:compare>
+            
+            <mm:field name="dc_creator">
+              <mm:setfield name="dc_creator"></mm:setfield>
+            </mm:field>
+            <mm:field name="publisher">
+              <mm:setfield name="publisher">${_}</mm:setfield>
+            </mm:field>
           
+          </mm:compare>
+
           <mm:field name="keywords" />
           
         </td>
