@@ -16,33 +16,40 @@
       <mm:import externid="password" />
       <mm:import externid="submit_login" />
       <mm:import externid="referrer" />
-
-      <c:catch var="error">
-        <mm:present referid="submit_login">
-          <mm:cloud username="${username}" password="${password}">
-            <mm:url id="userpage" write="false">
-              <mm:frameworkparam name="component">oip</mm:frameworkparam>
-              <mm:frameworkparam name="block">user</mm:frameworkparam>
-              <mm:frameworkparam name="user"><mm:cloudinfo type="usernode" /></mm:frameworkparam>
-            </mm:url>
-            <script type="text/javascript">
-              $(document).ready(function() {
-                 document.location = "${empty referrer ? userpage : referrer}";
-              });
-            </script>
-            <!-- p class="msg">
-              You are logged in as ${username} (rank <mm:cloudinfo type="rank" />)
-              <a href="${referrer}">${referrer}</a>.
-            </p -->
-          </mm:cloud>
-        </mm:present>
-      </c:catch>
       
-      <c:if test="${! empty error}">
-        <p class="err"><jsp:text> </jsp:text>${error.message}</p>
+      <c:choose>
+        <c:when test="${! empty submit_login and empty password}">
+          <c:set var="nopassword"><fmt:message key="login.no_password" /></c:set>
+        </c:when>
+        <c:otherwise>
+          <c:catch var="error">
+            <mm:present referid="submit_login">
+              <mm:cloud username="${username}" password="${password}">
+                <mm:url id="userpage" write="false">
+                  <mm:frameworkparam name="component">oip</mm:frameworkparam>
+                  <mm:frameworkparam name="block">user</mm:frameworkparam>
+                  <mm:frameworkparam name="user"><mm:cloudinfo type="usernode" /></mm:frameworkparam>
+                </mm:url>
+                <script type="text/javascript">
+                  $(document).ready(function() {
+                     document.location = "${empty referrer ? userpage : referrer}";
+                  });
+                </script>
+                <!-- p class="msg">
+                  You are logged in as ${username} (rank <mm:cloudinfo type="rank" />)
+                  <a href="${referrer}">${referrer}</a>.
+                </p -->
+              </mm:cloud>
+            </mm:present>
+          </c:catch>
+        </c:otherwise>
+      </c:choose>
+      
+      <c:if test="${! empty error or ! empty nopassword}">
+        <p class="err"><jsp:text> </jsp:text>${error.message}${nopassword}</p>
       </c:if>
       
-      <c:if test="${empty submit_login or ! empty error}">
+      <c:if test="${empty submit_login or ! empty error or ! empty nopassword}">
         <mm:url id="link" write="false" />
         <form method="post" action="${link}" id="loginform">
           <fieldset class="labelininput">
