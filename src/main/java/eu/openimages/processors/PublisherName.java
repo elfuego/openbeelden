@@ -45,12 +45,17 @@ public class PublisherName {
 
     public static class Getter implements Processor {
         private static final long serialVersionUID = 1L;
+        
         public Object process(Node node, Field field, Object value) {
             if (node != null && (value == null || "".equals(value)) ) {
                 if (log.isDebugEnabled()) {
-                    log.debug("Value of field " + field + " is null, setting default");
+                    log.debug("Value of " + field + " is null, getting default");
                 }
-                return CreatorName.getCreatorName(node);
+                
+                String creator = CreatorName.getCreatorName(node);
+                node.setValueWithoutProcess(field.getName(), creator);
+                
+                return creator;
             }
             return value;
         }
@@ -61,7 +66,7 @@ public class PublisherName {
         public Object process(Node node, Field field, Object value) {
             if (node != null && (value == null || "".equals(value)) ) {
                 if (log.isDebugEnabled()) {
-                    log.debug("Value of field " + field + " is null, getting default");
+                    log.debug("Value of " + field + " is null, setting default");
                 }
                 return CreatorName.getCreatorName(node);
             }

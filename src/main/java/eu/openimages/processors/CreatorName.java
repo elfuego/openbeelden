@@ -22,6 +22,7 @@ package eu.openimages.processors;
 
 import org.mmbase.bridge.*;
 import org.mmbase.storage.search.*;
+import org.mmbase.bridge.util.CloudThreadLocal;
 import org.mmbase.bridge.util.Queries;
 import org.mmbase.datatypes.processors.Processor;
 
@@ -45,29 +46,36 @@ public class CreatorName {
     private static final long serialVersionUID = 1L;
 
     public static class Getter implements Processor {
-        
         private static final long serialVersionUID = 1L;
         
         public Object process(Node node, Field field, Object value) {
-            if (node != null && (value == null || "".equals(value)) ) {
+            //log.debug("Getting: " + value);
+            if (value == null || "".equals(value)) {
                 if (log.isDebugEnabled()) {
-                    log.debug("Value of field " + field + " is null, setting default");
+                    log.debug("Value of " + field + " is null, getting default - to save in commit()");
                 }
+
+                String creator = getCreatorName(node);
+                String publisher = (String) node.getValueWithoutProcess("publisher");
+                if ("admin".equals(creator) && !"".equals(publisher)) {
+                    creator = publisher;
+                }
+                node.setValueWithoutProcess(field.getName(), creator);
                 
-                return getCreatorName(node);
+                return creator;
             }
             return value;
         }
     }
     
     public static class Setter implements Processor {
-        
         private static final long serialVersionUID = 1L;
         
         public Object process(Node node, Field field, Object value) {
-            if (node != null && (value == null || "".equals(value)) ) {
+            //log.debug("Setting: " + field);
+            if ( node.mayWrite() && (node.isNull(field.getName()) || "".equals(node.getValue(field.getName()))) ) {
                 if (log.isDebugEnabled()) {
-                    log.debug("Value of field " + field + " is null, getting default");
+                    log.debug("Value of " + field + " is null, setting default");
                 }
 
                 String creator = getCreatorName(node);
@@ -96,12 +104,25 @@ public class CreatorName {
     protected static String getCreatorName(Node node) {
         StringBuilder sb = new StringBuilder();
         
-        String username = node.getStringValue("creator");
-        if (username == null || "".equals(username)) {
-            username = node.getCloud().getUser().getIdentifier();
+        final Cloud cloud;
+        String username;
+        if (node == null) {
+            cloud = CloudThreadLocal.currentCloud();
+            if (cloud == null) { 
+                /* when Getter is used as defaultprocessor 
+                   during startup of mmbase this method is called and cloud is null?! */
+                return null; 
+            }
+            username = cloud.getUser().getIdentifier();
+        } else {
+            cloud = node.getCloud();
+            username = node.getStringValue("creator");
+            if (username == null || "".equals(username)) {
+                username = node.getCloud().getUser().getIdentifier();
+            }
         }
         
-        final NodeManager mmbaseusers = node.getCloud().getNodeManager("mmbaseusers");
+        final NodeManager mmbaseusers = cloud.getNodeManager("mmbaseusers");
         NodeQuery q = mmbaseusers.createQuery();
         Queries.addConstraint(q, Queries.createConstraint(q, "username", FieldCompareConstraint.EQUAL, username));
         NodeList users = mmbaseusers.getList(q);
