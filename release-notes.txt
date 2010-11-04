@@ -29,6 +29,22 @@ need similar statements:
   ALTER TABLE oi_mmbaseusers_table ADD organisation BIT(1);
   DROP VIEW oi_mmbaseusers;
 
+This release is build with MMBase 1.9.5 (except for the searchrelate application), 
+its release notes: http://www.mmbase.org/jira/secure/ReleaseNote.jspa?projectId=10030&version=10230
+
+
+** Improvement
+    * [OIP-105] - Make Flowplayer play video while buffering
+    * [OIP-150] - "Publicatie datum" = Publicatiedatum
+    * [OIP-151] - New fields in mediafragments, mediasources and mmbaseusers
+    * [OIP-152] - dc_creator and publisher get full username as default value
+
+** New Feature
+    * [OIP-149] - New namespace for OAI-PMH: oai_oi
+
+** Task
+    * [OIP-153] - Store keywords (mediafragments.keywords) point comma separated 
+    
 
 UPGRADING 1.0 -> 1.0.1
 ======================
