@@ -408,8 +408,11 @@ div.right-column > p.more { margin-right: 16px; }
 div.right-column input, div.right-column textarea { width: 280px; }
 div.right-column input.submit, div.right-column input.cancel { width: auto; }
 
-form#loginform p { line-height: 3em; }
-form#loginform a { color: #555; }
+form#loginform fieldset > a
+{
+	line-height: 3.2em;
+	color: #555;
+}
 
 input.untouched {
     color: #888;

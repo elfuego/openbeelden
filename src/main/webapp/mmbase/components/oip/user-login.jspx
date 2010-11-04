@@ -63,16 +63,15 @@
             </label>
             <input id="password" name="password" value="${password}" type="password" />
             <fmt:message key="login.login" var="login" />
-            <p>
-              <input name="submit_login" type="submit" value="${login}" class="submit" />
-              <mm:node number="page_resetpassword">
-                <mm:link page="page" referids="_node@n">
-                  <mm:frameworkparam name="component">mmsite</mm:frameworkparam>
-                  <a href="${_}"><fmt:message key="login.forgot_password" /></a>
-                </mm:link>
-              </mm:node>
-            </p>
-
+          </fieldset>
+          <fieldset>
+            <input name="submit_login" type="submit" value="${login}" class="submit" />
+            <mm:node number="page_resetpassword">
+              <mm:link page="page" referids="_node@n">
+                <mm:frameworkparam name="component">mmsite</mm:frameworkparam>
+                <a href="${_}"><fmt:message key="login.forgot_password" /></a>
+              </mm:link>
+            </mm:node>
           </fieldset>
         </form>
       </c:if>
