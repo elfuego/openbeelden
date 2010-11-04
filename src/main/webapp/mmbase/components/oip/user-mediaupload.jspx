@@ -14,19 +14,20 @@
       id="${requestScope['org.mmbase.componentId']}">
 
     <script type="text/javascript">
-      var validator = new MMBaseValidator(document.getElementById("${requestScope['org.mmbase.componentId']}"));
-      validator.prefetchNodeManager('streamsources');
-      validator.lang = "${requestScope['javax.servlet.jsp.jstl.fmt.locale.request']}";
-      validator.validateHook = function(valid) {
-          if (document.getElementById('submit_upload') != undefined) {
-              document.getElementById('submit_upload').disabled = this.invalidElements != 0;
+      $(document).ready(function() {
+          var validator = new MMBaseValidator(document.getElementById("${requestScope['org.mmbase.componentId']}"));
+          validator.prefetchNodeManager('streamsources,imagefragments,audiofragments,videofragments');
+          validator.lang = "${requestScope['javax.servlet.jsp.jstl.fmt.locale.request']}";
+          validator.validateHook = function(valid) {
+              if (document.getElementById('submit_upload') != undefined) {
+                  document.getElementById('submit_upload').disabled = this.invalidElements != 0;
+              }
+              if (document.getElementById('submit') != undefined) {
+                  document.getElementById('submit').disabled = this.invalidElements != 0;
+              }
           }
-          if (document.getElementById('submit') != undefined) {
-              document.getElementById('submit').disabled = this.invalidElements != 0;
-              //console.log("invalid: " + this.invalidElements);
-          }
-      }
-      //validator.setup(document.getElementById("${requestScope['org.mmbase.componentId']}"));
+          validator.setup(document.getElementById("${requestScope['org.mmbase.componentId']}"));
+      });
     </script>
 
     <oip:h3>Upload</oip:h3>
