@@ -5,6 +5,7 @@
     xmlns:mm="http://www.mmbase.org/mmbase-taglib-2.0"
     xmlns:oip="urn:jsptagdir:/WEB-INF/tags/oip"
     expires="0" type="text/html" language="client" postprocessor="none">
+<jsp:directive.page buffer="64kb" /> 
 <jsp:output doctype-root-element="html"
       doctype-public="-//W3C//DTD XHTML 1.0 Strict//EN"
       doctype-system="http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd" />
@@ -92,7 +93,12 @@
           </mm:link>
         </td>
         <td>
+          
+          <mm:import id="cr" reset="true"><mm:field name="dc_creator" /></mm:import>
+          <mm:import id="pu" reset="true"><mm:field name="publisher" /></mm:import>
+          
           <mm:compare referid="convert" value="ok">
+
             <mm:field name="keywords">
               <mm:isnotempty>
                 <c:if test="${fn:indexOf(_, ',') > -1}">
@@ -108,12 +114,8 @@
               </mm:isnotempty>
             </mm:field>
             
-            <mm:field name="dc_creator">
-              <mm:setfield name="dc_creator"></mm:setfield>
-            </mm:field>
-            <mm:field name="publisher">
-              <mm:setfield name="publisher">${_}</mm:setfield>
-            </mm:field>
+            <mm:setfield name="dc_creator">${cr}</mm:setfield>
+            <mm:setfield name="publisher">${pu}</mm:setfield>
           
           </mm:compare>
 
