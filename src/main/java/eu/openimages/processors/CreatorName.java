@@ -160,7 +160,9 @@ public class CreatorName {
         } else {
             log.warn("no usernode found");
         }
-        
+        if (log.isDebugEnabled()) { 
+            log.debug("returning: " + sb.toString()); 
+        }
         return sb.toString();
     }
 

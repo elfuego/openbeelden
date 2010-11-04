@@ -47,7 +47,7 @@ public class PublisherName {
         private static final long serialVersionUID = 1L;
         
         public Object process(Node node, Field field, Object value) {
-            if (node != null && (value == null || "".equals(value)) ) {
+            if (value == null || "".equals(value)) {
                 if (log.isDebugEnabled()) {
                     log.debug("Value of " + field + " is null, getting default");
                 }
@@ -66,7 +66,7 @@ public class PublisherName {
     public static class Setter implements Processor {
         private static final long serialVersionUID = 1L;
         public Object process(Node node, Field field, Object value) {
-            if (node != null && (value == null || "".equals(value)) ) {
+            if (value == null || "".equals(value)) {
                 if (log.isDebugEnabled()) {
                     log.debug("Value of " + field + " is null, setting default");
                 }
