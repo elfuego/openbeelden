@@ -12,7 +12,7 @@
     feeds/oai/?verb=Identify
     feeds/oai/?verb=ListSets
     feeds/oai/?verb=ListIdentifiers&metadataPrefix=oai_dc
-    feeds/oai/?verb=ListRecords&metadataPrefix=oai_dc&set=lastuploaded
+    feeds/oai/?verb=ListRecords&metadataPrefix=oai_dc&set=openimages
     feeds/oai/?verb=GetRecord&identifier=oai:openimages.eu:23173
     
   version: '$Id$'
@@ -108,9 +108,9 @@
       <c:set var="error" value="badArgument" />
     </c:if>
     
-    <!-- fill parameters when empty -->
+    <!-- fill some parameters when empty -->
     <c:if test="${empty verb}"><c:set var="verb">Identify</c:set></c:if>
-    <c:if test="${empty set}"><c:set var="set">lastuploaded</c:set></c:if>
+    <c:if test="${empty set}"><c:set var="set">openimages</c:set></c:if>
   
     <OAI-PMH 
       xmlns="http://www.openarchives.org/OAI/2.0/" 
@@ -168,7 +168,7 @@
           <ListSets>
             <set>
               <setSpec>openimages</setSpec>
-              <setName>Open Images media items</setName>
+              <setName>Open Images media items: images, audio and video.</setName>
             </set>
           </ListSets>
         </c:when>
