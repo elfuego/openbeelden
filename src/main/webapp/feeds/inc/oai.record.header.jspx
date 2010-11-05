@@ -9,6 +9,6 @@
     <!-- oai:HUBerlin.de:3000218 -->
     <identifier>oai:openimages.eu:${_node}</identifier>
     <datestamp><mm:field name="created"><mm:time format="yyyy-MM-dd" time="${_}" />T<mm:time format="HH:mm:ss" time="${_}" />Z</mm:field></datestamp>
-    <setSpec>lastuploaded</setSpec>
+    <setSpec>openimages</setSpec>
 
   </header>
