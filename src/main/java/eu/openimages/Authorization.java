@@ -20,8 +20,7 @@ along with The Open Images Platform.  If not, see <http://www.gnu.org/licenses/>
 
 package eu.openimages;
 
-import org.mmbase.bridge.Cloud;
-import org.mmbase.bridge.Node;
+import java.util.regex.*;
 
 import org.mmbase.security.implementation.cloudcontext.*;
 import org.mmbase.security.Operation;
@@ -32,9 +31,13 @@ import org.mmbase.util.logging.Logger;
 import org.mmbase.util.logging.Logging;
 
 /**
- * Authorizes actions by Open Images users. In short: each user has access to the nodes she/he created,
- * users with rank 'project manager' have access to all nodes of users with a lower rank including
- * the user account nodes.
+ * Authorizes actions by Open Images users. In short: each user has access to their own created nodes,
+ * users with rank 'portal manager' or 'project manager' have access to all nodes of users with a
+ * lower rank, including the user account nodes. 
+ * A project manager previals over portal manager, can edit their nodes and nodes of other project
+ * managers - to share the project management burden.
+ * A portal manager manager can edit its own nodes and those of site users, but not from other portal
+ * managers and thus not from other portals.
  *
  * @author Michiel Meeuwissen
  * @author André van Toly
@@ -43,6 +46,10 @@ import org.mmbase.util.logging.Logging;
 public class Authorization extends Verify {
 
     private static final Logger log = Logging.getLoggerInstance(Authorization.class);
+
+    /** int value for the portal manager rank */
+    public final static int PORTALMANAGER_INT  = 400;
+    public final static int PROJECTMANAGER_INT = 500;
 
     @Override
     public ContextProvider getContextProvider() {
@@ -71,15 +78,55 @@ public class Authorization extends Verify {
                                 user.getRank().getInt() > up.getRank(node).getInt()) {
                             
                             if (log.isDebugEnabled()) {
-                                log.debug("Higher rank so may read, write or delete user account #" + node.getNumber());
+                                log.debug("Higher rank so may do on user account #" + node.getNumber());
                             }
                             switch(operation.getInt()) {
                                 case Operation.READ_INT:   return true;
                                 case Operation.WRITE_INT:  return true;
                                 case Operation.DELETE_INT: return true;
                             }
-                            
                         }
+                        
+                    } else {    // not user builder but some other node
+                        
+                        String owner = node.getContext(user);
+                        //log.debug("owner: " + owner);
+                        
+                        Pattern p = Pattern.compile("[0-9]*");
+                        Matcher m = p.matcher(owner);
+                        if (m.matches()) {
+                            int nodeInt;
+                            try {
+                                nodeInt = Integer.parseInt(owner);
+                            } catch (NumberFormatException nfe) {
+                                log.warn("still a nfe: " + nfe);
+                                // escape
+                                return super.mayDo(user, node, operation);
+                            }
+                        
+                            MMObjectNode user_node = getNode(nodeInt, false);
+                            String username = user_node.getStringValue("username");
+                            if (log.isDebugEnabled()) {
+                                log.debug("owner node #" + owner + " is username: " + username);
+                            }
+                            
+                            if (user.getRank().getInt() > PORTALMANAGER_INT &&
+                                    user.getRank().getInt() > up.getRank(node).getInt() &&
+                                    PROJECTMANAGER_INT >= up.getRank( up.getUser(username)).getInt() ) {
+                                if (log.isDebugEnabled()) {
+                                    log.debug("Higher or equal rank so may do on node #" + node.getNumber() + " (node owner rank " + up.getRank(node).getInt() + ")");
+                                }
+                                switch(operation.getInt()) {
+                                    case Operation.READ_INT:   return true;
+                                    case Operation.WRITE_INT:  return true;
+                                    case Operation.DELETE_INT: return true;
+                                }
+                            }
+                        
+                        } else {
+                            return super.mayDo(user, node, operation);
+                        }
+                        
                     }
                     
                 }
@@ -109,7 +156,7 @@ public class Authorization extends Verify {
                             up.getRank(userNode).getInt() > up.getRank(node).getInt()) {
                         
                         if (log.isDebugEnabled()) {
-                            log.debug("Higher rank so may read, write or delete other user's node #" + node.getNumber());
+                            log.debug("Higher or equal rank so may do on node #" + node.getNumber());
                         }
                         switch(operation.getInt()) {
                             case Operation.READ_INT:   return true;
