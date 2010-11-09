@@ -27,7 +27,8 @@ import org.mmbase.util.logging.Logging;
 
 /**
  * Authentication of users in Open Images, only users with an activated
- * status {@link UserStatus.INUSE} have access.
+ * status {@link org.mmbase.security.implementation.cloudcontext.UserStatus.INUSE} have access.
+ * The user node (own account) is the default context of nodes (see owner field) this user creates. 
  *
  * @author Michiel Meeuwissen
  * @version $Id$
