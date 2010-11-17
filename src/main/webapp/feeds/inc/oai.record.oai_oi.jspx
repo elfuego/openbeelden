@@ -37,7 +37,7 @@
       <oi:creator xml:lang="${_node.language}"><mm:field name="dc_creator" id="dc_creator" /></oi:creator>
 
       <!-- oi:subject -->
-      <mm:field name="keywords">
+      <mm:field name="keywords" escape="none">
         <mm:isnotempty>
           <c:forTokens items="${_}" delims=";" var="subject">
             <oi:subject xml:lang="${_node.language}"><c:out value="${fn:trim(subject)}" /></oi:subject>
@@ -46,7 +46,7 @@
       </mm:field>
       <mm:relatednodescontainer type="mediafragments_translations" role="langrel" searchdirs="destination">
         <mm:relatednodes>
-          <mm:field name="keywords">
+          <mm:field name="keywords" escape="none">
             <mm:isnotempty>
               <c:forTokens items="${_}" delims=";" var="subject">
                 <oi:subject xml:lang="${_node.language}"><c:out value="${fn:trim(subject)}" /></oi:subject>
@@ -57,7 +57,7 @@
       </mm:relatednodescontainer>
 
       <oi:description xml:lang="${_node.language}">
-        <mm:field name="intro" escape="tagstripper" />
+        <mm:field name="intro" escape="tagstripper,text/xml" />
       </oi:description>
       <mm:relatednodescontainer type="mediafragments_translations" role="langrel" searchdirs="destination">
         <mm:relatednodes>
@@ -68,12 +68,12 @@
       </mm:relatednodescontainer>
 
       <oi:abstract xml:lang="${_node.language}">
-        <mm:field name="body" escape="tagstripper" />
+        <mm:field name="body" escape="tagstripper,text/xml" />
       </oi:abstract>
       <mm:relatednodescontainer type="mediafragments_translations" role="langrel" searchdirs="destination">
         <mm:relatednodes>
           <oi:abstract xml:lang="${_node.language}">
-            <mm:field name="body" escape="tagstripper" />
+            <mm:field name="body" escape="tagstripper,text/xml" />
           </oi:abstract>
         </mm:relatednodes>
       </mm:relatednodescontainer>
@@ -99,7 +99,7 @@
       </oi:publisher>
       
       <!-- oi:contributor -->
-      <mm:field name="contributor">
+      <mm:field name="contributor" escape="none">
         <mm:isnotempty>
           <c:forTokens items="${_}" delims=";" var="key">
             <oi:contributor><c:out value="${fn:trim(key)}" /></oi:contributor>
@@ -185,7 +185,7 @@
       <oi:references xml:lang="${_node.language}"><mm:field name="relation" /></oi:references>
 
       <!-- oi:spatial -->
-      <mm:field name="coverage">
+      <mm:field name="coverage" escape="none">
         <mm:isnotempty>
           <c:forTokens items="${_}" delims=";" var="coverage">
             <oi:spatial xml:lang="${_node.language}"><c:out value="${fn:trim(coverage)}" /></oi:spatial>

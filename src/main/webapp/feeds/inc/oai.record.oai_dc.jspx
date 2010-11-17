@@ -27,7 +27,7 @@
        <dc:creator xml:lang="${_node.language}"><mm:field name="dc_creator" /></dc:creator>
 
        <!-- dc:subject -->
-       <mm:field name="keywords">
+       <mm:field name="keywords" escape="none">
          <mm:isnotempty>
            <c:forTokens items="${_}" delims=";" var="subject">
              <dc:subject xml:lang="${_node.language}"><c:out value="${fn:trim(subject)}" /></dc:subject>
@@ -36,7 +36,7 @@
        </mm:field>
        <mm:relatednodescontainer type="mediafragments_translations" role="langrel" searchdirs="destination">
          <mm:relatednodes>
-           <mm:field name="keywords">
+           <mm:field name="keywords" escape="none">
              <mm:isnotempty>
                <c:forTokens items="${_}" delims=";" var="subject">
                  <dc:subject xml:lang="${_node.language}"><c:out value="${fn:trim(subject)}" /></dc:subject>
@@ -47,20 +47,20 @@
        </mm:relatednodescontainer>
 
        <dc:description xml:lang="${_node.language}">
-         <mm:field name="intro" escape="tagstripper" />
+         <mm:field name="intro" escape="tagstripper,text/xml" />
          <mm:field name="body"><mm:isnotempty>
 <jsp:text>
 
-</jsp:text><mm:write escape="tagstripper" /></mm:isnotempty></mm:field>
+</jsp:text><mm:write escape="tagstripper,text/xml" /></mm:isnotempty></mm:field>
        </dc:description>
        <mm:relatednodescontainer type="mediafragments_translations" role="langrel" searchdirs="destination">
          <mm:relatednodes>
            <dc:description xml:lang="${_node.language}">
-         <mm:field name="intro" escape="tagstripper" />
-         <mm:field name="body"><mm:isnotempty>
+             <mm:field name="intro" escape="tagstripper,text/xml" />
+             <mm:field name="body"><mm:isnotempty>
 <jsp:text>
 
-</jsp:text><mm:write escape="tagstripper" /></mm:isnotempty></mm:field>
+</jsp:text><mm:write escape="tagstripper,text/xml" /></mm:isnotempty></mm:field>
            </dc:description>
          </mm:relatednodes>
        </mm:relatednodescontainer>
@@ -86,7 +86,7 @@
       </dc:publisher>
        
       <!-- dc:contributor -->
-      <mm:field name="contributor">
+      <mm:field name="contributor" escape="none">
         <mm:isnotempty>
           <c:forTokens items="${_}" delims=";" var="key">
             <dc:contributor><c:out value="${fn:trim(key)}" /></dc:contributor>
@@ -150,7 +150,7 @@
        </dc:language>
        
        <!-- dc:coverage -->
-       <mm:field name="coverage">
+       <mm:field name="coverage" escape="none">
          <mm:isnotempty>
            <c:forTokens items="${_}" delims=";" var="coverage">
              <dc:coverage xml:lang="${_node.language}"><c:out value="${fn:trim(coverage)}" /></dc:coverage>
