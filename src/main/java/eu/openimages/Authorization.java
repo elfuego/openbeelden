@@ -90,7 +90,6 @@ public class Authorization extends Verify {
                     } else {    // not user builder but some other node
                         
                         String owner = node.getContext(user);
-                        //log.debug("owner: " + owner);
                         
                         Pattern p = Pattern.compile("[0-9]*");
                         Matcher m = p.matcher(owner);
@@ -107,12 +106,15 @@ public class Authorization extends Verify {
                             MMObjectNode user_node = getNode(nodeInt, false);
                             String username = user_node.getStringValue("username");
                             if (log.isDebugEnabled()) {
-                                log.debug("owner node #" + owner + " is username: " + username);
+                                log.debug("owner node #" + owner + " has username: " + username);
                             }
                             
+                            /* if user rank > portal man
+                               && user rank > node owner's rank 
+                               && proj. man rank >= node owner's rank (thus not admin's nodes) */
                             if (user.getRank().getInt() > PORTALMANAGER_INT &&
-                                    user.getRank().getInt() > up.getRank(node).getInt() &&
-                                    PROJECTMANAGER_INT >= up.getRank( up.getUser(username)).getInt() ) {
+                                    user.getRank().getInt() > up.getRank(up.getUser(username)).getInt() &&
+                                    PROJECTMANAGER_INT >= up.getRank(up.getUser(username)).getInt() ) {
                                 if (log.isDebugEnabled()) {
                                     log.debug("Higher or equal rank so may do on node #" + node.getNumber() + " (node owner rank " + up.getRank(node).getInt() + ")");
                                 }
