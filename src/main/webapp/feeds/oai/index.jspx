@@ -35,7 +35,7 @@
     
     <mm:import externid="identifier" />
     <mm:import externid="metadataPrefix" />
-    <mm:import externid="set" />
+    <mm:import externid="set">openimages</mm:import>
     
     <mm:import externid="from" /><!-- 1998-01-15 -->
     <mm:present referid="from">
@@ -110,7 +110,9 @@
     
     <!-- fill some parameters when empty -->
     <c:if test="${empty verb}"><c:set var="verb">Identify</c:set></c:if>
-    <c:if test="${empty set}"><c:set var="set">openimages</c:set></c:if>
+    <mm:compare referid="set" valueset="openimages" inverse="true"><!-- add more sets in future -->
+      <c:set var="error" value="badArgument" />
+    </mm:compare>
   
     <OAI-PMH 
       xmlns="http://www.openarchives.org/OAI/2.0/" 
@@ -233,12 +235,16 @@
                 <c:choose>
                   <c:when test="${metadataPrefix eq 'oai_oi'}">
                     <mm:listnodes referid="list">
-                      <jsp:include page="/feeds/inc/oai.record.oai_oi.jspx" />
+                      <jsp:include page="/feeds/inc/oai.record.oai_oi.jspx">
+                    	<jsp:param name="set" value="${set}" />
+                      </jsp:include>
                     </mm:listnodes>
                   </c:when>
                   <c:otherwise>
                     <mm:listnodes referid="list">
-                      <jsp:include page="/feeds/inc/oai.record.oai_dc.jspx" />
+                      <jsp:include page="/feeds/inc/oai.record.oai_dc.jspx">
+                    	<jsp:param name="set" value="${set}" />
+                      </jsp:include>
                     </mm:listnodes>
                   </c:otherwise>
                 </c:choose>
@@ -276,10 +282,14 @@
                 <GetRecord>
                   <c:choose>
                     <c:when test="${metadataPrefix eq 'oai_oi'}">
-                      <jsp:include page="/feeds/inc/oai.record.oai_oi.jspx" />
+                      <jsp:include page="/feeds/inc/oai.record.oai_oi.jspx">
+                        <jsp:param name="set" value="${set}" />
+                      </jsp:include>
                     </c:when>
                     <c:otherwise>
-                      <jsp:include page="/feeds/inc/oai.record.oai_dc.jspx" />
+                      <jsp:include page="/feeds/inc/oai.record.oai_dc.jspx">
+                    	<jsp:param name="set" value="${set}" />
+                      </jsp:include>
                     </c:otherwise>
                   </c:choose>
                 </GetRecord>

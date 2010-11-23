@@ -5,10 +5,10 @@
     xmlns:mm="http://www.mmbase.org/mmbase-taglib-2.0">
   <jsp:output omit-xml-declaration="true" />
   <!-- version: '$Id$' -->
-    
+    <mm:import externid="set" />
     <!-- oai:HUBerlin.de:3000218 -->
     <identifier>oai:openimages.eu:${_node}</identifier>
     <datestamp><mm:field name="created"><mm:time format="yyyy-MM-dd" time="${_}" />T<mm:time format="HH:mm:ss" time="${_}" />Z</mm:field></datestamp>
-    <setSpec>openimages</setSpec>
+    <setSpec>${set}</setSpec>
 
   </header>

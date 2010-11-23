@@ -8,8 +8,12 @@
   <!-- version: '$Id$' -->
   
   <mm:escaper type="tagstripper" id="tagstripper" /><!-- to strip html -->
-  <jsp:include page="/feeds/inc/oai.record.header.jspx" />
+  <mm:import externid="set" />
   
+  <jsp:include page="/feeds/inc/oai.record.header.jspx">
+    <jsp:param name="set" value="${set}" />
+  </jsp:include>
+
   <metadata>
     <oai_dc:dc 
          xmlns:oai_dc="http://www.openarchives.org/OAI/2.0/oai_dc/" 
@@ -17,7 +21,7 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
          xsi:schemaLocation="http://www.openarchives.org/OAI/2.0/oai_dc/ http://www.openarchives.org/OAI/2.0/oai_dc.xsd">
        
-       <dc:title xml:lang="${_node.language}"><mm:field name="title" /></dc:title>
+       <dc:title xml:lang="${_node.language}"><mm:field name="title" /> s: ${set} </dc:title>
        <mm:relatednodescontainer type="mediafragments_translations" role="langrel" searchdirs="destination">
          <mm:relatednodes>
            <dc:title xml:lang="${_node.language}"><mm:field name="title" /></dc:title>

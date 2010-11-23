@@ -9,7 +9,11 @@
   <!-- version: '$Id$' -->
   
   <mm:escaper type="tagstripper" id="tagstripper" /><!-- to strip html -->
-  <jsp:include page="/feeds/inc/oai.record.header.jspx" />
+  <mm:import externid="set" />
+  
+  <jsp:include page="/feeds/inc/oai.record.header.jspx">
+    <jsp:param name="set" value="${set}" />
+  </jsp:include>
   
   <metadata>
     <oai_oi:oi 
