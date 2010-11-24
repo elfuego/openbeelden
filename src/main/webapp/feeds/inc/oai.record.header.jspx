@@ -8,7 +8,7 @@
     <mm:import externid="set" />
     <!-- oai:HUBerlin.de:3000218 -->
     <identifier>oai:openimages.eu:${_node}</identifier>
-    <datestamp><mm:field name="created"><mm:time format="yyyy-MM-dd" time="${_}" />T<mm:time format="HH:mm:ss" time="${_}" />Z</mm:field></datestamp>
+    <datestamp><mm:field name="lastmodified"><mm:time format="yyyy-MM-dd" time="${_}" />T<mm:time format="HH:mm:ss" time="${_}" />Z</mm:field></datestamp>
     <setSpec>${set}</setSpec>
 
   </header>

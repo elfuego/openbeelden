@@ -209,7 +209,7 @@
             <c:if test="${!empty end}">
               <mm:constraint field="date" value="$end" operator="LESS_EQUAL" />
             </c:if>
-            <mm:sortorder field="number" direction="DOWN" />
+            <mm:sortorder field="lastmodified" direction="DOWN" />
             <mm:size id="size" write="false" />
             <mm:maxnumber value="$max" />
             <mm:offset value="$offset" />

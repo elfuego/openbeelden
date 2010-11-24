@@ -134,7 +134,7 @@
             <c:otherwise><c:set var="duration" value="0" /></c:otherwise>
           </c:choose>
           <c:choose>
-            <c:when test="${duration gt 3600}">PT<mm:time format="h'H'm'M's'S'" time="${duration}" /></c:when>
+            <c:when test="${duration gt 3600}">PT<mm:time format="h'H'" time="${duration}" /><mm:time format="m'M's'S'" time="${duration}" /></c:when>
             <c:when test="${duration lt 3600 and duration gt 60}">PT<mm:time format="m'M's'S'" time="${duration}" /></c:when>
             <c:otherwise>PT<mm:time format="s'S'" time="${duration}" /></c:otherwise>
           </c:choose>
