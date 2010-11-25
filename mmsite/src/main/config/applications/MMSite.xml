@@ -8,6 +8,7 @@
 
   <neededbuilderlist>
     <builder maintainer="mmbase.org" version="1">articles</builder>
+    <builder maintainer="mmbase.org" version="1">comments</builder>
     <!-- site structure -->
     <builder maintainer="mmbase.org" version="1">templates</builder>
     <builder maintainer="mmbase.org" version="1">pages</builder>
@@ -41,6 +42,7 @@
 
     <relation from="pages"    to="pages"     type="posrel" />
     <relation from="pages"    to="articles"  type="posrel" />
+    <relation from="articles" to="comments"  type="insrel" />
 
 <!--
     <relation from="articles"  to="attachments" type="posrel" />
@@ -61,6 +63,7 @@
     <datasource builder="pools"      path="MMSite/pools.xml" />
 
     <datasource builder="articles"   path="MMSite/articles.xml" />
+    <datasource builder="comments"   path="MMSite/comments.xml" />
     <datasource builder="pages"      path="MMSite/pages.xml" />
     <datasource builder="pools"      path="MMSite/pools.xml" />
     <datasource builder="templates"  path="MMSite/templates.xml" />
