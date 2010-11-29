@@ -35,7 +35,7 @@
     
     <mm:import externid="identifier" />
     <mm:import externid="metadataPrefix" />
-    <mm:import externid="set">openimages</mm:import>
+    <mm:import externid="set" />
     
     <mm:import externid="from" /><!-- 1998-01-15 -->
     <mm:present referid="from">
@@ -44,6 +44,7 @@
       </mm:compare>
       <mm:compare referid="from" regexp="[0-9]{4}-[0-9]{2}-[0-9]{2}" inverse="true">
         <c:set var="error" value="badArgument" />
+        <c:set var="kind" value="from incorrect" />
       </mm:compare>
     </mm:present>
     <mm:import externid="until" />
@@ -53,6 +54,7 @@
       </mm:compare>
       <mm:compare referid="until" regexp="[0-9]{4}-[0-9]{2}-[0-9]{2}" inverse="true">
         <c:set var="error" value="badArgument" />
+        <c:set var="kind" value="until incorrect" />
       </mm:compare>
     </mm:present>
     
@@ -60,8 +62,9 @@
     <mm:import externid="resumptionToken" /><!-- starts at 0 -->
     <c:choose>
       <c:when test="${!empty resumptionToken}">
-        <c:if test="${!empty from or !empty until or !empty metadataPrefix or !empty set}">
+        <c:if test="${!empty from or !empty until or !empty set}">
           <c:set var="error" value="badArgument" />
+          <c:set var="kind" value="have resumptionToken but from not empty or until not empty or set not empty" />
         </c:if>
         <c:set var="tokens" value="${fn:split(resumptionToken, '!')}" />
         <c:choose>
@@ -86,6 +89,7 @@
         <c:if test="${empty metadataPrefix 
                         and (verb eq 'ListIdentifiers' or verb eq 'ListRecords' or verb eq 'GetRecord')}">
           <c:set var="error" value="badArgument" />
+          <c:set var="kind" value="metadataPrefix empty and other arguments include ListIdentifiers, ListRecords or GetRecord" />
         </c:if>
       </c:otherwise>
     </c:choose>
@@ -106,13 +110,22 @@
                    and (empty metadataPrefix or metadataPrefix ne 'oai_oi')
                    and empty error}">
       <c:set var="error" value="badArgument" />
+      <c:set var="kind" value="metadataPrefix incorrect" />
     </c:if>
     
     <!-- fill some parameters when empty -->
     <c:if test="${empty verb}"><c:set var="verb">Identify</c:set></c:if>
-    <mm:compare referid="set" valueset="openimages" inverse="true"><!-- add more sets in future -->
-      <c:set var="error" value="badArgument" />
-    </mm:compare>
+    <c:choose>
+      <c:when test="${!empty set}">
+        <mm:compare referid="set" valueset="openimages" inverse="true"><!-- add more sets in future -->
+          <c:set var="error" value="badArgument" />
+          <c:set var="kind" value="set unknown" />
+        </mm:compare>
+      </c:when>
+      <c:otherwise>
+        <c:set var="set" value="openimages" />
+      </c:otherwise>
+    </c:choose>
   
     <OAI-PMH 
       xmlns="http://www.openarchives.org/OAI/2.0/" 
@@ -136,6 +149,7 @@
           <error code="badArgument">
             The request includes illegal arguments, is missing required arguments, 
             includes a repeated argument, or values for arguments have an illegal syntax.
+            [${kind}]
           </error>
         </c:when>
         <c:when test="${error eq 'badResumptionToken'}">
@@ -304,6 +318,7 @@
                 <error code="badArgument">
                   The request includes illegal arguments, is missing required arguments, 
                   includes a repeated argument, or values for arguments have an illegal syntax.
+                  [empty identifier]
                 </error>
               </c:when>
               <c:otherwise>
@@ -323,6 +338,7 @@
               <error code="badArgument">
                 The request includes illegal arguments, is missing required arguments, 
                 includes a repeated argument, or values for arguments have an illegal syntax.
+                [not empty identifier but no matching record]
               </error>
             </c:when>
             <c:otherwise>
