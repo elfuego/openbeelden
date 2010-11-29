@@ -69,10 +69,10 @@
             <c:set var="tfrom"  value="${fn:substringAfter(tokens[0], 'f')}" />
             <c:set var="tuntil" value="${fn:substringAfter(tokens[1], 'u')}" />
             <c:if test="${!empty tfrom}">
-              <mm:time inputformat="yyyy-MM-dd" time="${tfrom}"  precision="days" id="start" write="false" />
+              <mm:import id="start" reset="true"><mm:time inputformat="yyyy-MM-dd" time="${tfrom}" precision="days" /></mm:import>
             </c:if>
             <c:if test="${!empty tuntil}">
-              <mm:time inputformat="yyyy-MM-dd" time="${tuntil}" precision="days" id="end" write="false" />
+              <mm:import id="end" reset="true"><mm:time inputformat="yyyy-MM-dd" time="${tuntil}" precision="days" /></mm:import>
             </c:if>
             <mm:import id="metadataPrefix" reset="true">${tokens[2]}</mm:import>
             <mm:import id="offset" reset="true">${tokens[3]}</mm:import>
