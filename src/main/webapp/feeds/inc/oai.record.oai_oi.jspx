@@ -22,7 +22,7 @@
         xmlns:dc="http://purl.org/dc/elements/1.1/" 
         xmlns:dcterms="http://purl.org/dc/terms"
         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
-        xsi:schemaLocation="http://www.openbeelden.nl/oai/ http://www.openbeelden.nl/oai/oai_oi.xsd">
+        xsi:schemaLocation="http://www.openbeelden.nl/feeds/oai/ http://www.openbeelden.nl/feeds/oai/oai_oi.xsd">
  
       <oi:title xml:lang="${_node.language}"><mm:field name="title" /></oi:title>
       <mm:relatednodescontainer type="mediafragments_translations" role="langrel" searchdirs="destination">
@@ -134,7 +134,7 @@
             <c:otherwise><c:set var="duration" value="0" /></c:otherwise>
           </c:choose>
           <c:choose>
-            <c:when test="${duration gt 3600}">PT<mm:time format="h'H'" time="${duration}" /><mm:time format="m'M's'S'" time="${duration}" /></c:when>
+            <c:when test="${duration gt 3600}">PT<mm:time format="h'H'm'M's'S'" time="${duration}" /></c:when>
             <c:when test="${duration lt 3600 and duration gt 60}">PT<mm:time format="m'M's'S'" time="${duration}" /></c:when>
             <c:otherwise>PT<mm:time format="s'S'" time="${duration}" /></c:otherwise>
           </c:choose>

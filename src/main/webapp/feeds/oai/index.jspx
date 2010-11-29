@@ -140,15 +140,13 @@
         <c:when test="${error eq 'badVerb'}">
           <request>${requesturl}</request>
           <error code="badVerb">
-            Value of the verb argument is not a legal OAI-PMH verb, the verb argument is missing, 
-            or the verb argument is repeated. 
+            Value of the verb argument is not a legal OAI-PMH verb, the verb argument is missing, or the verb argument is repeated.
           </error>
         </c:when>
         <c:when test="${error eq 'badArgument'}">
           <request>${requesturl}</request>
           <error code="badArgument">
-            The request includes illegal arguments, is missing required arguments, 
-            includes a repeated argument, or values for arguments have an illegal syntax.
+            The request includes illegal arguments, is missing required arguments, includes a repeated argument, or values for arguments have an illegal syntax.
             [${kind}]
           </error>
         </c:when>
@@ -271,8 +269,7 @@
             </c:when>
             <c:otherwise>
               <error code="noRecordsMatch">
-                The combination of the values of the from, until, set 
-                and metadataPrefix arguments results in an empty list.
+                The combination of the values of the from, until, set and metadataPrefix arguments results in an empty list.
               </error>
             </c:otherwise>
           </c:choose>
@@ -316,8 +313,7 @@
             <c:choose>
               <c:when test="${empty identifier}">
                 <error code="badArgument">
-                  The request includes illegal arguments, is missing required arguments, 
-                  includes a repeated argument, or values for arguments have an illegal syntax.
+                  The request includes illegal arguments, is missing required arguments, includes a repeated argument, or values for arguments have an illegal syntax.
                   [empty identifier]
                 </error>
               </c:when>
@@ -336,8 +332,7 @@
             <c:when test="${!empty identifier and empty hasnode}">
               <request>${requesturl}</request>
               <error code="badArgument">
-                The request includes illegal arguments, is missing required arguments, 
-                includes a repeated argument, or values for arguments have an illegal syntax.
+                The request includes illegal arguments, is missing required arguments, includes a repeated argument, or values for arguments have an illegal syntax.
                 [not empty identifier but no matching record]
               </error>
             </c:when>
@@ -352,7 +347,7 @@
                 <metadataFormat>
                   <metadataPrefix>oai_oi</metadataPrefix>
                   <schema>http://www.openbeelden.nl/oai/oai_oi.xsd</schema>
-                  <metadataNamespace>http://www.openbeelden.nl/oai/</metadataNamespace>
+                  <metadataNamespace>http://www.openbeelden.nl/feeds/oai/</metadataNamespace>
                 </metadataFormat>
               </ListMetadataFormats>
             </c:otherwise>
@@ -362,8 +357,7 @@
         <c:otherwise>
           <request>${requesturl}</request>
           <error code="badVerb">
-            Value of the verb argument is not a legal OAI-PMH verb, the verb argument is missing, 
-            or the verb argument is repeated. 
+            Value of the verb argument is not a legal OAI-PMH verb, the verb argument is missing, or the verb argument is repeated. 
           </error>
         </c:otherwise>
       
