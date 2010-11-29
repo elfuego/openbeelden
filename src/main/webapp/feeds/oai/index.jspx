@@ -218,10 +218,10 @@
           <mm:listnodescontainer type="mediafragments">
             <mm:constraint field="show" value="true" operator="EQUAL" />
             <c:if test="${!empty start}">
-              <mm:constraint field="date" value="$start" operator="GREATER_EQUAL" />
+              <mm:constraint field="lastmodified" value="$start" operator="GREATER_EQUAL" />
             </c:if>
             <c:if test="${!empty end}">
-              <mm:constraint field="date" value="$end" operator="LESS_EQUAL" />
+              <mm:constraint field="lastmodified" value="$end" operator="LESS_EQUAL" />
             </c:if>
             <mm:sortorder field="lastmodified" direction="DOWN" />
             <mm:size id="size" write="false" />
