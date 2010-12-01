@@ -118,7 +118,7 @@
                             (<mm:time inputformat="S" format="mm:ss" />)
                           </c:when>
                           <c:otherwise>
-                            (<mm:time inputformat="S" format=hh:mm:ss" />)
+                            (<mm:time inputformat="S" format="hh:mm:ss" />)
                           </c:otherwise>
                         </c:choose>
                       </mm:isnotempty>
