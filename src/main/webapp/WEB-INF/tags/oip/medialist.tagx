@@ -110,20 +110,22 @@
                   <mm:field name="intro">
                     <mm:isnotempty><em><mm:write escape="wrap_intro" /></em></mm:isnotempty>
                   </mm:field>
-                  <mm:nodeinfo type="type" id="nodetype" write="false" />
-                  <c:if test="${nodetype ne 'imagefragments' and nodetype ne 'images'}">
+                  <mm:hasfield name="length">
                     <mm:field name="length">
                       <mm:isnotempty>
-                        <jsp:text> </jsp:text>
-                        (<mm:time inputformat="S" format="m:ss" />)
+                        <c:choose>
+                          <c:when test="${_ lt 3600000}">
+                            (<mm:time inputformat="S" format="mm:ss" />)
+                          </c:when>
+                          <c:otherwise>
+                            (<mm:time inputformat="S" format=hh:mm:ss" />)
+                          </c:otherwise>
+                        </c:choose>
                       </mm:isnotempty>
                     </mm:field>
-                  </c:if>
+                  </mm:hasfield>
                   <mm:field name="date">
-                    <mm:isnotempty>
-                      <jsp:text> </jsp:text>
-                      <mm:time format="dd MMM yyyy" />
-                    </mm:isnotempty>
+                    <mm:isnotempty><mm:time format="dd MMM yyyy" /></mm:isnotempty>
                   </mm:field>
                 </mm:nodefunction>
               </dd>
