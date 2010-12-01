@@ -127,13 +127,13 @@
       <mm:locale language="en">
         <mm:field name="length">
           <c:choose>
-            <c:when test="${_ gt 3600000}">
+            <c:when test="${_ ge 3600000}">
               <oi:extent>PT<mm:time inputformat="S" format="h'H'm'M's'S'" /></oi:extent>
             </c:when>
-            <c:when test="${_ le 3600000 and _ gt 60000}">
+            <c:when test="${_ lt 3600000 and _ ge 60000}">
               <oi:extent>PT<mm:time inputformat="S" format="m'M's'S'" /></oi:extent>
             </c:when>
-            <c:when test="${_ le 60000 and _ gt 0}">
+            <c:when test="${_ lt 60000 and _ gt 0}">
               <oi:extent>PT<mm:time inputformat="S" format="s'S'" /></oi:extent>
             </c:when>
             <c:otherwise>
