@@ -14,13 +14,15 @@
         id="${requestScope['org.mmbase.componentId']}">
 
       <script type="text/javascript">
-        var validator = new MMBaseValidator();
-        validator.prefetchNodeManager('mediafragments');
-        validator.lang = "${requestScope['javax.servlet.jsp.jstl.fmt.locale.request']}";
-        validator.validateHook = function(valid) {
-            document.getElementById('submit').disabled = this.invalidElements != 0;
-        }
-        validator.setup(document.getElementById("${requestScope['org.mmbase.componentId']}"));
+        $(document).ready(function() {
+            var validator = new MMBaseValidator(document.getElementById("${requestScope['org.mmbase.componentId']}"));
+            validator.prefetchNodeManager('mediafragments');
+            validator.lang = "${requestScope['javax.servlet.jsp.jstl.fmt.locale.request']}";
+            validator.validateHook = function(valid) {
+                document.getElementById('submit').disabled = this.invalidElements != 0;
+            }
+            validator.setup(document.getElementById("${requestScope['org.mmbase.componentId']}"));
+        });
       </script>
 
       <oip:h2 block="user-media" />
