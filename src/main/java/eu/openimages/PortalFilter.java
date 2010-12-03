@@ -51,6 +51,11 @@ public class PortalFilter implements Filter, MMBaseStarter {
     private static Logger log = Logging.getLoggerInstance(PortalFilter.class);
     
     /*
+     * serverName -> pools node
+     */
+    private static final Map<String, Node> portals = new HashMap<String, Node>();
+    
+    /*
      * The context this servlet lives in
      */
     protected ServletContext ctx = null;
@@ -112,7 +117,9 @@ public class PortalFilter implements Filter, MMBaseStarter {
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
 
         if (mmbase == null) {
-            if (log.isDebugEnabled()) log.debug("Still waiting for MMBase (not initialized)");
+            if (log.isDebugEnabled()) {
+                log.debug("Still waiting for MMBase (not initialized)");
+            }
             chain.doFilter(request, response);
             return;
         }
@@ -122,14 +129,19 @@ public class PortalFilter implements Filter, MMBaseStarter {
             HttpServletRequest req = (HttpServletRequest) request;
             HttpServletResponse res = (HttpServletResponse) response;
 
-            if (decorateRequest(req, res)) {
-                if (request.getAttribute("portal") == null) {
-                    log.debug("portal attributeHeb nu still null");
-                } else {
-                    log.debug("portal: " + request.getAttribute("portal"));
-                }
+            String serverName = req.getServerName();
+            
+            if (portals.containsKey(serverName)) {
+                request.setAttribute("portal", portals.get(serverName));
+            
             } else {
-                request.setAttribute("portal", null);
+                if (decorateRequest(req, res)) {
+                    if (log.isDebugEnabled()) {
+                        log.debug("portal: " + request.getAttribute("portal"));
+                    }
+                } else {
+                    request.setAttribute("portal", null);
+                }
             }
             
             chain.doFilter(request, response);
@@ -155,6 +167,7 @@ public class PortalFilter implements Filter, MMBaseStarter {
         NodeList nl = cloud.getNodeManager("pools").getList(null, null, null);
         NodeIterator ni = nl.nodeIterator();
         
+        boolean found = false;
         while (ni.hasNext()) {
             Node pool = ni.nextNode();
             try {
@@ -172,7 +185,11 @@ public class PortalFilter implements Filter, MMBaseStarter {
                         log.debug("Found: " + urls.get(0));
                     }
                     req.setAttribute("portal", pool);
-                    res.setHeader("X-OpenImages-Portal", pool.getStringValue("name"));
+                    //res.setHeader("X-OpenImages-Portal", pool.getStringValue("name"));
+                    
+                    // cache
+                    portals.put(serverName, pool);
+                    found = true;
                     
                     return true;
                 }
@@ -182,6 +199,12 @@ public class PortalFilter implements Filter, MMBaseStarter {
                 return false;
             }
         }
+        
+        if (!found) {
+            log.info("Presuming this is the default portal");
+            portals.put(serverName, null);
+        }
+        
         return false;
     }
     
