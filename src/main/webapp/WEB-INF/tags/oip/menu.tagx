@@ -41,17 +41,31 @@
       <li class="you">
         <jsp:text> </jsp:text>
       </li>
-      <li class="form">
+      <li>
+        
+        <mm:import id="langpostfix">
+          <!-- a bit of a hack, should use fw-parmas -->
+          <c:if test="${! empty requestScope['org.mmbase.mmsite.language']}">
+            <jsp:text>${requestScope['org.mmbase.mmsite.language']}</jsp:text>
+          </c:if>
+        </mm:import>
+        <mm:listfunction set="mmsite" name="locales" varStatus="status">
+          <a class="${_ eq langpostfix ? 'active' : ''}" href="${mm:link('/')}.${_}">${_}</a>
+          <c:if test="${! status.last}"><jsp:text> / </jsp:text></c:if>
+        </mm:listfunction>
+
+<!--
         <mm:datatype base="oip_language" id="language_selector">
           <required value="false" />
         </mm:datatype>
+        
         <mm:virtualnode map="${requestScope}">
           <mm:link>
             <form method="post" action="${_}">
               <fieldset>
                 <mm:field name="org.mmbase.mmsite.language">
                   <mm:fieldinfo type="forid">
-                    <label for="${_}"><fmt:message key="service.choose_language" /></label>
+                    <label for="${_}">  <fmt:message key="service.choose_language" /></label>
                   </mm:fieldinfo>
                   <mm:fieldinfo datatype="language_selector" type="input" />
                 </mm:field>
@@ -60,6 +74,7 @@
             </form>
           </mm:link>
         </mm:virtualnode>
+-->
       </li>
     </ul>
   
