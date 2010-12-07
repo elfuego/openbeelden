@@ -41,6 +41,7 @@
   <allowedrelationlist>
     <relation from="pools"    to="mediafragments" type="related" />
     <relation from="pools"    to="images"      type="related" />
+    <relation from="pools"    to="urls"        type="related" />
     <relation from="pools"    to="templates"   type="related" />
     <relation from="pools"    to="pages"       type="posrel" />
     <relation from="pages"    to="pages"       type="posrel" />
