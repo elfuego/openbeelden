@@ -5,7 +5,16 @@
     xmlns:mm="http://www.mmbase.org/mmbase-taglib-2.0"
     >
 
-  <jsp:directive.attribute name="alt" description="Text to use in alt attribute of image" />
+  <jsp:directive.attribute name="width"
+          description="Width of player" />
+  <jsp:directive.attribute name="height"
+          description="Height of player" />
+  <jsp:directive.attribute name="alt" 
+          description="Text to use in alt attribute of image" />
+  
+    <c:set var="w" value="${empty width ? '81' : width}" />
+    <c:set var="h" value="${empty height ? '60' : height}" />
+  
 
     <mm:nodeinfo type="type" write="false" id="nodetype" />
     <c:set var="img" value="" />
@@ -14,8 +23,8 @@
       <mm:relatednodescontainer type="images" role="related" searchdirs="destination">
         <mm:maxnumber value="1" />
         <mm:relatednodes>
-          <c:set var="img"><mm:image mode="url" width="81" height="60" crop="end" /></c:set>
-          <img src="${img}" alt="${alt}" width="81" height="60" />
+          <c:set var="img"><mm:image mode="url" width="${w}" height="${h}" crop="end" /></c:set>
+          <img src="${img}" alt="${alt}" width="${w}" height="${h}" />
         </mm:relatednodes>
       </mm:relatednodescontainer>
     </mm:hasrelationmanager>
@@ -26,8 +35,8 @@
           <mm:sortorder field="posrel.pos" direction="UP" />
           <mm:maxnumber value="1" />
           <mm:relatednodes>
-            <c:set var="img"><mm:image mode="url" width="81" height="60" crop="end" /></c:set>
-            <img src="${img}" alt="${alt}" width="81" height="60" />
+            <c:set var="img"><mm:image mode="url" width="${w}" height="${h}" crop="end" /></c:set>
+            <img src="${img}" alt="${alt}" width="${w}" height="${h}" />
           </mm:relatednodes>
         </mm:relatednodescontainer>
       </mm:hasrelationmanager>
@@ -36,25 +45,25 @@
     <c:if test="${empty img}">
       <c:choose>
         <c:when test="${nodetype eq 'mmbaseusers'}">
-          <img src="${mm:link('/style/images/user.png')}" alt="${empty alt ? 'user' : alt}" width="81" height="60" />
+          <img src="${mm:link('/style/images/user.png')}" alt="${empty alt ? 'user' : alt}" width="${w}" height="${h}" />
         </c:when>
         <c:when test="${nodetype eq 'audiofragments'}">
-          <img src="${mm:link('/style/images/thumb_audio.png')}" alt="${empty alt ? 'audio' : alt}" width="81" height="60" />
+          <img src="${mm:link('/style/images/thumb_audio.png')}" alt="${empty alt ? 'audio' : alt}" width="${w}" height="${h}" />
         </c:when>
         <c:when test="${nodetype eq 'imagefragments'}">
           <mm:relatednodes type="imagesources" max="1">
-            <c:set var="img"><mm:image mode="url" width="81" height="60" crop="end" /></c:set>
-            <img src="${img}" alt="${empty alt ? 'image' : alt}" width="81" height="60" />
+            <c:set var="img"><mm:image mode="url" width="${w}" height="${h}" crop="end" /></c:set>
+            <img src="${img}" alt="${empty alt ? 'image' : alt}" width="${w}" height="${h}" />
           </mm:relatednodes>
           <c:if test="${empty img}">
-            <img src="${mm:link('/style/images/thumb_image.png')}" alt="${empty alt ? 'image' : alt}" width="81" height="60" />
+            <img src="${mm:link('/style/images/thumb_image.png')}" alt="${empty alt ? 'image' : alt}" width="${w}" height="${h}" />
           </c:if>
         </c:when>
         <c:when test="${nodetype eq 'images'}">
-          <img src="${mm:link('/style/images/thumb_image.png')}" alt="${empty alt ? 'image' : alt}" width="81" height="60" />
+          <img src="${mm:link('/style/images/thumb_image.png')}" alt="${empty alt ? 'image' : alt}" width="${w}" height="${h}" />
         </c:when>
         <c:otherwise>
-          <img src="${mm:link('/style/images/thumb_video.png')}" alt="${empty alt ? 'video' : alt}" width="81" height="60" />
+          <img src="${mm:link('/style/images/thumb_video.png')}" alt="${empty alt ? 'video' : alt}" width="${w}" height="${h}" />
         </c:otherwise>
       </c:choose>
     </c:if>

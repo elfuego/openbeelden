@@ -190,7 +190,7 @@
       </div><!-- /.main-column -->
 
       <div class="right-column">
-        <div class="related-grey">
+        <div class="related-grey-border">
           <oip:h3><fmt:message key="media.sortby" /></oip:h3>
 
           <mm:url id="sorturl" write="false" absolute="true" 

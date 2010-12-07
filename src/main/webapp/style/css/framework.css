@@ -7,7 +7,7 @@
 
 div#main
 {
-	width: 980px;
+	width: 1008px;
 	margin: 0;
 	padding: 0;
 }
@@ -41,15 +41,17 @@ div#main
 #header
 {
 	position: absolute;
-	top: 20px;
+	top: 0;
 	left: 0;
 	padding-left: 35px;
-	width: 320px;	/* for IE5/Win */
+	padding-right: 28px;
+	width: 279px;	/* for IE5/Win */
 	voice-family: "\"}\"";
 	voice-family: inherit;
-	width: 290px;
+	width: 216px;
 }
 
+#header img { margin-top: 30px; }
 #header h1 { margin-bottom: 60px; }
 #header p { font-style: italic; }
 
@@ -57,13 +59,10 @@ div#main
 {
 	position: relative;
 	top: 0;
-	left: 340px;
-	width: 640px;
+	left: 308px;
+	width: 698px;
 	height: 35px;
 	font-size: 1.1em;
-	background-image: url(images/dots.png);
-	background-repeat: repeat-x;
-	background-position: 0 100%;
 }
 
 #menu ul.main
@@ -72,16 +71,7 @@ div#main
 	height: 25px;
 	padding-top: 8px;
 	list-style: none;
-	width: 340px;
-}
-
-#menu ul.meta
-{
-	float: left;
-	height: 25px;
-	padding-top: 8px;
-	list-style: none;
-	width: 300px;
+	width: 528px;
 }
 
 #menu ul.main li
@@ -92,24 +82,38 @@ div#main
 
 #menu ul.main li.last { padding-right: 0; }
 
+#menu ul.meta
+{
+	float: right;
+	height: 25px;
+	padding-top: 8px;
+	list-style: none;
+	width: 150px;
+}
 
 #menu ul.meta li
 {
-	float: left;
 	display: inline;
-	text-align: right;
+	list-style: none;
+	float: right;
+	word-spacing: 2px;
 }
 
 #menu ul.meta li.you
 {
 	white-space: nowrap;
-	word-spacing: 2px;
-	width: 172px;
-	text-align: right;
-	padding-right: 8px;
-	overflow: hidden;
+	float: left;
 }
 
+#menu ul.meta li.you a
+{
+	width: 80px;
+	overflow: hidden;
+	display: block;
+}
+
+
+/*
 #menu ul.meta li.form,
 #menu ul.meta li form,
 #menu ul.meta li fieldset {
@@ -120,24 +124,39 @@ div#main
 #menu select { width: 120px; }
 
 #menu ul.meta label { display: none; }
-#menu ul.meta li a { color: #c00; }
+*/
+#menu ul.meta li a { color: #C00; }
+#menu ul.meta li a.active { text-decoration: underline; }
 
 #footer
 {
-	width: 100%;
-	padding-top: 40px;
 	clear: both;
+	width: 100%;
+	/*background-image: url(images/dots2-bg-grey.png);*/
+    background-image: url(images/dots2.png);
+	background-repeat: repeat-x;
+	background-position: 0 60px;
+	padding-top: 80px;
+	min-height: 266px;
 }
 
 #footer div
 {
-	position: fixed;
-	bottom: 0;
-	left: 0;
-	width: 100%;
-	height: 24px;
-	background: #9c9c9c;
+	width: 15%;
+	float: left;
+	margin-left: 42px;
 }
+
+#footer div.logos
+{
+	float: left;
+	width: 216px;
+	margin-left: 48px;
+	font-size: 0.9em;
+	color: #777;
+}
+#footer div.logos img { margin-top: 8px; }
+
 
 /* special class for webkit mobile devices */
 #footer div.static
@@ -150,22 +169,20 @@ div#main
 #footer ul
 {
 	list-style: none;
-	padding-left: 340px;
+	padding-left: 0px;
 }
 
 #footer li
 {
-	float: left;
-	margin: 2px 18px 0 0;
+	margin-top: 2px;
 	list-style: none;
-	text-transform: lowercase;
 	font-size: 0.85em;
 }
 
 #footer a:link, 
 #footer a:visited 
 {
-	color: #fff;
+	color: #555;
 	text-decoration: none;
 }
 #footer a:hover, 
@@ -177,7 +194,7 @@ div.wrap
 {
 	width: 100%;
 	clear: both;
-	background-image: url(images/bg-gr-dotted.png);
+	background-image: url(images/dots2-bg-grey.png);
 	background-repeat: repeat-x;
 	background-position: 0 0;
 	min-height: 266px;
@@ -186,75 +203,99 @@ div.wrap
 
 div.left-column
 {
-	float: left;
-	margin-top: 306px; 
 	padding-left: 35px;
+	padding-right: 28px;
     padding-top: 16px;
-	background-image: url(images/bg-gr-dotted.png);
+	background-image: url(images/dots2-bg-grey.png);
 	background-repeat: repeat-x;
 	background-position: 0 0px;
-	min-height: 266px;
-	width: 320px;	/* for IE5/Win */
+	min-height: 166px;
+	width: 279px;	/* for IE5/Win */
 	voice-family: "\"}\"";
 	voice-family: inherit;
-	width: 290px;
+	width: 216px;
 }
 
 div.main-column
 {
-	float: left;
-	display: inline;	/* IE6/Win fix */
 	padding-top: 10px;
-	margin-left: 15px;
 	margin-bottom: 8px;
-	width: 320px;
+	width: 512px;
 }
 
 div.right-column
 {
-	float: left;
-	display: inline;    /* IE6/Win fix */
+	margin-left: 16px;
+	padding-left: 21px;
 	padding-top: 10px;
-	padding-left: 5px;
 	margin-bottom: 8px;
-	margin-left: 10px;
-	width: 310px;   /* for IE5/Win */
+	width: 171px;   	/* for IE5/Win */
 	voice-family: "\"}\"";
 	voice-family: inherit;
-	width: 305px;
+	width: 150px;
 }
 
-
 /* differences per page */
-body.home div#main div.left-column { display: none; }
-body.home div#main div.main-column
+div.left-column
 {
-	margin-left: 340px;
+	position: absolute;
+	top: 380px;
+	left: 0px;
+}
+body.home > div#main > div.left-column { display: none; }
+
+div.main-column,
+body.home > div#main > div.main-column
+{
+	float: left;
+	margin-left: 308px;
+	/*	position: absolute;
+	left: 308px;
+	top: 30px; */
 	margin-bottom: 4px;
 }
 
-body.home div#main div.wrap div.left-column
+div.right-column,
+body.home > div#main > div.right-column
 {
+	float: right;
+	/*position: absolute;
+	left: 820px;
+	top: 30px; */
+	margin-bottom: 4px;
+}
+
+
+body.home > div#main> div.wrap
+{
+	width: 820px;
+	position: absolute;
+	left: 0px;
+	top: 410px;
+}
+
+div.wrap > div.left-column
+{
+	position: static;
+	display: block;
+	float: left;
 	padding-top: 16px;
 	margin-top: 0;
 	border: 0;
-	display: block;
 }
 
-body.home div#main div.wrap div.main-column
+div.wrap > div.main-column
 {
+	float: left;
 	padding-top: 16px;
-	margin-left: 15px;
+	margin-left: 29px;
+	width: 496px;
 }
 
-body.home div#main div.wrap div.right-column
-{
-	padding-top: 16px;
-	margin-left: 15px;
-	width: 300px;
-}
+body.home div#main div.wrap div.right-column { display: none; }
 
-body.media div#main div.left-column { margin-top: 186px; }
+body.media > div#main > div.left-column { top: 236px; }
+body.media > div#main > div.right-column { margin-top: 190px; }
 body.media div#main div#header p { display: none; }
 
 /* error pages */
@@ -276,7 +317,8 @@ body.error div.main-column h3
 /* the bordered and grey background divs */
 div.related-grey-border
 {
-	background-image: url(images/bg-gr-dotted.png);
+	/*background-image: url(images/bg-gr-dotted.png);*/
+	background-image: url(images/dots2-bg-grey.png);
 	background-repeat: repeat-x;
 	background-position: 0 0;
 	min-height: 266px;
@@ -301,9 +343,10 @@ div.related-grey div.ui-tabs-panel div.ui-tabs { min-height: 200px; }
 div.related
 {
 	min-height: 266px;
-	padding: 8px;
+	/*padding: 8px;*/
 	clear: both;
 	margin-bottom: 1em;
+	padding-top: 8px;
 }
 
 div.related h2, div.related-grey h2 { margin-top: 0; }

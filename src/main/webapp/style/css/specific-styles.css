@@ -342,6 +342,24 @@ dl.media-info a:visited { text-decoration: none; }
 dl.media-info span.user a:hover { text-decoration: underline; }
 dl.media-info span.user a:active { text-decoration: underline; }
 
+dl.preview
+{
+	width: 150px;
+	overflow: hidden;
+	margin-bottom: 12px;
+}
+
+dl.preview dt { margin-bottom: 0; }
+dl.preview dd
+{
+	margin-top: 0;
+	max-width: 150px;
+	overflow: hidden;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+	color: #777;
+}
+
 dl.grid
 {
 	float: left;
@@ -391,17 +409,8 @@ a.edit
 .more a:link, .more a:visited { color: #C00; }
 .more a:hover, .more a:active { color: #C00; }
 
-p.more
-{
-	clear: both;
+p.more {
 	text-align: right;
-	text-transform: lowercase;
-}
-
-body.home p.more
-{
-	margin: 0;
-	padding-top: 16px;
 }
 
 div.right-column > p.more { margin-right: 16px; }
@@ -420,12 +429,12 @@ input.untouched {
 
 
 /* search form */
-form#search { width: 250px; }
-form#search fieldset { width: 256px; }
+form#search { width: 216px; }
+form#search fieldset { width: 216px; }
 /*form#search label { text-transform: lowercase; }*/
 form#search input
 {
-	width: 250px;
+	width: 100%;
 	margin: 0 0 8px 0;
 }
 
