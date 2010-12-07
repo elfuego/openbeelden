@@ -52,4 +52,25 @@
     <return type="Boolean" /> 
   </function>
 
+  <function name="locales">
+	<description>
+	  Locales
+	</description>
+	<type>class</type>
+	<class>org.mmbase.mmsite.LocaleUtil</class>
+	<method>getAcceptedLocales</method>
+    <return type="List" />
+  </function>
+  
+  <function name="ismultilanguage">
+	<description>
+	  Locales
+	</description>
+	<type>class</type>
+	<class>org.mmbase.mmsite.LocaleUtil</class>
+	<method>isMultiLanguage</method>
+    <return type="Boolean" /> 
+  </function>
+
+
 </functionset>
