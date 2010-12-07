@@ -77,7 +77,6 @@ public class LocaleUtil {
             }
             addDegraded(acceptedLocales);
         }
-        log.debug("set locales: " + acceptedLocales);
     }
     
     public List<String> getAcceptedLocaleStrings() {
