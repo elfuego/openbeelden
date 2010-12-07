@@ -47,8 +47,8 @@ public class LocaleUtil {
     public static final String LOCALE_KEY = "javax.servlet.jsp.jstl.fmt.locale.request";
     public static final String EXPLICIT_LOCALE_KEY = "org.mmbase.mmsite.language";
 
-    protected final List<Locale> acceptedLocales = new ArrayList<Locale>();
-    protected final List<String> acceptedLocaleStrings = new ArrayList<String>();
+    private static final List<Locale> acceptedLocales = new ArrayList<Locale>();
+    private static final List<String> acceptedLocaleStrings = new ArrayList<String>();
 
 
     /**
@@ -77,6 +77,15 @@ public class LocaleUtil {
             }
             addDegraded(acceptedLocales);
         }
+        log.debug("set locales: " + acceptedLocales);
+    }
+    
+    public List<String> getAcceptedLocaleStrings() {
+        return acceptedLocaleStrings;
+    }
+    
+    public List<Locale> getAcceptedLocales() {
+        return acceptedLocales;
     }
 
     public boolean isMultiLanguage() {
