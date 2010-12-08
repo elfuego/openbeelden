@@ -198,13 +198,6 @@ function initBlank() {
     $('._blank').click(function(ev) { ev.preventDefault(); window.open(ev.target); });
 }
 
-/* yeah well, in some ways we're still living in the previous millennium */
-function staticFooter() {
-    if (navigator.userAgent.match(/iPhone|iPod|iPad/i) != null) {
-        $('#footer div').addClass('static');
-    }
-}
-
 function initPlayStats() {
     $('div.oiplayer').bind("oiplayerplay", function(ev, pl) {
         var url = "${mm:link('/action/stats.jspx')}?id=" + pl.id;
@@ -238,7 +231,6 @@ $(document).ready(function() {
     initTabs('tabs');
     initTabs('usertabs');
     initBlank();
-    staticFooter();
     
     initPlusfields();
     if ($('fieldset.labelininput').length) initLabelsInInput();
