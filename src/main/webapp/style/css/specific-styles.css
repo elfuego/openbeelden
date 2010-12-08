@@ -141,15 +141,16 @@ dl.list
     display: inline;
     float: left;
     margin: 10px 0;
-    width: 320px;
+    width: 512px; 
 }
 
 dl.list dt
 {
 	float: right;
 	font-size: 1em;
+	line-height: 12pt;
 	font-weight: bold;
-	width: 230px;
+	width: 422px; 
 }
 dl.thumbs dt { display: none; }
 dl.list dd.img { margin-left: 0;}
@@ -158,7 +159,7 @@ dl.list dd
 {
     margin-left: 90px;
     font-size: 0.85em;
-    line-height: 16px;
+	line-height: 12pt;
 }
 
 dl.list dd strong
@@ -224,14 +225,15 @@ ul.sortby a:active
     color: #C00;
 }
 
-ul.sortby li.thumbsonly { margin-top: 1em; }
-ul.sortby li.thumbsonly a
+ul.sortby li.thumbsonly
 {
-    padding-left: 18px;
-    background-image: url(icons/grid.png);
-    background-repeat: no-repeat;
-    background-position: 0 50%;
+	margin-top: 1em;
+	padding-left: 18px;
+	background-image: url(icons/grid.png);
+	background-repeat: no-repeat;
+	background-position: 4px 6px;
 }
+ul.sortby li.thumbsonly a { padding-left: 0; }
 
 /* media item page */
 h3.subtitle, h3.mediatitle
@@ -364,12 +366,14 @@ dl.grid
 {
 	float: left;
 	width: 80px;
-	margin-left: 24px;
+	height: 104px;
+	margin-right: 28px;
+	margin-bottom: 4px;
 	font-size: 0.9em;
 	line-height: 1em;
-	height: 104px;
 	overflow: hidden;
-	margin-bottom: 12px;
+	white-space: nowrap;
+	text-overflow: ellipsis;
 }
 
 dl.noverflow { overflow: visible; }
@@ -378,13 +382,7 @@ dl.noverflow { overflow: visible; }
 
 dl.grid img { border: 1px solid #efefef; }
 
-dl.first {
-    margin-left: 0;
-}
-
-dl.last {
-    margin-left: 0;
-}
+dl.last { margin-right: 0; }
 
 dl.grid dt, dl.grid3 dt { height: 60px; }
 dl.grid dd, dl.grid3 dd

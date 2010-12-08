@@ -145,6 +145,7 @@ div#main
 	width: 15%;
 	float: left;
 	margin-left: 42px;
+	font-size: 0.85em;
 }
 
 #footer div.logos
@@ -157,26 +158,12 @@ div#main
 }
 #footer div.logos img { margin-top: 8px; }
 
-
-/* special class for webkit mobile devices */
-#footer div.static
-{
-	position: static;
-	height: 120px;
-	background-image: -webkit-gradient(linear, left top, left bottom, from(#9c9c9c), to(#fff));
-}
-
-#footer ul
-{
-	list-style: none;
-	padding-left: 0px;
-}
+#footer ul { list-style: none; }
 
 #footer li
 {
 	margin-top: 2px;
 	list-style: none;
-	font-size: 0.85em;
 }
 
 #footer a:link, 

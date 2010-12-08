@@ -14,8 +14,32 @@
       </p>
     </div>
 
+    <mm:node number="pool_oip">
     <div>
-      <mm:node number="pool_oip">
+        <strong>Navigate</strong>
+        <mm:relatednodescontainer type="pages" role="posrel" searchdirs="destination">
+          <mm:constraint field="posrel.pos" value="10" operator="LESS" />
+          <mm:sortorder field="posrel.pos" direction="UP" />
+          <ul>
+            <mm:node number="page_home">
+              <mm:node number="page_home">
+                <mm:link page="page" referids="_node@n">
+                  <mm:frameworkparam name="component">mmsite</mm:frameworkparam>
+                  <li><a href="${_}">Home</a></li>
+                </mm:link>
+              </mm:node>
+            </mm:node>
+            <mm:relatednodes>
+              <mm:link page="page" referids="_node@n">
+                <mm:frameworkparam name="component">mmsite</mm:frameworkparam>
+                <li><a href="${_}"><mm:field name="title" /></a></li>
+              </mm:link>
+            </mm:relatednodes>
+          </ul>
+        </mm:relatednodescontainer>
+      </div>
+      <div>
+        <strong>Service</strong>
         <mm:relatednodescontainer type="pages" role="posrel" searchdirs="destination">
           <mm:constraint field="posrel.pos" value="10" operator="GREATER" />
           <mm:sortorder field="posrel.pos" direction="UP" />
@@ -36,8 +60,8 @@
             </mm:relatednodes>
           </ul>
         </mm:relatednodescontainer>
-      </mm:node>
     </div>
+  </mm:node>
   </div>
 
 </jsp:root>
