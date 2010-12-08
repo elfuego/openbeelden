@@ -40,7 +40,7 @@ import org.mmbase.util.logging.Logging;
 
 /**
  * Portal stuff likely needed during most requests. Looks for portal (pools) node that is related
- * with urls node that is the same as server name, puts pools node on request with parameter 'portal.' 
+ * with an urls node that is similar to server name, puts pools node on request with parameter 'portal'. 
  *
  * @author Andre van Toly
  * @since OIP-1.1
@@ -173,7 +173,7 @@ public class PortalFilter implements Filter, MMBaseStarter {
             try {
                 Query query = Queries.createRelatedNodesQuery(pool, cloud.getNodeManager("urls"), "related", "destination");
                 
-                Constraint constraint = Queries.createConstraint(query, "urls.url", FieldValueConstraint.EQUAL, sb.toString());
+                Constraint constraint = Queries.createConstraint(query, "urls.url", FieldValueConstraint.LIKE, sb.toString() + "%");
                 query.setConstraint(constraint);
                 
                 NodeList urls = cloud.getList(query);
@@ -201,7 +201,7 @@ public class PortalFilter implements Filter, MMBaseStarter {
         }
         
         if (!found) {
-            log.info("Presuming this is the default portal");
+            log.info("Assuming portal '" + serverName +  "' is default.");
             portals.put(serverName, null);
         }
         
