@@ -15,7 +15,7 @@
     </div>
 
     <mm:node number="pool_oip">
-    <div>
+      <div>
         <strong>Navigate</strong>
         <mm:relatednodescontainer type="pages" role="posrel" searchdirs="destination">
           <mm:constraint field="posrel.pos" value="10" operator="LESS" />
@@ -38,6 +38,23 @@
           </ul>
         </mm:relatednodescontainer>
       </div>
+      
+      <!-- portals -->
+      <mm:listcontainer path="pools,urls" searchdirs="destination" fields="pools.number,urls.url">
+        <mm:sortorder field="pools.number" direction="UP" />
+        <mm:size>
+          <mm:isgreaterthan value="0">
+            <div><strong>Portals</strong><ul>
+            <mm:list>
+              <mm:node element="urls">
+                <li><a href="${_node.url}">${_node.name}</a></li>
+              </mm:node>
+            </mm:list>
+            </ul></div>
+          </mm:isgreaterthan>
+        </mm:size>
+      </mm:listcontainer>
+      
       <div>
         <strong>Service</strong>
         <mm:relatednodescontainer type="pages" role="posrel" searchdirs="destination">
