@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE application PUBLIC "-//MMBase//DTD application config 1.1//EN" "http://www.mmbase.org/dtd/application_1_1.dtd">
-<application name="MultiLanguage" maintainer="openimages.eu" version="3" auto-deploy="true">
+<application name="MultiLanguage" maintainer="openimages.eu" version="4" auto-deploy="true">
 
   <requirements>
   </requirements>
@@ -16,6 +16,8 @@
     <builder maintainer="mmbase.org" version="1">users_translations</builder>
     <builder maintainer="mmbase.org" version="1">pages</builder>
     <builder maintainer="mmbase.org" version="1">pages_translations</builder>
+    <builder maintainer="mmbase.org" version="0">pools</builder>
+    <builder maintainer="mmbase.org" version="0">pools_translations</builder>
     <builder maintainer="mmbase.org" version="1">langrel</builder>
   </neededbuilderlist>
 
@@ -28,6 +30,7 @@
     <relation from="mediafragments" to="mediafragments_translations" type="langrel" />
     <relation from="mmbaseusers"    to="users_translations" type="langrel" />
     <relation from="pages"          to="pages_translations" type="langrel" />
+    <relation from="pools"          to="pools_translations" type="langrel" />
     <relation from="licenses"       to="licenses_translations" type="langrel" />
   </allowedrelationlist>
 
