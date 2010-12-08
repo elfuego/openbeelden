@@ -18,7 +18,7 @@
 
         <mm:import externid="qu" />
         <mm:import id="index">users</mm:import><!-- the lucene index -->
-        <mm:import externid="max">15</mm:import>
+        <mm:import externid="max">30</mm:import>
         <mm:import externid="offset">0</mm:import>
 
         <form action="${mm:link('/users')}" method="post" id="usersearch">
@@ -91,7 +91,7 @@
             <mm:frameworkparam name="component">oip</mm:frameworkparam>
             <mm:frameworkparam name="user" referid="_node" />
             <c:choose>
-              <c:when test="${(status.index + 2) % 3 == 0}"><c:set var="gridclass" value="grid first" /></c:when>
+              <c:when test="${(status.index) % 5 == 0}"><c:set var="gridclass" value="grid last" /></c:when>
               <c:otherwise><c:set var="gridclass" value="grid" /></c:otherwise>
             </c:choose>
             <dl class="${gridclass}">
