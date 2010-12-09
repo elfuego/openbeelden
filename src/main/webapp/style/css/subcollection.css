@@ -1,0 +1,27 @@
+/**
+* @author   Andre van Toly
+* @since    OIP-1.1
+* @name     Stylesheet for a subcollection or portal
+* @version  '$Id$'
+*/
+
+/* html styles */
+h1, h2, h3 { color: #3BA0D9; }
+
+a:link { color: #3ba0d9; }
+a:visited { color: #3ba0d9; }
+a:hover, a:active { color: #3BA0D9; }
+
+h2 a:link, h2 a:visited,
+h3 a:link, h3 a:visited,
+h4 a:link, h4 a:visited,
+h5 a:link, h5 a:visited { color: #3BA0D9; }
+
+h2 a:hover, h2 a:active,
+h3 a:hover, h3 a:active,
+h4 a:hover, h4 a:active,
+h5 a:hover, h5 a:active { color: #3BA0D9; }
+
+/* columns */
+div.wrap { background-image: url(images/dots2-bg-blue.png); }
+div.left-column { background-image: url(images/dots2-bg-blue.png); }
