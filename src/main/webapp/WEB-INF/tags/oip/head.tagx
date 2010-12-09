@@ -20,8 +20,10 @@
         </mm:time>
         <meta name="ContextRoot" content="${mm:link('/')}" />
         <title>
-          <c:if test="${! empty title}">${title} - </c:if>
-          <fmt:message key="head.title" />
+          <c:choose>
+            <c:when test="${! empty title}">${title}</c:when>
+            <c:otherwise><fmt:message key="head.title" /></c:otherwise>
+          </c:choose>
         </title>
         <link href="${mm:link('/style/css/main.css')}" rel="stylesheet" type="text/css" />
         <![CDATA[<!--[if IE 6]><link href="${mm:link('/style/css/ie6.css')}" rel="stylesheet" type="text/css"/><![endif]-->]]>

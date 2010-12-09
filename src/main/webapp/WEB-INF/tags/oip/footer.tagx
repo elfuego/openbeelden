@@ -6,7 +6,7 @@
   version="2.0">
   
   <div id="footer">
-
+    <mm:import externid="portal" from="request">pool_oip</mm:import>
     <div class="logos">
       <p>
         <fmt:message key="head.initiative" />
@@ -14,21 +14,13 @@
       </p>
     </div>
 
-    <mm:node number="pool_oip">
+    <mm:node number="$portal" notfound="skip">
       <div>
         <strong>Navigate</strong>
         <mm:relatednodescontainer type="pages" role="posrel" searchdirs="destination">
-          <mm:constraint field="posrel.pos" value="10" operator="LESS" />
+          <mm:constraint field="posrel.pos" value="0" value2="10" operator="BETWEEN" />
           <mm:sortorder field="posrel.pos" direction="UP" />
           <ul>
-            <mm:node number="page_home">
-              <mm:node number="page_home">
-                <mm:link page="page" referids="_node@n">
-                  <mm:frameworkparam name="component">mmsite</mm:frameworkparam>
-                  <li><a href="${_}">Home</a></li>
-                </mm:link>
-              </mm:node>
-            </mm:node>
             <mm:relatednodes>
               <mm:link page="page" referids="_node@n">
                 <mm:frameworkparam name="component">mmsite</mm:frameworkparam>
@@ -38,37 +30,43 @@
           </ul>
         </mm:relatednodescontainer>
       </div>
+    </mm:node>
       
-      <!-- portals -->
-      <mm:listcontainer path="pools,urls" searchdirs="destination" fields="pools.number,urls.url">
-        <mm:sortorder field="pools.number" direction="UP" />
-        <mm:size>
-          <mm:isgreaterthan value="0">
-            <div><strong>Portals</strong><ul>
-            <mm:list>
-              <mm:node element="urls">
-                <li><a href="${_node.url}">${_node.name}</a></li>
-              </mm:node>
-            </mm:list>
-            </ul></div>
-          </mm:isgreaterthan>
-        </mm:size>
-      </mm:listcontainer>
-      
+    <!-- portals -->
+    <mm:listcontainer path="pools,urls" searchdirs="destination" fields="pools.number,urls.url">
+      <mm:size>
+        <mm:isgreaterthan value="0">
+          <div>
+            <strong>Portals</strong>
+            <ul>
+
+              <mm:listnodescontainer type="pools">
+                <mm:listnodes>
+                  <mm:nodefunction name="translation">
+                    <c:set var="p_name"><mm:field name="name" /></c:set>
+                  </mm:nodefunction>
+                  <mm:relatednodescontainer type="urls" role="related" searchdirs="destination">
+                    <mm:maxnumber value="1" />
+                    <mm:relatednodes>
+                      <li><a href="${_node.url}">${p_name}</a></li>
+                    </mm:relatednodes>
+                  </mm:relatednodescontainer>
+                </mm:listnodes>
+              </mm:listnodescontainer>
+
+            </ul>
+          </div>
+        </mm:isgreaterthan>
+      </mm:size>
+    </mm:listcontainer>
+    
+    <mm:node number="pool_oip" notfound="skip">
       <div>
         <strong>Service</strong>
         <mm:relatednodescontainer type="pages" role="posrel" searchdirs="destination">
-          <mm:constraint field="posrel.pos" value="10" operator="GREATER" />
+          <mm:constraint field="posrel.pos" value="0" value2="10" operator="BETWEEN" inverse="true" />
           <mm:sortorder field="posrel.pos" direction="UP" />
           <ul>
-            <mm:node number="page_home">
-              <mm:node number="page_home">
-                <mm:link page="page" referids="_node@n">
-                  <mm:frameworkparam name="component">mmsite</mm:frameworkparam>
-                  <li><a href="${_}">Home</a></li>
-                </mm:link>
-              </mm:node>
-            </mm:node>
             <mm:relatednodes>
               <mm:link page="page" referids="_node@n">
                 <mm:frameworkparam name="component">mmsite</mm:frameworkparam>
@@ -77,8 +75,8 @@
             </mm:relatednodes>
           </ul>
         </mm:relatednodescontainer>
-    </div>
-  </mm:node>
+      </div>
+    </mm:node>
+  
   </div>
-
 </jsp:root>

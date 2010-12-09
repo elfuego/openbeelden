@@ -8,41 +8,78 @@
   
   <div id="menu">
     
-    <mm:node number="pool_oip">
-      <c:set var="query_str" value="${requestScope['javax.servlet.forward.query_string']}" />
-      <script type="text/javascript">
-        <mm:link page="/action/you.jspx" escapeamps="false">
-          <mm:param name="referrer">${requestScope['javax.servlet.forward.request_uri']}<c:if test="{!empty query_string}">?${query_string}</c:if></mm:param>
-          <c:if test="${! empty requestScope['org.mmbase.mmsite.language']}">
-            <mm:param name="locale">${requestScope['org.mmbase.mmsite.language']}</mm:param>
-          </c:if>
-          <jsp:text>$(document).ready(function() { $("#menu li.you").load("${_}"); });</jsp:text>
-        </mm:link>
-      </script>
-      <mm:relatednodescontainer type="pages" role="posrel" searchdirs="destination">
-        <mm:constraint field="posrel.pos" value="1" value2="10" operator="BETWEEN" />
-        <mm:sortorder field="posrel.pos" direction="UP" />
-        <mm:import externid="n" vartype="integer" />
-        <ul class="main">
-          <mm:relatednodes>
-            <mm:last><c:set var="lastclass" value="last" /></mm:last>
-            <li class="${n eq _node.number ? 'active ' :''}${lastclass}">
-              <mm:link page="page" referids="_node@n">
-                <mm:frameworkparam name="component">mmsite</mm:frameworkparam>
-                <a href="${_}"><mm:field name="title" /></a>
-              </mm:link>
+    <mm:import externid="portal" id="pool" from="request">pool_oip</mm:import>
+    <ul class="main">
+      <mm:node number="$pool" id="portal">
+        <c:set var="query_str" value="${requestScope['javax.servlet.forward.query_string']}" />
+        <script type="text/javascript">
+          <mm:link page="/action/you.jspx" escapeamps="false">
+            <mm:param name="referrer">${requestScope['javax.servlet.forward.request_uri']}<c:if test="{!empty query_string}">?${query_string}</c:if></mm:param>
+            <c:if test="${! empty requestScope['org.mmbase.mmsite.language']}">
+              <mm:param name="locale">${requestScope['org.mmbase.mmsite.language']}</mm:param>
+            </c:if>
+            <jsp:text>$(document).ready(function() { $("#menu li.you").load("${_}"); });</jsp:text>
+          </mm:link>
+        </script>
+        <mm:relatednodescontainer type="pages" role="posrel" searchdirs="destination">
+          <mm:constraint field="posrel.pos" value="1" value2="10" operator="BETWEEN" />
+          <mm:sortorder field="posrel.pos" direction="UP" />
+          <mm:import externid="n" vartype="integer" />
+            <mm:relatednodes>
+              <mm:last><c:set var="lastclass" value="last" /></mm:last>
+              <li class="${n eq _node.number ? 'active ' :''}${lastclass}">
+                <mm:link page="page" referids="_node@n">
+                  <mm:frameworkparam name="component">mmsite</mm:frameworkparam>
+                  <a href="${_}"><mm:field name="title" /></a>
+                </mm:link>
+              </li>
+            </mm:relatednodes>
+        </mm:relatednodescontainer>
+      </mm:node>
+        
+      <!-- portals -->
+      <mm:listcontainer path="pools,urls" searchdirs="destination" fields="pools.number,urls.url">
+        <mm:size>
+          <mm:isgreaterthan value="0">
+            <li class="form">
+              <form method="post" action="${mm:link('/')}">
+                <fieldset>
+                  <select name="choose_portal" id="choose_portal">
+                    <mm:listnodescontainer type="pools">
+                      <mm:listnodes id="p">
+                        <mm:nodefunction name="translation">
+                          <c:set var="p_name"><mm:field name="name" /></c:set>
+                        </mm:nodefunction>
+                        <mm:relatednodescontainer type="urls" role="related" searchdirs="destination">
+                          <mm:maxnumber value="1" />
+                          <mm:relatednodes>
+                            <c:choose>
+                              <c:when test="${portal.number eq p.number}">
+                                <option label="${p_name}" value="${_node.url}" selected="selected">${p_name}</option>
+                              </c:when>
+                              <c:otherwise>
+                                <option label="${p_name}" value="${_node.url}">${p_name}</option>
+                              </c:otherwise>
+                            </c:choose>
+                          </mm:relatednodes>
+                        </mm:relatednodescontainer>
+                      </mm:listnodes>
+                    </mm:listnodescontainer>
+                  </select>
+                <input class="hidden" value="OK" type="submit" name="action" />
+                </fieldset>
+              </form>
             </li>
-          </mm:relatednodes>
-        </ul>
-      </mm:relatednodescontainer>
-    </mm:node>
-  
+          </mm:isgreaterthan>
+        </mm:size>
+      </mm:listcontainer>
+    </ul>
+    
     <ul class="meta">
       <li class="you">
         <jsp:text> </jsp:text>
       </li>
       <li>
-        
         <mm:import id="langpostfix">
           <!-- a bit of a hack, should use fw-parmas -->
           <c:if test="${! empty requestScope['org.mmbase.mmsite.language']}">
@@ -53,28 +90,6 @@
           <a class="${_ eq langpostfix ? 'active' : ''}" href="${mm:link('/')}.${_}">${_}</a>
           <c:if test="${! status.last}"><jsp:text> / </jsp:text></c:if>
         </mm:listfunction>
-
-<!--
-        <mm:datatype base="oip_language" id="language_selector">
-          <required value="false" />
-        </mm:datatype>
-        
-        <mm:virtualnode map="${requestScope}">
-          <mm:link>
-            <form method="post" action="${_}">
-              <fieldset>
-                <mm:field name="org.mmbase.mmsite.language">
-                  <mm:fieldinfo type="forid">
-                    <label for="${_}">  <fmt:message key="service.choose_language" /></label>
-                  </mm:fieldinfo>
-                  <mm:fieldinfo datatype="language_selector" type="input" />
-                </mm:field>
-                <input name="action" type="submit" value="OK" class="hidden" />
-              </fieldset>
-            </form>
-          </mm:link>
-        </mm:virtualnode>
--->
       </li>
     </ul>
   

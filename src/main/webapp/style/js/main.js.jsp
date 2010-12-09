@@ -11,8 +11,8 @@
   @version  '$Id$'
 */
 
-function initLangSwitch() {
-    $("select[id='mm_org.mmbase.mmsite.language']").change(function() {
+function initMultiLang() {
+    /* $("select[id='mm_org.mmbase.mmsite.language']").change(function() {
         var form = $(this).parents('form');
         var action = form.attr("action").split('/');
         var last = action[action.length - 1].split('.');
@@ -23,10 +23,10 @@ function initLangSwitch() {
         }
         var newUrl = action.join("/");
         document.location = newUrl;
-    });
+    }); */
     // change the empty language options
-    var choose_lang = $("#menu label[for='mm_org.mmbase.mmsite.language']").text();
-    $("select[id='mm_org.mmbase.mmsite.language'] option[value='']").text(choose_lang);
+    //var choose_lang = $("#menu label[for='mm_org.mmbase.mmsite.language']").text();
+    //$("select[id='mm_org.mmbase.mmsite.language'] option[value='']").text(choose_lang);
     $("select[id='mm_searchlang'] option[value='']").text("${any_lang}");
     if ($('form#search').length) {  // change selected language in adv. search
         var la = $("#hiddensearchlang").val();
@@ -42,6 +42,12 @@ function initLangSwitch() {
         }
     }
 
+}
+
+function initPortalSwitch() {
+    $("select[id='choose_portal']").change(function() {
+        document.location = $(this).val();
+    });
 }
 
 function initClearMsg() {
@@ -221,7 +227,8 @@ function initPlusfields() {
 }
 
 $(document).ready(function() {
-    initLangSwitch();
+    initMultiLang();
+    initPortalSwitch();
     initClearMsg();
     initToolbar();
     initRemoveFav();

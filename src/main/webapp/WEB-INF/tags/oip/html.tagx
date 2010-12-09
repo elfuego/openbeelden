@@ -46,8 +46,22 @@
           xml:lang="${requestScope['javax.servlet.jsp.jstl.fmt.locale.request']}"
           xmlns="http://www.w3.org/1999/xhtml">
 
+        <mm:import externid="portal" from="request">pool_oip</mm:import>
         <mm:import id="page" externid="n" />
-
+        
+        <fmt:message key="head.title" var="portal_name" />
+        <mm:hasnode number="$portal">
+          <mm:node number="$portal">
+            <c:set var="portal_name"><mm:field name="name" /></c:set>
+            <!-- get and set portal properties -->
+            <mm:nodelistfunction nodemanager="properties" name="list" referids="_node@node">
+              <mm:field name="key" id="propkey">
+                <mm:import id="property_$[propkey]" reset="true"><mm:field name="value" /></mm:import>
+              </mm:field>
+            </mm:nodelistfunction>
+          </mm:node>
+        </mm:hasnode>
+        
         <c:if test="${! empty page}">
           <mm:node id="page" referid="page" />
         </c:if>
@@ -57,13 +71,18 @@
             <c:choose>
               <c:when test="${empty title and !empty page}">
                 <mm:node referid="page">
-                  <mm:hasfield name="username"><mm:field name="username" /></mm:hasfield>
-                  <mm:hasfield name="title"><mm:field name="title" /></mm:hasfield>
+                  <mm:hasfield name="username"><mm:field name="username" /> - </mm:hasfield>
+                  <mm:hasfield name="title"><mm:field name="title" /> - </mm:hasfield>
                 </mm:node>
               </c:when>
-              <c:otherwise>${title}</c:otherwise>
-            </c:choose>
+              <c:otherwise>${empty title ? '' : title + ' - '}</c:otherwise>
+            </c:choose>${portal_name}
           </jsp:attribute>
+          
+          <c:if test="${!empty property_css}">
+            <link href="${mm:link(property_css)}" rel="stylesheet" type="text/css" />
+          </c:if> 
+          
           <c:choose>
             <c:when test="${empty page}">
               <jsp:invoke fragment="head" />

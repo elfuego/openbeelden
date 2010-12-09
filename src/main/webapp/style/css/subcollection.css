@@ -22,6 +22,9 @@ h3 a:hover, h3 a:active,
 h4 a:hover, h4 a:active,
 h5 a:hover, h5 a:active { color: #3BA0D9; }
 
+#menu ul.meta li a { color: #3BA0D9; }
+
 /* columns */
 div.wrap { background-image: url(images/dots2-bg-blue.png); }
 div.left-column { background-image: url(images/dots2-bg-blue.png); }
+

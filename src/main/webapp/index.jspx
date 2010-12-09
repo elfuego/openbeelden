@@ -7,9 +7,24 @@
     xmlns:oip="urn:jsptagdir:/WEB-INF/tags/oip"
     xmlns:mm="http://www.mmbase.org/mmbase-taglib-2.0">
   <oip:html styleClass="home">
+    
     <jsp:attribute name="head">
+      
+      <mm:import externid="portal" from="request">pool_oip</mm:import>
+      <mm:import id="page" externid="n">page_home</mm:import>
+
+      <mm:node number="$portal" notfound="skip">
+        <mm:relatednodescontainer type="pages" role="posrel" searchdirs="destination">
+          <mm:constraint field="posrel.pos" value="0" value2="1" operator="BETWEEN" />
+          <mm:relatednodes>
+            <mm:import id="page" reset="true"><mm:field name="number" /></mm:import>
+          </mm:relatednodes>
+        </mm:relatednodescontainer>
+      </mm:node>
+
+      
       <link href="${mm:link('/feeds/atom/')}" rel="alternate" type="application/atom+xml" title="Open Image Platform latest uploads" />
-      <mm:node number="page_home">
+      <mm:node number="$page">
         <mm:relatednodescontainer type="mediafragments" role="posrel" searchdirs="destination">
           <mm:constraint field="show" value="true" operator="EQUAL" />
           <mm:sortorder field="posrel.pos" direction="UP" />
@@ -37,7 +52,6 @@
       </mm:import>
 
       <div class="main-column">
-
         <oip:h2><fmt:message key="media.featured" /></oip:h2>
         <mm:present referid="featured_node">
           <mm:node referid="featured_node">

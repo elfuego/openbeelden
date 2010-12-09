@@ -71,7 +71,7 @@ div#main
 	height: 25px;
 	padding-top: 8px;
 	list-style: none;
-	width: 528px;
+	width: 512px;
 }
 
 #menu ul.main li
@@ -113,18 +113,17 @@ div#main
 }
 
 
-/*
-#menu ul.meta li.form,
-#menu ul.meta li form,
-#menu ul.meta li fieldset {
+#menu ul.main li.form { float: right; }
+#menu ul.main li.form,
+#menu ul.main li form,
+#menu ul.main li fieldset {
 	margin: 0;
 	padding: 0;
 	width: 120px;
 }
 #menu select { width: 120px; }
+#menu ul.main label { display: none; }
 
-#menu ul.meta label { display: none; }
-*/
 #menu ul.meta li a { color: #C00; }
 #menu ul.meta li a.active { text-decoration: underline; }
 
@@ -290,8 +289,8 @@ body.error div.main-column
 {
 	padding-top: 10px;
 	margin-bottom: 8px;
-	width: 640px;
-	margin-left: 335px;
+	width: 699px;
+	margin-left: 308px;
 }
 
 body.error div.main-column h2,
