@@ -7,40 +7,70 @@
 
   <div id="header">
     <jsp:output omit-xml-declaration="true" />
-    <mm:hasnode number="page_home">
-      <mm:node number="page_home">
-        <h1>
-          <mm:link page="page" referids="_node@n">
-            <mm:frameworkparam name="component">mmsite</mm:frameworkparam>
-            <fmt:message key="head.title" var="title" />
-            <a href="${_}">
-              <mm:functioncontainer>
-                <mm:param name="locale" value="${requestScope['javax.servlet.jsp.jstl.fmt.locale.request']}" />
-                <mm:listfunction set="utils" name="degradeLocale">
-                  <mm:notpresent referid="found">
-                    <mm:haspage page="/style/images/oip-logo_${_}.png">
-                      <mm:link id="found" page="/style/images/oip-logo_${_}.png">
-                        <img src="${_}"
-                             alt="${title}" width="174" height="174" />
-                      </mm:link>
-                    </mm:haspage>
-                  </mm:notpresent>
-                </mm:listfunction>
-              </mm:functioncontainer>
-              <mm:notpresent referid="found">
-                <img src="${mm:link('/style/images/oip-logo.png')}"
-                     alt="${title}" width="174" height="174" />
-              </mm:notpresent>
-            </a>
-          </mm:link>
-        </h1>
+    
+    <fmt:message key="head.title" var="title" />
+    <fmt:message key="head.description" var="description" />
+    <c:set var="img"><img src="${mm:link('/style/images/oip-logo.png')}" alt="${title}" width="174" height="174" /></c:set>
+
+    <c:choose>
+      <c:when test="${empty portal}">
+        
+        <mm:hasnode number="pool_oip">
+          <mm:node number="pool_oip">
+            <c:set var="title"><mm:field name="name" /></c:set>
+            <c:set var="description"><mm:field name="description" /></c:set>
+          </mm:node>
+        </mm:hasnode>
+        
+        <mm:functioncontainer>
+          <!-- replace with translated logo -->
+          <mm:param name="locale" value="${requestScope['javax.servlet.jsp.jstl.fmt.locale.request']}" />
+          <mm:listfunction set="utils" name="degradeLocale">
+            <mm:haspage page="/style/images/oip-logo_${_}.png">
+              <mm:link page="/style/images/oip-logo_${_}.png">
+                <c:set var="img"><img src="${_}" alt="${title}" width="174" height="174" /></c:set>
+              </mm:link>
+            </mm:haspage>
+          </mm:listfunction>
+        </mm:functioncontainer>
+      
+      </c:when>
+      <c:otherwise>
+
+        <mm:node number="$portal">
+          <mm:relatednodes type="images" max="1">
+            <c:set var="img"><mm:image mode="img" template="s(216)" /></c:set>
+          </mm:relatednodes>
+          
+          <mm:hasalias name="pool_oip">
+            <mm:functioncontainer>
+              <mm:param name="locale" value="${requestScope['javax.servlet.jsp.jstl.fmt.locale.request']}" />
+              <mm:listfunction set="utils" name="degradeLocale">
+                <mm:haspage page="/style/images/oip-logo_${_}.png">
+                  <mm:link page="/style/images/oip-logo_${_}.png">
+                    <c:set var="img"><img src="${_}" alt="${title}" width="174" height="174" /></c:set>
+                  </mm:link>
+                </mm:haspage>
+              </mm:listfunction>
+            </mm:functioncontainer>
+          </mm:hasalias>
+          
+          <mm:nodefunction name="translation">
+            <c:set var="title"><mm:field name="name" /></c:set>
+            <c:set var="description"><mm:field name="description" /></c:set>
+          </mm:nodefunction>
+        </mm:node>
   
-        <mm:nodefunction name="translation">
-          <mm:field name="description" escape="paragraph" />
-        </mm:nodefunction>
+      </c:otherwise>
+    </c:choose>
+    
+    <h1>
+      <a title="${title}" href="${mm:link('/')}">
+        ${img}
+      </a>
+    </h1>
+    <mm:write referid="description" escape="paragraph" />
   
-      </mm:node>
-    </mm:hasnode>
   </div>
 
 </jsp:root>
