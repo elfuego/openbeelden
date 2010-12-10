@@ -58,6 +58,7 @@
     <relation from="mediafragments" to="locations" type="related" />
     <relation from="mediafragments" to="stats"    type="related" />
 
+    <relation from="mmbaseusers"    to="pools"    type="related" /><!-- portal manager -->
     <relation from="mmbaseusers"    to="mediafragments" type="ratingrel" />
     <relation from="mmbaseusers"    to="images" type="posrel" />
     <relation from="mmbasegroups"   to="mmbaseusers" type="contains" />
