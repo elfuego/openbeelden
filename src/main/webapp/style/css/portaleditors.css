@@ -1,0 +1,37 @@
+/**
+* @author   Open Images Platform
+* @since    OIP-1.1
+* @name     Styles that are specific for portal editors
+* @version  '$Id: editors.css 43696 2010-10-20 09:39:57Z andre $'
+*/
+
+div.left-column, div.wrap { background-image: url("images/dots2.png"); }
+div.wrap { margin-top: 1em; }
+
+div.left-column ul { list-style: none; }
+
+h1, h2, h3 { color: #3BA0D9; }
+
+/*div.main-column > p { clear: both; }*/
+
+#portalform
+{
+	padding-top: 2em;
+	clear: both;
+}
+
+a:link, a:visited, a:hover, a:active { color: #3BA0D9; }
+
+div.edit-pic div { float: left; }
+div.edit-pic a { margin-left: 12px; }
+
+body.login div.login
+{
+	width: 320px;
+	margin: 4em auto;
+	background-image: url(../images/oip-logo_en.png);
+	background-repeat: no-repeat;
+	background-position: 0 0;
+	padding-top: 110px;
+}
+
