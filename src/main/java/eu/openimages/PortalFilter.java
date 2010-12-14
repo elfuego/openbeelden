@@ -171,7 +171,7 @@ public class PortalFilter implements Filter, MMBaseStarter {
         while (ni.hasNext()) {
             Node pool = ni.nextNode();
             try {
-                Query query = Queries.createRelatedNodesQuery(pool, cloud.getNodeManager("urls"), "related", "destination");
+                Query query = Queries.createRelatedNodesQuery(pool, cloud.getNodeManager("urls"), "portalrel", "destination");
                 
                 Constraint constraint = Queries.createConstraint(query, "urls.url", FieldValueConstraint.LIKE, sb.toString() + "%");
                 query.setConstraint(constraint);
@@ -188,6 +188,7 @@ public class PortalFilter implements Filter, MMBaseStarter {
                     //res.setHeader("X-OpenImages-Portal", pool.getStringValue("name"));
                     
                     // cache
+                    log.service("Adding portal '" + serverName + "'.");
                     portals.put(serverName, pool);
                     found = true;
                     
@@ -201,7 +202,7 @@ public class PortalFilter implements Filter, MMBaseStarter {
         }
         
         if (!found) {
-            log.info("Assuming portal '" + serverName +  "' is default.");
+            log.service("Assuming portal '" + serverName +  "' is default.");
             portals.put(serverName, null);
         }
         
