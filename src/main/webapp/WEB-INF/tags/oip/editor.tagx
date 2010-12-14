@@ -49,19 +49,21 @@
           xmlns="http://www.w3.org/1999/xhtml">
         <head>
             
+          <!-- get node number portal one way or another -->
+          <mm:import externid="portal" from="parameters">pool_oip</mm:import>
+          <mm:node number="$portal">
+            <mm:import id="portal" reset="true"><mm:field name="number" /></mm:import>
+          </mm:node>
           <mm:cloudinfo type="user">
             <mm:listnodescontainer type="mmbaseusers">
               <mm:constraint field="username" value="${_}" operator="EQUAL" />
               <mm:listnodes>
-                <mm:relatednodes type="pools">
-                  <mm:import id="portal"><mm:field name="number" /></mm:import>
+                <mm:relatednodes type="pools" role="portalrel" max="1" >
+                  <mm:import id="portal" reset="true"><mm:field name="number" /></mm:import>
                 </mm:relatednodes>
               </mm:listnodes>
             </mm:listnodescontainer>
           </mm:cloudinfo>
-          <c:if test="${empty portal}">
-            <mm:import externid="portal" from="request">pool_oip</mm:import>
-          </c:if>
 
           <title>Editors ${portal} ${editor}</title>
           
@@ -85,7 +87,50 @@
   
             <div id="menu">
               <ul class="main">
-                <li><a href="${'/editors/'}">Portal</a></li>
+
+                <li>portal: ${portal}</li>
+                <li><a href="${'/editors/'}">Home</a></li>
+
+                <mm:hasrank minvalue="project manager">
+                  <!-- portals -->
+                  <mm:listcontainer path="pools,portalrel,urls" searchdirs="destination" fields="pools.number,urls.url">
+                    <mm:size>
+                      <mm:isgreaterthan value="0">
+                        
+                        <li class="form">
+                          <form method="post" action="${mm:link('/editors/')}">
+                            <fieldset>
+                              <select name="edit_portal" id="edit_portal">
+                                <mm:listnodescontainer type="pools">
+                                  <mm:listnodes>
+                                    
+                                    <mm:nodefunction name="translation">
+                                      <c:set var="p_name"><mm:field name="name" /></c:set>
+                                    </mm:nodefunction>
+                                        
+                                    <c:choose>
+                                      <c:when test="${portal eq _node.number}">
+                                        <option label="${p_name}" value="${_node.number}" selected="selected">${p_name}</option>
+                                      </c:when>
+                                      <c:otherwise>
+                                        <option label="${p_name}" value="${_node.number}">${p_name}</option>
+                                      </c:otherwise>
+                                    </c:choose>
+            
+                                  </mm:listnodes>
+                                </mm:listnodescontainer>
+                              </select>
+                              <input class="hidden" value="OK" type="submit" name="action" />
+                            </fieldset>
+                          </form>
+                        </li>
+                        
+                      </mm:isgreaterthan>
+                    </mm:size>
+                  </mm:listcontainer>
+                </mm:hasrank>
+      
+
               </ul>
               <ul class="meta">
                 <li><a href="${mm:link('/logout.jspx')}">logout</a></li>
