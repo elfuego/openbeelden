@@ -38,9 +38,10 @@
       </mm:node>
         
       <!-- portals -->
-      <mm:listcontainer path="pools,urls" searchdirs="destination" fields="pools.number,urls.url">
+      <mm:listcontainer path="pools,portalrel,urls" searchdirs="destination" fields="pools.number,urls.url">
         <mm:size>
           <mm:isgreaterthan value="0">
+            
             <li class="form">
               <form method="post" action="${mm:link('/')}">
                 <fieldset>
@@ -50,7 +51,7 @@
                         <mm:nodefunction name="translation">
                           <c:set var="p_name"><mm:field name="name" /></c:set>
                         </mm:nodefunction>
-                        <mm:relatednodescontainer type="urls" role="related" searchdirs="destination">
+                        <mm:relatednodescontainer type="urls" role="portalrel" searchdirs="destination">
                           <mm:maxnumber value="1" />
                           <mm:relatednodes>
                             <c:choose>
@@ -66,19 +67,17 @@
                       </mm:listnodes>
                     </mm:listnodescontainer>
                   </select>
-                <input class="hidden" value="OK" type="submit" name="action" />
+                  <input class="hidden" value="OK" type="submit" name="action" />
                 </fieldset>
               </form>
             </li>
+            
           </mm:isgreaterthan>
         </mm:size>
       </mm:listcontainer>
     </ul>
     
     <ul class="meta">
-      <li class="you">
-        <jsp:text> </jsp:text>
-      </li>
       <li>
         <mm:import id="langpostfix">
           <!-- a bit of a hack, should use fw-parmas -->
@@ -90,6 +89,21 @@
           <a class="${_ eq langpostfix ? 'active' : ''}" href="${mm:link('/')}.${_}">${_}</a>
           <c:if test="${! status.last}"><jsp:text> / </jsp:text></c:if>
         </mm:listfunction>
+      </li>
+      <mm:hasrank value="anonymous" inverse="true">
+
+
+        <li>
+          <mm:link page="/logout.jspx">
+            <c:if test="${! empty requestScope['org.mmbase.mmsite.language']}">
+              <mm:param name="locale">${requestScope['org.mmbase.mmsite.language']}</mm:param>
+            </c:if>
+            <a class="logout" href="${_}"><fmt:message key="login.logout" /></a>
+          </mm:link>
+        </li>
+      </mm:hasrank>
+      <li class="you">
+        <jsp:text> </jsp:text>
       </li>
     </ul>
   
