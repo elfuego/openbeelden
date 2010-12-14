@@ -21,7 +21,7 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
          xsi:schemaLocation="http://www.openarchives.org/OAI/2.0/oai_dc/ http://www.openarchives.org/OAI/2.0/oai_dc.xsd">
        
-       <dc:title xml:lang="${_node.language}"><mm:field name="title" /> s: ${set} </dc:title>
+       <dc:title xml:lang="${_node.language}"><mm:field name="title" /></dc:title>
        <mm:relatednodescontainer type="mediafragments_translations" role="langrel" searchdirs="destination">
          <mm:relatednodes>
            <dc:title xml:lang="${_node.language}"><mm:field name="title" /></dc:title>
