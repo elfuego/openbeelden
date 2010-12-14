@@ -8,8 +8,6 @@
 
 .mm_form { clear: both; }
 
-form.mm_form label { cursor: help; }
-
 .mm_check_error {
     color: #C00;
     font-size: 1em;
