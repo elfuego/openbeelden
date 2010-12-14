@@ -33,7 +33,7 @@
     </mm:node>
       
     <!-- portals -->
-    <mm:listcontainer path="pools,urls" searchdirs="destination" fields="pools.number,urls.url">
+    <mm:listcontainer path="pools,portalrel,urls" searchdirs="destination" fields="pools.number,urls.url">
       <mm:size>
         <mm:isgreaterthan value="0">
           <div>
@@ -45,7 +45,7 @@
                   <mm:nodefunction name="translation">
                     <c:set var="p_name"><mm:field name="name" /></c:set>
                   </mm:nodefunction>
-                  <mm:relatednodescontainer type="urls" role="related" searchdirs="destination">
+                  <mm:relatednodescontainer type="urls" role="portalrel" searchdirs="destination">
                     <mm:maxnumber value="1" />
                     <mm:relatednodes>
                       <li><a href="${_node.url}">${p_name}</a></li>
