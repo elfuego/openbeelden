@@ -8,15 +8,15 @@
     >
   <jsp:directive.tag
       display-name="HTML"
-      description="The HTML tag defines the basic HTML structure of this site
-                   " />
+      description="The HTML tag defines the basic HTML structure of this site"
+      />
   <jsp:directive.attribute
       name="title"
       description="See oip:head title"
       />
   <jsp:directive.attribute
       name="styleClass"
-      description="Extra style class with will be added on the body"
+      description="Extra style class that can be added to the body"
       />
   <jsp:directive.attribute name="cacheable" type="java.lang.Boolean" />
 
@@ -75,7 +75,11 @@
                   <mm:hasfield name="title"><mm:field name="title" /> - </mm:hasfield>
                 </mm:node>
               </c:when>
-              <c:otherwise>${empty title ? '' : title + ' - '}</c:otherwise>
+              <c:otherwise>
+                <c:if test="${!empty title}">
+                  ${title} -
+                </c:if>
+              </c:otherwise>
             </c:choose>${portal_name}
           </jsp:attribute>
           
