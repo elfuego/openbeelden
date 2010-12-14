@@ -21,9 +21,8 @@ $(document).ready(function() {
     });
 
     initClearMsg();
+    initPortalSwitch();
 });
-
-
 
 /*
  * Returns parameters from a query string in an object. 
@@ -52,4 +51,19 @@ function clearMsg(el) {
     } else {
         $('p.msg:not(.stay)').slideUp(1000);
     }
+}
+
+function initPortalSwitch() {
+    $("select[id='edit_portal']").change(function() {
+        var form = $(this).parents('form');
+        var action = form.attr("action").split('/');
+        var last = action[action.length - 1].split('.');
+        if ($(this).val() == '') {
+            action[action.length - 1] = last[0];
+        } else {
+            action[action.length - 1] = last[0] + "?portal=" + $(this).val();
+        }
+        var newUrl = action.join("/");
+        document.location = newUrl;
+    });
 }
