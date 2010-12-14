@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE application PUBLIC "-//MMBase//DTD application config 1.1//EN" "http://www.mmbase.org/dtd/application_1_1.dtd">
-<application name="OIP" maintainer="openimages.eu" version="11" auto-deploy="true">
+<application name="OIP" maintainer="openimages.eu" version="12" auto-deploy="true">
 
   <requirements>
     <requires name="Streams"        maintainer="streams.mmbase.org"            />
@@ -13,6 +13,7 @@
     <builder maintainer="mmbase.org" version="1">articles</builder>
     <builder maintainer="mmbase.org" version="1">attachments</builder>
     <builder maintainer="mmbase.org" version="1">images</builder>
+    <builder maintainer="mmbase.org" version="1">filters</builder>
     <builder maintainer="mmbase.org" version="1">licenses</builder>
     <builder maintainer="mmbase.org" version="1">locations</builder>
     <builder maintainer="mmbase.org" version="1">mediafragments</builder>
@@ -35,13 +36,15 @@
     <reldef source="related"    target="related"   direction="bidirectional" guisourcename="Related" guitargetname="Related" builder="insrel" />
     <reldef source="posrel"     target="posrel"    direction="bidirectional" guisourcename="Posrel" guitargetname="Posrel" builder="posrel" />
     <reldef source="ratingrel"  target="ratingrel" direction="bidirectional" guisourcename="Rating" guitargetname="Rating" builder="ratingrel" />
+    <reldef source="portalrel"  target="portalrel" direction="bidirectional" guisourcename="Portal" guitargetname="PortalItem" builder="insrel" />
     <reldef source="contains" target="containedBy"  direction="bidirectional" guisourcename="contains" guitargetname="contained by" builder="insrel" />
   </neededreldeflist>
 
   <allowedrelationlist>
     <relation from="pools"    to="mediafragments" type="related" />
-    <relation from="pools"    to="images"      type="related" />
-    <relation from="pools"    to="urls"        type="related" />
+    <relation from="pools"    to="images"      type="portalrel" />
+    <relation from="pools"    to="urls"        type="portalrel" />
+    <relation from="pools"    to="filters"     type="portalrel" />
     <relation from="pools"    to="templates"   type="related" />
     <relation from="pools"    to="pages"       type="posrel" />
     <relation from="pages"    to="pages"       type="posrel" />
@@ -58,7 +61,7 @@
     <relation from="mediafragments" to="locations" type="related" />
     <relation from="mediafragments" to="stats"    type="related" />
 
-    <relation from="mmbaseusers"    to="pools"    type="related" /><!-- portal manager -->
+    <relation from="mmbaseusers"    to="pools"    type="portalrel" /><!-- portal manager -->
     <relation from="mmbaseusers"    to="mediafragments" type="ratingrel" />
     <relation from="mmbaseusers"    to="images" type="posrel" />
     <relation from="mmbasegroups"   to="mmbaseusers" type="contains" />
@@ -68,6 +71,7 @@
     <datasource builder="articles"       path="OIP/articles.xml" />
     <datasource builder="attachments"    path="OIP/attachments.xml" />
     <datasource builder="images"         path="OIP/images.xml" />
+    <datasource builder="filters"        path="OIP/filters.xml" />
     <datasource builder="licenses"       path="OIP/licenses.xml" />
     <datasource builder="locations"      path="OIP/locations.xml" />
     <datasource builder="mediafragments" path="OIP/mediafragments.xml" />
@@ -96,7 +100,7 @@
 
 
   <afterdeployment>
-    <runnable version="11" class="eu.openimages.AfterDeployment" />
+    <runnable version="12" class="eu.openimages.AfterDeployment" />
   </afterdeployment>
 
   <description>
