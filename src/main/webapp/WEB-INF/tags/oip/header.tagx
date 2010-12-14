@@ -19,7 +19,7 @@
         <mm:hasnode number="pool_oip">
           <mm:node number="pool_oip">
             <c:set var="title"><mm:field name="name" /></c:set>
-            <c:set var="description"><mm:field name="description" /></c:set>
+            <c:set var="description"><mm:field name="description" escape="none" /></c:set>
           </mm:node>
         </mm:hasnode>
         
@@ -58,7 +58,7 @@
           
           <mm:nodefunction name="translation">
             <c:set var="title"><mm:field name="name" /></c:set>
-            <c:set var="description"><mm:field name="description" /></c:set>
+            <c:set var="description"><mm:field name="description" escape="none" /></c:set>
           </mm:nodefunction>
         </mm:node>
   
