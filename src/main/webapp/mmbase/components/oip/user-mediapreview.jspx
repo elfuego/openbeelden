@@ -95,16 +95,16 @@
                   <c:if test="${nodetype ne 'images' and nodetype ne 'imagefragments'}">
                     <dt><fmt:message key="media.length" />:</dt>
                     <dd>
-          <mm:field name="length">
-            <c:choose>
-              <c:when test="${_ lt 3600000}">
-                <mm:time inputformat="S" format="mm:ss" />  
-              </c:when>
-              <c:otherwise>
-                <mm:time inputformat="S" format="hh:mm:ss" />
-              </c:otherwise>
-            </c:choose>
-          </mm:field>
+                      <mm:field name="length">
+                        <c:choose>
+                          <c:when test="${_ lt 3600000}">
+                            <mm:time inputformat="S" format="mm:ss" />  
+                          </c:when>
+                          <c:otherwise>
+                            <mm:time inputformat="S" format="hh:mm:ss" />
+                          </c:otherwise>
+                        </c:choose>
+                      </mm:field>
                     </dd>
                   </c:if>
                   <dt><fmt:message key="media.date" />:</dt>
