@@ -1,0 +1,108 @@
+<jsp:root
+    version="2.0"
+    xmlns:c="http://java.sun.com/jsp/jstl/core"
+    xmlns:fmt="http://java.sun.com/jsp/jstl/fmt"
+    xmlns:jsp="http://java.sun.com/JSP/Page"
+    xmlns:oip="urn:jsptagdir:/WEB-INF/tags/oip"
+    xmlns:mm="http://www.mmbase.org/mmbase-taglib-2.0"
+    >
+  <jsp:directive.tag
+      display-name="Editor"
+      description="The editor tag defines the basic HTML structure of an editor"
+      />
+  <jsp:directive.attribute
+      name="title"
+      description="See oip:head title"
+      />
+  <jsp:directive.attribute
+      name="styleClass"
+      description="Extra style class that can be added to the body"
+      />
+  <jsp:directive.attribute name="cacheable" type="java.lang.Boolean" />
+
+  <jsp:directive.attribute name="body"   fragment="true" required="true" />
+  <jsp:directive.attribute name="head"   fragment="true" />
+  <jsp:directive.attribute name="right"  fragment="true" />
+  <jsp:directive.attribute name="left"   fragment="true" />
+  <jsp:directive.attribute name="header" fragment="true" />
+
+  <!-- html5 -->
+  <mm:content
+      expires="-1"
+      varies="${empty requestScope['org.mmbase.mmsite.language'] ? 'Accept-Language' : ''}"
+      type="text/html" 
+      encoding="UTF-8"
+      postprocessor="none">
+    <jsp:output omit-xml-declaration="true" />
+    <jsp:output doctype-root-element="HTML" 
+                doctype-system="about:legacy-compat" />
+
+
+    <mm:url id="editor" write="false" />
+    <fmt:setBundle basename="eu.openimages.messages" scope="request" />
+    
+    <mm:cloud loginpage="/editors/login.jspx?referrer=$editor" rank="portal manager">
+
+      <html
+          lang="${requestScope['javax.servlet.jsp.jstl.fmt.locale.request']}"
+          xml:lang="${requestScope['javax.servlet.jsp.jstl.fmt.locale.request']}"
+          xmlns="http://www.w3.org/1999/xhtml">
+        <head>
+            
+          <mm:cloudinfo type="user">
+            <mm:listnodescontainer type="mmbaseusers">
+              <mm:constraint field="username" value="${_}" operator="EQUAL" />
+              <mm:listnodes>
+                <mm:relatednodes type="pools">
+                  <mm:import id="portal"><mm:field name="number" /></mm:import>
+                </mm:relatednodes>
+              </mm:listnodes>
+            </mm:listnodescontainer>
+          </mm:cloudinfo>
+          <c:if test="${empty portal}">
+            <mm:import externid="portal" from="request">pool_oip</mm:import>
+          </c:if>
+
+          <title>Editors ${portal} ${editor}</title>
+          
+          <link href="${mm:link('/favicon.ico')}" rel="shortcut icon" />
+          <link href="${mm:link('/style/css/main.css')}" rel="stylesheet" type="text/css" />
+          <![CDATA[<!--[if IE 6]><link href="${mm:link('/style/css/ie6.css')}" rel="stylesheet" type="text/css"/><![endif]-->]]>
+          <link href="${mm:link('/style/css/portaleditors.css')}" rel="stylesheet" type="text/css" />
+
+          <jsp:include page="/mmbase/jquery/jquery.jspx" />
+
+          <script type="text/javascript" src="${mm:link('/mmbase/tiny_mce/tiny_mce.js')}"><!-- help msie --></script>
+          <jsp:directive.include file="/editors/inc/htmleditorsmall.jspx" />
+
+          <jsp:invoke fragment="head" />
+
+        </head>
+        <body class="editor ${styleClass}">
+        <mm:node number="$portal">
+          <div id="main">
+            <oip:header />
+  
+            <div id="menu">
+              <ul class="main">
+                <li><a href="${'/editors/'}">Portal</a></li>
+              </ul>
+              <ul class="meta">
+                <li><a href="${mm:link('/logout.jspx')}">logout</a></li>
+                <li><mm:cloudinfo type="user" /></li>
+              </ul>
+            </div>
+  
+            <div class="left-column">
+              <jsp:invoke fragment="left" />
+            </div>
+  
+            <jsp:invoke fragment="body"  />
+          
+          </div>
+        </mm:node>
+        </body>
+      </html>
+    </mm:cloud>
+  </mm:content>
+</jsp:root>
