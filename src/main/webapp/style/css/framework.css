@@ -51,8 +51,11 @@ div#main
 	width: 216px;
 }
 
-#header img { margin-top: 30px; }
-#header h1 { margin-bottom: 60px; }
+#header h1
+{
+	margin-bottom: 60px;
+	margin-top: 44px;
+}
 #header p { font-style: italic; }
 
 #menu
@@ -61,21 +64,23 @@ div#main
 	top: 0;
 	left: 308px;
 	width: 698px;
-	height: 35px;
+	height: 44px;
 	font-size: 1.1em;
 }
 
 #menu ul.main
 {
-	float: left;
-	height: 25px;
-	padding-top: 8px;
 	list-style: none;
+	height: 20px;
 	width: 512px;
+	position: absolute;
+	top: 24px;
+	left: 0;
 }
 
 #menu ul.main li
 {
+	list-style: none;
 	float: left;
 	padding-right: 34px;
 }
@@ -84,11 +89,12 @@ div#main
 
 #menu ul.meta
 {
-	float: right;
-	height: 25px;
-	padding-top: 8px;
+	height: 16px;
 	list-style: none;
-	width: 150px;
+	width: auto;
+	position: absolute;
+	top: 4px;
+	right: 0;
 }
 
 #menu ul.meta li
@@ -96,21 +102,13 @@ div#main
 	display: inline;
 	list-style: none;
 	float: right;
-	word-spacing: 2px;
+	font-size: 0.85em;
+	padding-left: 24px;
 }
 
-#menu ul.meta li.you
-{
-	white-space: nowrap;
-	float: left;
-}
-
-#menu ul.meta li.you a
-{
-	width: 80px;
-	overflow: hidden;
-	display: block;
-}
+#menu ul.meta li.you { white-space: nowrap; }
+#menu ul.meta li a.login, 
+#menu ul.meta li a.logout { text-transform: lowercase; }
 
 
 #menu ul.main li.form { float: right; }
@@ -119,9 +117,9 @@ div#main
 #menu ul.main li fieldset {
 	margin: 0;
 	padding: 0;
-	width: 120px;
+	/*width: 120px;*/
 }
-#menu select { width: 120px; }
+#menu ul.main select { /*width: 120px;*/ }
 #menu ul.main label { display: none; }
 
 #menu ul.meta li a { color: #C00; }
