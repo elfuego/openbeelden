@@ -9,7 +9,6 @@
 @import url("specific-styles.css");
 @import url("mmbase.css");
 @import url("components.css");
-@import url("smallscreen.css");
 
 /* general elements */
 body, div, p, pre, blockquote, img, hr, h1, h2, h3, h4, h5, h6, ul, ol, li, dd, dl, dt, 
@@ -165,19 +164,30 @@ fieldset
 	border: 0;
 	margin-bottom: 1em;
 }
+label
+{
+	display: block;
+	float: left;
+	width: 146px;
+	color: #888;
+}
+label.textarea { float: none; }
 
 input
 {
+	width: 352px;
 	padding: 5px;
 	margin: 0 0 6px 0;
 	color: #888;
 	font-size: 1em;
 	font-family: Helvetica, sans-serif;
 	line-height: 15pt;
-	width: 312px;
 	border: 1px solid #cfcfcf;
+	float: left;
 }
-input[type="radio"], input[type="checkbox"]
+input[type="radio"], 
+input[type="checkbox"],
+input[type="file"]
 {
 	width: auto;
 	border: none;
@@ -185,7 +195,7 @@ input[type="radio"], input[type="checkbox"]
 
 textarea
 {
-	width: 314px;
+	width: 498px;
 	padding: 5px;
 	color: #888;
 	font-size: 1em;
@@ -196,18 +206,12 @@ textarea
 
 @media screen and (-webkit-min-device-pixel-ratio:0) { input, textarea { padding: 2px; } }
 
-label
-{
-	font-weight: bold;
-	display: block;
-}
-
 form p.info
 {
 	display: none;
 	position: absolute;
 	z-index: 1;
-	width: 314px;
+	width: 352px;
 	background: #999;
 	color: #fff;
 	margin: 0;
@@ -226,7 +230,6 @@ input.submit, input.cancel
 	border: 1px solid #cfcfcf;
 	background-color: #efefef;
 	cursor: pointer;
-	text-transform: lowercase;
 	padding: 4px 10px;
 	margin-top: 8px;
 	font-size: 1.1em;
