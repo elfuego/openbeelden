@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE application PUBLIC "-//MMBase//DTD application config 1.1//EN" "http://www.mmbase.org/dtd/application_1_1.dtd">
-<application name="OIP" maintainer="openimages.eu" version="12" auto-deploy="true">
+<application name="OIP" maintainer="openimages.eu" version="13" auto-deploy="true">
 
   <requirements>
     <requires name="Streams"        maintainer="streams.mmbase.org"            />
