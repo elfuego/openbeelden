@@ -1,28 +1,45 @@
 $(document).ready(function() {
     $('a.editme').click(function(ev){
         ev.preventDefault();
+        var tag = ev.target;
         var link = ev.target.href;
         
         var id = link.substring(link.indexOf("#"));
         var query = link.substring(link.indexOf("?") + 1, link.indexOf('#'));
         link = link.substring(0, link.indexOf("?"));
         var params = getParams(query);
+        
+        var formId = (params.type != null ? '#form_' + params.type : '#form_' + params.nr);
+        // inform form about being editme ajax editor
+        params['editme'] = 'true';
 
 	    $(id).load(link, params, function(){
-                $('#form_' + params.nr + ' input.cancel').click(function(ev){
-                    params['cancel'] = 'Cancel'; 
-                    $(id).load(link, params);
-                });
-                $('#form_' + params.nr).ajaxForm({ 
-                    target: id,
-                    success: clearMsg('#form_' + params.nr)
-                });
+            $(formId + ' .cancel, ' + formId + ' a.closeme').click(function(ev){
+                ev.preventDefault();
+                params['cancel'] = 'Cancel'; 
+                $(id).load(link, params, function(){ initClearMsg(); });
+                $(tag).show();
             });
+            
+            // ajax form options
+            var options = {
+                target: id + ' div.log',
+                data: { editme: 'true' },
+                success: initClearMsg
+            };
+            $(formId).submit(function() { 
+                $(this).ajaxSubmit(options);
+                return false;
+            });
+        });
+        // hide tag clicked
+        $(tag).hide();
     });
 
     initClearMsg();
     initPortalSwitch();
 });
+
 
 /*
  * Returns parameters from a query string in an object. 
@@ -61,7 +78,7 @@ function initPortalSwitch() {
         if ($(this).val() == '') {
             action[action.length - 1] = last[0];
         } else {
-            action[action.length - 1] = last[0] + "?portal=" + $(this).val();
+            action[action.length - 1] = last[0] + "?p=" + $(this).val();
         }
         var newUrl = action.join("/");
         document.location = newUrl;
