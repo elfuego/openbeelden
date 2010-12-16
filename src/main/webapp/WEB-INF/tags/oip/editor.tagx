@@ -50,22 +50,22 @@
         <head>
             
           <!-- get node number portal one way or another -->
-          <mm:import externid="portal" from="parameters">pool_oip</mm:import>
-          <mm:node number="$portal">
-            <mm:import id="portal" reset="true"><mm:field name="number" /></mm:import>
+          <mm:import externid="p">pool_oip</mm:import>
+          <mm:node number="$p">
+            <mm:import id="p" reset="true"><mm:field name="number" /></mm:import>
           </mm:node>
           <mm:cloudinfo type="user">
             <mm:listnodescontainer type="mmbaseusers">
               <mm:constraint field="username" value="${_}" operator="EQUAL" />
               <mm:listnodes>
-                <mm:relatednodes type="pools" role="portalrel" max="1" >
-                  <mm:import id="portal" reset="true"><mm:field name="number" /></mm:import>
+                <mm:relatednodes type="pools" role="portalrel" max="1">
+                  <mm:import id="p" reset="true"><mm:field name="number" /></mm:import>
                 </mm:relatednodes>
               </mm:listnodes>
             </mm:listnodescontainer>
           </mm:cloudinfo>
 
-          <title>Editors ${portal} ${editor}</title>
+          <title>Editors ${editor}</title>
           
           <link href="${mm:link('/favicon.ico')}" rel="shortcut icon" />
           <link href="${mm:link('/style/css/main.css')}" rel="stylesheet" type="text/css" />
@@ -81,14 +81,14 @@
 
         </head>
         <body class="editor ${styleClass}">
-        <mm:node number="$portal">
+        <mm:node number="$p">
           <div id="main">
             <oip:header />
   
             <div id="menu">
               <ul class="main">
 
-                <li>portal: ${portal}</li>
+                <li>portal: ${p}</li>
                 <li><a href="${'/editors/'}">Home</a></li>
 
                 <mm:hasrank minvalue="project manager">
@@ -100,20 +100,16 @@
                         <li class="form">
                           <form method="post" action="${mm:link('/editors/')}">
                             <fieldset>
-                              <select name="edit_portal" id="edit_portal">
+                              <select name="p" id="edit_portal">
                                 <mm:listnodescontainer type="pools">
                                   <mm:listnodes>
-                                    
-                                    <mm:nodefunction name="translation">
-                                      <c:set var="p_name"><mm:field name="name" /></c:set>
-                                    </mm:nodefunction>
                                         
                                     <c:choose>
-                                      <c:when test="${portal eq _node.number}">
-                                        <option label="${p_name}" value="${_node.number}" selected="selected">${p_name}</option>
+                                      <c:when test="${p eq _node.number}">
+                                        <option label="${_node.name}" value="${_node.number}" selected="selected">${_node.name}</option>
                                       </c:when>
                                       <c:otherwise>
-                                        <option label="${p_name}" value="${_node.number}">${p_name}</option>
+                                        <option label="${_node.name}" value="${_node.number}">${_node.name}</option>
                                       </c:otherwise>
                                     </c:choose>
             
