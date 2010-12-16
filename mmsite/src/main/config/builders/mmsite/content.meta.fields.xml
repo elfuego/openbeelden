@@ -22,7 +22,7 @@
 		</positions>
 	  </editor>
 	  <datatype xmlns="http://www.mmbase.org/xmlns/datatypes" base="onoff">
-        <default value="true" />
+      <default value="true" />
 	  </datatype>
 	</field>
 
@@ -72,7 +72,7 @@
       </datatype>
     </field>
 
-    <field name="created" readonly="true">
+    <field name="created" readonly="true" state="system">
       <descriptions>
         <description xml:lang="en">Creation date of this item</description>
         <description xml:lang="nl">Creatiedatum van het item</description>
@@ -91,8 +91,8 @@
         <default value="now" />
       </datatype>
     </field>
-    
-    <field name="creator" readonly="true">
+
+    <field name="creator" readonly="true" state="system">
       <descriptions>
         <description xml:lang="en">User that created this item</description>
         <description xml:lang="nl">De gebruiker die dit item aanmaakte</description>
@@ -109,8 +109,8 @@
       </editor>
       <datatype base="creator" xmlns="http://www.mmbase.org/xmlns/datatypes" />
     </field>
-    
-    <field name="lastmodified" readonly="true">
+
+    <field name="lastmodified" readonly="true" state="system">
       <descriptions>
         <description xml:lang="en">Date and time the item was last modified</description>
         <description xml:lang="nl">Datum en tijd waarop het item het laatst werd gewijzigd</description>
@@ -128,8 +128,8 @@
       </editor>
       <datatype base="lastmodified" xmlns="http://www.mmbase.org/xmlns/datatypes" />
     </field>
-    
-    <field name="lastmodifier" readonly="true">
+
+    <field name="lastmodifier" readonly="true" state="system">
       <descriptions>
         <description xml:lang="en">Username of the person who last modified this item</description>
         <description xml:lang="nl">Inlognaam van de gebruiker die het item het laatst heeft veranderd</description>
@@ -146,6 +146,6 @@
       </editor>
       <datatype base="lastmodifier" xmlns="http://www.mmbase.org/xmlns/datatypes" />
     </field>
-    
+
 
 </fieldlist>
