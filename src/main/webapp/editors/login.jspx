@@ -8,13 +8,20 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="nl">
 <head>
   <title>OIP editors - Login</title>
-  <link href="${mm:link('/style/css/editors.css')}" rel="stylesheet" type="text/css" />
+  
+  <link href="${mm:link('/style/css/main.css')}" rel="stylesheet" type="text/css" />
+  <![CDATA[<!--[if IE 6]><link href="${mm:link('/style/css/ie6.css')}" rel="stylesheet" type="text/css"/><![endif]-->]]>
   <link href="${mm:link('/favicon.ico')}" rel="shortcut icon" />
+  <link href="${mm:link('/style/css/portaleditors.css')}" rel="stylesheet" type="text/css" />
+  <jsp:include page="/mmbase/jquery/jquery.jspx" />
+
 </head>
-<body class="login" onload="document.loginbox.username.focus()">
+<body class="login">
 
-  <jsp:include page="/editors/inc/form-login.jspx" />
-
+  <div class="login">
+    <mm:component name="oip" block="user-login" />
+  </div>
+  
 </body>
 </html>
 </mm:content>
