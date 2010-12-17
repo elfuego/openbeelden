@@ -1,0 +1,92 @@
+<mm:content 
+    xmlns:jsp="http://java.sun.com/JSP/Page"
+    xmlns:c="http://java.sun.com/jsp/jstl/core"
+    xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+    xmlns:fmt="http://java.sun.com/jsp/jstl/fmt"
+    xmlns:mm="http://www.mmbase.org/mmbase-taglib-2.0"
+    xmlns:sr="http://www.mmbase.org/tags/mm/searchrelate"
+    expires="0" type="text/html" language="client" postprocessor="none">
+<jsp:output doctype-root-element="html"
+      doctype-public="-//W3C//DTD XHTML 1.0 Strict//EN"
+      doctype-system="http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd" />
+<mm:cloud loginpage="/editors/login.jspx" rank="portal manager">
+
+<fmt:setBundle basename="eu.openimages.messages" scope="request" />
+
+<mm:import externid="nr" />
+<mm:import externid="fields" vartype="List">handle</mm:import>
+<mm:import externid="submit$nr" />
+<mm:import externid="cancel" />
+
+
+<c:choose>
+  <c:when test="${cancel eq 'Cancel'}">
+    <span><img width="216" alt="" src="/images/${nr}" /></span>
+  </c:when>
+  <c:otherwise>
+  
+  
+  <mm:form id="form_${nr}">
+    <fieldset>
+      <mm:node number="$nr" commitonclose="false">
+        
+        <mm:import id="buffer">
+          
+          <fieldset>
+            <mm:fieldlist fields="$fields">
+              <p>
+                <mm:fieldinfo type="forid">
+                  <label for="${_}">Upload a new image</label>
+                </mm:fieldinfo>
+                <mm:maywrite><mm:fieldinfo type="input" /><mm:fieldinfo type="errors" /></mm:maywrite>
+                <mm:maywrite inverse="true"><mm:fieldinfo type="guivalue" escape="none" /></mm:maywrite>
+              </p>
+            </mm:fieldlist>
+          </fieldset>
+          
+          <mm:maywrite>
+            <fieldset class="buttons">
+              <input name="nr" type="hidden" value="${nr}" />
+              <mm:nodeinfo type="type"><input name="type" type="hidden" value="${_}" /></mm:nodeinfo>
+              <p>
+                <fmt:message key="users.form.save" var="button_save" />
+                <input type="submit" name="submit${nr}" value="${button_save}" class="submit" />
+                <input type="button" name="cancel" value="Cancel" class="cancel" />
+              </p>
+            </fieldset>
+          </mm:maywrite>
+          
+        </mm:import>
+        
+        <mm:present referid="submit$nr">
+          <mm:valid>
+            <p class="msg">Your changes to <mm:nodeinfo type="guitype" escape="lowercase" /> '<mm:function name="gui" escape="none" />' are saved.</p>
+            <mm:commit />
+            <mm:import id="saved">OK</mm:import>
+          </mm:valid>
+          <mm:valid inverse="true">
+            <p class="err">The form contains an error.</p>
+            <mm:cancel />
+          </mm:valid>
+        </mm:present>
+  
+      </mm:node>
+  
+      <c:choose>
+        <c:when test="${saved ne 'OK'}">
+          <mm:write referid="buffer" escape="none" />
+        </c:when>
+        <c:otherwise>
+          <span><img width="216" alt="" src="/images/${nr}" /></span>
+        </c:otherwise>
+      </c:choose>
+        
+    </fieldset>
+    
+  </mm:form>
+
+  </c:otherwise>
+</c:choose>
+
+</mm:cloud>
+</mm:content>

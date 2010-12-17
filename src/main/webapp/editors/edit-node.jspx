@@ -1,0 +1,127 @@
+<mm:content 
+    xmlns:jsp="http://java.sun.com/JSP/Page"
+    xmlns:c="http://java.sun.com/jsp/jstl/core"
+    xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+    xmlns:fmt="http://java.sun.com/jsp/jstl/fmt"
+    xmlns:mm="http://www.mmbase.org/mmbase-taglib-2.0"
+    xmlns:sr="http://www.mmbase.org/tags/mm/searchrelate"
+    expires="0" type="text/html" language="client" postprocessor="none">
+<jsp:output doctype-root-element="html"
+      doctype-public="-//W3C//DTD XHTML 1.0 Strict//EN"
+      doctype-system="http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd" />
+<mm:cloud loginpage="/editors/login.jspx" rank="portal manager">
+
+  <fmt:setBundle basename="eu.openimages.messages" scope="request" />
+  
+  <mm:import externid="p" /><!-- portal -->
+  <mm:import externid="nr" />
+  <mm:import externid="fields" vartype="List" />
+  <mm:import externid="submit$nr" />
+  <mm:import externid="cancel" />
+  
+  <mm:import externid="editme">false</mm:import>
+
+
+    <c:choose>
+      <c:when test="${cancel eq 'Cancel'}">
+        
+        <mm:node number="$nr">
+          <mm:link page="/editors/edit-node.jspx" referids="p,nr">
+            <mm:param name="fields">${fields}</mm:param>
+            <a class="editme" href="${_}#edit_${nr}">edit</a>
+          </mm:link>
+          
+          <mm:maydelete>
+            <mm:link page="/editors/delete-node.jspx" referids="p,nr">
+              <mm:param name="fields">${fields}</mm:param>
+              <a class="editme delete" href="${_}#edit_${nr}">delete</a>
+            </mm:link>
+          </mm:maydelete>
+          
+        </mm:node>
+        <mm:include page="show-node.jspx" referids="p,nr">
+          <mm:param name="fields">${fields}</mm:param>
+        </mm:include>
+      </c:when>
+      <c:otherwise>
+  
+        <mm:form id="form_$nr">
+        
+          <mm:node number="$nr" commitonclose="false">
+            
+            <mm:import id="buffer">
+              <c:if test="${editme eq 'true'}">
+                <a class="cancel" href="#close">close</a>
+                <div class="log"><jsp:text> <!-- empty --> </jsp:text></div>
+                <!-- jsp:directive.include file="inc/htmleditorsmall.jspx" / -->
+              </c:if>
+              
+              <fieldset>
+                <mm:fieldlist fields="${fields}" type="${empty fields ? 'edit' : ''}">
+                  <p>
+                    <mm:fieldinfo type="name" write="false" id="fld_name" />
+                    <mm:fieldinfo type="forid">
+                      <label for="${_}" class="${fld_name}"><mm:fieldinfo type="guiname" /></label>
+                    </mm:fieldinfo>
+                    <mm:maywrite><mm:fieldinfo type="input" /><mm:fieldinfo type="errors" /></mm:maywrite>
+                    <mm:maywrite inverse="true"><mm:fieldinfo type="guivalue" escape="none" /></mm:maywrite>
+                  </p>
+                </mm:fieldlist>
+              </fieldset>
+              
+              <mm:maywrite>
+                <fieldset class="buttons">
+                  <input name="p"            type="hidden" value="${p}" />
+                  <input name="nr"           type="hidden" value="${nr}" />
+                  <input name="fields"       type="hidden" value="${fields}" />
+                  <input name="submit${nr}"  type="hidden" value="Bla" />
+                  <!-- <mm:nodeinfo type="type"><input name="type" type="hidden" value="${_}" /></mm:nodeinfo> -->
+                  <p>
+                    <fmt:message key="users.form.save" var="button_save" />
+                    <input type="submit" name="action" value="${button_save}" class="submit" />
+                    <c:if test="${editme eq 'true'}">
+                      <input type="button" name="cancel" value="Cancel" class="cancel" /> 
+                    </c:if>
+                  </p>
+                </fieldset>
+              </mm:maywrite>
+            </mm:import>
+            
+            <mm:present referid="submit$nr">
+              
+              <mm:valid>
+                <p class="msg">Your changes to '<mm:function name="gui" escape="none" />' are saved.</p>
+
+                <mm:commit />
+                <c:choose>
+                  <!-- do not show form again when using ajax editor -->
+                  <c:when test="${editme eq 'true'}">
+                    <mm:include page="show-node.jspx" referids="p,nr,fields" />
+                  </c:when>
+                  <c:otherwise>
+                    <mm:write referid="buffer" escape="none" />
+                  </c:otherwise>
+                </c:choose>
+              </mm:valid>
+              
+              <mm:valid inverse="true">
+                <p class="err">The form contains an error.</p>
+                <mm:cancel />
+                <mm:write referid="buffer" escape="none" />
+              </mm:valid>
+              
+            </mm:present>
+      
+          </mm:node>
+          
+          <mm:notpresent referid="submit$nr">
+            <mm:write referid="buffer" escape="none" />
+          </mm:notpresent>
+          
+        </mm:form>
+
+      </c:otherwise>
+    </c:choose>
+
+</mm:cloud>
+</mm:content>

@@ -1,0 +1,55 @@
+<mm:content 
+    xmlns:jsp="http://java.sun.com/JSP/Page"
+    xmlns:c="http://java.sun.com/jsp/jstl/core"
+    xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+    xmlns:fmt="http://java.sun.com/jsp/jstl/fmt"
+    xmlns:mm="http://www.mmbase.org/mmbase-taglib-2.0"
+    xmlns:sr="http://www.mmbase.org/tags/mm/searchrelate"
+    expires="0" type="text/html" language="client" postprocessor="none">
+<jsp:output doctype-root-element="html"
+      doctype-public="-//W3C//DTD XHTML 1.0 Strict//EN"
+      doctype-system="http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd" />
+<mm:cloud loginpage="/editors/login.jspx" rank="portal manager">
+
+<fmt:setBundle basename="eu.openimages.messages" scope="request" />
+
+<mm:import externid="p" /><!-- portal -->
+<mm:import externid="nr" />
+<mm:import externid="fields" vartype="List" />
+  
+  <mm:node number="$nr">
+    <mm:nodeinfo type="type">
+      <c:choose>
+        
+        
+        <c:when test="${_ eq 'images'}">
+          <span><img width="216" alt="" src="/images/${nr}" /></span>
+        </c:when>
+
+        <c:when test="${_ eq 'pools_translations'}">
+          <span>
+            <mm:field name="name" /> (<mm:field name="language" />)
+          </span>
+        </c:when>
+        
+        <c:when test="${_ eq 'properties'}">
+          <span>
+            <strong><mm:field name="key" /> : </strong> <mm:field name="value" />
+          </span>
+        </c:when>
+        
+        
+        <c:otherwise>
+          <span> 
+            <mm:fieldlist fields="$fields">
+              <mm:fieldinfo type="value" /><jsp:text> </jsp:text>
+            </mm:fieldlist>
+          </span>
+        </c:otherwise>
+      </c:choose>
+  
+    </mm:nodeinfo>
+  </mm:node>
+
+</mm:cloud>
+</mm:content>

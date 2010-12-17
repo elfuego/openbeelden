@@ -1,0 +1,90 @@
+<mm:content 
+    xmlns:jsp="http://java.sun.com/JSP/Page"
+    xmlns:c="http://java.sun.com/jsp/jstl/core"
+    xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+    xmlns:fmt="http://java.sun.com/jsp/jstl/fmt"
+    xmlns:mm="http://www.mmbase.org/mmbase-taglib-2.0"
+    xmlns:sr="http://www.mmbase.org/tags/mm/searchrelate"
+    expires="0" type="text/html" language="client" postprocessor="none">
+<jsp:output doctype-root-element="html"
+      doctype-public="-//W3C//DTD XHTML 1.0 Strict//EN"
+      doctype-system="http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd" />
+<mm:cloud loginpage="/editors/login.jspx" rank="portal manager">
+
+  <fmt:setBundle basename="eu.openimages.messages" scope="request" />
+  
+  <mm:import externid="p" />
+  <mm:import externid="nr" />
+  <mm:import externid="submit_property" />
+  
+  <mm:import externid="property_key" />
+  <mm:import externid="property_value" />
+  
+  <mm:node number="$nr">
+
+    <mm:present referid="submit_property">
+      <!-- save new property or overwrite existing -->
+      <c:if test="${!empty property_key and !empty property_value}">
+        <mm:function nodemanager="properties" name="set" 
+            referids="nr@node,property_key@key,property_value@value" write="false" />
+        <p class="msg">
+          Saved <strong>${property_key} : </strong> ${property_value}.
+        </p>
+      </c:if>
+    </mm:present>
+        
+    <ul>
+      <mm:nodelistfunction nodemanager="properties" name="list" referids="_node@node">
+        <mm:import id="propnr" reset="true"><mm:field name="number" /></mm:import>
+        <li id="edit_${propnr}">
+          <mm:maywrite>
+            <mm:link page="/editors/edit-node.jspx" referids="p?,propnr@nr">
+              <mm:param name="fields">key,value</mm:param>
+              <a class="editme" title="edit property" href="${_}#edit_${propnr}">edit</a>
+            </mm:link>
+          </mm:maywrite>
+          <mm:maydelete>
+            <mm:link page="/editors/delete-node.jspx" referids="p?,propnr@nr">
+              <mm:param name="fields">key,value</mm:param>
+              <a class="editme delete" href="${_}#edit_${propnr}" title="delete property">delete</a>
+            </mm:link>
+          </mm:maydelete>
+          
+          <div>
+            <strong><mm:field name="key" /> : </strong> <mm:field name="value" />
+          </div>
+          
+        </li>
+      </mm:nodelistfunction>
+    </ul>
+      
+
+    <div class="log"><jsp:text> <!-- empty --> </jsp:text></div>
+    <mm:url id="formurl" write="false" />
+    <form method="post" action="${formurl}">
+      <fieldset>
+        <p>
+          <label for="property_key">Key</label>
+          <input type="text" id="property_key" name="property_key" size="80" maxlength="255" class="small" />
+        </p>
+        <p>
+          <label for="property_value">Value</label>
+          <input type="text" id="property_value" name="property_value" size="80" maxlength="255" class="small" /><br />
+        </p>  
+      </fieldset>
+      <fieldset class="buttons">
+        
+        <input name="p"  type="hidden" value="${p}" />
+        <input name="nr" type="hidden" value="${nr}" />
+        <p>
+          <fmt:message key="users.form.save" var="button_save" />
+          <input type="submit" name="submit_property" value="${button_save}" class="submit" />
+        </p>
+        
+      </fieldset>
+    </form>
+  
+  </mm:node>
+  
+</mm:cloud>
+</mm:content>
