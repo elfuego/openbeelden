@@ -1,30 +1,137 @@
-<mm:content
+<?xml version="1.0"?>
+<jsp:root
+    version="2.0"
     xmlns:jsp="http://java.sun.com/JSP/Page"
     xmlns:c="http://java.sun.com/jsp/jstl/core"
-    xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+    xmlns:fmt="http://java.sun.com/jsp/jstl/fmt"
     xmlns:mm="http://www.mmbase.org/mmbase-taglib-2.0"
-    expires="0" type="text/html" language="client" postprocessor="none">
+    xmlns:oip="urn:jsptagdir:/WEB-INF/tags/oip">
+  
+  <oip:editor styleClass="portal">
+    <jsp:attribute name="head">
+      <script src="${mm:link('/mmbase/jquery/jquery.form.js')}" type="text/javascript"><jsp:text> </jsp:text></script>
+      <script src="${mm:link('/style/js/editors.js')}" type="text/javascript"><jsp:text> </jsp:text></script>
+    </jsp:attribute>
+    <jsp:attribute name="left">
+      <h2>Pages</h2>
 
-  <jsp:output doctype-root-element="html"
-              doctype-public="-//W3C//DTD XHTML 1.0 Strict//EN"
-              doctype-system="http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd" />
-
-  <mm:cloud loginpage="login.jspx" rank="project manager">
-    <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="${requestScope['javax.servlet.jsp.jstl.fmt.locale.request']}">
-      <mm:import id="pagetitle">
-        <mm:nodeinfo type="plural_guitype" nodetype="mediafragments" escape="lowercase" />
-      </mm:import>
-      <mm:include page="inc/head.jspx" referids="type?,pagetitle" />
-      <body class="home">
-        <jsp:include page="inc/navigation.jspx" />
-        <div id="wrap">
-          <!-- <div id="header"><h1>OIP editors</h1></div> -->
-          <div id="content">
-            <jsp:include page="inc/list.jspx" />
-          </div>
-          <div id="sidebar">  </div>
+      <mm:relatednodescontainer type="pages" role="posrel" searchdirs="destination">
+        <mm:sortorder field="posrel.pos" direction="UP" />
+        <ul>
+          <mm:relatednodes>
+            <li><a href="${_}"><mm:field name="title" /></a></li>
+          </mm:relatednodes>
+        </ul>
+      </mm:relatednodescontainer>
+    
+    </jsp:attribute>
+    <jsp:attribute name="body">
+      
+      <mm:node id="p" number="$_node.number" />
+      
+      <div class="main-column">
+        <h2>Portal editor : <mm:field name="name" id="portalName" /></h2>
+        
+        <div class="edit-pic">
+          <mm:relatednodes type="images" role="portalrel" max="1">
+            <mm:import id="nodenr" reset="true"><mm:field name="number" /></mm:import>
+            <div id="edit_${_node.number}"><mm:image mode="img" template="s(216)" /></div>
+            <p>
+              <mm:link page="/editors/edit-pic.jspx" referids="p?,_node@nr">
+                <mm:param name="fields">handle</mm:param>
+                <a class="editme" href="${_}#edit_${nodenr}">edit picture</a>
+              </mm:link>
+            </p>
+          </mm:relatednodes>
         </div>
-      </body>
-    </html>
-  </mm:cloud>
-</mm:content>
+
+        <!-- main pools node: the portal -->
+        <mm:include page="edit-node.jspx" referids="p?,_node@nr">
+          <mm:param name="fields">name,language,description</mm:param>
+        </mm:include>
+        
+        <mm:relatednodescontainer type="pools_translations" role="langrel" searchdirs="destination">
+          <mm:size write="false">
+            <c:if test="${_ gt 0}"><h4>Translations</h4></c:if>
+          </mm:size>
+          <ul>
+            <mm:relatednodes>
+              <li id="edit_${_node.number}">
+                <mm:link page="/editors/edit-node.jspx" referids="p?,_node@nr">
+                  <mm:param name="fields">name,language,description</mm:param>
+                  <a class="editme" href="${_}#edit_${_node.number}">edit</a>
+                </mm:link>
+                <mm:maydelete>
+                  <mm:link page="/editors/delete-node.jspx" referids="p?,_node@nr">
+                    <a class="editme delete" href="${_}#edit_${_node.number}">delete</a>
+                  </mm:link>
+                </mm:maydelete>
+                <div>
+                  <mm:field name="name" /> (<mm:field name="language" />)
+                </div>
+              </li>
+            </mm:relatednodes>
+            <li>
+              <mm:link page="/editors/add-node.jspx" referids="p?,p@nr">
+                <mm:param name="type">pools_translations</mm:param>
+                <mm:param name="role">langrel</mm:param>
+                <mm:param name="fields">name,language,description</mm:param>
+                <a class="editme" href="${_}#pools_translations">add translation</a>
+              </mm:link>
+              <div id="pools_translations"><jsp:text> <!-- empty, cause nothing exists here yet --> </jsp:text></div>
+            </li>
+          </ul>
+        </mm:relatednodescontainer>
+        
+
+        <!--
+        <div class="wrap">
+          <h2>Url</h2>
+          <p>Portal url, location.</p>
+          <mm:relatednodescontainer type="urls" role="portalrel" searchdirs="destination">
+            <mm:relatednodes>
+              <mm:include page="edit-node.jspx" referids="p?,_node@nr">
+                <mm:param name="fields">name,url</mm:param>
+              </mm:include>
+            </mm:relatednodes>
+          </mm:relatednodescontainer>
+        </div> -->
+
+        <div class="wrap">
+          <h2>Filter</h2>
+          <p>Portal filter with tags, keywords and users. Some more text about this.</p>
+          <mm:relatednodescontainer type="filters" role="portalrel" searchdirs="destination">
+            <mm:maxnumber value="1" />
+            <mm:size id="filter" write="false" />
+            <mm:relatednodes>
+              <mm:include page="edit-node.jspx" referids="p?,_node@nr">
+                <mm:param name="fields">users,tags,keywords</mm:param>
+              </mm:include>
+            </mm:relatednodes>
+          </mm:relatednodescontainer>
+          <c:if test="${filter lt 1}">
+            <div id="add_filter"> <jsp:text> <!-- empty --> </jsp:text> </div>
+            <p class="add">
+              <mm:link page="/editors/add-node.jspx" referids="p?,_node@nr">
+                <mm:param name="type">filters</mm:param>
+                <mm:param name="role">portalrel</mm:param>
+                <mm:param name="fields">users,tags,keywords</mm:param>
+                <mm:param name="default">name=Portal filter ${portalName}</mm:param>
+                <a class="editme" href="${_}#add_filter">add filter</a>
+              </mm:link>
+            </p>
+          </c:if>
+        </div>
+        
+        <div class="wrap">
+          <h2>Properties</h2>
+          <p>Properties like... more text about properties of a portal.</p>
+
+          <mm:include page="edit-properties.jspx" referids="p?,_node@nr" />
+
+        </div>
+        
+      </div><!-- /.main-column -->
+    </jsp:attribute>
+  </oip:editor>
+</jsp:root>
