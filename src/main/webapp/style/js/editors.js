@@ -1,44 +1,103 @@
+/*
+  Functions for new (portal) editors in OIP 
+  @author: André van Toly
+  @version:  '$Id: main.js.jsp 43901 2010-12-09 16:12:33Z andre $
+  @changes: initial version
+*/
 $(document).ready(function() {
-    $('a.editme').click(function(ev){
-        ev.preventDefault();
-        var tag = ev.target;
-        var link = ev.target.href;
-        
-        var id = link.substring(link.indexOf("#"));
-        var query = link.substring(link.indexOf("?") + 1, link.indexOf('#'));
-        link = link.substring(0, link.indexOf("?"));
-        var params = getParams(query);
-        
-        var formId = (params.type != null ? '#form_' + params.type : '#form_' + params.nr);
-        // inform form about being editme ajax editor
-        params['editme'] = 'true';
-
-	    $(id).load(link, params, function(){
-            $(formId + ' .cancel, ' + formId + ' a.closeme').click(function(ev){
-                ev.preventDefault();
-                params['cancel'] = 'Cancel'; 
-                $(id).load(link, params, function(){ initClearMsg(); });
-                $(tag).show();
-            });
-            
-            // ajax form options
-            var options = {
-                target: id + ' div.log',
-                data: { editme: 'true' },
-                success: initClearMsg
-            };
-            $(formId).submit(function() { 
-                $(this).ajaxSubmit(options);
-                return false;
-            });
-        });
-        // hide tag clicked
-        $(tag).hide();
-    });
-
+    initEditme('body');
     initClearMsg();
     initPortalSwitch();
 });
+
+/* TODO: make this a jquery plugin */
+function initEditme(el) {
+    $(el + ' a.editme').click(function(ev){
+        ev.preventDefault();
+        editMe(ev);
+    });
+}
+
+/* loads form to edit node */
+function editMe(ev) {
+    var tag = ev.target;
+    var link = ev.target.href;
+    
+    var id = link.substring(link.indexOf("#"));
+    var query = link.substring(link.indexOf("?") + 1, link.indexOf('#'));
+    link = link.substring(0, link.indexOf("?"));
+    var params = getParams(query);
+    
+    var formId = (params.type != null ? '#form_' + params.type : '#form_' + params.nr);
+    // inform form about being editme ajax editor
+    params['editme'] = 'true';
+    
+    //console.log('link ' + link + ' id ' + id);
+
+    $(id).load(link, params, function(){
+        $(formId + ' .cancel').click(function(ev){
+            ev.preventDefault();
+            params['cancel'] = 'Cancel'; 
+            $(id).load(link, params, function(){ 
+                initClearMsg(); 
+                $(this).find('a.editme').click(function(ev){ 
+                    ev.preventDefault();
+                    editMe(ev);
+                });
+            });
+            $(tag).show();
+        });
+        $(formId + ' a.close').click(function(ev){
+            ev.preventDefault();
+            var hash = ev.target.href;
+            params['cancel'] = 'Close'; 
+            $(id).load(link, params, function(){ initClearMsg(); });
+            $(tag).show();
+        });
+        
+        // ajax form options
+        var options = {
+            target: id + ' div.log',
+            success: afterSubmit,
+            data: { editme: 'true' }
+        };
+        $(formId).ajaxForm(options);
+        /* $(formId).submit(function() { 
+            $(this).ajaxSubmit(options);
+            return false;
+        }); */
+    });
+    // hide tag clicked
+    $(tag).hide();
+}
+
+/* ajaxFrom success after submit */
+function afterSubmit(response, status, xhr) {
+    //console.log('status: ' + status + ' response: ' + response);
+    //console.log(xhr);
+
+    var form = xhr[0];
+    //console.log('form v ' + form.delete.value);
+    
+    //$(this).css('border', '1px solid blue');
+    var parentDiv = $(this).parent('div');
+    //$(parentDiv).css('border', '1px solid red');
+    
+    /* after saving or cancelling new node, form is kept around for some reason */
+    $(parentDiv).find('form').remove();
+
+    if (response.indexOf('node_deleted') > -1) { 
+        /* node is deleted, remove editme links */
+        $(parentDiv).find('a.editme').remove();
+    }
+
+    
+    /* bind editme to new node */
+    $(this).find('a.editnew').click(function(ev){
+        ev.preventDefault();
+        editMe(ev);
+    });
+}
 
 
 /*
