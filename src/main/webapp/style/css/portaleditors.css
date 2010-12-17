@@ -5,7 +5,11 @@
 * @version  '$Id: editors.css 43696 2010-10-20 09:39:57Z andre $'
 */
 
-div.left-column, div.wrap { background-image: url("images/dots2.png"); }
+div.left-column, div.wrap
+{
+	background-image: url("images/dots2.png");
+	min-height: 40px;
+}
 div.wrap { margin-top: 1em; }
 
 div.left-column ul { list-style: none; }
@@ -20,10 +24,8 @@ h1, h2, h3 { color: #3BA0D9; }
 	clear: both;
 }
 
-a:link, a:visited, a:hover, a:active { color: #3BA0D9; }
-
-div.edit-pic div { float: left; }
-div.edit-pic a { margin-left: 12px; }
+a:link, a:hover, a:active { color: #3BA0D9; }
+a:visited { color: #069; }
 
 body.login div.login
 {
@@ -35,3 +37,17 @@ body.login div.login
 	padding-top: 110px;
 }
 
+
+div.edit-pic div { float: left; }
+div.edit-pic a { margin-left: 12px; }
+
+a.delete
+{
+	float: left;
+	margin-right: 6px;
+}
+p.translation, p.editme, p.closeme, a.editme, a.editnew, a.cancel { float: right; }
+
+/* forms */
+
+fieldset { clear: both; }

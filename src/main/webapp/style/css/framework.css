@@ -223,7 +223,7 @@ div.right-column
 div.left-column
 {
 	position: absolute;
-	top: 380px;
+	top: 420px;
 	left: 0px;
 }
 body.home > div#main > div.left-column { display: none; }
@@ -255,7 +255,7 @@ body.home > div#main> div.wrap
 	width: 820px;
 	position: absolute;
 	left: 0px;
-	top: 410px;
+	top: 420px;
 }
 
 div.wrap > div.left-column

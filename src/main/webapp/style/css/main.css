@@ -171,7 +171,9 @@ label
 	width: 146px;
 	color: #888;
 }
-label.textarea { float: none; }
+
+label.textarea, 
+form.mm_form label.description { float: none; }
 
 input
 {
