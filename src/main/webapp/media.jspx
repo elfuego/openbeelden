@@ -20,11 +20,12 @@
     <jsp:attribute name="left"><oip:search advanced="true" /></jsp:attribute>
     <jsp:attribute name="body">
 
+      <mm:import externid="p">${portal}</mm:import>
+      
       <mm:import externid="user" />
       <mm:import externid="source" />
       <mm:import externid="date" />
       <mm:import externid="uploaded" />
-      <mm:import externid="length" />
       <mm:import externid="_searchlang" />
       <mm:import externid="license" />
 
@@ -39,9 +40,30 @@
         <mm:nodefunction name="translation">
           <mm:field name="description" escape="paragraph" />
         </mm:nodefunction>
+        portal: ${portal}
+        
+<c:choose>
+  <c:when test="${!empty portal}">
+    <br />portal
+    <mm:node number="$portal">
+    <mm:relatednodescontainer type="filters" role="portalrel" searchdirs="destination">
+      <mm:relatednodes>
+        <p>
+        tags: <mm:field name="tags" /> <c:set var="p_tags"><mm:field name="tags" /></c:set><br />
+        kw: <mm:field name="keywords" /> <c:set var="p_keywords"><mm:field name="keywords" /></c:set><br />
+        users: <mm:field name="users" /> <c:set var="p_users"><mm:field name="users" /></c:set>
+        </p>
+      </mm:relatednodes>
+    </mm:relatednodescontainer>
+    </mm:node>
+  </c:when>
+  <c:otherwise>no portal</c:otherwise>
+</c:choose>
+        
 
         <c:choose>
-          <c:when test="${empty q and empty user and empty source}"><!-- not searched, display latest -->
+          <c:when test="${empty q and empty user and empty source and empty portal}">
+            <!-- not searched nor a portal, display latest -->
             <c:set var="searched" value="empty" />
             <mm:import id="value" reset="true">${index}*</mm:import>
             <mm:import id="fields" reset="true">indexId</mm:import>
@@ -49,12 +71,16 @@
           <c:otherwise>
             <mm:import id="value" reset="true">
               ${q} 
-              <c:if test="${!empty user}">user:${user} </c:if>
-              <c:if test="${!empty source}">source:${source} </c:if>
+              <c:if test="${!empty user}">+user:${user} </c:if>
+              <c:if test="${!empty source}">+source:${source} </c:if>
+              <c:if test="${!empty p_keywords}">+(keywords:${p_keywords} tags:${p_tags} user:van toly) </c:if>
             </mm:import>
           </c:otherwise>
         </c:choose>
-
+<!-- 
+pseudo code: lucene.Find((someField == "bar" || someField == "baz") && anotherField == "foo");
++(someField:bar someField:baz) +anotherField:foo        
+-->
         <c:if test="${!empty _searchlang}"><c:set var="searched" value="advanced" /></c:if>
         <c:if test="${!empty user}"><c:set var="searched" value="advanced" /></c:if>
         <c:if test="${!empty source}"><c:set var="searched" value="advanced" /></c:if>
@@ -73,23 +99,23 @@
         <mm:import id="images">${extraconstraints} otype:EQ:<mm:nodeinfo type="number" nodetype="imagefragments" /></mm:import>
         <mm:import id="audio">${extraconstraints} otype:EQ:<mm:nodeinfo type="number" nodetype="audiofragments" /></mm:import>
         <mm:import id="filter">
-          <c:if test="${!empty date and date eq 'today'}">date:LTE:<mm:time format="yyyyMMddHHmm" time="now - 24 hour" precision="minutes" />00</c:if>
-          <c:if test="${!empty date and date eq 'week'}">date:GTE:<mm:time format="yyyyMMddHHmm" time="now - 7 day"  precision="minutes" />00</c:if>
-          <c:if test="${!empty date and date eq 'month'}">date:GTE:<mm:time format="yyyyMMddHHmm" time="now - 31 day" precision="minutes" />00</c:if>
+          <c:if test="${!empty date and date eq '2010'}">date:GTE:<mm:time format="yyyyMMddHHmm" time="2010" inputformat="yyyy" precision="days" />00</c:if>
+          <c:if test="${!empty date and date eq '1990'}">date:GTE:<mm:time format="yyyyMMddHHmm" time="1990" inputformat="yyyy" precision="days" />00 date:LT:<mm:time format="yyyyMMddHHmm" time="2010" inputformat="yyyy" precision="days" />00</c:if>
+          <c:if test="${!empty date and date eq '1970'}">date:GTE:<mm:time format="yyyyMMddHHmm" time="1970" inputformat="yyyy" precision="days" />00 date:LT:<mm:time format="yyyyMMddHHmm" time="1990" inputformat="yyyy" precision="days" />00</c:if>
+          <c:if test="${!empty date and date eq '1950'}">date:GTE:<mm:time format="yyyyMMddHHmm" time="1950" inputformat="yyyy" precision="days" />00 date:LT:<mm:time format="yyyyMMddHHmm" time="1970" inputformat="yyyy" precision="days" />00</c:if>
+          <c:if test="${!empty date and date eq '1930'}">date:GTE:<mm:time format="yyyyMMddHHmm" time="1930" inputformat="yyyy" precision="days" />00 date:LT:<mm:time format="yyyyMMddHHmm" time="1950" inputformat="yyyy" precision="days" />00</c:if>
+          <c:if test="${!empty date and date eq '1910'}">date:GTE:<mm:time format="yyyyMMddHHmm" time="1910" inputformat="yyyy" precision="days" />00 date:LT:<mm:time format="yyyyMMddHHmm" time="1930" inputformat="yyyy" precision="days" />00</c:if>
           <c:if test="${!empty uploaded and uploaded eq 'today'}">created:GTE:<mm:time format="yyyyMMddHHmm" time="now - 24 hour" precision="minutes" />00</c:if>
           <c:if test="${!empty uploaded and uploaded eq 'week'}">created:GTE:<mm:time format="yyyyMMddHHmm" time="now - 7 day"  precision="minutes" />00</c:if>
           <c:if test="${!empty uploaded and uploaded eq 'month'}">created:GTE:<mm:time format="yyyyMMddHHmm" time="now - 31 day" precision="minutes" />00</c:if>
-          <c:if test="${!empty length and length eq 'short'}">length:LT:120001</c:if>
-          <c:if test="${!empty length and length eq 'average'}">length:GT:120000 length:LT:240001</c:if>
-          <c:if test="${!empty length and length eq 'long'}">length:GT:240000</c:if>
+          <c:if test="${!empty uploaded and uploaded eq 'year'}">created:GTE:<mm:time format="yyyyMMddHHmm" time="now - 1 year" precision="minutes" />00</c:if>
           <c:if test="${!empty _searchlang}">language:EQ:${_searchlang} </c:if>
           <c:if test="${!empty license}">licensenr:EQ:${license} </c:if>
         </mm:import>
-        
-<!-- 
+
+        <p>value: ${value} date: ${date}</p>
         <p>extraconstraints: ${extraconstraints}</p>
         <p>filter: ${filter}</p>
--->
         
         <mm:function
             write="false"
@@ -152,7 +178,7 @@
           </ul>
 
           <mm:url id="pageurl" write="false" absolute="true" escapeamps ="false"
-            referids="q,user?,source?,date?,uploaded?,length?,_searchlang?,license?,sf?,so?" />
+            referids="q,user?,source?,date?,uploaded?,_searchlang?,license?,sf?,so?" />
             
           <div id="t_video">
             <oip:medialist list="${results_video}" />
@@ -194,7 +220,7 @@
           <oip:h3><fmt:message key="media.sortby" /></oip:h3>
 
           <mm:url id="sorturl" write="false" absolute="true" 
-            referids="q,user?,source?,date?,uploaded?,length?,_searchlang?,license?" />
+            referids="q,user?,source?,date?,uploaded?,_searchlang?,license?" />
 
           <ul class="sortby">
             <li>
