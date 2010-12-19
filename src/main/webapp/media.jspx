@@ -2,6 +2,7 @@
     version="2.0"
     xmlns:c="http://java.sun.com/jsp/jstl/core"
     xmlns:jsp="http://java.sun.com/JSP/Page"
+    xmlns:fn="http://java.sun.com/jsp/jstl/functions"
     xmlns:fmt="http://java.sun.com/jsp/jstl/fmt"
     xmlns:oip="urn:jsptagdir:/WEB-INF/tags/oip"
     xmlns:mm="http://www.mmbase.org/mmbase-taglib-2.0">
@@ -20,7 +21,10 @@
     <jsp:attribute name="left"><oip:search advanced="true" /></jsp:attribute>
     <jsp:attribute name="body">
 
-      <mm:import externid="p">${portal}</mm:import>
+      <mm:import externid="p">${portal.number}</mm:import>
+      <mm:node number="$p">
+        <mm:hasalias name="pool_oip"><c:set var="isdefaultportal" value="true" /></mm:hasalias>
+      </mm:node>
       
       <mm:import externid="user" />
       <mm:import externid="source" />
@@ -40,29 +44,62 @@
         <mm:nodefunction name="translation">
           <mm:field name="description" escape="paragraph" />
         </mm:nodefunction>
-        portal: ${portal}
+        p: ${p}
         
-<c:choose>
-  <c:when test="${!empty portal}">
-    <br />portal
-    <mm:node number="$portal">
-    <mm:relatednodescontainer type="filters" role="portalrel" searchdirs="destination">
-      <mm:relatednodes>
-        <p>
-        tags: <mm:field name="tags" /> <c:set var="p_tags"><mm:field name="tags" /></c:set><br />
-        kw: <mm:field name="keywords" /> <c:set var="p_keywords"><mm:field name="keywords" /></c:set><br />
-        users: <mm:field name="users" /> <c:set var="p_users"><mm:field name="users" /></c:set>
-        </p>
-      </mm:relatednodes>
-    </mm:relatednodescontainer>
-    </mm:node>
-  </c:when>
-  <c:otherwise>no portal</c:otherwise>
-</c:choose>
-        
-
         <c:choose>
-          <c:when test="${empty q and empty user and empty source and empty portal}">
+          <c:when test="${!empty portal and !isdefaultportal}">
+            <br />not default portal: 
+            
+            <mm:node number="$portal"><mm:field name="number" />
+              <!-- set portal manager as default user -->
+              <mm:relatednodescontainer type="mmbaseusers" role="portalrel" searchdirs="source">
+                <mm:maxnumber value="1" />
+                <mm:relatednodes>
+                  <p>portal manager: <mm:field name="username" />  </p>
+                  <c:set var="p_users">users:<mm:field name="username" /></c:set>
+                </mm:relatednodes>
+              </mm:relatednodescontainer>
+              
+              <mm:relatednodescontainer type="filters" role="portalrel" searchdirs="destination">
+                <mm:relatednodes>
+                  <p>
+                  tags: <mm:field name="tags" /> <br />
+                  kw: <mm:field name="keywords" /> <br />
+                  users: <mm:field name="users" /> 
+                  </p>
+
+                  <mm:field name="keywords" escape="none">
+                    <mm:isnotempty>
+                      <c:forTokens items="${_}" delims=";" var="kw">
+                        <c:set var="p_keywords">${p_keywords}<jsp:text> </jsp:text>keywords:<c:out value="${fn:trim(kw)}" /></c:set>
+                      </c:forTokens>
+                    </mm:isnotempty>
+                  </mm:field>
+                  <mm:field name="tags" escape="none">
+                    <mm:isnotempty>
+                      <c:forTokens items="${_}" delims=";" var="tag">
+                        <c:set var="p_tags">${p_tags}<jsp:text> </jsp:text>tags:<c:out value="${fn:trim(tag)}" /></c:set>
+                      </c:forTokens>
+                    </mm:isnotempty>
+                  </mm:field>
+                  <mm:field name="users" escape="none">
+                    <mm:isnotempty>
+                      <c:forTokens items="${_}" delims=";" var="usr">
+                        <c:set var="p_users">${p_users}<jsp:text> </jsp:text>users:<c:out value="${fn:trim(usr)}" /></c:set>
+                      </c:forTokens>
+                    </mm:isnotempty>
+                  </mm:field>
+
+                </mm:relatednodes>
+              </mm:relatednodescontainer>
+            </mm:node>
+          </c:when>
+          <c:otherwise>no portal</c:otherwise>
+        </c:choose>
+        
+        
+        <c:choose>
+          <c:when test="${empty q and empty user and empty source and empty p_tags}">
             <!-- not searched nor a portal, display latest -->
             <c:set var="searched" value="empty" />
             <mm:import id="value" reset="true">${index}*</mm:import>
@@ -73,7 +110,7 @@
               ${q} 
               <c:if test="${!empty user}">+user:${user} </c:if>
               <c:if test="${!empty source}">+source:${source} </c:if>
-              <c:if test="${!empty p_keywords}">+(keywords:${p_keywords} tags:${p_tags} user:van toly) </c:if>
+              <c:if test="${!empty p_keywords or !empty p_tags or !empty p_users}">+(${p_keywords} ${p_tags} ${p_users}) </c:if>
             </mm:import>
           </c:otherwise>
         </c:choose>
@@ -87,13 +124,12 @@ pseudo code: lucene.Find((someField == "bar" || someField == "baz") && anotherFi
         <c:if test="${!empty license}"><c:set var="searched" value="advanced" /></c:if>
 
         <!-- filter the results -->
-<!-- 
+        <!-- 
         <mm:import id="extraconstraints">
             show:EQ:1 
             online:LT:<mm:time format="yyyyMMddHHmm" time="now" precision="minutes" />00
             offline:GT:<mm:time format="yyyyMMddHHmm" time="now" precision="minutes" />00
-        </mm:import>
- -->
+        </mm:import> -->
         <mm:import id="extraconstraints"></mm:import>
         <mm:import id="video">${extraconstraints} otype:EQ:<mm:nodeinfo type="number" nodetype="videofragments" /></mm:import>
         <mm:import id="images">${extraconstraints} otype:EQ:<mm:nodeinfo type="number" nodetype="imagefragments" /></mm:import>
@@ -113,7 +149,7 @@ pseudo code: lucene.Find((someField == "bar" || someField == "baz") && anotherFi
           <c:if test="${!empty license}">licensenr:EQ:${license} </c:if>
         </mm:import>
 
-        <p>value: ${value} date: ${date}</p>
+        <p>value: ${value} </p>
         <p>extraconstraints: ${extraconstraints}</p>
         <p>filter: ${filter}</p>
         
