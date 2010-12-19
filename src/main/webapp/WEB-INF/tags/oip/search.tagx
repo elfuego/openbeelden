@@ -13,6 +13,7 @@
           description="Prefered language of user" />
     
     <mm:import externid="q" />
+    <mm:import externid="p">${portal.number}</mm:import><!-- portal -->
     <mm:import externid="user" />
     <mm:import externid="source" />
     <mm:import externid="date" />
@@ -32,6 +33,7 @@
 
     <form action="${searchlink}" method="post" id="search">
       <oip:h2><fmt:message key="search.media_items" /></oip:h2>
+      p: ${p}
       <fieldset>
         <input name="q" value="${q}" type="text" id="searchinput" tabindex="2" />
         <c:if test="${advanced eq false}">
@@ -42,12 +44,13 @@
         <fieldset class="advanced">
  
           <!-- portals -->
+          <label for="search_portal">Portal</label>
           <mm:listcontainer path="pools,portalrel,urls" searchdirs="destination" 
             fields="pools.number,pools.name">
             <mm:distinct />
             <mm:size>
               <mm:isgreaterthan value="0">
-                <select name="search_portal" id="search_portal">
+                <select name="p" id="search_portal">
                   <mm:list>
                     <mm:node element="pools">
                       <mm:nodefunction name="translation">
@@ -55,7 +58,7 @@
                       </mm:nodefunction>
                       
                       <c:choose>
-                        <c:when test="${portal.number eq _node.number}">
+                        <c:when test="${p eq _node.number}">
                           <option label="${p_name}" value="${_node.number}" selected="selected">${p_name}</option>
                         </c:when>
                         <c:otherwise>
