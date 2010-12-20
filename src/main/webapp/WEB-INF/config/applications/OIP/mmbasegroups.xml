@@ -5,5 +5,11 @@
 		<description></description>
 		<name>Project managers</name>
 	</node>
+    <!-- 
+	<node number="907" owner="admin">
+		<description></description>
+		<name>Portal managers</name>
+	</node>
+    -->
 
 </mmbasegroups>
