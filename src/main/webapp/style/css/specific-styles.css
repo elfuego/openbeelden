@@ -248,6 +248,13 @@ h3.subtitle, h3.mediatitle
     clear: both;
 }
 
+h3.subtitle {
+    max-width: 512px;
+    overflow: hidden;
+	text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
 div.toolbar
 {
     height: 20px;
