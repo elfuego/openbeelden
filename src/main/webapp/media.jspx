@@ -51,6 +51,7 @@
             <br />not default portal: 
             
             <mm:node number="$portal"><mm:field name="number" />
+              
               <!-- set portal manager as default user -->
               <mm:relatednodescontainer type="mmbaseusers" role="portalrel" searchdirs="source">
                 <mm:maxnumber value="1" />
@@ -60,6 +61,7 @@
                 </mm:relatednodes>
               </mm:relatednodescontainer>
               
+              <!-- portal filter: users, tags, keywords -->
               <mm:relatednodescontainer type="filters" role="portalrel" searchdirs="destination">
                 <mm:relatednodes>
                   <p>
@@ -68,6 +70,13 @@
                   users: <mm:field name="users" /> 
                   </p>
 
+                  <mm:field name="users" escape="none">
+                    <mm:isnotempty>
+                      <c:forTokens items="${_}" delims=";" var="usr">
+                        <c:set var="p_users">${p_users}<jsp:text> </jsp:text>users:<c:out value="${fn:trim(usr)}" /></c:set>
+                      </c:forTokens>
+                    </mm:isnotempty>
+                  </mm:field>
                   <mm:field name="keywords" escape="none">
                     <mm:isnotempty>
                       <c:forTokens items="${_}" delims=";" var="kw">
@@ -79,13 +88,6 @@
                     <mm:isnotempty>
                       <c:forTokens items="${_}" delims=";" var="tag">
                         <c:set var="p_tags">${p_tags}<jsp:text> </jsp:text>tags:<c:out value="${fn:trim(tag)}" /></c:set>
-                      </c:forTokens>
-                    </mm:isnotempty>
-                  </mm:field>
-                  <mm:field name="users" escape="none">
-                    <mm:isnotempty>
-                      <c:forTokens items="${_}" delims=";" var="usr">
-                        <c:set var="p_users">${p_users}<jsp:text> </jsp:text>users:<c:out value="${fn:trim(usr)}" /></c:set>
                       </c:forTokens>
                     </mm:isnotempty>
                   </mm:field>
@@ -102,11 +104,15 @@
           <c:when test="${empty q and empty user and empty source and empty p_tags}">
             <!-- not searched nor a portal, display latest -->
             <c:set var="searched" value="empty" />
-            <mm:import id="value" reset="true">${index}*</mm:import>
-            <mm:import id="fields" reset="true">indexId</mm:import>
+            <mm:import id="value">${index}*</mm:import>
+            <mm:import id="fields">indexId</mm:import>
           </c:when>
           <c:otherwise>
-            <mm:import id="value" reset="true">
+            <!-- 
+            pseudo code: lucene.Find((someField == "bar" || someField == "baz") && anotherField == "foo");
+            translates to: +(someField:bar someField:baz) +anotherField:foo        
+            -->
+            <mm:import id="value">
               ${q} 
               <c:if test="${!empty user}">+user:${user} </c:if>
               <c:if test="${!empty source}">+source:${source} </c:if>
@@ -114,18 +120,12 @@
             </mm:import>
           </c:otherwise>
         </c:choose>
-<!-- 
-pseudo code: lucene.Find((someField == "bar" || someField == "baz") && anotherField == "foo");
-+(someField:bar someField:baz) +anotherField:foo        
--->
         <c:if test="${!empty _searchlang}"><c:set var="searched" value="advanced" /></c:if>
         <c:if test="${!empty user}"><c:set var="searched" value="advanced" /></c:if>
         <c:if test="${!empty source}"><c:set var="searched" value="advanced" /></c:if>
         <c:if test="${!empty license}"><c:set var="searched" value="advanced" /></c:if>
 
-        <!-- filter the results -->
-        <!-- 
-        <mm:import id="extraconstraints">
+        <!-- <mm:import id="extraconstraints">
             show:EQ:1 
             online:LT:<mm:time format="yyyyMMddHHmm" time="now" precision="minutes" />00
             offline:GT:<mm:time format="yyyyMMddHHmm" time="now" precision="minutes" />00
@@ -134,6 +134,7 @@ pseudo code: lucene.Find((someField == "bar" || someField == "baz") && anotherFi
         <mm:import id="video">${extraconstraints} otype:EQ:<mm:nodeinfo type="number" nodetype="videofragments" /></mm:import>
         <mm:import id="images">${extraconstraints} otype:EQ:<mm:nodeinfo type="number" nodetype="imagefragments" /></mm:import>
         <mm:import id="audio">${extraconstraints} otype:EQ:<mm:nodeinfo type="number" nodetype="audiofragments" /></mm:import>
+        <!-- filter results -->
         <mm:import id="filter">
           <c:if test="${!empty date and date eq '2010'}">date:GTE:<mm:time format="yyyyMMddHHmm" time="2010" inputformat="yyyy" precision="days" />00</c:if>
           <c:if test="${!empty date and date eq '1990'}">date:GTE:<mm:time format="yyyyMMddHHmm" time="1990" inputformat="yyyy" precision="days" />00 date:LT:<mm:time format="yyyyMMddHHmm" time="2010" inputformat="yyyy" precision="days" />00</c:if>
@@ -149,7 +150,7 @@ pseudo code: lucene.Find((someField == "bar" || someField == "baz") && anotherFi
           <c:if test="${!empty license}">licensenr:EQ:${license} </c:if>
         </mm:import>
 
-        <p>value: ${value} </p>
+        <p>value: ${value}</p>
         <p>extraconstraints: ${extraconstraints}</p>
         <p>filter: ${filter}</p>
         
