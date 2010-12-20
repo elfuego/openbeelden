@@ -1,16 +1,19 @@
 <jsp:root
     version="2.0"
     xmlns:c="http://java.sun.com/jsp/jstl/core"
+    xmlns:fn="http://java.sun.com/jsp/jstl/functions"
     xmlns:fmt="http://java.sun.com/jsp/jstl/fmt"
     xmlns:os="http://www.opensymphony.com/oscache"
     xmlns:jsp="http://java.sun.com/JSP/Page"
     xmlns:oip="urn:jsptagdir:/WEB-INF/tags/oip"
     xmlns:mm="http://www.mmbase.org/mmbase-taglib-2.0">
   <oip:html styleClass="home">
-    
     <jsp:attribute name="head">
       
       <mm:import externid="portal" from="request">pool_oip</mm:import>
+      <mm:node number="$portal">
+        <mm:hasalias name="pool_oip"><c:set var="isdefaultportal" value="true" /></mm:hasalias>
+      </mm:node>
       <mm:import id="page" externid="n">page_home</mm:import>
 
       <mm:node number="$portal" notfound="skip">
@@ -22,8 +25,6 @@
         </mm:relatednodescontainer>
       </mm:node>
 
-      
-      <link href="${mm:link('/feeds/atom/')}" rel="alternate" type="application/atom+xml" title="Open Image Platform latest uploads" />
       <mm:node number="$page">
         <mm:relatednodescontainer type="mediafragments" role="posrel" searchdirs="destination">
           <mm:constraint field="show" value="true" operator="EQUAL" />
@@ -32,6 +33,67 @@
           <mm:relatednodes id="featured_node" />
         </mm:relatednodescontainer>
       </mm:node>
+
+      <c:choose>
+        <c:when test="${!isdefaultportal}">
+         
+          <mm:node number="$portal">
+            
+            <!-- set portal manager as default user -->
+            <mm:relatednodescontainer type="mmbaseusers" role="portalrel" searchdirs="source">
+              <mm:maxnumber value="1" />
+              <mm:relatednodes>
+                <c:set var="p_users">users:<mm:field name="username" /></c:set>
+              </mm:relatednodes>
+            </mm:relatednodescontainer>
+             
+            <!-- portal filter: users, tags, keywords -->
+            <mm:relatednodescontainer type="filters" role="portalrel" searchdirs="destination">
+              <mm:relatednodes>
+                <mm:field name="users" escape="none">
+                  <mm:isnotempty>
+                    <c:forTokens items="${_}" delims=";" var="usr">
+                      <c:set var="p_users">${p_users}<jsp:text> </jsp:text>users:<c:out value="${fn:trim(usr)}" /></c:set>
+                    </c:forTokens>
+                  </mm:isnotempty>
+                </mm:field>
+                <mm:field name="keywords" escape="none">
+                  <mm:isnotempty>
+                    <c:forTokens items="${_}" delims=";" var="kw">
+                      <c:set var="p_keywords">${p_keywords}<jsp:text> </jsp:text>keywords:<c:out value="${fn:trim(kw)}" /></c:set>
+                    </c:forTokens>
+                  </mm:isnotempty>
+                </mm:field>
+                <mm:field name="tags" escape="none">
+                  <mm:isnotempty>
+                    <c:forTokens items="${_}" delims=";" var="tag">
+                      <c:set var="p_tags">${p_tags}<jsp:text> </jsp:text>tags:<c:out value="${fn:trim(tag)}" /></c:set>
+                    </c:forTokens>
+                  </mm:isnotempty>
+                </mm:field>
+              </mm:relatednodes>
+            </mm:relatednodescontainer>
+          </mm:node>
+ 
+          <mm:import id="value">
+            <c:if test="${!empty p_keywords or !empty p_tags or !empty p_users}">+(${p_keywords} ${p_tags} ${p_users}) </c:if>
+          </mm:import>
+          
+        </c:when>
+        <c:otherwise>
+          <!-- default portal, display latest -->
+          <mm:import id="value">media*</mm:import>
+          <mm:import id="fields">indexId</mm:import>
+        </c:otherwise>
+      </c:choose>
+
+      <!-- lucene query config -->
+      <mm:import id="index">media</mm:import>
+      <mm:import id="extraconstraints"></mm:import>
+      <mm:import id="offset">0</mm:import>
+      <mm:import id="max">4</mm:import>
+       
+      <link href="${mm:link('/feeds/atom/')}" rel="alternate" type="application/atom+xml" title="Open Image Platform latest uploads" />
     </jsp:attribute>
     <jsp:attribute name="left"><jsp:text>  </jsp:text></jsp:attribute>
 
@@ -80,33 +142,54 @@
       <div class="right-column">
         <div class="related">
           <oip:h2><fmt:message key="media.latest_uploads" /></oip:h2>
-          <mm:listnodescontainer type="mediafragments">
-            <mm:constraint field="number" value="$featured_node" operator="EQUAL" inverse="true" />
-            <mm:constraint field="show" value="true" operator="EQUAL" />
-            <!--
-            <mm:constraint field="online" value="$today" operator="LESS" />
-            <mm:constraint field="offline" value="$today" operator="GREATER" />
-             -->
-            <mm:sortorder field="number" direction="DOWN" />
-            <mm:maxnumber value="4" />
-            <mm:listnodes varStatus="status">
-              <mm:link encode="false">
-                <mm:frameworkparam name="component">oip</mm:frameworkparam>
-                <mm:frameworkparam name="block">mediafragment</mm:frameworkparam>
-                <mm:frameworkparam name="media">${_node}</mm:frameworkparam>
+          
+          <c:set var="cachekey">oip.homepage.latestuploads.${page}.${requestScope['javax.servlet.jsp.jstl.fmt.locale.request']}</c:set>
+          <os:cache key="${cachekey}" time="3600">
+            <c:catch var="ex1">
+              
+               <mm:nodelistfunction
+                  module="lucene" name="search" id="results"
+                  referids="index,value,offset,max,fields?,sortfields?,filter?,extraconstraints" />
+                  
+               <mm:listnodes referid="results">
+                 <mm:link encode="false">
+                   <mm:frameworkparam name="component">oip</mm:frameworkparam>
+                   <mm:frameworkparam name="block">mediafragment</mm:frameworkparam>
+                   <mm:frameworkparam name="media">${_node}</mm:frameworkparam>
+   
+                   <dl class="preview">
+                     <mm:nodefunction name="translation">
+                       <mm:import id="media_title" reset="true"><mm:field name="title" /></mm:import>
+                     </mm:nodefunction>
+                     <dt>
+                       <a href="${_}" title="${media_title}"><oip:thumb width="150" height="111" alt="${media_title}" /></a>
+                     </dt>
+                     <dd><mm:write referid="media_title" escape="wrapper" /></dd>
+                   </dl>
+                 </mm:link>
+               </mm:listnodes>
+          
+             </c:catch>
+   
+             <c:if test="${! empty ex1}">
+               <os:usecached />
+             </c:if>
+             <c:if test="${! empty ex1}">
+               <p class="err"><mm:escape escape="text/xml,links">${ex1.cause.message}</mm:escape></p>
+             </c:if>
+           </os:cache>
+           <!-- value: ${value} cachekey: ${cachekey} -->
 
-                <dl class="preview">
-                  <mm:nodefunction name="translation">
-                    <mm:field name="title" id="mf_title" write="false" />
-                  </mm:nodefunction>
-                  <dt>
-                    <a href="${_}" title="${mf_title}"><oip:thumb width="150" height="111" alt="${mf_title}" /></a>
-                  </dt>
-                  <dd><mm:write referid="mf_title" escape="wrapper" /></dd>
-                </dl>
-              </mm:link>
-            </mm:listnodes>
-          </mm:listnodescontainer>
+           <!--
+           <mm:listnodescontainer type="mediafragments">
+               <mm:constraint field="number" value="$featured_node" operator="EQUAL" inverse="true" />
+               <mm:constraint field="show" value="true" operator="EQUAL" />
+               <mm:sortorder field="number" direction="DOWN" />
+               <mm:maxnumber value="4" />
+               <mm:listnodes id="alt_results" />
+           </mm:listnodescontainer>
+           -->
+
           <p class="more"><a href="${mm:link('/media')}${langpostfix}"><fmt:message key="media.more" /> »</a></p>
         </div>
       </div>
@@ -128,13 +211,13 @@
             </c:otherwise>
           </c:choose>
           <oip:h2><fmt:message key="service.latest_news" /></oip:h2>
-          <os:cache key="og.feed.rss.${requestScope['javax.servlet.jsp.jstl.fmt.locale.request']}">
+          <os:cache key="oi.feed.rss.${requestScope['javax.servlet.jsp.jstl.fmt.locale.request']}">
             <mm:import id="rss"><mm:include page="${rsslink}" timeout="10000" /></mm:import>
-            <c:catch var="ex1">
+            <c:catch var="ex2">
               <mm:content escaper="none">
                 <!-- just displaying the rss items with some xsl and java magic -->
                 <ul class="blog">
-                  <mm:formatter escape="tagstripper(xss, false, true)">
+                  <mm:formatter escape="tagstripper(xss, false, false)">
                     <mm:write referid="rss" />
                     <mm:xslt>
 
@@ -170,12 +253,12 @@
                 </ul>
               </mm:content>
             </c:catch>
-            <c:if test="${! empty ex1}">
+            <c:if test="${! empty ex2}">
               <os:usecached />
             </c:if>
           </os:cache>
-          <c:if test="${! empty ex1}">
-            <p class="err"><mm:escape escape="text/xml,links">${rsslink}: ${ex1.cause.message}</mm:escape></p>
+          <c:if test="${! empty ex2}">
+            <p class="err"><mm:escape escape="text/xml,links">${rsslink}: ${ex2.cause.message}</mm:escape></p>
           </c:if>
         </div>
       </div>
