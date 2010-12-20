@@ -7,4 +7,10 @@
 		<description>Users of the site</description>
 	</node>
 
+	<node number="3001" owner="security" alias="cloudcontextsecurity_rank_portal_manager">
+		<rank>400</rank>
+		<name>portal manager</name>
+		<description>Portal managers manage portals, subsites</description>
+	</node>
+	
 </mmbaseranks>
