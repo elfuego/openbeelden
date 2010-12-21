@@ -20,6 +20,7 @@
   <mm:import externid="cancel" />
   
   <mm:import externid="editme">false</mm:import>
+  <mm:import externid="show">/editors/show-node.jspx</mm:import>
 
 
     <c:choose>
@@ -39,7 +40,7 @@
           </mm:maydelete>
           
         </mm:node>
-        <mm:include page="show-node.jspx" referids="p,nr">
+        <mm:include page="$show" referids="p,nr">
           <mm:param name="fields">${fields}</mm:param>
         </mm:include>
       </c:when>
@@ -58,14 +59,15 @@
               
               <fieldset>
                 <mm:fieldlist fields="${fields}" type="${empty fields ? 'edit' : ''}">
-                  <p>
-                    <mm:fieldinfo type="name" write="false" id="fld_name" />
+                  <div>
+                    <c:set var="fld_name"><mm:fieldinfo type="name" /></c:set>
                     <mm:fieldinfo type="forid">
-                      <label for="${_}" class="${fld_name}"><mm:fieldinfo type="guiname" /></label>
+                      <label for="${_}" class="${fld_name}"><mm:fieldinfo type="guiname" />:</label>
                     </mm:fieldinfo>
+                    <p class="info"><mm:fieldinfo type="description" escape="inline" /></p>
                     <mm:maywrite><mm:fieldinfo type="input" /><mm:fieldinfo type="errors" /></mm:maywrite>
                     <mm:maywrite inverse="true"><mm:fieldinfo type="guivalue" escape="none" /></mm:maywrite>
-                  </p>
+                  </div>
                 </mm:fieldlist>
               </fieldset>
               
@@ -76,13 +78,13 @@
                   <input name="fields"       type="hidden" value="${fields}" />
                   <input name="submit${nr}"  type="hidden" value="Bla" />
                   <!-- <mm:nodeinfo type="type"><input name="type" type="hidden" value="${_}" /></mm:nodeinfo> -->
-                  <p>
+                  <div>
                     <fmt:message key="users.form.save" var="button_save" />
                     <input type="submit" name="action" value="${button_save}" class="submit" />
                     <c:if test="${editme eq 'true'}">
                       <input type="button" name="cancel" value="Cancel" class="cancel" /> 
                     </c:if>
-                  </p>
+                  </div>
                 </fieldset>
               </mm:maywrite>
             </mm:import>
@@ -96,7 +98,7 @@
                 <c:choose>
                   <!-- do not show form again when using ajax editor -->
                   <c:when test="${editme eq 'true'}">
-                    <mm:include page="show-node.jspx" referids="p,nr,fields" />
+                    <mm:include page="$show" referids="p,nr,fields" />
                   </c:when>
                   <c:otherwise>
                     <mm:write referid="buffer" escape="none" />
