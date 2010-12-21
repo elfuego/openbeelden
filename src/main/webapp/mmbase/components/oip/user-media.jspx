@@ -13,26 +13,14 @@
         class="mm_c c_oip b_user-media ${requestScope.className}"
         id="${requestScope['org.mmbase.componentId']}">
 
-      <script type="text/javascript">
-        $(document).ready(function() {
-            var validator = new MMBaseValidator(document.getElementById("${requestScope['org.mmbase.componentId']}"));
-            validator.prefetchNodeManager('mediafragments');
-            validator.lang = "${requestScope['javax.servlet.jsp.jstl.fmt.locale.request']}";
-            validator.validateHook = function(valid) {
-                document.getElementById('submit').disabled = this.invalidElements != 0;
-            }
-            validator.setup(document.getElementById("${requestScope['org.mmbase.componentId']}"));
-        });
-      </script>
-
-      <oip:h2 block="user-media" />
 
       <mm:import externid="n" required="true" />
       <mm:import externid="media" required="true" />
       <mm:import externid="license" />
 
       <mm:node number="${media}">
-        
+
+        <!--
         <mm:hasrank maxvalue="site user">
           <c:set var="fields">title,subtitle,language,dc_creator,intro,body,publisher,date</c:set>
         </mm:hasrank>
@@ -43,8 +31,141 @@
         <oip:form fields="${fields}" plusfields="keywords,source,identifier,contributor,relation,coverage,created,lastmodified">
           <jsp:attribute name="action"><mm:url page="user-media" referids="n,media" absolute="true" /></jsp:attribute>
         </oip:form>
+        -->
 
-        <!-- license stuff (with an ugly workaround)  -->
+
+        <mm:maywrite>
+          <mm:import externid="submit" />
+          <mm:url page="user-media" referids="n,media" absolute="true" write="false" id="form_url" />
+          <mm:form page="${form_url}">
+        
+            <mm:import id="buffer">
+                
+              <fieldset class="first">
+                <!-- title,subtitle,language,dc_creator,intro,body,publisher,date -->
+                <mm:fieldlist fields="title">
+                  <div>
+                    <c:set var="fld_name"><mm:fieldinfo type="name" /></c:set>
+                    <mm:fieldinfo type="forid">
+                      <label for="${_}" class="${fld_name}"><mm:fieldinfo type="guiname" />*:</label>
+                    </mm:fieldinfo>
+                    <p class="info"><mm:fieldinfo type="description" escape="inline" /></p>
+                    <mm:maywrite><mm:fieldinfo type="input" /><mm:fieldinfo type="errors" /></mm:maywrite>
+                    <mm:maywrite inverse="true"><mm:fieldinfo type="guivalue" escape="none" /></mm:maywrite>
+                  </div>
+                </mm:fieldlist>
+
+                <mm:fieldlist fields="subtitle,language">
+                  <div>
+                    <c:set var="fld_name"><mm:fieldinfo type="name" /></c:set>
+                    <mm:fieldinfo type="forid">
+                      <label for="${_}" class="${fld_name}"><mm:fieldinfo type="guiname" />:</label>
+                    </mm:fieldinfo>
+                    <p class="info"><mm:fieldinfo type="description" escape="inline" /></p>
+                    <mm:maywrite><mm:fieldinfo type="input" /><mm:fieldinfo type="errors" /></mm:maywrite>
+                    <mm:maywrite inverse="true"><mm:fieldinfo type="guivalue" escape="none" /></mm:maywrite>
+                  </div>
+                </mm:fieldlist>
+
+                <mm:fieldlist fields="dc_creator,publisher,intro">
+                  <div>
+                    <c:set var="fld_name"><mm:fieldinfo type="name" /></c:set>
+                    <mm:fieldinfo type="forid">
+                      <label for="${_}" class="${fld_name}"><mm:fieldinfo type="guiname" />*:</label>
+                    </mm:fieldinfo>
+                    <p class="info"><mm:fieldinfo type="description" escape="inline" /></p>
+                    <mm:maywrite><mm:fieldinfo type="input" /><mm:fieldinfo type="errors" /></mm:maywrite>
+                    <mm:maywrite inverse="true"><mm:fieldinfo type="guivalue" escape="none" /></mm:maywrite>
+                  </div>
+                </mm:fieldlist>
+
+                <mm:fieldlist fields="body,date">
+                  <div>
+                    <c:set var="fld_name"><mm:fieldinfo type="name" /></c:set>
+                    <mm:fieldinfo type="forid">
+                      <label for="${_}" class="${fld_name}"><mm:fieldinfo type="guiname" />:</label>
+                    </mm:fieldinfo>
+                    <p class="info"><mm:fieldinfo type="description" escape="inline" /></p>
+                    <mm:maywrite><mm:fieldinfo type="input" /><mm:fieldinfo type="errors" /></mm:maywrite>
+                    <mm:maywrite inverse="true"><mm:fieldinfo type="guivalue" escape="none" /></mm:maywrite>
+                  </div>
+                </mm:fieldlist>
+
+              </fieldset>
+    
+              <fieldset class="buttons">
+                <p class="required">* Velden met een sterretje zijn verplicht.</p>
+                <c:set var="button_save"><fmt:message key="users.form.save" /></c:set>
+                <input name="submit" type="submit" value="${button_save}" id="submit" class="submit" />
+                <input name="add_more_info" type="button" value="Add more info" id="add_more_info" class="info" />
+              </fieldset>
+            
+              <fieldset class="plus">
+                <!-- keywords,source,identifier,contributor,relation,coverage,created,lastmodified -->
+                <mm:fieldlist fields="keywords,source,identifier,contributor,relation,coverage,created,lastmodified">
+                  <div>
+                    <c:set var="fld_name"><mm:fieldinfo type="name" /></c:set>
+                    <mm:fieldinfo type="forid">
+                      <label for="${_}" class="${fldd_name}"><mm:fieldinfo type="guiname" /></label>
+                    </mm:fieldinfo>
+                    <p class="info"><mm:fieldinfo type="description" escape="inline" /></p>
+                    <mm:maywrite><mm:fieldinfo type="input" /><mm:fieldinfo type="errors" /></mm:maywrite>
+                    <mm:maywrite inverse="true"><mm:fieldinfo type="guivalue" escape="none" /></mm:maywrite>
+                  </div>
+                </mm:fieldlist>
+              </fieldset>            
+              <fieldset class="plus">
+                <c:set var="button_save"><fmt:message key="users.form.save" /></c:set>
+                <input name="submit" type="submit" value="${button_save}" id="submit2" class="submit" />
+              </fieldset>
+            
+            </mm:import>
+      
+            <mm:notpresent referid="submit">
+              <mm:write referid="buffer" escape="none" />
+              <mm:cancel />
+            </mm:notpresent>
+        
+            <mm:present referid="submit">
+              
+              <mm:valid inverse="true">
+                <p class="err"><fmt:message key="users.form.error" /></p>
+                <mm:write referid="buffer" escape="none" />
+              </mm:valid>
+              
+              <mm:valid>
+                <mm:commit />
+                <p class="msg"><fmt:message key="users.form.saved" /></p>
+                <mm:write referid="buffer" escape="none" />
+              </mm:valid>
+              
+            </mm:present>
+
+
+
+
+
+
+          </mm:form>
+        </mm:maywrite>
+        <mm:maywrite inverse="true">
+          <p class="err">not allowed</p>
+        </mm:maywrite>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        <!-- ##### license stuff (with an ugly workaround) ##### -->
         <mm:listrelationscontainer type="licenses" role="related">
           <mm:sortorder field="number" direction="UP" /><!-- make sure we keep the last one -->
           <mm:size id="nr_of_relations" write="false" />
