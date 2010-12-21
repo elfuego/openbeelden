@@ -17,127 +17,50 @@
       <mm:import externid="media" required="true" />
       <mm:import externid="edit" />
 
-      <oip:h2 block="user-mediapreview" />
-      
       <mm:present referid="n">
         <mm:hasnode number="$media" inverse="true"><mm:remove referid="media" /></mm:hasnode>
         <mm:present referid="media">
           <mm:node number="$media">
-            <mm:link referids="n,media,edit" absolute="true" write="false" id="formlink" />
+  
+            <oip:media width="512" height="288" />
+
+            <mm:relatednodescontainer type="images" role="related" searchdirs="destination">
+               <mm:maxnumber value="1" />
+               <mm:relatednodes>
+                 <mm:node id="img" />
+               </mm:relatednodes>
+             </mm:relatednodescontainer>
+     
+             <div id="edit-picture">
+               <oip:thumb />
+             </div>
+     
+             <c:choose>
+               
+               <c:when test="${empty img}">
+                 <p class="description">
+                   <mm:link page="/editors/add-node.jspx" referids="p?,_node@nr">
+                     <mm:param name="type">images</mm:param>
+                     <mm:param name="fields">handle</mm:param>
+                     <mm:param name="show">/editors/show-mediathumb.jspx</mm:param>
+                     <mm:param name="default">title=User picture</mm:param>
+                     <a class="editme" href="${_}#edit-picture">add picture</a>
+                   </mm:link>
+                 </p>
+               </c:when>
+               
+               <c:otherwise>
+                 <p class="description">
+                   <mm:link page="/editors/edit-pic.jspx" referids="img@nr">
+                     <mm:param name="fields">handle</mm:param>
+                     <mm:param name="show">/editors/show-mediathumb.jspx</mm:param>
+                     <a class="editme" href="${_}#edit-picture"><fmt:message key="users.edit_image" /> »</a>
+                   </mm:link>
+                 </p>
+               </c:otherwise>
+             </c:choose>
+               
           
-            <c:choose>
-              <c:when test="${!empty edit}">
-                
-                <mm:maywrite>
-                  <mm:relatednodescontainer type="images" role="related" searchdirs="destination">
-                    <mm:maxnumber value="1" />
-                    <mm:relatednodes>
-                      <mm:node id="img" />
-                    </mm:relatednodes>
-                  </mm:relatednodescontainer>
-        
-                  <c:choose>
-                    <c:when test="${empty img}">
-                      <h4><fmt:message key="users.create_new_image" /></h4>
-                      <oip:form fields="title,handle" role="related" create="images" action="${formlink}" source="${media}" />
-                    </c:when>
-                    <c:otherwise>
-                      <h4>
-                        <fmt:message key="users.edit_image">
-                          <fmt:param value="${img}" />
-                        </fmt:message>
-                      </h4>
-                      <mm:node referid="img">
-                        <oip:form fields="title,handle" action="${formlink}" />
-                      </mm:node>
-                    </c:otherwise>
-                  </c:choose>
-                  <mm:link referids="_node@media">
-                    <mm:frameworkparam name="component">oip</mm:frameworkparam>
-                    <mm:frameworkparam name="block">user-media</mm:frameworkparam>
-                    <a title="${_node.title}" href="${_}">« <fmt:message key="users.back" /></a>
-                  </mm:link>
-                </mm:maywrite>
-              
-              </c:when>
-              <c:otherwise>
-                
-                <oip:media width="284" height="213" />
-                <dl class="media-info">
-                  <dt><fmt:message key="media.page" />:</dt>
-                  <dd>
-                    <mm:link>
-                      <mm:frameworkparam name="media">${_node}</mm:frameworkparam>
-                      <mm:frameworkparam name="block">mediafragment</mm:frameworkparam>
-                      <mm:frameworkparam name="component">oip</mm:frameworkparam>
-                      <a href="${_}">${_}</a>
-                    </mm:link>
-                  </dd>
-                  <dt><fmt:message key="media.type" />:</dt>
-                  <dd>
-                    <mm:nodeinfo type="type" id="nodetype" write="false" />
-                    <c:choose>
-                      <c:when test="${nodetype eq 'audiofragments'}"> audio </c:when>
-                      <c:when test="${nodetype eq 'images' or nodetype eq 'imagefragments'}"> image </c:when>
-                      <c:otherwise> video </c:otherwise>
-                    </c:choose>
-                  </dd>
-                  <mm:relatednodescontainer type="licenses" role="related" searchdirs="destination">
-                    <mm:sortorder field="number" direction="DOWN" />
-                    <mm:maxnumber value="1" />
-                    <mm:relatednodes>
-                      <dt><fmt:message key="media.license" />:</dt>
-                      <dd>
-                        <mm:nodefunction name="translation"><mm:field name="name" /></mm:nodefunction>
-                      </dd>
-                    </mm:relatednodes>
-                  </mm:relatednodescontainer>
-                  <c:if test="${nodetype ne 'images' and nodetype ne 'imagefragments'}">
-                    <dt><fmt:message key="media.length" />:</dt>
-                    <dd>
-                      <mm:field name="length">
-                        <c:choose>
-                          <c:when test="${_ lt 3600000}">
-                            <mm:time inputformat="S" format="mm:ss" />  
-                          </c:when>
-                          <c:otherwise>
-                            <mm:time inputformat="S" format="hh:mm:ss" />
-                          </c:otherwise>
-                        </c:choose>
-                      </mm:field>
-                    </dd>
-                  </c:if>
-                  <dt><fmt:message key="media.date" />:</dt>
-                  <dd>
-                    <mm:field name="date"><mm:time format="d MMMM yyyy" /></mm:field>
-                  </dd>
-                  <dt><fmt:message key="media.tags" />:</dt>
-                  <dd>
-                    <mm:listrelationscontainer type="tags" role="related" searchdir="destination">
-                      <mm:maxnumber value="99" />
-                      <mm:listrelations id="tagrel">
-                        <mm:relatednode><mm:field name="name" /></mm:relatednode><mm:last inverse="true">, </mm:last>
-                        <jsp:text> </jsp:text>
-                      </mm:listrelations>
-                    </mm:listrelationscontainer>
-                  </dd>
-                </dl>
-                
-                <c:if test="${nodetype ne 'images' and nodetype ne 'imagefragments'}">
-                  <mm:maywrite>
-                    <p>
-                      <oip:thumb />
-                      <mm:link referids="media">
-                        <mm:param name="edit">picture</mm:param>
-                        <a href="${_}"><fmt:message key="users.edit_image" /> »</a>
-                      </mm:link>
-                    </p>
-                  </mm:maywrite>
-                </c:if>
-              
-              </c:otherwise>
-            </c:choose>
-        
           </mm:node>
         </mm:present>
       </mm:present>
