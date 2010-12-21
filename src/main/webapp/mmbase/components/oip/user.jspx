@@ -12,9 +12,8 @@
       class="mm_c c_oip b_user-profile ${requestScope.className}"
       id="${requestScope['org.mmbase.componentId']}">
 
-    <oip:h2 block="user" />
-    
     <oip:thumb />
+    
     <h3 class="subtitle">
       <mm:maywrite>
         <mm:link page="user-edit">
@@ -23,9 +22,10 @@
       </mm:maywrite>
       <mm:nodefunction name="translation"><oip:user /></mm:nodefunction>
     </h3>
+    
     <mm:nodefunction name="translation">
       <mm:field name="description" escape="paragraph(description)" />
     </mm:nodefunction>
-  </div>
   
+  </div>
 </mm:content>
