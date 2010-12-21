@@ -63,14 +63,14 @@
     <mm:url id="formurl" write="false" />
     <form method="post" action="${formurl}">
       <fieldset>
-        <p>
-          <label for="property_key">Key</label>
+        <div>
+          <label for="property_key">Key:</label>
           <input type="text" id="property_key" name="property_key" size="80" maxlength="255" class="small" />
-        </p>
-        <p>
-          <label for="property_value">Value</label>
+        </div>
+        <div>
+          <label for="property_value">Value:</label>
           <input type="text" id="property_value" name="property_value" size="80" maxlength="255" class="small" /><br />
-        </p>  
+        </div>  
       </fieldset>
       <fieldset class="buttons">
         
