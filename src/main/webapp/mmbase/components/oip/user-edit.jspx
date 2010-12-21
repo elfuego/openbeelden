@@ -13,27 +13,19 @@
           class="mm_c c_oip b_user-edit ${requestScope.className}"
           id="${requestScope['org.mmbase.componentId']}">
 
-        <script type="text/javascript">
-          $(document).ready(function() {
-              var validator = new MMBaseValidator(document.getElementById("${requestScope['org.mmbase.componentId']}"));
-              validator.prefetchNodeManager('mmbaseusers');
-              validator.lang = "${requestScope['javax.servlet.jsp.jstl.fmt.locale.request']}";
-              validator.validateHook = function(valid) {
-                  document.getElementById('submit').disabled = this.invalidElements != 0;
-              }
-              validator.setup(document.getElementById("${requestScope['org.mmbase.componentId']}"));
-          }
-        </script>
+
+
 
         <mm:import externid="component">oip</mm:import>
         <mm:import externid="block">user-edit</mm:import>
         <mm:import externid="n" required="true" />
-        
-        <oip:h2 block="user-edit" />
+
+
         
         <mm:node referid="n">
           <oip:form fields="firstname,suffix,lastname,organisation,language,description,email,password,confirmpassword,wantmail" />
         </mm:node>
+      
       </div>
       
     </mm:cloud>
