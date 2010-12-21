@@ -1,0 +1,28 @@
+<mm:content
+    type="application/xml"
+    xmlns:c="http://java.sun.com/jsp/jstl/core"
+    xmlns:jsp="http://java.sun.com/JSP/Page"
+    xmlns:fmt="http://java.sun.com/jsp/jstl/fmt"
+    xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+    xmlns:mm="http://www.mmbase.org/mmbase-taglib-2.0"
+    xmlns:oip="urn:jsptagdir:/WEB-INF/tags/oip"
+    >
+  <jsp:output omit-xml-declaration="true" />
+    <mm:cloud method="asis">
+        
+        <script type="text/javascript">
+          /* this is in user-edit.head.jspx */
+          $(document).ready(function() {
+              var validator = new MMBaseValidator(document.getElementById("${requestScope['org.mmbase.componentId']}"));
+              validator.prefetchNodeManager('mmbaseusers');
+              validator.lang = "${requestScope['javax.servlet.jsp.jstl.fmt.locale.request']}";
+              validator.validateHook = function(valid) {
+                  document.getElementById('submit').disabled = this.invalidElements != 0;
+              }
+              validator.setup(document.getElementById("${requestScope['org.mmbase.componentId']}"));
+              
+          });
+        </script>
+
+    </mm:cloud>
+</mm:content>
