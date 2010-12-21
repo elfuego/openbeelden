@@ -66,7 +66,7 @@
             <mm:url id="formurl" write="false" />
             <form id="form_${nr}" method="post" action="${formurl}">
               <mm:include page="show-node.jspx" referids="p,nr,fields" />
-              <p class="msg">Are you sure you want to delete this node?.</p>
+              <p class="msg stay">Are you sure you want to delete this node?.</p>
               <fieldset class="buttons">
                 <input name="p"  type="hidden" value="${p}" />
                 <input name="nr" type="hidden" value="${nr}" />
