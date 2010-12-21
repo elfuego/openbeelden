@@ -162,9 +162,9 @@ function initTabs(id) {
 function initFieldInfos() {
     if ($('form fieldset p.info').length) {
         $('form fieldset label').hover(function(ev) {
-            $(this).next('p.info').show();
+            $(this).parent('div').find('p.info').show();
         }, function(ev) {
-            $(this).next('p.info').hide();
+            $(this).parent('div').find('p.info').hide();
         });
     }
 }
@@ -218,11 +218,8 @@ function initPlayStats() {
 /* show/hide fieldset.plus */
 function initPlusfields() {
     $('fieldset.plus').hide();
-
-    $('h4.plusfields').find('a').click(function(ev) {
-        var link = ev.target.href;
-        $( link.substring(link.indexOf("#")) ).slideToggle('slow');
-        $(this).closest('h4').toggleClass('open');
+    $('input.info').click(function(ev) {
+        $('fieldset.plus').slideToggle('slow');
     });
 }
 
@@ -240,7 +237,7 @@ $(document).ready(function() {
     initBlank();
     
     initPlusfields();
-    if ($('fieldset.labelininput').length) initLabelsInInput();
+    /* if ($('fieldset.labelininput').length) initLabelsInInput(); */
     initFieldInfos();
     
     $('.main-column, .b_user-mediapreview').oiplayer({
