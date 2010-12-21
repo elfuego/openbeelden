@@ -459,9 +459,9 @@ form#search input.submit
 
 input#searchinput
 {
-    background-image: url(images/search-bg.png);
-    background-position: 100% 50%;
-    background-repeat: no-repeat;
+	background-image: url(images/search-bg.png);
+	background-position: right 50%;
+	background-repeat: no-repeat;
 }
 
 form#search p
@@ -698,7 +698,7 @@ h4.plusfields a:hover, h4.plusfields a:active { color: #c00; }
 fieldset.plus
 {
 	padding: 6px 0;
-	border-bottom: 1px #555 solid;
+	/*border-bottom: 1px #555 solid;*/
 }
 
 /* labels in/over inputs and textareas */

@@ -158,22 +158,30 @@ div#error.err p
 	font-size: 0.9em;
 }
 
-/* forms */
+/* general form stuff (apply to all forms) */
 fieldset
 {
 	border: 0;
 	margin-bottom: 1em;
 }
+fieldset > div
+{
+	clear: both;
+	padding-top: 6px;
+	margin: 0;
+}
+
 label
 {
 	display: block;
 	float: left;
-	width: 146px;
+	width: 148px;
 	color: #888;
+	padding-top: 2px;
 }
 
-label.textarea, 
-form.mm_form label.description { float: none; }
+label.intro,
+label.body { float: none; }
 
 input
 {
@@ -183,9 +191,8 @@ input
 	color: #888;
 	font-size: 1em;
 	font-family: Helvetica, sans-serif;
-	line-height: 15pt;
+	line-height: 22px;
 	border: 1px solid #cfcfcf;
-	float: left;
 }
 input[type="radio"], 
 input[type="checkbox"],
@@ -206,17 +213,28 @@ textarea
 	border: 1px solid #cfcfcf;
 }
 
-@media screen and (-webkit-min-device-pixel-ratio:0) { input, textarea { padding: 2px; } }
+div.b_user-media textarea.big { width: 500px; }
+div.b_user-media textarea.small
+{
+	width: 500px;
+	height: 80px;
+}
+
+/* I thought we left the Dark Ages of browser sniffing */
+@media screen and (-webkit-min-device-pixel-ratio:0) { 
+    input { padding: 2px; width: 358px; } 
+    div.b_user-media textarea.big, div.b_user-media textarea.small { padding: 2px; width: 506px; } 
+}
 
 form p.info
 {
 	display: none;
 	position: absolute;
 	z-index: 1;
-	width: 352px;
+	width: 356px;
 	background: #999;
 	color: #fff;
-	margin: 0;
+	margin-left: 148px;
 	padding: 4px !important;
 	font-size: 0.9em;
 	text-align: left;
@@ -224,25 +242,56 @@ form p.info
 
 input.radiobutton { width: auto; }
 
-input.submit, input.cancel
+input.submit, 
+input.cancel, 
+input.info
 {
 	width: auto;
 	float: right;
-	color: #555;
-	border: 1px solid #cfcfcf;
-	background-color: #efefef;
 	cursor: pointer;
-	padding: 4px 10px;
+	padding: 5px 10px;
 	margin-top: 8px;
-	font-size: 1.1em;
 	margin-left: 16px;
+	font-size: 1.1em;
+	color: #555;
+	border: 1px solid #dadada;
+	background-color: #f4f4f4;
+	background-image: url(images/button-gradient.png);
+	background-repeat: no-repeat;
+	background-position: right 50%;
+	/* for css3 savvy browsers below */
+	background-image: -webkit-gradient(linear, left top, left bottom, from(#f9f9f9), to(#efefef));
+	background: -moz-linear-gradient(top, #f9f9f9, #efefef);
 }
+
+div.b_user-media input.submit,
+div.b_user-media input.info
+{
+	float: left;
+	margin-left: 0;
+}
+
+div.b_user-media input.info
+{
+	border-left: 0;
+	padding-right: 26px;
+	background-image: url(images/button-gradient.png);
+	background-repeat: no-repeat;
+	background-position: right 50%;
+}
+
 input[disabled]
 {
 	cursor: auto;
 	border: 1px solid #CE8A8A;
 	color: #CE6868;
 } 
+
+p.required
+{
+	font-style: italic;
+	color: #888;
+}
 
 span.text, span.text span {
   display: inline-block;
