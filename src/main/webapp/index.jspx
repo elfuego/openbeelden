@@ -147,7 +147,7 @@
           <oip:h2><fmt:message key="media.latest_uploads" /></oip:h2>
           
           <c:set var="cachekey">oip.homepage.latestuploads.${page}.${requestScope['javax.servlet.jsp.jstl.fmt.locale.request']}</c:set>
-          <os:cache key="${cachekey}" time="3600">
+          <os:cache key="${cachekey}" time="120">
             <c:catch var="ex1">
               
                <mm:nodelistfunction
