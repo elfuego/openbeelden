@@ -16,61 +16,44 @@
       <mm:import externid="n" required="true" />
       <mm:import externid="edit" />
 
-      <oip:h2 block="user-picture" />
-
       <mm:node number="$n" id="user">
 
+
+        <mm:relatednodescontainer type="images" role="posrel" searchdirs="destination">
+          <mm:maxnumber value="1" />
+          <mm:relatednodes>
+            <mm:node id="img" />
+          </mm:relatednodes>
+        </mm:relatednodescontainer>
+
+        <div id="edit-picture">
+          <oip:thumb />
+          <h3 class="subtitle"><oip:user /></h3>
+        </div>
+
         <c:choose>
-          <c:when test="${!empty edit}">
           
-            <mm:maywrite>
-              <mm:link referids="n,edit" absolute="true" write="false" id="formlink" />
-              <mm:relatednodescontainer type="images" role="posrel" searchdirs="destination">
-                <mm:maxnumber value="1" />
-                <mm:relatednodes>
-                  <mm:node id="img" />
-                </mm:relatednodes>
-              </mm:relatednodescontainer>
-    
-              <c:choose>
-                <c:when test="${empty img}">
-                  <h4><fmt:message key="users.create_new_image" /></h4>
-                  <oip:form action="${formlink}" fields="title,handle" create="images" source="${n}" />
-                </c:when>
-                <c:otherwise>
-                  <h4>
-                    <fmt:message key="users.edit_image">
-                      <fmt:param value="${img}" />
-                    </fmt:message>
-                  </h4>
-                  <mm:node referid="img">
-                    <oip:form action="${formlink}" fields="title,handle" />
-                  </mm:node>
-                </c:otherwise>
-              </c:choose>
-              
-              <mm:link>
-                <mm:frameworkparam name="component">oip</mm:frameworkparam>
-                <mm:frameworkparam name="block">user-edit</mm:frameworkparam>
-                <p><a href="${_}">« <fmt:message key="users.back" /></a></p>
+          <c:when test="${empty img}">
+            <p class="description">
+              <mm:link page="/editors/add-node.jspx" referids="p?,_node@nr">
+                <mm:param name="type">images</mm:param>
+                <mm:param name="role">posrel</mm:param>
+                <mm:param name="fields">handle</mm:param>
+                <mm:param name="show">/editors/show-userpic.jspx</mm:param>
+                <mm:param name="default">title=User picture</mm:param>
+                <a class="editme" href="${_}#edit-picture">add picture</a>
               </mm:link>
-
-            </mm:maywrite>
-          
+            </p>
           </c:when>
+          
           <c:otherwise>
-
-            <oip:thumb />
-            <h3 class="subtitle"><oip:user /></h3>
-            <mm:maywrite>
-              <mm:link>
-                <mm:frameworkparam name="component">oip</mm:frameworkparam>
-                <mm:frameworkparam name="block">user-picture</mm:frameworkparam>
-                <mm:param name="edit">ok</mm:param>
-                <p class="description"><a href="${_}"><fmt:message key="users.edit_image" /> »</a></p>
+            <p class="description">
+              <mm:link page="/editors/edit-pic.jspx" referids="img@nr">
+                <mm:param name="fields">handle</mm:param>
+                <mm:param name="show">/editors/show-userpic.jspx</mm:param>
+                <a class="editme" href="${_}#edit-picture"><fmt:message key="users.edit_image" /> »</a>
               </mm:link>
-            </mm:maywrite>
-
+            </p>
           </c:otherwise>
         </c:choose>
 
