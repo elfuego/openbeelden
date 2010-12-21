@@ -36,12 +36,14 @@
                 
                 <fieldset>
                   <mm:fieldlist type="${empty fields ? 'edit' : ''}" fields="${fields}">
-                    <mm:fieldinfo type="forid">
-                      <label for="${_}"><mm:fieldinfo type="guiname" /></label>
-                    </mm:fieldinfo>
-                    <p class="info"><mm:fieldinfo type="description" escape="inline" /></p>
-                    <mm:fieldinfo type="errors" />
-                    <mm:fieldinfo type="input" />
+                    <div>
+                      <c:set var="fld_name"><mm:fieldinfo type="name" /></c:set>
+                      <mm:fieldinfo type="forid">
+                        <label for="${_}" class="${fld_name}"><mm:fieldinfo type="guiname" />:</label>
+                      </mm:fieldinfo>
+                      <p class="info"><mm:fieldinfo type="description" escape="inline" /></p>
+                      <mm:fieldinfo type="input" /><mm:fieldinfo type="errors" />
+                    </div>
                   </mm:fieldlist>
                 </fieldset>
 
@@ -49,12 +51,14 @@
                   <h4 class="plusfields"><a href="#plus">Extra fields</a></h4>
                   <fieldset class="plus" id="plus">
                     <mm:fieldlist fields="${plusfields}">
-                      <mm:fieldinfo type="forid">
-                        <label for="${_}"><mm:fieldinfo type="guiname" /></label>
-                      </mm:fieldinfo>
-                      <p class="info"><mm:fieldinfo type="description" escape="inline" /></p>
-                      <mm:fieldinfo type="errors" />
-                      <mm:fieldinfo type="input" />
+                      <div>
+                        <c:set var="fld_name"><mm:fieldinfo type="name" /></c:set>
+                        <mm:fieldinfo type="forid">
+                          <label for="${_}" class="${fld_name}"><mm:fieldinfo type="guiname" />:</label>
+                        </mm:fieldinfo>
+                        <p class="info"><mm:fieldinfo type="description" escape="inline" /></p>
+                        <mm:fieldinfo type="input" /><mm:fieldinfo type="errors" />
+                      </div>
                     </mm:fieldlist>
                   </fieldset>
                 </c:if>
@@ -70,12 +74,14 @@
                 
                 <fieldset>
                   <mm:fieldlist type="${empty fields ? 'edit' : ''}" fields="${fields}">
-                    <mm:fieldinfo type="forid">
-                      <label for="${_}"><mm:fieldinfo type="guiname" /></label>
-                    </mm:fieldinfo>
-                    <p class="info"><mm:fieldinfo type="description" escape="inline" /></p>
-                    <mm:fieldinfo type="errors" />
-                    <mm:fieldinfo type="input" />
+                    <div>
+                      <c:set var="fld_name"><mm:fieldinfo type="name" /></c:set>
+                      <mm:fieldinfo type="forid">
+                        <label for="${_}" class="${fld_name}"><mm:fieldinfo type="guiname" />:</label>
+                      </mm:fieldinfo>
+                      <p class="info"><mm:fieldinfo type="description" escape="inline" /></p>
+                      <mm:fieldinfo type="input" /><mm:fieldinfo type="errors" />
+                    </div>
                   </mm:fieldlist>
                 </fieldset>
                 
@@ -83,12 +89,14 @@
                   <h4 class="plusfields"><a href="#plus">Extra fields</a></h4>
                   <fieldset class="plus" id="plus">
                     <mm:fieldlist fields="${plusfields}">
-                      <mm:fieldinfo type="forid">
-                        <label for="${_}"><mm:fieldinfo type="guiname" /></label>
-                      </mm:fieldinfo>
-                      <p class="info"><mm:fieldinfo type="description" escape="inline" /></p>
-                      <mm:fieldinfo type="errors" />
-                      <mm:fieldinfo type="input" />
+                      <div>
+                        <c:set var="fld_name"><mm:fieldinfo type="name" /></c:set>
+                        <mm:fieldinfo type="forid">
+                          <label for="${_}" class="${fld_name}"><mm:fieldinfo type="guiname" />:</label>
+                        </mm:fieldinfo>
+                        <p class="info"><mm:fieldinfo type="description" escape="inline" /></p>
+                        <mm:fieldinfo type="input" /><mm:fieldinfo type="errors" />
+                      </div>
                     </mm:fieldlist>
                   </fieldset>
                 </c:if>
@@ -137,24 +145,28 @@
             <mm:node referid="node">
               <fieldset>
                 <mm:fieldlist type="${empty fields ? 'edit' : ''}" fields="${fields}">
-                  <mm:fieldinfo type="forid">
-                    <label for="${_}"><mm:fieldinfo type="guiname" /></label>
-                  </mm:fieldinfo>
-                  <p class="info"><mm:fieldinfo type="description" escape="inline" /></p>
-                  <mm:fieldinfo type="errors" />
-                  <mm:fieldinfo type="input" />
+                  <div>
+                    <c:set var="fld_name"><mm:fieldinfo type="name" /></c:set>
+                    <mm:fieldinfo type="forid">
+                      <label for="${_}" class="${fld_name}"><mm:fieldinfo type="guiname" />:</label>
+                    </mm:fieldinfo>
+                    <p class="info"><mm:fieldinfo type="description" escape="inline" /></p>
+                    <mm:fieldinfo type="input" /><mm:fieldinfo type="errors" />
+                  </div>
                 </mm:fieldlist>
               </fieldset>
               <c:if test="${!empty plusfields}">
                 <h4 class="plusfields"><a href="#plus">Extra fields</a></h4>
                 <fieldset class="plus" id="plus">
                   <mm:fieldlist fields="${plusfields}">
-                    <mm:fieldinfo type="forid">
-                      <label for="${_}"><mm:fieldinfo type="guiname" /></label>
-                    </mm:fieldinfo>
-                    <p class="info"><mm:fieldinfo type="description" escape="inline" /></p>
-                    <mm:fieldinfo type="errors" />
-                    <mm:fieldinfo type="input" />
+                    <div>
+                      <c:set var="fld_name"><mm:fieldinfo type="name" /></c:set>
+                      <mm:fieldinfo type="forid">
+                        <label for="${_}" class="${fld_name}"><mm:fieldinfo type="guiname" />:</label>
+                      </mm:fieldinfo>
+                      <p class="info"><mm:fieldinfo type="description" escape="inline" /></p>
+                      <mm:fieldinfo type="input" /><mm:fieldinfo type="errors" />
+                    </div>
                   </mm:fieldlist>
                 </fieldset>
               </c:if>
@@ -166,9 +178,11 @@
           </mm:valid>
         </mm:present>
 
-        <fieldset>
-          <c:set var="button_save"><fmt:message key="users.form.save" /></c:set>
-          <input name="submit" type="submit" value="${button_save}" id="submit" class="submit" />
+        <fieldset class="buttons">
+          <div>
+            <c:set var="button_save"><fmt:message key="users.form.save" /></c:set>
+            <input name="submit" type="submit" value="${button_save}" id="submit" class="submit" />
+          </div>
         </fieldset>
         
       </mm:form>
