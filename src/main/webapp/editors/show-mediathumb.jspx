@@ -1,0 +1,31 @@
+<mm:content 
+    xmlns:jsp="http://java.sun.com/JSP/Page"
+    xmlns:c="http://java.sun.com/jsp/jstl/core"
+    xmlns:fmt="http://java.sun.com/jsp/jstl/fmt"
+    xmlns:mm="http://www.mmbase.org/mmbase-taglib-2.0"
+    xmlns:oip="urn:jsptagdir:/WEB-INF/tags/oip"
+    expires="0" type="text/html" language="client" postprocessor="none">
+<jsp:output doctype-root-element="html"
+      doctype-public="-//W3C//DTD XHTML 1.0 Strict//EN"
+      doctype-system="http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd" />
+<mm:cloud loginpage="/editors/login.jspx" rank="portal manager">
+
+<fmt:setBundle basename="eu.openimages.messages" scope="request" />
+
+<mm:import externid="nr" />
+  
+  <mm:node number="$nr">
+  
+    <mm:relatednodescontainer type="mediafragments" role="related" searchdirs="source">
+      <mm:maxnumber value="1" />
+      <mm:relatednodes>
+        
+        <oip:thumb />
+
+      </mm:relatednodes>
+    </mm:relatednodescontainer>
+
+  </mm:node>
+
+</mm:cloud>
+</mm:content>
