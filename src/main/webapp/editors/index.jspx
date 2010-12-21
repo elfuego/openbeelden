@@ -35,13 +35,15 @@
         <div class="edit-pic">
           <mm:relatednodes type="images" role="portalrel" max="1">
             <mm:import id="nodenr" reset="true"><mm:field name="number" /></mm:import>
-            <div id="edit_${_node.number}"><mm:image mode="img" template="s(216)" /></div>
-            <p>
-              <mm:link page="/editors/edit-pic.jspx" referids="p?,_node@nr">
-                <mm:param name="fields">handle</mm:param>
-                <a class="editme" href="${_}#edit_${nodenr}">edit picture</a>
-              </mm:link>
-            </p>
+            <div id="edit_${_node.number}">
+              <mm:image mode="img" template="s(216)" />
+              <p>
+                <mm:link page="/editors/edit-node.jspx" referids="p,_node@nr">
+                  <mm:param name="fields">handle</mm:param>
+                  <a class="editme" href="${_}#edit_${nodenr}">edit picture</a>
+                </mm:link>
+              </p>
+            </div>
           </mm:relatednodes>
         </div>
 
