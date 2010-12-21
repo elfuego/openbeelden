@@ -5,6 +5,10 @@
     xmlns:mm="http://www.mmbase.org/mmbase-taglib-2.0"
     >
 
+  <jsp:directive.tag
+      display-name="Thumbnail"
+      description="Thumbnail shows a user or media thumbnail picture of a surounding node"
+      />
   <jsp:directive.attribute name="width"
           description="Width of player" />
   <jsp:directive.attribute name="height"
