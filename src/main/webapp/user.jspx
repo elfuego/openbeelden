@@ -14,12 +14,26 @@
       cacheable="${cacheable}"
       styleClass="user ${block}">
 
+    <jsp:attribute name="title">
+      <!-- c:if test="${block != 'user'}">
+        <mm:import id="comp">oip</mm:import>
+        <mm:function id="blockObject" set="components" name="block" referids="comp@component,block" write="false" />
+        ${mm:string(blockObject.title)} -
+      </c:if -->
+      <c:if test="${!empty n}">
+        <mm:node referid="n">
+          <mm:hasfield name="username"><mm:field name="username" /> </mm:hasfield>
+          <mm:hasfield name="title"><mm:field name="title" /> </mm:hasfield>
+        </mm:node>
+      </c:if>
+    </jsp:attribute>
+
     <jsp:attribute name="head">
       
       <mm:component name="oip" block="${block}" render="head" />
       <c:choose>
         <c:when test="${block eq 'user-media'}">
-          <mm:component name="oip" block="user-mediapreview" render="head" />
+          <!-- mm:component name="oip" block="user-mediapreview" render="head" / -->
           <mm:component name="oip" block="user-translations" render="head" />
         </c:when>
         <c:when test="${block eq 'user-edit'}">
@@ -40,90 +54,39 @@
         <link href="${_}" rel="alternate" type="application/atom+xml" title="Open Image Platform latest uploads" />
       </mm:link>
       <link type="text/css" href="${mm:link('/style/css/jquery.ui.tabs.css')}" rel="stylesheet" />
-      
+
+      <script src="${mm:link('/mmbase/jquery/jquery.form.js')}" type="text/javascript"><jsp:text> </jsp:text></script>
+      <script src="${mm:link('/style/js/editors.js')}" type="text/javascript"><jsp:text> </jsp:text></script>
+        
     </jsp:attribute>
 
     <jsp:attribute name="body">
     
       <div class="main-column">
+        block: ${block}
+
+
+        
+        <oip:h2 block="${block}" />
+
+        <c:if test="${block eq 'user-edit'}">
+          <mm:component name="oip" block="user-picture" />
+        </c:if>
+        
+        <c:if test="${block eq 'user-media'}">
+          <mm:component name="oip" block="user-mediapreview" />
+        </c:if>
+        
         <mm:component name="oip" block="${block}" />
+        
         <c:if test="${block eq 'user' or block eq 'user-edit'}">
           <mm:component name="oip" block="user-medialist" />
         </c:if>
+        
       </div>
       <div class="right-column">
       
-        <c:if test="${block eq 'user-edit'}">
-          <div id="usertabs">
-            <ul class="list-tabs">
-              <li><a href="#fragment-1"><span><fmt:message key="users.picture" /></span></a></li>
-              <li><a href="#fragment-2"><span><fmt:message key="users.translations" /></span></a></li>
-            </ul>
-            <div class="related-grey" id="fragment-1">
-              <mm:component name="oip" block="user-picture" />
-            </div>
-            <div class="related-grey" id="fragment-2">
-              <mm:component name="oip" block="user-translations" />
-            </div>
-          </div>
-        </c:if>
-
-        <c:if test="${block eq 'user-media'}">
-          <div id="usertabs">
-            <ul class="list-tabs">
-              <li><a href="#fragment-1"><span><fmt:message key="media.preview" /></span></a></li>
-              <li><a href="#fragment-2"><span><fmt:message key="users.translations" /></span></a></li>
-              <li><a href="#fragment-3"><span><fmt:message key="media.files" /></span></a></li>
-            </ul>
-            <div class="related-grey" id="fragment-1">
-              <mm:component name="oip" block="user-mediapreview" />
-            </div>
-            <div class="related-grey" id="fragment-2">
-              <mm:component name="oip" block="user-translations" />
-            </div>
-            <div class="related-grey" id="fragment-3">
-              <mm:component name="oip" block="user-streams" />
-            </div>
-          </div>
-        </c:if>
-
-        <c:if test="${block eq 'user'}">
-          <mm:maywrite>
-            <div class="related-grey">
-              <mm:component name="oip" block="user-mediaupload" />
-            </div>
-          </mm:maywrite>
-        </c:if>
-
-        <c:if test="${block eq 'user' or block eq 'user-edit'}">
-          <mm:maywrite>
-            <div class="related-grey-border">
-              <mm:component name="oip" block="user-favorites" />
-            </div>
-          </mm:maywrite>
-        </c:if>
-
-        <c:if test="${block eq 'user-mediaupload'}">
-          <!-- show an article about open images next to upload -->
-          <mm:hasnode number="page_upload">
-            <mm:node number="page_upload">
-              <mm:relatednodescontainer type="articles" role="posrel" searchdirs="destination">
-                <mm:sortorder field="posrel.pos" direction="UP" />
-                <mm:relatednodes>
-                  
-                  <mm:nodefunction name="translation">
-                    <oip:h3><mm:field name="title" /></oip:h3>
-                    <mm:field name="subtitle"><mm:isnotempty><h3 class="subtitle"><mm:write /></h3></mm:isnotempty></mm:field>
-                    <mm:field name="intro" escape="paragraph" />
-                    <mm:field name="body" escape="paragraph" />
-                  </mm:nodefunction>
-                  
-                </mm:relatednodes>
-              </mm:relatednodescontainer>
-            </mm:node>
-          </mm:hasnode>
-        </c:if>
-        
+          
       </div>
     </jsp:attribute>
 
