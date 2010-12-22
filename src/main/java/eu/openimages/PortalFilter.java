@@ -23,6 +23,7 @@ package eu.openimages;
 import java.io.IOException;
 import java.util.regex.Pattern;
 import java.util.*;
+import java.util.concurrent.*;
 
 import javax.servlet.*;
 import javax.servlet.http.*;
@@ -53,7 +54,7 @@ public class PortalFilter implements Filter, MMBaseStarter {
     /*
      * serverName -> pools node
      */
-    private static final Map<String, Map<String, Object>> CACHE = new HashMap<String, Map<String, Object>>();
+    private static final Map<String, Map<String, Object>> CACHE = new ConcurrentHashMap<String, Map<String, Object>>();
 
     /*
      * The context this servlet lives in
@@ -191,9 +192,7 @@ public class PortalFilter implements Filter, MMBaseStarter {
                 portal = cloud.getNode("pool_oip");
             }
             attributes.put("portal", portal);
-            if (portal != null && portal.getAliases().contains("pool_oip")) {
-                attributes.put("isdefaultportal", Boolean.TRUE);
-            }
+            attributes.put("isdefaultportal", portal != null && portal.getAliases().contains("pool_oip"));
             CACHE.put(serverName, attributes);
         }
         for (Map.Entry<String, Object> e : attributes.entrySet()) {
