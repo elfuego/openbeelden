@@ -723,9 +723,11 @@ fieldset.labelininput label.ininput span.transparent { visibility: hidden; }
 fieldset.labelininput input,
 fieldset.labelininput textarea {
     z-index: 1;
+/*
     padding: 5px;
     margin: 0;
     margin-top: 8px;
+*/
     font: inherit;
 }
 
