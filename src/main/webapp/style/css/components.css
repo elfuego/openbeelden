@@ -22,7 +22,8 @@ div.b_user-medialist
 }
 
 div.b_user-profile img,
-div.b_user-picture img
+div.b_user-picture img,
+div.b_user-mediapreview img
 {
 	float: left;
 	border: 1px solid #efefef;
@@ -44,7 +45,8 @@ div.b_user-picture h3
 
 div.b_user-profile h4,
 div.b_user-profile p.description, 
-div.b_user-picture p.description { margin-left: 90px; }
+div.b_user-picture p.description,
+div.b_user-mediapreview p.description{ margin-left: 90px; }
 
 div.b_user-picture a.cancel, 
 div.b_user-mediapreview a.cancel { float: right; }
@@ -85,6 +87,8 @@ fieldset.confirm-registration label
 	display: inline;
 	padding-left: 8px;
 	font-weight: normal;
+	float: none;
+	line-height: 24pt;
 }
 
 fieldset.licenses ul li { margin-top: 4px; }

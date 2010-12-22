@@ -622,14 +622,14 @@ a.close
 
 div.legaltext
 {
-	height: 400px;
+	max-height: 320px;
+	width: 506px;
 	overflow: auto;
 	border: 1px solid #CFCFCF;
 	color: #777;
 	font-size: 1em;
 	margin: 0 0 6px;
 	padding: 3px;
-	width: 312px;
 }
 div.legaltext a:link, div.legaltext a:visited { color: #666; }
 
