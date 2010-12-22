@@ -19,7 +19,8 @@
   
   <!-- if we have nr and role, a relation will be made with nr -->
   <mm:import externid="nr" />
-  <mm:import externid="role" />
+  <mm:import externid="role">related</mm:import>
+  <mm:import externid="dir">destination</mm:import>
   
   <!-- supports one default (string) value f.e. 'name=Test value' -->
   <mm:import externid="default" />
@@ -30,20 +31,24 @@
     <mm:import id="value">${namevalue[1]}</mm:import>
   </c:if>
   
-  <mm:import externid="dir">destination</mm:import>
   
   <mm:import externid="submit$type" />
   <mm:import externid="cancel" />
   
   <mm:import externid="editme">false</mm:import>
+  <mm:import externid="show">/editors/show-node.jspx</mm:import>
 
     <c:choose>
       <c:when test="${cancel eq 'Cancel'}">
-        <p class="msg"> Canceled. cancel: ${cancel} </p>
+        <p class="msg">Cancelled.</p>
+
+        <mm:include page="$show" referids="p,nr">
+          <mm:param name="fields">${fields}</mm:param>
+        </mm:include>
+        
       </c:when>
       <c:when test="${cancel eq 'Close'}">
         cancel: ${cancel} extra: ${extra}
-        <!-- mm:include page="show-node.jspx" referids="new_node@nr,fields?" / -->
       </c:when>
       <c:otherwise>
 
@@ -66,7 +71,7 @@
                   <div>
                     <c:set var="fld_name"><mm:fieldinfo type="name" /></c:set>
                     <mm:fieldinfo type="forid">
-                      <label for="${_}" class="${fld_name}"><mm:fieldinfo type="guiname" />:</label>
+                      <label for="${_}" class="${fld_name}"><mm:fieldinfo type="guiname" /></label>
                     </mm:fieldinfo>
                     <p class="info"><mm:fieldinfo type="description" escape="inline" /></p>
                     <mm:maywrite><mm:fieldinfo type="input" /><mm:fieldinfo type="errors" /></mm:maywrite>
@@ -85,10 +90,10 @@
                 <input name="nr"       type="hidden" value="${nr}" />
                 <input name="fields"   type="hidden" value="${fields}" />
                 <input name="submit${type}" type="hidden" value="submit" />
-                
                 <input name="type" type="hidden" value="${type}" />
                 <input name="role" type="hidden" value="${role}" />
                 <input name="dir"  type="hidden" value="${dir}" />
+                <input name="show" type="hidden" value="${show}" />
                 <input name="default"  type="hidden" value="${default}" />
                 <p>
                   <fmt:message key="users.form.save" var="button_save" />
@@ -147,11 +152,14 @@
         
         <c:if test="${!empty saved and editme eq 'true'}">
           <!-- show new node -->
-          <mm:link page="/editors/edit-node.jspx" referids="p?,new_node@nr">
+          <mm:link page="/editors/edit-node.jspx" referids="p,new_node@nr,show">
+            <mm:param name="fields">${fields}</mm:param>
             <a class="editnew editme" href="${_}#edit_${new_node}">edit</a>
           </mm:link>
           <div id="edit_${new_node}">
-            <mm:include page="show-node.jspx" referids="new_node@nr,fields?" />
+            <mm:include page="$show" referids="p,new_node@nr,show">
+              <mm:param name="fields">${fields}</mm:param>
+            </mm:include>
           </div>
         </c:if>
 

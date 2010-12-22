@@ -24,6 +24,19 @@
         </ul>
       </mm:relatednodescontainer>
     
+      <ul>
+        <li id="tab4">
+          <mm:link page="/editors/edit.jspx"><mm:param name="type">pages</mm:param><a href="${_}">pages</a></mm:link>
+        </li>
+        <li id="tab5">
+          <mm:link page="/editors/edit.jspx">
+            <mm:param name="type">articles</mm:param>
+            <a href="${_}">articles</a>
+          </mm:link>
+        </li>
+
+      </ul>
+    
     </jsp:attribute>
     <jsp:attribute name="body">
       

@@ -21,11 +21,17 @@
       <mm:relatednodes>
         
         <oip:thumb />
-
+        <c:set var="thumb" value="yep" />
+        
       </mm:relatednodes>
     </mm:relatednodescontainer>
 
+    <c:if test="${empty thumb}">
+      <oip:thumb />
+    </c:if>
+  
   </mm:node>
+  
 
 </mm:cloud>
 </mm:content>

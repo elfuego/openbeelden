@@ -21,7 +21,7 @@
   <mm:import externid="cancel" />
 
   <mm:import externid="editme">false</mm:import>
-  <mm:import externid="show">/editors/show-node.jspx</mm:import>
+  <mm:import externid="show">/editors/show-thumb.jspx</mm:import>
 
 
 <c:choose>
@@ -64,7 +64,7 @@
             <div>
               <c:set var="fld_name"><mm:fieldinfo type="name" /></c:set>
               <mm:fieldinfo type="forid">
-                <label for="${_}" class="${fld_name}">Upload a new image:</label>
+                <label for="${_}" class="${fld_name}">Upload a new image</label>
               </mm:fieldinfo>
               <p class="info"><mm:fieldinfo type="description" escape="inline" /></p>
               <mm:maywrite><mm:fieldinfo type="input" /><mm:fieldinfo type="errors" /></mm:maywrite>

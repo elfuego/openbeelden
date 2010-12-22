@@ -62,7 +62,7 @@
                   <div>
                     <c:set var="fld_name"><mm:fieldinfo type="name" /></c:set>
                     <mm:fieldinfo type="forid">
-                      <label for="${_}" class="${fld_name}"><mm:fieldinfo type="guiname" />:</label>
+                      <label for="${_}" class="${fld_name}"><mm:fieldinfo type="guiname" /></label>
                     </mm:fieldinfo>
                     <p class="info"><mm:fieldinfo type="description" escape="inline" /></p>
                     <mm:maywrite><mm:fieldinfo type="input" /><mm:fieldinfo type="errors" /></mm:maywrite>
@@ -98,7 +98,9 @@
                 <c:choose>
                   <!-- do not show form again when using ajax editor -->
                   <c:when test="${editme eq 'true'}">
-                    <mm:include page="$show" referids="p,nr,fields" />
+                    <mm:include page="$show" referids="p,nr">
+                      <mm:param name="fields">${fields}</mm:param>
+                    </mm:include>
                   </c:when>
                   <c:otherwise>
                     <mm:write referid="buffer" escape="none" />

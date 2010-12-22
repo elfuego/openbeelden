@@ -64,11 +64,11 @@
     <form method="post" action="${formurl}">
       <fieldset>
         <div>
-          <label for="property_key">Key:</label>
+          <label for="property_key">Key</label>
           <input type="text" id="property_key" name="property_key" size="80" maxlength="255" class="small" />
         </div>
         <div>
-          <label for="property_value">Value:</label>
+          <label for="property_value">Value</label>
           <input type="text" id="property_value" name="property_value" size="80" maxlength="255" class="small" /><br />
         </div>  
       </fieldset>
