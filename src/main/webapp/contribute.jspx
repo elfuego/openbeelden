@@ -16,17 +16,17 @@
           <c:if test="${! empty requestScope['org.mmbase.mmsite.language']}">
             <jsp:text>.${requestScope['org.mmbase.mmsite.language']}</jsp:text>
           </c:if>
-
         </mm:import>
+        
         <mm:hasrank minvalue="site user">
           <mm:cloudinfo type="user">
             <mm:redirect page="/users/${_}${langpostfix}" />
           </mm:cloudinfo>
-          <!--
-              This would not be so confusing either
+          <!-- This would not be so confusing either
           <mm:redirect page="/upload" />
           -->
         </mm:hasrank>
+        
         <mm:hasrank value="anonymous">
           <mm:redirect page="/register${langpostfix}" />
         </mm:hasrank>
