@@ -47,7 +47,7 @@
                   <div>
                     <c:set var="fld_name"><mm:fieldinfo type="name" /></c:set>
                     <mm:fieldinfo type="forid">
-                      <label for="${_}" class="${fld_name}"><mm:fieldinfo type="guiname" />*:</label>
+                      <label for="${_}" class="${fld_name}"><mm:fieldinfo type="guiname" /> *</label>
                     </mm:fieldinfo>
                     <p class="info"><mm:fieldinfo type="description" escape="inline" /></p>
                     <mm:maywrite><mm:fieldinfo type="input" /><mm:fieldinfo type="errors" /></mm:maywrite>
@@ -59,7 +59,7 @@
                   <div>
                     <c:set var="fld_name"><mm:fieldinfo type="name" /></c:set>
                     <mm:fieldinfo type="forid">
-                      <label for="${_}" class="${fld_name}"><mm:fieldinfo type="guiname" />:</label>
+                      <label for="${_}" class="${fld_name}"><mm:fieldinfo type="guiname" /></label>
                     </mm:fieldinfo>
                     <p class="info"><mm:fieldinfo type="description" escape="inline" /></p>
                     <mm:maywrite><mm:fieldinfo type="input" /><mm:fieldinfo type="errors" /></mm:maywrite>
@@ -71,7 +71,7 @@
                   <div>
                     <c:set var="fld_name"><mm:fieldinfo type="name" /></c:set>
                     <mm:fieldinfo type="forid">
-                      <label for="${_}" class="${fld_name}"><mm:fieldinfo type="guiname" />*:</label>
+                      <label for="${_}" class="${fld_name}"><mm:fieldinfo type="guiname" /> *</label>
                     </mm:fieldinfo>
                     <p class="info"><mm:fieldinfo type="description" escape="inline" /></p>
                     <mm:maywrite><mm:fieldinfo type="input" /><mm:fieldinfo type="errors" /></mm:maywrite>
@@ -83,7 +83,7 @@
                   <div>
                     <c:set var="fld_name"><mm:fieldinfo type="name" /></c:set>
                     <mm:fieldinfo type="forid">
-                      <label for="${_}" class="${fld_name}"><mm:fieldinfo type="guiname" />:</label>
+                      <label for="${_}" class="${fld_name}"><mm:fieldinfo type="guiname" /></label>
                     </mm:fieldinfo>
                     <p class="info"><mm:fieldinfo type="description" escape="inline" /></p>
                     <mm:maywrite><mm:fieldinfo type="input" /><mm:fieldinfo type="errors" /></mm:maywrite>

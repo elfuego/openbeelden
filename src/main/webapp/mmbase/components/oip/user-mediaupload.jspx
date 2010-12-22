@@ -30,8 +30,6 @@
       });
     </script>
 
-    <oip:h3>Upload</oip:h3>
-
     <mm:cloud method="asis">
 
       <!-- 1st form -->
@@ -39,25 +37,31 @@
         <mm:form id="upload_form">
           <mm:createnode id="newsource" type="streamsources" commitonclose="false">
             <fieldset>
-              <mm:fieldlist fields="url" id="urlfield">
-                <mm:fieldinfo type="errors" />
-                <mm:fieldinfo type="input" />
-              </mm:fieldlist>
+                <mm:fieldlist fields="url" id="urlfield">
+                  <div>
+                    <label for="${_}">
+                      <span>Upload a media file *</span>
+                    </label>
+                    <mm:fieldinfo type="input" />
+                    <mm:fieldinfo type="errors" />
+                  </div>
+                </mm:fieldlist>
               <mm:fieldlist fields="title,language,dc_creator">
-                <mm:fieldinfo type="forid">
-                  <label for="${_}">
-                    <span><mm:fieldinfo type="guiname" /></span>
-                  </label>
+                <div>
+                  <mm:fieldinfo type="forid">
+                    <label for="${_}">
+                      <span><mm:fieldinfo type="guiname" /> *</span>
+                    </label>
+                  </mm:fieldinfo>
                   <p class="info"><mm:fieldinfo type="description" escape="inline" /></p>
-                </mm:fieldinfo>
-                <mm:fieldinfo type="errors" />
-                <mm:fieldinfo type="input" />
+                  <mm:fieldinfo type="input" /><mm:fieldinfo type="errors" />
+                </div>
               </mm:fieldlist>
             </fieldset>
             <fieldset class="hidden">
               <mm:fieldlist fields="mediaprovider">
-                <mm:fieldinfo type="errors" />
                 <mm:fieldinfo type="input" />
+                <mm:fieldinfo type="errors" />
               </mm:fieldlist>
             </fieldset>
           </mm:createnode>
@@ -115,14 +119,51 @@
           <mm:form page="$editlink">
             <mm:node number="$media">
               <fieldset>
-                <mm:fieldlist fields="title,subtitle,language,intro,date,dc_creator">
-                  <mm:fieldinfo type="forid">
-                    <label for="${_}"><mm:fieldinfo type="guiname" /></label>
-                  </mm:fieldinfo>
-                  <p class="info"><mm:fieldinfo type="description" escape="inline" /></p>
-                  <mm:fieldinfo type="errors" />
-                  <mm:fieldinfo type="input" />
+                
+                <mm:fieldlist fields="title">
+                  <div>
+                    <c:set var="fld_name"><mm:fieldinfo type="name" /></c:set>
+                    <mm:fieldinfo type="forid">
+                      <label for="${_}" class="${fld_name}"><mm:fieldinfo type="guiname" /> *</label>
+                    </mm:fieldinfo>
+                    <p class="info"><mm:fieldinfo type="description" escape="inline" /></p>
+                    <mm:fieldinfo type="input" /><mm:fieldinfo type="errors" />
+                  </div>
                 </mm:fieldlist>
+
+                <mm:fieldlist fields="subtitle,language">
+                  <div>
+                    <c:set var="fld_name"><mm:fieldinfo type="name" /></c:set>
+                    <mm:fieldinfo type="forid">
+                      <label for="${_}" class="${fld_name}"><mm:fieldinfo type="guiname" /></label>
+                    </mm:fieldinfo>
+                    <p class="info"><mm:fieldinfo type="description" escape="inline" /></p>
+                    <mm:fieldinfo type="input" /><mm:fieldinfo type="errors" />
+                  </div>
+                </mm:fieldlist>
+
+                <mm:fieldlist fields="intro,dc_creator">
+                  <div>
+                    <c:set var="fld_name"><mm:fieldinfo type="name" /></c:set>
+                    <mm:fieldinfo type="forid">
+                      <label for="${_}" class="${fld_name}"><mm:fieldinfo type="guiname" /> *</label>
+                    </mm:fieldinfo>
+                    <p class="info"><mm:fieldinfo type="description" escape="inline" /></p>
+                    <mm:fieldinfo type="input" /><mm:fieldinfo type="errors" />
+                  </div>
+                </mm:fieldlist>
+
+                <mm:fieldlist fields="date">
+                  <div>
+                    <c:set var="fld_name"><mm:fieldinfo type="name" /></c:set>
+                    <mm:fieldinfo type="forid">
+                      <label for="${_}" class="${fld_name}"><mm:fieldinfo type="guiname" /></label>
+                    </mm:fieldinfo>
+                    <p class="info"><mm:fieldinfo type="description" escape="inline" /></p>
+                    <mm:fieldinfo type="input" /><mm:fieldinfo type="errors" />
+                  </div>
+                </mm:fieldlist>
+                
               </fieldset>
             </mm:node>
 
@@ -156,9 +197,11 @@
               </ul>
             </fieldset>
 
-            <fieldset>
-              <c:set var="button_save"><fmt:message key="users.save" /></c:set>
-              <input type="submit" id="submit" name="submit" value="${button_save}" class="submit" />
+            <fieldset class="buttons">
+              <div>
+                <fmt:message key="users.save" var="button_save" />
+                <input type="submit" id="submit" name="submit" value="${button_save}" class="submit" />
+              </div>
             </fieldset>
           </mm:form>
 
