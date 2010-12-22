@@ -17,7 +17,8 @@
       <mm:import externid="edit" />
 
       <mm:node number="$n" id="user">
-
+        
+        <mm:field name="username" id="user_name" write="false" />
 
         <mm:relatednodescontainer type="images" role="posrel" searchdirs="destination">
           <mm:maxnumber value="1" />
@@ -32,25 +33,23 @@
         </div>
 
         <c:choose>
-          
           <c:when test="${empty img}">
             <p class="description">
-              <mm:link page="/editors/add-node.jspx" referids="p?,_node@nr">
+              <mm:link page="/editors/add-node.jspx" referids="_node@nr">
                 <mm:param name="type">images</mm:param>
                 <mm:param name="role">posrel</mm:param>
                 <mm:param name="fields">handle</mm:param>
-                <mm:param name="show">/editors/show-userpic.jspx</mm:param>
-                <mm:param name="default">title=User picture</mm:param>
+                <mm:param name="show">/editors/show-thumb.jspx</mm:param>
+                <mm:param name="default">title=User picture ${user_name}</mm:param>
                 <a class="editme" href="${_}#edit-picture">add picture</a>
               </mm:link>
             </p>
           </c:when>
-          
           <c:otherwise>
             <p class="description">
               <mm:link page="/editors/edit-pic.jspx" referids="img@nr">
                 <mm:param name="fields">handle</mm:param>
-                <mm:param name="show">/editors/show-userpic.jspx</mm:param>
+                <mm:param name="show">/editors/show-thumb.jspx</mm:param>
                 <a class="editme" href="${_}#edit-picture"><fmt:message key="users.edit_image" /> »</a>
               </mm:link>
             </p>
