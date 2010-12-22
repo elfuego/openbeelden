@@ -733,5 +733,5 @@ fieldset.labelininput textarea {
 
 @media screen and (-webkit-min-device-pixel-ratio:0) {
     fieldset.labelininput input,
-    fieldset.labelininput textarea { padding: 2px 4px; }
+    fieldset.labelininput textarea { /*padding: 2px 4px;*/ }
 }
