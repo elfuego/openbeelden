@@ -15,8 +15,8 @@
       
       <div class="main-column">
         
-        <oip:h2><mm:field name="title" /></oip:h2>
         <mm:nodefunction name="translation">
+          <oip:h2><mm:field name="title" /></oip:h2>
           <mm:field name="description" escape="paragraph" />
         </mm:nodefunction>        
         
@@ -38,7 +38,12 @@
       <div class="right-column">
         <div class="related-grey">
           <oip:h3>Login</oip:h3>
-          <mm:component name="oip" block="user-login" />
+          <mm:node number="page_login">
+            <mm:link page="page" referids="_node@n">
+              <mm:frameworkparam name="component">mmsite</mm:frameworkparam>
+              <a href="${_}"><fmt:message key="login.login" /></a>
+            </mm:link>
+          </mm:node>
         </div>
       </div>
 
