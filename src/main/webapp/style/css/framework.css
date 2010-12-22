@@ -282,6 +282,8 @@ body.media > div#main > div.left-column { top: 236px; }
 body.media > div#main > div.right-column { margin-top: 190px; }
 body.media div#main div#header p { display: none; }
 
+body.media div.wrap { background-image: url(images/dots2.png); }
+
 /* error pages */
 body.error div.main-column
 {
