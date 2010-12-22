@@ -29,13 +29,12 @@
   <mm:content
       expires="${empty cacheable || cacheable ? 120 : -1}"
       varies="${empty requestScope['org.mmbase.mmsite.language'] ? 'Accept-Language' : ''}"
-      type="text/html" 
+      type="text/html"
       encoding="UTF-8"
       postprocessor="none">
     <jsp:output omit-xml-declaration="true" />
-    <jsp:output doctype-root-element="HTML" 
+    <jsp:output doctype-root-element="HTML"
                 doctype-system="about:legacy-compat" />
-
 
 
     <fmt:setBundle basename="eu.openimages.messages" scope="request" />
@@ -48,7 +47,7 @@
 
         <mm:import externid="portal" from="request">pool_oip</mm:import>
         <mm:import id="page" externid="n" />
-        
+
         <fmt:message key="head.title" var="portal_name" />
         <mm:hasnode number="$portal">
           <mm:node number="$portal">
@@ -61,7 +60,7 @@
             </mm:nodelistfunction>
           </mm:node>
         </mm:hasnode>
-        
+
         <c:if test="${! empty page}">
           <mm:node id="page" referid="page" />
         </c:if>
@@ -77,16 +76,17 @@
               </c:when>
               <c:otherwise>
                 <c:if test="${!empty title}">
-                  ${title} -
+                  <jsp:text>${title} - </jsp:text>
                 </c:if>
               </c:otherwise>
-            </c:choose>${portal_name}
+            </c:choose>
+            <jsp:text>${portal_name}</jsp:text>
           </jsp:attribute>
-          
+
           <c:if test="${!empty property_css}">
             <link href="${mm:link(property_css)}" rel="stylesheet" type="text/css" />
-          </c:if> 
-          
+          </c:if>
+
           <c:choose>
             <c:when test="${empty page}">
               <jsp:invoke fragment="head" />
@@ -102,9 +102,9 @@
         <body class="${styleClass}">
           <div id="main">
             <oip:header />
-  
+
             <oip:menu />
-  
+
             <div class="left-column">
               <c:choose>
                 <c:when test="${!empty left}">
@@ -115,7 +115,7 @@
                 </c:otherwise>
               </c:choose>
             </div>
-  
+
             <c:choose>
               <c:when test="${empty page}">
                 <jsp:invoke fragment="body"  />
@@ -127,11 +127,11 @@
               </c:otherwise>
             </c:choose>
           </div>
-  
+
           <oip:footer />
-          
+
           <oip:googleanalytics />
-          
+
         </body>
       </html>
     </mm:cloud>
