@@ -53,7 +53,7 @@ public class PortalFilter implements Filter, MMBaseStarter {
     /*
      * serverName -> pools node
      */
-    private static final Map<String, Node> portals = new HashMap<String, Node>();
+    private static final Map<String, Map<String, Object>> CACHE = new HashMap<String, Map<String, Object>>();
 
     /*
      * The context this servlet lives in
@@ -130,20 +130,7 @@ public class PortalFilter implements Filter, MMBaseStarter {
             HttpServletResponse res = (HttpServletResponse) response;
 
             String serverName = req.getServerName();
-
-            if (portals.containsKey(serverName)) {
-                request.setAttribute("portal", portals.get(serverName));
-
-            } else {
-                if (decorateRequest(req, res)) {
-                    if (log.isDebugEnabled()) {
-                        log.debug("portal: " + request.getAttribute("portal"));
-                    }
-                } else {
-                    request.setAttribute("portal", null);
-                }
-            }
-
+            decorateRequest(req, res);
             chain.doFilter(request, response);
 
         } else {
@@ -157,80 +144,69 @@ public class PortalFilter implements Filter, MMBaseStarter {
 
 
     public static boolean decorateRequest(HttpServletRequest req, HttpServletResponse res) throws IOException {
+
         String serverName = req.getServerName();
-        String scheme = req.getScheme();
 
-        StringBuilder sb = new StringBuilder();
-        sb.append(scheme).append("://").append(serverName);
+        Map<String, Object> attributes = CACHE.get(serverName);
 
-        final Cloud cloud = getCloud(req);
-        NodeList nl = cloud.getNodeManager("pools").getList(null, null, null);
-        NodeIterator ni = nl.nodeIterator();
+        if (attributes == null) {
+            attributes = new HashMap<String, Object>();
+            String scheme = req.getScheme();
 
-        while (ni.hasNext()) {
-            Node pool = ni.nextNode();
-            try {
-                Query query = Queries.createRelatedNodesQuery(pool, cloud.getNodeManager("urls"), "portalrel", "destination");
+            StringBuilder sb = new StringBuilder();
+            sb.append(scheme).append("://").append(serverName);
 
-                Constraint constraint = Queries.createConstraint(query, "urls.url", FieldValueConstraint.LIKE, sb.toString() + "%");
-                query.setConstraint(constraint);
+            final Cloud cloud = getCloud(req);
+            NodeList nl = cloud.getNodeManager("pools").getList(null, null, null);
+            NodeIterator ni = nl.nodeIterator();
 
-                NodeList urls = cloud.getList(query);
-                if (log.isDebugEnabled()) {
-                    log.debug("query: " + query);
-                }
-                if (urls.size() > 0) {
+            Node portal = null;
+            while (ni.hasNext()) {
+                Node pool = ni.nextNode();
+                try {
+                    Query query = Queries.createRelatedNodesQuery(pool, cloud.getNodeManager("urls"), "portalrel", "destination");
+
+                    Constraint constraint = Queries.createConstraint(query, "urls.url", FieldValueConstraint.LIKE, sb.toString() + "%");
+                    query.setConstraint(constraint);
+
+                    NodeList urls = cloud.getList(query);
                     if (log.isDebugEnabled()) {
-                        log.debug("Found: " + urls.get(0));
+                        log.debug("query: " + query);
                     }
-                    req.setAttribute("portal", pool);
-                    //res.setHeader("X-OpenImages-Portal", pool.getStringValue("name"));
+                    if (urls.size() > 0) {
+                        if (log.isDebugEnabled()) {
+                            log.debug("Found: " + urls.get(0));
+                        }
+                        portal = pool;
+                        break;
+                    }
 
-                    // cache
-                    log.service("Adding portal '" + serverName + "'.");
-                    portals.put(serverName, pool);
-                    return true;
+                } catch (Exception ex) {
+                    log.error("Exception while building query: " + ex);
+                    return false;
                 }
-
-            } catch (Exception ex) {
-                log.error("Exception while building query: " + ex);
-                return false;
             }
+            if (portal == null) {
+                log.service("Assuming portal '" + serverName +  "' is default.");
+                portal = cloud.getNode("pool_oip");
+            }
+            attributes.put("portal", portal);
+            if (portal != null && portal.getAliases().contains("pool_oip")) {
+                attributes.put("isdefaultportal", Boolean.TRUE);
+            }
+            CACHE.put(serverName, attributes);
+        }
+        for (Map.Entry<String, Object> e : attributes.entrySet()) {
+            req.setAttribute(e.getKey(), e.getValue());
         }
 
-        log.service("Assuming portal '" + serverName +  "' is default.");
-        portals.put(serverName, cloud.getNode("pool_oip"));
         return true;
 
     }
 
 
     private static Cloud getCloud(HttpServletRequest req) {
-        HttpSession session = req.getSession(false); // false: do not create a session, only use it
-        if (session == null) {
-            return ContextProvider.getDefaultCloudContext().getCloud("mmbase");
-        } else {
-            if (log.isDebugEnabled()) {
-                log.debug("from session");
-            }
-            Object c = session.getAttribute("cloud_mmbase");
-            if (c != null) {
-                if (c instanceof Cloud) {
-                    Cloud cloud = (Cloud) c;
-                    if (cloud.getUser() != null && cloud.getUser().isValid()) {
-                        return cloud;
-                    } else {
-                        log.warn("" + c + " is not a valid Cloud");
-                        return ContextProvider.getDefaultCloudContext().getCloud("mmbase");
-                    }
-                } else {
-                    log.warn("" + c + " is not a Cloud, but a " + c.getClass());
-                    return ContextProvider.getDefaultCloudContext().getCloud("mmbase");
-                }
-            } else {
-                return ContextProvider.getDefaultCloudContext().getCloud("mmbase");
-            }
-        }
+        return ContextProvider.getDefaultCloudContext().getCloud("mmbase");
     }
 
     public void destroy() {
