@@ -65,8 +65,6 @@
       <div class="main-column">
         block: ${block}
 
-
-        
         <oip:h2 block="${block}" />
 
         <c:if test="${block eq 'user-edit'}">
@@ -86,6 +84,52 @@
       </div>
       <div class="right-column">
       
+        <mm:hasrank minvalue="site user">
+          <c:choose>
+            <c:when test="${block eq 'user-mediaupload'}">
+              <!-- show an article about open images next to upload -->
+              <mm:hasnode number="page_upload">
+                <mm:node number="page_upload">
+                  <mm:relatednodescontainer type="articles" role="posrel" searchdirs="destination">
+                    <mm:sortorder field="posrel.pos" direction="UP" />
+                    <mm:relatednodes>
+                      
+                      <mm:nodefunction name="translation">
+                        <oip:h3><mm:field name="title" /></oip:h3>
+                        <mm:field name="subtitle"><mm:isnotempty><h3 class="subtitle"><mm:write /></h3></mm:isnotempty></mm:field>
+                        <mm:field name="intro" escape="paragraph" />
+                        <mm:field name="body" escape="paragraph" />
+                      </mm:nodefunction>
+                      
+                    </mm:relatednodes>
+                  </mm:relatednodescontainer>
+                </mm:node>
+              </mm:hasnode>
+            </c:when>
+            <c:otherwise>
+              
+              <ul>
+                <li>
+                  <mm:link>
+                    <mm:frameworkparam name="component">oip</mm:frameworkparam>
+                    <mm:frameworkparam name="block">user</mm:frameworkparam>
+                    <mm:frameworkparam name="user"><mm:cloudinfo type="usernode" /></mm:frameworkparam>
+                    <a href="${_}">User dashboard</a>
+                  </mm:link>
+                </li>
+                <li>
+                  <mm:link>
+                    <mm:frameworkparam name="component">oip</mm:frameworkparam>
+                    <mm:frameworkparam name="block">user-mediaupload</mm:frameworkparam>
+                    <mm:frameworkparam name="user"><mm:cloudinfo type="usernode" /></mm:frameworkparam>
+                    <a href="${_}">Upload</a>
+                  </mm:link>
+                </li>
+              </ul>
+
+            </c:otherwise>
+          </c:choose>
+        </mm:hasrank>
           
       </div>
     </jsp:attribute>
