@@ -1,0 +1,50 @@
+<jsp:root
+    version="2.0"
+    xmlns:c="http://java.sun.com/jsp/jstl/core"
+    xmlns:jsp="http://java.sun.com/JSP/Page"
+    xmlns:oip="urn:jsptagdir:/WEB-INF/tags/oip"
+    xmlns:mm="http://www.mmbase.org/mmbase-taglib-2.0">
+  
+  <oip:html
+      cacheable="false"
+      styleClass="upload">
+    <jsp:attribute name="body">
+      <div class="main-column">
+
+        <mm:import id="langpostfix">
+          <!-- a bit of a hack, should use fw-parmas -->
+          <c:if test="${! empty requestScope['org.mmbase.mmsite.language']}">
+            <jsp:text>.${requestScope['org.mmbase.mmsite.language']}</jsp:text>
+          </c:if>
+        </mm:import>
+        
+        <mm:hasrank minvalue="site user">
+
+          <mm:link>
+            <mm:frameworkparam name="component">oip</mm:frameworkparam>
+            <mm:frameworkparam name="block">user-mediaupload</mm:frameworkparam>
+            <mm:frameworkparam name="user"><mm:cloudinfo type="usernode" /></mm:frameworkparam>
+            <a href="${_}${langpostfix}">${_}${langpostfix}</a>
+          </mm:link>
+
+        </mm:hasrank>
+        
+        <mm:hasrank value="anonymous">
+          <mm:redirect page="/register${langpostfix}" />
+        </mm:hasrank>
+
+      </div>
+      <div class="right-column">
+        
+        <mm:hasrank minvalue="site user">
+          <mm:cloudinfo type="user">
+            <mm:link page="/users/${_}${langpostfix}">
+              <a href="${_}">To dashboard</a>
+            </mm:link>
+          </mm:cloudinfo>
+        </mm:hasrank>
+        
+      </div>
+    </jsp:attribute>
+  </oip:html>
+</jsp:root>
