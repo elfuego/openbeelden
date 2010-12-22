@@ -40,7 +40,7 @@ import org.mmbase.util.logging.Logging;
 
 /**
  * Portal stuff likely needed during most requests. Looks for portal (pools) node that is related
- * with an urls node that is similar to server name, puts pools node on request with parameter 'portal'. 
+ * with an urls node that is similar to server name, puts pools node on request with parameter 'portal'.
  *
  * @author Andre van Toly
  * @since OIP-1.1
@@ -49,22 +49,22 @@ import org.mmbase.util.logging.Logging;
 public class PortalFilter implements Filter, MMBaseStarter {
 
     private static Logger log = Logging.getLoggerInstance(PortalFilter.class);
-    
+
     /*
      * serverName -> pools node
      */
     private static final Map<String, Node> portals = new HashMap<String, Node>();
-    
+
     /*
      * The context this servlet lives in
      */
     protected ServletContext ctx = null;
-    
+
     /*
      * MMBase needs to be started first to be able to load config
      */
     private MMBase mmbase;
-	private Thread initThread;
+    private Thread initThread;
 
     /*
      * Methods that need to be overriden form MMBaseStarter
@@ -82,7 +82,7 @@ public class PortalFilter implements Filter, MMBaseStarter {
     public void setInitException(ServletException se) {
         // never mind, simply ignore
     }
-    
+
     /**
      * Initializes filter
      */
@@ -123,17 +123,17 @@ public class PortalFilter implements Filter, MMBaseStarter {
             chain.doFilter(request, response);
             return;
         }
-        
+
         if (request instanceof HttpServletRequest) {
-            
+
             HttpServletRequest req = (HttpServletRequest) request;
             HttpServletResponse res = (HttpServletResponse) response;
 
             String serverName = req.getServerName();
-            
+
             if (portals.containsKey(serverName)) {
                 request.setAttribute("portal", portals.get(serverName));
-            
+
             } else {
                 if (decorateRequest(req, res)) {
                     if (log.isDebugEnabled()) {
@@ -143,7 +143,7 @@ public class PortalFilter implements Filter, MMBaseStarter {
                     request.setAttribute("portal", null);
                 }
             }
-            
+
             chain.doFilter(request, response);
 
         } else {
@@ -152,70 +152,65 @@ public class PortalFilter implements Filter, MMBaseStarter {
             }
             chain.doFilter(request, response);
         }
-     
+
     }
 
 
     public static boolean decorateRequest(HttpServletRequest req, HttpServletResponse res) throws IOException {
         String serverName = req.getServerName();
         String scheme = req.getScheme();
-        
+
         StringBuilder sb = new StringBuilder();
         sb.append(scheme).append("://").append(serverName);
-        
+
         final Cloud cloud = getCloud(req);
         NodeList nl = cloud.getNodeManager("pools").getList(null, null, null);
         NodeIterator ni = nl.nodeIterator();
-        
-        boolean found = false;
+
         while (ni.hasNext()) {
             Node pool = ni.nextNode();
             try {
                 Query query = Queries.createRelatedNodesQuery(pool, cloud.getNodeManager("urls"), "portalrel", "destination");
-                
+
                 Constraint constraint = Queries.createConstraint(query, "urls.url", FieldValueConstraint.LIKE, sb.toString() + "%");
                 query.setConstraint(constraint);
-                
+
                 NodeList urls = cloud.getList(query);
-                if (log.isDebugEnabled()) { 
+                if (log.isDebugEnabled()) {
                     log.debug("query: " + query);
                 }
                 if (urls.size() > 0) {
-                    if (log.isDebugEnabled()) { 
+                    if (log.isDebugEnabled()) {
                         log.debug("Found: " + urls.get(0));
                     }
                     req.setAttribute("portal", pool);
                     //res.setHeader("X-OpenImages-Portal", pool.getStringValue("name"));
-                    
+
                     // cache
                     log.service("Adding portal '" + serverName + "'.");
                     portals.put(serverName, pool);
-                    found = true;
-                    
                     return true;
                 }
-                
+
             } catch (Exception ex) {
                 log.error("Exception while building query: " + ex);
                 return false;
             }
         }
-        
-        if (!found) {
-            log.service("Assuming portal '" + serverName +  "' is default.");
-            portals.put(serverName, null);
-        }
-        
-        return false;
+
+        log.service("Assuming portal '" + serverName +  "' is default.");
+        portals.put(serverName, cloud.getNode("pool_oip"));
+        return true;
+
     }
-    
+
 
     private static Cloud getCloud(HttpServletRequest req) {
         HttpSession session = req.getSession(false); // false: do not create a session, only use it
         if (session == null) {
             return ContextProvider.getDefaultCloudContext().getCloud("mmbase");
         } else {
-            if (log.isDebugEnabled()) { 
+            if (log.isDebugEnabled()) {
                 log.debug("from session");
             }
             Object c = session.getAttribute("cloud_mmbase");
