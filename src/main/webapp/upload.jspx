@@ -17,16 +17,21 @@
             <jsp:text>.${requestScope['org.mmbase.mmsite.language']}</jsp:text>
           </c:if>
         </mm:import>
+
+        <oip:h2><mm:field name="title" /></oip:h2>
+        <mm:nodefunction name="translation">
+          <mm:field name="description" escape="paragraph" />
+        </mm:nodefunction>        
         
         <mm:hasrank minvalue="site user">
+          <mm:component name="oip" block="user-mediaupload" />
 
-          <mm:link>
-            <mm:frameworkparam name="component">oip</mm:frameworkparam>
-            <mm:frameworkparam name="block">user-mediaupload</mm:frameworkparam>
-            <mm:frameworkparam name="user"><mm:cloudinfo type="usernode" /></mm:frameworkparam>
-            <a href="${_}${langpostfix}">${_}${langpostfix}</a>
-          </mm:link>
-
+          <mm:cloudinfo type="user">
+            <mm:link page="/users/${_}${langpostfix}">
+              <a href="${_}">To dashboard</a>
+            </mm:link>
+          </mm:cloudinfo>
+        
         </mm:hasrank>
         
         <mm:hasrank value="anonymous">
@@ -37,13 +42,25 @@
       <div class="right-column">
         
         <mm:hasrank minvalue="site user">
-          <mm:cloudinfo type="user">
-            <mm:link page="/users/${_}${langpostfix}">
-              <a href="${_}">To dashboard</a>
-            </mm:link>
-          </mm:cloudinfo>
+            <!-- show an article about open images next to upload -->
+            <mm:hasnode number="page_upload">
+              <mm:node number="page_upload">
+                <mm:relatednodescontainer type="articles" role="posrel" searchdirs="destination">
+                  <mm:sortorder field="posrel.pos" direction="UP" />
+                  <mm:relatednodes>
+                    
+                    <mm:nodefunction name="translation">
+                      <oip:h3><mm:field name="title" /></oip:h3>
+                      <mm:field name="subtitle"><mm:isnotempty><h3 class="subtitle"><mm:write /></h3></mm:isnotempty></mm:field>
+                      <mm:field name="intro" escape="paragraph" />
+                      <mm:field name="body" escape="paragraph" />
+                    </mm:nodefunction>
+                    
+                  </mm:relatednodes>
+                </mm:relatednodescontainer>
+              </mm:node>
+            </mm:hasnode>
         </mm:hasrank>
-        
       </div>
     </jsp:attribute>
   </oip:html>
