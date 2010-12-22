@@ -14,13 +14,15 @@
         id="${requestScope['org.mmbase.componentId']}">
 
       <script type="text/javascript">
-        var validator = new MMBaseValidator();
-        validator.prefetchNodeManager('mmbaseusers');
-        validator.lang = "${requestScope['javax.servlet.jsp.jstl.fmt.locale.request']}";
-        validator.validateHook = function(valid) {
-        document.getElementById('submit_registration').disabled = this.invalidElements != 0;
-        }
-        validator.setup(document.getElementById("${requestScope['org.mmbase.componentId']}"));
+        $(document).ready(function() {
+          var validator = new MMBaseValidator();
+          validator.prefetchNodeManager('mmbaseusers');
+          validator.lang = "${requestScope['javax.servlet.jsp.jstl.fmt.locale.request']}";
+          validator.validateHook = function(valid) {
+            document.getElementById('submit_registration').disabled = this.invalidElements != 0;
+          }
+          validator.setup(document.getElementById("${requestScope['org.mmbase.componentId']}"));
+        });
       </script>
       
       <mm:import externid="submit_registration" />
@@ -34,24 +36,32 @@
           <mm:createnode id="newuser" type="mmbaseusers" commitonclose="false">
             <fieldset class="labelininput">
               <mm:fieldlist fields="username,password,confirmpassword,email">
-                <mm:fieldinfo type="forid">
-                  <label for="${_}"><span><mm:fieldinfo type="guiname" /></span></label>
-                </mm:fieldinfo>
-                <mm:fieldinfo type="input" />
-                <mm:fieldinfo type="errors" />
+                <div>
+                  <mm:fieldinfo type="forid">
+                    <label for="${_}"><span><mm:fieldinfo type="guiname" /></span></label>
+                  </mm:fieldinfo>
+                  <p class="info"><mm:fieldinfo type="description" escape="inline" /></p>
+                  <mm:fieldinfo type="input" /><mm:fieldinfo type="errors" />
+                </div>
               </mm:fieldlist>
             </fieldset>
             <fieldset class="confirm-registration">
               <div class="legaltext"><mm:write referid="legaltext" escape="none" /></div>
-              <input type="checkbox" name="confirm" id="confirm" value="yes" /> 
-              <label for="confirm"><fmt:message key="register.confirm" /></label>
-              <c:if test="${!empty submit_registration and empty confirm}">
-                <div class="mm_check_error"><fmt:message key="register.confirm.error" /></div>
-              </c:if>
+              
+              <div>
+                <input type="checkbox" name="confirm" id="confirm" value="yes" /> 
+                <label for="confirm" class="confirm"><fmt:message key="register.confirm" /></label>
+                <!-- p class="info">By checking this button ... confirm your registration.</p -->
+                <c:if test="${!empty submit_registration and empty confirm}">
+                  <div class="mm_check_error"><fmt:message key="register.confirm.error" /></div>
+                </c:if>
+              </div>
             </fieldset>
-            <fieldset>
-              <mm:import id="register_msg" reset="true"><fmt:message key="register" /></mm:import>
-              <input id="submit_registration" type="submit" name="submit_registration" value="${register_msg}" class="submit" />
+            <fieldset class="buttons">
+              <div>
+                <fmt:message key="register" var="register_msg" />
+                <input id="submit_registration" type="submit" name="submit_registration" value="${register_msg}" class="submit" />
+              </div>
             </fieldset>
           </mm:createnode>
         </mm:import>
