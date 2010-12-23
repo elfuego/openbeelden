@@ -21,14 +21,12 @@ along with The Open Images Platform.  If not, see <http://www.gnu.org/licenses/>
 package eu.openimages;
 
 import java.io.IOException;
-import java.util.regex.Pattern;
 import java.util.*;
 import java.util.concurrent.*;
 
 import javax.servlet.*;
 import javax.servlet.http.*;
 
-import org.mmbase.bridge.util.CloudThreadLocal;
 import org.mmbase.bridge.*;
 import org.mmbase.bridge.util.*;
 import org.mmbase.servlet.*;
