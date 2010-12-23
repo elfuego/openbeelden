@@ -22,9 +22,9 @@
           <mm:functioncontainer>
             <mm:param name="wait">false</mm:param>
             <mm:nodefunction name="thumbnail" referids="offset">
-              <mm:image template="s(&gt;800x801)">
+              <mm:image template="s(800x800&gt;)">
                 <a href="${_}"
-                   onclick="window.open(this.href, 'thumbnail','menubar=0,resizable=1,width=${dimension.width + 10},height=${dimension.height + 50}'); return false;">
+                   onclick="window.open(this.href, 'thumbnail','menubar=0,location=0,toolbar=0,resizable=1,width=${dimension.width},height=${dimension.height + 50}'); return false;">
                   <mm:image mode="img" template="s(${width/number})" />
                 </a>
               </mm:image>
