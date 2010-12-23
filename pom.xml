@@ -28,7 +28,7 @@
      <mmbase.version.postfix>-SNAPSHOT</mmbase.version.postfix>
      <mmbase.version>${mmbase.version.number}${mmbase.version.postfix}</mmbase.version>
      <base.version>${mmbase.version.number}-servlet25${mmbase.version.postfix}</base.version>
-    <mmbase.repos>scp://mmbase.org/home/tomcat/downloads/</mmbase.repos>
+     <mmbase.repos>scp://mmbase.org/home/tomcat/downloads/</mmbase.repos>
 
      <saxon.version>9.1.0.6</saxon.version>
      <mmsite.version>1.9-SNAPSHOT</mmsite.version>
