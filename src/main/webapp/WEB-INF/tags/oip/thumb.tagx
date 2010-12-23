@@ -13,12 +13,12 @@
           description="Width of player" />
   <jsp:directive.attribute name="height"
           description="Height of player" />
-  <jsp:directive.attribute name="alt" 
+  <jsp:directive.attribute name="alt"
           description="Text to use in alt attribute of image" />
-  
+
     <c:set var="w" value="${empty width ? '81' : width}" />
     <c:set var="h" value="${empty height ? '60' : height}" />
-  
+
 
     <mm:nodeinfo type="type" write="false" id="nodetype" />
     <c:set var="img" value="" />
@@ -27,8 +27,8 @@
       <mm:relatednodescontainer type="images" role="related" searchdirs="destination">
         <mm:maxnumber value="1" />
         <mm:relatednodes>
-          <c:set var="img"><mm:image mode="url" width="${w}" height="${h}" crop="end" /></c:set>
-          <img src="${img}" alt="${alt}" width="${w}" height="${h}" />
+          <mm:image mode="img" alt="${alt}" width="${w}" height="${h}" crop="end" />
+          <mm:import id="img">found</mm:import>
         </mm:relatednodes>
       </mm:relatednodescontainer>
     </mm:hasrelationmanager>
@@ -39,13 +39,13 @@
           <mm:sortorder field="posrel.pos" direction="UP" />
           <mm:maxnumber value="1" />
           <mm:relatednodes>
-            <c:set var="img"><mm:image mode="url" width="${w}" height="${h}" crop="end" /></c:set>
-            <img src="${img}" alt="${alt}" width="${w}" height="${h}" />
+            <mm:image mode="img" alt="${alt}" width="${w}" height="${h}" crop="end" />
+            <mm:import id="img">found</mm:import>
           </mm:relatednodes>
         </mm:relatednodescontainer>
       </mm:hasrelationmanager>
     </c:if>
-    
+
     <c:if test="${empty img}">
       <c:choose>
         <c:when test="${nodetype eq 'mmbaseusers'}">
@@ -62,6 +62,11 @@
           <c:if test="${empty img}">
             <img src="${mm:link('/style/images/thumb_image.png')}" alt="${empty alt ? 'image' : alt}" width="${w}" height="${h}" />
           </c:if>
+        </c:when>
+        <c:when test="${nodetype eq 'videofragments'}">
+          <mm:nodefunction name="thumbnail">
+            <mm:image mode="img" alt="${alt}" width="${w}" height="${h}" crop="end" />
+          </mm:nodefunction>
         </c:when>
         <c:when test="${nodetype eq 'images'}">
           <img src="${mm:link('/style/images/thumb_image.png')}" alt="${empty alt ? 'image' : alt}" width="${w}" height="${h}" />
