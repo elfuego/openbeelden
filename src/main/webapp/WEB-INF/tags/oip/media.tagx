@@ -6,17 +6,17 @@
     xmlns:oip="urn:jsptagdir:/WEB-INF/tags/oip"
     xmlns:mm="http://www.mmbase.org/mmbase-taglib-2.0"
     >
-  
+
   <jsp:directive.attribute name="width"
           description="Width of player" />
   <jsp:directive.attribute name="height"
           description="Height of player" />
   <jsp:directive.variable name-given="embedtag" scope="AT_END" />
-  
+
   <c:set var="w" value="${empty width ? '320' : width}" />
   <c:set var="h" value="${empty height ? '240' : height}" />
   <mm:field name="length" id="l" write="false" />
-  
+
   <mm:nodeinfo type="nodemanager">
     <c:choose>
       <c:when test="${_ eq 'imagefragments'}">
