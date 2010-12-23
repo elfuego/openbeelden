@@ -21,7 +21,7 @@
           <mm:field name="length">
             <c:choose>
               <c:when test="${_ lt 3600000}">
-                <mm:time inputformat="S" format="mm:ss" />  
+                <mm:time inputformat="S" format="mm:ss" />
               </c:when>
               <c:otherwise>
                 <mm:time inputformat="S" format="hh:mm:ss" />
@@ -31,7 +31,7 @@
         </td>
       </tr>
     </c:if>
-    <tr>          
+    <tr>
       <th><fmt:message key="media.date" />:</th>
       <td>
         <mm:field name="date"><mm:time format="d MMMM yyyy" /></mm:field>
@@ -47,7 +47,7 @@
           </mm:node>
         </mm:hasnode>
         <mm:hasnode number="$owner" inverse="true">
-          unknown
+          <jsp:text>unknown</jsp:text>
           <mm:remove referid="owner" />
         </mm:hasnode>
       </td>
@@ -63,7 +63,7 @@
     <!--
     <tr>
       <th><fmt:message key="media.keywords" />:</th>
-      <td><mm:field name="keywords" /><jsp:text> </jsp:text></td> 
+      <td><mm:field name="keywords" /><jsp:text> </jsp:text></td>
     </tr>
     -->
     <tr>

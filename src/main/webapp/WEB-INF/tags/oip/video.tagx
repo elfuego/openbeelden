@@ -76,7 +76,7 @@
             poster="${poster}">
         <mm:write referid="mediaurls" escape="none" />
         <p class="oiplayer-warn">
-          You need a browser that understands the html5 video tag to play this media item.
+          <jsp:text>You need a browser that understands the html5 video tag to play this media item.</jsp:text>
         </p>
       </video>
     </c:otherwise>
