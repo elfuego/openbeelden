@@ -23,13 +23,14 @@
   <xi:include href="http://www.mmbase.org/builders/media/mediasources.virtual.fields.xml" />
   <xi:include href="http://www.mmbase.org/builders/streams/streamsources.virtual.fields.xml" />
   <xi:include href="http://www.mmbase.org/builders/media/mediasources.main.virtual.fields.xml" />
-  
+
   <!-- only difference with mmbase streams app is this language field -->
   <fieldlist>
     <xi:include href="http://www.mmbase.org/builders/oip/source.language.field.xml" />
   </fieldlist>
 
   <xi:include href="http://www.mmbase.org/builders/streams/streamsources.functions.xml" />
-  
+  <xi:include href="http://www.mmbase.org/builders/streams/videostreamsources.functions.xml" />
+
 
 </builder>
