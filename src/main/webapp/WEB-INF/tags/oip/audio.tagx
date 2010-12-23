@@ -19,9 +19,9 @@
   <mm:relatednodescontainer type="images" role="related" searchdirs="destination">
     <mm:maxnumber value="1" />
     <mm:relatednodes>
-      <c:set var="template"><oip:imagecrop width="${w}" height="${h}" /></c:set>
-      <c:set var="poster"><mm:image template="$template" /></c:set>
-      <mm:import id="imgnr" reset="true"><mm:field name="number" /></mm:import>
+      <oip:imagecrop width="${w}" height="${h}">
+        <c:set var="poster"><mm:image template="${crop}" /></c:set>
+      </oip:imagecrop>
     </mm:relatednodes>
   </mm:relatednodescontainer>
 
@@ -52,7 +52,7 @@
       </div>
     </c:when>
     <c:otherwise>
-      <audio 
+      <audio
         class="oip_ea_duration_${length / 1000} oip_ea_start_0 oip_ea_id_${_node.number}"
         controls="controls">
         <mm:write referid="mediaurls" escape="none" />

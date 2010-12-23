@@ -7,37 +7,37 @@
      xmlns:oip="urn:jsptagdir:/WEB-INF/tags/oip">
   <jsp:output omit-xml-declaration="true" />
   <!-- version: '$Id$' -->
-  
+
   <mm:escaper type="tagstripper" id="tagstripper" /><!-- to strip html -->
   <mm:import externid="set" />
-  
+
   <jsp:include page="/feeds/inc/oai.record.header.jspx">
     <jsp:param name="set" value="${set}" />
   </jsp:include>
-  
+
   <metadata>
-    <oai_oi:oi 
-        xmlns:oi="http://www.openbeelden.nl/oai/" 
-        xmlns:oai_oi="http://www.openarchives.org/OAI/2.0/oai_dc/" 
-        xmlns:dc="http://purl.org/dc/elements/1.1/" 
+    <oai_oi:oi
+        xmlns:oi="http://www.openbeelden.nl/oai/"
+        xmlns:oai_oi="http://www.openarchives.org/OAI/2.0/oai_dc/"
+        xmlns:dc="http://purl.org/dc/elements/1.1/"
         xmlns:dcterms="http://purl.org/dc/terms"
-        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xsi:schemaLocation="http://www.openbeelden.nl/feeds/oai/ http://www.openbeelden.nl/feeds/oai/oai_oi.xsd">
- 
+
       <oi:title xml:lang="${_node.language}"><mm:field name="title" /></oi:title>
       <mm:relatednodescontainer type="mediafragments_translations" role="langrel" searchdirs="destination">
         <mm:relatednodes>
           <oi:title xml:lang="${_node.language}"><mm:field name="title" /></oi:title>
         </mm:relatednodes>
       </mm:relatednodescontainer>
-      
+
       <oi:alternative xml:lang="${_node.language}"><mm:field name="subtitle" /></oi:alternative>
       <mm:relatednodescontainer type="mediafragments_translations" role="langrel" searchdirs="destination">
         <mm:relatednodes>
           <oi:alternative xml:lang="${_node.language}"><mm:field name="subtitle" /></oi:alternative>
         </mm:relatednodes>
       </mm:relatednodescontainer>
-      
+
       <oi:creator xml:lang="${_node.language}"><mm:field name="dc_creator" id="dc_creator" /></oi:creator>
 
       <!-- oi:subject -->
@@ -88,7 +88,7 @@
       </mm:field>
       <oi:publisher>
         <mm:field name="owner" write="false">
-          <mm:hasnode number="$_" inverse="true">unknown</mm:hasnode>       
+          <mm:hasnode number="$_" inverse="true">unknown</mm:hasnode>
           <mm:hasnode number="$_">
             <mm:node number="$_">
               <mm:link>
@@ -101,7 +101,7 @@
           </mm:hasnode>
         </mm:field>
       </oi:publisher>
-      
+
       <!-- oi:contributor -->
       <mm:field name="contributor" escape="none">
         <mm:isnotempty>
@@ -110,9 +110,9 @@
           </c:forTokens>
         </mm:isnotempty>
       </mm:field>
-      
+
       <oi:date><mm:field name="date"><mm:time format="yyyy-MM-dd" /></mm:field></oi:date>
-      
+
       <oi:type>
         <mm:nodeinfo type="type">
           <c:choose>
@@ -120,9 +120,9 @@
             <c:when test="${fn:startsWith(_,'audio')}">Sound Recording</c:when>
             <c:otherwise>Moving Image</c:otherwise>
           </c:choose>
-        </mm:nodeinfo>                 
+        </mm:nodeinfo>
       </oi:type>
-      
+
       <!-- P[n]Y[n]M[n]DT[n]H[n]M[n]S or P[n]W f.e. P3Y6M4DT12H30M5S -->
       <mm:locale language="en">
         <mm:field name="length">
@@ -142,7 +142,7 @@
           </c:choose>
         </mm:field>
       </mm:locale>
-      
+
       <!-- oi:medium -->
       <mm:functioncontainer>
         <mm:param name="format">WEBM,OGV,MP4,OGG,TS,M3U8,MP3,OGG,OGA,PNG,JPG,JPEG</mm:param>
@@ -156,15 +156,16 @@
       <mm:relatednodescontainer type="images" role="related" searchdirs="destination">
         <mm:maxnumber value="1" />
         <mm:relatednodes>
-          <c:set var="thumbnail"><oip:imagecrop width="320" height="240" /></c:set>
-          <oi:medium><mm:image absolute="true" template="$thumbnail" /></oi:medium>
+           <oip:imagecrop width="320" height="240">
+             <oi:medium><mm:image absolute="true" template="${crop}" /></oi:medium>
+           </oip:imagecrop>
         </mm:relatednodes>
       </mm:relatednodescontainer>
-      
+
       <mm:field name="identifier">
         <mm:isnotempty><oi:identifier xml:lang="${_node.language}"><mm:write /></oi:identifier></mm:isnotempty>
       </mm:field>
-      
+
       <mm:field name="source">
         <mm:isnotempty><oi:source xml:lang="${_node.language}"><mm:write /></oi:source></mm:isnotempty>
       </mm:field>
@@ -175,7 +176,7 @@
           </mm:field>
         </mm:relatednodes>
       </mm:relatednodescontainer>
-      
+
       <!-- oi:language -->
       <oi:language>
         <mm:listfunction name="filteredurls">
@@ -214,7 +215,7 @@
           <oi:license><mm:field name="url" /></oi:license>
         </mm:relatednodes>
       </mm:relatednodescontainer>
- 
+
     </oai_oi:oi>
   </metadata>
 

@@ -6,28 +6,28 @@
     xmlns:oip="urn:jsptagdir:/WEB-INF/tags/oip">
   <jsp:output omit-xml-declaration="true" />
   <!-- version: '$Id$' -->
-  
+
   <mm:escaper type="tagstripper" id="tagstripper" /><!-- to strip html -->
   <mm:import externid="set" />
-  
+
   <jsp:include page="/feeds/inc/oai.record.header.jspx">
     <jsp:param name="set" value="${set}" />
   </jsp:include>
 
   <metadata>
-    <oai_dc:dc 
-         xmlns:oai_dc="http://www.openarchives.org/OAI/2.0/oai_dc/" 
-         xmlns:dc="http://purl.org/dc/elements/1.1/" 
-         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+    <oai_dc:dc
+         xmlns:oai_dc="http://www.openarchives.org/OAI/2.0/oai_dc/"
+         xmlns:dc="http://purl.org/dc/elements/1.1/"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://www.openarchives.org/OAI/2.0/oai_dc/ http://www.openarchives.org/OAI/2.0/oai_dc.xsd">
-       
+
        <dc:title xml:lang="${_node.language}"><mm:field name="title" /></dc:title>
        <mm:relatednodescontainer type="mediafragments_translations" role="langrel" searchdirs="destination">
          <mm:relatednodes>
            <dc:title xml:lang="${_node.language}"><mm:field name="title" /></dc:title>
          </mm:relatednodes>
        </mm:relatednodescontainer>
-       
+
        <dc:creator xml:lang="${_node.language}"><mm:field name="dc_creator" /></dc:creator>
 
        <!-- dc:subject -->
@@ -75,7 +75,7 @@
       </mm:field>
       <dc:publisher>
         <mm:field name="owner" write="false">
-          <mm:hasnode number="$_" inverse="true">unknown</mm:hasnode>       
+          <mm:hasnode number="$_" inverse="true">unknown</mm:hasnode>
           <mm:hasnode number="$_">
             <mm:node number="$_">
               <mm:link>
@@ -88,7 +88,7 @@
           </mm:hasnode>
         </mm:field>
       </dc:publisher>
-       
+
       <!-- dc:contributor -->
       <mm:field name="contributor" escape="none">
         <mm:isnotempty>
@@ -99,7 +99,7 @@
       </mm:field>
 
        <dc:date><mm:field name="date"><mm:time format="yyyy-MM-dd" /></mm:field></dc:date>
-       
+
        <dc:type>
          <mm:nodeinfo type="nodemanager">
            <c:choose>
@@ -107,9 +107,9 @@
              <c:when test="${_ eq 'audiofragments'}">Sound Recording</c:when>
              <c:otherwise>Moving Image</c:otherwise>
            </c:choose>
-         </mm:nodeinfo>                 
+         </mm:nodeinfo>
        </dc:type>
-       
+
        <!-- dc:format -->
        <mm:functioncontainer>
          <mm:param name="format">WEBM,OGV,MP4,OGG,TS,M3U8,MP3,OGG,OGA,PNG,JPG,JPEG</mm:param>
@@ -123,22 +123,23 @@
        <mm:relatednodescontainer type="images" role="related" searchdirs="destination">
          <mm:maxnumber value="1" />
          <mm:relatednodes>
-           <c:set var="thumbnail"><oip:imagecrop width="320" height="240" /></c:set>
-           <dc:format><mm:image absolute="true" template="$thumbnail" /></dc:format>
+           <oip:imagecrop width="320" height="240">
+             <dc:format><mm:image absolute="true" template="${crop}" /></dc:format>
+           </oip:imagecrop>
          </mm:relatednodes>
        </mm:relatednodescontainer>
-       
+
        <dc:identifier><mm:field name="identifier" /></dc:identifier>
-       
+
        <dc:source xml:lang="${_node.language}"><mm:field name="source" /></dc:source>
        <mm:relatednodescontainer type="mediafragments_translations" role="langrel" searchdirs="destination">
          <mm:relatednodes>
            <dc:source xml:lang="${_node.language}"><mm:field name="source" /></dc:source>
          </mm:relatednodes>
        </mm:relatednodescontainer>
-       
+
        <dc:relation xml:lang="${_node.language}"><mm:field name="relation" /></dc:relation>
-       
+
        <!-- dc:language -->
        <dc:language>
          <mm:listfunction name="filteredurls">
@@ -152,7 +153,7 @@
            </c:if>
          </mm:listfunction>
        </dc:language>
-       
+
        <!-- dc:coverage -->
        <mm:field name="coverage" escape="none">
          <mm:isnotempty>

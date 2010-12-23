@@ -17,12 +17,11 @@
   <mm:relatednodescontainer type="images" role="related" searchdirs="destination">
     <mm:maxnumber value="1" />
     <mm:relatednodes>
-      <c:set var="template">
-        <oip:imagecrop width="${w}" height="${h}" />
-      </c:set>
-      <c:set var="poster">
-        <mm:image absolute="true" template="$template" />
-      </c:set>
+      <oip:imagecrop width="${w}" height="${h}">
+        <c:set var="poster">
+          <mm:image absolute="true" template="${crop}" />
+        </c:set>
+      </oip:imagecrop>
     </mm:relatednodes>
   </mm:relatednodescontainer>
 
@@ -65,9 +64,13 @@
     </c:when>
     <c:otherwise>
       <c:if test="${empty poster}">
-        <mm:nodefunction name="thumbnail">
-          <mm:image template="colorspace(gray)" id="poster" absolute="true" width="${w}" height="${h}" write="false" />
-        </mm:nodefunction>
+          <mm:nodefunction name="thumbnail">
+            <oip:imagecrop width="${w}" height="${h+1}">
+              <mm:log>${crop}</mm:log>
+
+              <mm:image template="${crop}+colorspace(gray)" id="poster" absolute="true" write="false" />
+            </oip:imagecrop>
+          </mm:nodefunction>
       </c:if>
       <video controls="controls"
             class="oip_ea_duration_${length / 1000} oip_ea_start_0 oip_ea_id_${_node.number}"
