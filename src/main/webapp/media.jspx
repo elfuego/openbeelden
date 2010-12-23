@@ -6,7 +6,7 @@
     xmlns:fmt="http://java.sun.com/jsp/jstl/fmt"
     xmlns:oip="urn:jsptagdir:/WEB-INF/tags/oip"
     xmlns:mm="http://www.mmbase.org/mmbase-taglib-2.0">
-  
+
   <mm:import externid="q" />
   <oip:html cacheable="false" styleClass="media">
     <jsp:attribute name="head">
@@ -25,7 +25,7 @@
       <mm:node number="$p">
         <mm:hasalias name="pool_oip"><c:set var="isdefaultportal" value="true" /></mm:hasalias>
       </mm:node>
-      
+
       <mm:import externid="user" />
       <mm:import externid="source" />
       <mm:import externid="date" />
@@ -44,14 +44,13 @@
         <mm:nodefunction name="translation">
           <mm:field name="description" escape="paragraph" />
         </mm:nodefunction>
-        p: ${p}
-        
+
         <c:choose>
           <c:when test="${!empty portal and !isdefaultportal}">
-            <br />not default portal: 
-            
+            <br />not default portal:
+
             <mm:node number="$portal"><mm:field name="number" />
-              
+
               <!-- set portal manager as default user -->
               <mm:relatednodescontainer type="mmbaseusers" role="portalrel" searchdirs="source">
                 <mm:maxnumber value="1" />
@@ -60,14 +59,14 @@
                   <c:set var="p_users">users:<mm:field name="username" /></c:set>
                 </mm:relatednodes>
               </mm:relatednodescontainer>
-              
+
               <!-- portal filter: users, tags, keywords -->
               <mm:relatednodescontainer type="filters" role="portalrel" searchdirs="destination">
                 <mm:relatednodes>
                   <p>
                   tags: <mm:field name="tags" /> <br />
                   kw: <mm:field name="keywords" /> <br />
-                  users: <mm:field name="users" /> 
+                  users: <mm:field name="users" />
                   </p>
 
                   <mm:field name="users" escape="none">
@@ -98,8 +97,8 @@
           </c:when>
           <c:otherwise>no portal</c:otherwise>
         </c:choose>
-        
-        
+
+
         <c:choose>
           <c:when test="${empty q and empty user and empty source and empty p_tags}">
             <!-- not searched nor a portal, display latest -->
@@ -108,12 +107,12 @@
             <mm:import id="fields">indexId</mm:import>
           </c:when>
           <c:otherwise>
-            <!-- 
+            <!--
             pseudo code: lucene.Find((someField == "bar" || someField == "baz") && anotherField == "foo");
-            translates to: +(someField:bar someField:baz) +anotherField:foo        
+            translates to: +(someField:bar someField:baz) +anotherField:foo
             -->
             <mm:import id="value">
-              ${q} 
+              ${q}
               <c:if test="${!empty user}">+user:${user} </c:if>
               <c:if test="${!empty source}">+source:${source} </c:if>
               <c:if test="${!empty p_keywords or !empty p_tags or !empty p_users}">+(${p_keywords} ${p_tags} ${p_users}) </c:if>
@@ -126,7 +125,7 @@
         <c:if test="${!empty license}"><c:set var="searched" value="advanced" /></c:if>
 
         <!-- <mm:import id="extraconstraints">
-            show:EQ:1 
+            show:EQ:1
             online:LT:<mm:time format="yyyyMMddHHmm" time="now" precision="minutes" />00
             offline:GT:<mm:time format="yyyyMMddHHmm" time="now" precision="minutes" />00
         </mm:import> -->
@@ -153,7 +152,7 @@
         <p>value: ${value}</p>
         <p>extraconstraints: ${extraconstraints}</p>
         <p>filter: ${filter}</p>
-        
+
         <mm:function
             write="false"
             id="total"
@@ -216,11 +215,11 @@
 
           <mm:url id="pageurl" write="false" absolute="true" escapeamps ="false"
             referids="q,user?,source?,date?,uploaded?,_searchlang?,license?,sf?,so?" />
-            
+
           <div id="t_video">
             <oip:medialist list="${results_video}" />
             <p class="pager">
-              <oip:pager total="${total_video}" offset="${offset}" max="${max}" 
+              <oip:pager total="${total_video}" offset="${offset}" max="${max}"
                 baseurl="${pageurl}" fragment="#video" />
             </p>
           </div>
@@ -228,15 +227,15 @@
           <div id="t_images">
             <oip:medialist list="${results_images}" />
             <p class="pager">
-              <oip:pager total="${total_images}" offset="${offset}" max="${max}" 
+              <oip:pager total="${total_images}" offset="${offset}" max="${max}"
                 baseurl="${pageurl}" fragment="#images" />
             </p>
           </div>
-          
+
           <div id="t_audio">
             <oip:medialist list="${results_audio}" />
             <p class="pager">
-              <oip:pager total="${total_audio}" offset="${offset}" max="${max}" 
+              <oip:pager total="${total_audio}" offset="${offset}" max="${max}"
                 baseurl="${pageurl}" fragment="#audio" />
             </p>
           </div>
@@ -244,11 +243,11 @@
           <div id="t_thumbs">
             <oip:medialist list="${results}" type="thumbs" />
             <p class="pager">
-              <oip:pager total="${total}" offset="${offset}" max="${thumbsmax}" 
+              <oip:pager total="${total}" offset="${offset}" max="${thumbsmax}"
                 baseurl="${pageurl}" fragment="#thumbs" />
             </p>
           </div>
-          
+
         </div><!-- /#tabs -->
       </div><!-- /.main-column -->
 
@@ -256,7 +255,7 @@
         <div class="related-grey-border">
           <oip:h3><fmt:message key="media.sortby" /></oip:h3>
 
-          <mm:url id="sorturl" write="false" absolute="true" 
+          <mm:url id="sorturl" write="false" absolute="true"
             referids="q,user?,source?,date?,uploaded?,_searchlang?,license?" />
 
           <ul class="sortby">
