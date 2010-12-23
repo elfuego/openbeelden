@@ -14,15 +14,19 @@
 
   <c:set var="w" value="${empty width ? '320' : width}" />
   <c:set var="h" value="${empty height ? '240' : height}" />
-  <c:set var="poster"><mm:url absolute="true" page="/style/images/preview_video.png" /></c:set>
-
   <mm:relatednodescontainer type="images" role="related" searchdirs="destination">
     <mm:maxnumber value="1" />
     <mm:relatednodes>
-      <c:set var="template"><oip:imagecrop width="${w}" height="${h}" /></c:set>
-      <c:set var="poster"><mm:image absolute="true" template="$template" /></c:set>
+      <c:set var="template">
+        <oip:imagecrop width="${w}" height="${h}" />
+      </c:set>
+      <c:set var="poster">
+        <mm:image absolute="true" template="$template" />
+      </c:set>
     </mm:relatednodes>
   </mm:relatednodescontainer>
+
+
 
   <mm:import id="mediaurls">
     <mm:functioncontainer>
@@ -42,7 +46,7 @@
           </c:when>
           <c:otherwise><c:set var="codecs" value="" /></c:otherwise>
         </c:choose>
-        <source src="${mm:escape('text/xml', _.URL)}" 
+        <source src="${mm:escape('text/xml', _.URL)}"
                 type="${_.mimeType}${codecs}" />
       </mm:listfunction>
     </mm:functioncontainer>
@@ -60,6 +64,11 @@
       </div>
     </c:when>
     <c:otherwise>
+      <c:if test="${empty poster}">
+        <mm:nodefunction name="thumbnail">
+          <mm:image id="poster" absolute="true" width="${w}" height="${h}" write="false" />
+        </mm:nodefunction>
+      </c:if>
       <video controls="controls"
             class="oip_ea_duration_${length / 1000} oip_ea_start_0 oip_ea_id_${_node.number}"
             width="${w}"
