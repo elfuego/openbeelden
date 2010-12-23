@@ -18,7 +18,7 @@
         <link href="${_}" rel="alternate" type="application/atom+xml" title="Open Image Platform related items of ${_node.title}" />
       </mm:link>
     </jsp:attribute>
-    
+
     <jsp:attribute name="body">
 
       <mm:time time="now" id="today" precision="hours" write="false" />
@@ -37,6 +37,7 @@
           <h3 class="mediatitle"><mm:field name="title" /></h3>
           <mm:field name="subtitle"><mm:isnotempty><h4>${_}</h4></mm:isnotempty></mm:field>
         </mm:nodefunction>
+
         <!--
         <p class="nr_of_views">
           <mm:time time="now" id="current_month" precision="months" write="false" />
@@ -47,9 +48,8 @@
             <mm:relatednodes>
               ${_node.total} plays
             </mm:relatednodes>
-          </mm:relatednodescontainer>          
+          </mm:relatednodescontainer>
         </p> -->
-
         <!-- toolbar -->
         <div class="toolbar">
           <mm:cloudinfo type="usernode" id="iam" write="false" />
@@ -121,7 +121,7 @@
                     <c:when test="${! empty _.info.label}"> ${_.info.label} </c:when>
                     <c:otherwise> ${_.info.bitrate} </c:otherwise>
                   </c:choose>
-                  ${mm:escape('filesize',_.filesize)}<jsp:text>): </jsp:text>
+                  <jsp:text>${mm:escape('filesize',_.filesize)}): </jsp:text>
                   <mm:import id="filename" reset="true">${_.filename}</mm:import>
                   <c:choose>
                     <c:when test="${_.available}">
@@ -173,10 +173,13 @@
         </mm:nodefunction>
 
         <oip:mediainfo />
-        
+
         <mm:nodefunction name="translation">
           <mm:field name="body" escape="paragraph" />
         </mm:nodefunction>
+
+        <!-- testing ... -->
+        <oip:thumbnails width="512" number="8" />
 
       </div>
 
