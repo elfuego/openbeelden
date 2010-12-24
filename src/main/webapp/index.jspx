@@ -43,7 +43,7 @@
             <mm:relatednodescontainer type="mmbaseusers" role="portalrel" searchdirs="source">
               <mm:maxnumber value="1" />
               <mm:relatednodes>
-                <c:set var="p_users">users:<mm:field name="username" /></c:set>
+                <c:set var="p_users">user:"<mm:field name="username" />"</c:set>
               </mm:relatednodes>
             </mm:relatednodescontainer>
              
@@ -53,21 +53,21 @@
                 <mm:field name="users" escape="none">
                   <mm:isnotempty>
                     <c:forTokens items="${_}" delims=";" var="usr">
-                      <c:set var="p_users">${p_users}<jsp:text> </jsp:text>users:<c:out value="${fn:trim(usr)}" /></c:set>
+                      <c:set var="p_users">${p_users}<jsp:text> </jsp:text>user:"<c:out value="${fn:trim(usr)}" />"</c:set>
                     </c:forTokens>
                   </mm:isnotempty>
                 </mm:field>
                 <mm:field name="keywords" escape="none">
                   <mm:isnotempty>
                     <c:forTokens items="${_}" delims=";" var="kw">
-                      <c:set var="p_keywords">${p_keywords}<jsp:text> </jsp:text>keywords:<c:out value="${fn:trim(kw)}" /></c:set>
+                      <c:set var="p_keywords">${p_keywords}<jsp:text> </jsp:text>keywords:"<c:out value="${fn:trim(kw)}" />"</c:set>
                     </c:forTokens>
                   </mm:isnotempty>
                 </mm:field>
                 <mm:field name="tags" escape="none">
                   <mm:isnotempty>
                     <c:forTokens items="${_}" delims=";" var="tag">
-                      <c:set var="p_tags">${p_tags}<jsp:text> </jsp:text>tags:<c:out value="${fn:trim(tag)}" /></c:set>
+                      <c:set var="p_tags">${p_tags}<jsp:text> </jsp:text>tags:"<c:out value="${fn:trim(tag)}" />"</c:set>
                     </c:forTokens>
                   </mm:isnotempty>
                 </mm:field>
@@ -92,6 +92,7 @@
       <mm:import id="extraconstraints"></mm:import>
       <mm:import id="offset">0</mm:import>
       <mm:import id="max">4</mm:import>
+      <mm:import id="sortfields">REVERSE:created</mm:import>
        
       <link href="${mm:link('/feeds/atom/')}" rel="alternate" type="application/atom+xml" title="Open Image Platform latest uploads" />
     </jsp:attribute>
@@ -146,10 +147,9 @@
         <div class="related">
           <oip:h2><fmt:message key="media.latest_uploads" /></oip:h2>
           
-          <c:set var="cachekey">oip.homepage.latestuploads.${page}.${requestScope['javax.servlet.jsp.jstl.fmt.locale.request']}</c:set>
+          <c:set var="cachekey">oip.home.latestuploads.${page}.${requestScope['javax.servlet.jsp.jstl.fmt.locale.request']}</c:set>
           <os:cache key="${cachekey}" time="120">
             <c:catch var="ex1">
-              
                <mm:nodelistfunction
                   module="lucene" name="search" id="results"
                   referids="index,value,offset,max,fields?,sortfields?,filter?,extraconstraints" />
@@ -171,7 +171,6 @@
                    </dl>
                  </mm:link>
                </mm:listnodes>
-          
              </c:catch>
    
              <c:if test="${! empty ex1}">
@@ -182,16 +181,6 @@
              </c:if>
            </os:cache>
            <!-- value: ${value} cachekey: ${cachekey} -->
-
-           <!--
-           <mm:listnodescontainer type="mediafragments">
-               <mm:constraint field="number" value="$featured_node" operator="EQUAL" inverse="true" />
-               <mm:constraint field="show" value="true" operator="EQUAL" />
-               <mm:sortorder field="number" direction="DOWN" />
-               <mm:maxnumber value="4" />
-               <mm:listnodes id="alt_results" />
-           </mm:listnodescontainer>
-           -->
 
           <p class="more"><a href="${mm:link('/media')}${langpostfix}"><fmt:message key="media.more" /> »</a></p>
         </div>
