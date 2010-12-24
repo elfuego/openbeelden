@@ -64,9 +64,12 @@
           </c:if>
         </c:when>
         <c:when test="${nodetype eq 'videofragments'}">
-          <mm:nodefunction name="thumbnail">
-            <mm:image mode="img" alt="${alt}" width="${w}" height="${h}" crop="end" />
-          </mm:nodefunction>
+          <mm:functioncontainer>
+            <mm:param name="wait">false</mm:param>
+            <mm:nodefunction name="thumbnail">
+              <mm:image mode="img" alt="${alt}" width="${w}" height="${h}" crop="end" />
+            </mm:nodefunction>
+          </mm:functioncontainer>
         </c:when>
         <c:when test="${nodetype eq 'images'}">
           <img src="${mm:link('/style/images/thumb_image.png')}" alt="${empty alt ? 'image' : alt}" width="${w}" height="${h}" />
