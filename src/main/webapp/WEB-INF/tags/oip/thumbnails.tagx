@@ -16,22 +16,24 @@
           description="" type="java.lang.Integer" required="true" />
 
   <mm:node>
-    <c:if test="${! empty _node.length}">
+    <mm:hasfield name="length">
+      <c:if test="${! empty _node.length}">
 
-      <c:forEach begin="0" end="${_node.length}" step="${_node.length / (number -1)}" var="offset">
-        <mm:hasfunction name="thumbnail">
-          <mm:nodefunction name="thumbnail" referids="offset">
-            <mm:image template="s(800x800&gt;)">
-              <a href="${_}"
-                 onclick="window.open(this.href, 'thumbnail','menubar=0,location=0,toolbar=0,resizable=1,width=${dimension.width},height=${dimension.height + 50}'); return false;">
-                <fmt:formatNumber value="${width/number}" pattern="#" var="thumbWidth" />
-                <mm:image mode="img" template="s(${thumbWidth})" />
-              </a>
-            </mm:image>
-          </mm:nodefunction>
-        </mm:hasfunction>
+        <c:forEach begin="0" end="${_node.length}" step="${_node.length / (number -1)}" var="offset">
+          <mm:hasfunction name="thumbnail">
+            <mm:nodefunction name="thumbnail" referids="offset">
+              <mm:image template="s(800x800&gt;)">
+                <a href="${_}"
+                   onclick="window.open(this.href, 'thumbnail','menubar=0,location=0,toolbar=0,resizable=1,width=${dimension.width},height=${dimension.height + 50}'); return false;">
+                  <fmt:formatNumber value="${width/number}" pattern="#" var="thumbWidth" />
+                  <mm:image mode="img" template="s(${thumbWidth})" />
+                </a>
+              </mm:image>
+            </mm:nodefunction>
+          </mm:hasfunction>
       </c:forEach>
-    </c:if>
+      </c:if>
+    </mm:hasfield>
   </mm:node>
 
 </jsp:root>
