@@ -13,6 +13,18 @@
         class="mm_c c_oip b_user-media ${requestScope.className}"
         id="${requestScope['org.mmbase.componentId']}">
 
+    <script type="text/javascript">
+      $(document).ready(function() {
+          var validator = new MMBaseValidator();
+          validator.prefetchNodeManager('streamsources,imagefragments,audiofragments,videofragments');
+          validator.lang = "${requestScope['javax.servlet.jsp.jstl.fmt.locale.request']}";
+          validator.validateHook = function(valid, entry) {
+              document.getElementById('submit').disabled = this.invalidElements != 0;
+          }
+          validator.setup(document.getElementById("${requestScope['org.mmbase.componentId']}"));
+      });
+    </script>
+
 
       <mm:import externid="n" required="true" />
       <mm:import externid="media" required="true" />
@@ -27,20 +39,19 @@
         <mm:hasrank minvalue="project manager">
           <c:set var="fields">title,show,subtitle,language,dc_creator,intro,body,publisher,date</c:set>
         </mm:hasrank>
-        
+
         <oip:form fields="${fields}" plusfields="keywords,source,identifier,contributor,relation,coverage,created,lastmodified">
           <jsp:attribute name="action"><mm:url page="user-media" referids="n,media" absolute="true" /></jsp:attribute>
         </oip:form>
         -->
 
-
         <mm:maywrite>
           <mm:import externid="submit" />
           <mm:url page="user-media" referids="n,media" absolute="true" write="false" id="form_url" />
           <mm:form page="${form_url}">
-        
+
             <mm:import id="buffer">
-                
+
               <fieldset class="first">
                 <!-- title,subtitle,language,dc_creator,intro,body,publisher,date -->
                 <mm:fieldlist fields="title">
@@ -92,14 +103,14 @@
                 </mm:fieldlist>
 
               </fieldset>
-    
+
               <fieldset class="buttons">
                 <p class="required">* Velden met een sterretje zijn verplicht.</p>
                 <c:set var="button_save"><fmt:message key="users.form.save" /></c:set>
                 <input name="submit" type="submit" value="${button_save}" id="submit" class="submit" />
                 <input name="add_more_info" type="button" value="Add more info" id="add_more_info" class="info" />
               </fieldset>
-            
+
               <fieldset class="plus">
                 <!-- keywords,source,identifier,contributor,relation,coverage,created,lastmodified -->
                 <mm:fieldlist fields="keywords,source,identifier,contributor,relation,coverage,created,lastmodified">
@@ -113,32 +124,32 @@
                     <mm:maywrite inverse="true"><mm:fieldinfo type="guivalue" escape="none" /></mm:maywrite>
                   </div>
                 </mm:fieldlist>
-              </fieldset>            
+              </fieldset>
               <fieldset class="plus">
                 <c:set var="button_save"><fmt:message key="users.form.save" /></c:set>
                 <input name="submit" type="submit" value="${button_save}" id="submit2" class="submit" />
               </fieldset>
-            
+
             </mm:import>
-      
+
             <mm:notpresent referid="submit">
               <mm:write referid="buffer" escape="none" />
               <mm:cancel />
             </mm:notpresent>
-        
+
             <mm:present referid="submit">
-              
+
               <mm:valid inverse="true">
                 <p class="err"><fmt:message key="users.form.error" /></p>
                 <mm:write referid="buffer" escape="none" />
               </mm:valid>
-              
+
               <mm:valid>
                 <mm:commit />
                 <p class="msg"><fmt:message key="users.form.saved" /></p>
                 <mm:write referid="buffer" escape="none" />
               </mm:valid>
-              
+
             </mm:present>
 
 
@@ -151,19 +162,6 @@
         <mm:maywrite inverse="true">
           <p class="err">not allowed</p>
         </mm:maywrite>
-
-
-
-
-
-
-
-
-
-
-
-
-
 
         <!-- ##### license stuff (with an ugly workaround) ##### -->
         <mm:listrelationscontainer type="licenses" role="related">
@@ -178,7 +176,7 @@
             </c:if>
           </mm:listrelations>
         </mm:listrelationscontainer>
-        
+
        <mm:present referid="license">
           <mm:node number="licenses_attributionsharealike">
             <mm:import id="pref_license"><mm:field name="number" /></mm:import>
@@ -187,7 +185,7 @@
             <!-- mm:relation to="licenses_attributionsharealike">
               <mm:deletenode />
             </mm:relation -->
-            <!-- this creates a 2nd relation with another license for now, 
+            <!-- this creates a 2nd relation with another license for now,
                  because of the above not working. Will delete the former afterwards (see above). -->
             <mm:node number="$license" id="lic_node" />
             <mm:createrelation source="_node" destination="lic_node" role="related" />
@@ -195,7 +193,7 @@
           </c:if>
         </mm:present>
         <!-- end license stuff -->
-        
+
       </mm:node>
 
     </div>
