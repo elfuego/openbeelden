@@ -4,13 +4,13 @@
     xmlns:fmt="http://java.sun.com/jsp/jstl/fmt"
     xmlns:jsp="http://java.sun.com/JSP/Page"
     xmlns:mm="http://www.mmbase.org/mmbase-taglib-2.0">
-    
+
   <mm:content
     type="application/xml"
     postprocessor="none"
     expires="0">
     <jsp:output omit-xml-declaration="true" />
-    
+
     <!--
         Used by /style/js/upload.js
         <div>
@@ -18,7 +18,7 @@
           <span class="percentage">2%</span><span class="speed">(40 MiB/1832 MiB, 40 MiB/s)</span>
         </div>
     -->
-    
+
     <mm:import externid="length" vartype="integer">100</mm:import>
     <mm:import externid="unit" vartype="string">%</mm:import>
     <fmt:formatNumber value="${sessionScope['org.mmbase.uploadInfo'].fraction * length}"
@@ -50,6 +50,6 @@
         <div>Uploading...</div>
       </c:otherwise>
     </c:choose>
-    
+
   </mm:content>
 </jsp:root>
