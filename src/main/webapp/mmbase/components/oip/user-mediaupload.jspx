@@ -15,10 +15,10 @@
 
     <script type="text/javascript">
       $(document).ready(function() {
-          var validator = new MMBaseValidator(document.getElementById("${requestScope['org.mmbase.componentId']}"));
+          var validator = new MMBaseValidator();
           validator.prefetchNodeManager('streamsources,imagefragments,audiofragments,videofragments');
           validator.lang = "${requestScope['javax.servlet.jsp.jstl.fmt.locale.request']}";
-          validator.validateHook = function(valid) {
+          validator.validateHook = function(valid, entry) {
               if (document.getElementById('submit_upload') != undefined) {
                   document.getElementById('submit_upload').disabled = this.invalidElements != 0;
               }
@@ -91,7 +91,7 @@
       <!-- 2nd form -->
       <mm:present referid="committed">
         <mm:node referid="newsource">
-          
+
           <mm:voidfunction name="waitUntilRecognized" />
           <p class="msg">
             <fmt:message key="users.upload.finished" />
@@ -102,7 +102,7 @@
               <jsp:scriptlet>log.info("Mediafragment title: " + mf_title);</jsp:scriptlet>
             </mm:field>
           </mm:log>
-          
+
           <mm:url id="editlink" absolute="true" write="false">
             <mm:frameworkparam name="component">oip</mm:frameworkparam>
             <mm:frameworkparam name="block">user-media</mm:frameworkparam>
@@ -119,7 +119,7 @@
           <mm:form page="$editlink">
             <mm:node number="$media">
               <fieldset>
-                
+
                 <mm:fieldlist fields="title">
                   <div>
                     <c:set var="fld_name"><mm:fieldinfo type="name" /></c:set>
@@ -149,7 +149,8 @@
                       <label for="${_}" class="${fld_name}"><mm:fieldinfo type="guiname" /> *</label>
                     </mm:fieldinfo>
                     <p class="info"><mm:fieldinfo type="description" escape="inline" /></p>
-                    <mm:fieldinfo type="input" /><mm:fieldinfo type="errors" />
+                    <mm:fieldinfo type="input" />
+                    <mm:fieldinfo type="errors" />
                   </div>
                 </mm:fieldlist>
 
@@ -163,7 +164,7 @@
                     <mm:fieldinfo type="input" /><mm:fieldinfo type="errors" />
                   </div>
                 </mm:fieldlist>
-                
+
               </fieldset>
             </mm:node>
 
