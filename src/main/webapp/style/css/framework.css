@@ -282,7 +282,13 @@ body.media > div#main > div.left-column { top: 236px; }
 body.media > div#main > div.right-column { margin-top: 190px; }
 body.media div#main div#header p { display: none; }
 
-body.media div.wrap { background-image: url(images/dots2.png); }
+body.media div.wrap
+{
+	background-image: url(images/dots2.png);
+	background-repeat: repeat-x;
+	background-position: 0 20px;
+}
+body.media div.wrap h4 { margin-bottom: 10px; }
 
 /* error pages */
 body.error div.main-column

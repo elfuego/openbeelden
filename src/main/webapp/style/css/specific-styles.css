@@ -436,18 +436,28 @@ input.untouched {
 /* search form */
 form#search { width: 216px; }
 form#search fieldset { width: 216px; }
-/*form#search label { text-transform: lowercase; }*/
-form#search input
+form#search label
 {
-	width: 100%;
-	margin: 0 0 8px 0;
+	font-style: italic;
+	cursor: default;
+}
+form#search label.license, form#search label.mm_searchlang
+{
+	font-style: italic;
+	display: none;
+}
+form#search input { width: 202px; }
+@media screen and (-webkit-min-device-pixel-ratio:0) { 
+    form#search input { padding: 2px; width: 210px; } 
 }
 
 form#search select
 {
-	width: 100%;
+	width: 216px;
 	margin-bottom: 4px;
 }
+form#search select#mm_searchlang,
+form#search select#license { margin-top: 10px; }
 
 form#search input.submit
 {
