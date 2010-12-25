@@ -13,18 +13,9 @@
         class="mm_c c_oip b_user-media ${requestScope.className}"
         id="${requestScope['org.mmbase.componentId']}">
 
-    <script type="text/javascript">
-      $(document).ready(function() {
-          var validator = new MMBaseValidator();
-          validator.prefetchNodeManager('streamsources,imagefragments,audiofragments,videofragments');
-          validator.lang = "${requestScope['javax.servlet.jsp.jstl.fmt.locale.request']}";
-          validator.validateHook = function(valid, entry) {
-              document.getElementById('submit').disabled = this.invalidElements != 0;
-          }
-          validator.setup(document.getElementById("${requestScope['org.mmbase.componentId']}"));
-      });
-    </script>
-
+      <mm:validation
+          nodemanagers="imagefragments,audiofragments,videofragments"
+          submit="#submit,#submit2" />
 
       <mm:import externid="n" required="true" />
       <mm:import externid="media" required="true" />
