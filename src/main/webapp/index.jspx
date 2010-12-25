@@ -9,7 +9,7 @@
     xmlns:mm="http://www.mmbase.org/mmbase-taglib-2.0">
   <oip:html styleClass="home">
     <jsp:attribute name="head">
-      
+
       <mm:import externid="portal" from="request">pool_oip</mm:import>
       <mm:node number="$portal">
         <mm:hasalias name="pool_oip"><c:set var="isdefaultportal" value="true" /></mm:hasalias>
@@ -36,9 +36,9 @@
 
       <c:choose>
         <c:when test="${!isdefaultportal}">
-         
+
           <mm:node number="$portal">
-            
+
             <!-- set portal manager as default user -->
             <mm:relatednodescontainer type="mmbaseusers" role="portalrel" searchdirs="source">
               <mm:maxnumber value="1" />
@@ -46,7 +46,7 @@
                 <c:set var="p_users">user:"<mm:field name="username" />"</c:set>
               </mm:relatednodes>
             </mm:relatednodescontainer>
-             
+
             <!-- portal filter: users, tags, keywords -->
             <mm:relatednodescontainer type="filters" role="portalrel" searchdirs="destination">
               <mm:relatednodes>
@@ -74,11 +74,11 @@
               </mm:relatednodes>
             </mm:relatednodescontainer>
           </mm:node>
- 
+
           <mm:import id="value">
             <c:if test="${!empty p_keywords or !empty p_tags or !empty p_users}">+(${p_keywords} ${p_tags} ${p_users}) </c:if>
           </mm:import>
-          
+
         </c:when>
         <c:otherwise>
           <!-- default portal, display latest -->
@@ -93,7 +93,7 @@
       <mm:import id="offset">0</mm:import>
       <mm:import id="max">4</mm:import>
       <mm:import id="sortfields">REVERSE:created</mm:import>
-       
+
       <link href="${mm:link('/feeds/atom/')}" rel="alternate" type="application/atom+xml" title="Open Image Platform latest uploads" />
     </jsp:attribute>
     <jsp:attribute name="left"><jsp:text>  </jsp:text></jsp:attribute>
@@ -123,7 +123,7 @@
         <oip:h2><fmt:message key="media.featured" /></oip:h2>
         <mm:present referid="featured_node">
           <mm:node referid="featured_node">
-            
+
             <oip:media width="512" height="288" />
             <h3 class="subtitle">
               <mm:link>
@@ -138,7 +138,7 @@
                 </a>
               </mm:link>
             </h3>
-            
+
           </mm:node>
         </mm:present>
       </div>
@@ -146,20 +146,20 @@
       <div class="right-column">
         <div class="related">
           <oip:h2><fmt:message key="media.latest_uploads" /></oip:h2>
-          
+
           <c:set var="cachekey">oip.home.latestuploads.${page}.${requestScope['javax.servlet.jsp.jstl.fmt.locale.request']}</c:set>
           <os:cache key="${cachekey}" time="120">
             <c:catch var="ex1">
                <mm:nodelistfunction
                   module="lucene" name="search" id="results"
                   referids="index,value,offset,max,fields?,sortfields?,filter?,extraconstraints" />
-                  
+
                <mm:listnodes referid="results">
                  <mm:link encode="false">
                    <mm:frameworkparam name="component">oip</mm:frameworkparam>
                    <mm:frameworkparam name="block">mediafragment</mm:frameworkparam>
                    <mm:frameworkparam name="media">${_node}</mm:frameworkparam>
-   
+
                    <dl class="preview">
                      <mm:nodefunction name="translation">
                        <mm:import id="media_title" reset="true"><mm:field name="title" /></mm:import>
@@ -172,7 +172,7 @@
                  </mm:link>
                </mm:listnodes>
              </c:catch>
-   
+
              <c:if test="${! empty ex1}">
                <os:usecached />
              </c:if>
@@ -191,7 +191,7 @@
           <oip:search advanced="false" language="${_lang}" />
         </div>
 
-        
+
         <div class="main-column">
           <!-- import the rss feed in a variable 'rss' -->
           <c:choose>
@@ -203,7 +203,7 @@
             </c:otherwise>
           </c:choose>
           <oip:h2><fmt:message key="service.latest_news" /></oip:h2>
-          <os:cache key="oi.feed.rss.${requestScope['javax.servlet.jsp.jstl.fmt.locale.request']}">
+          <os:cache time="300" key="oi.feed.rss.${requestScope['javax.servlet.jsp.jstl.fmt.locale.request']}">
             <mm:import id="rss"><mm:include page="${rsslink}" timeout="10000" /></mm:import>
             <c:catch var="ex2">
               <mm:content escaper="none">
@@ -247,11 +247,9 @@
             </c:catch>
             <c:if test="${! empty ex2}">
               <os:usecached />
+              <p class="err"><mm:escape escape="text/xml,links">${rsslink}: ${ex2.cause.message}</mm:escape></p>
             </c:if>
           </os:cache>
-          <c:if test="${! empty ex2}">
-            <p class="err"><mm:escape escape="text/xml,links">${rsslink}: ${ex2.cause.message}</mm:escape></p>
-          </c:if>
         </div>
       </div>
 
