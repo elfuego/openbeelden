@@ -4,7 +4,7 @@
     xmlns:jsp="http://java.sun.com/JSP/Page"
     xmlns:oip="urn:jsptagdir:/WEB-INF/tags/oip"
     xmlns:mm="http://www.mmbase.org/mmbase-taglib-2.0">
-  
+
   <oip:html
       cacheable="false"
       styleClass="upload">
@@ -21,8 +21,8 @@
         <oip:h2><mm:field name="title" /></oip:h2>
         <mm:nodefunction name="translation">
           <mm:field name="description" escape="paragraph" />
-        </mm:nodefunction>        
-        
+        </mm:nodefunction>
+
         <mm:hasrank minvalue="site user">
           <mm:component name="oip" block="user-mediaupload" />
 
@@ -31,16 +31,16 @@
               <a href="${_}">To dashboard</a>
             </mm:link>
           </mm:cloudinfo>
-        
+
         </mm:hasrank>
-        
+
         <mm:hasrank value="anonymous">
           <mm:redirect page="/register${langpostfix}" />
         </mm:hasrank>
 
       </div>
       <div class="right-column">
-        
+
         <mm:hasrank minvalue="site user">
             <!-- show an article about open images next to upload -->
             <mm:hasnode number="page_upload">
@@ -48,14 +48,12 @@
                 <mm:relatednodescontainer type="articles" role="posrel" searchdirs="destination">
                   <mm:sortorder field="posrel.pos" direction="UP" />
                   <mm:relatednodes>
-                    
                     <mm:nodefunction name="translation">
                       <oip:h3><mm:field name="title" /></oip:h3>
                       <mm:field name="subtitle"><mm:isnotempty><h3 class="subtitle"><mm:write /></h3></mm:isnotempty></mm:field>
                       <mm:field name="intro" escape="paragraph" />
                       <mm:field name="body" escape="paragraph" />
                     </mm:nodefunction>
-                    
                   </mm:relatednodes>
                 </mm:relatednodescontainer>
               </mm:node>
