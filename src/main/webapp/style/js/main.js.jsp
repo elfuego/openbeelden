@@ -1,7 +1,8 @@
-// -*- mode: javascript; -*-
-<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" 
-%><%@ taglib uri="http://www.mmbase.org/mmbase-taglib-2.0" prefix="mm" %>
-<mm:content encoding="UTF-8" type="text/javascript" expires="300">
+/*<%@taglib uri="http://www.mmbase.org/mmbase-taglib-2.0" prefix="mm"
+%><%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"
+%><%@ taglib uri="http://www.opensymphony.com/oscache" prefix="os"
+%><jsp:directive.page session="false" />
+*///<mm:content type="text/javascript" expires="3600" postprocessor="none"><os:cache time="3600"><mm:escape  escape="javascript-compress">
 <fmt:setBundle basename="eu.openimages.messages" scope="request" />
 <mm:import id="any_lang"><fmt:message key="search.any_language" /></mm:import>
 
@@ -71,11 +72,11 @@ function initToolbar() {
         ev.preventDefault();
         var url = ev.target.href;
         $(ev.target).toggleClass('selected');
-        $.ajax({ 
-            url: url, 
-            dataType: 'html', 
-            success: function(xml) { 
-                //console.log('ok: ' + xml); 
+        $.ajax({
+            url: url,
+            dataType: 'html',
+            success: function(xml) {
+                //console.log('ok: ' + xml);
             }
         });
     });
@@ -87,10 +88,10 @@ function initRemoveFav() {
         var url = ev.target.href;
         var msg_spot = $(ev.target).closest('div.b_user-favorites').find('div.msgspot');
         var fav = $(ev.target).closest('dt');
-        $.ajax({ 
-            url: url, 
-            dataType: 'html', 
-            success: function(xml) { 
+        $.ajax({
+            url: url,
+            dataType: 'html',
+            success: function(xml) {
                 $(fav).fadeOut('slow');
                 $(msg_spot).html(xml);
             }
@@ -133,7 +134,7 @@ function initTabs(id) {
                 $('#' + id).tabs('select', '#t_' + anchor.substring(1));
             }
         }
-        
+
         $('#' + id).bind('tabsshow', function(event, ui) {
                 var a = ui.tab.href;
                 a = a.substring(a.indexOf('#'));
@@ -143,7 +144,7 @@ function initTabs(id) {
                     document.location = "#t_" + a.substring(1);
                 }
             });
-        
+
         $(".thumbsonly a").click(function(ev) {
                 var a = ev.target.href;
                 a = a.substring(a.indexOf('#'));
@@ -182,7 +183,7 @@ function initLabelsInInput() {
             }
             input.focusin(function() {
                 if (input.val().length == 0) {
-                    $(label).find('span').animate( {'opacity': 0.50}, 'normal', 
+                    $(label).find('span').animate( {'opacity': 0.50}, 'normal',
                         function(){ $(label).find('span').addClass('grey').css('opacity', 1.0); });
                 }
             });
@@ -190,7 +191,7 @@ function initLabelsInInput() {
             input.live('paste', function() { $(label).find('span').animate({'opacity': 0}, 'fast'); });
             input.focusout(function() {
                 if (input.val().length == 0) {
-                    $(label).find('span').removeClass('grey transparent'); 
+                    $(label).find('span').removeClass('grey transparent');
                     $(label).find('span').animate({ 'opacity': 1 });
                 }
             });
@@ -207,9 +208,9 @@ function initBlank() {
 function initPlayStats() {
     $('div.oiplayer').bind("oiplayerplay", function(ev, pl) {
         var url = "${mm:link('/action/stats.jspx')}?id=" + pl.id;
-        $.ajax({ 
-            url: url, 
-            dataType: 'html', 
+        $.ajax({
+            url: url,
+            dataType: 'html',
             success: function(xml) { /* $('p.nr_of_views').html(xml); */ }
         });
     });
@@ -235,11 +236,11 @@ $(document).ready(function() {
     initTabs('tabs');
     initTabs('usertabs');
     initBlank();
-    
+
     initPlusfields();
     /* if ($('fieldset.labelininput').length) initLabelsInInput(); */
     initFieldInfos();
-    
+
     $('.main-column, .b_user-mediapreview').oiplayer({
         'server' : '<mm:url page="/" absolute="true" />',
         'jar' : '/oiplayer/plugins/cortado-ovt-stripped-wm_r38710.jar',
@@ -248,5 +249,5 @@ $(document).ready(function() {
     });
     initPlayStats();
 });
+//</mm:escape></os:cache></mm:content>
 
-</mm:content>
