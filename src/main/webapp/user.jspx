@@ -4,8 +4,8 @@
     xmlns:jsp="http://java.sun.com/JSP/Page"
     xmlns:fmt="http://java.sun.com/jsp/jstl/fmt"
     xmlns:oip="urn:jsptagdir:/WEB-INF/tags/oip"
-    xmlns:mm="http://www.mmbase.org/mmbase-taglib-2.0"> 
-  
+    xmlns:mm="http://www.mmbase.org/mmbase-taglib-2.0">
+
   <mm:import externid="block"     required="true" />
   <mm:import externid="n"         required="true" />
   <mm:import externid="cacheable"  />
@@ -29,7 +29,7 @@
     </jsp:attribute>
 
     <jsp:attribute name="head">
-      
+
       <mm:component name="oip" block="${block}" render="head" />
       <c:choose>
         <c:when test="${block eq 'user-media'}">
@@ -44,7 +44,7 @@
           <mm:component name="oip" block="user-mediaupload" render="head"/>
         </c:otherwise>
       </c:choose>
-      
+
       <mm:link page="/feeds/atom/">
         <mm:hasnode number="$n">
           <mm:node number="$n">
@@ -57,33 +57,32 @@
 
       <script src="${mm:link('/mmbase/jquery/jquery.form.js')}" type="text/javascript"><jsp:text> </jsp:text></script>
       <script src="${mm:link('/style/js/editors.js')}" type="text/javascript"><jsp:text> </jsp:text></script>
-        
+
     </jsp:attribute>
 
     <jsp:attribute name="body">
-    
+
       <div class="main-column">
-        block: ${block}
 
         <oip:h2 block="${block}" />
 
         <c:if test="${block eq 'user-edit'}">
           <mm:component name="oip" block="user-picture" />
         </c:if>
-        
+
         <c:if test="${block eq 'user-media'}">
           <mm:component name="oip" block="user-mediapreview" />
         </c:if>
-        
+
         <mm:component name="oip" block="${block}" />
-        
+
         <c:if test="${block eq 'user' or block eq 'user-edit'}">
           <mm:component name="oip" block="user-medialist" />
         </c:if>
-        
+
       </div>
       <div class="right-column">
-      
+
         <mm:hasrank minvalue="site user">
           <c:choose>
             <c:when test="${block eq 'user-mediaupload'}">
@@ -93,21 +92,21 @@
                   <mm:relatednodescontainer type="articles" role="posrel" searchdirs="destination">
                     <mm:sortorder field="posrel.pos" direction="UP" />
                     <mm:relatednodes>
-                      
+
                       <mm:nodefunction name="translation">
                         <oip:h3><mm:field name="title" /></oip:h3>
                         <mm:field name="subtitle"><mm:isnotempty><h3 class="subtitle"><mm:write /></h3></mm:isnotempty></mm:field>
                         <mm:field name="intro" escape="paragraph" />
                         <mm:field name="body" escape="paragraph" />
                       </mm:nodefunction>
-                      
+
                     </mm:relatednodes>
                   </mm:relatednodescontainer>
                 </mm:node>
               </mm:hasnode>
             </c:when>
             <c:otherwise>
-              
+
               <ul>
                 <li>
                   <mm:link>
@@ -130,7 +129,7 @@
             </c:otherwise>
           </c:choose>
         </mm:hasrank>
-          
+
       </div>
     </jsp:attribute>
 
