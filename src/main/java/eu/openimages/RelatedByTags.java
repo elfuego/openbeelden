@@ -33,7 +33,6 @@ import org.mmbase.bridge.NotFoundException;
 
 import org.mmbase.storage.search.Constraint;
 import org.mmbase.storage.search.FieldValueConstraint;
-import org.mmbase.storage.search.CompositeConstraint;
 
 import org.mmbase.util.logging.Logger;
 import org.mmbase.util.logging.Logging;

@@ -22,8 +22,6 @@ package eu.openimages;
 
 import org.mmbase.bridge.*;
 import org.mmbase.bridge.util.SearchUtil;
-import org.mmbase.storage.search.*;
-import org.mmbase.bridge.util.Queries;
 import org.mmbase.datatypes.processors.*;
 import org.mmbase.util.logging.*;
 
