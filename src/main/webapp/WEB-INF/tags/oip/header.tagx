@@ -1,28 +1,28 @@
-﻿<jsp:root 
+﻿<jsp:root
   xmlns:jsp="http://java.sun.com/JSP/Page"
   xmlns:c="http://java.sun.com/jsp/jstl/core"
   xmlns:fmt="http://java.sun.com/jsp/jstl/fmt"
   xmlns:mm="http://www.mmbase.org/mmbase-taglib-2.0"
   version="2.0">
-
+  <jsp:output omit-xml-declaration="true" />
   <div id="header">
-    <jsp:output omit-xml-declaration="true" />
-    
-    <fmt:message key="head.title" var="title" />
+
+
+    <fmt:message key="head.title"       var="title" />
     <fmt:message key="head.description" var="description" />
     <c:set var="img"><img src="${mm:link('/style/images/oip-logo.png')}" alt="${title}" width="174" height="174" /></c:set>
     <c:set var="link">${mm:link('/')}</c:set>
 
     <c:choose>
       <c:when test="${empty portal}">
-        
+
         <mm:hasnode number="pool_oip">
           <mm:node number="pool_oip">
             <c:set var="title"><mm:field name="name" /></c:set>
             <c:set var="description"><mm:field name="description" escape="none" /></c:set>
           </mm:node>
         </mm:hasnode>
-        
+
         <mm:functioncontainer>
           <!-- replace with translated logo -->
           <mm:param name="locale" value="${requestScope['javax.servlet.jsp.jstl.fmt.locale.request']}" />
@@ -34,7 +34,7 @@
             </mm:haspage>
           </mm:listfunction>
         </mm:functioncontainer>
-      
+
       </c:when>
       <c:otherwise>
 
@@ -42,7 +42,7 @@
           <mm:relatednodes role="portalrel" type="images" max="1">
             <c:set var="img"><mm:image mode="img" template="s(216)" /></c:set>
           </mm:relatednodes>
-          
+
           <mm:hasalias name="pool_oip">
             <mm:functioncontainer>
               <mm:param name="locale" value="${requestScope['javax.servlet.jsp.jstl.fmt.locale.request']}" />
@@ -55,23 +55,23 @@
               </mm:listfunction>
             </mm:functioncontainer>
           </mm:hasalias>
-          
+
           <mm:nodefunction name="translation">
             <c:set var="title"><mm:field name="name" /></c:set>
             <c:set var="description"><mm:field name="description" escape="none" /></c:set>
           </mm:nodefunction>
         </mm:node>
-  
+
       </c:otherwise>
     </c:choose>
-    
+
     <h1>
       <a title="${title}" href="${link}">
-        ${img}
+        <jsp:text>${img}</jsp:text>
       </a>
     </h1>
     <mm:write referid="description" escape="paragraph" />
-  
+
   </div>
 
 </jsp:root>
