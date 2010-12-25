@@ -5,7 +5,7 @@
     xmlns:fmt="http://java.sun.com/jsp/jstl/fmt"
     xmlns:oip="urn:jsptagdir:/WEB-INF/tags/oip"
     xmlns:mm="http://www.mmbase.org/mmbase-taglib-2.0">
-  
+
   <oip:html styleClass="users">
 
     <jsp:attribute name="body">
@@ -14,7 +14,7 @@
         <oip:h2><mm:field name="title" /></oip:h2>
         <mm:nodefunction name="translation">
           <mm:field name="description" escape="paragraph" />
-        </mm:nodefunction>        
+        </mm:nodefunction>
 
         <mm:import externid="qu" />
         <mm:import id="index">users</mm:import><!-- the lucene index -->
@@ -39,14 +39,14 @@
             <mm:import id="value" reset="true">${qu}</mm:import>
           </c:otherwise>
         </c:choose>
-        
+
         <mm:import id="extraconstraints">status:EQ:1</mm:import>
-        
-        <mm:function 
+
+        <mm:function
             write="false"
             id="total"
-            module="lucene" 
-            name="searchsize" 
+            module="lucene"
+            name="searchsize"
             referids="index,value,fields?,extraconstraints" />
 
         <!-- sorting -->
@@ -75,7 +75,7 @@
         <c:if test="${empty emptysearch}">
           <p>Searched with <strong>${value}</strong>: ${total} found.</p>
         </c:if>
-        
+
         <!-- when lucene is 'empty' -->
         <c:if test="${empty qu and total == 0}">
           <mm:remove referid="results" />
@@ -110,7 +110,7 @@
       <div class="right-column">
         <div class="related-grey">
           <oip:h3><fmt:message key="media.sortby" /></oip:h3>
-          
+
           <ul class="sortby">
             <li>
               <mm:link referid="baseurl">
