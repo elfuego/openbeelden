@@ -3,11 +3,19 @@
 <!--This resouce configuration points to the test database-->
 <Configure class="org.mortbay.jetty.webapp.WebAppContext">
 
+<Set name="sessionHandler">
+   <New class="org.mortbay.jetty.servlet.SessionHandler">
+     <Arg>
+       <New class="org.mortbay.jetty.servlet.HashSessionManager">
+         <Set name="storeDirectory">data/sessions/</Set>
+       </New>
+     </Arg>
+   </New>
+ </Set>
 
   <!--
       When using jetty:run use an hsql database in the directory 'data'.
   -->
-
   <!--
   <New  class="org.mortbay.jetty.plus.naming.EnvEntry">
     <Arg type="java.lang.String">mmbase/mmbaseroot/database</Arg>
@@ -27,7 +35,6 @@
     </Arg>
    </New>
    -->
-
   <!--
       The 'setNodeManager' funcationality which is used, is only implemented in implementations which don't use foreign keys.
       I'm going to fix that eventually, but for now please use MySQL.
@@ -48,7 +55,6 @@
       </New>
     </Arg>
    </New>
-
    <!--
        Put all mmbase date files there too.
    -->
@@ -58,19 +64,26 @@
     <Arg type="boolean">true</Arg>
   </New>
 
+  <!--
   <New  class="org.mortbay.jetty.plus.naming.EnvEntry">
     <Arg type="java.lang.String">org.mmbase.streams.transcoders.FFMpeg2TheoraTranscoder/path</Arg>
-    <Arg type="java.lang.String">/usr/local/bin</Arg>
+    <Arg type="java.lang.String">/usr/bin/</Arg>
     <Arg type="boolean">true</Arg>
   </New>
+  -->
 
 
   <New  class="org.mortbay.jetty.plus.naming.EnvEntry">
     <Arg type="java.lang.String">mmbase/rmmci/port</Arg>
-    <Arg type="java.lang.String">-1</Arg>
+    <Arg type="java.lang.String">1111</Arg>
     <Arg type="boolean">true</Arg>
   </New>
 
+  <New  class="org.mortbay.jetty.plus.naming.EnvEntry">
+    <Arg type="java.lang.String">mmbase/rmmci/RMIRegistryServer</Arg>
+    <Arg type="java.lang.String">localhost</Arg>
+    <Arg type="boolean">true</Arg>
+  </New>
 
   <!--
       Default logging configuration is supposing tomcat a bit.
@@ -84,6 +97,17 @@
   </New>
 
 
+  <!-- If only testing the code, not the transcoding itself, you
+       may want to use this create caches configuration.
+       which 'trancodes' faster, and  reliably to something which doesn't actually work, btw.
+       -->
+  <!--
+  <New  class="org.mortbay.jetty.plus.naming.EnvEntry">
+    <Arg type="java.lang.String">mmbase-config/streams/createcaches.xml</Arg>
+    <Arg type="java.lang.String">/WEB-INF/config/streams/mock_createcaches.xml</Arg>
+    <Arg type="boolean">true</Arg>
+  </New>
+  -->
 
 
 </Configure>
