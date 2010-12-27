@@ -189,7 +189,7 @@ public class PortalFilter implements Filter, MMBaseStarter {
                 log.service("Assuming portal '" + serverName +  "' is default.");
                 portal = cloud.getNode("pool_oip");
             }
-            attributes.put("portal", portal);
+            attributes.put("portal", portal == null ? null : new org.mmbase.bridge.util.NodeMap(portal));
             attributes.put("isdefaultportal", portal != null && portal.getAliases().contains("pool_oip"));
             CACHE.put(serverName, attributes);
         }
