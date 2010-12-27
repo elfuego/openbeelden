@@ -135,6 +135,14 @@
               <name>com.sun.management.jmxremote</name>
               <value>true</value>
             </systemProperty>
+            <systemProperty>
+              <!--
+              This may not be very safe, but we use jetty only for developing
+              See: http://communitymapbuilder.org/display/JETTY/How+to+enable+serving+aliased+files
+              -->
+              <name>org.mortbay.util.FileResource.checkAliases</name>
+              <value>false</value>
+            </systemProperty>
           </systemProperties>
         </configuration>
         <!--
@@ -148,14 +156,12 @@
             <version>0.9.1.2</version>
             <scope>runtime</scope>
           </dependency>
-          <!--
-              <dependency>
-              <groupId>hsqldb</groupId>
-              <artifactId>hsqldb</artifactId>
-              <version>1.8.0.7</version>
-              <scope>runtime</scope>
-              </dependency>
-          -->
+          <dependency>
+            <groupId>hsqldb</groupId>
+            <artifactId>hsqldb</artifactId>
+            <version>1.8.0.7</version>
+            <scope>runtime</scope>
+          </dependency>
           <!-- Testing on MySQL only for now -->
           <dependency>
             <groupId>mysql</groupId>
@@ -319,7 +325,7 @@
       <version>3.2.7</version>
       <type>war</type>
     </dependency>
-    
+
     <dependency>
       <groupId>org.mmbase.jquery</groupId>
       <artifactId>jquery-ui</artifactId>
