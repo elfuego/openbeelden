@@ -11,7 +11,7 @@
   <packaging>war</packaging>
   <name>Open Images Platform</name>
 
-  <description>Sound &amp; Vision - Open Images Platform Web Application</description>
+  <description>Sound and Vision - Open Images Platform Web Application</description>
   <licenses>
     <license>
       <name>GNU General Public License</name>
