@@ -23,6 +23,12 @@
     </license>
   </licenses>
 
+  <scm>
+    <url>https://scm.mmbase.org/openimages/trunk</url>
+    <connection>scm:svn:${project.scm.url}</connection>
+    <developerConnection>${project.scm.connection}</developerConnection>
+  </scm>
+
   <properties>
      <mmbase.version.number>1.9</mmbase.version.number>
      <mmbase.version.postfix>-SNAPSHOT</mmbase.version.postfix>
@@ -89,6 +95,26 @@
       </plugin>
 
       <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>buildnumber-maven-plugin</artifactId>
+        <configuration>
+          <buildNumberPropertyName>sources.version</buildNumberPropertyName>
+          <timestampPropertyName>timestamp</timestampPropertyName>
+          <timestampFormat>{0,date,yyyy-MM-dd'T'HH:mm}</timestampFormat>
+          <doCheck>${buildnumber.doCheck}</doCheck>
+          <doUpdate>true</doUpdate>
+        </configuration>
+        <executions>
+          <execution>
+            <phase>validate</phase>
+            <goals>
+              <goal>create</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+
+      <plugin>
        <artifactId>maven-war-plugin</artifactId>
        <!-- this is a version of the war plugin compiled by Michiel. See http://jira.codehaus.org/browse/MWAR-205 -->
        <!--
@@ -106,7 +132,27 @@
               <targetPath>mmbase</targetPath>
             </overlay>
           </overlays>
-
+          <archive>
+            <manifest>
+              <addClasspath>true</addClasspath>
+            </manifest>
+            <manifestEntries>
+              <url>${pom.url}</url>
+            </manifestEntries>
+            <manifestSections>
+              <manifestSection>
+                <name>eu.openbeelden</name>
+                <manifestEntries>
+                  <Vendor>Beeld &amp; Geluid</Vendor>
+                  <Version>${project.version}.${timestamp}</Version>
+                  <SCM-Revision>${sources.version}</SCM-Revision>
+                  <Distribution>${project.version}</Distribution>
+                  <Build-Date>${timestamp}</Build-Date>
+                  <Description>${pom.description}</Description>
+                </manifestEntries>
+              </manifestSection>
+            </manifestSections>
+          </archive>
        </configuration>
       </plugin>
 

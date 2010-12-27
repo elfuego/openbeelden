@@ -1,0 +1,27 @@
+<jsp:root
+    version="2.0"
+    xmlns:c="http://java.sun.com/jsp/jstl/core"
+    xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+    xmlns:fmt="http://java.sun.com/jsp/jstl/fmt"
+    xmlns:os="http://www.opensymphony.com/oscache"
+    xmlns:jsp="http://java.sun.com/JSP/Page"
+    xmlns:oip="urn:jsptagdir:/WEB-INF/tags/oip"
+    xmlns:mm="http://www.mmbase.org/mmbase-taglib-2.0">
+  <oip:html styleClass="home">
+    <jsp:attribute name="body">
+      <div class="main-column">
+        <mm:functioncontainer>
+          <mm:param name="name">oip</mm:param>
+          <mm:function set="components" name="get" id="c">
+            <c:forEach items="${c.manifest.entries['eu.openbeelden']}" var="e">
+              <p><b>${e.key}</b> ${e.value}</p>
+            </c:forEach>
+          </mm:function>
+        </mm:functioncontainer>
+        <p><b>Portal:</b> ${portal.number} ${portal.name}</p>
+      </div>
+    </jsp:attribute>
+  </oip:html>
+
+</jsp:root>
+
