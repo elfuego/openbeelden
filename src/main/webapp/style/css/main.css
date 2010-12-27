@@ -294,6 +294,7 @@ p.required
 	font-style: italic;
 	color: #888;
 }
+p.required span { font-style: normal; }
 
 span.text, span.text span {
   display: inline-block;
