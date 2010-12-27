@@ -96,7 +96,7 @@
               </fieldset>
 
               <fieldset class="buttons">
-                <p class="required"><fmt:message key="users.starsarerequired" /></p>
+                <p class="required"><span>* </span> <fmt:message key="users.starsarerequired" /></p>
                 <c:set var="button_save"><fmt:message key="users.form.save" /></c:set>
                 <input name="submit" type="submit" value="${button_save}" id="submit" class="submit" />
                 <input name="add_more_info" type="button" value="Add more info" id="add_more_info" class="info" />
