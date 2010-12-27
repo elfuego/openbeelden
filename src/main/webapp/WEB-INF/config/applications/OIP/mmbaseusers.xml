@@ -16,6 +16,7 @@
 		<firstname>Foo</firstname>
 		<description>My friends, each of you is a single cel in the great body of the State. And today, that great body has purged itself of parasites. We have triumphed over the unprincipled dissemination of facts. The thugs and wreckers have been cast out. And the poisenous weeds of disinformation have been consigned to the dustbin of history. Let each and every cell rejoice!</description>
 		<email>foo@mmbase.org</email>
+		<language>en</language>
 	</node>
 
 	<node number="1500" owner="179">
@@ -29,6 +30,7 @@
 		<lastname>Beeld en Geluid</lastname>
 		<description>The Netherlands Institute for Sound and Vision (Nederlands Instituut voor Beeld en Geluid) is one of the largest audio-visual archives in Europe. The Institute preserves a major part of the Dutch audio-visual heritage and makes it accessible to potential users. The collection totals over 700,000 hours of television, radio, music and film. But the Institute is more than just a collection. Apart from functioning as an audio-visual archive for the national broadcasting corporations and others, it also offers a unique media experience for its visitors.</description>
 		<email>info@beeldengeluid.nl</email>
+		<language>nl</language>
 	</node>
 
 </mmbaseusers>
