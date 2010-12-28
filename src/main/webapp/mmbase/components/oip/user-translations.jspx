@@ -13,6 +13,8 @@
         class="mm_c c_oip b_user-translations ${requestScope.className}"
         id="${requestScope['org.mmbase.componentId']}">
   
+      <strong><fmt:message key="users.translations" /></strong>
+      
       <mm:import externid="media" id="node" />
       <mm:notpresent referid="node">
         <mm:remove referid="node" />
@@ -21,56 +23,48 @@
       
       <mm:node number="$node">
         
-        <mm:import id="type"><mm:nodeinfo type="type" /></mm:import>
+        <mm:nodeinfo type="type" id="type" write="false" />
         <mm:import id="ttype"><mm:property nodemanager="$type" name="translations.builder" /></mm:import>
         <mm:isempty referid="ttype"><mm:import id="ttype" reset="true">${type}_translations</mm:import></mm:isempty>
+
         
-        <mm:hasrelationmanager sourcemanager="$type" destinationmanager="$ttype" role="langrel">
-        
-          <oip:h2><fmt:message key="users.translations" /></oip:h2>
+        <mm:hasrelationmanager sourcemanager="$type" destinationmanager="$ttype" role="langrel">  
           
-          <mm:import externid="msg" />
-          <mm:present referid="msg">
-            <p class="msg">${msg}</p>
-          </mm:present>            
-          
-          <ul>
-            <mm:maycreate type="$ttype">
-              <li id="create_${ttype}">
-                <mm:link page="/editors/inc/form-create.jspx">
-                  <mm:param name="nr">${_node.number}</mm:param>
-                  <mm:param name="type">${ttype}</mm:param>
-                  <mm:param name="role">langrel</mm:param>
-                  <mm:param name="dir">destination</mm:param>
-                  <a class="mmajaxeditor" href="${_}#create_${ttype}">New translation</a>
-                </mm:link>
-              </li>       
-            </mm:maycreate>
-            <mm:relatednodescontainer type="$ttype" role="langrel" searchdirs="destination">
-              <mm:relatednodes id="translation">
-                  <li id="node_${translation}">
-                    
-                    <mm:link page="/editors/inc/form-edit.jspx" referids="translation@nr">
-                      <a href="${_}#node_${translation}" class="mmajaxeditor">
-                        <mm:field name="language"><mm:fieldinfo type="guivalue" /></mm:field>
-                        - <mm:function name="gui" />
-                      </a>
+          <mm:relatednodescontainer type="$ttype" role="langrel" searchdirs="destination">
+            <ul>
+              <mm:relatednodes>
+                <li id="edit_${_node.number}">
+                  <mm:link page="/editors/edit-node.jspx" referids="p?,_node@nr">
+                    <!-- mm:param name="fields">title,language,subtitle,intro,body,keywords,source</mm:param -->
+                    <a class="editme" href="${_}#edit_${_node.number}">edit</a>
+                  </mm:link>
+                  <mm:maydelete> -
+                    <mm:link page="/editors/delete-node.jspx" referids="p?,_node@nr">
+                      <a class="editme delete" href="${_}#edit_${_node.number}">delete</a>
                     </mm:link>
-                    
-                    <mm:maydelete> -
-                      <mm:link page="/editors/inc/form-delete.jspx" referids="translation@nr">
-                        <a href="${_}#node_${translation}" class="mmajaxeditor">delete</a>
-                      </mm:link>
-                    </mm:maydelete>
-                    
-                  </li>
+                  </mm:maydelete>
+                  <div>
+                    <mm:field name="title" /> (<mm:field name="language" />)
+                  </div>
+                </li>
               </mm:relatednodes>
-            </mm:relatednodescontainer>
-          </ul>
-          
+              <li>
+                <mm:link page="/editors/add-node.jspx" referids="p?,_node@nr,ttype@type">
+                  <mm:param name="role">langrel</mm:param>
+                  <!-- <mm:param name="fields">title,language,subtitle,intro,body,keywords,source</mm:param> -->
+                  <a class="editme" href="${_}#add_${ttype}">
+                    <fmt:message key="users.create_new_translation" />
+                  </a>
+                </mm:link>
+                <div id="add_${ttype}"><jsp:text> <!-- empty, cause nothing exists here yet --> </jsp:text></div>
+              </li>
+            </ul>
+          </mm:relatednodescontainer>
         </mm:hasrelationmanager>
+
+
       </mm:node>
- 
+      
     </div>
   </mm:cloud>
 </mm:content>
