@@ -11,7 +11,7 @@
           description="If this is an advanced search or not">false</jsp:directive.attribute>
   <jsp:directive.attribute name="language"
           description="Prefered language of user" />
-    
+
     <mm:import externid="q" />
     <mm:import externid="p">${portal.number}</mm:import><!-- portal -->
     <mm:import externid="isdefaultportal" />
@@ -42,11 +42,11 @@
       </fieldset>
       <c:if test="${advanced eq true}">
         <fieldset class="advanced">
- 
+
           <!-- portals -->
           <c:if test="${isdefaultportal}">
             <label for="search_portal">Portal</label>
-            <mm:listcontainer path="pools,portalrel,urls" searchdirs="destination" 
+            <mm:listcontainer path="pools,portalrel,urls" searchdirs="destination"
               fields="pools.number,pools.name">
               <mm:distinct />
               <mm:size>
@@ -57,16 +57,7 @@
                         <mm:nodefunction name="translation">
                           <c:set var="p_name"><mm:field name="name" /></c:set>
                         </mm:nodefunction>
-                        
-                        <c:choose>
-                          <c:when test="${p eq _node.number}">
-                            <option label="${p_name}" value="${_node.number}" selected="selected">${p_name}</option>
-                          </c:when>
-                          <c:otherwise>
-                            <option label="${p_name}" value="${_node.number}">${p_name}</option>
-                          </c:otherwise>
-                        </c:choose>
-                        
+                        <mm:option label="${p_name}" value="${_node.number}" compare="${p}">${p_name}</mm:option>
                       </mm:node>
                     </mm:list>
                   </select>
@@ -74,60 +65,22 @@
               </mm:size>
             </mm:listcontainer>
           </c:if>
-          
+
           <!-- date published -->
           <c:set var="label_date"><fmt:message key="search.any_period" /></c:set>
           <label for="date"><fmt:message key="media.date" /></label>
           <select id="date" name="date">
-            <option label="${label_date}" value="">${label_date}</option>
-            <c:choose>
-              <c:when test="${date eq '2010'}">
-                <option label="After 2009" value="2010" selected="selected">After 2010</option>
-              </c:when>
-              <c:otherwise>
-                <option label="After 2009" value="2010">After 2010</option>
-              </c:otherwise>
-            </c:choose>
-            <c:choose>
-              <c:when test="${date eq '1990'}">
-                <option label="1990-2009" value="1990" selected="selected">1990-2009</option>
-              </c:when>
-              <c:otherwise>
-                <option label="1990-2009" value="1990">1990-2009</option>
-              </c:otherwise>
-            </c:choose>
-            <c:choose>
-              <c:when test="${date eq '1970'}">
-                <option label="1970-1989" value="1970" selected="selected">1970-1989</option>
-              </c:when>
-              <c:otherwise>
-                <option label="1970-1989" value="1970">1970-1989</option>
-              </c:otherwise>
-            </c:choose>
-            <c:choose>
-              <c:when test="${date eq '1950'}">
-                <option label="1950-1969" value="1950" selected="selected">1950-1969</option>
-              </c:when>
-              <c:otherwise>
-                <option label="1950-1969" value="1950">1950-1969</option>
-              </c:otherwise>
-            </c:choose>
-            <c:choose>
-              <c:when test="${date eq '1930'}">
-                <option label="1930-1959" value="1930" selected="selected">1930-1959</option>
-              </c:when>
-              <c:otherwise>
-                <option label="1930-1959" value="1930">1930-1959</option>
-              </c:otherwise>
-            </c:choose>
-            <c:choose>
-              <c:when test="${date eq '1910'}">
-                <option label="1910-1929" value="1910" selected="selected">1910-1929</option>
-              </c:when>
-              <c:otherwise>
-                <option label="1910-1929" value="1910">1910-1929</option>
-              </c:otherwise>
-            </c:choose>
+            <option    label="${label_date}" value="">${label_date}</option>
+            <mm:option value="2010" compare="${date}">
+              <fmt:message key="search.after">
+                <fmt:param>2010</fmt:param>
+              </fmt:message>
+            </mm:option>
+            <mm:option label="1990-2009" value="1990" compare="${date}">1990-2009</mm:option>
+            <mm:option label="1970-1989" value="1970" compare="${date}">1970-1989</mm:option>
+            <mm:option label="1950-1969" value="1950" compare="${date}">1950-1969</mm:option>
+            <mm:option label="1930-1949" value="1930" compare="${date}">1930-1949</mm:option>
+            <mm:option label="1910-1929" value="1910" compare="${date}">1910-1929</mm:option>
           </select>
 
           <!-- uploaded / created -->
@@ -135,40 +88,12 @@
           <label for="uploaded"><fmt:message key="media.uploaded" /></label>
           <select id="uploaded" name="uploaded">
             <option label="${label_uploaded}" value="">${label_uploaded}</option>
-            <c:choose>
-              <c:when test="${uploaded eq 'today'}">
-                <option label="Not more then a day ago" value="today" selected="selected">Not more then a day ago</option>
-              </c:when>
-              <c:otherwise>
-                <option label="Not more then a day ago" value="today">Not more then a day ago</option>
-              </c:otherwise>
-            </c:choose>
-            <c:choose>
-              <c:when test="${uploaded eq 'week'}">
-                <option label="Not more then a week ago" value="week" selected="selected">Not more then a week ago</option>
-              </c:when>
-              <c:otherwise>
-                <option label="Not more then a week ago" value="week">Not more then a week ago</option>
-              </c:otherwise>
-            </c:choose>
-            <c:choose>
-              <c:when test="${uploaded eq 'month'}">
-                <option label="Not more then a month ago" value="month" selected="selected">Not more then a month ago</option>
-              </c:when>
-              <c:otherwise>
-                <option label="Not more then a month ago" value="month">Not more then a month ago</option>
-              </c:otherwise>
-            </c:choose>
-            <c:choose>
-              <c:when test="${uploaded eq 'year'}">
-                <option label="Not more then a year ago" value="year" selected="selected">Not more then a year ago</option>
-              </c:when>
-              <c:otherwise>
-                <option label="Not more then a year ago" value="year">Not more then a year ago</option>
-              </c:otherwise>
-            </c:choose>
+            <mm:option value="today" compare="${uploaded}"><fmt:message key="search.notmorethanaday" /></mm:option>
+            <mm:option value="week" compare="${uploaded}"><fmt:message key="search.notmorethanaweek" /></mm:option>
+            <mm:option value="month" compare="${uploaded}"><fmt:message key="search.notmorethanamonth" /></mm:option>
+            <mm:option value="year" compare="${uploaded}"><fmt:message key="search.notmorethanayear" /></mm:option>
           </select>
- 
+
           <label class="mm_searchlang" for="mm_searchlang"><fmt:message key="media.language" /></label>
           <mm:datatype nodemanager="articles" field="language" id="searchlang">
             <default value="" />
@@ -176,35 +101,28 @@
           </mm:datatype>
           <mm:fieldinfo datatype="searchlang" node="" type="input" />
           <input name="hiddensearchlang" id="hiddensearchlang" type="hidden" value="${_searchlang}" />
- 
+
           <fmt:message key="search.any_license" var="label_license" />
           <label class="license" for="license"><fmt:message key="media.license" /></label>
           <mm:listnodescontainer type="licenses">
             <select id="license" name="license">
               <option value="" label="${label_license}">${label_license}</option>
-            <mm:listnodes>
-              <c:choose>
-                <c:when test="${license eq _node.number}">
-                  <option value="${_node.number}" label="${_node.name}" selected="selected">${_node.name}</option>
-                </c:when>
-                <c:otherwise>
-                  <option value="${_node.number}" label="${_node.name}">${_node.name}</option>
-                </c:otherwise>
-              </c:choose>
-            </mm:listnodes>
+              <mm:listnodes>
+                <mm:option value="${_node.number}" compare="${license}"><mm:write value="${_node.name}" /></mm:option>
+              </mm:listnodes>
             </select>
           </mm:listnodescontainer>
- 
+
           <label for="user"><fmt:message key="media.user" /></label>
           <input name="user" id="user" value="${user}" type="text" />
- 
+
           <label for="source"><fmt:message key="media.source" /></label>
           <input name="source" id="source" value="${source}" type="text" />
- 
+
         </fieldset>
         <c:set var="classhidden" value="" />
       </c:if>
- 
+
       <fieldset class="${classhidden}">
         <fmt:message key="search.button" var="button" />
         <input type="submit" name="action" value="${button}" class="submit" />
