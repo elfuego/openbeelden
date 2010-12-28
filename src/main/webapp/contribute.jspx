@@ -4,7 +4,7 @@
     xmlns:jsp="http://java.sun.com/JSP/Page"
     xmlns:oip="urn:jsptagdir:/WEB-INF/tags/oip"
     xmlns:mm="http://www.mmbase.org/mmbase-taglib-2.0">
-  
+
   <oip:html
       cacheable="false"
       styleClass="contribute">
@@ -17,7 +17,7 @@
             <jsp:text>.${requestScope['org.mmbase.mmsite.language']}</jsp:text>
           </c:if>
         </mm:import>
-        
+
         <mm:hasrank minvalue="site user">
           <mm:cloudinfo type="user">
             <mm:redirect page="/users/${_}${langpostfix}" />
@@ -26,7 +26,7 @@
           <mm:redirect page="/upload" />
           -->
         </mm:hasrank>
-        
+
         <mm:hasrank value="anonymous">
           <mm:redirect page="/register${langpostfix}" />
         </mm:hasrank>
