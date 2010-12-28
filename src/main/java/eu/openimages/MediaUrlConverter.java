@@ -65,7 +65,8 @@ public class MediaUrlConverter extends DirectoryUrlConverter {
         useTitle = t;
     }
 
-    @Override public int getDefaultWeight() {
+    @Override
+    public int getDefaultWeight() {
         int q = super.getDefaultWeight();
         return Math.max(q, q + 1000);
     }
@@ -80,7 +81,8 @@ public class MediaUrlConverter extends DirectoryUrlConverter {
     /**
      * Generates a nice url for 'media'.
      */
-    @Override protected void getNiceDirectoryUrl(StringBuilder b,
+    @Override
+    protected void getNiceDirectoryUrl(StringBuilder b,
                                                  Block block,
                                                  Parameters parameters,
                                                  Parameters frameworkParameters,  boolean action) throws FrameworkException {
