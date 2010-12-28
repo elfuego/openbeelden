@@ -9,8 +9,13 @@
     <mm:node number="${requestScope.portal.number}">
       <div class="logos">
         <p>
-          <fmt:message key="head.initiative" />
-          <a href="http://www.beeldengeluid.nl"><img src="${mm:link('/style/images/logo-beng.png')}" alt="Nederlands Instituut voor Beeld en Geluid" width="155" height="44" /></a>
+          <fmt:message key="head.initiative">
+             <fmt:param>
+               <a href="http://www.beeldengeluid.nl">
+                 <img src="${mm:link('/style/images/logo-beng.png')}" alt="Nederlands Instituut voor Beeld en Geluid" width="155" height="44" />
+               </a>
+             </fmt:param>
+          </fmt:message>
         </p>
       </div>
 
