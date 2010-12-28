@@ -14,22 +14,23 @@
     </jsp:attribute>
 
     <jsp:attribute name="body">
-  
+
       <div class="main-column">
         <oip:h2><mm:field name="title" /></oip:h2>
         <mm:nodefunction name="translation">
           <mm:field name="description" escape="paragraph" />
-        </mm:nodefunction>        
+        </mm:nodefunction>
         <mm:component name="oip" block="user-login" />
       </div>
-      
+
       <div class="right-column">
         <div class="related-grey">
           <mm:cloud method="asis">
             <mm:hasrank minvalue="basic user">
               <p>
-                <fmt:message key="login.you_are" /><br />
-                <mm:include page="/action/you.jspx" />
+                <fmt:message key="login.you_are">
+                  <fmt:param><mm:include page="/action/you.jspx" /></fmt:param>
+                </fmt:message>
               </p>
             </mm:hasrank>
             <mm:node number="page_register">
@@ -41,8 +42,8 @@
           </mm:cloud>
         </div>
       </div>
-      
+
     </jsp:attribute>
-  
+
   </oip:html>
 </jsp:root>
