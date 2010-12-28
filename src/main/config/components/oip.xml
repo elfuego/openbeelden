@@ -73,7 +73,7 @@
     <body jsp="user-login.jspx">
     </body>
   </block>
-  
+
   <block name="user-resetpassword"
          classification="oip"
          mimetype="text/html">
@@ -84,7 +84,7 @@
     <body jsp="user-resetpassword.jspx">
     </body>
   </block>
-  
+
   <block name="user"
          classification="oip"
          mimetype="text/html">
@@ -257,6 +257,16 @@
     <body jsp="user-streamjobs.jspx">
       <param name="n" type="org.mmbase.bridge.Node" />
       <param name="media" type="String" />
+    </body>
+  </block>
+
+  <block name="user-delete"
+         classification="oip"
+         mimetype="text/html">
+    <title xml:lang="en">Delete user</title>
+    <title xml:lang="nl">Verwijder gebruiker</title>
+    <body jsp="user-delete.jspx">
+      <param name="user" type="org.mmbase.bridge.Node" />
     </body>
   </block>
 
