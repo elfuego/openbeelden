@@ -73,7 +73,12 @@
         </mm:functioncontainer>
 
         <c:if test="${empty emptysearch}">
-          <p>Searched with <strong>${value}</strong>: ${total} found.</p>
+          <p>
+            <fmt:message key="search.searched_with">
+              <fmt:param><strong><mm:write value="${value}" /></strong></fmt:param>
+              <fmt:param>${total}</fmt:param>
+            </fmt:message>
+          </p>
         </c:if>
 
         <!-- when lucene is 'empty' -->
