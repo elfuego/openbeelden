@@ -72,6 +72,7 @@
 
         <c:if test="${block eq 'user-media'}">
           <mm:component name="oip" block="user-mediapreview" />
+          <mm:component name="oip" block="user-translations" />
         </c:if>
 
         <mm:component name="oip" block="${block}" />
@@ -95,7 +96,7 @@
 
                       <mm:nodefunction name="translation">
                         <oip:h3><mm:field name="title" /></oip:h3>
-                        <mm:field name="subtitle"><mm:isnotempty><h3 class="subtitle"><mm:write /></h3></mm:isnotempty></mm:field>
+                        <mm:field name="subtitle"><mm:isnotempty><h4 class="subtitle"><mm:write /></h4></mm:isnotempty></mm:field>
                         <mm:field name="intro" escape="paragraph" />
                         <mm:field name="body" escape="paragraph" />
                       </mm:nodefunction>
@@ -111,17 +112,17 @@
                 <li>
                   <mm:link>
                     <mm:frameworkparam name="component">oip</mm:frameworkparam>
-                    <mm:frameworkparam name="block">user</mm:frameworkparam>
+                    <mm:frameworkparam name="block">user-mediaupload</mm:frameworkparam>
                     <mm:frameworkparam name="user"><mm:cloudinfo type="usernode" /></mm:frameworkparam>
-                    <a href="${_}"><fmt:message key="user.dashboard" /></a>
+                    <a href="${_}"><fmt:message key="media.upload" /></a>
                   </mm:link>
                 </li>
                 <li>
                   <mm:link>
                     <mm:frameworkparam name="component">oip</mm:frameworkparam>
-                    <mm:frameworkparam name="block">user-mediaupload</mm:frameworkparam>
+                    <mm:frameworkparam name="block">user</mm:frameworkparam>
                     <mm:frameworkparam name="user"><mm:cloudinfo type="usernode" /></mm:frameworkparam>
-                    <a href="${_}"><fmt:message key="media.upload" /></a>
+                    <a href="${_}"><fmt:message key="media.dashboard" /></a>
                   </mm:link>
                 </li>
                 <li>
