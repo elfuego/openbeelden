@@ -69,12 +69,12 @@
                 </mm:import>
               </c:otherwise>
             </c:choose>
-            
+
           </c:when>
           <c:otherwise>
 
             <mm:node number="$p" notfound="skip">
-              
+
               <!-- set portal manager as default user -->
               <mm:relatednodescontainer type="mmbaseusers" role="portalrel" searchdirs="source">
                 <mm:maxnumber value="1" />
@@ -83,7 +83,7 @@
                   <c:set var="portalmanager"><mm:field name="username" /></c:set>
                 </mm:relatednodes>
               </mm:relatednodescontainer>
-  
+
               <!-- portal filter: users, tags, keywords -->
               <mm:relatednodescontainer type="filters" role="portalrel" searchdirs="destination">
                 <mm:relatednodes>
@@ -108,11 +108,11 @@
                       </c:forTokens>
                     </mm:isnotempty>
                   </mm:field>
-  
+
                 </mm:relatednodes>
               </mm:relatednodescontainer>
             </mm:node>
-            
+
             <!--
             define portal queries for Lucene
             pseudo code: lucene.Find((someField == "bar" || someField == "baz") && anotherField == "foo");
@@ -134,7 +134,7 @@
             </mm:import>
 
             <!-- value2: query for recommendations (inverse of above query) -->
-            <c:if test="${empty q}"><mm:import id="fields" reset="true">indexId</mm:import></c:if> 
+            <c:if test="${empty q}"><mm:import id="fields" reset="true">indexId</mm:import></c:if>
             <mm:import id="value2">
               <c:choose>
                 <c:when test="${empty q}">${index}* AND </c:when>
@@ -152,8 +152,8 @@
 
           </c:otherwise>
         </c:choose>
-        
-        
+
+
         <c:if test="${!empty _searchlang}"><c:set var="searched" value="advanced" /></c:if>
         <c:if test="${!empty user}"><c:set var="searched" value="advanced" /></c:if>
         <c:if test="${!empty source}"><c:set var="searched" value="advanced" /></c:if>
@@ -255,8 +255,9 @@
 
         <p>
           <c:if test="${!empty q}">
-            <fmt:message key="search.searched_with" /><jsp:text> </jsp:text>
-            <strong>${mm:escape('text/xml', q)}</strong>
+            <fmt:message key="search.searched_with">
+              <fmt:param><strong>${mm:escape('text/xml', q)}</strong></fmt:param>
+            </fmt:message>
           </c:if>
         </p>
 
@@ -310,7 +311,7 @@
             <h4>Results from complete repository (${total2})</h4>
               <oip:medialist list="${results2}" />
               <p class="pager">
-                <oip:pager total="${total2}" offset="${offset}" max="${max}" 
+                <oip:pager total="${total2}" offset="${offset}" max="${max}"
                   baseurl="${pageurl}" />
               </p>
           </div>
