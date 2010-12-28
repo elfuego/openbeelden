@@ -8,6 +8,7 @@
 div#main
 {
 	width: 1008px;
+	min-height: 620px;
 	margin: 0;
 	padding: 0;
 }
