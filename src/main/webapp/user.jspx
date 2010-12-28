@@ -113,7 +113,7 @@
                     <mm:frameworkparam name="component">oip</mm:frameworkparam>
                     <mm:frameworkparam name="block">user</mm:frameworkparam>
                     <mm:frameworkparam name="user"><mm:cloudinfo type="usernode" /></mm:frameworkparam>
-                    <a href="${_}">User dashboard</a>
+                    <a href="${_}"><fmt:message key="user.dashboard" /></a>
                   </mm:link>
                 </li>
                 <li>
@@ -121,7 +121,15 @@
                     <mm:frameworkparam name="component">oip</mm:frameworkparam>
                     <mm:frameworkparam name="block">user-mediaupload</mm:frameworkparam>
                     <mm:frameworkparam name="user"><mm:cloudinfo type="usernode" /></mm:frameworkparam>
-                    <a href="${_}">Upload</a>
+                    <a href="${_}"><fmt:message key="media.upload" /></a>
+                  </mm:link>
+                </li>
+                <li>
+                  <mm:link>
+                    <mm:frameworkparam name="component">oip</mm:frameworkparam>
+                    <mm:frameworkparam name="block">user-delete</mm:frameworkparam>
+                    <mm:frameworkparam name="user"><mm:cloudinfo type="usernode" /></mm:frameworkparam>
+                    <a href="${_}"><fmt:message key="user.delete" /></a>
                   </mm:link>
                 </li>
               </ul>
