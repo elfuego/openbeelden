@@ -86,11 +86,9 @@
               <fmt:message key="users.upload.finished" />
               <!-- Submitted ${_node} URL: ${_node.url} FS: ${_node.filesize} <oip:type /> -->
             </p>
-            <mm:log jspvar="log"><!-- Make sure the mediafragment is created outside transactions and so on -->
-              <mm:field name="title" jspvar="mf_title" vartype="String" write="false">
-                <jsp:scriptlet>log.info("Mediafragment title: " + mf_title);</jsp:scriptlet>
-              </mm:field>
-            </mm:log>
+            <!-- Make sure the mediafragment is created outside transactions and so on -->
+            <mm:log level="debug">Mediafragment title: <mm:field name="title" /></mm:log>
+
 
             <mm:url id="editlink" absolute="true" write="false">
               <mm:frameworkparam name="component">oip</mm:frameworkparam>
