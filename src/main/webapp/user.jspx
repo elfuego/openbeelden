@@ -5,7 +5,7 @@
     xmlns:fmt="http://java.sun.com/jsp/jstl/fmt"
     xmlns:oip="urn:jsptagdir:/WEB-INF/tags/oip"
     xmlns:mm="http://www.mmbase.org/mmbase-taglib-2.0">
-  
+
   <jsp:directive.page buffer="64kb" />
 
   <mm:import externid="block"     required="true" />
@@ -125,17 +125,19 @@
                     <mm:frameworkparam name="component">oip</mm:frameworkparam>
                     <mm:frameworkparam name="block">user</mm:frameworkparam>
                     <mm:frameworkparam name="user"><mm:cloudinfo type="usernode" /></mm:frameworkparam>
-                    <a href="${_}"><fmt:message key="media.dashboard" /></a>
+                    <a href="${_}"><fmt:message key="user.dashboard" /></a>
                   </mm:link>
                 </li>
-                <!-- <li>
+                <!--
+                <li>
                   <mm:link>
                     <mm:frameworkparam name="component">oip</mm:frameworkparam>
                     <mm:frameworkparam name="block">user-delete</mm:frameworkparam>
                     <mm:frameworkparam name="user"><mm:cloudinfo type="usernode" /></mm:frameworkparam>
-                    <a href="${_}"><fmt:message key="user.delete" /></a>
+                    <a href="${_}">/<fmt:message key="user.delete" /><mm:cloudinfo type="usernode" /></a>
                   </mm:link>
-                </li> -->
+                </li>
+                -->
               </ul>
 
             </c:otherwise>
