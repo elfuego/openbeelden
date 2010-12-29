@@ -29,7 +29,7 @@
                 <mm:fieldlist fields="url" id="urlfield">
                   <div>
                     <label for="${_}">
-                      <span>Upload a media file *</span>
+                      <span><fmt:message key="media.upload_file" /> *</span>
                     </label>
                     <mm:fieldinfo type="input" />
                     <mm:fieldinfo type="errors" />
