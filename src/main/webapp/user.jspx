@@ -5,6 +5,8 @@
     xmlns:fmt="http://java.sun.com/jsp/jstl/fmt"
     xmlns:oip="urn:jsptagdir:/WEB-INF/tags/oip"
     xmlns:mm="http://www.mmbase.org/mmbase-taglib-2.0">
+  
+  <jsp:directive.page buffer="64kb" />
 
   <mm:import externid="block"     required="true" />
   <mm:import externid="n"         required="true" />
@@ -15,11 +17,12 @@
       styleClass="user ${block}">
 
     <jsp:attribute name="title">
-      <!-- c:if test="${block != 'user'}">
+      <!-- TODO: some mm:function or method to get block title
+      <c:if test="${block != 'user'}">
         <mm:import id="comp">oip</mm:import>
         <mm:function id="blockObject" set="components" name="block" referids="comp@component,block" write="false" />
         ${mm:string(blockObject.title)} -
-      </c:if -->
+      </c:if> -->
       <c:if test="${!empty n}">
         <mm:node referid="n">
           <mm:hasfield name="username"><mm:field name="username" /> </mm:hasfield>
@@ -125,14 +128,14 @@
                     <a href="${_}"><fmt:message key="media.dashboard" /></a>
                   </mm:link>
                 </li>
-                <li>
+                <!-- <li>
                   <mm:link>
                     <mm:frameworkparam name="component">oip</mm:frameworkparam>
                     <mm:frameworkparam name="block">user-delete</mm:frameworkparam>
                     <mm:frameworkparam name="user"><mm:cloudinfo type="usernode" /></mm:frameworkparam>
                     <a href="${_}"><fmt:message key="user.delete" /></a>
                   </mm:link>
-                </li>
+                </li> -->
               </ul>
 
             </c:otherwise>
