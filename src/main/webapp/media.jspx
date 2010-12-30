@@ -182,6 +182,7 @@
           <c:if test="${!empty uploaded and uploaded eq 'year'}">created:GTE:<mm:time format="yyyyMMddHHmm" time="now - 1 year" precision="minutes" />00</c:if>
           <c:if test="${!empty _searchlang}">language:EQ:${_searchlang} </c:if>
           <c:if test="${!empty license}">licensenr:EQ:${license} </c:if>
+          <jsp:text>owner:!PREFIX:deleted</jsp:text>
         </mm:import>
 
         <!--
