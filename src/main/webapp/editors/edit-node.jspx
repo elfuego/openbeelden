@@ -9,7 +9,8 @@
 <jsp:output doctype-root-element="html"
       doctype-public="-//W3C//DTD XHTML 1.0 Strict//EN"
       doctype-system="http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd" />
-<mm:cloud loginpage="/editors/login.jspx" rank="portal manager">
+
+<mm:cloud method="asis">
 
   <fmt:setBundle basename="eu.openimages.messages" scope="request" />
   
@@ -22,27 +23,33 @@
   <mm:import externid="editme">false</mm:import>
   <mm:import externid="show">/editors/show-node.jspx</mm:import>
 
+  <mm:hasnode number="$nr" inverse="true">
+    <p class="err">Node not found.</p>
+  </mm:hasnode>
+  <mm:hasnode number="$nr">
 
     <c:choose>
       <c:when test="${cancel eq 'Cancel'}">
         
         <mm:node number="$nr">
-          <mm:link page="/editors/edit-node.jspx" referids="p,nr">
-            <mm:param name="fields">${fields}</mm:param>
-            <a class="editme" href="${_}#edit_${nr}">edit</a>
-          </mm:link>
-          
+          <mm:maywrite>
+            <mm:link page="/editors/edit-node.jspx" referids="p,nr">
+              <mm:param name="fields">${fields}</mm:param>
+              <a class="editme" href="${_}#edit_${nr}">edit</a>
+            </mm:link>
+          </mm:maywrite>
           <mm:maydelete>
             <mm:link page="/editors/delete-node.jspx" referids="p,nr">
               <mm:param name="fields">${fields}</mm:param>
               <a class="editme delete" href="${_}#edit_${nr}">delete</a>
             </mm:link>
           </mm:maydelete>
-          
         </mm:node>
-        <mm:include page="$show" referids="p,nr">
-          <mm:param name="fields">${fields}</mm:param>
-        </mm:include>
+        <div>
+          <mm:include page="$show" referids="p,nr">
+            <mm:param name="fields">${fields}</mm:param>
+          </mm:include>
+        </div>
       </c:when>
       <c:otherwise>
   
@@ -126,6 +133,8 @@
 
       </c:otherwise>
     </c:choose>
+
+  </mm:hasnode>
 
 </mm:cloud>
 </mm:content>

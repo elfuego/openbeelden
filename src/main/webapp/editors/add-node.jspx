@@ -9,8 +9,9 @@
 <jsp:output doctype-root-element="html"
       doctype-public="-//W3C//DTD XHTML 1.0 Strict//EN"
       doctype-system="http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd" />
-<mm:cloud loginpage="/editors/login.jspx" rank="portal manager">
 
+<mm:cloud method="asis">
+  
   <fmt:setBundle basename="eu.openimages.messages" scope="request" />
   
   <mm:import externid="p" /><!-- portal -->
@@ -40,15 +41,8 @@
 
     <c:choose>
       <c:when test="${cancel eq 'Cancel'}">
-        <p class="msg">Cancelled.</p>
-
-        <mm:include page="$show" referids="p,nr">
-          <mm:param name="fields">${fields}</mm:param>
-        </mm:include>
-        
-      </c:when>
-      <c:when test="${cancel eq 'Close'}">
-        cancel: ${cancel} extra: ${extra}
+        <!-- p class="msg">Cancelled.</p -->
+      
       </c:when>
       <c:otherwise>
 
@@ -64,7 +58,7 @@
             
             <mm:createnode type="$type" id="new_node" commitonclose="false">
               
-              <a class="cancel" href="#close">close</a>
+              <a class="editme cancel" href="#close">close</a>
               
               <fieldset>
                 <mm:fieldlist type="${empty fields ? 'edit' : ''}" fields="${fields}">
@@ -109,10 +103,10 @@
           <mm:present referid="submit$type">
             
             <mm:valid>
-              <p class="msg">
+              <mm:import id="saved">
                 Your <mm:nodeinfo nodetype="$type" type="guitype" escape="lowercase" /> 
                 '<strong>
-                  <mm:node referid="new_node"><mm:function name="gui" escape="tagstripper"  /></mm:node>
+                  <mm:node referid="new_node"><mm:function name="gui" escape="tagstripper,lowercase"  /></mm:node>
                 </strong>'
                 is saved
                 <c:if test="${!empty nr and !empty role}">
@@ -126,13 +120,11 @@
                      </c:otherwise>
                   </c:choose>
                   and related to 
-                  <mm:node number="$nr">'<mm:function name="gui" escape="tagstripper" />'</mm:node>
+                  <mm:node number="$nr">'<mm:function name="gui" escape="tagstripper,lowercase" />'</mm:node>
                 </c:if>.
-              </p>
+              </mm:import>
               
               <mm:commit />
-              <c:set var="saved" value="OK" />
-              
             </mm:valid>
             
             <mm:valid inverse="true">
@@ -150,16 +142,25 @@
           
         </mm:form>
         
+        
         <c:if test="${!empty saved and editme eq 'true'}">
+          <p class="msg"><mm:write referid="saved" escape="none" /></p>
+          
           <!-- show new node -->
-          <mm:link page="/editors/edit-node.jspx" referids="p,new_node@nr,show">
-            <mm:param name="fields">${fields}</mm:param>
-            <a class="editnew editme" href="${_}#edit_${new_node}">edit</a>
-          </mm:link>
-          <div id="edit_${new_node}">
-            <mm:include page="$show" referids="p,new_node@nr,show">
+          <div class="node_created edit_${new_node}">
+            <mm:link page="/editors/edit-node.jspx" referids="p?,new_node@nr,show">
               <mm:param name="fields">${fields}</mm:param>
-            </mm:include>
+              <a class="editme new" href="${_}#edit_${new_node}">edit</a>
+            </mm:link>
+            <mm:link page="/editors/delete-node.jspx" referids="p?,new_node@nr">
+              <mm:param name="fields">${fields}</mm:param>
+              <a class="editme delete new" href="${_}#edit_${new_node}">delete</a>
+            </mm:link>
+            <div>
+              <mm:include page="$show" referids="p?,new_node@nr,show">
+                <mm:param name="fields">${fields}</mm:param>
+              </mm:include>
+            </div>
           </div>
         </c:if>
 

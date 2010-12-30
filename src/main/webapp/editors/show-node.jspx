@@ -9,7 +9,8 @@
 <jsp:output doctype-root-element="html"
       doctype-public="-//W3C//DTD XHTML 1.0 Strict//EN"
       doctype-system="http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd" />
-<mm:cloud loginpage="/editors/login.jspx" rank="portal manager">
+
+<mm:cloud  method="asis">
 
 <fmt:setBundle basename="eu.openimages.messages" scope="request" />
 
@@ -31,7 +32,13 @@
             <mm:field name="name" /> (<mm:field name="language" />)
           </span>
         </c:when>
-        
+
+        <c:when test="${_ eq 'mediafragments_translations'}">
+          <span>
+            <mm:field name="title" /> (<mm:field name="language" />)
+          </span>
+        </c:when>
+
         <c:when test="${_ eq 'properties'}">
           <span>
             <strong><mm:field name="key" /> : </strong> <mm:field name="value" />
@@ -41,7 +48,7 @@
         
         <c:otherwise>
           <span> 
-            <mm:fieldlist fields="$fields">
+            <mm:fieldlist type="${empty fields ? 'list' : ''}" fields="${fields}">
               <mm:fieldinfo type="value" /><jsp:text> </jsp:text>
             </mm:fieldlist>
           </span>

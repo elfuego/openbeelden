@@ -49,17 +49,33 @@
 
         <div class="edit-pic">
           <mm:relatednodes type="images" role="portalrel" max="1">
-            <mm:import id="nodenr" reset="true"><mm:field name="number" /></mm:import>
-            <div id="edit_${_node.number}">
+            <mm:import id="imgnr" reset="true"><mm:field name="number" /></mm:import>
+            <div id="edit_${imgnr}">
               <mm:image mode="img" template="s(216)" />
             </div>
             <p>
               <mm:link page="/editors/edit-pic.jspx" referids="p,_node@nr">
                 <mm:param name="fields">handle</mm:param>
-                <a class="editme" href="${_}#edit_${nodenr}">edit picture</a>
+                <a class="editme" href="${_}#edit_${imgnr}">edit picture</a>
               </mm:link>
             </p>
           </mm:relatednodes>
+          <c:if test="${empty imgnr}">
+            <div id="add_picture"> 
+              <jsp:text> <!-- empty, cause nothing exists here yet. this will be cloned to represent new nodes --> </jsp:text> 
+            </div>
+            <p>
+              <mm:link page="/editors/add-node.jspx" referids="p?,_node@nr">
+                <mm:param name="type">images</mm:param>
+                <mm:param name="fields">handle</mm:param>
+                <mm:param name="role">portalrel</mm:param>
+                <mm:param name="default">title=Portal logo ${portalName}</mm:param>
+                <a class="editme" href="${_}#add_picture">
+                  add picture
+                </a>
+              </mm:link>
+            </p>
+          </c:if>
         </div>
 
         <!-- main pools node: the portal -->
@@ -88,6 +104,9 @@
                 </div>
               </li>
             </mm:relatednodes>
+            <li id="pools_translations">
+              <jsp:text> <!-- empty, cause nothing exists here yet --> </jsp:text>
+            </li>
             <li>
               <mm:link page="/editors/add-node.jspx" referids="p?,p@nr">
                 <mm:param name="type">pools_translations</mm:param>
@@ -95,13 +114,11 @@
                 <mm:param name="fields">name,language,description</mm:param>
                 <a class="editme" href="${_}#pools_translations">add translation</a>
               </mm:link>
-              <div id="pools_translations"><jsp:text> <!-- empty, cause nothing exists here yet --> </jsp:text></div>
             </li>
           </ul>
         </mm:relatednodescontainer>
 
 
-        <!--
         <div class="wrap">
           <h2>Url</h2>
           <p>Portal url, location.</p>
@@ -112,7 +129,7 @@
               </mm:include>
             </mm:relatednodes>
           </mm:relatednodescontainer>
-        </div> -->
+        </div>
 
         <div class="wrap">
           <h2>Filter</h2>
