@@ -4,14 +4,15 @@
     xmlns:mmsq="http://www.mmbase.org/xmlns/searchquery"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="http://www.mmbase.org/xmlns/luceneindex http://www.mmbase.org/xmlns/luceneindex.xsd">
-   
+
   <index name="media">
     <description>Lucene index for media in OIP</description>
     <analyzer class="org.mmbase.module.lucene.analysis.nl.StandardCleaningAnalyzer" />
- 
+
     <list type="mediafragments">
       <mmsq:constraint field="show" value="true" />
       <mmsq:field name="otype" alias="otype" />
+      <mmsq:field name="owner" alias="owner" />
       <mmsq:field name="title" boost="3" />
       <mmsq:field name="title" keyword="true" escape="lowercase" alias="sorttitle" store="true" />
       <mmsq:field name="language" alias="language" keyword="true" store="true" />
@@ -57,15 +58,16 @@
         <mmsq:field name="keywords" keyword="true" split=";" boost="4" />
       </mmsq:relatednodes>
     </list>
-    
+
   </index>
-  
+
   <index name="users">
     <description>Lucene index for users in OIP</description>
     <analyzer class="org.mmbase.module.lucene.analysis.nl.StandardCleaningAnalyzer" />
 
     <list type="mmbaseusers">
       <mmsq:constraint field="status" value="1" /><!-- in use -->
+      <mmsq:field name="owner" alias="owner" />
       <mmsq:field name="number"   alias="date" keyword="true" />
       <mmsq:field name="username" alias="name" keyword="true" />
       <mmsq:field name="username" boost="2" />
@@ -81,7 +83,7 @@
         <mmsq:field name="description" />
       </mmsq:relatednodes>
     </list>
-  
+
   </index>
-	
+
 </luceneindex>
