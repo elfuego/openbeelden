@@ -8,10 +8,10 @@
     name="licenses_translations" maintainer="mmbase.org" version="0" extends="object">
   <searchage>999</searchage>
   <names>
-    <singular xml:lang="en">License (translation)</singular>
-    <singular xml:lang="nl">Licentie (vertaling)</singular>
-    <plural xml:lang="en">Licenses (translations)</plural>
-    <plural xml:lang="nl">Licenties (vertalingen)</plural>
+    <singular xml:lang="en">License translation</singular>
+    <singular xml:lang="nl">Licentievertaling</singular>
+    <plural xml:lang="en">Licenses translations</plural>
+    <plural xml:lang="nl">Licentievertalingen</plural>
   </names>
   
   <descriptions>
