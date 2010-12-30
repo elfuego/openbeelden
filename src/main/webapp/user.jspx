@@ -71,6 +71,7 @@
 
         <c:if test="${block eq 'user-edit'}">
           <mm:component name="oip" block="user-picture" />
+          <mm:component name="oip" block="user-translations" />
         </c:if>
 
         <c:if test="${block eq 'user-media'}">
