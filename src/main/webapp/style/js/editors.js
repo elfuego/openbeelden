@@ -10,11 +10,22 @@ $(document).ready(function() {
     initPortalSwitch();
 });
 
+
+
 /* TODO: make this a jquery plugin */
 function initEditme(el) {
-    $(el + ' a.editme').click(function(ev){
+    $(el).find('a.editme').click(function(ev){
         ev.preventDefault();
         editMe(ev);
+    });
+}
+
+jQuery.fn.editme = function(settings) {
+    var config = {};
+    if (settings) $.extend(config, settings);
+    
+    this.each(function(){
+        $(this).find('a.editme').click(function(ev){});
     });
 }
 
@@ -29,11 +40,7 @@ function editMe(ev) {
     var params = getParams(query);
     
     var formId = (params.type != null ? '#form_' + params.type : '#form_' + params.nr);
-    // inform form about being editme ajax editor
-    params['editme'] = 'true';
-    
-    //console.log('link ' + link + ' id ' + id);
-
+    params['editme'] = 'true';  /* inform form about being editme ajax editor */
     $(id).load(link, params, function(){
         $(formId + ' .cancel').click(function(ev){
             ev.preventDefault();
@@ -47,13 +54,6 @@ function editMe(ev) {
             });
             $(tag).show();
         });
-        $(formId + ' a.close').click(function(ev){
-            ev.preventDefault();
-            var hash = ev.target.href;
-            params['cancel'] = 'Close'; 
-            $(id).load(link, params, function(){ initClearMsg(); });
-            $(tag).show();
-        });
         
         // ajax form options
         var options = {
@@ -62,41 +62,50 @@ function editMe(ev) {
             data: { editme: 'true' }
         };
         $(formId).ajaxForm(options);
-        /* $(formId).submit(function() { 
-            $(this).ajaxSubmit(options);
-            return false;
-        }); */
     });
-    // hide tag clicked
+    
     $(tag).hide();
 }
 
 /* ajaxFrom success after submit */
 function afterSubmit(response, status, xhr) {
-    //console.log('status: ' + status + ' response: ' + response);
-    //console.log(xhr);
+    //$(this).css('border', '1px solid blue');    // div.log
+    var parent = $(this).parent();
+    //$(parent).css('border', '1px solid green'); // li#add_mediaetc
 
-    var form = xhr[0];
-    //console.log('form v ' + form.delete.value);
-    
-    //$(this).css('border', '1px solid blue');
-    var parentDiv = $(this).parent('div');
-    //$(parentDiv).css('border', '1px solid red');
-    
-    /* after saving or cancelling new node, form is kept around for some reason */
-    $(parentDiv).find('form').remove();
+    if (response.indexOf('node_created') > -1) {   /* indicates we've made a new node */
+        $(parent).next().find('a.editme').show();  /* make sure tag 'new' is shown again */
 
-    if (response.indexOf('node_deleted') > -1) { 
-        /* node is deleted, remove editme links */
-        $(parentDiv).find('a.editme').remove();
+        var newContent = $(parent).find('div.node_created');
+        var classes = $(newContent).attr('class').split(' ');
+        var newItem = $(parent).clone().empty();
+        var newId = 'newId';
+        for (var i = 0; i < classes.length; i++) {
+            if (classes[i].indexOf('edit_') > -1) {
+                var newId = classes[i];
+            }
+        }
+        newItem.attr('id', newId);
+        newItem.html(newContent);
+        newItem.insertAfter(parent);
+        $(newItem).find('a.new').click(function(ev){
+            ev.preventDefault();
+            editMe(ev);
+        });
+        
+        /* after saving new node, form is kept around for some reason */
+        $(parent).find('form').remove();
+    }
+    
+
+    if (response.indexOf('node_deleted') > -1) { /* node is deleted */
+        $(parent).find('form').remove();
+        $(this).find('a.cancel').click(function(ev){
+            ev.preventDefault();
+            $(parent).remove();
+        });
     }
 
-    
-    /* bind editme to new node */
-    $(this).find('a.editnew').click(function(ev){
-        ev.preventDefault();
-        editMe(ev);
-    });
 }
 
 
