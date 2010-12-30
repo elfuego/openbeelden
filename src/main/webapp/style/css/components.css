@@ -70,6 +70,16 @@ div.b_user-mediapreview #edit-picture { margin-top: 1em; }
 
 div.b_user-mediapreview p img { margin: 1em 8px -6px 0; }
 
+/* translations */
+div.b_user-translations { clear: both; }
+div.b_user-translations a.editme
+{
+	float: right;
+	margin-left: 8px;
+}
+div.b_user-translations form { background-color: #efefef; }
+
+
 
 /* form stuff, like larger sizes because of html-editor */
 div.b_user-media fieldset.first { margin-top: 2em; }

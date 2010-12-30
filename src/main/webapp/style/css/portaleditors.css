@@ -46,7 +46,7 @@ a.delete
 	float: left;
 	margin-right: 6px;
 }
-p.translation, p.editme, p.closeme, a.editme, a.editnew, a.cancel { float: right; }
+p.translation, p.editme, p.closeme, a.editme, a.new, a.cancel { float: right; }
 
 /* forms */
 
