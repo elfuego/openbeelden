@@ -1,10 +1,10 @@
 <jsp:root
     version="2.0"
     xmlns:c="http://java.sun.com/jsp/jstl/core"
-    xmlns:fmt="http://java.sun.com/jsp/jstl/fmt"
     xmlns:jsp="http://java.sun.com/JSP/Page"
     xmlns:mm="http://www.mmbase.org/mmbase-taglib-2.0"
     >
+  <jsp:directive.attribute name="html" type="java.lang.String" />
   <mm:import id="user">
     <mm:field name="firstname" write="true">
       <mm:isnotempty><jsp:text> </jsp:text></mm:isnotempty>
@@ -14,16 +14,28 @@
     </mm:field>
     <mm:field name="lastname" />
   </mm:import>
-  <span class="user">
-    <mm:link>
-      <mm:frameworkparam name="component">oip</mm:frameworkparam>
-      <mm:frameworkparam name="block">user</mm:frameworkparam>
-      <mm:frameworkparam name="user">${_node}</mm:frameworkparam>
-      <a href="${_}">
-        <mm:write referid="user" write="true">
-          <mm:isempty><mm:field name="username" /></mm:isempty>
-        </mm:write>
-      </a>
-    </mm:link>
-  </span>
+  <c:choose>
+    <c:when test="${empty html or html == 'block'}">
+      <span class="user">
+        <mm:link>
+          <mm:frameworkparam name="component">oip</mm:frameworkparam>
+          <mm:frameworkparam name="block">user</mm:frameworkparam>
+          <mm:frameworkparam name="user">${_node}</mm:frameworkparam>
+          <a href="${_}">
+            <mm:write referid="user" write="true">
+              <mm:isempty><mm:field name="username" /></mm:isempty>
+            </mm:write>
+          </a>
+        </mm:link>
+      </span>
+    </c:when>
+    <c:when test="${html == 'attribute'}">
+      <mm:write referid="user" write="true">
+        <mm:isempty><mm:field name="username" /></mm:isempty>
+      </mm:write>
+    </c:when>
+    <c:otherwise>
+      <jsp:text>UNKNOWN value for 'html' attribute</jsp:text>
+    </c:otherwise>
+  </c:choose>
 </jsp:root>
