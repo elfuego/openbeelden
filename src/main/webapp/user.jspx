@@ -128,16 +128,18 @@
                     <a href="${_}"><fmt:message key="user.dashboard" /></a>
                   </mm:link>
                 </li>
-                <!--
                 <li>
                   <mm:link>
                     <mm:frameworkparam name="component">oip</mm:frameworkparam>
                     <mm:frameworkparam name="block">user-delete</mm:frameworkparam>
                     <mm:frameworkparam name="user"><mm:cloudinfo type="usernode" /></mm:frameworkparam>
-                    <a href="${_}">/<fmt:message key="user.delete" /><mm:cloudinfo type="usernode" /></a>
+                    <a href="${_}">
+                      <fmt:message key="user.delete">
+                        <fmt:param><oip:user /></fmt:param>
+                      </fmt:message>
+                    </a>
                   </mm:link>
                 </li>
-                -->
               </ul>
 
             </c:otherwise>
