@@ -45,12 +45,12 @@ import org.mmbase.mmsite.LocaleUtil;
 public class UsersUrlConverter extends DirectoryUrlConverter {
     private static final long serialVersionUID = 0L;
     private static final Logger log = Logging.getLoggerInstance(UsersUrlConverter.class);
-    private static CharTransformer trans = new Identifier();
+    private static final CharTransformer trans = new Identifier();
 
-    /* piece of path that leads to edit environment of user account, f.e. /user/[username]/edit */
-    protected static String editpath = "edit";
+    /* piece of path that leads to edit environment of user account, e.g. /user/[username]/edit */
+    protected String editpath = "edit";
 
-    private final LocaleUtil  localeUtil = new LocaleUtil();
+    private static final LocaleUtil  localeUtil = new LocaleUtil();
 
     public UsersUrlConverter(BasicFramework fw) {
         super(fw);
@@ -64,6 +64,7 @@ public class UsersUrlConverter extends DirectoryUrlConverter {
         addBlock(oip.getBlock("user-mediaupload"));
         addBlock(oip.getBlock("user-mediapreview"));
         addBlock(oip.getBlock("user-streams"));
+        addBlock(oip.getBlock("user-delete"));
     }
 
 
@@ -76,7 +77,8 @@ public class UsersUrlConverter extends DirectoryUrlConverter {
     }
 
 
-    @Override public int getDefaultWeight() {
+    @Override
+    public int getDefaultWeight() {
         int q = super.getDefaultWeight();
         return Math.max(q, q + 1000);
     }
@@ -107,11 +109,12 @@ public class UsersUrlConverter extends DirectoryUrlConverter {
      *   &lt;mm:frameworkparam name="block"&gt;user-media&lt;/mm:frameworkparam&gt;
      *   &lt;p&gt;&lt;a href="${_}"&gt;${_}&lt;/a&gt;&lt;/p&gt;
      * &lt;/mm:link&gt;
-     *     
+     *
      * Can generate a path to a media item page: /users/admin/dashboard/media/1248/ZK_2
      *
      */
-    @Override protected void getNiceDirectoryUrl(StringBuilder b,
+    @Override
+    protected void getNiceDirectoryUrl(StringBuilder b,
                                                  Block block,
                                                  Parameters parameters,
                                                  Parameters frameworkParameters,  boolean action) throws FrameworkException {
@@ -208,6 +211,15 @@ public class UsersUrlConverter extends DirectoryUrlConverter {
                         b.append("/interrupt");
                     }
                 }
+            } else if (blockName.equals("user-delete")) {
+                b.append("/").append(editpath).append("/delete");
+            } else if (blockName.equals("user")) {
+
+            } else if (blockName.equals("user-medialist")) {
+
+
+            } else {
+                throw new IllegalStateException("Unrecognized block name '" + blockName + "'");
             }
             localeUtil.appendLanguage(b, frameworkParameters);
         }
@@ -217,11 +229,12 @@ public class UsersUrlConverter extends DirectoryUrlConverter {
 
 
     /**
-     * Translates the result of {@link #getNiceDirectoryUrl} back to an actual JSP that 
-     * can render the block. 
+     * Translates the result of {@link #getNiceDirectoryUrl} back to an actual JSP that
+     * can render the block.
      * Blocks: users (overview users), user (user profile), user-media, user-streams etc.
      */
-    @Override public Url getFilteredInternalDirectoryUrl(List<String>  path, Map<String, ?> params, Parameters frameworkParameters) throws FrameworkException {
+    @Override
+    public Url getFilteredInternalDirectoryUrl(List<String>  path, Map<String, ?> params, Parameters frameworkParameters) throws FrameworkException {
         if (log.isDebugEnabled()) log.debug("path pieces: " + path + ", path size: " + path.size());
 
         HttpServletRequest request = frameworkParameters.get(Parameter.REQUEST);
@@ -250,7 +263,7 @@ public class UsersUrlConverter extends DirectoryUrlConverter {
                     log.debug("No user with name" + username);
                     return Url.NOT;
                 }
-                
+
                 // checks dates and stuff
                 Date today = new Date();
                 int status = node.getIntValue("status");
@@ -262,7 +275,7 @@ public class UsersUrlConverter extends DirectoryUrlConverter {
                     }
                     return Url.NOT;
                 }
-                
+
                 frameworkParameters.set(USER, node);
                 String nr = "" + node.getNumber();
                 result.append(nr);
@@ -290,6 +303,9 @@ public class UsersUrlConverter extends DirectoryUrlConverter {
                                 log.debug("edit: " + edit);
                                 result.append("&edit=").append(edit);
                             }
+                        } else if (type.equals("delete")) {
+                            if (log.isDebugEnabled()) log.debug("Deleting of " + username);
+                            result.append("&block=user-delete&cacheable=false");
 
                         /* /users/[username]/dashboard/media/[234]/my_title */
                         } else if (type.equals("media") && path.size() > 3) {
@@ -329,15 +345,15 @@ public class UsersUrlConverter extends DirectoryUrlConverter {
                                             } else {
                                                 result.append("&stream=").append(path8);    // node number
                                             }
-                                            
-                                            
+
+
                                         }
                                     } else if (action.equals("interrupt")) {
                                         if (log.isDebugEnabled()) log.debug("interrupt: " + action);
                                         result.append("&interrupt=").append(nodenr);
                                     }
                                 }
-                                
+
                             } else {
                                 result.append("&block=user-media");
                             }
