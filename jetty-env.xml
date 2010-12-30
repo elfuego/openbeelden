@@ -12,7 +12,6 @@
      </Arg>
    </New>
  </Set>
-
   <!--
       When using jetty:run use an hsql database in the directory 'data'.
   -->
@@ -108,6 +107,27 @@
     <Arg type="boolean">true</Arg>
   </New>
   -->
+
+
+  <New class="org.mortbay.jetty.plus.naming.Resource">
+    <Arg>mail/Session</Arg>
+    <Arg>
+      <New class="org.mortbay.naming.factories.MailSessionReference">
+        <Set name="user">mihxiltest@gmail.com</Set>
+        <Set name="password">mihxil knows the password</Set>
+        <Set name="properties">
+          <New class="java.util.Properties">
+            <Put name="mail.smtp.host">smtp.gmail.com</Put>
+            <Put name="mail.smtp.port">465</Put>
+            <Put name="mail.smtp.auth">true</Put>
+            <Put name="mail.smtp.starttls.enable">true</Put>
+            <Put name="mail.smtp.socketFactory.class">javax.net.ssl.SSLSocketFactory</Put>
+
+          </New>
+        </Set>
+      </New>
+    </Arg>
+  </New>
 
 
 </Configure>
