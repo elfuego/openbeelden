@@ -112,36 +112,46 @@
             </c:when>
             <c:otherwise>
 
-              <ul>
-                <li>
-                  <mm:link>
-                    <mm:frameworkparam name="component">oip</mm:frameworkparam>
-                    <mm:frameworkparam name="block">user-mediaupload</mm:frameworkparam>
-                    <mm:frameworkparam name="user"><mm:cloudinfo type="usernode" /></mm:frameworkparam>
-                    <a href="${_}"><fmt:message key="media.upload" /></a>
-                  </mm:link>
-                </li>
-                <li>
-                  <mm:link>
-                    <mm:frameworkparam name="component">oip</mm:frameworkparam>
-                    <mm:frameworkparam name="block">user</mm:frameworkparam>
-                    <mm:frameworkparam name="user"><mm:cloudinfo type="usernode" /></mm:frameworkparam>
-                    <a href="${_}"><fmt:message key="user.dashboard" /></a>
-                  </mm:link>
-                </li>
-                <li>
-                  <mm:link>
-                    <mm:frameworkparam name="component">oip</mm:frameworkparam>
-                    <mm:frameworkparam name="block">user-delete</mm:frameworkparam>
-                    <mm:frameworkparam name="user"><mm:cloudinfo type="usernode" /></mm:frameworkparam>
-                    <a href="${_}">
-                      <fmt:message key="user.delete">
-                        <fmt:param><oip:user /></fmt:param>
-                      </fmt:message>
-                    </a>
-                  </mm:link>
-                </li>
-              </ul>
+                <div class="related-grey">
+                <ul>
+                  <li>
+                    <mm:link>
+                      <mm:frameworkparam name="component">oip</mm:frameworkparam>
+                      <mm:frameworkparam name="block">user-mediaupload</mm:frameworkparam>
+                      <mm:frameworkparam name="user"><mm:cloudinfo type="usernode" /></mm:frameworkparam>
+                      <a href="${_}"><fmt:message key="media.upload" /></a>
+                    </mm:link>
+                  </li>
+                  <li>
+                    <mm:link>
+                      <mm:frameworkparam name="component">oip</mm:frameworkparam>
+                      <mm:frameworkparam name="block">user</mm:frameworkparam>
+                      <mm:frameworkparam name="user"><mm:cloudinfo type="usernode" /></mm:frameworkparam>
+                      <a href="${_}"><fmt:message key="user.dashboard" /></a>
+                    </mm:link>
+                  </li>
+                  <li>
+                    <mm:link>
+                      <mm:frameworkparam name="component">oip</mm:frameworkparam>
+                      <mm:frameworkparam name="block">user-delete</mm:frameworkparam>
+                      <mm:frameworkparam name="user"><mm:cloudinfo type="usernode" /></mm:frameworkparam>
+                      <a href="${_}">
+                        <fmt:message key="user.delete">
+                          <fmt:param><oip:user /></fmt:param>
+                        </fmt:message>
+                      </a>
+                    </mm:link>
+                  </li>
+                </ul>
+              </div>
+
+              <c:if test="${block eq 'user-media'}">
+                <div class="related-grey-border">
+                  <oip:h2>Info</oip:h2>                
+                  <mm:component name="oip" block="user-mediainfo" />
+                </div>
+              </c:if>
+
 
             </c:otherwise>
           </c:choose>
