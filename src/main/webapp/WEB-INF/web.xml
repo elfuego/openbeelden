@@ -130,6 +130,10 @@
       <param-name>comparator</param-name>
       <param-value>org.mmbase.servlet.FileNameComparator</param-value>
     </init-param>
+    <init-param>
+      <param-name>ignore</param-name>
+      <param-value>.*/\.web[/]?.*</param-value>
+    </init-param>
     <load-on-startup>4</load-on-startup>
   </servlet>
 
