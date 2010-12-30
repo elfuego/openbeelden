@@ -46,8 +46,8 @@
               <fieldset class="first">
                 <!-- title,subtitle,language,dc_creator,intro,body,publisher,date -->
                 <mm:fieldlist fields="title">
-                  <div>
-                    <c:set var="fld_name"><mm:fieldinfo type="name" /></c:set>
+                  <c:set var="fld_name"><mm:fieldinfo type="name" /></c:set>
+                  <div class="${fld_name}">
                     <mm:fieldinfo type="forid">
                       <label for="${_}" class="${fld_name}"><mm:fieldinfo type="guiname" /> *</label>
                     </mm:fieldinfo>
@@ -58,8 +58,8 @@
                 </mm:fieldlist>
 
                 <mm:fieldlist fields="subtitle,language">
-                  <div>
-                    <c:set var="fld_name"><mm:fieldinfo type="name" /></c:set>
+                  <c:set var="fld_name"><mm:fieldinfo type="name" /></c:set>
+                  <div class="${fld_name}">
                     <mm:fieldinfo type="forid">
                       <label for="${_}" class="${fld_name}"><mm:fieldinfo type="guiname" /></label>
                     </mm:fieldinfo>
@@ -70,8 +70,8 @@
                 </mm:fieldlist>
 
                 <mm:fieldlist fields="dc_creator,publisher,intro">
-                  <div>
-                    <c:set var="fld_name"><mm:fieldinfo type="name" /></c:set>
+                  <c:set var="fld_name"><mm:fieldinfo type="name" /></c:set>
+                  <div class="${fld_name}">
                     <mm:fieldinfo type="forid">
                       <label for="${_}" class="${fld_name}"><mm:fieldinfo type="guiname" /> *</label>
                     </mm:fieldinfo>
@@ -82,8 +82,8 @@
                 </mm:fieldlist>
 
                 <mm:fieldlist fields="body,date">
-                  <div>
-                    <c:set var="fld_name"><mm:fieldinfo type="name" /></c:set>
+                  <c:set var="fld_name"><mm:fieldinfo type="name" /></c:set>
+                  <div class="${fld_name}">
                     <mm:fieldinfo type="forid">
                       <label for="${_}" class="${fld_name}"><mm:fieldinfo type="guiname" /></label>
                     </mm:fieldinfo>
@@ -105,12 +105,12 @@
               <fieldset class="plus">
                 <!-- keywords,source,identifier,contributor,relation,coverage,created,lastmodified -->
                 <mm:fieldlist fields="keywords,source,identifier,contributor,relation,coverage,created,lastmodified">
-                  <div>
-                    <c:set var="fld_name"><mm:fieldinfo type="name" /></c:set>
+                  <c:set var="fld_name"><mm:fieldinfo type="name" /></c:set>
+                  <div class="${fld_name}">
                     <mm:fieldinfo type="forid">
-                      <label for="${_}" class="${fldd_name}"><mm:fieldinfo type="guiname" /></label>
+                      <label for="${_}" class="${fld_name}"><mm:fieldinfo type="guiname" /></label>
                     </mm:fieldinfo>
-                    <p class="info"><mm:fieldinfo type="description" escape="inline" /></p>
+                    <p class="info txt"><mm:fieldinfo type="description" escape="inline" /></p>
                     <mm:maywrite><mm:fieldinfo type="input" /><mm:fieldinfo type="errors" /></mm:maywrite>
                     <mm:maywrite inverse="true"><mm:fieldinfo type="guivalue" escape="none" /></mm:maywrite>
                   </div>
