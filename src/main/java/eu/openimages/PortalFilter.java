@@ -110,7 +110,6 @@ public class PortalFilter implements Filter, SystemEventListener {
             HttpServletRequest req = (HttpServletRequest) request;
             HttpServletResponse res = (HttpServletResponse) response;
 
-            String serverName = req.getServerName();
             decorateRequest(req, res);
             chain.doFilter(request, response);
 
