@@ -23,6 +23,7 @@ package eu.openimages;
 import java.util.regex.*;
 
 import org.mmbase.security.implementation.cloudcontext.*;
+import org.mmbase.security.implementation.cloudcontext.workflow.WorkFlowContextProvider;
 import org.mmbase.security.Operation;
 import org.mmbase.security.Rank;
 import org.mmbase.module.core.MMObjectNode;
@@ -32,7 +33,7 @@ import org.mmbase.util.logging.Logging;
 /**
  * Authorizes actions by Open Images users. In short: each user has access to their own created nodes,
  * users with rank 'portal manager' or 'project manager' have access to all nodes of users with a
- * lower rank, including the user account nodes. 
+ * lower rank, including the user account nodes.
  * A project manager previals over portal manager, can edit their nodes and nodes of other project
  * managers - to share the project management burden.
  * A portal manager manager can edit its own nodes and those of site users, but not from other portal
@@ -52,7 +53,7 @@ public class Authorization extends Verify {
 
     @Override
     public ContextProvider getContextProvider() {
-        return new BasicContextProvider("mmbaseusers", "mmbasecontexts") {
+        return new WorkFlowContextProvider("mmbaseusers", "mmbasecontexts") {
 
             @Override
             public String getContextNameField(String table) {
@@ -61,10 +62,10 @@ public class Authorization extends Verify {
                 } else {
                     return super.getContextNameField(table);
                 }
-                
-                
+
+
             }
-            
+
             @Override
             public boolean mayDo(User user, MMObjectNode node, Operation operation) {
                 UserProvider up = Authenticate.getInstance().getUserProvider();
@@ -73,9 +74,9 @@ public class Authorization extends Verify {
                     return super.mayDo(user, node, operation);
                 } else {
                     if (node.getBuilder() == up.getUserBuilder()) {
-                        if (user.getRank().getInt() >= Rank.BASICUSER_INT && 
+                        if (user.getRank().getInt() >= Rank.BASICUSER_INT &&
                                 user.getRank().getInt() > up.getRank(node).getInt()) {
-                            
+
                             if (log.isDebugEnabled()) {
                                 log.debug("Higher rank so may do on user account #" + node.getNumber());
                             }
@@ -85,11 +86,11 @@ public class Authorization extends Verify {
                                 case Operation.DELETE_INT: return true;
                             }
                         }
-                        
+
                     } else {    // not user builder but some other node
-                        
+
                         String owner = node.getContext(user);
-                        
+
                         Pattern p = Pattern.compile("[0-9]*");
                         Matcher m = p.matcher(owner);
                         if (m.matches()) {
@@ -101,15 +102,15 @@ public class Authorization extends Verify {
                                 // escape
                                 return super.mayDo(user, node, operation);
                             }
-                        
+
                             MMObjectNode user_node = getNode(nodeInt, false);
                             String username = user_node.getStringValue("username");
                             if (log.isDebugEnabled()) {
                                 log.debug("owner node #" + owner + " has username: " + username);
                             }
-                            
+
                             /* if user rank > portal man
-                               && user rank > node owner's rank 
+                               && user rank > node owner's rank
                                && proj. man rank >= node owner's rank (thus not admin's nodes) */
                             if (user.getRank().getInt() > PORTALMANAGER_INT &&
                                     user.getRank().getInt() > up.getRank(up.getUser(username)).getInt() &&
@@ -123,17 +124,16 @@ public class Authorization extends Verify {
                                     case Operation.DELETE_INT: return true;
                                 }
                             }
-                        
+
                         } else {
                             return super.mayDo(user, node, operation);
                         }
-                        
+
                     }
-                    
+
                 }
                 return super.mayDo(user, node, operation);
             }
-            
             @Override
             public boolean mayDoOnContext(MMObjectNode userNode, MMObjectNode contextNode,
                                           Operation operation, boolean checkOwnRights) {
@@ -147,15 +147,15 @@ public class Authorization extends Verify {
                         case Operation.DELETE_INT: return true;
                     }
                 }
-                
+
                 /* if current userNode has a rank > contextNode's owner */
                 UserProvider up = Authenticate.getInstance().getUserProvider();
                 MMObjectNode node = getNode(contextNode.getNumber(), false);
-                
+
                 if (node.getBuilder() == up.getUserBuilder()) {
-                    if (up.getRank(userNode).getInt() >= Rank.BASICUSER_INT && 
+                    if (up.getRank(userNode).getInt() >= Rank.BASICUSER_INT &&
                             up.getRank(userNode).getInt() > up.getRank(node).getInt()) {
-                        
+
                         if (log.isDebugEnabled()) {
                             log.debug("Higher or equal rank so may do on node #" + node.getNumber());
                         }
@@ -166,7 +166,7 @@ public class Authorization extends Verify {
                         }
                     }
                 }
-               
+
                 return super.mayDoOnContext(userNode, contextNode, operation, checkOwnRights);
             }
 
