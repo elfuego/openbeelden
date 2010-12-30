@@ -2,22 +2,33 @@
     version="2.0"
     xmlns:jsp="http://java.sun.com/JSP/Page"
     xmlns:c="http://java.sun.com/jsp/jstl/core"
+    xmlns:fn="http://java.sun.com/jsp/jstl/functions"
     xmlns:fmt="http://java.sun.com/jsp/jstl/fmt"
     xmlns:oip="urn:jsptagdir:/WEB-INF/tags/oip"
     xmlns:mm="http://www.mmbase.org/mmbase-taglib-2.0">
   
   <div id="menu">
-    
+
     <mm:import externid="portal" id="pool" from="request">pool_oip</mm:import>
+    
+    <c:if test="${! empty requestScope['org.mmbase.mmsite.language']}">
+      <mm:import id="locale">${requestScope['org.mmbase.mmsite.language']}</mm:import>
+    </c:if>
+    <mm:import id="current">
+      <mm:link>
+         <c:choose>
+           <c:when test="${!empty locale and fn:endsWith(_, locale)}">${fn:substringBefore(_, ".")}</c:when>
+           <c:otherwise>${_}</c:otherwise>
+         </c:choose>
+      </mm:link>
+    </mm:import>
+    
     <ul class="main">
       <mm:node number="$pool" id="portal">
         <c:set var="query_str" value="${requestScope['javax.servlet.forward.query_string']}" />
         <script type="text/javascript">
-          <mm:link page="/action/you.jspx" escapeamps="false">
+          <mm:link page="/action/you.jspx" escapeamps="false" referids="locale?">
             <mm:param name="referrer">${requestScope['javax.servlet.forward.request_uri']}<c:if test="{!empty query_string}">?${query_string}</c:if></mm:param>
-            <c:if test="${! empty requestScope['org.mmbase.mmsite.language']}">
-              <mm:param name="locale">${requestScope['org.mmbase.mmsite.language']}</mm:param>
-            </c:if>
             <jsp:text>$(document).ready(function() { $("#menu li.you").load("${_}"); });</jsp:text>
           </mm:link>
         </script>
@@ -30,7 +41,9 @@
               <li class="${n eq _node.number ? 'active ' :''}${lastclass}">
                 <mm:link page="page" referids="_node@n">
                   <mm:frameworkparam name="component">mmsite</mm:frameworkparam>
-                  <a href="${_}"><mm:field name="title" /></a>
+                  <a href="${_}">
+                    <mm:nodefunction name="translation"><mm:field name="title" /></mm:nodefunction>
+                  </a>
                 </mm:link>
               </li>
             </mm:relatednodes>
@@ -79,25 +92,14 @@
     
     <ul class="meta">
       <li>
-        <mm:import id="langpostfix">
-          <!-- a bit of a hack, should use fw-parmas -->
-          <c:if test="${! empty requestScope['org.mmbase.mmsite.language']}">
-            <jsp:text>${requestScope['org.mmbase.mmsite.language']}</jsp:text>
-          </c:if>
-        </mm:import>
         <mm:listfunction set="mmsite" name="locales" varStatus="status">
-          <a class="${_ eq langpostfix ? 'active' : ''}" href="${mm:link('/')}.${_}">${_}</a>
+          <a class="${_ eq locale ? 'active' : ''}" href="${current}.${_}">${_}</a>
           <c:if test="${! status.last}"><jsp:text> / </jsp:text></c:if>
         </mm:listfunction>
       </li>
       <mm:hasrank value="anonymous" inverse="true">
-
-
         <li>
-          <mm:link page="/logout.jspx">
-            <c:if test="${! empty requestScope['org.mmbase.mmsite.language']}">
-              <mm:param name="locale">${requestScope['org.mmbase.mmsite.language']}</mm:param>
-            </c:if>
+          <mm:link page="/logout.jspx" referids="locale?">
             <a class="logout" href="${_}"><fmt:message key="login.logout" /></a>
           </mm:link>
         </li>
