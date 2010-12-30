@@ -13,7 +13,7 @@
       id="${requestScope['org.mmbase.componentId']}">
 
     <oip:thumb />
-    
+
     <h3 class="subtitle">
       <mm:maywrite>
         <mm:link page="user-edit">
@@ -22,10 +22,10 @@
       </mm:maywrite>
       <mm:nodefunction name="translation"><oip:user /></mm:nodefunction>
     </h3>
-    
+
     <mm:nodefunction name="translation">
       <mm:field name="description" escape="paragraph(description)" />
     </mm:nodefunction>
-  
+
   </div>
 </mm:content>
