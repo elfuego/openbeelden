@@ -36,8 +36,8 @@
                 
                 <fieldset>
                   <mm:fieldlist type="${empty fields ? 'edit' : ''}" fields="${fields}">
-                    <div>
-                      <c:set var="fld_name"><mm:fieldinfo type="name" /></c:set>
+                    <c:set var="fld_name"><mm:fieldinfo type="name" /></c:set>
+                    <div class="${fld_name}">
                       <mm:fieldinfo type="forid">
                         <label for="${_}" class="${fld_name}"><mm:fieldinfo type="guiname" /></label>
                       </mm:fieldinfo>
@@ -51,8 +51,8 @@
                   <h4 class="plusfields"><a href="#plus">Extra fields</a></h4>
                   <fieldset class="plus" id="plus">
                     <mm:fieldlist fields="${plusfields}">
-                      <div>
-                        <c:set var="fld_name"><mm:fieldinfo type="name" /></c:set>
+                      <c:set var="fld_name"><mm:fieldinfo type="name" /></c:set>
+                      <div class="${fld_name}">
                         <mm:fieldinfo type="forid">
                           <label for="${_}" class="${fld_name}"><mm:fieldinfo type="guiname" /></label>
                         </mm:fieldinfo>
@@ -74,8 +74,8 @@
                 
                 <fieldset>
                   <mm:fieldlist type="${empty fields ? 'edit' : ''}" fields="${fields}">
-                    <div>
-                      <c:set var="fld_name"><mm:fieldinfo type="name" /></c:set>
+                    <c:set var="fld_name"><mm:fieldinfo type="name" /></c:set>
+                    <div class="${fld_name}">
                       <mm:fieldinfo type="forid">
                         <label for="${_}" class="${fld_name}"><mm:fieldinfo type="guiname" /></label>
                       </mm:fieldinfo>
@@ -89,8 +89,8 @@
                   <h4 class="plusfields"><a href="#plus">Extra fields</a></h4>
                   <fieldset class="plus" id="plus">
                     <mm:fieldlist fields="${plusfields}">
-                      <div>
-                        <c:set var="fld_name"><mm:fieldinfo type="name" /></c:set>
+                      <c:set var="fld_name"><mm:fieldinfo type="name" /></c:set>
+                      <div class="${fld_name}">
                         <mm:fieldinfo type="forid">
                           <label for="${_}" class="${fld_name}"><mm:fieldinfo type="guiname" /></label>
                         </mm:fieldinfo>
@@ -145,8 +145,8 @@
             <mm:node referid="node">
               <fieldset>
                 <mm:fieldlist type="${empty fields ? 'edit' : ''}" fields="${fields}">
-                  <div>
-                    <c:set var="fld_name"><mm:fieldinfo type="name" /></c:set>
+                  <c:set var="fld_name"><mm:fieldinfo type="name" /></c:set>
+                  <div class="${fld_name}">
                     <mm:fieldinfo type="forid">
                       <label for="${_}" class="${fld_name}"><mm:fieldinfo type="guiname" /></label>
                     </mm:fieldinfo>
@@ -159,8 +159,8 @@
                 <h4 class="plusfields"><a href="#plus">Extra fields</a></h4>
                 <fieldset class="plus" id="plus">
                   <mm:fieldlist fields="${plusfields}">
-                    <div>
-                      <c:set var="fld_name"><mm:fieldinfo type="name" /></c:set>
+                    <c:set var="fld_name"><mm:fieldinfo type="name" /></c:set>
+                    <div class="${fld_name}">
                       <mm:fieldinfo type="forid">
                         <label for="${_}" class="${fld_name}"><mm:fieldinfo type="guiname" /></label>
                       </mm:fieldinfo>
