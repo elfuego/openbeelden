@@ -29,8 +29,7 @@ import javax.servlet.http.*;
 
 import org.mmbase.bridge.*;
 import org.mmbase.bridge.util.*;
-import org.mmbase.servlet.*;
-import org.mmbase.module.core.*;
+import org.mmbase.core.event.*;
 import org.mmbase.storage.search.*;
 
 import org.mmbase.util.logging.Logger;
@@ -45,9 +44,9 @@ import org.mmbase.util.logging.Logging;
  * @since OIP-1.1
  * @version $Id$
  */
-public class PortalFilter implements Filter, MMBaseStarter {
+public class PortalFilter implements Filter, SystemEventListener {
 
-    private static Logger log = Logging.getLoggerInstance(PortalFilter.class);
+    private static final Logger LOG = Logging.getLoggerInstance(PortalFilter.class);
 
     /*
      * serverName -> pools node
@@ -59,46 +58,28 @@ public class PortalFilter implements Filter, MMBaseStarter {
      */
     protected ServletContext ctx = null;
 
-    /*
-     * MMBase needs to be started first to be able to load config
-     */
-    private MMBase mmbase;
-    private Thread initThread;
+    protected boolean up = false;
 
-    /*
-     * Methods that need to be overriden form MMBaseStarter
-     */
-    public MMBase getMMBase() {
-        return mmbase;
+    @Override
+    public void notify(SystemEvent se) {
+        if (se instanceof org.mmbase.module.tools.ApplicationsInstalledEvent) {
+            up = true;
+            LOG.service("Applications are installed, we can not decorate the request");
+        }
     }
-
-    public void setMMBase(MMBase mm) {
-        mmbase = mm;
-        // logging is not completely initialized, replace logger instance too
-        log = Logging.getLoggerInstance(PortalFilter.class);
-    }
-
-    public void setInitException(ServletException se) {
-        // never mind, simply ignore
+    @Override
+    public int getWeight() {
+        return 0;
     }
 
     /**
      * Initializes filter
      */
+    @Override
     public void init(javax.servlet.FilterConfig config) throws ServletException {
-        log.info("Starting PortalFilter with " + config);
-	    ctx = config.getServletContext();
-
-		/* initialize MMBase if its not started yet */
-        if (! MMBaseContext.isInitialized()) {
-            MMBaseContext.init(ctx);
-            MMBaseContext.initHtmlRoot();
-        }
-
-        initThread = new MMBaseStartThread(this);
-        initThread.start();
-
-        log.info("PortalFilter initialized");
+        LOG.info("Starting PortalFilter with " + config);
+        ctx = config.getServletContext();
+        EventManager.getInstance().addEventListener(this);
     }
 
 
@@ -113,11 +94,12 @@ public class PortalFilter implements Filter, MMBaseStarter {
      * @throws ServletException thrown when an exception occurs
      * @throws IOException thrown when an exception occurs
      */
+    @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
 
-        if (mmbase == null) {
-            if (log.isDebugEnabled()) {
-                log.debug("Still waiting for MMBase (not initialized)");
+        if (! up) {
+            if (LOG.isDebugEnabled()) {
+                LOG.debug("Still waiting for MMBase (not initialized)");
             }
             chain.doFilter(request, response);
             return;
@@ -133,8 +115,8 @@ public class PortalFilter implements Filter, MMBaseStarter {
             chain.doFilter(request, response);
 
         } else {
-            if (log.isDebugEnabled()) {
-                log.debug("Request not an instance of HttpServletRequest.");
+            if (LOG.isDebugEnabled()) {
+                LOG.debug("Request not an instance of HttpServletRequest.");
             }
             chain.doFilter(request, response);
         }
@@ -169,26 +151,31 @@ public class PortalFilter implements Filter, MMBaseStarter {
                     query.setConstraint(constraint);
 
                     NodeList urls = cloud.getList(query);
-                    if (log.isDebugEnabled()) {
-                        log.debug("query: " + query);
+                    if (LOG.isDebugEnabled()) {
+                        LOG.debug("query: " + query);
                     }
                     if (urls.size() > 0) {
-                        if (log.isDebugEnabled()) {
-                            log.debug("Found: " + urls.get(0));
+                        if (LOG.isDebugEnabled()) {
+                            LOG.debug("Found: " + urls.get(0));
                         }
                         portal = pool;
                         break;
                     }
 
                 } catch (Exception ex) {
-                    log.error("Exception while building query: " + ex);
+                    LOG.error("Exception while building query: " + ex);
                     return false;
                 }
             }
             if (portal == null) {
-                log.service("Assuming portal '" + serverName +  "' is default.");
-                portal = cloud.getNode("pool_oip");
+                if (cloud.hasNode("pool_oip")) {
+                    LOG.service("Assuming portal '" + serverName +  "' is default.");
+                    portal = cloud.getNode("pool_oip");
+                } else {
+                    LOG.warn("There is no default pool with alias 'pool_oip'");
+                }
             }
+
             attributes.put("portal", portal == null ? null : new org.mmbase.bridge.util.NodeMap(portal));
             attributes.put("isdefaultportal", portal != null && portal.getAliases().contains("pool_oip"));
             CACHE.put(serverName, attributes);
@@ -205,7 +192,7 @@ public class PortalFilter implements Filter, MMBaseStarter {
     private static Cloud getCloud(HttpServletRequest req) {
         return ContextProvider.getDefaultCloudContext().getCloud("mmbase");
     }
-
+    @Override
     public void destroy() {
         // empty
     }
