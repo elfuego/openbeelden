@@ -84,10 +84,12 @@ public class AfterDeployment implements Runnable {
         }
 
         /* b+g */
-        Node begNode    = SearchUtil.findNode(cloud, "mmbaseusers", "username", "beeldengeluid");
+        Node begUser    = SearchUtil.findNode(cloud, "mmbaseusers", "username", "beeldengeluid");
         Node begContext = SearchUtil.findNode(cloud, "mmbasecontexts", "name", "beeldengeluid");
-        begNode.setNodeValue("rank", siteusersRank);
-        begNode.commit();
+        if (begUser != null && begContext != null) {
+            begUser.setNodeValue("rank", siteusersRank);
+            begUser.commit();
+        }
         
         /* project managers */
         Node pmGroup = SearchUtil.findNode(cloud, "mmbasegroups", "name", "Project managers");
@@ -95,8 +97,10 @@ public class AfterDeployment implements Runnable {
         
         Node pmUser  = SearchUtil.findNode(cloud, "mmbaseusers", "username", "foofoo");
         Node pmRank  = SearchUtil.findNode(cloud, "mmbaseranks", "name", "project manager");
-        pmUser.setNodeValue("rank", pmRank);
-        pmUser.commit();
+        if (pmUser != null) {
+            pmUser.setNodeValue("rank", pmRank);
+            pmUser.commit();
+        }
         
         ContextBuilderFunctions.grant(defaultContext, pmGroup, Operation.CREATE, cloud.getUser());
         ContextBuilderFunctions.grant(defaultContext, pmGroup, Operation.WRITE, cloud.getUser());
