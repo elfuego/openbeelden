@@ -206,7 +206,7 @@
       </class>
     </head>
     <body jsp="user-translations.jspx">
-      <param name="n" type="org.mmbase.bridge.Node" />
+      <param name="n"   type="org.mmbase.bridge.Node" />
     </body>
   </block>
 
@@ -223,6 +223,21 @@
       <param name="n" type="org.mmbase.bridge.Node" />
       <param name="media" type="String" />
       <param name="edit"  type="String" />
+    </body>
+  </block>
+
+  <block name="user-mediainfo"
+         classification="oip"
+         mimetype="text/html">
+    <title xml:lang="en">Information</title>
+    <title xml:lang="nl">Informatie</title>
+    <description xml:lang="en">Information about a media item</description>
+    <description xml:lang="nl">Informatie over een mediaitem</description>
+    <head>
+    </head>
+    <body jsp="user-mediainfo.jspx">
+      <param name="n" type="org.mmbase.bridge.Node" />
+      <param name="media" type="String" />
     </body>
   </block>
 
