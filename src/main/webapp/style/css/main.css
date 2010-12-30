@@ -183,7 +183,9 @@ label
 }
 
 label.intro,
-label.body { float: none; }
+label.body,
+label.description,
+label.relation { float: none; }
 
 input
 {
@@ -228,7 +230,7 @@ div.b_user-media textarea.small
     div.b_user-media textarea.big, div.b_user-media textarea.small { padding: 2px; width: 506px; } 
 }
 
-form p.info
+form div p.info
 {
 	display: none;
 	position: absolute;
@@ -237,9 +239,20 @@ form p.info
 	background: #999;
 	color: #fff;
 	margin-left: 148px;
+	margin-top: 26px;
 	padding: 4px !important;
 	font-size: 0.9em;
 	text-align: left;
+}
+
+form div.intro p.info,
+form div.body p.info,
+form div.description p.info,
+form div.relation p.info
+{
+	margin-left: 0;
+	margin-top: 2px;
+	width: 504px;
 }
 
 input.radiobutton { width: auto; }
