@@ -17,7 +17,7 @@
 
         <mm:listnodescontainer type="object" id="q">
           <mm:constraint field="owner" value="${user}" casesensitive="true" />
-          <mm:typeconstraint name="mediafragments,mediasources" descendants="true" />
+          <mm:typeconstraint name="mediafragments,mediasources,images" descendants="true" />
           <mm:size id="size" write="false" />
         </mm:listnodescontainer>
         <c:choose>
