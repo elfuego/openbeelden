@@ -179,7 +179,7 @@
         </mm:nodefunction>
 
         <!-- testing ... -->
-        <oip:thumbnails width="512" number="8" />
+        <!-- <oip:thumbnails width="512" number="8" /> -->
 
       </div>
 
