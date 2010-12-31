@@ -69,7 +69,7 @@
                 <mm:param name="type">images</mm:param>
                 <mm:param name="fields">handle</mm:param>
                 <mm:param name="role">portalrel</mm:param>
-                <mm:param name="default">title=Portal logo ${portalName}</mm:param>
+                <mm:param name="defaultstr">title=Portal logo ${portalName}</mm:param>
                 <a class="editme" href="${_}#add_picture">
                   add picture
                 </a>
@@ -150,7 +150,7 @@
                 <mm:param name="type">filters</mm:param>
                 <mm:param name="role">portalrel</mm:param>
                 <mm:param name="fields">users,tags,keywords</mm:param>
-                <mm:param name="default">name=Portal filter ${portalName}</mm:param>
+                <mm:param name="defaultstr">name=Portal filter ${portalName}</mm:param>
                 <a class="editme" href="${_}#add_filter">add filter</a>
               </mm:link>
             </p>
