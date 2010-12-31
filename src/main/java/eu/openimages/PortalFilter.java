@@ -64,7 +64,7 @@ public class PortalFilter implements Filter, SystemEventListener {
     public void notify(SystemEvent se) {
         if (se instanceof org.mmbase.module.tools.ApplicationsInstalledEvent) {
             up = true;
-            LOG.service("Applications are installed, we can not decorate the request");
+            LOG.service("Applications are installed, we can now decorate the request");
         }
     }
     @Override
