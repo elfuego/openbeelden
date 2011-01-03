@@ -10,7 +10,8 @@
     <analyzer class="org.mmbase.module.lucene.analysis.nl.StandardCleaningAnalyzer" />
 
     <list type="mediafragments">
-      <mmsq:constraint field="show" value="true" />
+      <mmsq:constraint field="show"  value="true" />
+      <mmsq:constraint field="owner" value="deleted%" inverse="true" operator="like" />
       <mmsq:field name="otype" alias="otype" />
       <mmsq:field name="owner" alias="owner" />
       <mmsq:field name="title" boost="3" />
@@ -67,6 +68,7 @@
 
     <list type="mmbaseusers">
       <mmsq:constraint field="status" value="1" /><!-- in use -->
+      <mmsq:constraint field="owner" value="deleted%" inverse="true" operator="like" />
       <mmsq:field name="owner" alias="owner" />
       <mmsq:field name="number"   alias="date" keyword="true" />
       <mmsq:field name="username" alias="name" keyword="true" />
