@@ -285,4 +285,16 @@
     </body>
   </block>
 
+  <block name="tag"
+         classification="oip"
+         mimetype="text/html">
+    <title xml:lang="en">Tag</title>
+    <title xml:lang="nl">Tag</title>
+    <description xml:lang="en">Tag: media items sharing this tag</description>
+    <description xml:lang="nl">Tag: media items met deze tag</description>
+    <body jsp="tag.jspx">
+      <param name="n" type="org.mmbase.bridge.Node" />
+    </body>
+  </block>
+  
 </component>
