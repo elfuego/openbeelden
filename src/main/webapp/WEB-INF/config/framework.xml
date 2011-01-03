@@ -31,6 +31,14 @@
     <param name="useTitle">true</param>
     <param name="locales">en,nl</param>
   </urlconverter>
+  
+  <urlconverter class="eu.openimages.TagsUrlConverter">
+    <description xml:lang="en">
+      The urlconverter for tags
+    </description>
+    <param name="directory">/tags/</param>
+    <param name="locales">en,nl</param>
+  </urlconverter>
 
   <urlconverter class="org.mmbase.mmsite.SiteUrlConverter">
     <description xml:lang="en">
