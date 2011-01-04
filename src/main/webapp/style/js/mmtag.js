@@ -42,10 +42,12 @@ jQuery.fn.mmTagsuggest = function(o) {
             var params = new Object();
             params.tag = text;
             $.ajax({async: false, url: url, type: "GET", dataType: "json", data: params,
-                    success: function(data) { 
-                        $.grep(data, function(i) {
-                            return $(resultEl).append( $(tagLink(i)).addClass('add') );
-                        });
+                    success: function(data) {
+                        if (data != null) { 
+                            $.grep(data, function(i) {
+                                return $(resultEl).append( $(tagLink(i)).addClass('add') );
+                            });
+                        }
                         $(resultEl).click(function(ev) {   // bind click on one of the tags in this div
                             ev.preventDefault();
                             $(inputbox).val( $(ev.target).text() );
