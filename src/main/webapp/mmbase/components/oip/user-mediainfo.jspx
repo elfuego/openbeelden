@@ -29,7 +29,7 @@
                   <mm:frameworkparam name="media">${_node}</mm:frameworkparam>
                   <mm:frameworkparam name="block">mediafragment</mm:frameworkparam>
                   <mm:frameworkparam name="component">oip</mm:frameworkparam>
-                  <a href="${_}">${_}</a>
+                  <a href="${_}"><mm:field name="title" /></a>
                 </mm:link>
               </dd>
               <dt><fmt:message key="media.type" />:</dt>
