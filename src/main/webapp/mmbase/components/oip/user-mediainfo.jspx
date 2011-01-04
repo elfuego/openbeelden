@@ -21,7 +21,8 @@
         <mm:hasnode number="$media" inverse="true"><mm:remove referid="media" /></mm:hasnode>
         <mm:present referid="media">
           <mm:node number="$media">
-  
+           <mm:nodeinfo type="type" id="nodetype" write="false" />
+
            <dl class="media-info">
               <dt><fmt:message key="media.page" />:</dt>
               <dd>
@@ -34,12 +35,7 @@
               </dd>
               <dt><fmt:message key="media.type" />:</dt>
               <dd>
-                <mm:nodeinfo type="type" id="nodetype" write="false" />
-                <c:choose>
-                  <c:when test="${nodetype eq 'audiofragments'}"> audio </c:when>
-                  <c:when test="${nodetype eq 'images' or nodetype eq 'imagefragments'}"> image </c:when>
-                  <c:otherwise> video </c:otherwise>
-                </c:choose>
+                <oip:type />
               </dd>
               <mm:relatednodescontainer type="licenses" role="related" searchdirs="destination">
                 <mm:sortorder field="number" direction="DOWN" />
@@ -59,8 +55,11 @@
               </c:if>
               <dt><fmt:message key="media.date" />:</dt>
               <dd>
-                <mm:field name="date"><mm:time format="d MMMM yyyy" /></mm:field>
+                <mm:field name="date"><mm:time format="d MMM yyyy" /></mm:field>
               </dd>
+            </dl>
+
+            <dl class="media-info">
               <dt><fmt:message key="media.tags" />:</dt>
               <dd>
                 <mm:listrelationscontainer type="tags" role="related" searchdir="destination">
@@ -71,8 +70,18 @@
                   </mm:listrelations>
                 </mm:listrelationscontainer>
               </dd>
-            </dl>
-
+             <mm:fieldlist fields="keywords">
+              <dt><mm:fieldinfo type="guiname" />:</dt>
+              <dd><mm:fieldinfo type="guivalue" /></dd>
+             </mm:fieldlist>
+           </dl>
+           
+           <dl class="media-info">
+             <mm:fieldlist fields="source,identifier,contributor,relation,coverage,created,lastmodified">
+              <dt><mm:fieldinfo type="guiname" />:</dt>
+              <dd><mm:fieldinfo type="guivalue" /></dd>
+             </mm:fieldlist>
+           </dl>
           
           </mm:node>
         </mm:present>
