@@ -82,6 +82,7 @@ div.image p
     font-style: italic;
 }
 
+div.oiplayer { background-color: #000; }
 
 /* result lists, tabs above lists etc. */
 ul.list-tabs
@@ -189,6 +190,20 @@ dl.list a:active
     color: #C00;
 }
 
+dl.list a.edit:link,
+dl.list a.edit:visited
+{
+    text-decoration: underline;
+    color: #c00;
+}
+
+dl.list a.edit:hover,
+dl.list a.edit:active
+{
+    text-decoration: underline;
+    color: #f00;
+}
+
 p.pager
 {
     text-align: center;
@@ -247,7 +262,12 @@ h3.subtitle, h3.mediatitle
     margin: 8px 0 0 0;
     clear: both;
 }
-
+h3.mediatitle a.edit
+{
+	font-size: 0.85em;
+	color: #c00;
+	text-decoration: underline;
+}
 h3.subtitle {
     max-width: 512px;
     overflow: hidden;
@@ -257,47 +277,56 @@ h3.subtitle {
 
 div.toolbar
 {
-    height: 20px;
-    margin-bottom: 10px;
+	margin: 10px 0;
+	height: 32px;
 }
+
 ul.toolbar
 {
-    height: 20px;
-    list-style: none;
-    display: inline;
-    overflow: hidden;
+	list-style: none;
+	display: inline;
 }
 
 ul.toolbar li
 {
-    margin: 0;
-    padding: 0;
-    list-style: none;
-    display: inline;
+	margin: 0;
+	padding: 0;
+	list-style: none;
+	display: inline;
 }
 
-ul.toolbar a
+ul.toolbar li a
 {
-    float: left;
-    margin-top: 4px;
-    margin-right: 4px;
-    padding: 20px 0 0 0;
-    overflow: hidden;
-    width: 20px;
-    height: 0px !important;
-    height /**/: 20px;  /* for IE5/Win */
+	float: left;
+	padding: 6px 28px 2px 14px;
+	background-image: url(images/button-gradient.png);
+	background-position: right 50%;
+	background-repeat: repeat-x;
+	height: 22px;
+	border-top: 1px #CCC solid;
+	border-right: 1px #CCC solid;
+	border-bottom: 1px #CCC solid;
 }
 
-ul.toolbar a:hover { background-position: 0 -20px; }
-ul.toolbar li.license a { background-image: url(icons/license.png); }
-ul.toolbar li.download a { background-image: url(icons/download.png); }
-ul.toolbar li.share a { background-image: url(icons/share.png); }
-ul.toolbar li.embed a { background-image: url(icons/embed.png); }
-ul.toolbar li.favorite a { background-image: url(icons/favorite.png); }
-ul.toolbar li.favorite a.selected { background-image: url(icons/favorite-red.png); }
-ul.toolbar li.comment a { background-image: url(icons/comment.png); }
-ul.toolbar li.tag a { background-image: url(icons/tag.png); }
-ul.toolbar li.edit a { background-image: url(icons/edit.png); }
+ul.toolbar li.license a { border-left: 1px #CCC solid; }
+ul.toolbar li.favorite a
+{
+	background-position: left 50%;
+	padding: 6px 14px 2px 14px;
+}
+
+ul.toolbar a:link,
+ul.toolbar a:visited, 
+ul.toolbar a:hover,
+ul.toolbar a:active
+{
+	text-decoration: none;
+	color: #555;
+	font-weight: bold;
+}
+
+ul.toolbar li.favorite a { color: #999; }
+ul.toolbar li.favorite a.selected { color: #555; }
 
 p.media-intro
 {
@@ -327,21 +356,19 @@ table.media-info span.user a:active { text-decoration: underline; }
 dl.media-info
 {
     float: left;
-    width: 320px;
+    width: 512px;
     padding: 0;
-    margin: 2px 0;
+    margin: 1em 0;
     display: inline;	/* fixes another IE/Win bug */
 }
 
 dl.media-info dt
 {
 	float: left;
-	margin: 0 4px 0 0;
+	margin-right: 6px;
 	padding: 0;
-	font-weight: bold;
-	color: #333;
-	text-transform: lowercase;
 	white-space: nowrap;
+	color: #444;
 }
 
 dl.media-info dd { padding: 0; }
@@ -397,18 +424,16 @@ dl.grid dd, dl.grid3 dd
 	padding-left: 1px;
 }
 
-/* pencil icon */
 a.edit
 {
-    float: right;
-    width: 16px;
-    margin-left: 2px;
-    padding-top: 20px;
-    background-image: url(icons/edit-pencil.png);
-    overflow: hidden;
-    height: 0px !important;
-    height /**/: 20px;  /* for IE5/Win */
+	float: right;
+	font-weight: normal;
+	text-transform: lowercase;
+	text-decoration: underline;
 }
+
+a.edit:link, a.edit:visited { color: #C00; }
+a.edit:hover, a.edit:active { color: #F00; }
 
 .more a:link, .more a:visited { color: #C00; }
 .more a:hover, .more a:active { color: #C00; }
@@ -557,16 +582,16 @@ div.popup
     font-size: 0.95em;
     clear: both;
 }
-div.main-column div.popup { width: 320px; }
+div.main-column div.popup { width: 510px; }
 div.right-column div.popup { width: 290px; }
 
 div.main-column div.popup,
 div.right-column div.popup {
-    border: 1px solid #666;
-    margin-top: 8px;
+    border: 1px solid #ccc;
+    margin: 8px 0;
 }
 
-div.main-column div.popup input { width: 300px; }
+div.main-column div.popup input { width: 332px; }
 
 div.popup h4
 {
@@ -577,17 +602,15 @@ div.popup h4
     letter-spacing: 0;
     padding: 2px 4px;
     font-size: 1em;
-    border-bottom: 2px #666 dotted;
+    border-bottom: 1px #ccc dotted;
     color: #666;
 }
 
 div.popup form, div.popup p, div.popup ul
 {
-	padding: 6px 6px 0 6px;
+	padding: 2px 6px 0 6px;
 	margin-bottom: 0;
 }
-
-div.popup p, div.popup ul {  }
 
 div.popup form input.submit,
 div.popup form input.submit
@@ -607,26 +630,26 @@ a.close
     width: 20px;
 }
 
-#popup-license img
+div#license img
 {
 	float: left;
 	margin: 4px 4px 0 6px;
 }
 
-#popup-license p img
+div#license p img
 {
 	float: left;
-	margin: 4px 4px 0 0;
+	margin: 2px 4px 0 0;
 }
 
-#popup-license h5
+div#license h5
 {
 	font-size: 1.1em;
-	margin: 8px 0 0 8px;
+	margin: 4px 6px 0 6px;
 	color: #333;
 }
 
-#popup-license p { clear: both; }
+div#license p { clear: both; }
 
 
 div.legaltext
