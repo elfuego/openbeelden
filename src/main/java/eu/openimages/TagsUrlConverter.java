@@ -76,7 +76,7 @@ public class TagsUrlConverter extends DirectoryUrlConverter {
     }
 
     /**
-     * Generates a nice url for 'media'.
+     * Generates a nice url for 'tags'.
      */
     @Override
     protected void getNiceDirectoryUrl(StringBuilder b,
@@ -92,7 +92,7 @@ public class TagsUrlConverter extends DirectoryUrlConverter {
             if (n == null) throw new IllegalStateException("No tag parameter used in " + frameworkParameters);
             
             //b.append("/").append(trans.transform(n.getStringValue("name")));
-            b.append("/").append(n.getStringValue("name"));
+            b.append(n.getStringValue("name"));
             
             localeUtil.appendLanguage(b, frameworkParameters);
 
