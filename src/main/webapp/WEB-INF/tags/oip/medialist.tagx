@@ -2,6 +2,7 @@
     version="2.0"
     xmlns:c="http://java.sun.com/jsp/jstl/core"
     xmlns:jsp="http://java.sun.com/JSP/Page"
+    xmlns:fmt="http://java.sun.com/jsp/jstl/fmt"
     xmlns:mm="http://www.mmbase.org/mmbase-taglib-2.0"
     xmlns:oip="urn:jsptagdir:/WEB-INF/tags/oip"
     >
@@ -86,7 +87,7 @@
                     <mm:frameworkparam name="component">oip</mm:frameworkparam>
                     <mm:frameworkparam name="block">user-media</mm:frameworkparam>
                     <mm:frameworkparam name="user">${iam}</mm:frameworkparam>
-                    <a href="${_}" title="edit" class="edit">edit</a><jsp:text> </jsp:text>
+                    <a href="${_}" title="edit" class="edit"><fmt:message key="media.edit" /></a><jsp:text> </jsp:text>
                   </mm:link>
                 </mm:maywrite>
                 <a title="${mf_title}" href="${_}">
@@ -128,6 +129,16 @@
                     <mm:isnotempty><mm:time format="dd MMM yyyy" /></mm:isnotempty>
                   </mm:field>
                 </mm:nodefunction>
+                
+                <!--
+                user: <mm:field name="owner" />, keywords: <mm:field name="keywords" />,
+                <mm:relatednodescontainer type="tags" role="related" searchdirs="destination">
+                  <mm:relatednodes>
+                    <mm:first>tags:</mm:first> <mm:field name="name" /><mm:last inverse="true">, </mm:last>
+                  </mm:relatednodes>
+                </mm:relatednodescontainer> 
+                -->
+
               </dd>
             </dl>
           </c:otherwise>
