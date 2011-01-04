@@ -17,7 +17,29 @@
 
     <mm:node number="$n" id="tag">
     
-      <h2>Tag: <mm:field name="name" /></h2>
+      <h2>Tags / <mm:field name="name" /></h2>
+
+      <mm:import externid="offset">0</mm:import>
+      <mm:import id="max">25</mm:import>
+      
+      <mm:relatednodescontainer type="mediafragments" role="related" searchdirs="source">
+        <mm:size id="total" write="false" />
+        <mm:maxnumber value="$max" />
+        <mm:offset value="$offset" />
+        <mm:relatednodes id="results" />
+      </mm:relatednodescontainer>
+
+      
+      <mm:url id="pageurl" write="false" absolute="true" escapeamps="false"
+        referids="user?,source?,date?,uploaded?,sf?,so?" />
+
+      <oip:medialist list="${results}" />
+      
+      <p class="pager">
+        <oip:pager total="${total}" offset="${offset}" max="${max}" baseurl="${pageurl}" />
+      </p>      
+      
+      
       
     </mm:node>
 
