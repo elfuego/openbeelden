@@ -8,7 +8,7 @@
 div#main
 {
 	width: 1008px;
-	min-height: 620px;
+	min-height: 640px;
 	margin: 0;
 	padding: 0;
 }
@@ -173,6 +173,19 @@ div#main
 #footer a:hover, 
 #footer a:active { text-decoration: underline; }
 
+body.error #footer ul
+{
+	margin-left: 312px;
+	list-style: none;
+}
+
+body.error #footer ul li
+{
+	list-style: none;
+	float: left;
+	margin-right: 3em;
+	font-size: 0.85em;
+}
 
 /* columns */
 div.wrap
@@ -298,6 +311,7 @@ body.error div.main-column
 	margin-bottom: 8px;
 	width: 699px;
 	margin-left: 308px;
+	min-height: 320px;
 }
 
 body.error div.main-column h2,
