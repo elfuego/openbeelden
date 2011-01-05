@@ -6,7 +6,7 @@
 */
 $(document).ready(function() {
     initEditme('body');
-    initClearMsg();
+    clearMsg();
     initPortalSwitch();
 });
 
@@ -46,7 +46,7 @@ function editMe(ev) {
             ev.preventDefault();
             params['cancel'] = 'Cancel'; 
             $(id).load(link, params, function(){ 
-                initClearMsg(); 
+                clearMsg(); 
                 $(this).find('a.editme').click(function(ev){ 
                     ev.preventDefault();
                     editMe(ev);
@@ -126,16 +126,14 @@ function getParams(query) {
 	return params;
 }
 
-function initClearMsg() {
-    setTimeout("clearMsg();", 10000);
-}
-
 function clearMsg(el) {
-    if (el != undefined) {
-        $(el).find('p.msg:not(.stay)').slideUp(1000);
-    } else {
-        $('p.msg:not(.stay)').slideUp(1000);
-    }
+    setTimeout(function(){
+        if (el != undefined) {
+            $(el).find('p.msg:not(.stay)').slideUp(1000);
+        } else {
+            $('p.msg:not(.stay)').slideUp(1000);
+        }
+    }, 5000);
 }
 
 function initPortalSwitch() {
