@@ -1,0 +1,68 @@
+<?xml version="1.0"?>
+<jsp:root
+    version="2.0"
+    xmlns:jsp="http://java.sun.com/JSP/Page"
+    xmlns:c="http://java.sun.com/jsp/jstl/core"
+    xmlns:fmt="http://java.sun.com/jsp/jstl/fmt"
+    xmlns:mm="http://www.mmbase.org/mmbase-taglib-2.0"
+    xmlns:oip="urn:jsptagdir:/WEB-INF/tags/oip">
+
+  <oip:editor styleClass="portal">
+    <jsp:attribute name="head">
+      <mm:import externid="nr" />
+      <script src="${mm:link('/mmbase/jquery/jquery.form.js')}" type="text/javascript"><jsp:text> </jsp:text></script>
+      <script src="${mm:link('/style/js/editors.js')}" type="text/javascript"><jsp:text> </jsp:text></script>
+    </jsp:attribute>
+    <jsp:attribute name="left">
+      <h2>Pages</h2>
+
+      <mm:relatednodescontainer type="pages" role="posrel" searchdirs="destination">
+        <mm:sortorder field="posrel.pos" direction="UP" />
+        <ul>
+          <mm:relatednodes>
+            <mm:link referids="_node@nr" page="edit.jspx">
+              <li><a href="${_}"><mm:field name="title" /></a></li>
+            </mm:link>
+          </mm:relatednodes>
+        </ul>
+      </mm:relatednodescontainer>
+
+      <ul>
+        <li id="tab4">
+          <mm:link page="/editors/edit.jspx"><mm:param name="type">pages</mm:param><a href="${_}">pages</a></mm:link>
+        </li>
+        <li id="tab5">
+          <mm:link page="/editors/edit.jspx">
+            <mm:param name="type">articles</mm:param>
+            <a href="${_}">articles</a>
+          </mm:link>
+        </li>
+
+      </ul>
+
+    </jsp:attribute>
+    <jsp:attribute name="body">
+
+      <mm:node id="p" number="$_node.number" />
+
+      <div class="main-column">
+        
+        <mm:node number="$nr">
+          <h2>Pages : <mm:field name="title" /></h2>
+
+          <mm:include page="edit-node.jspx" referids="p?,_node@nr" />
+
+        
+          <div class="wrap">
+            <h2>Articles</h2>
+
+            <mm:include page="edit-properties.jspx" referids="p?,_node@nr" />
+
+          </div>
+        
+        </mm:node>
+
+      </div><!-- /.main-column -->
+    </jsp:attribute>
+  </oip:editor>
+</jsp:root>
