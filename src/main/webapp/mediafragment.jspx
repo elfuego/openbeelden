@@ -11,8 +11,9 @@
       >
 
     <jsp:attribute name="head">
-      <script src="${mm:link('/style/js/typewatch.js')}" type="text/javascript"><!-- help ie --></script>
-      <script src="${mm:link('/style/js/mmtag.js')}" type="text/javascript"><!-- help ie --></script>
+      <script src="${mm:link('/mmbase/jquery/jquery.form.js')}" type="text/javascript"><jsp:text><!-- help ie --></jsp:text></script>
+      <script src="${mm:link('/style/js/typewatch.js')}" type="text/javascript"><jsp:text><!-- help ie --></jsp:text></script>
+      <script src="${mm:link('/style/js/mmtag.js')}" type="text/javascript"><jsp:text><!-- help ie --></jsp:text></script>
       <mm:link page="/feeds/atom/">
         <mm:param name="related"><mm:field name="number" /></mm:param>
         <link href="${_}" rel="alternate" type="application/atom+xml" title="Open Image Platform related items of ${_node.title}" />
@@ -21,6 +22,7 @@
 
     <jsp:attribute name="body">
 
+      <mm:cloudinfo type="usernode" id="iam" write="false" />
       <mm:time time="now" id="today" precision="hours" write="false" />
       <mm:escaper id="wrapper" type="substring">
         <mm:param name="from" value="0" />
@@ -33,11 +35,22 @@
 
         <oip:media width="512" height="288" />
 
-        <mm:nodefunction name="translation">
-          <h3 class="mediatitle"><mm:field name="title" /></h3>
-          <mm:field name="subtitle"><mm:isnotempty><h4>${_}</h4></mm:isnotempty></mm:field>
-        </mm:nodefunction>
-
+        
+          <h3 class="mediatitle">
+            <mm:maywrite>
+              <mm:link referids="_node@media">
+                <mm:frameworkparam name="component">oip</mm:frameworkparam>
+                <mm:frameworkparam name="block">user-media</mm:frameworkparam>
+                <mm:frameworkparam name="user">${iam}</mm:frameworkparam>
+                <a class="edit" href="${_}"><fmt:message key="media.edit" /></a>
+              </mm:link>
+            </mm:maywrite>
+            <mm:nodefunction name="translation"><mm:field name="title" /></mm:nodefunction>
+          </h3>
+          <mm:nodefunction name="translation">
+            <mm:field name="subtitle"><mm:isnotempty><h4>${_}</h4></mm:isnotempty></mm:field>
+          </mm:nodefunction>
+        
         <!--
         <p class="nr_of_views">
           <mm:time time="now" id="current_month" precision="months" write="false" />
@@ -50,14 +63,13 @@
             </mm:relatednodes>
           </mm:relatednodescontainer>
         </p> -->
+        
         <!-- toolbar -->
         <div class="toolbar">
-          <mm:cloudinfo type="usernode" id="iam" write="false" />
           <ul class="toolbar">
-            <li class="license"><a title="license" href="#license">license</a></li>
-            <li class="download"><a title="download" href="#download">download</a></li>
-            <li class="embed"><a title="embed" href="#embed">embed</a></li>
-            <li class="share"><a title="share" href="#share">share</a></li>
+            <li class="license"><a href="#license"><fmt:message key="media.license" /></a></li>
+            <li class="download"><a href="#download"><fmt:message key="media.download" /></a></li>
+            <li class="share"><a href="#share"><fmt:message key="media.share" /></a></li>
             <mm:maycreate type="ratingrel">
               <li class="favorite">
                 <mm:listrelationscontainer type="mmbaseusers" role="ratingrel" searchdir="source">
@@ -67,29 +79,16 @@
                   </mm:listrelations>
                 </mm:listrelationscontainer>
                 <mm:link page="/action/favorite.jspx" referids="_node@favorite">
-                  <a title="favorite" class="${favselected}" href="${_}">favorite</a>
+                  <a class="${favselected}" href="${_}"><fmt:message key="media.favorite" /></a>
                 </mm:link>
               </li>
             </mm:maycreate>
-            <mm:maycreate type="tags">
-              <li class="tag"><a title="tag" href="#tag">tag</a></li>
-            </mm:maycreate>
-            <mm:maywrite>
-              <li class="edit">
-                <mm:link referids="_node@media">
-                  <mm:frameworkparam name="component">oip</mm:frameworkparam>
-                  <mm:frameworkparam name="block">user-media</mm:frameworkparam>
-                  <mm:frameworkparam name="user">${iam}</mm:frameworkparam>
-                  <a title="edit" href="${_}">edit</a>
-                </mm:link>
-              </li>
-            </mm:maywrite>
           </ul>
         </div>
 
-        <!-- popups (pop-up tag?) -->
+        <!-- 'popups' -->
         <div class="popup" id="license">
-          <h4><a class="close" href="#toolbar">close</a> License</h4>
+          <h4><a class="close" href="#toolbar">close</a> <fmt:message key="media.license" /></h4>
           <mm:relatednodescontainer type="licenses" role="related" searchdirs="destination">
             <mm:relatednodes>
               <mm:nodefunction name="translation">
@@ -109,7 +108,7 @@
         </div>
 
         <div class="popup" id="download">
-          <h4><a class="close" href="#toolbar">close</a> Download</h4>
+          <h4><a class="close" href="#toolbar">close</a> <fmt:message key="media.download" /></h4>
           <ul>
             <mm:listfunction name="filteredurls">
               <mm:node number="${_.source.number}">
@@ -126,11 +125,11 @@
                   <c:choose>
                     <c:when test="${_.available}">
                       <a href="${mm:escape('text/xml', _.URL)}">
-                        <oip:filesubstr filename="${filename}" length="42" />
+                        <oip:filesubstr filename="${filename}" length="60" />
                       </a>
                     </c:when>
                     <c:otherwise>
-                      <oip:filesubstr filename="${filename}" length="42" />
+                      <oip:filesubstr filename="${filename}" length="60" />
                     </c:otherwise>
                   </c:choose>
                 </li>
@@ -139,8 +138,14 @@
           </ul>
         </div>
 
-        <div class="popup" id="embed">
-          <h4><a class="close" href="#toolbar">close</a> Embed</h4>
+        <div class="popup" id="share">
+          <h4><a class="close" href="#toolbar">close</a> <fmt:message key="media.share" /></h4>
+          <p>
+            <label for="inputshare">Link</label>
+            <mm:link absolute="true">
+              <input name="share" id="inputshare" class="copyvalue" type="text" value="${_}" />
+            </mm:link>
+          </p>
           <p>
             <label for="inputembed">HTML tag to copy</label>
             <c:choose>
@@ -153,26 +158,14 @@
             </c:choose>
           </p>
         </div>
-
-        <div class="popup" id="share">
-          <h4><a class="close" href="#toolbar">close</a> Share</h4>
-          <p>
-            <label for="inputshare">Link</label>
-            <mm:link absolute="true">
-              <input name="share" id="inputshare" class="copyvalue" type="text" value="${_}" />
-            </mm:link>
-          </p>
-        </div>
-
-        <mm:maycreate type="tags">
-          <oip:tag />
-        </mm:maycreate>
-
+        
         <mm:nodefunction name="translation">
           <mm:field name="intro" escape="paragraph(media-intro)" />
         </mm:nodefunction>
 
         <oip:mediainfo />
+        
+        <oip:tag />
 
         <mm:nodefunction name="translation">
           <mm:field name="body" escape="paragraph" />
