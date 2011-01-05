@@ -41,28 +41,40 @@ function editMe(ev) {
     
     var formId = (params.type != null ? '#form_' + params.type : '#form_' + params.nr);
     params['editme'] = 'true';  /* inform form about being editme ajax editor */
-    $(id).load(link, params, function(){
-        $(formId + ' .cancel').click(function(ev){
-            ev.preventDefault();
-            params['cancel'] = 'Cancel'; 
-            $(id).load(link, params, function(){ 
-                clearMsg(); 
-                $(this).find('a.editme').click(function(ev){ 
-                    ev.preventDefault();
-                    editMe(ev);
-                });
-            });
-            $(tag).show();
-        });
-        
-        // ajax form options
-        var options = {
-            target: id + ' div.log',
-            success: afterSubmit,
-            data: { editme: 'true' }
-        };
-        $(formId).ajaxForm(options);
-    });
+    $(id).load(link, params, 
+	       function() {
+		   var validator = new MMBaseValidator();
+                   validator.addValidationForElements($(id + " .mm_validate"));
+		   validator.lang = $("html").attr("lang");
+		   validator.validateHook = function(valid, entry) {
+		       var button = $(id + " input[type=submit][class=submit]");
+		       button[0].disabled = validator.invalidElements != 0;
+		   };
+		   validator.validateHook();
+		   $(formId + ' .cancel').click(
+		       function(ev) {
+			   ev.preventDefault();
+			   params['cancel'] = 'Cancel'; 
+			   $(id).load(link, params, 
+				      function() { 
+					  clearMsg(); 
+					  $(this).find('a.editme').click(
+					      function(ev){ 
+						  ev.preventDefault();
+						  editMe(ev);
+					      });
+				      });
+			   $(tag).show();
+		       });
+		   
+		   // ajax form options
+		   var options = {
+		       target: id + ' div.log',
+		       success: afterSubmit,
+		       data: { editme: 'true' }
+		   };
+		   $(formId).ajaxForm(options);
+	       });
     
     $(tag).hide();
 }
