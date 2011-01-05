@@ -12,24 +12,24 @@
     <div
         class="mm_c c_oip b_user-translations ${requestScope.className}"
         id="${requestScope['org.mmbase.componentId']}">
-  
-            
+
+
       <mm:import externid="media" id="node" />
       <mm:notpresent referid="node">
         <mm:remove referid="node" />
         <mm:import externid="n" id="node" />
       </mm:notpresent>
-      
+
       <mm:node number="$node">
-        
+
         <mm:import id="maxtranslations">2</mm:import><!-- TODO: check with config -->
-        
+
         <mm:nodeinfo type="type" id="type" write="false" />
         <mm:import id="ttype"><mm:property nodemanager="$type" name="translations.builder" /></mm:import>
         <mm:isempty referid="ttype"><mm:import id="ttype" reset="true">${type}_translations</mm:import></mm:isempty>
 
-        
-        <mm:hasrelationmanager sourcemanager="$type" destinationmanager="$ttype" role="langrel">  
+
+        <mm:hasrelationmanager sourcemanager="$type" destinationmanager="$ttype" role="langrel">
           <mm:relatednodescontainer type="$ttype" role="langrel" searchdirs="destination">
             <mm:size id="total" write="false" />
             <ul>
@@ -52,7 +52,9 @@
               </mm:relatednodes>
               <mm:maycreate type="$type">
                 <c:if test="${total lt maxtranslations}">
-                  <li id="add_${ttype}"> <jsp:text> <!-- empty, cause nothing exists here yet. this will be cloned to represent new nodes --> </jsp:text> </li>
+                  <li id="add_${ttype}">
+                    <jsp:text> <!-- empty, cause nothing exists here yet. this will be cloned to represent new nodes --> </jsp:text>
+                  </li>
                   <li>
                     <mm:link page="/editors/add-node.jspx" referids="p?,_node@nr,ttype@type">
                       <mm:param name="role">langrel</mm:param>
@@ -69,7 +71,7 @@
         </mm:hasrelationmanager>
 
       </mm:node>
-      
+
     </div>
   </mm:cloud>
 </mm:content>
