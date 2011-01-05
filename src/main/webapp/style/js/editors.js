@@ -44,11 +44,13 @@ function editMe(ev) {
     $(id).load(link, params, 
 	       function() {
 		   var validator = new MMBaseValidator();
+		   validator.prefetchNodeManager(params.type);
                    validator.addValidationForElements($(id + " .mm_validate"));
 		   validator.validateHook = function(valid, entry) {
 		       var button = $(id + " input[type=submit][class=submit]");
 		       button[0].disabled = validator.invalidElements != 0;
 		   };
+		   
 		   validator.validateHook();
 		   $(formId + ' .cancel').click(
 		       function(ev) {
