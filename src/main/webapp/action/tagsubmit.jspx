@@ -1,0 +1,108 @@
+<mm:content 
+    xmlns:jsp="http://java.sun.com/JSP/Page"
+    xmlns:c="http://java.sun.com/jsp/jstl/core"
+    xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+    xmlns:fmt="http://java.sun.com/jsp/jstl/fmt"
+    xmlns:mm="http://www.mmbase.org/mmbase-taglib-2.0"
+    expires="0" type="text/html" language="client" postprocessor="none">
+<jsp:output doctype-root-element="html"
+      doctype-public="-//W3C//DTD XHTML 1.0 Strict//EN"
+      doctype-system="http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd" />
+
+<mm:cloud method="asis">
+
+  <fmt:setBundle basename="eu.openimages.messages" scope="request" />
+
+  <mm:import externid="nr" /><!-- number of node to tag -->
+  <mm:import externid="tag" /><!-- string with tagname -->
+  <mm:import externid="delete" /><!-- node number of relation with tag to delete -->
+  
+  <!-- relate tags -->
+  <c:set var="taglen" value="${fn:length(tag)}" />
+  
+  <c:if test="${!empty tag and taglen lt 3}">
+    <p class="err"><strong>${tag}</strong> is too short.</p>
+  </c:if>
+  
+  <c:if test="${!empty tag and taglen gt 2}">
+    
+    <!-- check if already related -->
+    <mm:node number="$nr" id="media">
+      <mm:relatednodescontainer type="tags" role="related" searchdirs="destination">
+        <mm:constraint field="name" value="$tag" operator="EQUAL" />
+        <mm:relatednodes>
+          <mm:node id="tagrelated" />
+          <p class="err">This item was already taged with <strong>${tag}</strong>.</p>
+        </mm:relatednodes>
+      </mm:relatednodescontainer>
+    </mm:node>
+    
+    <!-- check if exists -->
+    <c:if test="${empty tagrelated}">
+      <mm:listnodescontainer type="tags">
+        <mm:constraint field="name" value="$tag" operator="EQUAL" />
+        <mm:maxnumber value="1" />
+        <mm:listnodes>
+          <mm:node id="tagnode" />
+        </mm:listnodes>
+      </mm:listnodescontainer>
+    </c:if>
+    
+    <!-- create new tag -->
+    <c:if test="${empty tagrelated and empty tagnode}">
+      <mm:createnode type="tags" id="tagnode">
+        <mm:setfield name="name">${tag}</mm:setfield>
+      </mm:createnode>
+    </c:if>
+    
+    <c:if test="${empty tagrelated}">
+      <mm:createrelation source="media" destination="tagnode" role="related" />
+      <p class="msg">Added tag <strong>${tag}</strong>.</p>
+      
+      <span class="result">
+        <mm:link page="tag">
+          <mm:frameworkparam name="component">oip</mm:frameworkparam>
+          <mm:frameworkparam name="tag">${tagnode}</mm:frameworkparam>
+          <a href="${_}">${tag}</a>
+        </mm:link>
+      </span>
+    </c:if>
+    
+  </c:if>
+  
+  <!-- delete (relation with) tag -->
+  <c:if test="${!empty delete}">
+    <mm:hasnode number="$delete">
+      <mm:node number="$delete">
+        <mm:maydelete inverse="true">
+          <p class="err">Not allowed.</p>
+        </mm:maydelete>
+
+        <mm:maydelete>
+          
+          <mm:import id="dnumber" reset="true"><mm:field name="dnumber" /></mm:import>
+          
+          <mm:node number="$dnumber">
+            <mm:nodeinfo type="type">
+              
+              <c:choose>
+                <c:when test="${_ eq 'tags'}">
+                  <mm:deletenode number="$delete" />
+                  <p class="msg">Removed tag <strong><mm:field name="name" /></strong>.</p>
+                </c:when>
+                <c:otherwise>
+                  <p class="err">Not a tag.</p>
+                </c:otherwise>
+              </c:choose>
+  
+            </mm:nodeinfo>
+          </mm:node>
+  
+        </mm:maydelete>
+      </mm:node>
+    </mm:hasnode>
+  </c:if>
+
+
+</mm:cloud>
+</mm:content>
