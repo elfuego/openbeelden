@@ -60,7 +60,7 @@
               <c:if test="${editme eq 'true'}">
                 <a class="cancel" href="#close">close</a>
                 <div class="log"><jsp:text> <!-- empty --> </jsp:text></div>
-                <!-- jsp:directive.include file="inc/htmleditorsmall.jspx" / -->
+                <jsp:directive.include file="inc/htmleditorsmall.jspx" />
               </c:if>
               
               <fieldset>

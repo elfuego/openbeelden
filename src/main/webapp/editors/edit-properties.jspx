@@ -64,22 +64,20 @@
       <fieldset>
         <div>
           <label for="property_key">Key</label>
+          <p class="info">A property key is unique.</p>
           <input type="text" id="property_key" name="property_key" size="80" maxlength="255" class="small" />
         </div>
         <div>
           <label for="property_value">Value</label>
+          <p class="info">The value of the property.</p>
           <input type="text" id="property_value" name="property_value" size="80" maxlength="255" class="small" /><br />
         </div>  
       </fieldset>
       <fieldset class="buttons">
-        
         <input name="p"  type="hidden" value="${p}" />
         <input name="nr" type="hidden" value="${nr}" />
-        <p>
-          <fmt:message key="users.form.save" var="button_save" />
-          <input type="submit" name="submit_property" value="${button_save}" class="submit" />
-        </p>
-        
+        <fmt:message key="users.form.save" var="button_save" />
+        <input type="submit" name="submit_property" value="${button_save}" class="submit" />
       </fieldset>
     </form>
   

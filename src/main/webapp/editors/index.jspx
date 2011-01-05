@@ -13,13 +13,19 @@
       <script src="${mm:link('/style/js/editors.js')}" type="text/javascript"><jsp:text> </jsp:text></script>
     </jsp:attribute>
     <jsp:attribute name="left">
+
+      <c:set var="isdefault" value="false" />
+      <mm:node id="p" number="$_node.number">
+        <mm:hasalias name="pool_oip"><c:set var="isdefault" value="true" /></mm:hasalias>
+      </mm:node>
+
       <h2>Pages</h2>
 
       <mm:relatednodescontainer type="pages" role="posrel" searchdirs="destination">
         <mm:sortorder field="posrel.pos" direction="UP" />
         <ul>
           <mm:relatednodes>
-            <mm:link referids="_node@nr" page="edit.jspx">
+            <mm:link referids="_node@nr,p" page="/editors/pages.jspx">
               <li><a href="${_}"><mm:field name="title" /></a></li>
             </mm:link>
           </mm:relatednodes>
@@ -42,11 +48,8 @@
     </jsp:attribute>
     <jsp:attribute name="body">
 
-      <mm:node id="p" number="$_node.number" />
-
       <div class="main-column">
         <h2>Portal editor : <mm:field name="name" id="portalName" /></h2>
-
         <div class="edit-pic">
           <mm:relatednodes type="images" role="portalrel" max="1">
             <mm:import id="imgnr" reset="true"><mm:field name="number" /></mm:import>
@@ -118,52 +121,52 @@
           </ul>
         </mm:relatednodescontainer>
 
-
-        <div class="wrap">
-          <h2>Url</h2>
-          <p>Portal url, location.</p>
-          <mm:relatednodescontainer type="urls" role="portalrel" searchdirs="destination">
-            <mm:relatednodes>
-              <mm:include page="edit-node.jspx" referids="p?,_node@nr">
-                <mm:param name="fields">name,url</mm:param>
-              </mm:include>
-            </mm:relatednodes>
-          </mm:relatednodescontainer>
-        </div>
-
-        <div class="wrap">
-          <h2>Filter</h2>
-          <p>Portal filter with tags, keywords and users. Some more text about this.</p>
-          <mm:relatednodescontainer type="filters" role="portalrel" searchdirs="destination">
-            <mm:maxnumber value="1" />
-            <mm:size id="filter" write="false" />
-            <mm:relatednodes>
-              <mm:include page="edit-node.jspx" referids="p?,_node@nr">
-                <mm:param name="fields">users,tags,keywords</mm:param>
-              </mm:include>
-            </mm:relatednodes>
-          </mm:relatednodescontainer>
-          <c:if test="${filter lt 1}">
-            <div id="add_filter"> <jsp:text> <!-- empty --> </jsp:text> </div>
-            <p class="add">
-              <mm:link page="/editors/add-node.jspx" referids="p?,_node@nr">
-                <mm:param name="type">filters</mm:param>
-                <mm:param name="role">portalrel</mm:param>
-                <mm:param name="fields">users,tags,keywords</mm:param>
-                <mm:param name="defaultstr">name=Portal filter ${portalName}</mm:param>
-                <a class="editme" href="${_}#add_filter">add filter</a>
-              </mm:link>
-            </p>
-          </c:if>
-        </div>
-
         <div class="wrap">
           <h2>Properties</h2>
-          <p>Properties like... more text about properties of a portal.</p>
-
+          <p>Properties like... more text about possible properties of a portal.</p>
           <mm:include page="edit-properties.jspx" referids="p?,_node@nr" />
-
         </div>
+
+        <!-- the default portal has no specific url nor a content filter -->
+        <c:if test="${!isdefault}">
+          <div class="wrap">
+            <h2>Url</h2>
+            <p>Portal url: the specific location on which this portal can be found.</p>
+            <mm:relatednodescontainer type="urls" role="portalrel" searchdirs="destination">
+              <mm:relatednodes>
+                <mm:include page="edit-node.jspx" referids="p?,_node@nr">
+                  <mm:param name="fields">name,url</mm:param>
+                </mm:include>
+              </mm:relatednodes>
+            </mm:relatednodescontainer>
+          </div>
+  
+          <div class="wrap">
+            <h2>Filter</h2>
+            <p>Portal filter with tags, keywords and users. Some more explanation needed here...</p>
+            <mm:relatednodescontainer type="filters" role="portalrel" searchdirs="destination">
+              <mm:maxnumber value="1" />
+              <mm:size id="filter" write="false" />
+              <mm:relatednodes>
+                <mm:include page="edit-node.jspx" referids="p?,_node@nr">
+                  <mm:param name="fields">users,tags,keywords</mm:param>
+                </mm:include>
+              </mm:relatednodes>
+            </mm:relatednodescontainer>
+            <c:if test="${filter lt 1}">
+              <div id="add_filter"> <jsp:text> <!-- empty --> </jsp:text> </div>
+              <p class="add">
+                <mm:link page="/editors/add-node.jspx" referids="p?,_node@nr">
+                  <mm:param name="type">filters</mm:param>
+                  <mm:param name="role">portalrel</mm:param>
+                  <mm:param name="fields">users,tags,keywords</mm:param>
+                  <mm:param name="defaultstr">name=Portal filter ${portalName}</mm:param>
+                  <a class="editme" href="${_}#add_filter">add filter</a>
+                </mm:link>
+              </p>
+            </c:if>
+          </div>
+        </c:if>
 
       </div><!-- /.main-column -->
     </jsp:attribute>

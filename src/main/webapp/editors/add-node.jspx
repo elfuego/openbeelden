@@ -49,7 +49,7 @@
           <mm:notpresent referid="submit$type">
             <div class="log"><jsp:text> <!-- empty --> </jsp:text></div>
           </mm:notpresent>
-          <!-- jsp:directive.include file="inc/htmleditorsmall.jspx" / -->
+          <jsp:directive.include file="inc/htmleditorsmall.jspx" />
         </c:if>
 
         <mm:form id="form_$type">

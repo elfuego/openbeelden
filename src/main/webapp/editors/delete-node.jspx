@@ -80,10 +80,10 @@
                 <mm:write referid="fields">
                   <input name="fields" type="hidden" value="${_}" />
                 </mm:write>
-                <p>
+                <div>
                   <input type="submit" name="cancel" value="Cancel" class="cancel" /> 
                   <input type="submit" name="delete" value="Delete" class="submit" />
-                </p>
+                </div>
               </fieldset>
               
             </form>
