@@ -7,6 +7,7 @@
     xmlns:mm="http://www.mmbase.org/mmbase-taglib-2.0"
     >
   
+    <fmt:setBundle basename="eu.openimages.messages" scope="request" />
         
     <div id="tagfeedback"><jsp:text> <!-- empty --> </jsp:text></div>
     <ul id="tags">
@@ -22,31 +23,33 @@
               </mm:link>
             </mm:relatednode>
             <mm:maydelete>
+              <fmt:message key="tag.remove" var="tag_remove" />
               <mm:link page="/action/tagsubmit.jspx" referids="tagrel@delete">
-                <a href="${_}" title="Delete this tag?" class="delete">-</a>
+                <a href="${_}" title="${tag_remove}" class="delete">-</a>
               </mm:link>
             </mm:maydelete>
           </li>
         </mm:listrelations>
       </mm:listrelationscontainer>
       <mm:maycreate type="tags">
-        <li id="addtag" class="add"><a href="#tag">Add tag</a></li>
+        <li id="addtag" class="add"><a href="#tag"><fmt:message key="tag.add_tag" /></a></li>
       </mm:maycreate>
     </ul>
 
     <mm:maycreate type="tags">
       <div id="tag">
-        <a class="close" href="#">close</a>
-        <h4>Tag</h4>
+        <a class="close" href="#"><fmt:message key="users.close" /></a>
+        <h4><fmt:message key="tag" /></h4>
         <mm:link page="/action/tagsubmit.jspx">
           <form action="${_}" method="post" id="tagform">
             <fieldset>
-              <label for="tagsuggest">Find a tag or create one</label>
+              <label for="tagsuggest"><fmt:message key="tag.find_or_create" /></label>
               <input type="text" name="tag" value="" id="tagsuggest" class="tagsuggest" />
             </fieldset>
             <fieldset class="buttons">
               <input type="hidden" name="nr" value="${_node.number}" />
-              <input type="submit" name="add" value="Add" class="submit" />
+              <fmt:message key="tag.add" var="tag_add" />
+              <input type="submit" name="add" value="${tag_add}" class="submit" />
             </fieldset>
           </form>
         </mm:link>
