@@ -57,8 +57,9 @@
             <div class="progressInfo" id="progressInfo">
               <p><fmt:message key="users.upload.notstarted" /></p>
             </div>
+                <p class="required"><span>* </span> <fmt:message key="users.starsarerequired" /></p>
 
-            <fieldset>
+            <fieldset class="buttons">
               <input type="submit" name="submit_upload" id="submit_upload" value="Upload" class="submit" />
             </fieldset>
 
@@ -135,8 +136,7 @@
                         <label for="${_}" class="${fld_name}"><mm:fieldinfo type="guiname" /> *</label>
                       </mm:fieldinfo>
                       <p class="info"><mm:fieldinfo type="description" escape="inline" /></p>
-                      <mm:fieldinfo type="input" />
-                      <mm:fieldinfo type="errors" />
+                      <mm:fieldinfo type="input" /><mm:fieldinfo type="errors" />
                     </div>
                   </mm:fieldlist>
 
@@ -150,7 +150,9 @@
                       <mm:fieldinfo type="input" /><mm:fieldinfo type="errors" />
                     </div>
                   </mm:fieldlist>
-
+                  
+                  <p class="required"><span>* </span> <fmt:message key="users.starsarerequired" /></p>
+                  
                 </fieldset>
               </mm:node>
 
@@ -163,8 +165,12 @@
                       <input name="license" id="lic_0" type="radio" value="${_node}" checked="checked" />
                       <mm:nodefunction name="translation">
                         <mm:import id="ya" reset="true"><mm:field name="you_allow" escape="tagstripper" /></mm:import>
-                        <label for="lic_0" title="${ya}"><mm:field name="name" /></label>
-                        <a class="_blank" href="${_node.url}" title="${ya}">${_node.url}</a>
+                        <label for="lic_0" title="${ya}">
+                          <mm:field name="name" />
+                          <a class="_blank" href="${_node.url}" title="More information">
+                            <img src="${mm:link('/style/css/icons/info.png')}" alt="i" width="12" height="12" />
+                          </a>
+                        </label>
                       </mm:nodefunction>
                     </li>
                   </mm:node>
@@ -175,8 +181,12 @@
                         <input name="license" id="lic_${status.index}" type="radio" value="${_node}" />
                         <mm:nodefunction name="translation">
                           <mm:import id="ya" reset="true"><mm:field name="you_allow" escape="tagstripper" /></mm:import>
-                          <label for="lic_${status.index}" title="${ya}"><mm:field name="name" /></label>
-                          <a class="_blank" href="${_node.url}" title="${ya}">${_node.url}</a>
+                          <label for="lic_${status.index}" title="${ya}">
+                            <mm:field name="name" />
+                            <a class="_blank" href="${_node.url}" title="More information">
+                              <img src="${mm:link('/style/css/icons/info.png')}" alt="i" width="12" height="12" />
+                            </a>
+                          </label>
                         </mm:nodefunction>
                       </li>
                     </mm:listnodes>
