@@ -75,7 +75,7 @@
           <jsp:include page="/mmbase/jquery/jquery.jspx" />
 
           <script type="text/javascript" src="${mm:link('/mmbase/tiny_mce/tiny_mce.js')}"><!-- help msie --></script>
-          <!-- jsp:directive.include file="/editors/inc/htmleditorsmall.jspx" / -->
+          <jsp:directive.include file="/editors/inc/htmleditorsmall.jspx" />
 
           <jsp:invoke fragment="head" />
 
@@ -131,7 +131,7 @@
               </ul>
               <ul class="meta">
                 <li><a href="${mm:link('/logout.jspx')}">logout</a></li>
-                <li><mm:cloudinfo type="user" /></li>
+                <li>you are: <mm:cloudinfo type="user" /></li>
               </ul>
             </div>
   
