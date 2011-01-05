@@ -147,18 +147,9 @@ fieldset.licenses label
 	display: inline;
 	margin-left: 4px;
 	margin-bottom: 0;
+	float: none;
 }
-
-fieldset.licenses a
-{
-	display: block;
-	margin-left: 20px;
-	font-size: 0.9em;
-	line-height: normal;	
-}
-fieldset.licenses a:link, 
-fieldset.licenses a:visited { text-decoration: none; }
-
+fieldset.licenses img { margin-left: 6px; }
 
 
 /* oiplayer */
