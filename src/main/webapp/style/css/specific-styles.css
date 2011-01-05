@@ -193,7 +193,6 @@ dl.list a:active
 dl.list a.edit:link,
 dl.list a.edit:visited
 {
-    text-decoration: underline;
     color: #c00;
 }
 
@@ -266,7 +265,6 @@ h3.mediatitle a.edit
 {
 	font-size: 0.85em;
 	color: #c00;
-	text-decoration: underline;
 }
 h3.subtitle {
     max-width: 512px;
@@ -323,6 +321,7 @@ ul.toolbar a:active
 	text-decoration: none;
 	color: #555;
 	font-weight: bold;
+    outline: none;
 }
 
 ul.toolbar li.favorite a { color: #999; }
@@ -433,7 +432,11 @@ a.edit
 }
 
 a.edit:link, a.edit:visited { color: #C00; }
-a.edit:hover, a.edit:active { color: #F00; }
+a.edit:hover, a.edit:active
+{
+	color: #F00;
+	text-decoration: underline;
+}
 
 .more a:link, .more a:visited { color: #C00; }
 .more a:hover, .more a:active { color: #C00; }
@@ -528,52 +531,77 @@ form#search p a:active
 /* tagging */
 #tagsuggestions
 {
-	/* border: 1px solid #ccc; */
 	margin-top: 0;
 	padding: 0 4px 4px 4px;
 }
 
-a.tag
+ul#tags
 {
-    background-color: #efefef;
-    border: 1px solid #ccc;
-    padding-left: 0.3em;
-    padding-right: 0.3em;
-    margin-right: 0.2em;
+	float: left;
+	width: 100%;
+	margin: 0;
+	list-style: none;
 }
 
-a.tag:link, a.tag:hover, a.tag:visited
+ul#tags li
 {
-    color: #444;
-    text-decoration: none;
+	float: left;
+	margin: 0 12px 0 0;
+	padding: 0;
 }
 
-a.tag:hover
+ul#tags li a
 {
-    background-color: #fea;
-    color: #000;
-    border: 1px solid #666;
-    text-decoration: none;
+	float: left;
+	display: block;
+	margin: 0;
+	color: #333;
+	padding: 0 0 0 10px;
+	background-image: url(images/dots2.png);
+	background-position: 2px 10px;
+	background-repeat: no-repeat;
 }
+
+ul#tags li a:hover
+{
+	text-decoration: underline;
+	color: #c00;
+}
+
+ul#tags li a.delete
+{
+	width: 12px;
+	padding: 9px 0 0 0;
+	margin: 6px 0 0 4px;
+	background-image: url(images/icon_minus.png);
+	background-position: 2px 0px;
+	background-repeat: no-repeat;
+	overflow: hidden;
+	height: 0px !important;
+}
+
+ul#tags li a.delete:hover { background-position: 2px -9px; }
+ul#tags li.deleted { display: none; }
+
+
+ul#tags li.add
+{
+	float: right;
+	text-transform: lowercase;
+	margin-right: 0;
+}
+
+ul#tags li.add a { color: #C00; }
+
 
 a.tag.add
 {
-/*
     background-image: url(images/icon_plus.gif);
     background-position: 0.3em center;
     background-repeat: no-repeat;
     padding-left: 1.3em;
-*/
 }
 
-a.tag.delete
-{
-    /*background-color: #FEA;*/
-    background-image: url(images/icon_minus.gif);
-    background-position: 0.3em center;
-    background-repeat: no-repeat;
-    padding-left: 1.3em;
-}
 
 /* popups */
 div.popup
@@ -591,19 +619,20 @@ div.right-column div.popup {
     margin: 8px 0;
 }
 
-div.main-column div.popup input { width: 332px; }
+div.main-column div.popup input { width: 336px; }
 
 div.popup h4
 {
-    background-color: #eee;
-    font-family: Helvetica, sans-serif;
-    text-align: center;
-    text-transform: none;
-    letter-spacing: 0;
-    padding: 2px 4px;
-    font-size: 1em;
-    border-bottom: 1px #ccc dotted;
-    color: #666;
+	background-color: #eee;
+	font-family: Helvetica, sans-serif;
+	text-align: center;
+	text-transform: none;
+	letter-spacing: 0;
+	padding: 2px 4px;
+	margin-bottom: 6px;
+	font-size: 1em;
+	border-bottom: 1px #ccc dotted;
+	color: #666;
 }
 
 div.popup form, div.popup p, div.popup ul

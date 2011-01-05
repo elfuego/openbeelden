@@ -2,7 +2,7 @@
 %><%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"
 %><%@ taglib uri="http://www.opensymphony.com/oscache" prefix="os"
 %><jsp:directive.page session="false" />
-*///<mm:content type="text/javascript" expires="3600" postprocessor="none"><os:cache time="3600"><mm:escape  escape="javascript-compress">
+*///<mm:content type="text/javascript" expires="3600" postprocessor="none"><os:cache time="0"><mm:escape escape="none">
 <fmt:setBundle basename="eu.openimages.messages" scope="request" />
 <mm:import id="any_lang"><fmt:message key="search.any_language" /></mm:import>
 
@@ -13,18 +13,6 @@
 */
 
 function initMultiLang() {
-    /* $("select[id='mm_org.mmbase.mmsite.language']").change(function() {
-        var form = $(this).parents('form');
-        var action = form.attr("action").split('/');
-        var last = action[action.length - 1].split('.');
-        if ($(this).val() == '') {
-            action[action.length - 1] = last[0];
-        } else {
-            action[action.length - 1] = last[0] + "." + $(this).val();
-        }
-        var newUrl = action.join("/");
-        document.location = newUrl;
-    }); */
     // change the empty language options
     //var choose_lang = $("#menu label[for='mm_org.mmbase.mmsite.language']").text();
     //$("select[id='mm_org.mmbase.mmsite.language'] option[value='']").text(choose_lang);
@@ -64,7 +52,7 @@ function initToolbar() {
         var loc = document.location.href;
         $(loc.substring(loc.indexOf('#'))).toggle();
     }
-    $('li.license a, li.download a, li.embed a, li.share a, li.tag a').click(function(ev) {
+    $('li.license a, li.download a, li.share a').click(function(ev) {
         var link = ev.target.href;
         $( link.substring(link.indexOf("#")) ).slideToggle('fast');
     });
@@ -80,6 +68,7 @@ function initToolbar() {
             }
         });
     });
+    
 }
 
 function initRemoveFav() {
@@ -99,11 +88,51 @@ function initRemoveFav() {
     });
 }
 
-function initTagsuggest() {
-    $('input.tagsuggest').mmTagsuggest({
+function initTags() {
+    if ($("div#tag").length) {
+        $('div#tag').toggle();
+    }
+
+    $('ul#tags li.add a').click(function(ev) {
+        ev.preventDefault();
+        var link = ev.target.href;
+        $( link.substring(link.indexOf("#")) ).slideToggle('fast');
+    });
+    
+    $('ul#tags a.delete').click(function(ev){
+        ev.preventDefault();
+        var link = ev.target.href;
+        $(ev.target).parent().toggleClass('deleted').hide();
+        $.ajax({
+            url: link,
+            dataType: 'html',
+            success: function(xml) {
+                //console.log('ok: ' + xml);
+                $('#tagfeedback').html(xml);
+            }
+        });
+    });
+    
+    $('input#tagsuggest').mmTagsuggest({
         url: '${mm:link('/action/tags.jspx')}',
         resultId: '#tagsuggestions'
     });
+
+    // ajax form options
+    var options = {
+        target: '#tagfeedback',
+        success: addedTag
+    };
+    $('#tagform').ajaxForm(options);
+}
+
+function addedTag() {
+    var newTag = $(this).find('span.result');   // new tag in results
+    var newItem = $('#addtag').clone().empty(); // clone template and make it empty
+    newItem.removeAttr('id');
+    newItem.removeAttr('class');
+    newItem.append(newTag);
+    $('#tags').append(newItem); // add list item with added tag
 }
 
 function initClose() {
@@ -231,7 +260,7 @@ $(document).ready(function() {
     initToolbar();
     initRemoveFav();
     initCopyInput();
-    if ($('input.tagsuggest').length) initTagsuggest();
+    if ($('#tags').length) initTags();
     initClose();
     initTabs('tabs');
     initTabs('usertabs');

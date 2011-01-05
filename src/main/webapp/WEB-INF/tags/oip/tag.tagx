@@ -2,80 +2,60 @@
     version="2.0"
     xmlns:c="http://java.sun.com/jsp/jstl/core"
     xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+    xmlns:fmt="http://java.sun.com/jsp/jstl/fmt"
     xmlns:jsp="http://java.sun.com/JSP/Page"
     xmlns:mm="http://www.mmbase.org/mmbase-taglib-2.0"
     >
   
-  <mm:import externid="tag" />
-  <mm:import externid="delete" />
-  
-  <!-- relate tags -->
-  <c:set var="taglen" value="${fn:length(tag)}" />
-  <c:if test="${!empty tag and taglen lt 3}">
-    <div class="err"><strong>${tag}</strong> is too short.</div>
-  </c:if>
-  <c:if test="${!empty tag and taglen gt 2}">
-    <!-- check if already related -->
-    <mm:node  id="media">
-      <mm:relatednodescontainer type="tags" role="related" searchdirs="destination">
-        <mm:constraint field="name" value="$tag" operator="EQUAL" />
-        <mm:relatednodes>
-          <mm:node id="tagrelated" />
-          <p class="err">The tag <strong>${tag}</strong> was already related.</p>
-        </mm:relatednodes>
-      </mm:relatednodescontainer>
-    </mm:node>
-    <!-- check if exists -->
-    <c:if test="${empty tagrelated}">
-      <mm:listnodescontainer type="tags">
-        <mm:constraint field="name" value="$tag" operator="EQUAL" />
-        <mm:maxnumber value="1" />
-        <mm:listnodes>
-          <mm:node id="tagnode" />
-        </mm:listnodes>
-      </mm:listnodescontainer>
-    </c:if>
-    <!-- create new tag -->
-    <c:if test="${empty tagrelated and empty tagnode}">
-      <mm:createnode type="tags" id="tagnode">
-        <mm:setfield name="name">${tag}</mm:setfield>
-      </mm:createnode>
-    </c:if>
-    <c:if test="${empty tagrelated}">
-      <mm:createrelation source="media" destination="tagnode" role="related" />
-      <p class="msg">The tag <strong>${tag}</strong> has been added.</p>
-    </c:if>
-  </c:if>
-  
-  <!-- delete (relation with) tag -->
-  <c:if test="${!empty delete}">
-    <mm:hasnode number="$delete">
-      <mm:node number="$delete">
-        <mm:maydelete inverse="true">
-          <div class="err">Not allowed.</div>
-        </mm:maydelete>
-        <mm:maydelete>
-          <mm:deletenode number="$delete" />
-          <p class="msg">The tag has been removed.</p>
-        </mm:maydelete>
-      </mm:node>
-    </mm:hasnode>
-  </c:if>
+        
+    <div id="tagfeedback"><jsp:text> <!-- empty --> </jsp:text></div>
+    <ul id="tags">
+      <mm:listrelationscontainer type="tags" role="related" searchdir="destination">
+        <mm:maxnumber value="99" />
+        <mm:listrelations id="tagrel">
+          <li>
+            <mm:relatednode>
+              <mm:link page="tag">
+                <mm:frameworkparam name="component">oip</mm:frameworkparam>
+                <mm:frameworkparam name="tag">${_node}</mm:frameworkparam>
+                <a href="${_}"><mm:field name="name" /></a>
+              </mm:link>
+            </mm:relatednode>
+            <mm:maydelete>
+              <mm:link page="/action/tagsubmit.jspx" referids="tagrel@delete">
+                <a href="${_}" title="Delete this tag?" class="delete">-</a>
+              </mm:link>
+            </mm:maydelete>
+          </li>
+        </mm:listrelations>
+      </mm:listrelationscontainer>
+      <mm:maycreate type="tags">
+        <li id="addtag" class="add"><a href="#tag">Add tag</a></li>
+      </mm:maycreate>
+    </ul>
 
-  <mm:maycreate type="tags">
-    <div class="popup" id="tag">
-      <h4><a class="close" href="#">close</a> Add tags</h4>
-      <mm:link>
-        <form action="${_}" method="post">
-          <fieldset>
-            <label for="tagsuggest">Find a tag or create a new one</label>
-            <input type="text" name="tag" value="" id="tagsuggest" class="tagsuggest" />
-            <input type="submit" name="add" value="Add" class="submit" />
-          </fieldset>
-        </form>
-      </mm:link>
-      <div id="tagsuggestions"><jsp:text> </jsp:text></div>
-    </div>
-  </mm:maycreate>  
+    <mm:maycreate type="tags">
+      <div id="tag">
+        <h4><a class="close" href="#">close</a> Tag</h4>
+        <mm:link page="/action/tagsubmit.jspx">
+          <form action="${_}" method="post" id="tagform">
+            <fieldset>
+              <p>
+                <label for="tagsuggest">Find a tag or create one</label>
+                <input type="text" name="tag" value="" id="tagsuggest" class="tagsuggest" />
+              </p>
+            </fieldset>
+            <fieldset class="buttons">
+              <p>
+                <input type="hidden" name="nr" value="${_node.number}" />
+                <input type="submit" name="add" value="Add" class="submit" />
+              </p>
+            </fieldset>
+          </form>
+        </mm:link>
+        <div id="tagsuggestions"><jsp:text> <!-- empty --> </jsp:text></div>
+      </div>
+    </mm:maycreate>
+
 
 </jsp:root>

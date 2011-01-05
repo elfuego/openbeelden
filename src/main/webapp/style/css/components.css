@@ -148,8 +148,8 @@ div.b_user-mediapreview div.inavailable p
 	font-weight: bold;
 }
 
-div.b_user-mediapreview ul.controls { width: 284px; }
-div.b_user-mediapreview dl.media-info { width: 284px; }
+/*div.b_user-mediapreview ul.controls { width: 284px; }*/
+div.b_user-mediapreview dl.media-info { width: 150px; }
 
 
 
