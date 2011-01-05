@@ -61,17 +61,17 @@
             </p>
           </mm:relatednodes>
           <c:if test="${empty imgnr}">
-            <div id="add_picture"> 
-              <jsp:text> <!-- empty, cause nothing exists here yet. this will be cloned to represent new nodes --> </jsp:text> 
+            <div id="add_picture">
+              <jsp:text> <!-- empty, cause nothing exists here yet. this will be cloned to represent new nodes --> </jsp:text>
             </div>
             <p>
               <mm:link page="/editors/add-node.jspx" referids="p?,_node@nr">
                 <mm:param name="type">images</mm:param>
                 <mm:param name="fields">handle</mm:param>
                 <mm:param name="role">portalrel</mm:param>
-                <mm:param name="defaultstr">title=Portal logo ${portalName}</mm:param>
+                <mm:param name="default">title=Portal logo ${portalName}</mm:param>
                 <a class="editme" href="${_}#add_picture">
-                  add picture
+                  <jsp:text>add picture</jsp:text>
                 </a>
               </mm:link>
             </p>

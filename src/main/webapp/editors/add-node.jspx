@@ -1,47 +1,47 @@
-<mm:content 
+<mm:content
     xmlns:jsp="http://java.sun.com/JSP/Page"
     xmlns:c="http://java.sun.com/jsp/jstl/core"
     xmlns:fn="http://java.sun.com/jsp/jstl/functions"
     xmlns:fmt="http://java.sun.com/jsp/jstl/fmt"
     xmlns:mm="http://www.mmbase.org/mmbase-taglib-2.0"
     expires="0" type="text/html" language="client" postprocessor="none">
-<jsp:output doctype-root-element="html"
-      doctype-public="-//W3C//DTD XHTML 1.0 Strict//EN"
-      doctype-system="http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd" />
+  <jsp:output doctype-root-element="html"
+              doctype-public="-//W3C//DTD XHTML 1.0 Strict//EN"
+              doctype-system="http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd" />
 
-<mm:cloud method="asis">
-  
-  <fmt:setBundle basename="eu.openimages.messages" scope="request" />
-  
-  <mm:import externid="p" /><!-- portal -->
-  <mm:import externid="type" /><!-- type of new node to create -->
-  <mm:import externid="fields" vartype="List" />
-  
-  <!-- if we have nr and role, a relation will be made with nr -->
-  <mm:import externid="nr" />
-  <mm:import externid="role">related</mm:import>
-  <mm:import externid="dir">destination</mm:import>
-  
-  <!-- supports one default (string) value f.e. 'name=Test value' -->
-  <mm:import externid="defaultstr" />
-  <mm:escaper referid="urlparam" inverse="true" id="undo" />
-  <c:if test="${!empty defaultstr}">
-    <c:set var="namevalue" value="${fn:split(defaultstr, '=')}" />
-    <mm:import id="name">${namevalue[0]}</mm:import>
-    <mm:import id="value">${namevalue[1]}</mm:import>
-  </c:if>
-  
-  
-  <mm:import externid="submit$type" />
-  <mm:import externid="cancel" />
-  
-  <mm:import externid="editme">false</mm:import>
-  <mm:import externid="show">/editors/show-node.jspx</mm:import>
+  <mm:cloud method="asis">
+
+    <fmt:setBundle basename="eu.openimages.messages" scope="request" />
+
+    <mm:import externid="p" /><!-- portal -->
+    <mm:import externid="type" /><!-- type of new node to create -->
+    <mm:import externid="fields" vartype="List" />
+
+    <!-- if we have nr and role, a relation will be made with nr -->
+    <mm:import externid="nr" />
+    <mm:import externid="role">related</mm:import>
+    <mm:import externid="dir">destination</mm:import>
+
+    <!-- supports one default (string) value f.e. 'name=Test value' -->
+    <mm:import id="defaultstr" externid="default" />
+    <mm:escaper referid="urlparam" inverse="true" id="undo" />
+    <c:if test="${!empty defaultstr}">
+      <c:set var="namevalue" value="${fn:split(defaultstr, '=')}" />
+      <mm:import id="name">${namevalue[0]}</mm:import>
+      <mm:import id="value">${namevalue[1]}</mm:import>
+    </c:if>
+
+
+    <mm:import externid="submit$type" />
+    <mm:import externid="cancel" />
+
+    <mm:import externid="editme">false</mm:import>
+    <mm:import externid="show">/editors/show-node.jspx</mm:import>
 
     <c:choose>
       <c:when test="${cancel eq 'Cancel'}">
         <!-- p class="msg">Cancelled.</p -->
-      
+
       </c:when>
       <c:otherwise>
 
@@ -54,11 +54,11 @@
 
         <mm:form id="form_$type">
           <mm:import id="buffer">
-            
+
             <mm:createnode type="$type" id="new_node" commitonclose="false">
-              
+
               <a class="editme cancel" href="#close">close</a>
-              
+
               <fieldset>
                 <mm:fieldlist type="${empty fields ? 'edit' : ''}" fields="${fields}">
                   <div>
@@ -70,14 +70,14 @@
                     <mm:maywrite><mm:fieldinfo type="input" /><mm:fieldinfo type="errors" /></mm:maywrite>
                   </div>
                 </mm:fieldlist>
-                
+
                 <!-- save defaultstr value -->
                 <c:if test="${!empty name and !empty value}">
                   <mm:setfield name="$name"><mm:write referid="value" escape="undo" /></mm:setfield>
                 </c:if>
               </fieldset>
 
-              
+
               <fieldset class="buttons">
                 <input name="p"        type="hidden" value="${p}" />
                 <input name="nr"       type="hidden" value="${nr}" />
@@ -92,20 +92,20 @@
                   <fmt:message key="users.form.save" var="button_save" />
                   <input type="submit" name="action" value="${button_save}" class="submit" />
                   <c:if test="${editme eq 'true'}">
-                    <input type="button" name="cancel" value="Cancel" class="cancel" /> 
+                    <input type="button" name="cancel" value="Cancel" class="cancel" />
                   </c:if>
                 </p>
               </fieldset>
             </mm:createnode>
           </mm:import>
-      
+
           <mm:present referid="submit$type">
-            
+
             <mm:valid>
               <mm:import id="saved">
-                Your <mm:nodeinfo nodetype="$type" type="guitype" escape="lowercase" /> 
+                Your <mm:nodeinfo nodetype="$type" type="guitype" escape="lowercase" />
                 '<strong>
-                  <mm:node referid="new_node"><mm:function name="gui" escape="tagstripper,lowercase"  /></mm:node>
+                <mm:node referid="new_node"><mm:function name="gui" escape="tagstripper,lowercase"  /></mm:node>
                 </strong>'
                 is saved
                 <c:if test="${!empty nr and !empty role}">
@@ -116,35 +116,35 @@
                     </c:when>
                     <c:otherwise>
                       <mm:createrelation source="new_node" destination="rel_node" role="$role" />
-                     </c:otherwise>
+                    </c:otherwise>
                   </c:choose>
-                  and related to 
+                  and related to
                   <mm:node number="$nr">'<mm:function name="gui" escape="tagstripper,lowercase" />'</mm:node>
-                </c:if>.
+                  </c:if>.
               </mm:import>
-              
+
               <mm:commit />
             </mm:valid>
-            
+
             <mm:valid inverse="true">
               <p class="err">The form contains an error.</p>
               <mm:write referid="buffer" escape="none" />
               <mm:cancel />
             </mm:valid>
-            
+
           </mm:present>
-          
+
           <mm:notpresent referid="submit$type">
             <mm:write referid="buffer" escape="none" />
             <mm:cancel />
           </mm:notpresent>
-          
+
         </mm:form>
-        
-        
+
+
         <c:if test="${!empty saved and editme eq 'true'}">
           <p class="msg"><mm:write referid="saved" escape="none" /></p>
-          
+
           <!-- show new node -->
           <div class="node_created edit_${new_node}">
             <mm:link page="/editors/edit-node.jspx" referids="p?,new_node@nr,show">
@@ -166,5 +166,5 @@
       </c:otherwise>
     </c:choose>
 
-</mm:cloud>
+  </mm:cloud>
 </mm:content>
