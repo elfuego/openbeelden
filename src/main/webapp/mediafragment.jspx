@@ -141,16 +141,16 @@
         <div class="popup" id="share">
           <h4><a class="close" href="#toolbar">close</a> <fmt:message key="media.share" /></h4>
           <p>
-            <label for="inputshare">Link</label>
+            <label for="inputshare"><fmt:message key="media.link_to_page" /></label>
             <mm:link absolute="true">
               <input name="share" id="inputshare" class="copyvalue" type="text" value="${_}" />
             </mm:link>
           </p>
           <p>
-            <label for="inputembed">HTML tag to copy</label>
+            <label class="description" for="inputembed"><fmt:message key="media.htmltag" /></label>
             <c:choose>
               <c:when test="${empty unsupported}">
-                <input name="share" id="inputembed" class="copyvalue" type="text" value="${embedtag}" />
+                <textarea name="share" id="inputembed" class="copyvalue">${embedtag}</textarea>
               </c:when>
               <c:otherwise>
                 <fmt:message key="media.nosources" />
