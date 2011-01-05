@@ -21,7 +21,11 @@
   <c:set var="taglen" value="${fn:length(tag)}" />
   
   <c:if test="${!empty tag and taglen lt 3}">
-    <p class="err"><strong>${tag}</strong> is too short.</p>
+    <p class="err">
+      <fmt:message key="tag.tooshort">
+        <fmt:param><strong>${tag}</strong></fmt:param>
+      </fmt:message>          
+    </p>
   </c:if>
   
   <c:if test="${!empty tag and taglen gt 2}">
@@ -32,7 +36,11 @@
         <mm:constraint field="name" value="$tag" operator="EQUAL" />
         <mm:relatednodes>
           <mm:node id="tagrelated" />
-          <p class="err">This item was already taged with <strong>${tag}</strong>.</p>
+          <p class="err">
+            <fmt:message key="tag.already_tagged">
+              <fmt:param><strong>${tag}</strong></fmt:param>
+            </fmt:message>          
+          </p>
         </mm:relatednodes>
       </mm:relatednodescontainer>
     </mm:node>
@@ -57,7 +65,11 @@
     
     <c:if test="${empty tagrelated}">
       <mm:createrelation source="media" destination="tagnode" role="related" />
-      <p class="msg">Added tag <strong>${tag}</strong>.</p>
+      <p class="msg">
+        <fmt:message key="tag.added">
+          <fmt:param><strong>${tag}</strong></fmt:param>
+        </fmt:message>          
+      </p>
       
       <span class="result">
         <mm:link page="tag">
@@ -75,7 +87,7 @@
     <mm:hasnode number="$delete">
       <mm:node number="$delete">
         <mm:maydelete inverse="true">
-          <p class="err">Not allowed.</p>
+          <p class="err"><fmt:message key="tag.notallowed" />.</p>
         </mm:maydelete>
 
         <mm:maydelete>
@@ -88,10 +100,14 @@
               <c:choose>
                 <c:when test="${_ eq 'tags'}">
                   <mm:deletenode number="$delete" />
-                  <p class="msg">Removed tag <strong><mm:field name="name" /></strong>.</p>
+                  <p class="msg">
+                    <fmt:message key="tag.removed">
+                      <fmt:param><strong><mm:field name="name" /></strong></fmt:param>
+                    </fmt:message>.
+                  </p>
                 </c:when>
                 <c:otherwise>
-                  <p class="err">Not a tag.</p>
+                  <p class="err"><fmt:message key="tag.notag" /></p>
                 </c:otherwise>
               </c:choose>
   
