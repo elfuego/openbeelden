@@ -48,10 +48,9 @@
                 </mm:fieldlist>
               </fieldset>
               <fieldset class="hidden">
-                <mm:fieldlist fields="mediaprovider">
+                <mm:field name="mediaprovider">
                   <mm:fieldinfo type="input" />
-                  <mm:fieldinfo type="errors" />
-                </mm:fieldlist>
+                </mm:field>
               </fieldset>
             </mm:createnode>
 
