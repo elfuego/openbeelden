@@ -2,7 +2,7 @@
 %><%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"
 %><%@ taglib uri="http://www.opensymphony.com/oscache" prefix="os"
 %><jsp:directive.page session="false" />
-*///<mm:content type="text/javascript" expires="3600" postprocessor="none"><os:cache time="3600"><mm:escape  escape="javascript-compress">
+*///<mm:content type="text/javascript" expires="3600" postprocessor="none"><os:cache time="0"><mm:escape escape="none">
 <fmt:setBundle basename="eu.openimages.messages" scope="request" />
 <mm:import id="any_lang"><fmt:message key="search.any_language" /></mm:import>
 
@@ -243,7 +243,14 @@ function initLabelsInInput() {
 
 /* Open link in new window or tab */
 function initBlank() {
-    $('._blank').click(function(ev) { ev.preventDefault(); window.open(ev.target); });
+    $('._blank').click(function(ev){ 
+        ev.preventDefault();
+        if (ev.target.tagName.toLowerCase == 'a') {
+            window.open(ev.target); 
+        } else {
+            window.open($(ev.target).parent().attr('href')); 
+        }
+    });
 }
 
 function initPlayStats() {
