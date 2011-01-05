@@ -50,8 +50,7 @@
       mimetype="video/*" in="v1" id="v2">
     <class name="org.mmbase.streams.transcoders.FFMpeg2TheoraTranscoder">
       <param name="videoQuality">5</param>
-      <param name="width">320</param>
-      <param name="height">240</param>
+      <param name="width">512</param>
     </class>
     <loganalyzer name="org.mmbase.streams.transcoders.FFMpeg2TheoraAnalyzer" />
   </transcoder>
@@ -80,8 +79,8 @@
       <param name="abitrate">128k</param>
       <param name="audioChannels">2</param>
       <param name="async">1</param>
-      <param name="width">320</param>
-      <param name="height">240</param>
+      <param name="width">512</param>
+      <param name="height">288</param>
     </class>
     <loganalyzer name="org.mmbase.streams.transcoders.FFMpegAnalyzer" />
   </transcoder>
@@ -221,6 +220,16 @@
       <param name="format">mp3</param>
       <param name="acodec">libmp3lame</param>
       <param name="aq">32</param>
+      <param name="ab">192k</param>
+    </class>
+    <loganalyzer name="org.mmbase.streams.transcoders.FFMpegAnalyzer" />
+  </transcoder>
+
+  <!-- ffmpeg -i Goo.mp3 -f flac -aq 60 -ab 192k goo.flac -->
+  <transcoder mimetype="audio/*" id="a3" in="recognizer">
+    <class name="org.mmbase.streams.transcoders.FFMpegTranscoder">
+      <param name="format">flac</param>
+      <param name="aq">60</param>
       <param name="ab">192k</param>
     </class>
     <loganalyzer name="org.mmbase.streams.transcoders.FFMpegAnalyzer" />
