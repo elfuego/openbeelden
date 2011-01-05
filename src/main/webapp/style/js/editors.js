@@ -45,7 +45,6 @@ function editMe(ev) {
 	       function() {
 		   var validator = new MMBaseValidator();
                    validator.addValidationForElements($(id + " .mm_validate"));
-		   validator.lang = $("html").attr("lang");
 		   validator.validateHook = function(valid, entry) {
 		       var button = $(id + " input[type=submit][class=submit]");
 		       button[0].disabled = validator.invalidElements != 0;
