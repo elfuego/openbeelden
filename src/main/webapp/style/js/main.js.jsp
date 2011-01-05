@@ -2,7 +2,7 @@
 %><%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"
 %><%@ taglib uri="http://www.opensymphony.com/oscache" prefix="os"
 %><jsp:directive.page session="false" />
-*///<mm:content type="text/javascript" expires="3600" postprocessor="none"><os:cache time="0"><mm:escape escape="none">
+*///<mm:content type="text/javascript" expires="3600" postprocessor="none"><os:cache time="3600"><mm:escape  escape="javascript-compress">
 <fmt:setBundle basename="eu.openimages.messages" scope="request" />
 <mm:import id="any_lang"><fmt:message key="search.any_language" /></mm:import>
 
@@ -125,7 +125,7 @@ function initTags() {
     });
     
     $('input#tagsuggest').mmTagsuggest({
-        url: '${mm:link('/action/tags.jspx')}',
+        url: '${mm:link("/action/tags.jspx")}',
         resultId: '#tagsuggestions'
     });
 
