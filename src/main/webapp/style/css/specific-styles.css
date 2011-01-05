@@ -194,6 +194,7 @@ dl.list a.edit:link,
 dl.list a.edit:visited
 {
     color: #c00;
+    text-decoration: underline;
 }
 
 dl.list a.edit:hover,
@@ -265,6 +266,7 @@ h3.mediatitle a.edit
 {
 	font-size: 0.85em;
 	color: #c00;
+	text-decoration: underline;
 }
 h3.subtitle {
     max-width: 512px;
@@ -545,7 +547,18 @@ div.right-column div.popup {
     margin: 8px 0;
 }
 
+div.main-column div.popup label { cursor: default; }
+div.main-column div.popup label.description { width: auto; }
+
 div.main-column div.popup input { width: 336px; }
+@media screen and (-webkit-min-device-pixel-ratio:0) { 
+    div.main-column div.popup input { padding: 2px; width: 342px; } 
+}
+div.main-column div.popup textarea
+{
+	width: 484px;
+	height: 100px;
+}
 
 div.popup h4
 {
@@ -677,20 +690,26 @@ ul#tags li a:hover
 	text-decoration: underline;
 	color: #c00;
 }
+ul#tags li a:active { 
+    outline: none;
+    -moz-outline-style: none;
+} 
+ul#tags li a:focus { outline: none; } 
+
 
 ul#tags li a.delete
 {
 	width: 12px;
 	padding: 9px 0 0 0;
-	margin: 6px 0 0 4px;
+	margin: 6px -3px 0 4px;
 	background-image: url(images/icon_minus.png);
-	background-position: 2px 0px;
+	background-position: 3px 0px;
 	background-repeat: no-repeat;
 	overflow: hidden;
 	height: 0px !important;
 }
 
-ul#tags li a.delete:hover { background-position: 2px -9px; }
+ul#tags li a.delete:hover { background-position: 3px -9px; }
 ul#tags li.deleted { display: none; }
 
 ul#tags li.add
@@ -725,45 +744,6 @@ div.legaltext
 	padding: 3px;
 }
 div.legaltext a:link, div.legaltext a:visited { color: #666; }
-
-div.progressInfo
-{
-	width: auto;
-	border: 2px solid #ccc;
-	padding: 2px 4px 0;
-	font-weight: bold;
-	text-align: left;
-	position: relative;
-	height: 22px;
-}
-
-
-div.PROGRESS, div.DONE
-{
-	background-image: url(../images/progress.png);
-	background-color: #fff;
-	background-repeat: repeat;
-	height: 24px;
-	position: absolute;
-	top: 0;
-	left: 0;
-}
-
-div.progressInfo span.percentage
-{
-	position: relative;
-	top: 0;
-	left: 2px;
-	color: #555;
-}
-
-div.progressInfo span.speed
-{
-	position: relative;
-	top: 0;
-	left: 12px;
-	color: #555;
-}
 
 body.home p.logobeng
 {
