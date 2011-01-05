@@ -2,7 +2,7 @@
 %><%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"
 %><%@ taglib uri="http://www.opensymphony.com/oscache" prefix="os"
 %><jsp:directive.page session="false" />
-*///<mm:content type="text/javascript" expires="3600" postprocessor="none"><os:cache time="3600"><mm:escape  escape="javascript-compress">
+*///<mm:content type="text/javascript" expires="3600" postprocessor="none"><os:cache time="0"><mm:escape escape="none">
 <fmt:setBundle basename="eu.openimages.messages" scope="request" />
 <mm:import id="any_lang"><fmt:message key="search.any_language" /></mm:import>
 
@@ -54,7 +54,7 @@ function initToolbar() {
     }
     $('li.license a, li.download a, li.share a').click(function(ev) {
         var link = ev.target.href;
-        $( link.substring(link.indexOf("#")) ).slideToggle('fast');
+        $(link.substring(link.indexOf("#"))).slideToggle('fast');
     });
     $('li.favorite a').click(function(ev) {
         ev.preventDefault();
@@ -95,10 +95,19 @@ function initTags() {
 
     $('ul#tags li.add a').click(function(ev) {
         ev.preventDefault();
-        var link = ev.target.href;
-        $( link.substring(link.indexOf("#")) ).slideToggle('fast');
+        $('div#tag').slideToggle('fast');
+    });
+
+    $('div#tag a.close').click(function(ev) {
+        ev.preventDefault();
+        $('div#tag').slideUp('fast');
     });
     
+    $('ul#tags a.delete').hover(
+        function(ev){$(ev.target).prev('a').css("color", "#c00");},
+        function(ev){$(ev.target).prev('a').css("color", "#333");}
+    );
+
     $('ul#tags a.delete').click(function(ev){
         ev.preventDefault();
         var link = ev.target.href;
@@ -135,7 +144,7 @@ function addedTag() {
 }
 
 function initClose() {
-    $('a.close').click(function(ev) {
+    $('div.popup a.close').click(function(ev) {
         ev.preventDefault();
         $(this).closest('div.popup').slideUp(400);
     });

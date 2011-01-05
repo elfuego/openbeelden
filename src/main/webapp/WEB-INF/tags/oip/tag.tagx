@@ -12,8 +12,8 @@
     <ul id="tags">
       <mm:listrelationscontainer type="tags" role="related" searchdir="destination">
         <mm:maxnumber value="99" />
-        <mm:listrelations id="tagrel">
-          <li>
+        <mm:listrelations id="tagrel" varStatus="status">
+          <li class="${status.first ? 'first' : ''}">
             <mm:relatednode>
               <mm:link page="tag">
                 <mm:frameworkparam name="component">oip</mm:frameworkparam>
@@ -36,20 +36,17 @@
 
     <mm:maycreate type="tags">
       <div id="tag">
-        <h4><a class="close" href="#">close</a> Tag</h4>
+        <a class="close" href="#">close</a>
+        <h4>Tag</h4>
         <mm:link page="/action/tagsubmit.jspx">
           <form action="${_}" method="post" id="tagform">
             <fieldset>
-              <p>
-                <label for="tagsuggest">Find a tag or create one</label>
-                <input type="text" name="tag" value="" id="tagsuggest" class="tagsuggest" />
-              </p>
+              <label for="tagsuggest">Find a tag or create one</label>
+              <input type="text" name="tag" value="" id="tagsuggest" class="tagsuggest" />
             </fieldset>
             <fieldset class="buttons">
-              <p>
-                <input type="hidden" name="nr" value="${_node.number}" />
-                <input type="submit" name="add" value="Add" class="submit" />
-              </p>
+              <input type="hidden" name="nr" value="${_node.number}" />
+              <input type="submit" name="add" value="Add" class="submit" />
             </fieldset>
           </form>
         </mm:link>
