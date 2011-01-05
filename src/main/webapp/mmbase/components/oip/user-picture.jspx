@@ -17,7 +17,7 @@
       <mm:import externid="edit" />
 
       <mm:node number="$n" id="user">
-        
+
         <mm:field name="username" id="user_name" write="false" />
 
         <mm:relatednodescontainer type="images" role="posrel" searchdirs="destination">
@@ -36,6 +36,7 @@
           <c:when test="${empty img}">
             <p class="description">
               <mm:link page="/editors/add-node.jspx" referids="_node@nr">
+                <mm:param name="lang">${requestScope['javax.servlet.jsp.jstl.fmt.locale.request']}</mm:param>
                 <mm:param name="type">images</mm:param>
                 <mm:param name="role">posrel</mm:param>
                 <mm:param name="fields">handle</mm:param>

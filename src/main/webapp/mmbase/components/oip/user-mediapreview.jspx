@@ -21,7 +21,7 @@
         <mm:hasnode number="$media" inverse="true"><mm:remove referid="media" /></mm:hasnode>
         <mm:present referid="media">
           <mm:node number="$media">
-  
+
             <oip:media width="512" height="288" />
 
             <mm:nodeinfo type="type" id="nodetype" write="false" />
@@ -32,18 +32,19 @@
                    <mm:node id="img" />
                  </mm:relatednodes>
                </mm:relatednodescontainer>
-       
+
                <div id="edit-picture">
                  <oip:thumb />
                </div>
-       
+
                <!-- add and edit -->
                <c:choose>
-                 
+
                  <c:when test="${empty img}">
                    <mm:field name="title" id="media_title" write="false" />
                    <p class="description">
                      <mm:link page="/editors/add-node.jspx" referids="p?,_node@nr">
+                       <mm:param name="lang">${requestScope['javax.servlet.jsp.jstl.fmt.locale.request']}</mm:param>
                        <mm:param name="type">images</mm:param>
                        <mm:param name="fields">handle</mm:param>
                        <mm:param name="show">/editors/show-thumb.jspx</mm:param>
@@ -52,7 +53,7 @@
                      </mm:link>
                    </p>
                  </c:when>
-                 
+
                  <c:otherwise>
                    <p class="description">
                      <mm:link page="/editors/edit-pic.jspx" referids="img@nr">
@@ -62,10 +63,10 @@
                      </mm:link>
                    </p>
                  </c:otherwise>
-                 
+
                </c:choose>
             </c:if>
-          
+
           </mm:node>
         </mm:present>
       </mm:present>
