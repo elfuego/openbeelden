@@ -11,7 +11,6 @@
     <mm:cloud method="asis">
 
       <script src="${mm:link('/mmbase/tiny_mce/tiny_mce.js')}" type="text/javascript"> </script>
-
       <script type="text/javascript">
 
         tinyMCE.init({

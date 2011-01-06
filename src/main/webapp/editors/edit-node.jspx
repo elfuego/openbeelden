@@ -58,9 +58,9 @@
             
             <mm:import id="buffer">
               <c:if test="${editme eq 'true'}">
-                <a class="cancel" href="#close">close</a>
+                <a class="cancel" href="#close"><fmt:message key="users.close" /></a>
                 <div class="log"><jsp:text> <!-- empty --> </jsp:text></div>
-                <jsp:directive.include file="inc/htmleditorsmall.jspx" />
+               
               </c:if>
               
               <fieldset>
@@ -86,9 +86,10 @@
                   <!-- <mm:nodeinfo type="type"><input name="type" type="hidden" value="${_}" /></mm:nodeinfo> -->
                   <div>
                     <fmt:message key="users.form.save" var="button_save" />
+                    <fmt:message key="users.cancel" var="button_cancel" />
                     <input type="submit" name="action" value="${button_save}" class="submit" />
                     <c:if test="${editme eq 'true'}">
-                      <input type="button" name="cancel" value="Cancel" class="cancel" /> 
+                      <input type="button" name="cancel" value="${button_cancel}" class="cancel" /> 
                     </c:if>
                   </div>
                 </fieldset>

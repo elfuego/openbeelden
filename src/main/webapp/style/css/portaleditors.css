@@ -16,8 +16,6 @@ div.left-column ul { list-style: none; }
 
 h1, h2, h3 { color: #3BA0D9; }
 
-/*div.main-column > p { clear: both; }*/
-
 #portalform
 {
 	padding-top: 2em;
@@ -46,7 +44,11 @@ a.delete
 	float: left;
 	margin-right: 6px;
 }
-p.translation, p.editme, p.closeme, a.editme, a.new, a.cancel { float: right; }
+p.translation, p.editme, p.closeme, a.editme, a.new, a.cancel
+{
+	float: right;
+	text-transform: lowercase;
+}
 
 /* forms */
 

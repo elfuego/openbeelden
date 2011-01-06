@@ -3,7 +3,6 @@
     xmlns:mm="http://www.mmbase.org/mmbase-taglib-2.0"
     version="2.0">
 
-
   <script type="text/javascript">
   tinyMCE.init({
       theme: "advanced",

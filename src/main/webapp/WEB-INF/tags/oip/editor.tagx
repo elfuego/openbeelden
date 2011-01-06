@@ -73,7 +73,7 @@
           <link href="${mm:link('/style/css/portaleditors.css')}" rel="stylesheet" type="text/css" />
 
           <jsp:include page="/mmbase/jquery/jquery.jspx" />
-
+          <jsp:directive.include file="/mmbase/validation/javascript.jspxf" />
           <script type="text/javascript" src="${mm:link('/mmbase/tiny_mce/tiny_mce.js')}"><!-- help msie --></script>
           <jsp:directive.include file="/editors/inc/htmleditorsmall.jspx" />
 
