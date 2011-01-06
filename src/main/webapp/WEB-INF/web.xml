@@ -48,13 +48,11 @@
   <filter>
     <filter-name>PortalFilter</filter-name>
     <filter-class>eu.openimages.PortalFilter</filter-class>
+    <init-param>
+      <param-name>excludes</param-name>
+      <param-value>([.]otf$|[.]ico$|[.]jpg$|[.]gif$|[.]png$|[.]css$|[.]js$|[.]swf$|[.]jar$|[.]class$|[.]txt$)|/errorpages|/style</param-value>
+    </init-param>
   </filter>
-
-  <filter-mapping>
-    <filter-name>PortalFilter</filter-name>
-    <url-pattern>/*</url-pattern>
-  </filter-mapping>
-
 
   <!-- this filter handles nice urls and components -->
   <filter>
@@ -65,6 +63,12 @@
       <param-value>([.]ico$|[.]jpg$|[.]gif$|[.]png$|[.]css$|[.]js$|[.]jsp$|[.]jspx$|[.]do$|[.]swf$|[.]jar$|[.]class$|[.]txt$)|/errorpages|/editors|/style</param-value>
     </init-param>
   </filter>
+
+  <filter-mapping>
+    <filter-name>PortalFilter</filter-name>
+    <url-pattern>/*</url-pattern>
+  </filter-mapping>
+
 
   <filter-mapping>
     <filter-name>FrameworkFilter</filter-name>
