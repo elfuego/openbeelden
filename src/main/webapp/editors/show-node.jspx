@@ -22,8 +22,20 @@
       <c:choose>
         
         
+        <c:when test="${_ eq 'articles'}">
+          <span>
+            <mm:field name="title" /> (<mm:field name="language" />)
+          </span>
+        </c:when>
+
         <c:when test="${_ eq 'images'}">
           <span><img width="216" alt="" src="/images/${nr}" /></span>
+        </c:when>
+
+        <c:when test="${_ eq 'pages_translations'}">
+          <span>
+            <mm:field name="title" /> (<mm:field name="language" />)
+          </span>
         </c:when>
 
         <c:when test="${_ eq 'pools_translations'}">
@@ -43,8 +55,13 @@
             <strong><mm:field name="key" /> : </strong> <mm:field name="value" />
           </span>
         </c:when>
-        
-        
+
+        <c:when test="${_ eq 'users_translations'}">
+          <span>
+            <mm:field name="firstname" /><jsp:text> </jsp:text><mm:field name="suffix" /><jsp:text> </jsp:text><mm:field name="lastname" /> (<mm:field name="language" />)
+          </span>
+        </c:when>
+       
         <c:otherwise>
           <span> 
             <mm:fieldlist type="${empty fields ? 'list' : ''}" fields="${fields}">
