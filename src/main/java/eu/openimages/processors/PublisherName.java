@@ -21,8 +21,6 @@ along with The Open Images Platform.  If not, see <http://www.gnu.org/licenses/>
 package eu.openimages.processors;
 
 import org.mmbase.bridge.*;
-import org.mmbase.storage.search.*;
-import org.mmbase.bridge.util.Queries;
 import org.mmbase.datatypes.processors.Processor;
 
 import org.mmbase.util.logging.Logger;
