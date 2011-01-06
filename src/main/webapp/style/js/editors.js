@@ -10,9 +10,7 @@ $(document).ready(function() {
     initPortalSwitch();
 });
 
-
-
-/* TODO: make this a jquery plugin */
+/* TODO: make this a jquery plugin? */
 function initEditme(el) {
     $(el).find('a.editme').click(function(ev){
         ev.preventDefault();
@@ -41,32 +39,31 @@ function editMe(ev) {
     
     var formId = (params.type != null ? '#form_' + params.type : '#form_' + params.nr);
     params['editme'] = 'true';  /* inform form about being editme ajax editor */
-    $(id).load(link, params, 
-	       function() {
+    $(id).load(link, params, function() {
+		   
+		   // what to do while cancelling
+		   $(formId + ' .cancel').click(function(ev) {
+               ev.preventDefault();
+               params['cancel'] = 'Cancel'; 
+               $(id).load(link, params, function() { 
+                   $(this).find('a.editme').click(function(ev){ 
+                       ev.preventDefault();
+                       editMe(ev);
+                   });
+                   clearMsg(id);
+               });
+               $(tag).show();
+           });
+
+		   // fields validator
 		   var validator = new MMBaseValidator();
-		   validator.prefetchNodeManager(params.type);
-                   validator.addValidationForElements($(id + " .mm_validate"));
+		   validator.prefetchNodeManager(params.type);  // XXX: params.type not always present
+           validator.addValidationForElements($(id + " .mm_validate"));
 		   validator.validateHook = function(valid, entry) {
 		       var button = $(id + " input[type=submit][class=submit]");
 		       button[0].disabled = validator.invalidElements != 0;
 		   };
-		   
 		   validator.validateHook();
-		   $(formId + ' .cancel').click(
-		       function(ev) {
-			   ev.preventDefault();
-			   params['cancel'] = 'Cancel'; 
-			   $(id).load(link, params, 
-				      function() { 
-					  clearMsg(); 
-					  $(this).find('a.editme').click(
-					      function(ev){ 
-						  ev.preventDefault();
-						  editMe(ev);
-					      });
-				      });
-			   $(tag).show();
-		       });
 		   
 		   // ajax form options
 		   var options = {
@@ -75,16 +72,17 @@ function editMe(ev) {
 		       data: { editme: 'true' }
 		   };
 		   $(formId).ajaxForm(options);
-	       });
-    
+		   
+		   // init tinyMCE html editor
+		   initTiny();
+	});
     $(tag).hide();
 }
 
 /* ajaxFrom success after submit */
 function afterSubmit(response, status, xhr) {
-    //$(this).css('border', '1px solid blue');    // div.log
+    
     var parent = $(this).parent();
-    //$(parent).css('border', '1px solid green'); // li#add_mediaetc
 
     if (response.indexOf('node_created') > -1) {   /* indicates we've made a new node */
         $(parent).next().find('a.editme').show();  /* make sure tag 'new' is shown again */
@@ -109,7 +107,6 @@ function afterSubmit(response, status, xhr) {
         /* after saving new node, form is kept around for some reason */
         $(parent).find('form').remove();
     }
-    
 
     if (response.indexOf('node_deleted') > -1) { /* node is deleted */
         $(parent).find('form').remove();
@@ -118,9 +115,35 @@ function afterSubmit(response, status, xhr) {
             $(parent).remove();
         });
     }
-
+    
+    clearMsg(this);
 }
 
+/*
+ * Inits tinyMCE html editor on dynamically loaded forms
+ */
+function initTiny( ) {
+    tinyMCE.init({
+        theme: "advanced",
+        mode : "specific_textareas",
+        editor_selector : /(mm_f_intro|mm_f_body|mm_f_description)/,
+        plugins : "fullscreen,xhtmlxtras",
+        //content_css : "${mm:link('/style/css/tiny_mce.css')}",
+        content_css : "/style/css/tiny_mce.css",
+        entity_encoding : "raw",
+        // language : "${requestScope['javax.servlet.jsp.jstl.fmt.locale.request']}",
+        
+        theme_advanced_toolbar_align : "left",
+        theme_advanced_blockformats : "p,h3,h4,h5,blockquote",
+        theme_advanced_path_location : "bottom",
+        theme_advanced_toolbar_location : "top",
+      
+        theme_advanced_buttons1 : "formatselect,bold,italic,|,link,unlink,|,removeformat,fullscreen",
+        theme_advanced_buttons2 : "",
+        theme_advanced_buttons3 : "",
+        theme_advanced_resizing : true    
+    });
+}
 
 /*
  * Returns parameters from a query string in an object. 
@@ -140,13 +163,16 @@ function getParams(query) {
 }
 
 function clearMsg(el) {
-    setTimeout(function(){
+    var remove = null;
+    remove = setInterval(function() {
         if (el != undefined) {
             $(el).find('p.msg:not(.stay)').slideUp(1000);
+            clearInterval(remove);
         } else {
             $('p.msg:not(.stay)').slideUp(1000);
+            clearInterval(remove);
         }
-    }, 5000);
+    }, 7500);
 }
 
 function initPortalSwitch() {
