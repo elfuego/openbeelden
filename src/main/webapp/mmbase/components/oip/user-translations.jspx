@@ -46,7 +46,7 @@
                     </mm:link>
                   </mm:maydelete>
                   <div>
-                    <mm:field name="title" /> (<mm:field name="language" />)
+                    <mm:include page="/editors/show-node.jspx" referids="p?,_node@nr" />
                   </div>
                 </li>
               </mm:relatednodes>
