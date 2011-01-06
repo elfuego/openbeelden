@@ -22,6 +22,7 @@ package eu.openimages;
 
 import java.io.IOException;
 import java.util.*;
+import java.util.regex.*;
 import java.util.concurrent.*;
 
 import javax.servlet.*;
@@ -57,6 +58,7 @@ public class PortalFilter implements Filter, SystemEventListener {
      * The context this servlet lives in
      */
     protected ServletContext ctx = null;
+    private Pattern excludePattern = null;
 
     protected boolean up = false;
 
@@ -79,6 +81,11 @@ public class PortalFilter implements Filter, SystemEventListener {
     public void init(javax.servlet.FilterConfig config) throws ServletException {
         LOG.info("Starting PortalFilter with " + config);
         ctx = config.getServletContext();
+        String excludes = config.getInitParameter("excludes");
+        if (excludes != null && excludes.length() > 0) {
+            excludePattern = Pattern.compile(excludes);
+        }
+
         EventManager.getInstance().addEventListener(this);
     }
 
@@ -97,28 +104,30 @@ public class PortalFilter implements Filter, SystemEventListener {
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
 
+        HttpServletRequest req = (HttpServletRequest) request;
+        HttpServletResponse res = (HttpServletResponse) response;
+        String servlet = req.getServletPath();
+        if (excludePattern != null && excludePattern.matcher(servlet).find()) {
+            chain.doFilter(request, response);
+            return;
+        }
+        if (LOG.isDebugEnabled()) {
+            LOG.debug("" + servlet + " does not match " + excludePattern);
+        }
+
         if (! up) {
             if (LOG.isDebugEnabled()) {
                 LOG.debug("Still waiting for MMBase (not initialized)");
             }
-            chain.doFilter(request, response);
+            if (! res.isCommitted()) {
+                res.sendError(HttpServletResponse.SC_SERVICE_UNAVAILABLE, "MMBase not yet, or not successfully initialized (check mmbase log)");
+            }
             return;
         }
 
-        if (request instanceof HttpServletRequest) {
 
-            HttpServletRequest req = (HttpServletRequest) request;
-            HttpServletResponse res = (HttpServletResponse) response;
-
-            decorateRequest(req, res);
-            chain.doFilter(request, response);
-
-        } else {
-            if (LOG.isDebugEnabled()) {
-                LOG.debug("Request not an instance of HttpServletRequest.");
-            }
-            chain.doFilter(request, response);
-        }
+        decorateRequest(req, res);
+        chain.doFilter(request, response);
 
     }
 
