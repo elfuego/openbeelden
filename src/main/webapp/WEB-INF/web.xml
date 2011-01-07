@@ -44,6 +44,11 @@
     <param-value>yes</param-value>
   </context-param>
 
+  <context-param>
+    <param-name>javax.servlet.jsp.jstl.fmt.fallbackLocale</param-name>
+    <param-value>en</param-value>
+  </context-param>
+
   <!-- Open Images portal filter -->
   <filter>
     <filter-name>PortalFilter</filter-name>
@@ -207,7 +212,7 @@
   <error-page>
     <error-code>404</error-code>
     <location>/errorpages/404.jsp</location>
-  </error-page>
+    </error-page>onf
   <error-page>
     <exception-type>java.lang.Exception</exception-type>
     <location>/errorpages/500.jsp</location>
@@ -233,10 +238,16 @@
     <env-entry-value>oi</env-entry-value>
   </env-entry>
   <env-entry>
+    <env-entry-name>mmbase/mmbaseroot/language</env-entry-name>
+    <env-entry-type>java.lang.String</env-entry-type>
+    <env-entry-value>en</env-entry-value>
+  </env-entry>
+  <env-entry>
     <env-entry-name>mmbase-builders/mmbasecontexts/readall</env-entry-name>
     <env-entry-type>java.lang.String</env-entry-type>
     <env-entry-value>true</env-entry-value>
   </env-entry>
+
 
   <resource-ref>
     <description>
