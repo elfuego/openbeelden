@@ -2,7 +2,7 @@
 <!DOCTYPE functionset PUBLIC "//MMBase - functionset //" "http://www.mmbase.org/dtd/functionset_1_0.dtd">
 <functionset>
 <version>0</version>
-<description>Related content via keywords functions</description>
+<description>Tags functions</description>
 
   <function name="nodes">
     <description>
@@ -13,7 +13,7 @@
     <type>class</type>
     <class>eu.openimages.RelatedByTags</class>
     <method>getNodes</method>
-    <param name="node"  type="Node" description="Source node related to t_keyword via t_metadata" />
+    <param name="node"  type="Node" description="Node related to one or more tags" />
     <param name="type"  type="String" description="Type of content to look for, defaults to type of the source node" />
     <param name="max"   type="String" description="Maximum number of result nodes to return" />
   </function>
@@ -26,9 +26,10 @@
     <type>class</type>
     <class>eu.openimages.RelatedByTags</class>
     <method>getHits</method>
-    <param name="node"  type="Node" description="Node related to t_keyword via t_metadata" />
+    <param name="node"  type="Node" description="Node related to one or more tags" />
     <param name="type"  type="String" description="Type of content to look for, defaults to type of the source node" />
     <param name="max"   type="String" description="Maximum number of result nodes to return" />
   </function>
+
 
 </functionset>
