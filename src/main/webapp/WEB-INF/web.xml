@@ -49,6 +49,10 @@
     <param-value>en</param-value>
   </context-param>
 
+  <listener>
+   <listener-class>org.mmbase.module.core.MMBaseContext</listener-class>
+  </listener>
+
   <!-- Open Images portal filter -->
   <filter>
     <filter-name>PortalFilter</filter-name>
