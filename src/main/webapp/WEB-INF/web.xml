@@ -237,16 +237,20 @@
     <env-entry-type>java.lang.String</env-entry-type>
     <env-entry-value>oi</env-entry-value>
   </env-entry>
+  <!-- Defaults to en in MMBase 1.9
+      Defaults to value of context-param javax.servlet.jsp.jstl.fmt.fallbackLocale in MMBase 2.0
   <env-entry>
     <env-entry-name>mmbase/mmbaseroot/language</env-entry-name>
     <env-entry-type>java.lang.String</env-entry-type>
     <env-entry-value>en</env-entry-value>
   </env-entry>
+  -->
   <env-entry>
     <env-entry-name>mmbase-builders/mmbasecontexts/readall</env-entry-name>
     <env-entry-type>java.lang.String</env-entry-type>
     <env-entry-value>true</env-entry-value>
   </env-entry>
+
 
   <resource-ref>
     <description>
