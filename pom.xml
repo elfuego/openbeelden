@@ -30,10 +30,21 @@
   </scm>
 
   <properties>
+    <!-- 2.0 -->
+    <!--
+     <mmbase.version.number>2.0</mmbase.version.number>
+     <mmbase.version.postfix>-SNAPSHOT</mmbase.version.postfix>
+     <base.version>${mmbase.version}</base.version>
+     -->
+
+    <!-- 1.9 -->
      <mmbase.version.number>1.9</mmbase.version.number>
      <mmbase.version.postfix>-SNAPSHOT</mmbase.version.postfix>
-     <mmbase.version>${mmbase.version.number}${mmbase.version.postfix}</mmbase.version>
      <base.version>${mmbase.version.number}-servlet25${mmbase.version.postfix}</base.version>
+
+
+
+     <mmbase.version>${mmbase.version.number}${mmbase.version.postfix}</mmbase.version>
      <mmbase.repos>scp://mmbase.org/home/tomcat/downloads/</mmbase.repos>
 
      <saxon.version>9.1.0.6</saxon.version>
@@ -74,7 +85,7 @@
       <plugin>
         <groupId>org.mmbase.maven</groupId>
         <artifactId>maven-mmbase-plugin</artifactId>
-        <version>1.9-SNAPSHOT</version>
+        <version>${mmbase.version}</version>
         <executions>
           <execution>
             <id>create-index-files</id>
@@ -173,7 +184,7 @@
       <plugin>
         <groupId>org.mmbase.maven</groupId>
         <artifactId>maven-mmbase-plugin</artifactId>
-        <version>1.9-SNAPSHOT</version>
+        <version>${mmbase.version}</version>
         <executions>
           <execution>
             <id>create-index-files</id>
@@ -191,6 +202,10 @@
         <configuration>
           <jettyEnvXml>${basedir}/jetty-env.xml</jettyEnvXml>
           <systemProperties>
+            <systemProperty>
+              <name>com.sun.management.jmxremote</name>
+              <value>true</value>
+            </systemProperty>
             <systemProperty>
               <name>com.sun.management.jmxremote</name>
               <value>true</value>
@@ -435,12 +450,6 @@
           <version>2.9.1</version>
         </dependency>
       </dependencies>
-    </profile>
-    <profile>
-      <id>servlet25</id>
-      <properties>
-        <base.version>${mmbase.version.number}-servlet25${mmbase.version.postfix}</base.version>
-      </properties>
     </profile>
     <profile>
       <id>development</id>
