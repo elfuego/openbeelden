@@ -43,7 +43,6 @@
      <base.version>${mmbase.version.number}-servlet25${mmbase.version.postfix}</base.version>
 
 
-
      <mmbase.version>${mmbase.version.number}${mmbase.version.postfix}</mmbase.version>
      <mmbase.repos>scp://mmbase.org/home/tomcat/downloads/</mmbase.repos>
 
@@ -162,7 +161,7 @@
               <addClasspath>true</addClasspath>
             </manifest>
             <manifestEntries>
-              <url>${pom.url}</url>
+              <url>${project.url}</url>
             </manifestEntries>
             <manifestSections>
               <manifestSection>
@@ -173,7 +172,7 @@
                   <SCM-Revision>${sources.version}</SCM-Revision>
                   <Distribution>${project.version}</Distribution>
                   <Build-Date>${timestamp}</Build-Date>
-                  <Description>${pom.description}</Description>
+                  <Description>${project.description}</Description>
                 </manifestEntries>
               </manifestSection>
             </manifestSections>
