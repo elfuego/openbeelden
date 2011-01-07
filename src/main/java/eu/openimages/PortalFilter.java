@@ -121,7 +121,7 @@ public class PortalFilter implements Filter, SystemEventListener {
             LOG.debug("" + servlet + " does not match " + excludePattern);
         }
 
-        if (! up) {
+        if (! up && ! "/version.jspx".equals(servlet)) {
             if (LOG.isDebugEnabled()) {
                 LOG.debug("Still waiting for MMBase (not initialized)");
             }
@@ -132,13 +132,13 @@ public class PortalFilter implements Filter, SystemEventListener {
         }
 
 
-        decorateRequest(req, res);
+        decorateRequest(req, res, up);
         chain.doFilter(request, response);
 
     }
 
 
-    public static boolean decorateRequest(HttpServletRequest req, HttpServletResponse res) throws IOException {
+    protected boolean decorateRequest(HttpServletRequest req, HttpServletResponse res, boolean cache) throws IOException {
 
         String serverName = req.getServerName();
 
@@ -150,49 +150,54 @@ public class PortalFilter implements Filter, SystemEventListener {
 
             StringBuilder sb = new StringBuilder();
             sb.append(scheme).append("://").append(serverName);
-
-            final Cloud cloud = getCloud(req);
-            NodeList nl = cloud.getNodeManager("pools").getList(null, null, null);
-            NodeIterator ni = nl.nodeIterator();
-
             Node portal = null;
-            while (ni.hasNext()) {
-                Node pool = ni.nextNode();
-                try {
-                    Query query = Queries.createRelatedNodesQuery(pool, cloud.getNodeManager("urls"), "portalrel", "destination");
 
-                    Constraint constraint = Queries.createConstraint(query, "urls.url", FieldValueConstraint.LIKE, sb.toString() + "%");
-                    query.setConstraint(constraint);
+            if (cache) {
+                final Cloud cloud = getCloud(req);
+                NodeList nl = cloud.getNodeManager("pools").getList(null, null, null);
+                NodeIterator ni = nl.nodeIterator();
 
-                    NodeList urls = cloud.getList(query);
-                    if (LOG.isDebugEnabled()) {
-                        LOG.debug("query: " + query);
-                    }
-                    if (urls.size() > 0) {
+
+                while (ni.hasNext()) {
+                    Node pool = ni.nextNode();
+                    try {
+                        Query query = Queries.createRelatedNodesQuery(pool, cloud.getNodeManager("urls"), "portalrel", "destination");
+
+                        Constraint constraint = Queries.createConstraint(query, "urls.url", FieldValueConstraint.LIKE, sb.toString() + "%");
+                        query.setConstraint(constraint);
+
+                        NodeList urls = cloud.getList(query);
                         if (LOG.isDebugEnabled()) {
-                            LOG.debug("Found: " + urls.get(0));
+                            LOG.debug("query: " + query);
                         }
-                        portal = pool;
-                        break;
-                    }
+                        if (urls.size() > 0) {
+                            if (LOG.isDebugEnabled()) {
+                                LOG.debug("Found: " + urls.get(0));
+                            }
+                            portal = pool;
+                            break;
+                        }
 
-                } catch (Exception ex) {
-                    LOG.error("Exception while building query: " + ex);
-                    return false;
+                    } catch (Exception ex) {
+                        LOG.error("Exception while building query: " + ex);
+                        return false;
+                    }
                 }
-            }
-            if (portal == null) {
-                if (cloud.hasNode("pool_oip")) {
-                    LOG.service("Assuming portal '" + serverName +  "' is default.");
-                    portal = cloud.getNode("pool_oip");
-                } else {
-                    LOG.warn("There is no default pool with alias 'pool_oip'");
+                if (portal == null) {
+                    if (cloud.hasNode("pool_oip")) {
+                        LOG.service("Assuming portal '" + serverName +  "' is default.");
+                        portal = cloud.getNode("pool_oip");
+                    } else {
+                        LOG.warn("There is no default pool with alias 'pool_oip'");
+                    }
                 }
             }
 
             attributes.put("portal", portal == null ? null : new org.mmbase.bridge.util.NodeMap(portal));
             attributes.put("isdefaultportal", portal != null && portal.getAliases().contains("pool_oip"));
-            CACHE.put(serverName, attributes);
+            if (cache) {
+                CACHE.put(serverName, attributes);
+            }
         }
         for (Map.Entry<String, Object> e : attributes.entrySet()) {
             req.setAttribute(e.getKey(), e.getValue());

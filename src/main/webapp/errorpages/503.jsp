@@ -1,4 +1,4 @@
-<%@ page session="false" %><% response.setStatus(503); 
+<%@ page session="false" %><% response.setStatus(503);
 %><%@ taglib uri="http://www.mmbase.org/mmbase-taglib-2.0" prefix="mm"
 %><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN"
   "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
@@ -6,8 +6,8 @@
 <head>
   <title>503 temporarily unavailable - Open Images</title>
   <%
-  String url = (String) request.getAttribute("javax.servlet.forward.request_uri"); 
-  String q = (String) request.getAttribute("javax.servlet.forward.query_string"); 
+  String url = (String) request.getAttribute("javax.servlet.forward.request_uri");
+  String q = (String) request.getAttribute("javax.servlet.forward.query_string");
   if (url == null) {
      // mainly for debugging of this page itself
      url = request.getContextPath() + request.getServletPath();
@@ -15,8 +15,8 @@
   }
   if (q != null) url += "?" + q;
   %>
-  
-  <% 
+
+  <%
   if (request.getMethod().equals("GET")) {
     response.setHeader("Refresh", "30; url=" + url);
   }
@@ -28,8 +28,9 @@
   <div class="main-column">
     <h1>503 This web-site is temporary unavailable</h1>
     <h2><%= org.mmbase.Version.get() %></h2>
+    <p><a href="${request.contextPath}version.jspx">Version of Open Images can be found here</a></p>
     <p>
-      <em><%= new java.util.Date() %></em> - This web-site is currently unavailable. 
+      <em><%= new java.util.Date() %></em> - This web-site is currently unavailable.
       <% if (request.getMethod().equals("GET")) { %>
          Please come <a href="<%=org.mmbase.util.transformers.Xml.XMLAttributeEscape(url)%>">back</a> in a few minutes.
       <% } else { %>
