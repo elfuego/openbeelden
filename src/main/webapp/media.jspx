@@ -320,6 +320,8 @@
 
       <div class="right-column">
         <div class="related-grey-border">
+
+          [          ${requestScope['javax.servlet.jsp.jstl.fmt.fallbackLocale']}]
           <oip:h3><fmt:message key="media.sortby" /></oip:h3>
 
           <mm:url id="sorturl" write="false" absolute="true"
@@ -328,42 +330,54 @@
           <ul class="sortby">
             <li>
               <mm:link referid="sorturl">
-                <a class="${(empty sf and !empty q) ? 'down' : ''}" href="${_}">Relevance</a>
+                <a class="${(empty sf and !empty q) ? 'down' : ''}" href="${_}">
+                  <fmt:message key="media.sortby.relevance" />
+                </a>
               </mm:link>
             </li>
             <li>
               <mm:link referid="sorturl">
                 <mm:param name="sf">sorttitle</mm:param>
                 <mm:param name="so">${so eq 'up' ? 'down' : 'up'}</mm:param>
-                <a class="${sf eq 'sorttitle' ? so : ''}" href="${_}">Title</a>
+                <a class="${sf eq 'sorttitle' ? so : ''}" href="${_}">
+                  <fmt:message key="media.sortby.title" />
+                </a>
               </mm:link>
             </li>
             <li>
               <mm:link referid="sorturl">
                 <mm:param name="sf">date</mm:param>
                 <mm:param name="so">${so eq 'up' ? 'down' : 'up'}</mm:param>
-                <a class="${sf eq 'date' ? so : ''}" href="${_}">Publication date</a>
+                <a class="${sf eq 'date' ? so : ''}" href="${_}">
+                  <fmt:message key="media.sortby.publication_date" />
+                </a>
               </mm:link>
             </li>
             <li>
               <mm:link referid="sorturl">
                 <mm:param name="sf">created</mm:param>
                 <mm:param name="so">${so eq 'up' ? 'down' : 'up'}</mm:param>
-                <a class="${sf eq 'created' ? so : ''}" href="${_}">Date uploaded</a>
+                <a class="${sf eq 'created' ? so : ''}" href="${_}">
+                  <fmt:message key="media.sortby.date_uploaded" />
+                </a>
               </mm:link>
             </li>
             <li>
               <mm:link referid="sorturl">
                 <mm:param name="sf">user</mm:param>
                 <mm:param name="so">${so eq 'up' ? 'down' : 'up'}</mm:param>
-                <a class="${sf eq 'user' ? so : ''}" href="${_}">User</a>
+                <a class="${sf eq 'user' ? so : ''}" href="${_}">
+                <fmt:message key="media.sortby.user" />
+                </a>
               </mm:link>
             </li>
             <li>
               <mm:link referid="sorturl">
                 <mm:param name="sf">source</mm:param>
                 <mm:param name="so">${so eq 'up' ? 'down' : 'up'}</mm:param>
-                <a class="${sf eq 'source' ? so : ''}" href="${_}">Source</a>
+                <a class="${sf eq 'source' ? so : ''}" href="${_}">
+                  <fmt:message key="media.sortby.source" />
+                </a>
               </mm:link>
             </li>
             <li class="thumbsonly">
