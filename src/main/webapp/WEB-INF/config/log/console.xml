@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8" ?>
+<?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE log4j:configuration SYSTEM "log4j.dtd"
    [
     <!ENTITY mmlevel    "org.mmbase.util.logging.log4j.Log4jLevel" >
@@ -14,30 +14,46 @@
     </layout>
   </appender>
 
-  <!-- categories -->
+  <appender name="initlog" class="org.apache.log4j.ConsoleAppender" >
+    <param name="Encoding"   value="UTF-8" />
+    <layout class="org.mmbase.util.logging.log4j.MMPatternLayout">
+      <param name="ConversionPattern" value="%d{ABSOLUTE} - %m%n" />
+    </layout>
+  </appender>
 
 
+  <logger name="org.mmbase.INIT" additivity="false">
+    <level class="&mmlevel;" value ="service" />
+    <appender-ref ref="initlog" />
+  </logger>
 
   <!-- SQL logging -->
   <logger name="org.mmbase.QUERIES">
     <level class="&mmlevel;" value ="service" />
   </logger>
-
   <logger name="org.mmbase.STACK.QUERIES">
     <level class="&mmlevel;" value ="info" />
   </logger>
 
-  <logger name="org.mmbase.PAGE" >
-    <level class="&mmlevel;" value ="info" />
+
+  <logger name="org.mmbase.PAGE.LOGTAG" >
+    <level class="&mmlevel;" value ="service" />
   </logger>
 
+  <logger name="org.mmbase.PAGE" >
+    <level class="&mmlevel;" value ="warn" />
+  </logger>
+
+  <logger name="eu.openimages" >
+    <level class="&mmlevel;" value ="info" />
+  </logger>
 
   <logger name="STDERR">
     <level class="&mmlevel;" value ="fatal" />
   </logger>
 
   <root>
-    <level class="&mmlevel;" value ="info" />
+    <level class="&mmlevel;" value ="warn" />
     <appender-ref ref="logfile" />
   </root>
 
