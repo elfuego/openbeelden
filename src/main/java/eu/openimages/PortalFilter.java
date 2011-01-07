@@ -60,13 +60,19 @@ public class PortalFilter implements Filter, SystemEventListener {
     protected ServletContext ctx = null;
     private Pattern excludePattern = null;
 
+    protected boolean appUp = false;
+    protected boolean luceneUp = false;
     protected boolean up = false;
 
     @Override
     public void notify(SystemEvent se) {
         if (se instanceof org.mmbase.module.tools.ApplicationsInstalledEvent) {
-            up = true;
-            LOG.service("Applications are installed, we can now decorate the request");
+            appUp = true;
+            up = appUp && luceneUp;
+        }
+        if (se instanceof org.mmbase.module.lucene.Lucene.ConfigurationRead) {
+            luceneUp = true;
+            up = appUp && luceneUp;
         }
     }
     @Override
