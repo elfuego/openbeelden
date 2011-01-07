@@ -5,10 +5,13 @@
 * @version  '$Id: editors.css 43696 2010-10-20 09:39:57Z andre $'
 */
 
-div.left-column, div.wrap
+body.editor #header h1 { margin: 32px 0 10px 0; }
+body.editor div.left-column, 
+body.editor div.wrap
 {
 	background-image: url("images/dots2.png");
 	min-height: 40px;
+	top: 300px;
 }
 div.wrap { margin-top: 1em; }
 
@@ -51,5 +54,5 @@ p.translation, p.editme, p.closeme, a.editme, a.new, a.cancel
 }
 
 /* forms */
-
 fieldset { clear: both; }
+
