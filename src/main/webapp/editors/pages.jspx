@@ -5,13 +5,12 @@
     xmlns:c="http://java.sun.com/jsp/jstl/core"
     xmlns:fmt="http://java.sun.com/jsp/jstl/fmt"
     xmlns:mm="http://www.mmbase.org/mmbase-taglib-2.0"
+    xmlns:sr="http://www.mmbase.org/tags/mm/searchrelate"
     xmlns:oip="urn:jsptagdir:/WEB-INF/tags/oip">
 
   <oip:editor styleClass="portal">
     <jsp:attribute name="head">
       <mm:import externid="nr" />
-      <script src="${mm:link('/mmbase/jquery/jquery.form.js')}" type="text/javascript"><jsp:text> </jsp:text></script>
-      <script src="${mm:link('/style/js/editors.js')}" type="text/javascript"><jsp:text> </jsp:text></script>
     </jsp:attribute>
     <jsp:attribute name="left">
 
@@ -90,6 +89,19 @@
         
           <div class="wrap">
             <h2>Articles</h2>
+
+            <mm:hasrelationmanager sourcemanager="pages" destinationmanager="articles" role="posrel">
+              <p>
+                <mm:include page="/editors/inc/searchrelate.jspx" referids="nr">
+                  <mm:param name="type">articles</mm:param>
+                  <mm:param name="role">posrel</mm:param>
+                  <mm:param name="searchdirs">destination</mm:param>
+                  <mm:param name="sortorder">posrel.pos</mm:param>
+                  <mm:param name="list">title,author,language</mm:param>
+                </mm:include>
+              </p>
+            </mm:hasrelationmanager>
+
             <mm:relatednodescontainer type="articles" role="posrel" searchdirs="destination">
               <ul>
                 <mm:relatednodes>
@@ -122,10 +134,8 @@
               </ul>
             </mm:relatednodescontainer>
 
-
-
           </div>
-        
+
         </mm:node>
 
       </div><!-- /.main-column -->

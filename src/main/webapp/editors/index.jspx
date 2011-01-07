@@ -9,8 +9,7 @@
 
   <oip:editor styleClass="portal">
     <jsp:attribute name="head">
-      <script src="${mm:link('/mmbase/jquery/jquery.form.js')}" type="text/javascript"><jsp:text> </jsp:text></script>
-      <script src="${mm:link('/style/js/editors.js')}" type="text/javascript"><jsp:text> </jsp:text></script>
+    
     </jsp:attribute>
     <jsp:attribute name="left">
 
@@ -120,6 +119,30 @@
             </li>
           </ul>
         </mm:relatednodescontainer>
+
+        <div class="wrap">
+
+        <mm:relatednodescontainer type="pages" role="posrel" searchdirs="destination">
+          <mm:constraint field="posrel.pos" value="0" value2="1" operator="BETWEEN" />
+          <mm:relatednodes>
+            <mm:field name="title" />
+            
+              <h2>Featured media</h2>
+                <p>
+                  <mm:include page="/editors/inc/searchrelate.jspx" referids="_node@nr">
+                    <mm:param name="type">mediafragments</mm:param>
+                    <mm:param name="role">posrel</mm:param>
+                    <mm:param name="searchdirs">destination</mm:param>
+                    <mm:param name="sortorder">posrel.pos</mm:param>
+                    <mm:param name="list">title,objecttype,language</mm:param>
+                    <mm:param name="create">false</mm:param>
+                  </mm:include>
+                </p>
+            
+          </mm:relatednodes>
+        </mm:relatednodescontainer>
+        
+        </div>
 
         <div class="wrap">
           <h2>Properties</h2>
