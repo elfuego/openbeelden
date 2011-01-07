@@ -263,9 +263,9 @@
 
         <div id="tabs">
           <ul class="list-tabs">
-            <li><a href="#t_video"><span>Video (${total_video})</span></a></li>
-            <li><a href="#t_images"><span>Images (${total_images})</span></a></li>
-            <li><a href="#t_audio"><span>Audio (${total_audio})</span></a></li>
+            <li><a href="#t_video"><span><fmt:message key="media.video" /> (${total_video})</span></a></li>
+            <li><a href="#t_images"><span><fmt:message key="media.images" /> (${total_images})</span></a></li>
+            <li><a href="#t_audio"><span><fmt:message key="media.audio" /> (${total_audio})</span></a></li>
             <li class="hidden"><a href="#t_thumbs"><span>Thumbs (${total})</span></a></li>
           </ul>
 
@@ -308,7 +308,7 @@
 
         <c:if test="${!empty value2}">
           <div class="wrap">
-            <h4>Results from complete repository (${total2})</h4>
+            <h4><fmt:message key="media.results_from_complete_repository" /> (${total2})</h4>
               <oip:medialist list="${results2}" />
               <p class="pager">
                 <oip:pager total="${total2}" offset="${offset}" max="${max}"
@@ -321,7 +321,6 @@
       <div class="right-column">
         <div class="related-grey-border">
 
-          [          ${requestScope['javax.servlet.jsp.jstl.fmt.fallbackLocale']}]
           <oip:h3><fmt:message key="media.sortby" /></oip:h3>
 
           <mm:url id="sorturl" write="false" absolute="true"
