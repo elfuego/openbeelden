@@ -10,8 +10,15 @@
   <version>1.1-SNAPSHOT</version>
   <packaging>war</packaging>
   <name>Open Images Platform</name>
-
+  <inceptionYear>2009</inceptionYear>
   <description>Sound and Vision - Open Images Platform Web Application</description>
+
+  <organization>
+    <name>Beeld &amp; Geluid</name>
+    <url>http://</url>
+  </organization>
+
+
   <licenses>
     <license>
       <name>GNU General Public License</name>
@@ -29,21 +36,59 @@
     <developerConnection>${project.scm.connection}</developerConnection>
   </scm>
 
-  <properties>
-    <!-- 2.0 -->
-    <!--
-     <mmbase.version.number>2.0</mmbase.version.number>
-     <mmbase.version.postfix>-SNAPSHOT</mmbase.version.postfix>
-     <base.version>${mmbase.version}</base.version>
-     -->
+  <issueManagement>
+    <system>JIRA</system>
+    <url>http://www.mmbase.org/jira/</url>
+  </issueManagement>
 
-    <!-- 1.9 -->
+  <mailingLists>
+    <mailingList>
+      <name>MMBase discussion group</name>
+      <subscribe>http://groups.google.com/group/mmbase-discuss/subscribe</subscribe>
+      <unsubscribe>http://groups.google.com/group/mmbase-discuss/subscribe</unsubscribe>
+      <archive>https://groups.google.com/group/mmbase-discuss/topics</archive>
+    </mailingList>
+    <mailingList>
+      <name>MMBase SCM changes List</name>
+      <subscribe>http://groups.google.com/group/mmbase-repos/subscribe</subscribe>
+      <unsubscribe>http://groups.google.com/group/mmbase-repos/subscribe</unsubscribe>
+      <archive>https://groups.google.com/group/mmbase-repos/topics</archive>
+    </mailingList>
+  </mailingLists>
+
+  <developers>
+    <developer>
+      <id>0</id>
+      <name>Andre van Toly</name>
+      <email>andre@toly.nl</email>
+      <timezone>1</timezone>
+    </developer>
+    <developer>
+      <id>michiel</id>
+      <name>Michiel Meeuwissen</name>
+      <email>Michiel.Meeuwissen@dynasol.nl</email>
+      <url>http://meeuw.org/</url>
+      <timezone>1</timezone>
+    </developer>
+  </developers>
+
+
+
+
+  <properties>
+
+     <!-- MMBase 1.9 -->
      <mmbase.version.number>1.9</mmbase.version.number>
      <mmbase.version.postfix>-SNAPSHOT</mmbase.version.postfix>
      <base.version>${mmbase.version.number}-servlet25${mmbase.version.postfix}</base.version>
-
-
      <mmbase.version>${mmbase.version.number}${mmbase.version.postfix}</mmbase.version>
+
+    <!-- MMBase 2.0 -->
+    <!--
+     <mmbase.version>2.0-SNAPSHOT</mmbase.version>
+     <base.version>${mmbase.version}</base.version>
+     -->
+
      <mmbase.repos>scp://mmbase.org/home/tomcat/downloads/</mmbase.repos>
 
      <saxon.version>9.1.0.6</saxon.version>
