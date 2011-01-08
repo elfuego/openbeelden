@@ -6,6 +6,7 @@
     xmlns:fn="http://java.sun.com/jsp/jstl/functions"
     xmlns:mm="http://www.mmbase.org/mmbase-taglib-2.0"
     >
+
   <jsp:output omit-xml-declaration="true" />
   <jsp:directive.page import="org.mmbase.util.*,java.util.concurrent.*" />
   <mm:cloud method="delegate" authenticate="class" id="cloud">
@@ -17,18 +18,17 @@
         $(document).ready(function() {
           var validator = new MMBaseValidator();
           validator.prefetchNodeManager('mmbaseusers');
-          validator.lang = "${requestScope['javax.servlet.jsp.jstl.fmt.locale.request']}";
           validator.validateHook = function(valid) {
             document.getElementById('submit_registration').disabled = this.invalidElements != 0;
           }
           validator.setup(document.getElementById("${requestScope['org.mmbase.componentId']}"));
         });
       </script>
-      
+
       <mm:import externid="submit_registration" />
       <mm:import externid="confirm" />
       <mm:import externid="eu.openimages.legaltext" from="request" id="legaltext" />
-      
+
 
       <mm:form styleClass="${empty submit_registration ? 'notsubmitted' : 'submitted'}">
 
@@ -47,10 +47,12 @@
             </fieldset>
             <fieldset class="confirm-registration">
               <div class="legaltext"><mm:write referid="legaltext" escape="none" /></div>
-              
+
               <div>
-                <input type="checkbox" name="confirm" id="confirm" value="yes" /> 
-                <label for="confirm" class="confirm"><fmt:message key="register.confirm" /></label>
+                <input type="checkbox" name="confirm" id="confirm" value="yes" />
+                <label for="confirm" class="confirm">
+                  <fmt:message key="register.confirm" />
+                </label>
                 <!-- p class="info">By checking this button ... confirm your registration.</p -->
                 <c:if test="${!empty submit_registration and empty confirm}">
                   <div class="mm_check_error"><fmt:message key="register.confirm.error" /></div>
@@ -65,20 +67,20 @@
             </fieldset>
           </mm:createnode>
         </mm:import>
-        
+
         <mm:notpresent referid="submit_registration">
           <mm:write referid="form" escape="none" />
         </mm:notpresent>
-        
+
         <mm:present referid="submit_registration">
-          
+
           <c:if test="${confirm ne 'yes'}">
             <c:set var="errortext"><fmt:message key="register.confirm.error" /></c:set>
           </c:if>
           <mm:valid inverse="true">
             <c:set var="errortext"><fmt:message key="register.incomplete" /> ${errortext}</c:set>
           </mm:valid>
-          
+
           <c:choose>
             <c:when test="${empty errortext}">
               <mm:valid>
@@ -104,9 +106,9 @@
               </mm:valid>
             </c:otherwise>
           </c:choose>
-          
+
         </mm:present>
-        
+
       </mm:form>
     </div>
 
