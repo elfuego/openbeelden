@@ -48,6 +48,10 @@
     <param-name>javax.servlet.jsp.jstl.fmt.fallbackLocale</param-name>
     <param-value>en</param-value>
   </context-param>
+  <context-param>
+    <param-name>javax.servlet.jsp.jstl.fmt.locale</param-name>
+    <param-value>en</param-value>
+  </context-param>
 
   <listener>
    <listener-class>org.mmbase.module.core.MMBaseContext</listener-class>
