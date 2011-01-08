@@ -6,20 +6,19 @@
     xmlns:fmt="http://java.sun.com/jsp/jstl/fmt"
     xmlns:mm="http://www.mmbase.org/mmbase-taglib-2.0"
     xmlns:oip="urn:jsptagdir:/WEB-INF/tags/oip">
-  
+
   <oip:html cacheable="false" styleClass="user-create">
     <jsp:attribute name="head">
       <mm:component name="oip" block="user-create" render="head" />
     </jsp:attribute>
     <jsp:attribute name="body">
-      
       <div class="main-column">
-        
+
         <mm:nodefunction name="translation">
           <oip:h2><mm:field name="title" /></oip:h2>
           <mm:field name="description" escape="paragraph" />
-        </mm:nodefunction>        
-        
+        </mm:nodefunction>
+
         <mm:relatednodescontainer type="articles" role="posrel" searchdirs="destination">
           <mm:sortorder field="posrel.pos" direction="UP" />
           <mm:maxnumber value="1" />
@@ -28,13 +27,13 @@
             <mm:nodefunction name="translation">
               <mm:import id="legaltext" reset="true"><mm:field name="body" escape="none" /></mm:import>
             </mm:nodefunction>
-            <mm:write request="eu.openimages.legaltext" referid="legaltext" /> 
+            <mm:write request="eu.openimages.legaltext" referid="legaltext" />
           </mm:relatednodes>
         </mm:relatednodescontainer>
 
         <mm:component name="oip" block="user-create" />
       </div>
-      
+
       <div class="right-column">
         <div class="related-grey">
           <oip:h3>Login</oip:h3>
