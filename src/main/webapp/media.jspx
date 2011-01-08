@@ -263,10 +263,11 @@
 
         <div id="tabs">
           <ul class="list-tabs">
-            <li><a href="#t_video"><span><fmt:message key="media.video" /> (${total_video})</span></a></li>
-            <li><a href="#t_images"><span><fmt:message key="media.images" /> (${total_images})</span></a></li>
-            <li><a href="#t_audio"><span><fmt:message key="media.audio" /> (${total_audio})</span></a></li>
-            <li class="hidden"><a href="#t_thumbs"><span>Thumbs (${total})</span></a></li>
+            <li><a href="#t_video"><span><fmt:message key="media.video"><fmt:param value="${total_video}" /></fmt:message></span></a></li>
+            <li><a href="#t_images"><span><fmt:message key="media.images"><fmt:param value="${total_images}" /></fmt:message></span></a></li>
+            <li><a href="#t_audio"><span><fmt:message key="media.audio"><fmt:param value="${total_audio}" /></fmt:message></span></a></li>
+
+            <li class="hidden"><a href="#t_thumbs"><span>Thumbs (${total})</span></a></li> <!--mixed ? -->
           </ul>
 
           <mm:url id="pageurl" write="false" absolute="true" escapeamps ="false"
@@ -308,7 +309,7 @@
 
         <c:if test="${!empty value2}">
           <div class="wrap">
-            <h4><fmt:message key="media.results_from_complete_repository" /> (${total2})</h4>
+            <h4><fmt:message key="media.results_from_complete_repository"><fmt:param value="${total2}" /></fmt:message></h4>
               <oip:medialist list="${results2}" />
               <p class="pager">
                 <oip:pager total="${total2}" offset="${offset}" max="${max}"
