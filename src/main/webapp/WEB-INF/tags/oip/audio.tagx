@@ -57,9 +57,7 @@
         controls="controls">
         <mm:write referid="mediaurls" escape="none" />
         <img src="${poster}" alt="audio" width="${w}" height="${h}" />
-        <p class="oiplayer-warn">
-          You need a browser that understands the html5 audio tag to play this media item.
-        </p>
+        You need a browser that understands the html5 audio tag to play this item.
       </audio>
     </c:otherwise>
   </c:choose>
