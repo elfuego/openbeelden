@@ -39,6 +39,9 @@
       <mmsq:field name="coverage" keyword="true" split=";" boost="4" />
       <mmsq:field name="contributor" />
       <mmsq:field name="contributor" keyword="true" split=";" boost="4" />
+      <mmsq:related path="excluded,pools" element="pools">
+        <mmsq:field name="number" alias="excludedportal" keyword="true" />
+      </mmsq:related>
       <mmsq:relatednodes type="tags">
         <mmsq:field name="name" boost="3" />
         <mmsq:field name="name" alias="tags" keyword="true" boost="4" />
