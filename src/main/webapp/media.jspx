@@ -46,10 +46,6 @@
           <mm:field name="description" escape="paragraph" />
         </mm:nodefunction>
 
-        <c:if test="${!isdefault}">
-
-        </c:if>
-
 
         <c:choose>
           <c:when test="${isdefault}">
@@ -120,15 +116,15 @@
             -->
             <mm:import id="value">
               <c:choose>
-                <c:when test="${empty q}">${index}* AND </c:when>
-                <c:otherwise>${q} AND  </c:otherwise>
+                <c:when test="${empty q}">${index}* </c:when>
+                <c:otherwise>${q} </c:otherwise>
               </c:choose>
-              <c:if test="${!empty user}">user:"${user}" AND </c:if>
-              <c:if test="${!empty source}">source:"${source}" AND </c:if>
+              <c:if test="${!empty user}">AND user:"${user}" </c:if>
+              <c:if test="${!empty source}">AND source:"${source}" </c:if>
               <c:if test="${!empty p_keywords or !empty p_tags or !empty p_users}">
                 <c:choose>
-                  <c:when test="${!empty user and user ne portalmanager}">+(${p_keywords} ${p_tags}) </c:when>
-                  <c:otherwise>+(${p_keywords} ${p_tags} ${p_users}) </c:otherwise>
+                  <c:when test="${!empty user and user ne portalmanager}">AND +(${p_keywords} ${p_tags}) -excludedportal:${p} </c:when>
+                  <c:otherwise>AND +(${p_keywords} ${p_tags} ${p_users}) -excludedportal:${p} </c:otherwise>
                 </c:choose>
               </c:if>
             </mm:import>
@@ -137,15 +133,15 @@
             <c:if test="${empty q}"><mm:import id="fields" reset="true">indexId</mm:import></c:if>
             <mm:import id="value2">
               <c:choose>
-                <c:when test="${empty q}">${index}* AND </c:when>
-                <c:otherwise>${q} AND  </c:otherwise>
+                <c:when test="${empty q}">${index}* </c:when>
+                <c:otherwise>${q} </c:otherwise>
               </c:choose>
-              <c:if test="${!empty user}">user:"${user}" AND </c:if>
-              <c:if test="${!empty source}">source:"${source}" AND </c:if>
+              <c:if test="${!empty user}">AND user:"${user}" </c:if>
+              <c:if test="${!empty source}">AND source:"${source}" </c:if>
               <c:if test="${!empty p_keywords or !empty p_tags or !empty p_users}">
                 <c:choose>
-                  <c:when test="${!empty user and user ne portalmanager}">-(${p_keywords} ${p_tags}) </c:when>
-                  <c:otherwise>-(${p_keywords} ${p_tags} ${p_users}) </c:otherwise>
+                  <c:when test="${!empty user and user ne portalmanager}">AND -(${p_keywords} ${p_tags} -excludedportal:${p}) </c:when>
+                  <c:otherwise>AND -(${p_keywords} ${p_tags} ${p_users} -excludedportal:${p})  </c:otherwise>
                 </c:choose>
               </c:if>
             </mm:import>
@@ -171,25 +167,25 @@
         <!-- filter results -->
         <mm:import id="filter">
           <c:if test="${!empty date and date eq '2010'}">date:GTE:<mm:time format="yyyyMMddHHmm" time="2010" inputformat="yyyy" precision="days" />00</c:if>
-          <c:if test="${!empty date and date eq '1990'}">date:GTE:<mm:time format="yyyyMMddHHmm" time="1990" inputformat="yyyy" precision="days" />00 date:LT:<mm:time format="yyyyMMddHHmm" time="2010" inputformat="yyyy" precision="days" />00</c:if>
-          <c:if test="${!empty date and date eq '1970'}">date:GTE:<mm:time format="yyyyMMddHHmm" time="1970" inputformat="yyyy" precision="days" />00 date:LT:<mm:time format="yyyyMMddHHmm" time="1990" inputformat="yyyy" precision="days" />00</c:if>
-          <c:if test="${!empty date and date eq '1950'}">date:GTE:<mm:time format="yyyyMMddHHmm" time="1950" inputformat="yyyy" precision="days" />00 date:LT:<mm:time format="yyyyMMddHHmm" time="1970" inputformat="yyyy" precision="days" />00</c:if>
-          <c:if test="${!empty date and date eq '1930'}">date:GTE:<mm:time format="yyyyMMddHHmm" time="1930" inputformat="yyyy" precision="days" />00 date:LT:<mm:time format="yyyyMMddHHmm" time="1950" inputformat="yyyy" precision="days" />00</c:if>
-          <c:if test="${!empty date and date eq '1910'}">date:GTE:<mm:time format="yyyyMMddHHmm" time="1910" inputformat="yyyy" precision="days" />00 date:LT:<mm:time format="yyyyMMddHHmm" time="1930" inputformat="yyyy" precision="days" />00</c:if>
-          <c:if test="${!empty uploaded and uploaded eq 'today'}">created:GTE:<mm:time format="yyyyMMddHHmm" time="now - 24 hour" precision="minutes" />00</c:if>
-          <c:if test="${!empty uploaded and uploaded eq 'week'}">created:GTE:<mm:time format="yyyyMMddHHmm" time="now - 7 day"  precision="minutes" />00</c:if>
-          <c:if test="${!empty uploaded and uploaded eq 'month'}">created:GTE:<mm:time format="yyyyMMddHHmm" time="now - 31 day" precision="minutes" />00</c:if>
-          <c:if test="${!empty uploaded and uploaded eq 'year'}">created:GTE:<mm:time format="yyyyMMddHHmm" time="now - 1 year" precision="minutes" />00</c:if>
+          <c:if test="${!empty date and date eq '1990'}">date:GTE:<mm:time format="yyyyMMddHHmm" time="1990" inputformat="yyyy" precision="days" />00 date:LT:<mm:time format="yyyyMMddHHmm" time="2010" inputformat="yyyy" precision="days" />00 </c:if>
+          <c:if test="${!empty date and date eq '1970'}">date:GTE:<mm:time format="yyyyMMddHHmm" time="1970" inputformat="yyyy" precision="days" />00 date:LT:<mm:time format="yyyyMMddHHmm" time="1990" inputformat="yyyy" precision="days" />00 </c:if>
+          <c:if test="${!empty date and date eq '1950'}">date:GTE:<mm:time format="yyyyMMddHHmm" time="1950" inputformat="yyyy" precision="days" />00 date:LT:<mm:time format="yyyyMMddHHmm" time="1970" inputformat="yyyy" precision="days" />00 </c:if>
+          <c:if test="${!empty date and date eq '1930'}">date:GTE:<mm:time format="yyyyMMddHHmm" time="1930" inputformat="yyyy" precision="days" />00 date:LT:<mm:time format="yyyyMMddHHmm" time="1950" inputformat="yyyy" precision="days" />00 </c:if>
+          <c:if test="${!empty date and date eq '1910'}">date:GTE:<mm:time format="yyyyMMddHHmm" time="1910" inputformat="yyyy" precision="days" />00 date:LT:<mm:time format="yyyyMMddHHmm" time="1930" inputformat="yyyy" precision="days" />00 </c:if>
+          <c:if test="${!empty uploaded and uploaded eq 'today'}">created:GTE:<mm:time format="yyyyMMddHHmm" time="now - 24 hour" precision="minutes" />00 </c:if>
+          <c:if test="${!empty uploaded and uploaded eq 'week'}">created:GTE:<mm:time format="yyyyMMddHHmm" time="now - 7 day"  precision="minutes" />00 </c:if>
+          <c:if test="${!empty uploaded and uploaded eq 'month'}">created:GTE:<mm:time format="yyyyMMddHHmm" time="now - 31 day" precision="minutes" />00 </c:if>
+          <c:if test="${!empty uploaded and uploaded eq 'year'}">created:GTE:<mm:time format="yyyyMMddHHmm" time="now - 1 year" precision="minutes" />00 </c:if>
           <c:if test="${!empty _searchlang}">language:EQ:${_searchlang} </c:if>
           <c:if test="${!empty license}">licensenr:EQ:${license} </c:if>
         </mm:import>
-
-        <!--
-        <p>
+        
+        <!-- <p>
           value: ${value}<br />
           value2: ${value2}<br />
           extraconstraints: ${extraconstraints}<br />
-          filter: ${filter}
+          filter: ${filter} <br />
+          p: ${p}
         </p> -->
 
         <mm:function
@@ -224,7 +220,7 @@
               write="false"
               module="lucene"
               name="searchsize"
-              referids="index,value2@value,fields?,filter?,extraconstraints" />
+              referids="index,value2@value,fields?,filter,extraconstraints" />
         </c:if>
 
         <!-- sorting -->
@@ -250,7 +246,7 @@
         <c:if test="${!empty value2}">
           <mm:nodelistfunction
               module="lucene" name="search" id="results2"
-              referids="index,value2@value,offset,max,fields?,sortfields?,filter?,extraconstraints" />
+              referids="index,value2@value,offset,max,fields?,sortfields?,filter,extraconstraints" />
         </c:if>
 
         <p>
