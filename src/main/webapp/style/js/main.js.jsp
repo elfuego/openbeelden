@@ -156,7 +156,7 @@ function initClose() {
 
 /* Makes input type contents easier to copy */
 function initCopyInput() {
-    $('input.copyvalue').click(function(ev) {
+    $('input.copyvalue, textarea.copyvalue').click(function(ev) {
         $(this).focus();
         $(this).select();
     });
