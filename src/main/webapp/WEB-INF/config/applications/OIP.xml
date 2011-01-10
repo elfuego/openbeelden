@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE application PUBLIC "-//MMBase//DTD application config 1.1//EN" "http://www.mmbase.org/dtd/application_1_1.dtd">
-<application name="OIP" maintainer="openimages.eu" version="13" auto-deploy="true">
+<application name="OIP" maintainer="openimages.eu" version="14" auto-deploy="true">
 
   <requirements>
     <requires name="Streams"        maintainer="streams.mmbase.org"            />
@@ -37,11 +37,13 @@
     <reldef source="posrel"     target="posrel"    direction="bidirectional" guisourcename="Posrel" guitargetname="Posrel" builder="posrel" />
     <reldef source="ratingrel"  target="ratingrel" direction="bidirectional" guisourcename="Rating" guitargetname="Rating" builder="ratingrel" />
     <reldef source="portalrel"  target="portalrel" direction="bidirectional" guisourcename="Portal" guitargetname="PortalItem" builder="insrel" />
+    <reldef source="excluded"   target="excluded"  direction="bidirectional" guisourcename="Excluded" guitargetname="Excluded from" builder="insrel" />
     <reldef source="contains" target="containedBy"  direction="bidirectional" guisourcename="contains" guitargetname="contained by" builder="insrel" />
   </neededreldeflist>
 
   <allowedrelationlist>
     <relation from="pools"    to="mediafragments" type="related" />
+    <relation from="pools"    to="mediafragments" type="excluded" /><!-- do not show in this portal -->
     <relation from="pools"    to="images"      type="portalrel" />
     <relation from="pools"    to="urls"        type="portalrel" />
     <relation from="pools"    to="filters"     type="portalrel" />
