@@ -218,7 +218,7 @@
           </c:choose>
           
           <oip:h2><fmt:message key="service.latest_news" /></oip:h2>
-          <os:cache time="300" key="oi.feed.rss.${portal}.${requestScope['javax.servlet.jsp.jstl.fmt.locale.request']}">
+          <os:cache time="3600" key="oip.feed.rss.${portal}.${requestScope['javax.servlet.jsp.jstl.fmt.locale.request']}">
             <mm:import id="rss"><mm:include page="${rsslink}" timeout="10000" /></mm:import>
             <c:catch var="ex2">
               <mm:content escaper="none">
@@ -246,7 +246,7 @@
                                 <h4><a href="{link}"><xsl:value-of select="title" /></a></h4>
                                 <p><xsl:value-of select="oip:reformatDate($rssdate,$format,$newformat)" /></p>
                                 <p>
-                                  <xsl:value-of select="description" />
+                                  <xsl:value-of select="substring(description, 0, 480)" />
                                   <br /><a href="{link}"><fmt:message key="service.readmore" /> »</a>
                                 </p>
                               </li>
