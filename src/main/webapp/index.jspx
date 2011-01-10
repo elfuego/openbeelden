@@ -193,11 +193,22 @@
 
 
         <div class="main-column">
-          <!-- import the rss feed in a variable 'rss' -->
+          
+          <!-- rss feed comes from a property 'rss' or one of two defaults  -->
+          <mm:node number="$portal">
+            <mm:nodelistfunction nodemanager="properties" name="list" referids="_node@node">
+              <mm:field name="key" id="propkey">
+                <mm:import id="property_$[propkey]" reset="true"><mm:field name="value" /></mm:import>
+              </mm:field>
+            </mm:nodelistfunction>
+          </mm:node>
           <c:set var="rsslink_nl">http://openbeelden.nl/blog/feed/</c:set>
           <c:set var="rsslink_en">http://openimages.eu/blog/feed/</c:set>
-          
+
           <c:choose>
+            <c:when test="${!empty property_rss}">
+              <c:set var="rsslink">${property_rss}</c:set>
+            </c:when>
             <c:when test="${requestScope['javax.servlet.jsp.jstl.fmt.locale.request'].language eq 'nl'}">
               <c:set var="rsslink">${rsslink_nl}</c:set>
             </c:when>
@@ -205,8 +216,9 @@
               <c:set var="rsslink">${rsslink_en}</c:set>
             </c:otherwise>
           </c:choose>
+          
           <oip:h2><fmt:message key="service.latest_news" /></oip:h2>
-          <os:cache time="300" key="oi.feed.rss.${requestScope['javax.servlet.jsp.jstl.fmt.locale.request']}">
+          <os:cache time="300" key="oi.feed.rss.${portal}.${requestScope['javax.servlet.jsp.jstl.fmt.locale.request']}">
             <mm:import id="rss"><mm:include page="${rsslink}" timeout="10000" /></mm:import>
             <c:catch var="ex2">
               <mm:content escaper="none">
