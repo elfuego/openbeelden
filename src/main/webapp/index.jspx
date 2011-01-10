@@ -76,7 +76,7 @@
           </mm:node>
 
           <mm:import id="value">
-            <c:if test="${!empty p_keywords or !empty p_tags or !empty p_users}">+(${p_keywords} ${p_tags} ${p_users}) </c:if>
+            <c:if test="${!empty p_keywords or !empty p_tags or !empty p_users}">+(${p_keywords} ${p_tags} ${p_users}) -excludedportal:${portal} </c:if>
           </mm:import>
 
         </c:when>
@@ -148,7 +148,7 @@
           <oip:h2><fmt:message key="media.latest_uploads" /></oip:h2>
 
           <c:set var="cachekey">oip.home.latestuploads.${page}.${requestScope['javax.servlet.jsp.jstl.fmt.locale.request']}</c:set>
-          <os:cache key="${cachekey}" time="120">
+          <os:cache key="${cachekey}" time="600">
             <c:catch var="ex1">
                <mm:nodelistfunction
                   module="lucene" name="search" id="results"
@@ -194,12 +194,15 @@
 
         <div class="main-column">
           <!-- import the rss feed in a variable 'rss' -->
+          <c:set var="rsslink_nl">http://openbeelden.nl/blog/feed/</c:set>
+          <c:set var="rsslink_en">http://openimages.eu/blog/feed/</c:set>
+          
           <c:choose>
             <c:when test="${requestScope['javax.servlet.jsp.jstl.fmt.locale.request'].language eq 'nl'}">
-              <c:set var="rsslink">http://openbeelden.nl/blog/feed/</c:set>
+              <c:set var="rsslink">${rsslink_nl}</c:set>
             </c:when>
             <c:otherwise>
-              <c:set var="rsslink">http://openimages.eu/blog/feed/</c:set>
+              <c:set var="rsslink">${rsslink_en}</c:set>
             </c:otherwise>
           </c:choose>
           <oip:h2><fmt:message key="service.latest_news" /></oip:h2>
