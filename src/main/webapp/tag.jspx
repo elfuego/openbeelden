@@ -31,7 +31,25 @@
         
       </div>
       <div class="right-column">
-        <!-- nothing here yet -->
+        
+        <div class="related">
+          <h3>Tags</h3>
+          <mm:listnodescontainer type="tags">
+            <mm:maxnumber value="99" />
+            <mm:sortorder field="name" direction="UP" />
+            <ul>
+            <mm:listnodes>
+              <mm:link page="tag">
+                <mm:frameworkparam name="component">oip</mm:frameworkparam>
+                <mm:frameworkparam name="tag">${_node}</mm:frameworkparam>
+                <li><a href="${_}"><mm:field name="name" /></a></li>
+              </mm:link>
+            </mm:listnodes>
+            </ul>
+          </mm:listnodescontainer>
+        </div>
+
+        
       </div>
     </jsp:attribute>
 
