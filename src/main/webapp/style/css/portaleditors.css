@@ -4,18 +4,28 @@
 * @name     Styles that are specific for portal editors
 * @version  '$Id: editors.css 43696 2010-10-20 09:39:57Z andre $'
 */
-
-body.editor #header h1 { margin: 32px 0 10px 0; }
+ 
+body.editor #header { margin: 0; }
+body.editor #header p { display: none; }
+body.editor #header img { 
+    margin: 28px 0 10px 0; 
+	overflow: hidden;
+}
 body.editor div.left-column, 
 body.editor div.wrap
 {
 	background-image: url("images/dots2.png");
 	min-height: 40px;
-	top: 300px;
+	top: 260px;
 }
-div.wrap { margin-top: 1em; }
+div.wrap
+{
+	margin-top: 30px;
+	padding-top: 10px;
+}
 
 div.left-column ul { list-style: none; }
+div.left-column ul.portals { margin-bottom: 2em; }
 
 h1, h2, h3 { color: #3BA0D9; }
 
@@ -41,6 +51,9 @@ body.login div.login
 
 div.edit-pic div { float: left; }
 div.edit-pic a { margin-left: 12px; }
+
+a.edit:link,
+a.edit:visited { color: #3BA0D9; }
 
 a.delete
 {
