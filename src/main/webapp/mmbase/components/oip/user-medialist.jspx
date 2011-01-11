@@ -28,15 +28,12 @@
       </mm:escaper>
 
       <mm:listnodescontainer type="videofragments">
-        
         <mm:constraint field="show" value="true" operator="EQUAL" />
 <!-- 
         <mm:constraint field="online" value="$today" operator="LESS" />
         <mm:constraint field="offline" value="$today" operator="GREATER" />
  -->
-        
         <mm:sortorder field="number" direction="DOWN" />
-        
         <mm:constraint field="owner" value="$n" operator="EQUAL" />
         <mm:size id="total_video" write="false" />
         <mm:maxnumber value="$max" />
@@ -74,9 +71,9 @@
 
       <div id="tabs">
         <ul class="list-tabs">
-          <li><a href="#t_video"><span>Video (${total_video})</span></a></li>
-          <li><a href="#t_images"><span>Images (${total_images})</span></a></li>
-          <li><a href="#t_audio"><span>Audio (${total_audio})</span></a></li>
+          <li><a href="#t_video"><span><fmt:message key="media.video"><fmt:param value="${total_video}" /></fmt:message></span></a></li>
+          <li><a href="#t_images"><span><fmt:message key="media.images"><fmt:param value="${total_images}" /></fmt:message></span></a></li>
+          <li><a href="#t_audio"><span><fmt:message key="media.audio"><fmt:param value="${total_audio}" /></fmt:message></span></a></li>
         </ul>
 
         <mm:url absolute="true" id="baseurl" write="false" />
