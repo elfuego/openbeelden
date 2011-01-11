@@ -49,6 +49,51 @@
     <jsp:attribute name="body">
 
       <div class="main-column">
+
+<c:choose>
+  <c:when test="${empty nr}">
+
+    <h2>Pages</h2>
+    <div id="sortlog"> <jsp:text><!-- empty --> </jsp:text>  </div>
+    <mm:relatednodescontainer type="pages" role="posrel" searchdirs="destination">
+      <ul id="sortable">
+        <mm:relatednodes>
+          <li id="edit_${_node.number}">
+            <!-- <mm:link page="/editors/edit-node.jspx" referids="p?,_node@nr">
+              <mm:param name="fields">title,language,description</mm:param>
+              <a class="editme" href="${_}#edit_${_node.number}">edit</a>
+            </mm:link> -->
+            <mm:link page="/editors/pages.jspx" referids="p,_node@nr">
+              <a class="edit" href="${_}">edit</a>
+            </mm:link>
+            <mm:maydelete>
+              <mm:link page="/editors/delete-node.jspx" referids="p?,_node@nr">
+                <a class="editme delete" href="${_}#edit_${_node.number}">delete</a>
+              </mm:link>
+            </mm:maydelete>
+            <div>
+              <mm:field name="title" /> (<mm:field name="language" />)
+            </div>
+          </li>
+        </mm:relatednodes>
+        <li id="add_pages">
+          <jsp:text> <!-- empty, cause nothing exists here yet --> </jsp:text>
+        </li>
+        <li>
+          <mm:link page="/editors/add-node.jspx" referids="p,p@nr">
+            <mm:param name="type">pages</mm:param>
+            <mm:param name="role">posrel</mm:param>
+            <mm:param name="fields">title,language,description</mm:param>
+            <a class="editme" href="${_}#add_pages">add page</a>
+          </mm:link>
+        </li>
+      </ul>
+    </mm:relatednodescontainer>
+
+  
+  </c:when>
+  <c:otherwise>
+
         
         <mm:node number="$nr">
           <h2>Pages : <mm:field name="title" /></h2>
@@ -137,6 +182,9 @@
           </div>
 
         </mm:node>
+
+ </c:otherwise>
+</c:choose>
 
       </div><!-- /.main-column -->
     </jsp:attribute>

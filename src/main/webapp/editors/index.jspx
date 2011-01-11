@@ -19,6 +19,13 @@
       </mm:node>
 
       <h2>Pages</h2>
+      <ul>
+        <li>
+          <mm:link page="/editors/pages.jspx" referids="p">
+            <a href="${_}">Pages</a>
+          </mm:link>
+        </li>
+      </ul>
 
       <mm:relatednodescontainer type="pages" role="posrel" searchdirs="destination">
         <mm:sortorder field="posrel.pos" direction="UP" />
@@ -125,20 +132,17 @@
         <mm:relatednodescontainer type="pages" role="posrel" searchdirs="destination">
           <mm:constraint field="posrel.pos" value="0" value2="1" operator="BETWEEN" />
           <mm:relatednodes>
-            <mm:field name="title" />
-            
-              <h2>Featured media</h2>
-                <p>
-                  <mm:include page="/editors/inc/searchrelate.jspx" referids="_node@nr">
-                    <mm:param name="type">mediafragments</mm:param>
-                    <mm:param name="role">posrel</mm:param>
-                    <mm:param name="searchdirs">destination</mm:param>
-                    <mm:param name="sortorder">posrel.pos</mm:param>
-                    <mm:param name="list">title,objecttype,language</mm:param>
-                    <mm:param name="create">false</mm:param>
-                  </mm:include>
-                </p>
-            
+            <h2>Featured media</h2>
+              <p>
+                <mm:include page="/editors/inc/searchrelate.jspx" referids="_node@nr">
+                  <mm:param name="type">mediafragments</mm:param>
+                  <mm:param name="role">posrel</mm:param>
+                  <mm:param name="searchdirs">destination</mm:param>
+                  <mm:param name="sortorder">posrel.pos</mm:param>
+                  <mm:param name="list">title,objecttype,language</mm:param>
+                  <mm:param name="create">false</mm:param>
+                </mm:include>
+              </p>
           </mm:relatednodes>
         </mm:relatednodescontainer>
         

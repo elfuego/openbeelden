@@ -38,6 +38,12 @@
           </span>
         </c:when>
 
+        <c:when test="${_ eq 'pages'}">
+          <span>
+            <mm:field name="title" /> (<mm:field name="language" />)
+          </span>
+        </c:when>
+
         <c:when test="${_ eq 'pools_translations'}">
           <span>
             <mm:field name="name" /> (<mm:field name="language" />)
