@@ -10,6 +10,7 @@
   <div id="menu">
 
     <mm:import externid="portal" id="pool" from="request">pool_oip</mm:import>
+    <mm:import externid="isdefaultportal" from="request">false</mm:import>
     
     <c:if test="${! empty requestScope['org.mmbase.mmsite.language']}">
       <mm:import id="locale">${requestScope['org.mmbase.mmsite.language']}</mm:import>
@@ -97,16 +98,18 @@
           <c:if test="${! status.last}"><jsp:text> / </jsp:text></c:if>
         </mm:listfunction>
       </li>
-      <mm:hasrank value="anonymous" inverse="true">
-        <li>
-          <mm:link page="/logout.jspx" referids="locale?">
-            <a class="logout" href="${_}"><fmt:message key="login.logout" /></a>
-          </mm:link>
+      <c:if test="${isdefaultportal}">
+        <mm:hasrank value="anonymous" inverse="true">
+          <li>
+            <mm:link page="/logout.jspx" referids="locale?">
+              <a class="logout" href="${_}"><fmt:message key="login.logout" /></a>
+            </mm:link>
+          </li>
+        </mm:hasrank>
+        <li class="you">
+          <jsp:text> </jsp:text>
         </li>
-      </mm:hasrank>
-      <li class="you">
-        <jsp:text> </jsp:text>
-      </li>
+      </c:if>
     </ul>
   
   </div>
