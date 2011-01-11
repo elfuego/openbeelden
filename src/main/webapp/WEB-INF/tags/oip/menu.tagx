@@ -26,13 +26,15 @@
     
     <ul class="main">
       <mm:node number="$pool" id="portal">
-        <c:set var="query_str" value="${requestScope['javax.servlet.forward.query_string']}" />
-        <script type="text/javascript">
-          <mm:link page="/action/you.jspx" escapeamps="false" referids="locale?">
-            <mm:param name="referrer">${requestScope['javax.servlet.forward.request_uri']}<c:if test="{!empty query_string}">?${query_string}</c:if></mm:param>
-            <jsp:text>$(document).ready(function() { $("#menu li.you").load("${_}"); });</jsp:text>
-          </mm:link>
-        </script>
+        <c:if test="${isdefaultportal}">
+          <c:set var="query_str" value="${requestScope['javax.servlet.forward.query_string']}" />
+          <script type="text/javascript">
+            <mm:link page="/action/you.jspx" escapeamps="false" referids="locale?">
+              <mm:param name="referrer">${requestScope['javax.servlet.forward.request_uri']}<c:if test="{!empty query_string}">?${query_string}</c:if></mm:param>
+              <jsp:text>$(document).ready(function() { $("#menu li.you").load("${_}"); });</jsp:text>
+            </mm:link>
+          </script>
+        </c:if>
         <mm:relatednodescontainer type="pages" role="posrel" searchdirs="destination">
           <mm:constraint field="posrel.pos" value="1" value2="10" operator="BETWEEN" />
           <mm:sortorder field="posrel.pos" direction="UP" />
