@@ -42,7 +42,7 @@
 
   <c:choose>
     <c:when test="${empty mediaurls}">
-      <div class="inavailable">
+      <div class="audio inavailable" style="background-image: url(${poster});">
         <p>
           <jsp:text>No audio sources available.</jsp:text>
           <c:if test="${!empty unsupported}">
