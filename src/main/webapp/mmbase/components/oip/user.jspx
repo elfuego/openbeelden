@@ -14,12 +14,13 @@
 
     <oip:thumb />
 
+    <mm:maywrite>
+      <mm:link page="user-edit">
+        <a class="edit" href="${_}"><fmt:message key="media.edit" /></a>
+      </mm:link>
+    </mm:maywrite>
+    
     <h3 class="subtitle">
-      <mm:maywrite>
-        <mm:link page="user-edit">
-          <a class="edit" href="${_}">edit</a>
-        </mm:link>
-      </mm:maywrite>
       <mm:nodefunction name="translation"><oip:user /></mm:nodefunction>
     </h3>
 
