@@ -53,43 +53,91 @@
 <c:choose>
   <c:when test="${empty nr}">
 
-    <h2>Pages</h2>
-    <div id="sortlog"> <jsp:text><!-- empty --> </jsp:text>  </div>
-    <mm:relatednodescontainer type="pages" role="posrel" searchdirs="destination">
-      <ul id="sortable">
-        <mm:relatednodes>
-          <li id="edit_${_node.number}">
-            <!-- <mm:link page="/editors/edit-node.jspx" referids="p?,_node@nr">
-              <mm:param name="fields">title,language,description</mm:param>
-              <a class="editme" href="${_}#edit_${_node.number}">edit</a>
-            </mm:link> -->
-            <mm:link page="/editors/pages.jspx" referids="p,_node@nr">
-              <a class="edit" href="${_}">edit</a>
-            </mm:link>
-            <mm:maydelete>
-              <mm:link page="/editors/delete-node.jspx" referids="p?,_node@nr">
-                <a class="editme delete" href="${_}#edit_${_node.number}">delete</a>
+    <div class="wrap">
+      <h2>Pages</h2>
+      <p>Pages in top navigation, drag and drop to reorder them.</p>
+      <div id="sortlog"> <jsp:text><!-- empty --> </jsp:text>  </div>
+      <mm:relatednodescontainer type="pages" role="posrel" searchdirs="destination" id="pages_header">
+        <mm:constraint field="posrel.pos" value="1" value2="10" operator="BETWEEN" />
+        <mm:sortorder field="posrel.pos" direction="UP" />
+        <ul class="sortable connected" id="pages_header">
+          <mm:relatednodes>
+            <li id="edit_${_node.number}">
+              <!-- <mm:link page="/editors/edit-node.jspx" referids="p?,_node@nr">
+                <mm:param name="fields">title,language,description</mm:param>
+                <a class="editme" href="${_}#edit_${_node.number}">edit</a>
+              </mm:link> -->
+              <mm:link page="/editors/pages.jspx" referids="p,_node@nr">
+                <a class="edit" href="${_}">edit</a>
               </mm:link>
-            </mm:maydelete>
-            <div>
-              <mm:field name="title" /> (<mm:field name="language" />)
-            </div>
+              <mm:maydelete>
+                <mm:link page="/editors/delete-node.jspx" referids="p?,_node@nr">
+                  <a class="editme delete" href="${_}#edit_${_node.number}">delete</a>
+                </mm:link>
+              </mm:maydelete>
+              <div>
+                <mm:field name="title" /> (<mm:field name="language" />)
+              </div>
+            </li>
+          </mm:relatednodes>
+          <li id="add_pages">
+            <jsp:text> <!-- empty, cause nothing exists here yet --> </jsp:text>
           </li>
-        </mm:relatednodes>
-        <li id="add_pages">
-          <jsp:text> <!-- empty, cause nothing exists here yet --> </jsp:text>
-        </li>
-        <li>
-          <mm:link page="/editors/add-node.jspx" referids="p,p@nr">
-            <mm:param name="type">pages</mm:param>
-            <mm:param name="role">posrel</mm:param>
-            <mm:param name="fields">title,language,description</mm:param>
-            <a class="editme" href="${_}#add_pages">add page</a>
-          </mm:link>
-        </li>
-      </ul>
-    </mm:relatednodescontainer>
+          <li>
+            <mm:link page="/editors/add-node.jspx" referids="p,p@nr">
+              <mm:param name="type">pages</mm:param>
+              <mm:param name="role">posrel</mm:param>
+              <mm:param name="pos">9</mm:param>
+              <mm:param name="fields">title,template,language,description</mm:param>
+              <a class="editme" href="${_}#add_pages">add page</a>
+            </mm:link>
+          </li>
+        </ul>
+      </mm:relatednodescontainer>
+      <mm:write session="pages_header" referid="pages_header" />
+    </div>
 
+    <div class="wrap">
+      <p>Pages in footer, drag and drop to reorder them.</p>
+      <mm:relatednodescontainer type="pages" role="posrel" searchdirs="destination" id="pages_footer">
+        <mm:constraint field="posrel.pos" value="0" value2="10" operator="BETWEEN" inverse="true" />
+        <mm:sortorder field="posrel.pos" direction="UP" />
+          <ul class="sortable connected" id="pages_footer">
+          <mm:relatednodes>
+            <li id="edit_${_node.number}">
+              <!-- <mm:link page="/editors/edit-node.jspx" referids="p?,_node@nr">
+                <mm:param name="fields">title,language,description</mm:param>
+                <a class="editme" href="${_}#edit_${_node.number}">edit</a>
+              </mm:link> -->
+              <mm:link page="/editors/pages.jspx" referids="p,_node@nr">
+                <a class="edit" href="${_}">edit</a>
+              </mm:link>
+              <mm:maydelete>
+                <mm:link page="/editors/delete-node.jspx" referids="p?,_node@nr">
+                  <a class="editme delete" href="${_}#edit_${_node.number}">delete</a>
+                </mm:link>
+              </mm:maydelete>
+              <div>
+                <mm:field name="title" /> (<mm:field name="language" />)
+              </div>
+            </li>
+          </mm:relatednodes>
+          <li id="add_footerpages">
+            <jsp:text> <!-- empty, cause nothing exists here yet --> </jsp:text>
+          </li>
+          <li>
+            <mm:link page="/editors/add-node.jspx" referids="p,p@nr">
+              <mm:param name="type">pages</mm:param>
+              <mm:param name="role">posrel</mm:param>
+              <mm:param name="pos">99</mm:param>
+              <mm:param name="fields">title,template,language,description</mm:param>
+              <a class="editme" href="${_}#add_footerpages">add page</a>
+            </mm:link>
+          </li>
+        </ul>
+      </mm:relatednodescontainer>
+      <mm:write session="pages_footer" referid="pages_footer" />
+    </div>
   
   </c:when>
   <c:otherwise>

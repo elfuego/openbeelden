@@ -69,3 +69,11 @@ p.translation, p.editme, p.closeme, a.editme, a.new, a.cancel
 /* forms */
 fieldset { clear: both; }
 
+ul.sortable li
+{
+	background-image: url(icons/sort-handle.png);
+	background-repeat: no-repeat;
+	background-position: 0 2px;
+	padding-left: 24px;
+}
+

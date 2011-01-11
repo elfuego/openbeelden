@@ -1,0 +1,42 @@
+<jsp:root
+    version="2.0"
+    xmlns:c="http://java.sun.com/jsp/jstl/core"
+    xmlns:jsp="http://java.sun.com/JSP/Page"
+    xmlns:mm="http://www.mmbase.org/mmbase-taglib-2.0">
+    
+  <mm:content 
+      type="application/xml"
+      postprocessor="none"
+      expires="0">
+    <jsp:output omit-xml-declaration="true" />
+    
+    <mm:cloud method="asis">
+
+      <!-- re-orders a list  -->
+      
+      <mm:import externid="order" jspvar="order" vartype="List" />
+      <mm:import externid="query_id" from="request,parameters" />
+      <mm:import from="session" externid="${query_id}" id="q" jspvar="q" vartype="org.mmbase.bridge.NodeQuery" />      
+      
+      <c:choose>
+        <c:when test="${!empty order and !empty q}">
+
+          <jsp:scriptlet>
+            java.util.List&lt;Integer&gt; iorder = new java.util.ArrayList&lt;Integer&gt;();
+            for (Object o : order) {
+                iorder.add(org.mmbase.util.Casting.toInt(o));
+            }
+            org.mmbase.bridge.util.Queries.reorderResult(q, iorder);
+          </jsp:scriptlet>
+          
+          <p class="msg">New order is saved!</p>
+          
+        </c:when>
+        <c:otherwise>
+          <p class="err">Too bad. Some error occured.</p>
+        </c:otherwise>
+      </c:choose>
+
+    </mm:cloud>
+  </mm:content>
+</jsp:root>

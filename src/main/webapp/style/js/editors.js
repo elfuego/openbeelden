@@ -8,7 +8,9 @@ $(document).ready(function() {
     initEditme('body');
     clearMsg();
     initPortalSwitch();
+    initSortable();
 });
+
 
 /* TODO: make this a jquery plugin? */
 function initEditme(el) {
@@ -27,7 +29,7 @@ jQuery.fn.editme = function(settings) {
     });
 }
 
-/* loads form to edit node */
+/* forms to add, edit and delete nodes */
 function editMe(ev) {
     var tag = ev.target;
     var link = ev.target.href;
@@ -117,6 +119,52 @@ function afterSubmit(response, status, xhr) {
     }
     
     clearMsg(this);
+}
+
+/* 
+ * ul.sortable has to have same id as NodeQuery, which is written to session.
+ * All li's must have a prefix and node number as an id, f.e. 'edit_234'
+ * TODO (?): make Queries#reorderResult() accept drop-ins from 'connected' lists
+ */
+function initSortable() {
+    if ($('.sortable').length > 0) {
+        $(".sortable").sortable({
+            update: function(ev, ui) { 
+                sortSortable(this);
+            },
+            connectWith: ".connected", /* not supported (yet) */
+            receive: function(ev, ui) {
+                sortSortable(this);
+            }
+        }).disableSelection();
+    }
+}
+
+function sortSortable(list) {
+    var items = $(list).sortable("toArray");
+    for (i = 0; i < items.length; i++) {
+        var result = items[i].match(/\d+/);
+        if (result != null) {
+            if (order == undefined) {
+                var order = result;
+            } else {
+                order = order + "," + result;
+            }
+        }
+    }
+    
+    var params = new Object();
+    params['order'] = order;
+    params['query_id'] = list.id;
+    $.ajax({
+        url: 'order.jspx',
+        data: params,
+        dataType: "xml",
+        complete: function(data) {
+            $('div#sortlog').html(data.responseText);
+            clearMsg('div#sortlog');
+        }
+    });    
 }
 
 /*
