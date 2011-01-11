@@ -20,6 +20,7 @@
     <mm:import externid="nr" />
     <mm:import externid="role">related</mm:import>
     <mm:import externid="dir">destination</mm:import>
+    <mm:import externid="pos" />
 
     <!-- supports one default (string) value f.e. 'name=Test value' -->
     <mm:import id="defaultstr" externid="default" />
@@ -83,6 +84,7 @@
                 <input name="submit${type}" type="hidden" value="submit" />
                 <input name="type" type="hidden" value="${type}" />
                 <input name="role" type="hidden" value="${role}" />
+                <input name="pos"  type="hidden" value="${pos}" />
                 <input name="dir"  type="hidden" value="${dir}" />
                 <input name="show" type="hidden" value="${show}" />
                 <input name="defaultstr"  type="hidden" value="${defaultstr}" />
@@ -111,10 +113,28 @@
                   <mm:node number="$nr" id="rel_node" />
                   <c:choose>
                     <c:when test="${dir eq 'destination'}">
-                      <mm:createrelation source="rel_node" destination="new_node" role="$role" />
+                      <c:choose>
+                        <c:when test="${role eq 'posrel' and !empty pos}">
+                          <mm:createrelation source="rel_node" destination="new_node" role="$role">
+                            <mm:setfield name="pos">${pos}</mm:setfield>
+                          </mm:createrelation>
+                        </c:when>
+                        <c:otherwise>
+                          <mm:createrelation source="rel_node" destination="new_node" role="$role" />
+                        </c:otherwise>
+                      </c:choose>
                     </c:when>
                     <c:otherwise>
-                      <mm:createrelation source="new_node" destination="rel_node" role="$role" />
+                      <c:choose>
+                        <c:when test="${role eq 'posrel' and !empty pos}">
+                          <mm:createrelation source="new_node" destination="rel_node" role="$role">
+                            <mm:setfield name="pos">${pos}</mm:setfield>
+                          </mm:createrelation>
+                        </c:when>
+                        <c:otherwise>
+                          <mm:createrelation source="new_node" destination="rel_node" role="$role" />
+                        </c:otherwise>
+                      </c:choose>
                     </c:otherwise>
                   </c:choose>
                   and related to
