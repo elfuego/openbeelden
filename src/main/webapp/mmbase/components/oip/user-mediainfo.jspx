@@ -68,7 +68,7 @@
                     <mm:relatednode><mm:field name="name" /></mm:relatednode><mm:last inverse="true">, </mm:last>
                     <jsp:text> </jsp:text>
                   </mm:listrelations>
-                </mm:listrelationscontainer>
+                </mm:listrelationscontainer><br />
               </dd>
              <mm:fieldlist fields="keywords">
               <dt><mm:fieldinfo type="guiname" />:</dt>
@@ -79,7 +79,7 @@
            <dl class="media-info">
              <mm:fieldlist fields="source,identifier,contributor,relation,coverage,created,lastmodified">
               <dt><mm:fieldinfo type="guiname" />:</dt>
-              <dd><mm:fieldinfo type="guivalue" /></dd>
+              <dd><mm:fieldinfo type="guivalue" /><br /></dd>
              </mm:fieldlist>
            </dl>
           
