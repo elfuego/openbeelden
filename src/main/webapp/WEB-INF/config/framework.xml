@@ -52,6 +52,15 @@
     <param name="locales">en,nl</param>
   </urlconverter>
 
+  <urlconverter class="org.mmbase.mmsite.ArticlesUrlConverter">
+    <description xml:lang="en">
+      Another urlconverter belonging to MMSite, but for articles.
+    </description>
+    <param name="directory">/</param>
+    <param name="useTitle">true</param>
+    <param name="template">/articles.jspx</param>
+  </urlconverter>
+
   <urlconverter class="org.mmbase.framework.basic.MMBaseUrlConverter">
     <description xml:lang="en">
       The MMBase urlconverter handles about pretty URL's in /mmbase/.
