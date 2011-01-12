@@ -42,7 +42,7 @@
 
     <relation from="pages"    to="pages"     type="posrel" />
     <relation from="pages"    to="articles"  type="posrel" />
-    <relation from="articles" to="comments"  type="insrel" />
+    <relation from="articles" to="comments"  type="related" />
 
 <!--
     <relation from="articles"  to="attachments" type="posrel" />
