@@ -8,7 +8,7 @@
     >
  
   <jsp:directive.attribute name="list" type="org.mmbase.bridge.NodeList"
-        description="The list with mediafragments to show"  />
+        description="List with articles to show"  />
   
     <ul>
       <mm:listnodes referid="list" varStatus="status" id="mediafragment">
