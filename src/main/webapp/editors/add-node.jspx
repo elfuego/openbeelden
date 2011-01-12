@@ -138,7 +138,7 @@
                     </c:otherwise>
                   </c:choose>
                   and related to
-                  <mm:node number="$nr">'<mm:function name="gui" escape="tagstripper,lowercase" />'</mm:node>
+                  <mm:node number="$nr">'<mm:function name="gui" escape="tagstripper" />'</mm:node>
                   </c:if>.
               </mm:import>
 
