@@ -1,0 +1,44 @@
+<jsp:root
+    version="2.0"
+    xmlns:c="http://java.sun.com/jsp/jstl/core"
+    xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+    xmlns:jsp="http://java.sun.com/JSP/Page"
+    xmlns:mm="http://www.mmbase.org/mmbase-taglib-2.0"
+    xmlns:oip="urn:jsptagdir:/WEB-INF/tags/oip"
+    >
+
+    <jsp:directive.attribute name="showauthor"
+            description="Show the author of the article or not">false</jsp:directive.attribute>
+    <jsp:directive.attribute name="showdate"
+            description="Show publication date or not">false</jsp:directive.attribute>
+
+      <mm:nodefunction name="translation">
+        <oip:h2><mm:field name="title" /></oip:h2>
+      </mm:nodefunction>
+  
+      <mm:relatednodescontainer type="images" role="posrel" searchdirs="destination">
+        <mm:relatednodes>
+          <div class="image">
+            <mm:image width="220" mode="img" />
+            <mm:field name="title"><mm:isnotempty><p><mm:write /></p></mm:isnotempty></mm:field>
+          </div>
+        </mm:relatednodes>
+      </mm:relatednodescontainer>
+  
+      <mm:nodefunction name="translation">
+        <mm:field name="subtitle"><mm:isnotempty><h3 class="subtitle"><mm:write /></h3></mm:isnotempty></mm:field>
+
+        <c:if test="${showdate}">
+          <p><mm:field name="online"><mm:time format=":LONG" /></mm:field></p>
+        </c:if>
+        
+        <mm:field name="intro" escape="paragraph(intro),links" />
+        <mm:field name="body" escape="paragraph" />
+      
+        <c:if test="${showauthor}">
+          <mm:field name="author"><mm:isnotempty><p class="author"><mm:write /></p></mm:isnotempty></mm:field>
+        </c:if>
+        
+      </mm:nodefunction>
+
+</jsp:root>
