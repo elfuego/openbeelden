@@ -15,29 +15,11 @@
           <mm:sortorder field="posrel.pos" direction="UP" />
           <mm:maxnumber value="1" />
           <mm:relatednodes>
-
-            <mm:nodefunction name="translation">
-              <oip:h2><mm:field name="title" /></oip:h2>
-            </mm:nodefunction>
-
-            <mm:relatednodescontainer type="images" role="posrel" searchdirs="destination">
-              <mm:relatednodes>
-                <div class="image">
-                  <mm:image width="118" mode="img" />
-                  <!-- <mm:field name="title"><mm:isnotempty><p><mm:write /></p></mm:isnotempty></mm:field> -->
-                </div>
-              </mm:relatednodes>
-            </mm:relatednodescontainer>
-
-            <mm:nodefunction name="translation">
-              <mm:field name="subtitle"><mm:isnotempty><h3 class="subtitle"><mm:write /></h3></mm:isnotempty></mm:field>
-              <mm:field name="intro" escape="paragraph" />
-              <mm:field name="body" escape="paragraph" />
-            </mm:nodefunction>
-
+            <oip:article />
           </mm:relatednodes>
         </mm:relatednodescontainer>
       </div>
+      
       <div class="right-column">
         <div class="related-grey">
 
@@ -92,6 +74,7 @@
             <mm:sortorder field="posrel.pos" direction="UP" />
             <mm:relatednodes>
               <mm:first>
+                
                 <mm:relatednodescontainer type="urls" role="posrel" searchdirs="destination">
                   <mm:sortorder field="posrel.pos" direction="UP" />
                   <mm:size>
@@ -126,20 +109,10 @@
                     </mm:isgreaterthan>
                   </mm:size>
                 </mm:relatednodescontainer>
-                </mm:first>
-                
-                <!-- article in right column -->
-                <mm:first inverse="true">
-                  <mm:nodefunction name="translation">
-                    <oip:h3><mm:field name="title" /></oip:h3>
-                    <mm:field name="subtitle"><mm:isnotempty><h3 class="subtitle"><mm:write /></h3></mm:isnotempty></mm:field>
-                    <mm:field name="intro" escape="paragraph" />
-                    <mm:field name="body" escape="paragraph" />
-                  </mm:nodefunction>
-                </mm:first>
-                
-              </mm:relatednodes>
-            </mm:relatednodescontainer>
+              
+              </mm:first>
+            </mm:relatednodes>
+          </mm:relatednodescontainer>
           
         </div>
       </div>
