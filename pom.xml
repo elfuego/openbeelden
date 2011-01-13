@@ -78,15 +78,18 @@
   <properties>
 
      <!-- MMBase 1.9 -->
+
      <mmbase.version.number>1.9</mmbase.version.number>
      <mmbase.version.postfix>-SNAPSHOT</mmbase.version.postfix>
      <base.version>${mmbase.version.number}-servlet25${mmbase.version.postfix}</base.version>
      <mmbase.version>${mmbase.version.number}${mmbase.version.postfix}</mmbase.version>
+     <mmbase.core>mmbase</mmbase.core>
 
     <!-- MMBase 2.0 -->
     <!--
      <mmbase.version>2.0-SNAPSHOT</mmbase.version>
      <base.version>${mmbase.version}</base.version>
+     <mmbase.core>mmbase-core</mmbase.core>
      -->
 
      <mmbase.repos>scp://mmbase.org/home/tomcat/downloads/</mmbase.repos>
@@ -359,12 +362,6 @@
 
     <dependency>
       <groupId>org.mmbase</groupId>
-      <artifactId>mmbase</artifactId>
-      <version>${mmbase.version}</version>
-      <scope>provided</scope>
-    </dependency>
-    <dependency>
-      <groupId>org.mmbase</groupId>
       <artifactId>mmbase-cloudcontext</artifactId>
       <version>${mmbase.version}</version>
       <classifier>classes</classifier>
@@ -375,6 +372,12 @@
       <artifactId>mmbase-resources</artifactId>
       <version>${mmbase.version}</version>
       <classifier>classes</classifier>
+      <scope>provided</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.mmbase</groupId>
+      <artifactId>${mmbase.core}</artifactId>
+      <version>${mmbase.version}</version>
       <scope>provided</scope>
     </dependency>
     <dependency>
