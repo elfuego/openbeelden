@@ -23,32 +23,38 @@
          </c:choose>
       </mm:link>
     </mm:import>
+    <c:set var="firstpart">/${fn:split(current, '/')[0]}</c:set>
     
     <ul class="main">
+      
       <mm:node number="$pool" id="portal">
-        <c:if test="${isdefaultportal}">
-          <c:set var="query_str" value="${requestScope['javax.servlet.forward.query_string']}" />
-          <script type="text/javascript">
-            <mm:link page="/action/you.jspx" escapeamps="false" referids="locale?">
-              <mm:param name="referrer">${requestScope['javax.servlet.forward.request_uri']}<c:if test="{!empty query_string}">?${query_string}</c:if></mm:param>
-              <jsp:text>$(document).ready(function() { $("#menu li.you").load("${_}"); });</jsp:text>
-            </mm:link>
-          </script>
-        </c:if>
         <mm:relatednodescontainer type="pages" role="posrel" searchdirs="destination">
           <mm:constraint field="posrel.pos" value="1" value2="10" operator="BETWEEN" />
           <mm:sortorder field="posrel.pos" direction="UP" />
           <mm:import externid="n" vartype="integer" />
             <mm:relatednodes>
-              <mm:last><c:set var="lastclass" value="last" /></mm:last>
-              <li class="${n eq _node.number ? 'active ' :''}${lastclass}">
-                <mm:link page="page" referids="_node@n">
-                  <mm:frameworkparam name="component">mmsite</mm:frameworkparam>
+              
+              <mm:link page="page" referids="_node@n">
+                <mm:frameworkparam name="component">mmsite</mm:frameworkparam>
+                
+                <c:choose>
+                  <c:when test="${_ eq '/' and firstpart eq '/'}">
+                    <c:set var="claz">active<mm:last> last</mm:last></c:set>
+                  </c:when>
+                  <c:when test="${firstpart ne '/' and fn:startsWith(_, firstpart)}">
+                    <c:set var="claz">active<mm:last> last</mm:last></c:set>
+                  </c:when>
+                  <c:otherwise>
+                    <c:set var="claz"><mm:last>last</mm:last></c:set>
+                  </c:otherwise>
+                </c:choose>
+                
+                <li class="${claz}">
                   <a href="${_}">
                     <mm:nodefunction name="translation"><mm:field name="title" /></mm:nodefunction>
                   </a>
-                </mm:link>
-              </li>
+                </li>
+              </mm:link>
             </mm:relatednodes>
         </mm:relatednodescontainer>
       </mm:node>
@@ -92,6 +98,16 @@
         </mm:size>
       </mm:listcontainer>
     </ul>
+
+    <c:if test="${isdefaultportal}">
+      <c:set var="query_str" value="${requestScope['javax.servlet.forward.query_string']}" />
+      <script type="text/javascript">
+        <mm:link page="/action/you.jspx" escapeamps="false" referids="locale?">
+          <mm:param name="referrer">${requestScope['javax.servlet.forward.request_uri']}<c:if test="{!empty query_string}">?${query_string}</c:if></mm:param>
+          <jsp:text>$(document).ready(function() { $("#menu li.you").load("${_}"); });</jsp:text>
+        </mm:link>
+      </script>
+    </c:if>
     
     <ul class="meta">
       <li>
