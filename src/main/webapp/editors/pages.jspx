@@ -50,189 +50,167 @@
 
       <div class="main-column">
 
-<c:choose>
-  <c:when test="${empty nr}">
-
-    <div class="wrap">
-      <h2>Pages</h2>
-      <p>Pages in top navigation, drag and drop to reorder them.</p>
-      <div id="sortlog"> <jsp:text><!-- empty --> </jsp:text>  </div>
-      <mm:relatednodescontainer type="pages" role="posrel" searchdirs="destination" id="pages_header">
-        <mm:constraint field="posrel.pos" value="1" value2="10" operator="BETWEEN" />
-        <mm:sortorder field="posrel.pos" direction="UP" />
-        <ul class="sortable connected" id="pages_header">
-          <mm:relatednodes>
-            <li id="edit_${_node.number}">
-              <!-- <mm:link page="/editors/edit-node.jspx" referids="p?,_node@nr">
-                <mm:param name="fields">title,language,description</mm:param>
-                <a class="editme" href="${_}#edit_${_node.number}">edit</a>
-              </mm:link> -->
-              <mm:link page="/editors/pages.jspx" referids="p,_node@nr">
-                <a class="edit" href="${_}">edit</a>
-              </mm:link>
-              <mm:maydelete>
-                <mm:link page="/editors/delete-node.jspx" referids="p?,_node@nr">
-                  <a class="editme delete" href="${_}#edit_${_node.number}">delete</a>
-                </mm:link>
-              </mm:maydelete>
-              <div>
-                <mm:field name="title" /> (<mm:field name="language" />)
-              </div>
-            </li>
-          </mm:relatednodes>
-          <li id="add_pages">
-            <jsp:text> <!-- empty, cause nothing exists here yet --> </jsp:text>
-          </li>
-          <li>
-            <mm:link page="/editors/add-node.jspx" referids="p,p@nr">
-              <mm:param name="type">pages</mm:param>
-              <mm:param name="role">posrel</mm:param>
-              <mm:param name="pos">9</mm:param>
-              <mm:param name="fields">title,template,language,description</mm:param>
-              <a class="editme" href="${_}#add_pages">add page</a>
-            </mm:link>
-          </li>
-        </ul>
-      </mm:relatednodescontainer>
-      <mm:write session="pages_header" referid="pages_header" />
-    </div>
-
-    <div class="wrap">
-      <p>Pages in footer, drag and drop to reorder them.</p>
-      <mm:relatednodescontainer type="pages" role="posrel" searchdirs="destination" id="pages_footer">
-        <mm:constraint field="posrel.pos" value="0" value2="10" operator="BETWEEN" inverse="true" />
-        <mm:sortorder field="posrel.pos" direction="UP" />
-          <ul class="sortable connected" id="pages_footer">
-          <mm:relatednodes>
-            <li id="edit_${_node.number}">
-              <!-- <mm:link page="/editors/edit-node.jspx" referids="p?,_node@nr">
-                <mm:param name="fields">title,language,description</mm:param>
-                <a class="editme" href="${_}#edit_${_node.number}">edit</a>
-              </mm:link> -->
-              <mm:link page="/editors/pages.jspx" referids="p,_node@nr">
-                <a class="edit" href="${_}">edit</a>
-              </mm:link>
-              <mm:maydelete>
-                <mm:link page="/editors/delete-node.jspx" referids="p?,_node@nr">
-                  <a class="editme delete" href="${_}#edit_${_node.number}">delete</a>
-                </mm:link>
-              </mm:maydelete>
-              <div>
-                <mm:field name="title" /> (<mm:field name="language" />)
-              </div>
-            </li>
-          </mm:relatednodes>
-          <li id="add_footerpages">
-            <jsp:text> <!-- empty, cause nothing exists here yet --> </jsp:text>
-          </li>
-          <li>
-            <mm:link page="/editors/add-node.jspx" referids="p,p@nr">
-              <mm:param name="type">pages</mm:param>
-              <mm:param name="role">posrel</mm:param>
-              <mm:param name="pos">99</mm:param>
-              <mm:param name="fields">title,template,language,description</mm:param>
-              <a class="editme" href="${_}#add_footerpages">add page</a>
-            </mm:link>
-          </li>
-        </ul>
-      </mm:relatednodescontainer>
-      <mm:write session="pages_footer" referid="pages_footer" />
-    </div>
-  
-  </c:when>
-  <c:otherwise>
+     <c:choose>
+       <c:when test="${empty nr}">
+     
+         <div class="wrap">
+           <h2>Pages in header</h2>
+           <p>Pages in top navigation, drag and drop to reorder them.</p>
+           <mm:relatednodescontainer type="pages" role="posrel" searchdirs="destination" id="pages_header">
+             <mm:constraint field="posrel.pos" value="1" value2="10" operator="BETWEEN" />
+             <mm:sortorder field="posrel.pos" direction="UP" />
+             <ul class="sortable connected" id="pages_header">
+               <li class="log"> <jsp:text><!-- empty --> </jsp:text>  </li>
+               <mm:relatednodes>
+                 <li id="edit_${_node.number}">
+                   <!-- <mm:link page="/editors/edit-node.jspx" referids="p?,_node@nr">
+                     <mm:param name="fields">title,language,description</mm:param>
+                     <a class="editme" href="${_}#edit_${_node.number}">edit</a>
+                   </mm:link> -->
+                   <mm:link page="/editors/pages.jspx" referids="p,_node@nr">
+                     <a class="edit" href="${_}">edit</a>
+                   </mm:link>
+                   <mm:maydelete>
+                     <mm:link page="/editors/delete-node.jspx" referids="p?,_node@nr">
+                       <a class="editme delete" href="${_}#edit_${_node.number}">delete</a>
+                     </mm:link>
+                   </mm:maydelete>
+                   <!-- <div class="sort">sort</div> -->
+                   <div>
+                     <mm:field name="title" /> (<mm:field name="language" />)
+                   </div>
+                 </li>
+               </mm:relatednodes>
+               <li class="add" id="add_pages">
+                 <jsp:text> <!-- empty, cause nothing exists here yet --> </jsp:text>
+               </li>
+               <li class="add">
+                 <mm:link page="/editors/add-node.jspx" referids="p,p@nr">
+                   <mm:param name="type">pages</mm:param>
+                   <mm:param name="role">posrel</mm:param>
+                   <mm:param name="pos">9</mm:param>
+                   <mm:param name="fields">title,path,template,language,description</mm:param>
+                   <a class="editme" href="${_}#add_pages">add page</a>
+                 </mm:link>
+               </li>
+             </ul>
+           </mm:relatednodescontainer>
+           <mm:write session="pages_header" referid="pages_header" />
+         </div>
+     
+         <!-- only default portal can add pages to footer -->
+         <c:if test="${isdefault}">
+           <div class="wrap">
+             <h2>Pages in footer</h2>
+             <p>Pages in footer, drag and drop to reorder them.</p>
+             <mm:relatednodescontainer type="pages" role="posrel" searchdirs="destination" id="pages_footer">
+               <mm:constraint field="posrel.pos" value="0" value2="10" operator="BETWEEN" inverse="true" />
+               <mm:sortorder field="posrel.pos" direction="UP" />
+                 <ul class="sortable connected" id="pages_footer">
+                 <li class="log"> <jsp:text><!-- empty --> </jsp:text>  </li>
+                 <mm:relatednodes>
+                   <li id="edit_${_node.number}">
+                     <!-- <mm:link page="/editors/edit-node.jspx" referids="p?,_node@nr">
+                       <mm:param name="fields">title,language,description</mm:param>
+                       <a class="editme" href="${_}#edit_${_node.number}">edit</a>
+                     </mm:link> -->
+                     <mm:link page="/editors/pages.jspx" referids="p,_node@nr">
+                       <a class="edit" href="${_}">edit</a>
+                     </mm:link>
+                     <mm:maydelete>
+                       <mm:link page="/editors/delete-node.jspx" referids="p?,_node@nr">
+                         <a class="editme delete" href="${_}#edit_${_node.number}">delete</a>
+                       </mm:link>
+                     </mm:maydelete>
+                     <div>
+                       <mm:field name="title" /> (<mm:field name="language" />)
+                     </div>
+                   </li>
+                 </mm:relatednodes>
+                 <li class="add" id="add_footerpages">
+                   <jsp:text> <!-- empty, cause nothing exists here yet --> </jsp:text>
+                 </li>
+                 <li class="add">
+                   <mm:link page="/editors/add-node.jspx" referids="p,p@nr">
+                     <mm:param name="type">pages</mm:param>
+                     <mm:param name="role">posrel</mm:param>
+                     <mm:param name="pos">99</mm:param>
+                     <mm:param name="fields">title,path,template,language,description</mm:param>
+                     <a class="editme" href="${_}#add_footerpages">add page</a>
+                   </mm:link>
+                 </li>
+               </ul>
+             </mm:relatednodescontainer>
+             <mm:write session="pages_footer" referid="pages_footer" />
+           </div>
+         </c:if>
+       
+       </c:when>
+       <c:otherwise>
 
         
-        <mm:node number="$nr">
-          <h2>Pages : <mm:field name="title" /></h2>
+         <mm:node number="$nr">
+           <h2>Pages : <mm:field name="title" /></h2>
+ 
+           <mm:include page="edit-node.jspx" referids="p?,_node@nr" />
+           <mm:include page="/mmbase/components/oip/user-translations.jspx" referids="_node@n" />
+ 
+         
+           <div class="wrap">
+             <h2>Articles</h2>
+             <!--
+             <mm:hasrelationmanager sourcemanager="pages" destinationmanager="articles" role="posrel">
+               <p>
+                 <mm:include page="/editors/inc/searchrelate.jspx" referids="nr">
+                   <mm:param name="type">articles</mm:param>
+                   <mm:param name="role">posrel</mm:param>
+                   <mm:param name="searchdirs">destination</mm:param>
+                   <mm:param name="sortorder">posrel.pos</mm:param>
+                   <mm:param name="list">title,author,language</mm:param>
+                 </mm:include>
+               </p>
+             </mm:hasrelationmanager> -->
+ 
+             <mm:relatednodescontainer type="articles" role="posrel" searchdirs="destination" id="related_articles">
+               <mm:sortorder field="posrel.pos" direction="UP" />
+               <ul class="sortable" id="related_articles">
+                 <li class="log"><jsp:text> <!-- empty --> </jsp:text></li>
+                 <mm:relatednodes>
+                   <li id="edit_${_node.number}">
+                     <mm:link page="/editors/edit-node.jspx" referids="p?,_node@nr">
+                       <a class="editme" href="${_}#edit_${_node.number}">edit</a>
+                     </mm:link>
+                     <mm:maydelete>
+                       <mm:link page="/editors/delete-node.jspx" referids="p?,_node@nr">
+                         <a class="editme delete" href="${_}#edit_${_node.number}">delete</a>
+                       </mm:link>
+                     </mm:maydelete>
+                     <div>
+                       <mm:include page="/editors/show-node.jspx" referids="p?,_node@nr" />
+                     </div>
+                   </li>
+                 </mm:relatednodes>
+                 <li id="new_articles">
+                   <jsp:text> <!-- empty, cause nothing exists here yet --> </jsp:text>
+                 </li>
+                 <li>
+                   <mm:link page="/editors/add-node.jspx" referids="p?,nr">
+                     <mm:param name="type">articles</mm:param>
+                     <mm:param name="role">posrel</mm:param>
+                     <a class="editme" href="${_}#new_articles">add article</a>
+                   </mm:link>
+                 </li>
+               </ul>
+             </mm:relatednodescontainer>
+             <mm:write session="related_articles" referid="related_articles" />
 
-          <mm:include page="edit-node.jspx" referids="p?,_node@nr" />
+ 
+           </div>
+ 
+         </mm:node>
 
-          <mm:relatednodescontainer type="pages_translations" role="langrel" searchdirs="destination">
-            <ul>
-              <mm:relatednodes>
-                <li id="edit_${_node.number}">
-                  <mm:link page="/editors/edit-node.jspx" referids="p?,_node@nr">
-                    <mm:param name="fields">title,language,description</mm:param>
-                    <a class="editme" href="${_}#edit_${_node.number}">edit</a>
-                  </mm:link>
-                  <mm:maydelete>
-                    <mm:link page="/editors/delete-node.jspx" referids="p?,_node@nr">
-                      <a class="editme delete" href="${_}#edit_${_node.number}">delete</a>
-                    </mm:link>
-                  </mm:maydelete>
-                  <div>
-                    <mm:field name="title" /> (<mm:field name="language" />)
-                  </div>
-                </li>
-              </mm:relatednodes>
-              <li id="pages_translations">
-                <jsp:text> <!-- empty, cause nothing exists here yet --> </jsp:text>
-              </li>
-              <li>
-                <mm:link page="/editors/add-node.jspx" referids="p?,nr">
-                  <mm:param name="type">pages_translations</mm:param>
-                  <mm:param name="role">langrel</mm:param>
-                  <mm:param name="fields">title,language,description</mm:param>
-                  <a class="editme" href="${_}#pages_translations">add translation</a>
-                </mm:link>
-              </li>
-            </ul>
-          </mm:relatednodescontainer>
-        
-          <div class="wrap">
-            <h2>Articles</h2>
-
-            <mm:hasrelationmanager sourcemanager="pages" destinationmanager="articles" role="posrel">
-              <p>
-                <mm:include page="/editors/inc/searchrelate.jspx" referids="nr">
-                  <mm:param name="type">articles</mm:param>
-                  <mm:param name="role">posrel</mm:param>
-                  <mm:param name="searchdirs">destination</mm:param>
-                  <mm:param name="sortorder">posrel.pos</mm:param>
-                  <mm:param name="list">title,author,language</mm:param>
-                </mm:include>
-              </p>
-            </mm:hasrelationmanager>
-
-            <mm:relatednodescontainer type="articles" role="posrel" searchdirs="destination">
-              <ul>
-                <mm:relatednodes>
-                  <li id="edit_${_node.number}">
-                    <mm:link page="/editors/edit-node.jspx" referids="p?,_node@nr">
-                      <mm:param name="fields">title,language,intro</mm:param>
-                      <a class="editme" href="${_}#edit_${_node.number}">edit</a>
-                    </mm:link>
-                    <mm:maydelete>
-                      <mm:link page="/editors/delete-node.jspx" referids="p?,_node@nr">
-                        <a class="editme delete" href="${_}#edit_${_node.number}">delete</a>
-                      </mm:link>
-                    </mm:maydelete>
-                    <div>
-                      <mm:field name="title" /> (<mm:field name="language" />)
-                    </div>
-                  </li>
-                </mm:relatednodes>
-                <li id="new_articles">
-                  <jsp:text> <!-- empty, cause nothing exists here yet --> </jsp:text>
-                </li>
-                <li>
-                  <mm:link page="/editors/add-node.jspx" referids="p?,nr">
-                    <mm:param name="type">articles</mm:param>
-                    <mm:param name="role">posrel</mm:param>
-                    <mm:param name="fields">title,language,intro</mm:param>
-                    <a class="editme" href="${_}#new_articles">add article</a>
-                  </mm:link>
-                </li>
-              </ul>
-            </mm:relatednodescontainer>
-
-          </div>
-
-        </mm:node>
-
- </c:otherwise>
-</c:choose>
+       </c:otherwise>
+      </c:choose>
 
       </div><!-- /.main-column -->
     </jsp:attribute>

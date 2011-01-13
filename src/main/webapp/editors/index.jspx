@@ -92,82 +92,42 @@
           <mm:param name="fields">name,language,description</mm:param>
         </mm:include>
 
-        <mm:relatednodescontainer type="pools_translations" role="langrel" searchdirs="destination">
-          <mm:size write="false">
-            <c:if test="${_ gt 0}"><h4>Translations</h4></c:if>
-          </mm:size>
-          <ul>
-            <mm:relatednodes>
-              <li id="edit_${_node.number}">
-                <mm:link page="/editors/edit-node.jspx" referids="p?,_node@nr">
-                  <mm:param name="fields">name,language,description</mm:param>
-                  <a class="editme" href="${_}#edit_${_node.number}">edit</a>
-                </mm:link>
-                <mm:maydelete>
-                  <mm:link page="/editors/delete-node.jspx" referids="p?,_node@nr">
-                    <a class="editme delete" href="${_}#edit_${_node.number}">delete</a>
-                  </mm:link>
-                </mm:maydelete>
-                <div>
-                  <mm:field name="name" /> (<mm:field name="language" />)
-                </div>
-              </li>
-            </mm:relatednodes>
-            <li id="pools_translations">
-              <jsp:text> <!-- empty, cause nothing exists here yet --> </jsp:text>
-            </li>
-            <li>
-              <mm:link page="/editors/add-node.jspx" referids="p?,p@nr">
-                <mm:param name="type">pools_translations</mm:param>
-                <mm:param name="role">langrel</mm:param>
-                <mm:param name="fields">name,language,description</mm:param>
-                <a class="editme" href="${_}#pools_translations">add translation</a>
-              </mm:link>
-            </li>
-          </ul>
-        </mm:relatednodescontainer>
-
+        <h4>Translations</h4>
+        <mm:include page="/mmbase/components/oip/user-translations.jspx" referids="_node@n" />
+        
         <div class="wrap">
 
-        <mm:relatednodescontainer type="pages" role="posrel" searchdirs="destination">
-          <mm:constraint field="posrel.pos" value="0" value2="1" operator="BETWEEN" />
-          <mm:relatednodes>
-            <h2>Featured media</h2>
-              <p>
-                <mm:include page="/editors/inc/searchrelate.jspx" referids="_node@nr">
-                  <mm:param name="type">mediafragments</mm:param>
-                  <mm:param name="role">posrel</mm:param>
-                  <mm:param name="searchdirs">destination</mm:param>
-                  <mm:param name="sortorder">posrel.pos</mm:param>
-                  <mm:param name="list">title,objecttype,language</mm:param>
-                  <mm:param name="create">false</mm:param>
-                </mm:include>
-              </p>
-          </mm:relatednodes>
-        </mm:relatednodescontainer>
+          <mm:relatednodescontainer type="pages" role="posrel" searchdirs="destination">
+            <mm:constraint field="posrel.pos" value="0" value2="1" operator="BETWEEN" />
+            <mm:relatednodes>
+              <h2>Featured media</h2>
+                <p>
+                  <mm:include page="/editors/inc/searchrelate.jspx" referids="_node@nr">
+                    <mm:param name="type">mediafragments</mm:param>
+                    <mm:param name="role">posrel</mm:param>
+                    <mm:param name="searchdirs">destination</mm:param>
+                    <mm:param name="sortorder">posrel.pos</mm:param>
+                    <mm:param name="list">title,objecttype,language</mm:param>
+                    <mm:param name="create">false</mm:param>
+                  </mm:include>
+                </p>
+            </mm:relatednodes>
+          </mm:relatednodescontainer>
         
         </div>
 
         <div class="wrap">
           <h2>Properties</h2>
-          <p>Properties like... more text about possible properties of a portal.</p>
+          <p>Settings or properties of this portal. Possible are:<br />
+          <strong>newspage</strong> alias or nodenumber of a page with articles for the homepage f.e. 'pages_news',<br />
+          <strong>rss</strong> url of a feed (rss!) with news to show on your the homepage, or<br />
+          <strong>css</strong> link, f.e. '/style/css/subcollection.css' of a stylesheet.
+          </p>
           <mm:include page="edit-properties.jspx" referids="p?,_node@nr" />
         </div>
 
         <!-- the default portal has no specific url nor a content filter -->
         <c:if test="${!isdefault}">
-          <div class="wrap">
-            <h2>Url</h2>
-            <p>Portal url: the specific location on which this portal can be found.</p>
-            <mm:relatednodescontainer type="urls" role="portalrel" searchdirs="destination">
-              <mm:relatednodes>
-                <mm:include page="edit-node.jspx" referids="p?,_node@nr">
-                  <mm:param name="fields">name,url</mm:param>
-                </mm:include>
-              </mm:relatednodes>
-            </mm:relatednodescontainer>
-          </div>
-  
           <div class="wrap">
             <h2>Filter</h2>
             <p>Portal filter with tags, keywords and users. Some more explanation needed here...</p>
@@ -192,6 +152,17 @@
                 </mm:link>
               </p>
             </c:if>
+            
+            <h3>Url</h3>
+            <p>Portal url: the specific location on which this portal can be found.</p>
+            <mm:relatednodescontainer type="urls" role="portalrel" searchdirs="destination">
+              <mm:relatednodes>
+                <mm:include page="edit-node.jspx" referids="p?,_node@nr">
+                  <mm:param name="fields">name,url</mm:param>
+                </mm:include>
+              </mm:relatednodes>
+            </mm:relatednodescontainer>
+            
           </div>
         </c:if>
 
