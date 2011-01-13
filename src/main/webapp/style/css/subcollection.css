@@ -29,3 +29,10 @@ h5 a:hover, h5 a:active { color: #3BA0D9; }
 div.wrap { background-image: url(images/dots2-bg-blue.png); }
 div.left-column { background-image: url(images/dots2-bg-blue.png); }
 
+/* differences per page */
+
+body.articles div.wrap
+{
+	background-image: url(images/dots2.png);
+	padding-top: 2em;
+}

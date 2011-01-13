@@ -29,27 +29,45 @@ div.right-column ul li ul li ul
 	font-weight: normal;
 }
 
-ul.blog li a { display: block; }
-
-ul.blog li a:link,
-ul.blog li a:visited {
+div.blog a:link,
+div.blog a:visited {
     color: #555;
     text-decoration: none;
 }
 
-ul.blog li a:hover,
-ul.blog li a:active {
+div.blog a:hover,
+div.blog a:active {
     color: #C00;
     text-decoration: underline;
 }
 
-ul.blog li
+div.blog
 {
+/*
 	margin-bottom: 1.1em;
 	font-size: 0.95em;
+*/
+}
+div.blog h3
+{
+	font-family: Helvetica, sans-serif;
+	font-size: 1.05em;
+	font-weight: bold;
+	text-transform: none;
+	letter-spacing: normal;
 }
 
-p.intro { font-weight: bold; }
+div.blog h3,
+div.blog p { margin-bottom: 0; }
+div.blog p.date, 
+div.blog p.readmore
+{
+	margin-top: 0;
+	margin-bottom: 1em;
+}
+
+p.intro { color: #333; }
+p.author { font-style: italic; }
 
 ul.links, ul.docs
 {

@@ -156,37 +156,7 @@ fieldset.licenses label
 }
 fieldset.licenses img { margin-left: 6px; }
 
-
-/* oiplayer */
-div.b_user-mediapreview div.oiplayer
-{
-	width: 284px;
-	height: 213px;
-	display: block;
-}
-div.b_user-mediapreview div.oiplayer audio
-{
-	width: 284px;
-}
-div.b_user-mediapreview div.inavailable
-{
-	width: 284px;
-	height: 213px;
-	background-image: url(../images/preview_video.png);
-	background-position: -20px -14px;
-	background-repeat: no-repeat;
-}
-div.b_user-mediapreview div.inavailable p
-{
-	padding-top: 84px;
-	text-align: center;
-	font-weight: bold;
-}
-
-/*div.b_user-mediapreview ul.controls { width: 284px; }*/
 div.b_user-mediapreview dl.media-info { width: 150px; }
-
-
 
 div.b_user-streams table
 {
