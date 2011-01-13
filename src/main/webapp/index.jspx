@@ -218,53 +218,85 @@
           </c:choose>
           
           <oip:h2><fmt:message key="service.latest_news" /></oip:h2>
-          <os:cache time="3600" key="oip.feed.rss.${portal}.${requestScope['javax.servlet.jsp.jstl.fmt.locale.request']}">
-            <mm:import id="rss"><mm:include page="${rsslink}" timeout="10000" /></mm:import>
-            <c:catch var="ex2">
-              <mm:content escaper="none">
-                <!-- just displaying the rss items with some xsl and java magic -->
-                <ul class="blog">
-                  <mm:formatter escape="tagstripper(xss, false, false)">
-                    <mm:write referid="rss" />
-                    <mm:xslt>
+          <!-- news property (alias of node news page) prevails when set -->
+          <c:choose>
+            <c:when test="${!empty property_news}">
+              <mm:escaper id="wrap_intro" type="substring">
+                <mm:param name="from" value="0" />
+                <mm:param name="to" value="460" />
+                <mm:param name="ellipsis" value=" [..]" />
+              </mm:escaper>              
+              <mm:node number="$property_news">
+                <mm:relatednodescontainer type="articles" role="posrel" searchdirs="destination">
+                  <mm:sortorder field="online" direction="DOWN" />
+                  <mm:maxnumber value="1" />
+                  <mm:relatednodes>
+                    <mm:link>
+                      <mm:frameworkparam name="component">mmsite</mm:frameworkparam>
+                      <mm:frameworkparam name="block">article</mm:frameworkparam>
+                      <mm:frameworkparam name="article">${_node}</mm:frameworkparam>                  
+                      <mm:nodefunction name="translation">
+                        <div class="blog">
+                          <h3><a href="${_}"><mm:field name="title" /></a></h3>
+                          <p class="date"><mm:field name="online"><mm:time format=":LONG" /></mm:field></p>
+                          <mm:field name="intro" escape="paragraph,links,wrap_intro" />
+                          <p class="readmore"><a href="${_}"><fmt:message key="service.readmore" /> »</a></p>
+                        </div>
+                      </mm:nodefunction>
+                    </mm:link>
+                  </mm:relatednodes>
+                </mm:relatednodescontainer>
+              </mm:node>
+            </c:when>
+            <c:otherwise>
+              <os:cache time="3600" key="oip.feed.rss.${portal}.${requestScope['javax.servlet.jsp.jstl.fmt.locale.request']}">
+                <mm:import id="rss"><mm:include page="${rsslink}" timeout="10000" /></mm:import>
+                <c:catch var="ex2">
+                  <mm:content escaper="none">
+                    <!-- just displaying the rss items with some xsl and java magic -->
+                    <mm:formatter escape="tagstripper(xss, false, false)">
+                      <mm:write referid="rss" />
+                      <mm:xslt>
+  
+                        <xsl:stylesheet version="1.0"
+                                        xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
+                                        xmlns:oip="eu.openimages.RssDateFormat"
+                                        exclude-result-prefixes="oip">
+  
+                          <xsl:output method="html" encoding="UTF-8" indent="yes" />
+                          <xsl:variable name="format" select="'E, dd MMM yyyy hh:mm:ss Z'" />
+                          <xsl:variable name="newformat" select="'d MMMM yyyy'" />
+  
+                          <xsl:template match="channel">
+                            <xsl:variable name="max" select="2" />
+                            <xsl:for-each select="item">
+                              <xsl:if test="position() lt $max">
+                                <xsl:variable name="rssdate" select="pubDate" />
+                                <div class="blog">
+                                  <h3><a href="{link}"><xsl:value-of select="title" /></a></h3>
+                                  <p class="date"><xsl:value-of select="oip:reformatDate($rssdate,$format,$newformat)" /></p>
+                                  <p><xsl:value-of select="substring(description, 0, 480)" /></p>
+                                  <p><a href="{link}"><fmt:message key="service.readmore" /> »</a></p>
+                                </div>
+                              </xsl:if>
+                            </xsl:for-each>
+                          </xsl:template>
+  
+                        </xsl:stylesheet>
+                      </mm:xslt>
+                    </mm:formatter>
+                  </mm:content>
+                </c:catch>
+                <c:if test="${! empty ex2}">
+                  <os:usecached />
+                  <p class="err"><mm:escape escape="text/xml,links">${rsslink}: ${ex2.cause.message}</mm:escape></p>
+                </c:if>
+              </os:cache>
+            </c:otherwise>
+          </c:choose>
+          
+          
 
-                      <xsl:stylesheet version="1.0"
-                                      xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
-                                      xmlns:oip="eu.openimages.RssDateFormat"
-                                      exclude-result-prefixes="oip">
-
-                        <xsl:output method="html" encoding="UTF-8" indent="yes" />
-                        <xsl:variable name="format" select="'E, dd MMM yyyy hh:mm:ss Z'" />
-                        <xsl:variable name="newformat" select="'d MMMM yyyy'" />
-
-                        <xsl:template match="channel">
-                          <xsl:variable name="max" select="2" />
-                          <xsl:for-each select="item">
-                            <xsl:if test="position() lt $max">
-                              <xsl:variable name="rssdate" select="pubDate" />
-                              <li>
-                                <h4><a href="{link}"><xsl:value-of select="title" /></a></h4>
-                                <p><xsl:value-of select="oip:reformatDate($rssdate,$format,$newformat)" /></p>
-                                <p>
-                                  <xsl:value-of select="substring(description, 0, 480)" />
-                                  <br /><a href="{link}"><fmt:message key="service.readmore" /> »</a>
-                                </p>
-                              </li>
-                            </xsl:if>
-                          </xsl:for-each>
-                        </xsl:template>
-
-                      </xsl:stylesheet>
-                    </mm:xslt>
-                  </mm:formatter>
-                </ul>
-              </mm:content>
-            </c:catch>
-            <c:if test="${! empty ex2}">
-              <os:usecached />
-              <p class="err"><mm:escape escape="text/xml,links">${rsslink}: ${ex2.cause.message}</mm:escape></p>
-            </c:if>
-          </os:cache>
         </div>
       </div>
 
