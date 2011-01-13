@@ -253,6 +253,21 @@
                   </mm:size>
                 </mm:listcontainer>
               </mm:hasrank>
+
+              <mm:import id="newskey" reset="true">newspage</mm:import>
+              <mm:import id="newsprop"><mm:function referids="_node@node,newskey@key" nodemanager="properties" name="get" /></mm:import>
+              <mm:isnotempty referid="newsprop">
+                <h3>News</h3>
+                <ul>
+                  <li>
+                    <mm:node number="$newsprop">
+                      <mm:link referids="_node@nr,p" page="/editors/pages.jspx">
+                        <a href="${_}"><mm:field name="title" /></a>
+                      </mm:link>
+                    </mm:node>
+                  </li>
+                </ul>
+              </mm:isnotempty>
                 
               <jsp:invoke fragment="left" />
             </div>
