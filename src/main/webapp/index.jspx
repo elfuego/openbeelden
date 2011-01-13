@@ -220,13 +220,13 @@
           <oip:h2><fmt:message key="service.latest_news" /></oip:h2>
           <!-- news property (alias of node news page) prevails when set -->
           <c:choose>
-            <c:when test="${!empty property_news}">
+            <c:when test="${!empty property_newspage}">
               <mm:escaper id="wrap_intro" type="substring">
                 <mm:param name="from" value="0" />
                 <mm:param name="to" value="460" />
                 <mm:param name="ellipsis" value=" [..]" />
               </mm:escaper>              
-              <mm:node number="$property_news">
+              <mm:node number="$property_newspage">
                 <mm:relatednodescontainer type="articles" role="posrel" searchdirs="destination">
                   <mm:sortorder field="online" direction="DOWN" />
                   <mm:maxnumber value="1" />
