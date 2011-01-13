@@ -17,41 +17,21 @@
           <c:when test="${type eq 'pages'}">
 
             <mm:relatednodescontainer type="articles" role="posrel" searchdirs="destination">
-              <mm:sortorder field="posrel.pos" direction="UP" />
+              <mm:sortorder field="online" direction="DOWN" />
               <mm:maxnumber value="1" />
               <mm:relatednodes id="article">
                 <oip:article showauthor="true" showdate="true" />
               </mm:relatednodes>
             </mm:relatednodescontainer>
 
-            <div class="wrap">
-              <mm:relatednodescontainer type="articles" role="posrel" searchdirs="destination">
-                <c:if test="${!empty article}">
-                  <mm:constraint field="number" value="$article" operator="EQUAL" inverse="true" />
-                </c:if>
-                <mm:sortorder field="online" direction="DOWN" />
-                <mm:maxnumber value="99" />
-                <ul>
-                <mm:relatednodes>
-      
-                  <li>
-                    <mm:field name="online"><mm:time format="dd-MM-yyyy" /></mm:field> - 
-                    <mm:link>
-                      <mm:frameworkparam name="component">mmsite</mm:frameworkparam>
-                      <mm:frameworkparam name="block">article</mm:frameworkparam>
-                      <mm:frameworkparam name="article">${_node}</mm:frameworkparam>
-                      <a href="${_}">
-                        <mm:nodefunction name="translation">
-                          <mm:field name="title" />
-                        </mm:nodefunction>
-                      </a>
-                    </mm:link>
-                  </li>
-    
-                </mm:relatednodes>
-                </ul>
-              </mm:relatednodescontainer>
-            </div>
+            <mm:relatednodescontainer type="articles" role="posrel" searchdirs="destination">
+              <c:if test="${!empty article}">
+                <mm:constraint field="number" value="$article" operator="EQUAL" inverse="true" />
+              </c:if>
+              <mm:sortorder field="online" direction="DOWN" />
+              <mm:maxnumber value="99" />
+              <mm:relatednodes id="art_list" />
+            </mm:relatednodescontainer>
           
           </c:when>
           <c:otherwise>
@@ -60,44 +40,28 @@
             
             <c:set var="article">${node}</c:set>
             
-            <div class="wrap">
-              <mm:relatednodescontainer type="pages" role="posrel" searchdirs="source">
-                <mm:maxnumber value="1" />
-                <mm:relatednodes>
+            <mm:relatednodescontainer type="pages" role="posrel" searchdirs="source">
+              <mm:maxnumber value="1" />
+              <mm:relatednodes>
 
-                  <mm:relatednodescontainer type="articles" role="posrel" searchdirs="destination">
-                    <c:if test="${!empty article}">
-                      <mm:constraint field="number" value="$article" operator="EQUAL" inverse="true" />
-                    </c:if>
-                    <mm:sortorder field="online" direction="DOWN" />
-                    <mm:maxnumber value="99" />
-                    <ul>
-                    <mm:relatednodes>
-          
-                      <li>
-                        <mm:field name="online"><mm:time format="dd-MM-yyyy" /></mm:field> - 
-                        <mm:link>
-                          <mm:frameworkparam name="component">mmsite</mm:frameworkparam>
-                          <mm:frameworkparam name="block">article</mm:frameworkparam>
-                          <mm:frameworkparam name="article">${_node}</mm:frameworkparam>
-                          <a href="${_}">
-                            <mm:nodefunction name="translation">
-                              <mm:field name="title" />
-                            </mm:nodefunction>
-                          </a>
-                        </mm:link>
-                      </li>
-        
-                    </mm:relatednodes>
-                    </ul>
-                  </mm:relatednodescontainer>
-                  
-                </mm:relatednodes>
-              </mm:relatednodescontainer>
-            </div>
-            
+                <mm:relatednodescontainer type="articles" role="posrel" searchdirs="destination">
+                  <c:if test="${!empty article}">
+                    <mm:constraint field="number" value="$article" operator="EQUAL" inverse="true" />
+                  </c:if>
+                  <mm:sortorder field="online" direction="DOWN" />
+                  <mm:maxnumber value="99" />
+                  <mm:relatednodes id="art_list" />
+                </mm:relatednodescontainer>
+                
+              </mm:relatednodes>
+            </mm:relatednodescontainer>
+
           </c:otherwise>
         </c:choose>
+        
+        <div class="wrap">
+          <oip:articlelist list="${art_list}" />
+        </div>
 
       </div><!-- /.main-column -->
       
@@ -107,6 +71,7 @@
             
           <c:if test="${!empty article}">
             <mm:node number="$article">
+              
               <mm:relatednodescontainer type="urls" role="posrel" searchdirs="destination">
                 <mm:sortorder field="posrel.pos" direction="UP" />
                 <mm:size>
@@ -144,6 +109,7 @@
               
             </mm:node>
           </c:if>
+          
         </div>
       </div>
     </jsp:attribute>
