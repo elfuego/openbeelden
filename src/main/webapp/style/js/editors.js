@@ -124,7 +124,7 @@ function afterSubmit(response, status, xhr) {
 /* 
  * ul.sortable has to have same id as NodeQuery, which is written to session.
  * All li's must have a prefix and node number as an id, f.e. 'edit_234'
- * TODO (?): make Queries#reorderResult() accept drop-ins from 'connected' lists
+ * TODO (?): make transfers to and from 'connected' lists work
  */
 function initSortable() {
     if ($('.sortable').length > 0) {
@@ -132,9 +132,9 @@ function initSortable() {
             update: function(ev, ui) { 
                 sortSortable(this);
             },
-            connectWith: ".connected", /* not supported (yet) */
-            receive: function(ev, ui) {
-                sortSortable(this);
+            connectWith: ".connected",  /* not supported (yet) */
+            receive: function(ev, ui) { 
+                sortSortable(this);     /* not supported (yet) */
             }
         }).disableSelection();
     }
@@ -161,8 +161,8 @@ function sortSortable(list) {
         data: params,
         dataType: "xml",
         complete: function(data) {
-            $('div#sortlog').html(data.responseText);
-            clearMsg('div#sortlog');
+            $('#' + list.id + ' li.log').html(data.responseText);
+            clearMsg('#' + list.id + ' li.log');
         }
     });    
 }
