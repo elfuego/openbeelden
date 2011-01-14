@@ -302,7 +302,7 @@
       <groupId>org.meeuw</groupId>
       <artifactId>mediawikiimporter</artifactId>
       <version>0.1-SNAPSHOT</version>
-      <scope>runtime</scope>
+      <scope>compile</scope>
     </dependency>
     <dependency>
       <groupId>org.mmbase</groupId>
