@@ -28,6 +28,7 @@ import org.mmbase.applications.media.urlcomposers.*;
 import org.mmbase.security.ActionRepository;
 
 import org.mmbase.bridge.util.Queries;
+import org.mmbase.bridge.util.SearchUtil;
 import org.mmbase.util.functions.NodeFunction;
 import org.mmbase.util.functions.Parameter;
 import org.mmbase.util.functions.Parameters;
@@ -86,21 +87,51 @@ public final class MediaExport extends NodeFunction<String> {
 
             Node source = cloud.getNode(cu.getSource().getNumber());
             File file = new File(org.mmbase.servlet.FileServlet.getDirectory(), source.getStringValue("url"));
-            String name = file.toString();
-            int i = name.lastIndexOf(".");
-            String extension = name.substring(i + 1, name.length());
+            String fileName = file.toString();
+            int i = fileName.lastIndexOf(".");
+            String extension = fileName.substring(i + 1, fileName.length());
             //(File) source.getFunctionValue("file", null);
+
+            // translations
+            String translations_builder = nm.getProperty("translations.builder");
+            if (translations_builder == null) {
+                translations_builder = nm.getName() + "_translations";
+            }
+            NodeManager translationsNM = cloud.getNodeManager(translations_builder);
+            // TODO: check if there are multiple for just one lang (f.e. > 1 for en)
+            NodeList translations = SearchUtil.findRelatedNodeList(node, translationsNM.getName(), "langrel");
+
 
             try {
                 Exporter exporter = new Exporter();
                 exporter.setUserName(username);
                 exporter.setPassword(password);
                 exporter.setFile(file);
-                exporter.setProperty("title", cu.getTitle());
-                exporter.setProperty("id", "" + source.getNumber());
+                //exporter.setProperty("title", node.getStringValue("title"));
+
+
+                for (Node t : translations) {
+
+                    String lang = t.getStringValue("language");
+                    Locale loc = new Locale(lang);
+                    
+                    for (Field tf : translationsNM.getFields()) {
+                        exporter.setProperty(tf.getName(), t.getStringValue(tf.getName()), loc);
+                    }
+
+                }
+
+                String la = node.getStringValue("language");
+                Locale lo = new Locale(la);
+                for (Field nf : nm.getFields()) {
+                    exporter.setProperty(nf.getName(), node.getStringValue(nf.getName()), lo);
+                }
+
+                
+                exporter.setProperty("id", "" + node.getNumber());
                 exporter.setProperty("extension", extension);
                 exporter.setProperty("project", "Open Beelden");
-                int result = exporter.export();
+                long result = exporter.export();
                 return result == 0 ? "Succeeded!" : "Failed: " + result;
             } catch (Exception e) {
                 log.error(e);
