@@ -299,10 +299,9 @@
 
   <dependencies>
     <dependency>
-      <groupId>org.meeuw</groupId>
-      <artifactId>mediawikiimporter</artifactId>
+      <groupId>eu.openimages</groupId>
+      <artifactId>wikiexport</artifactId>
       <version>0.1-SNAPSHOT</version>
-      <scope>compile</scope>
     </dependency>
     <dependency>
       <groupId>org.mmbase</groupId>
