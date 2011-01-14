@@ -1,11 +1,19 @@
 <?xml version="1.0"?>
-<function
+<functionlist
     xmlns="http://www.mmbase.org/xmlns/builder"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="http://www.mmbase.org/xmlns/builder
                         http://www.mmbase.org/xmlns/builder.xsd"
-    name="exportmedia">
-    
-    <class>eu.openimages.mediawiki.MediaExport</class>
+    xmlns:xi="http://www.w3.org/2001/XInclude"
+    >
 
-</function>
+  <function name="thumbnail">
+    <class>org.mmbase.streams.thumbnails.ThumbNailFunction</class>
+  </function>
+  <function name="exportmedia">
+    <class>eu.openimages.mediawiki.MediaExport</class>
+  </function>
+
+
+</functionlist>
+
