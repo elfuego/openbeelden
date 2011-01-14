@@ -216,6 +216,17 @@
         </mm:relatednodes>
       </mm:relatednodescontainer>
 
+      <!-- oi:location -->
+      <mm:relatednodescontainer type="locations" role="related" searchdirs="destination">
+        <mm:relatednodes>
+          <oi:location><fmt:formatNumber 
+                            value="${_node.latitude}" pattern="+#.####;-#.####" /><fmt:formatNumber 
+                            value="${_node.longitude}" pattern="+#.####;-#.####" /><fmt:formatNumber 
+                            value="${_node.altitude}" pattern="+#.####;-#.####" /></oi:location>
+        </mm:relatednodes>
+      </mm:relatednodescontainer>
+
+
     </oai_oi:oi>
   </metadata>
 
