@@ -28,7 +28,7 @@
   <div class="main-column">
     <h1>503 This web-site is temporary unavailable</h1>
     <h2><%= org.mmbase.Version.get() %></h2>
-    <p><a href="${request.contextPath}version.jspx">Version of Open Images can be found here</a></p>
+    <p><a href="${pageContext.request.contextPath}/version.jspx">Version of Open Images can be found here</a></p>
     <p>
       <em><%= new java.util.Date() %></em> - This web-site is currently unavailable.
       <% if (request.getMethod().equals("GET")) { %>
