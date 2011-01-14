@@ -85,8 +85,9 @@ public class RelatedByTags {
         return hitsMap(nodesMap, -1);
     }
     
+    
     /**
-     * Finds the tags related to a node with a maximum number of related tags.
+     * Finds tags related to a node with a maximum number of related tags.
      *
      * @param node  Content node to return related nodes of
      * @param max   Maximum nr of tags to return, defaults to 99
@@ -115,6 +116,30 @@ public class RelatedByTags {
         }
 
         return tags;
+    }
+    
+    /**
+     * Find other nodes with the same tags, sorted by most hits.
+     *
+     * @param node  Original content node that should be excluded from the results
+     * @param tags  List with tags that are shared among them
+     * @param type  Nodetype to look for, defaults to type of the source node
+     * @param max   Maxiumum number of nodes to return
+     * @return content nodes
+     */
+    public NodeList nodesWithSameTags(Node node, NodeList tags, String type, String max) {
+        Map<Integer,Integer> map = relatedContent(node, tags, type, max);
+        
+        Cloud cloud = node.getCloud();
+        NodeList nl = cloud.createNodeList();
+       
+        Set<Integer> keySet = map.keySet();
+        Iterator<Integer> i = keySet.iterator();
+        while (i.hasNext()) {
+
+            nl.add(cloud.getNode(i.next()));
+        }
+        return nl;
     }
     
     /**
@@ -198,6 +223,7 @@ public class RelatedByTags {
      * occurence order.
      *
      * @param  map Nodes that share one or more of the same tags
+     * @param  max Maximum to return
      * @return The number of hits of a node multiplied by 1000 plus 1, 2 or .. to make 
      * them unique to enable the use of hits as keys
      */
