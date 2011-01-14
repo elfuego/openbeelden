@@ -85,31 +85,32 @@ public final class MediaExport extends NodeFunction<String> {
             //String link = cu.getUrl();
 
             Node source = cloud.getNode(cu.getSource().getNumber());
-            File file = (File) source.getFunctionValue("file", null);
+            File file = new File(org.mmbase.servlet.FileServlet.getDirectory(), source.getStringValue("url"));
+            String name = file.toString();
+            int i = name.lastIndexOf(".");
+            String extension = name.substring(i + 1, name.length());
+            //(File) source.getFunctionValue("file", null);
 
             try {
-                org.meeuw.Exporter exporter = new org.meeuw.Exporter();
-                exporter.setUserName("mihxil");
-                exporter.setPassword("flip");
+                Exporter exporter = new Exporter();
+                exporter.setUserName(username);
+                exporter.setPassword(password);
                 exporter.setFile(file);
-                exporter.setProperty("title", "hoi");
-                exporter.setProperty("id", "0");
-                exporter.setProperty("extension", "jpeg");
+                exporter.setProperty("title", cu.getTitle());
+                exporter.setProperty("id", "" + source.getNumber());
+                exporter.setProperty("extension", extension);
                 exporter.setProperty("project", "Open Beelden");
-                exporter.export();
+                int result = exporter.export();
+                return result == 0 ? "Succeeded!" : "Failed: " + result;
             } catch (Exception e) {
                 log.error(e);
+                return e.getMessage();
             }
 
         } else {
             return "Not allowed";
         }
 
-
-        /*
-        Map<String, String> res = new Map<String,String>();
-        */
-        return "Succeeded!";
     }
 
 }
