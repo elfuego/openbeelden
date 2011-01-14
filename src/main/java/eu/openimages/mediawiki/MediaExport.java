@@ -21,8 +21,12 @@ along with The Open Images Platform.  If not, see <http://www.gnu.org/licenses/>
 package eu.openimages.mediawiki;
 
 import java.util.*;
+import java.io.*;
 
 import org.mmbase.bridge.*;
+import org.mmbase.applications.media.urlcomposers.*;
+import org.mmbase.security.ActionRepository;
+
 import org.mmbase.bridge.util.Queries;
 import org.mmbase.util.functions.NodeFunction;
 import org.mmbase.util.functions.Parameter;
@@ -35,12 +39,12 @@ import org.mmbase.util.logging.Logging;
 
 
 /**
- * Exports a media item (mediafragments) to Mediawiki  
+ * Exports a media item (mediafragments) to Mediawiki.
  * 
  * @author Andr&eacute; van Toly
  * @version $Id: NodeTranslation.java 39860 2009-11-23 19:50:59Z andre $
  */
-public final class MediaExport extends NodeFunction<Node> {
+public final class MediaExport extends NodeFunction<String> {
     private static final long serialVersionUID = 0L;
     private static final Logger log = Logging.getLoggerInstance(MediaExport.class);
     
@@ -56,12 +60,54 @@ public final class MediaExport extends NodeFunction<Node> {
 
     
     @Override
-    public Node getFunctionValue(Node node, Parameters parameters) {
+    public String getFunctionValue(Node node, Parameters parameters) {
 
         Cloud cloud = node.getCloud();
         NodeManager nm = node.getNodeManager();
         
-        return new MapNode<Object>(map, cloud);
+        if (log.isDebugEnabled()) {
+            log.debug("media : " + node);
+            log.debug("params: " + parameters);
+        }
+
+        if (node.getCloud().may(ActionRepository.getInstance().get("oip", "exportmedia"), null)) {
+
+            String url = (String) parameters.get("url");
+            String username = (String) parameters.get("username");
+            String password = (String) parameters.get("password");
+            
+            List args = new ArrayList();
+            List sources = (List) node.getFunctionValue("filteredurls", args).get();
+            
+            log.debug("source: " + sources);
+            log.debug("source: " + sources);
+            
+            URLComposer cu = (URLComposer) sources.get(0);
+            //String link = cu.getUrl();
+            
+            Node source = cloud.getNode(cu.getSource().getNumber());
+            File file = (File) source.getFunctionValue("file", null);    
+            
+            org.meeuw.Exporter exporter = new org.meeuw.Exporter();
+            Exporter exporter = new Exporter();
+            exporter.setUserName("mihxil");
+            exporter.setPassword("flip");
+            exporter.setFile(file);
+            exporter.setProperty("title", "hoi");
+            exporter.setProperty("id", "0");
+            exporter.setProperty("extension", "jpeg");
+            exporter.setProperty("project", "Open Beelden");
+            exporter.export();            
+            
+        } else {
+            return "Not allowed";
+        }
+        
+        
+        /*
+        Map<String, String> res = new Map<String,String>();
+        */
+        return "Succeeded!";
     }
 
 }
