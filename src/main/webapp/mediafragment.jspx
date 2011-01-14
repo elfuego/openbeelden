@@ -212,6 +212,19 @@
               </c:forEach>
             </c:otherwise>
           </c:choose>
+
+          <mm:hasrank minvalue="project manager">
+
+<c:choose>
+  <c:when test="${!empty export}">
+            <mm:function name="exportmedia" />
+  </c:when>
+  <c:otherwise>
+    <mm:link><mm:param name="export">export</mm:param><a href="${_}">Export</a></mm:link>
+  </c:otherwise>
+</c:choose>
+          </mm:hasrank>
+
         </div>
 
        </div>
