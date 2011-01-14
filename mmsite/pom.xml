@@ -17,5 +17,13 @@
   <dependencies>
 
   </dependencies>
+  <repositories>
+
+    <repository>
+      <id>mmbase_snapshots</id>
+      <url>http://www.mmbase.org/snapshots/</url>
+    </repository>
+
+  </repositories>
 
 </project>
