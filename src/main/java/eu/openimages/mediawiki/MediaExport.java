@@ -40,14 +40,14 @@ import org.mmbase.util.logging.Logging;
 
 /**
  * Exports a media item (mediafragments) to Mediawiki.
- * 
+ *
  * @author Andr&eacute; van Toly
  * @version $Id: NodeTranslation.java 39860 2009-11-23 19:50:59Z andre $
  */
 public final class MediaExport extends NodeFunction<String> {
     private static final long serialVersionUID = 0L;
     private static final Logger log = Logging.getLoggerInstance(MediaExport.class);
-    
+
     public final static Parameter[] PARAMETERS = {
         new Parameter("url", java.lang.String.class),
         new Parameter("username", java.lang.String.class),
@@ -58,13 +58,13 @@ public final class MediaExport extends NodeFunction<String> {
         super("mediaexport", PARAMETERS);
     }
 
-    
+
     @Override
     public String getFunctionValue(Node node, Parameters parameters) {
 
         Cloud cloud = node.getCloud();
         NodeManager nm = node.getNodeManager();
-        
+
         if (log.isDebugEnabled()) {
             log.debug("media : " + node);
             log.debug("params: " + parameters);
@@ -75,35 +75,37 @@ public final class MediaExport extends NodeFunction<String> {
             String url = (String) parameters.get("url");
             String username = (String) parameters.get("username");
             String password = (String) parameters.get("password");
-            
+
             List args = new ArrayList();
             List sources = (List) node.getFunctionValue("filteredurls", args).get();
-            
+
             log.debug("source: " + sources);
-            log.debug("source: " + sources);
-            
+
             URLComposer cu = (URLComposer) sources.get(0);
             //String link = cu.getUrl();
-            
+
             Node source = cloud.getNode(cu.getSource().getNumber());
-            File file = (File) source.getFunctionValue("file", null);    
-            
-            org.meeuw.Exporter exporter = new org.meeuw.Exporter();
-            Exporter exporter = new Exporter();
-            exporter.setUserName("mihxil");
-            exporter.setPassword("flip");
-            exporter.setFile(file);
-            exporter.setProperty("title", "hoi");
-            exporter.setProperty("id", "0");
-            exporter.setProperty("extension", "jpeg");
-            exporter.setProperty("project", "Open Beelden");
-            exporter.export();            
-            
+            File file = (File) source.getFunctionValue("file", null);
+
+            try {
+                org.meeuw.Exporter exporter = new org.meeuw.Exporter();
+                exporter.setUserName("mihxil");
+                exporter.setPassword("flip");
+                exporter.setFile(file);
+                exporter.setProperty("title", "hoi");
+                exporter.setProperty("id", "0");
+                exporter.setProperty("extension", "jpeg");
+                exporter.setProperty("project", "Open Beelden");
+                exporter.export();
+            } catch (Exception e) {
+                log.error(e);
+            }
+
         } else {
             return "Not allowed";
         }
-        
-        
+
+
         /*
         Map<String, String> res = new Map<String,String>();
         */
