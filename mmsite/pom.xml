@@ -13,6 +13,12 @@
 
   <build>
     <defaultGoal>install</defaultGoal>
+    <extensions>
+      <extension>
+        <groupId>org.apache.maven.wagon</groupId>
+        <artifactId>wagon-ssh</artifactId>
+      </extension>
+    </extensions>
   </build>
   <dependencies>
 
