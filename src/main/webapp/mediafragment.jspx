@@ -35,7 +35,7 @@
 
         <oip:media width="512" height="288" />
 
-        
+
           <h3 class="mediatitle">
             <mm:maywrite>
               <mm:link referids="_node@media">
@@ -50,7 +50,7 @@
           <mm:nodefunction name="translation">
             <mm:field name="subtitle"><mm:isnotempty><h4>${_}</h4></mm:isnotempty></mm:field>
           </mm:nodefunction>
-        
+
         <!--
         <p class="nr_of_views">
           <mm:time time="now" id="current_month" precision="months" write="false" />
@@ -63,7 +63,7 @@
             </mm:relatednodes>
           </mm:relatednodescontainer>
         </p> -->
-        
+
         <!-- toolbar -->
         <div class="toolbar">
           <ul class="toolbar">
@@ -158,13 +158,13 @@
             </c:choose>
           </p>
         </div>
-        
+
         <mm:nodefunction name="translation">
           <mm:field name="intro" escape="paragraph(media-intro)" />
         </mm:nodefunction>
 
         <oip:mediainfo />
-        
+
         <oip:tag />
 
         <mm:nodefunction name="translation">
@@ -213,17 +213,7 @@
             </c:otherwise>
           </c:choose>
 
-          <mm:import externid="export" />
-          <mm:hasrank minvalue="project manager">
-            <c:choose>
-              <c:when test="${!empty export}">
-                <mm:function name="exportmedia" referids="" /> En?
-              </c:when>
-              <c:otherwise>
-                <mm:link><mm:param name="export">export</mm:param><a href="${_}">Export</a></mm:link>
-              </c:otherwise>
-            </c:choose>
-          </mm:hasrank>
+          <oip:wikipedia />
 
         </div>
 

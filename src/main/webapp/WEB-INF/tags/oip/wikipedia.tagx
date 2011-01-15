@@ -5,32 +5,29 @@
     xmlns:fmt="http://java.sun.com/jsp/jstl/fmt"
     xmlns:mm="http://www.mmbase.org/mmbase-taglib-2.0"
     >
-  <mm:functioncontainer>
-    <mm:param name="key">eu.openimages.mediawiki.MediaExport.url</mm:param>
-    <mm:function id="wikiurl" nodemanager="properties" name="get" referids="_node@node" write="false" />
-  </mm:functioncontainer>
-
-  <c:choose>
-    <c:when test="${empty wikiurl}">
-      <mm:may component="oip" action="exportmedia">
-        <mm:import externid="export" />
-        <c:choose>
-          <c:when test="${!empty export}">
-            <mm:voidfunction name="exportmedia"  />
-            <p><fmt:message key="media.wikipedia.is_being_uploaded" /></p>
-          </c:when>
-          <c:otherwise>
-            <mm:link>
-              <mm:param name="export">export</mm:param>
-              <a href="${_}"><fmt:message key="media.wikipedia.upload" /></a>
-            </mm:link>
-          </c:otherwise>
-        </c:choose>
-      </mm:may>
-    </c:when>
-    <c:otherwise>
-      <a href="${wikiurl}"><fmt:message key="media.wikipedia.was_uploaded_to" /></a>
-    </c:otherwise>
-  </c:choose>
+  <script type="text/javascript">
+    var updateDiv = function() {
+      $("div.wikipedia div.busy").each(function() {
+        setTimeout(updateBusy, 1000);
+      });
+    };
+    var updateBusy = function() {
+         var data = {};
+         data.node = "${_node}";
+         $("div.wikipedia").load('${mm:link("/action/wikipedia.jspx")}',
+         data,
+         updateDiv);
+    };
+    $(document).ready(function() {
+    updateDiv();
+    });
+  </script>
+  <mm:import externid="export" />
+  <mm:present referid="export">
+    <mm:voidfunction name="exportmedia" />
+  </mm:present>
+  <div class="wikipedia">
+    <mm:include page="/action/wikipedia.jspx" />
+  </div>
 </jsp:root>
 

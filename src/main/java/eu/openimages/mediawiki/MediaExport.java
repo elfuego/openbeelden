@@ -88,7 +88,7 @@ public final class MediaExport extends NodeFunction<String> {
         Parameters params = get.createParameters();
         params.set("node", node);
         params.set("key", URL_KEY);
-        return get.getFunctionValue(params).toString();
+        return (String) get.getFunctionValue(params);
     }
     protected void setMetaData(Exporter exporter, Node node) {
         NodeManager nm = node.getNodeManager();
