@@ -10,12 +10,12 @@
     <fmt:setBundle basename="eu.openimages.messages" scope="request" />
     <mm:node number="${param.node}" emptynumberiscurrentnode="true">
       <mm:functioncontainer>
-        <mm:param name="key">eu.openimages.mediawiki.MediaExport.url</mm:param>
-        <mm:function id="wikiurl" nodemanager="properties" name="get" referids="_node@node" write="false" />
+        <mm:param name="key">eu.openimages.mediawiki.MediaExport.status</mm:param>
+        <mm:function id="wikistatus" nodemanager="properties" name="get" referids="_node@node" write="false" />
       </mm:functioncontainer>
-      <div class="${wikiurl eq 'busy' ? 'busy' : ''}">
+      <div class="${wikistatus eq 'busy' ? 'busy' : ''}">
         <c:choose>
-          <c:when test="${empty wikiurl}">
+          <c:when test="${empty wikistatus}">
             <mm:may component="oip" action="exportmedia">
               <mm:link>
                 <mm:param name="export">export</mm:param>
@@ -23,11 +23,19 @@
               </mm:link>
             </mm:may>
           </c:when>
-          <c:when test="${wikiurl eq 'busy'}">
+          <c:when test="${wikistatus eq 'busy'}">
             <p><fmt:message key="media.wikipedia.is_being_uploaded" /></p>
           </c:when>
+          <c:when test="${wikistatus eq 'ok'}">
+            <mm:functioncontainer>
+              <mm:param name="key">eu.openimages.mediawiki.MediaExport.url</mm:param>
+              <mm:function nodemanager="properties" name="get" referids="_node@node" write="false">
+                <a href="${_}"><fmt:message key="media.wikipedia.was_uploaded_to" /></a>
+              </mm:function>
+            </mm:functioncontainer>
+          </c:when>
           <c:otherwise>
-            <a href="${wikiurl}"><fmt:message key="media.wikipedia.was_uploaded_to" /></a>
+            <p class="error"><mm:write value="${wikistatus}" /></p>
           </c:otherwise>
         </c:choose>
       </div>
