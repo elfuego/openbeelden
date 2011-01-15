@@ -43,7 +43,7 @@ public class Exporter {
 
     private String userName;
     private String password;
-    private String bodyTemplate = "User:Elfuego2";
+    private String bodyTemplate;
     private File   uploadFile;
     private final Map<String, String> metaData = new HashMap<String, String>();
 

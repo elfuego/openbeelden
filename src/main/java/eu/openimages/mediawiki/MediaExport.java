@@ -52,6 +52,7 @@ public final class MediaExport extends NodeFunction<String> {
     private final static Parameter[] PARAMETERS = { USER, PASSWORD, PORTAL, Parameter.LOCALE };
 
     private final static String URL_KEY = MediaExport.class.getName() + ".url";
+    private final static String STATUS_KEY = MediaExport.class.getName() + ".status";
 
     private final Map<Integer, Future<?>> runningJobs = new ConcurrentHashMap<Integer, Future<?>>();
 
@@ -72,24 +73,40 @@ public final class MediaExport extends NodeFunction<String> {
         URLComposer uc = (URLComposer) sources.get(0);
         return uc;
     }
-
-    protected void setWikiUrl(Node node, String result) {
+    protected void setProperty(Node node, String key, String value) {
         NodeManager properties = node.getCloud().getNodeManager("properties");
         Function set = properties.getFunction("set");
         Parameters params = set.createParameters();
         params.set("node", node);
-        params.set("key", URL_KEY);
-        params.set("value", result);
+        params.set("key", key);
+        if (value.length() > 255) {
+            value = value.substring(0, 255);
+        }
+        params.set("value", value);
         set.getFunctionValue(params);
     }
-    protected String getWikiUrl(Node node) {
+
+    protected String getProperty(Node node, String key) {
         NodeManager properties = node.getCloud().getNodeManager("properties");
         Function get = properties.getFunction("get");
         Parameters params = get.createParameters();
         params.set("node", node);
-        params.set("key", URL_KEY);
+        params.set("key", key);
         return (String) get.getFunctionValue(params);
     }
+    protected void setWikiUrl(Node node, String result) {
+        setProperty(node, URL_KEY, result);
+    }
+    protected void setWikiStatus(Node node, String status) {
+        setProperty(node, STATUS_KEY, status);
+    }
+    protected String getWikiUrl(Node node) {
+        return getProperty(node, URL_KEY);
+    }
+    protected String getWikiStatus(Node node) {
+        return getProperty(node, STATUS_KEY);
+    }
+
     protected void setMetaData(Exporter exporter, Node node) {
         NodeManager nm = node.getNodeManager();
         Cloud cloud = node.getCloud();
@@ -114,6 +131,7 @@ public final class MediaExport extends NodeFunction<String> {
             Locale loc = new Locale(node.getStringValue("language"));
             for (Field nf : nm.getFields()) {
                 exporter.setProperty(nf.getName(), node.getStringValue(nf.getName()), loc);
+                exporter.setProperty(nf.getName(), node.getStringValue(nf.getName()));
             }
         }
         exporter.setProperty("id", "" + node.getNumber());
@@ -150,12 +168,16 @@ public final class MediaExport extends NodeFunction<String> {
                             String url =  exporter.export();
                             // upload is ready
                             MediaExport.this.setWikiUrl(node, url);
+                            MediaExport.this.setWikiStatus(node, "ok");
                         } catch (IOException ioe) {
                             log.error(ioe.getMessage(), ioe);
+                            MediaExport.this.setWikiStatus(node, "IOERROR " + ioe.getMessage());
                         } catch (org.mmbase.util.externalprocess.ProcessException pe) {
                             log.error(pe.getMessage(), pe);
+                            MediaExport.this.setWikiStatus(node, "PERROR " + pe.getMessage());
                         } catch (InterruptedException ie) {
                             log.error(ie.getMessage(), ie);
+                            MediaExport.this.setWikiStatus(node, "INTERRUPTED " + ie.getMessage());
                         } finally {
                             MediaExport.this.runningJobs.remove(node.getNumber());
                             log.info("Running jobs " + MediaExport.this.runningJobs);
@@ -166,14 +188,13 @@ public final class MediaExport extends NodeFunction<String> {
 
     @Override
     public String getFunctionValue(final Node node, final Parameters parameters) {
-        String url = getWikiUrl(node);
-        if (url == null) {
+        String status = getWikiStatus(node);
+        if (status == null) {
             if (node.getCloud().may(ActionRepository.getInstance().get("oip", "exportmedia"), null)) {
                 synchronized(runningJobs) {
                     Future<?> future = runningJobs.get(node.getNumber());
                     if (future == null) {
-                        url = "busy";
-                        setWikiUrl(node, url);
+                        setWikiStatus(node, "busy");
                         future = submit(node, parameters);
                     }
                 }
@@ -181,6 +202,6 @@ public final class MediaExport extends NodeFunction<String> {
                 throw new org.mmbase.security.SecurityException("Not allowed");
             }
         }
-        return url;
+        return status;
     }
 }
