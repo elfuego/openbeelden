@@ -17,6 +17,10 @@
 
   <bundle name="eu.openimages.messages" />
 
+  <action name="exportmedia" rank="project manager">
+    <description xml:lang="en">Allowed to upload to wikipedia</description>
+  </action>
+
   <block name="media"
          classification="mmbase.oip"
          mimetype="text/html">
@@ -296,5 +300,5 @@
       <param name="n" type="org.mmbase.bridge.Node" />
     </body>
   </block>
-  
+
 </component>
