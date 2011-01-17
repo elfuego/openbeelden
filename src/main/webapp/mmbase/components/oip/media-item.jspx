@@ -1,0 +1,20 @@
+<mm:content
+    type="application/xml"
+    xmlns:c="http://java.sun.com/jsp/jstl/core"
+    xmlns:jsp="http://java.sun.com/JSP/Page"
+    xmlns:fmt="http://java.sun.com/jsp/jstl/fmt"
+    xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+    xmlns:oip="urn:jsptagdir:/WEB-INF/tags/oip"
+    xmlns:mm="http://www.mmbase.org/mmbase-taglib-2.0"
+    >
+  <jsp:output omit-xml-declaration="true" />
+    <div
+        class="mm_c c_oip b_media-item ${requestScope.className}"
+        id="${requestScope['org.mmbase.componentId']}">
+
+
+        <oip:media width="512" height="288" />
+
+    </div>
+
+</mm:content>
