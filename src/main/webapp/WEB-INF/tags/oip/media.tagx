@@ -22,7 +22,11 @@
       <c:when test="${_ eq 'imagefragments'}">
         <mm:relatednodes type="imagesources">
           <mm:import id="embedtag" reset="true"><mm:image mode="url" absolute="true" width="${w}" /></mm:import>
-          <mm:image mode="img" width="${w}" height="${h}" crop="end" />
+          <mm:image absolute="true" width="${w}">
+            <a href="${_}" title="${dimension.width}x${dimension.height} png" class="lightbox">
+              <mm:image mode="img" width="${w}" height="${h}" crop="end" />
+            </a>
+          </mm:image>
         </mm:relatednodes>
       </c:when>
       <c:when test="${_ eq 'audiofragments'}">
