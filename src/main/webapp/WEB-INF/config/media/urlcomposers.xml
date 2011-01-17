@@ -4,12 +4,6 @@
   <default>org.mmbase.applications.media.urlcomposers.URLComposer</default>
 
   <urlcomposer format="*">org.mmbase.applications.media.urlcomposers.URLComposer</urlcomposer>
-  <urlcomposer mimetype="image/*"
-               format="*"
-               protocol="http" class="org.mmbase.streams.urlcomposers.ImagesURLComposer">
-    <param name="template">s(81)+part(0,0,81,60)+f(png)</param>
-    <param name="description">Thumbnail</param>
-  </urlcomposer>
 
 <!-- 
   <urlcomposer mimetype="image/*"
@@ -19,13 +13,6 @@
     <param name="description">black/white</param>
   </urlcomposer>
  -->
-
-  <urlcomposer mimetype="image/*"
-               format="*"
-               protocol="http" class="org.mmbase.streams.urlcomposers.ImagesURLComposer">
-    <param name="template">s(320)+part(0,0,320,240)+f(png)</param>
-    <param name="description">Preview</param>
-  </urlcomposer>
 
   <urlcomposer mimetype="image/*"
                format="*"
