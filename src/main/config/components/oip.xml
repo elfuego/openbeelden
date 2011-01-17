@@ -37,8 +37,9 @@
          mimetype="text/html">
     <title xml:lang="en">Media item</title>
     <title xml:lang="nl">Mediaitem</title>
-    <description xml:lang="en">Media item: video, audio or an image</description>
-    <description xml:lang="nl">Mediaitem: video, audio of een afbeelding</description>
+    <description xml:lang="en">Media item: a video, audio or image</description>
+    <description xml:lang="nl">Mediaitem: een video, audio of afbeelding</description>
+    <head jsp="mediafragment.head.jspx" />
     <body jsp="mediafragment.jspx">
       <param name="n" type="org.mmbase.bridge.Node" />
     </body>
@@ -96,11 +97,6 @@
     <title xml:lang="nl">Mijn profiel</title>
     <description xml:lang="en">Information of a user</description>
     <description xml:lang="nl">Informatie over een gebruiker</description>
-    <head>
-      <class name="org.mmbase.framework.StringRenderer">
-        <param name="string"><![CDATA[<link rel="stylesheet" href="{REQUEST.getContextPath}/style/css/specific-styles.css" type="text/css" />]]></param>
-      </class>
-    </head>
     <body jsp="user.jspx">
       <param name="n"     type="org.mmbase.bridge.Node" />
     </body>
