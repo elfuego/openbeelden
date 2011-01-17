@@ -23,10 +23,17 @@
          </c:choose>
       </mm:link>
     </mm:import>
-    <c:set var="firstpart">/${fn:split(current, '/')[0]}</c:set>
+    
+    <c:choose>
+      <c:when test="${empty requestScope['javax.servlet.forward.context_path']}">
+         <c:set var="firstpart">/${fn:split(current, '/')[0]}</c:set>
+      </c:when>
+      <c:otherwise>
+         <c:set var="firstpart">/${fn:split(current, '/')[1]}</c:set>
+      </c:otherwise>
+    </c:choose>
     
     <ul class="main">
-      
       <mm:node number="$pool" id="portal">
         <mm:relatednodescontainer type="pages" role="posrel" searchdirs="destination">
           <mm:constraint field="posrel.pos" value="1" value2="10" operator="BETWEEN" />
@@ -38,10 +45,10 @@
                 <mm:frameworkparam name="component">mmsite</mm:frameworkparam>
                 
                 <c:choose>
-                  <c:when test="${_ eq '/' and firstpart eq '/'}">
+                  <c:when test="${firstpart eq '/' and _node.path eq '/'}">
                     <c:set var="claz">active<mm:last> last</mm:last></c:set>
                   </c:when>
-                  <c:when test="${firstpart ne '/' and fn:startsWith(_, firstpart)}">
+                  <c:when test="${firstpart ne '/' and fn:startsWith(_node.path, firstpart)}">
                     <c:set var="claz">active<mm:last> last</mm:last></c:set>
                   </c:when>
                   <c:otherwise>
