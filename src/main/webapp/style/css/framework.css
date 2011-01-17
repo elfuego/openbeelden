@@ -7,10 +7,88 @@
 
 div#main
 {
-	width: 1008px;
+	width: 982px; /* 1007 */
 	min-height: 640px;
 	margin: 0;
 	padding: 0;
+}
+
+#header
+{
+	position: absolute;
+	top: 0;
+	left: 0;
+	padding-left: 20px;     /* 35 */
+	padding-right: 18px;    /* 28 */
+	width: 279px;	/* for IE5/Win */
+	voice-family: "\"}\"";
+	voice-family: inherit;
+	width: 216px;
+}
+
+#menu
+{
+	position: relative;
+	top: 0;
+	left: 283px;    /* 308 */
+	width: 690px;   /* 698 */
+	padding-right: 6px; /* new */
+	height: 44px;
+	font-size: 1.1em;
+}
+
+/* columns */
+div.wrap
+{
+	width: 100%;
+	clear: both;
+	background-image: url(images/dots2-bg-grey.png);
+	background-repeat: repeat-x;
+	background-position: 0 0;
+	min-height: 266px;
+	overflow: hidden; /* http://www.quirksmode.org/css/clearing.html */
+}
+
+div.left-column
+{
+	padding-left: 20px;     /* 35 */
+	padding-right: 18px;    /* 28 */
+    padding-top: 16px;
+	background-image: url(images/dots2-bg-grey.png);
+	background-repeat: repeat-x;
+	background-position: 0 0px;
+	min-height: 166px;
+	width: 279px;	/* for IE5/Win */
+	voice-family: "\"}\"";
+	voice-family: inherit;
+	width: 216px;
+}
+
+div.main-column
+{
+	padding-top: 10px;
+	margin-bottom: 8px;
+	width: 512px;
+}
+
+div.right-column
+{
+	margin-left: 11px;  /* 16 */
+	padding-left: 11px; /* 21 */
+	padding-right: 6px; /* new */
+	padding-top: 10px;
+	margin-bottom: 8px;
+	width: 171px;   	/* for IE5/Win */
+	voice-family: "\"}\"";
+	voice-family: inherit;
+	width: 150px;
+}
+
+div.left-column
+{
+	position: absolute;
+	top: 420px;
+	left: 0px;
 }
 
 #menu a:link
@@ -39,19 +117,6 @@ div#main
 
 #menu li.active a { color: #aaa; }
 
-#header
-{
-	position: absolute;
-	top: 0;
-	left: 0;
-	padding-left: 35px;
-	padding-right: 28px;
-	width: 279px;	/* for IE5/Win */
-	voice-family: "\"}\"";
-	voice-family: inherit;
-	width: 216px;
-}
-
 #header h1
 {
 	margin-bottom: 60px;
@@ -59,15 +124,6 @@ div#main
 }
 #header p { font-style: italic; }
 
-#menu
-{
-	position: relative;
-	top: 0;
-	left: 308px;
-	width: 698px;
-	height: 44px;
-	font-size: 1.1em;
-}
 
 #menu ul.main
 {
@@ -90,12 +146,12 @@ div#main
 
 #menu ul.meta
 {
+	position: absolute;
+	top: 4px;
+	right: 6px;     /* 0 */
 	height: 16px;
 	list-style: none;
 	width: auto;
-	position: absolute;
-	top: 4px;
-	right: 0;
 }
 
 #menu ul.meta li
@@ -118,7 +174,6 @@ div#main
 #menu ul.main li fieldset {
 	margin: 0;
 	padding: 0;
-	/*width: 120px;*/
 }
 #menu ul.main select { /*width: 120px;*/ }
 #menu ul.main label { display: none; }
@@ -130,7 +185,6 @@ div#main
 {
 	clear: both;
 	width: 100%;
-	/*background-image: url(images/dots2-bg-grey.png);*/
     background-image: url(images/dots2.png);
 	background-repeat: repeat-x;
 	background-position: 0 60px;
@@ -142,15 +196,15 @@ div#main
 {
 	width: 15%;
 	float: left;
-	margin-left: 42px;
+	margin-left: 42px;  /* 42 */
 	font-size: 0.85em;
 }
 
 #footer div.logos
 {
 	float: left;
-	width: 216px;
-	margin-left: 48px;
+	width: 216px;       /* 216 */
+	margin-left: 28px;  /* 48 */
 	font-size: 0.9em;
 	color: #777;
 }
@@ -173,6 +227,8 @@ div#main
 #footer a:hover, 
 #footer a:active { text-decoration: underline; }
 
+
+/* differences per page */
 body.error #footer ul
 {
 	margin-left: 312px;
@@ -187,69 +243,14 @@ body.error #footer ul li
 	font-size: 0.85em;
 }
 
-/* columns */
-div.wrap
-{
-	width: 100%;
-	clear: both;
-	background-image: url(images/dots2-bg-grey.png);
-	background-repeat: repeat-x;
-	background-position: 0 0;
-	min-height: 266px;
-	overflow: hidden; /* http://www.quirksmode.org/css/clearing.html */
-}
-
-div.left-column
-{
-	padding-left: 35px;
-	padding-right: 28px;
-    padding-top: 16px;
-	background-image: url(images/dots2-bg-grey.png);
-	background-repeat: repeat-x;
-	background-position: 0 0px;
-	min-height: 166px;
-	width: 279px;	/* for IE5/Win */
-	voice-family: "\"}\"";
-	voice-family: inherit;
-	width: 216px;
-}
-
-div.main-column
-{
-	padding-top: 10px;
-	margin-bottom: 8px;
-	width: 512px;
-}
-
-div.right-column
-{
-	margin-left: 16px;
-	padding-left: 21px;
-	padding-top: 10px;
-	margin-bottom: 8px;
-	width: 171px;   	/* for IE5/Win */
-	voice-family: "\"}\"";
-	voice-family: inherit;
-	width: 150px;
-}
-
-/* differences per page */
-div.left-column
-{
-	position: absolute;
-	top: 420px;
-	left: 0px;
-}
 body.home > div#main > div.left-column { display: none; }
 
 div.main-column,
 body.home > div#main > div.main-column
 {
 	float: left;
-	margin-left: 308px;
-	/*	position: absolute;
-	left: 308px;
-	top: 30px; */
+	margin-left: 283px; /* 308 */
+	top: 30px;
 	margin-bottom: 4px;
 }
 
@@ -257,16 +258,13 @@ div.right-column,
 body.home > div#main > div.right-column
 {
 	float: right;
-	/*position: absolute;
-	left: 820px;
-	top: 30px; */
 	margin-bottom: 4px;
 }
 
 
-body.home > div#main> div.wrap
+body.home > div#main > div.wrap
 {
-	width: 820px;
+	width: 795px;   /* 820 */
 	position: absolute;
 	left: 0px;
 	top: 420px;
@@ -287,7 +285,7 @@ div.wrap > div.main-column
 	float: left;
 	padding-top: 16px;
 	margin-left: 29px;
-	width: 496px;
+	width: 471px;   /* 496 */
 }
 
 body.home div#main div.wrap div.right-column { display: none; }
@@ -324,7 +322,6 @@ body.error div.main-column h3
 /* the bordered and grey background divs */
 div.related-grey-border
 {
-	/*background-image: url(images/bg-gr-dotted.png);*/
 	background-image: url(images/dots2-bg-grey.png);
 	background-repeat: repeat-x;
 	background-position: 0 0;
@@ -350,7 +347,6 @@ div.related-grey div.ui-tabs-panel div.ui-tabs { min-height: 200px; }
 div.related
 {
 	min-height: 266px;
-	/*padding: 8px;*/
 	clear: both;
 	margin-bottom: 1em;
 	padding-top: 8px;
