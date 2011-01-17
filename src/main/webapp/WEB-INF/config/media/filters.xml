@@ -51,7 +51,7 @@
     </config>
     <config filter="dimensions">
       <preferredDimension>
-        <dimension x="320" y="240" />
+        <dimension x="512" y="288" />
       </preferredDimension>
     </config>
     <config filter="nodetype">
