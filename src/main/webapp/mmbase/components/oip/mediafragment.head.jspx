@@ -1,0 +1,28 @@
+<mm:content
+    type="application/xml"
+    xmlns:c="http://java.sun.com/jsp/jstl/core"
+    xmlns:jsp="http://java.sun.com/JSP/Page"
+    xmlns:fmt="http://java.sun.com/jsp/jstl/fmt"
+    xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+    xmlns:mm="http://www.mmbase.org/mmbase-taglib-2.0"
+    xmlns:oip="urn:jsptagdir:/WEB-INF/tags/oip"
+    >
+  <jsp:output omit-xml-declaration="true" />
+
+
+  <mm:nodeinfo type="nodemanager">
+    <c:choose>
+      <c:when test="${_ eq 'imagefragments'}">
+        <script src="${mm:link('/style/js/jquery.lightbox-0.5.pack.js')}" type="text/javascript"><jsp:text><!-- help ie --></jsp:text></script>
+        <link href="${mm:link('/style/css/jquery.lightbox-0.5.css')}" rel="stylesheet" type="text/css" media="screen" />
+      </c:when>
+      <c:when test="${_ eq 'audiofragments'}">
+      
+      </c:when>
+      <c:otherwise>
+
+      </c:otherwise>
+    </c:choose>
+  </mm:nodeinfo>    
+
+</mm:content>
