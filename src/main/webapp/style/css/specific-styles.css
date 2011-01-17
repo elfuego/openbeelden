@@ -846,3 +846,7 @@ fieldset.labelininput textarea {
     fieldset.labelininput input,
     fieldset.labelininput textarea { /*padding: 2px 4px;*/ }
 }
+
+body.media-item #lightbox-secNav-btnClose {
+    width: auto;
+}
