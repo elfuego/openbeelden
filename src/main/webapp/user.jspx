@@ -36,7 +36,7 @@
       <mm:component name="oip" block="${block}" render="head" />
       <c:choose>
         <c:when test="${block eq 'user-media'}">
-          <!-- mm:component name="oip" block="user-mediapreview" render="head" / -->
+          <mm:component name="oip" block="user-mediapreview" render="head" />
           <mm:component name="oip" block="user-translations" render="head" />
         </c:when>
         <c:when test="${block eq 'user-edit'}">
@@ -57,9 +57,6 @@
         <link href="${_}" rel="alternate" type="application/atom+xml" title="Open Image Platform latest uploads" />
       </mm:link>
       <link type="text/css" href="${mm:link('/style/css/jquery.ui.tabs.css')}" rel="stylesheet" />
-
-      <script src="${mm:link('/mmbase/jquery/jquery.form.js')}" type="text/javascript"><jsp:text> </jsp:text></script>
-      <script src="${mm:link('/style/js/editors.js')}" type="text/javascript"><jsp:text> </jsp:text></script>
 
     </jsp:attribute>
 
