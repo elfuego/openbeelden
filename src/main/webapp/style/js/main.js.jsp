@@ -272,6 +272,17 @@ function initPlusfields() {
     });
 }
 
+function initLightBox() {
+    var settings = jQuery.extend({
+        imageLoading:   '${mm:link('/style/css/images/lightbox-ico-loading.gif')}',
+        imageBtnPrev:   '${mm:link('/style/css/images/lightbox-prev.png')}',
+        imageBtnNext:   '${mm:link('/style/css/images/lightbox-next.png')}',
+        imageBtnClose:  '${mm:link('/style/css/images/lightbox-close.png')}',
+        imageBlank:     '${mm:link('/style/css/images/lightbox-blank.png')}'
+    }, settings);
+    $('a.lightbox').lightBox(settings);
+}
+
 $(document).ready(function() {
     initMultiLang();
     initPortalSwitch();
@@ -284,18 +295,19 @@ $(document).ready(function() {
     initTabs('tabs');
     initTabs('usertabs');
     initBlank();
-
     initPlusfields();
-    /* if ($('fieldset.labelininput').length) initLabelsInInput(); */
     initFieldInfos();
-
-    $('.main-column, .b_user-mediapreview').oiplayer({
-        'server' : '<mm:url page="/" absolute="true" />',
-        'jar' : '/oiplayer/plugins/cortado-ovt-stripped-wm_r38710.jar',
-        'flash' : '/oiplayer/plugins/flowplayer-3.1.5.swf',
-        'controls' : 'top'
-    });
-    initPlayStats();
+    
+    if ($('a.lightbox').length) initLightBox();
+    if ($('video').length || $('audio').length) {
+        $('.main-column, .b_user-mediapreview').oiplayer({
+            'server' : '<mm:url page="/" absolute="true" />',
+            'jar' : '/oiplayer/plugins/cortado-ovt-stripped-wm_r38710.jar',
+            'flash' : '/oiplayer/plugins/flowplayer-3.1.5.swf',
+            'controls' : 'top'
+        });
+        initPlayStats();
+    }
 });
 //</mm:escape></os:cache></mm:content>
 
