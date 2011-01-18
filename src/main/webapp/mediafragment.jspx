@@ -14,6 +14,21 @@
       <script src="${mm:link('/mmbase/jquery/jquery.form.js')}" type="text/javascript"><jsp:text><!-- help ie --></jsp:text></script>
       <script src="${mm:link('/style/js/typewatch.js')}" type="text/javascript"><jsp:text><!-- help ie --></jsp:text></script>
       <script src="${mm:link('/style/js/mmtag.js')}" type="text/javascript"><jsp:text><!-- help ie --></jsp:text></script>
+
+      <mm:nodeinfo type="nodemanager" id="nmtype" write="false" />
+      <c:choose>
+        <c:when test="${nmtype eq 'imagefragments'}">
+          <link href="${mm:link('/style/css/jquery.lightbox-0.5.css')}" rel="stylesheet" type="text/css" media="screen" />
+          <script src="${mm:link('/style/js/jquery.lightbox-0.5.pack.js')}" type="text/javascript"><jsp:text><!-- help ie --></jsp:text></script>
+        </c:when>
+        <c:otherwise>
+          <!-- oiplayer stuff -->
+          <link href="${mm:link('/oiplayer/css/oiplayer.css')}" rel="stylesheet" type="text/css" />
+          <script src="${mm:link('/oiplayer/plugins/flowplayer-3.1.4.min.js')}" type="text/javascript"><jsp:text><!-- help ie --></jsp:text></script>
+          <script src="${mm:link('/oiplayer/js/jquery.oiplayer.js')}" type="text/javascript"><jsp:text><!-- help ie --></jsp:text></script>
+        </c:otherwise>
+      </c:choose>
+  
       <mm:link page="/feeds/atom/">
         <mm:param name="related"><mm:field name="number" /></mm:param>
         <link href="${_}" rel="alternate" type="application/atom+xml" title="Open Image Platform related items of ${_node.title}" />
@@ -32,24 +47,23 @@
 
       <div class="main-column">
         <oip:h2><fmt:message key="media.item" /></oip:h2>
-
+        
         <oip:media width="512" height="288" />
 
-
-          <h3 class="mediatitle">
-            <mm:maywrite>
-              <mm:link referids="_node@media">
-                <mm:frameworkparam name="component">oip</mm:frameworkparam>
-                <mm:frameworkparam name="block">user-media</mm:frameworkparam>
-                <mm:frameworkparam name="user">${iam}</mm:frameworkparam>
-                <a class="edit" href="${_}"><fmt:message key="media.edit" /></a>
-              </mm:link>
-            </mm:maywrite>
-            <mm:nodefunction name="translation"><mm:field name="title" /></mm:nodefunction>
-          </h3>
-          <mm:nodefunction name="translation">
-            <mm:field name="subtitle"><mm:isnotempty><h4>${_}</h4></mm:isnotempty></mm:field>
-          </mm:nodefunction>
+        <h3 class="mediatitle">
+          <mm:maywrite>
+            <mm:link referids="_node@media">
+              <mm:frameworkparam name="component">oip</mm:frameworkparam>
+              <mm:frameworkparam name="block">user-media</mm:frameworkparam>
+              <mm:frameworkparam name="user">${iam}</mm:frameworkparam>
+              <a class="edit" href="${_}"><fmt:message key="media.edit" /></a>
+            </mm:link>
+          </mm:maywrite>
+          <mm:nodefunction name="translation"><mm:field name="title" /></mm:nodefunction>
+        </h3>
+        <mm:nodefunction name="translation">
+          <mm:field name="subtitle"><mm:isnotempty><h4>${_}</h4></mm:isnotempty></mm:field>
+        </mm:nodefunction>
 
         <!--
         <p class="nr_of_views">
@@ -124,8 +138,10 @@
                   <mm:import id="filename" reset="true">${_.filename}</mm:import>
                   <c:choose>
                     <c:when test="${_.available}">
-                      <a href="${mm:escape('text/xml', _.URL)}">
-                        <oip:filesubstr filename="${filename}" length="60" />
+                      <a class="${nmtype eq 'imagefragments' ? 'lightbox' : ''}" 
+                         title="${_.state eq 'SOURCE' ? 'Originaly uploaded' : ''} ${_.dimension} ${fn:toLowerCase(_.format)}" 
+                         href="${mm:escape('text/xml', _.URL)}">
+                         <oip:filesubstr filename="${filename}" length="60" />
                       </a>
                     </c:when>
                     <c:otherwise>
@@ -217,7 +233,8 @@
 
         </div>
 
-       </div>
+
+      </div>
     </jsp:attribute>
   </oip:html>
 </jsp:root>
