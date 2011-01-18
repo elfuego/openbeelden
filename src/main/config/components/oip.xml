@@ -39,7 +39,6 @@
     <title xml:lang="nl">Mediaitem</title>
     <description xml:lang="en">Media item: a video, audio or image</description>
     <description xml:lang="nl">Mediaitem: een video, audio of afbeelding</description>
-    <head jsp="mediafragment.head.jspx" />
     <body jsp="mediafragment.jspx">
       <param name="n" type="org.mmbase.bridge.Node" />
     </body>
@@ -124,6 +123,14 @@
     <description xml:lang="en">Form to edit the user picture</description>
     <description xml:lang="nl">Formulier om gebruiksafbeelding te bewerken</description>
     <xi:include href="http://www.mmbase.org/components/validation.head.xml" />
+    <head>
+      <class name="org.mmbase.framework.StringRenderer">
+        <param name="string"><![CDATA[
+          <script src="{REQUEST.getContextPath}/mmbase/jquery/jquery.form.js" type="text/javascript"> </script>
+          <script src="{REQUEST.getContextPath}/style/js/editors.js" type="text/javascript"> </script>
+        ]]></param>
+      </class>
+    </head>
     <body jsp="user-picture.jspx">
       <param name="n"    type="org.mmbase.bridge.Node" />
       <param name="edit" />
@@ -202,6 +209,7 @@
       <class name="org.mmbase.framework.StringRenderer">
         <param name="string"><![CDATA[
           <script src="{REQUEST.getContextPath}/mmbase/jquery/jquery.form.js" type="text/javascript"> </script>
+          <script src="{REQUEST.getContextPath}/style/js/editors.js" type="text/javascript"> </script>
         ]]></param>
       </class>
     </head>
@@ -217,8 +225,8 @@
     <title xml:lang="nl">Preview</title>
     <description xml:lang="en">Media item preview in edit environment</description>
     <description xml:lang="nl">Preview van een mediaitem in editomgeving</description>
-    <head>
-    </head>
+    <xi:include href="http://www.mmbase.org/components/validation.head.xml" />
+    <head jsp="user-media.head.jspx" />
     <body jsp="user-mediapreview.jspx">
       <param name="n" type="org.mmbase.bridge.Node" />
       <param name="media" type="String" />
