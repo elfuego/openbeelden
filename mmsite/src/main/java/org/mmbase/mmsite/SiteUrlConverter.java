@@ -68,7 +68,7 @@ public class SiteUrlConverter extends DirectoryUrlConverter {
     public SiteUrlConverter(BasicFramework fw) {
         super(fw);
         setDirectory("/");
-        addComponent(ComponentRepository.getInstance().getComponent("mmsite"));
+        addBlock(ComponentRepository.getInstance().getComponent("mmsite").getBlock("page"));
     }
 
     public void setExcludedPaths(String l) {
@@ -117,30 +117,38 @@ public class SiteUrlConverter extends DirectoryUrlConverter {
      */
     @Override
     protected void getNiceDirectoryUrl(StringBuilder b, Block block, Parameters parameters, Parameters frameworkParameters,  boolean action) throws FrameworkException {
-
         if (log.isDebugEnabled()) {
             log.debug("" + parameters + frameworkParameters);
             log.debug("Found mmsite block: " + block);
         }
+        
         int b_len = b.length();
+        
         if (block.getName().equals("page")) {
+            
             Node n = parameters.get(Framework.N);
-            parameters.set(Framework.N, null);
-
-            String path = n.getStringValue("path");
-            if (path.startsWith("/")) {
-                path = path.substring(1, path.length());
-            }
-            if (path.endsWith("/")) path = path.substring(0, path.length() - 1);
-            b.append(path);
-
-            if (b.length() > b_len) {   // check if url is altered
-                if (useExtension) {
-                    b.append(".").append(extension);
+            if (n == null) {
+                throw new IllegalStateException("No node parameter used in " + frameworkParameters);
+            } else {
+                parameters.set(Framework.N, null);
+                
+                String path = n.getStringValue("path");
+                if (path.startsWith("/")) {
+                    path = path.substring(1, path.length());
                 }
+                if (path.endsWith("/")) path = path.substring(0, path.length() - 1);
+                b.append(path);
+    
+                if (b.length() > b_len) {   // check if url is altered
+                    if (useExtension) {
+                        b.append(".").append(extension);
+                    }
+                }
+                
+                localeUtil.appendLanguage(b, frameworkParameters);
+                
             }
 
-            localeUtil.appendLanguage(b, frameworkParameters);
         }
 
         if (log.isDebugEnabled()) {

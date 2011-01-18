@@ -12,12 +12,26 @@
     <h3>${mm:string(requestScope['org.mmbase.framework.state'].renderer.block.title)}</h3>
 	<p>${mm:string(requestScope['org.mmbase.framework.state'].renderer.block.description)}</p>
     
+    <mm:notpresent referid="n">
+      <mm:listnodescontainer type="articles">
+        <mm:maxnumber value="25" />
+        <ul>
+        <mm:listnodes>
+          <li>
+            <mm:link referids="_node@n"><a href="${_}"><mm:field name="title" /></a></mm:link>
+          </li>
+        </mm:listnodes>
+        </ul>
+      </mm:listnodescontainer>
+    </mm:notpresent>
+
     <mm:present referid="n">
       <mm:node number="$n">
         <h4><mm:field name="title" escape="inline" /></h4>
         <mm:field name="intro" escape="paragraph" />
         <mm:field name="body" escape="paragraph" />
       </mm:node>
+      <p><mm:link><a href="${_}">back</a></mm:link></p>
     </mm:present>
     
   </div>
