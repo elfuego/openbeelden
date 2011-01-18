@@ -10,7 +10,16 @@
   <jsp:output omit-xml-declaration="true" />
     <mm:cloud method="asis">
 
-      <script src="${mm:link('/mmbase/tiny_mce/tiny_mce.js')}" type="text/javascript"> </script>
+      <!-- lightbox for images -->
+      <link href="${mm:link('/style/css/jquery.lightbox-0.5.css')}" rel="stylesheet" type="text/css" media="screen" />
+      <script src="${mm:link('/style/js/jquery.lightbox-0.5.pack.js')}" type="text/javascript"><jsp:text><!-- help ie --></jsp:text></script>
+
+      <!-- oiplayer stuff -->
+      <link href="${mm:link('/oiplayer/css/oiplayer.css')}" rel="stylesheet" type="text/css" />
+      <script src="${mm:link('/oiplayer/plugins/flowplayer-3.1.4.min.js')}" type="text/javascript"><jsp:text><!-- help ie --></jsp:text></script>
+      <script src="${mm:link('/oiplayer/js/jquery.oiplayer.js')}" type="text/javascript"><jsp:text><!-- help ie --></jsp:text></script>
+
+      <script src="${mm:link('/mmbase/tiny_mce/tiny_mce.js')}" type="text/javascript"><!-- help ie --></script>
       <script type="text/javascript">
 
         tinyMCE.init({
