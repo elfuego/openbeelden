@@ -29,8 +29,8 @@
 
         <div id="edit-picture">
           <oip:thumb />
-          <h3 class="subtitle"><oip:user /></h3>
         </div>
+        <h3 class="subtitle"><oip:user /></h3>
 
         <c:choose>
           <c:when test="${empty img}">
@@ -41,8 +41,8 @@
                 <mm:param name="role">posrel</mm:param>
                 <mm:param name="fields">handle</mm:param>
                 <mm:param name="show">/editors/show-thumb.jspx</mm:param>
-                <mm:param name="default">title=User picture ${user_name}</mm:param>
-                <a class="editme" href="${_}#edit-picture">add picture</a>
+                <mm:param name="defaultstr">title=User picture ${user_name}</mm:param>
+                <a class="editme" href="${_}#edit-picture"><fmt:message key="users.add_image" /></a>
               </mm:link>
             </p>
           </c:when>
@@ -51,7 +51,7 @@
               <mm:link page="/editors/edit-pic.jspx" referids="img@nr">
                 <mm:param name="fields">handle</mm:param>
                 <mm:param name="show">/editors/show-thumb.jspx</mm:param>
-                <a class="editme" href="${_}#edit-picture"><fmt:message key="users.edit_image" /> »</a>
+                <a class="editme" href="${_}#edit-picture"><fmt:message key="users.edit_image" /></a>
               </mm:link>
             </p>
           </c:otherwise>
