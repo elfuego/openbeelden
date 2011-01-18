@@ -48,8 +48,8 @@
                        <mm:param name="type">images</mm:param>
                        <mm:param name="fields">handle</mm:param>
                        <mm:param name="show">/editors/show-thumb.jspx</mm:param>
-                       <mm:param name="default">title=Thumbnail ${media_title}</mm:param>
-                       <a class="editme" href="${_}#edit-picture">add picture</a>
+                       <mm:param name="defaultstr">title=Thumbnail ${media_title}</mm:param>
+                       <a class="editme" href="${_}#edit-picture"><fmt:message key="users.add_image" /></a>
                      </mm:link>
                    </p>
                  </c:when>
