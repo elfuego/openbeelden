@@ -56,6 +56,7 @@ div.b_user-picture img,
 div.b_user-mediapreview img { margin-right: 10px;}
 div.b_user-picture fieldset,
 div.b_user-mediapreview fieldset { margin: 0; }
+
 div.b_user-picture input.submit,
 div.b_user-mediapreview input.submit,
 div.b_user-mediapreview input.cancel,
@@ -64,6 +65,7 @@ div.b_user-picture input.cancel
 	float: none;
 	margin-left: 0;
 }
+
 div.b_user-picture input.cancel,
 div.b_user-mediapreview input.cancel { border-left: none; }
 div.b_user-mediapreview #edit-picture { margin-top: 1em; }
@@ -72,10 +74,14 @@ div.b_user-mediapreview p img { margin: 1em 8px -6px 0; }
 
 /* translations */
 div.b_user-translations { clear: both; }
-div.b_user-translations a.editme
+div.b_user-translations a.editme,
+div.b_user-translations a.cancel,
+div.b_user-mediapreview a.cancel,
+div.b_user-picture a.cancel
 {
 	float: right;
 	margin-left: 8px;
+	text-transform: lowercase;
 }
 
 div.b_user-translations form

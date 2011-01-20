@@ -850,3 +850,9 @@ fieldset.labelininput textarea {
 body.media-item #lightbox-secNav-btnClose {
     width: auto;
 }
+
+body.media-item #lightbox-container-image-data-box
+{
+	font-family: Helvetica, sans-serif;
+	font-size: 1em;
+}

@@ -11,6 +11,24 @@ body.editor #header img {
     margin: 28px 0 10px 0; 
 	overflow: hidden;
 }
+body.editor div#footer
+{
+	clear: both;
+	background-image: none;
+	width: auto;
+}
+body.editor div#footer div
+{
+	margin-top: 20px;
+    background-image: -webkit-gradient(linear, left top, left bottom, from(#efefef), to(#fff));
+    border-top: 1px solid #cfcfcf;
+	min-height: 60px;
+	width: 100%;
+	margin: 0;
+	padding: 1em 0;
+}
+body.editor div#footer div ul { margin-left: 283px; }
+
 body.editor div.left-column, 
 body.editor div.wrap
 {
@@ -62,11 +80,14 @@ div.edit-pic a { margin-left: 12px; }
 a.edit:link,
 a.edit:visited { color: #3BA0D9; }
 
-a.delete
+/*
+a.delete, a.unrelate
 {
 	float: left;
 	margin-right: 6px;
 }
+*/
+a.editme, a.edit { margin-left: 6px; }
 p.translation, p.editme, p.closeme, a.editme, a.new, a.cancel
 {
 	float: right;
@@ -80,6 +101,57 @@ ul.sortable li > div
 {
 	background-image: url(icons/sort-handle.png);
 	background-repeat: no-repeat;
-	background-position: 420px 3px;
+	background-position: 0 3px;
+	padding-left: 24px;
 }
-ul.sortable li > div.log { background-image: none; }
+ul.sortable li > div.log
+{
+	background-image: none;
+	padding-left: 0;
+}
+
+
+ul.sortable > li > img.sorthandle {}
+
+/* search forms */
+form.search
+{
+	clear: both;
+	margin-top: 2em;
+}
+
+form.search input[type=text] {
+    background-image: url("images/search-bg.png");
+    background-position: right 50%;
+    background-repeat: no-repeat;
+}
+form.search input.submit { margin: 0; }
+
+div.searchresults ul
+{
+	margin-bottom: 1em;
+	padding-bottom: 4px;
+	/* background-image: url("images/dots2.png");
+	background-repeat: repeat-x;
+	background-position: 0 bottom; */
+}
+
+div.searchresults > strong
+{
+	margin: 6px 0;
+	font-size: 1.1em;
+	display: block;
+}
+div.searchresults li.pager
+{
+	margin: 6px 0;
+	text-align: center;
+}
+
+/* show-node.jspx */
+div.show-media { height: 68px; }
+div.show-media img
+{
+	float: left;
+	margin: 4px 4px 0 0;
+}

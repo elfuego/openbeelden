@@ -229,20 +229,6 @@ div.left-column
 
 
 /* differences per page */
-body.error #footer ul
-{
-	margin-left: 312px;
-	list-style: none;
-}
-
-body.error #footer ul li
-{
-	list-style: none;
-	float: left;
-	margin-right: 3em;
-	font-size: 0.85em;
-}
-
 body.home > div#main > div.left-column { display: none; }
 
 div.main-column,
@@ -308,7 +294,7 @@ body.error div.main-column
 	padding-top: 10px;
 	margin-bottom: 8px;
 	width: 699px;
-	margin-left: 308px;
+	margin-left: 283px; /* 308 */
 	min-height: 320px;
 }
 
@@ -318,6 +304,21 @@ body.error div.main-column h3
 	font-family: Helvetica, sans-serif;
 	text-transform: none;
 }
+
+body.error #footer ul
+{
+	margin-left: 283px; /* 312 */
+	list-style: none;
+}
+
+body.error #footer ul li
+{
+	list-style: none;
+	float: left;
+	margin-right: 3em;
+	font-size: 0.85em;
+}
+
 
 /* the bordered and grey background divs */
 div.related-grey-border
