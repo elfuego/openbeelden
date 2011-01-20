@@ -9,7 +9,52 @@ $(document).ready(function() {
     clearMsg();
     initPortalSwitch();
     initSortable();
+    
+    initSearchme();
 });
+
+function initSearchme() {
+    $('#searchform').submit(function(ev) {
+        ev.preventDefault();
+        searchMe(this, ev);
+    });
+}
+
+function pageMe(target, ev) {
+    var link = ev.target.href;
+    //console.log("link: " + link);
+    $(target).load(link, function() {
+        $(this).find('li.pager a').click(function(ev) {
+            ev.preventDefault();
+            pageMe(target, ev);
+        });
+    });
+}
+
+function searchMe(self, ev) {
+    ev.preventDefault();
+    var link = $(self).attr('action');
+    //console.log('link ' + link);
+
+    var query = link.substring(link.indexOf("?") + 1, link.indexOf('#'));
+    var params = getParams(query);
+    params['q'] = $(self).find('input[name=q]').val();
+    
+    var results_target = $(self).next('div.searchresults');
+    $(results_target).load(link, params, function() {
+        var list = $(this).find('ul.sortable');
+        initSortable(list);
+        $(this).find('a.cancel').click(function(ev){
+            ev.preventDefault();
+            $(results_target).empty();
+        });
+        $(this).find('li.pager a').click(function(ev) {
+            ev.preventDefault();
+            pageMe(results_target, ev);
+        });
+    });
+}
+
 
 
 /* TODO: make this a jquery plugin? */
@@ -99,6 +144,7 @@ function afterSubmit(response, status, xhr) {
             }
         }
         newItem.attr('id', newId);
+        newItem.removeClass('notsortable');
         newItem.html(newContent);
         newItem.insertAfter(parent);
         $(newItem).find('a.new').click(function(ev){
@@ -126,15 +172,42 @@ function afterSubmit(response, status, xhr) {
  * All li's must have a prefix and node number as an id, f.e. 'edit_234'
  * TODO (?): make transfers to and from 'connected' lists work
  */
-function initSortable() {
-    if ($('.sortable').length > 0) {
-        $(".sortable").sortable({
+function initSortable(listEl) {
+    if (listEl == undefined) {
+        listEl = ".sortable";
+    }
+
+    if ($(listEl).length > 0) {
+        $(listEl).sortable({
             update: function(ev, ui) { 
                 sortSortable(this);
             },
-            connectWith: ".connected",  /* not supported (yet) */
+            connectWith: ".connected",
+            cancel: ".notsortable",
             receive: function(ev, ui) { 
-                sortSortable(this);     /* not supported (yet) */
+                //console.log('receiving ' + $(ui.item).attr('id'));
+                var edit_id = $(ui.item).attr('id');
+                var nodenr = edit_id.match(/\d+/);
+                var id_current = $(listEl).attr('id');
+                //console.log('receiving: ' + nodenr + ", id_current: " + id_current)
+                var params = { 
+                    id: id_current, 
+                    related: '' + nodenr, 
+                    unrelated: ''
+                    //deleted: deletedRelations
+                    };
+                $.ajax({
+                        url: "/mmbase/searchrelate/relate.jspx",
+                        type: "GET",
+                        datatype: "xml",
+                        data: params,
+                        complete: function(data) {
+                            $('#' + listEl.id + ' li.log').html(data.responseText);
+                            clearMsg('#' + listEl.id + ' li.log');
+                        }
+                    });
+                //$('#search_' + nodenr).removeClass('notsortable');
+                return;
             }
         }).disableSelection();
     }
@@ -154,10 +227,10 @@ function sortSortable(list) {
     }
     
     var params = new Object();
+    params['id'] = list.id;
     params['order'] = order;
-    params['query_id'] = list.id;
     $.ajax({
-        url: 'order.jspx',
+        url: 'order.jspx',                  /* TODO: make this ${mm:link('/editors/order.jspx')} */
         data: params,
         dataType: "xml",
         complete: function(data) {
