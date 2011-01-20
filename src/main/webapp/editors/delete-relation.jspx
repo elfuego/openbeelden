@@ -1,0 +1,120 @@
+<mm:content 
+    xmlns:jsp="http://java.sun.com/JSP/Page"
+    xmlns:c="http://java.sun.com/jsp/jstl/core"
+    xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+    xmlns:fmt="http://java.sun.com/jsp/jstl/fmt"
+    xmlns:mm="http://www.mmbase.org/mmbase-taglib-2.0"
+    expires="0" type="text/html" language="client" postprocessor="none">
+<jsp:output doctype-root-element="html"
+      doctype-public="-//W3C//DTD XHTML 1.0 Strict//EN"
+      doctype-system="http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd" />
+
+<mm:cloud method="asis">
+
+<fmt:setBundle basename="eu.openimages.messages" scope="request" />
+
+<mm:import externid="p" /><!-- portal -->
+<mm:import externid="nr" /><!-- node (in a list) with relation -->
+<mm:import externid="fields" />
+
+<mm:import externid="relation" /><!-- relation node to delete -->
+<mm:import externid="related" /><!-- node with which is relation -->
+
+<mm:import externid="delete" />
+<mm:import externid="cancel" />
+  
+<mm:hasnode number="$nr" inverse="true">
+  <p class="msg">Node not found.</p>
+</mm:hasnode>
+
+<mm:hasnode number="$relation" inverse="true">
+  <p class="msg">Relation not found. Deleted already?</p>
+</mm:hasnode>
+
+<mm:hasnode number="$relation">
+
+  <mm:node number="$relation">
+
+      <c:choose>
+        
+        <c:when test="${!empty delete}">
+          <a class="editme cancel" href="#close">close</a>
+          <mm:maydelete inverse="true">
+            <p class="err">Not enough privileges.</p>
+          </mm:maydelete>
+          <mm:maydelete>
+            <span class="node_deleted_${relation}"> Relation node ${relation} is removed!</span>
+            <mm:deletenode number="$relation" />
+          </mm:maydelete>
+        </c:when>
+        
+        <c:when test="${!empty cancel}">
+          <mm:maywrite>
+            <div class="log"><jsp:text> <!-- empty --> </jsp:text></div>
+            <mm:link page="/editors/edit-node.jspx" referids="p,nr,fields?,related?">
+              <a class="editme" href="${_}#edit_${nr}">edit</a>
+            </mm:link>
+          </mm:maywrite>
+          <mm:maydelete>
+            <mm:link page="/editors/delete-node.jspx" referids="p,nr,fields?,related?">
+              <a class="editme delete" href="${_}#edit_${nr}">delete</a>
+            </mm:link>
+          </mm:maydelete>
+          
+          <c:if test="${!empty relation}">
+            <mm:node number="$relation" notfound="skip">
+              <mm:maydelete>
+                <mm:link page="/editors/delete-relation.jspx" referids="p,nr,fields?,relation,related?">
+                  <a class="editme unrelate" href="${_}#edit_${nr}">unrelate</a>
+                </mm:link>
+              </mm:maydelete>
+            </mm:node>
+          </c:if>
+
+          <div>
+            <mm:node number="$nr">
+              <mm:include page="show-node.jspx" referids="p,_node@nr,fields" />
+            </mm:node>
+            <span>Canceled removing relation!</span>
+          </div>
+        </c:when>
+        
+        <c:otherwise>
+          <div class="log"><jsp:text> <!-- empty --> </jsp:text></div>
+
+          <mm:maydelete inverse="true">
+            <p class="msg">Not enough privileges to remove relation.</p>
+          </mm:maydelete>
+          
+          <mm:maydelete>
+            <mm:url id="formurl" write="false" />
+            <form id="form_${nr}" method="post" action="${formurl}">
+
+              <mm:node number="$nr">
+                <mm:include page="show-node.jspx" referids="p,_node@nr,fields?" />
+                <p class="msg stay">Remove <strong>relation</strong> with this node?</p>
+              </mm:node>
+              
+              <fieldset class="buttons">
+                <input name="p"  type="hidden" value="${p}" />
+                <input name="nr" type="hidden" value="${nr}" />
+                <input name="relation" type="hidden" value="${relation}" />
+                <input name="related"  type="hidden" value="${related}" />
+                <input name="fields" type="hidden" value="${fields}" />
+                <div>
+                  <input type="submit" name="cancel" value="Cancel" class="cancel" /> 
+                  <input type="submit" name="delete" value="Remove" class="submit" />
+                </div>
+              </fieldset>
+              
+            </form>
+          </mm:maydelete>
+
+        </c:otherwise>
+        
+      </c:choose>
+  </mm:node>
+</mm:hasnode>
+
+</mm:cloud>
+</mm:content>
