@@ -1,7 +1,7 @@
 /*
   Functions for new (portal) editors in OIP 
   @author: André van Toly
-  @version:  '$Id: main.js.jsp 43901 2010-12-09 16:12:33Z andre $
+  @version:  '$Id$
   @changes: initial version
 */
 $(document).ready(function() {
@@ -22,8 +22,13 @@ function initSearchme() {
 
 function pageMe(target, ev) {
     var link = ev.target.href;
-    //console.log("link: " + link);
     $(target).load(link, function() {
+        var list = $(this).find('ul.sortable');
+        initSortable(list);
+        $(this).find('a.cancel').click(function(ev){
+            ev.preventDefault();
+            $(target).empty();
+        });
         $(this).find('li.pager a').click(function(ev) {
             ev.preventDefault();
             pageMe(target, ev);
