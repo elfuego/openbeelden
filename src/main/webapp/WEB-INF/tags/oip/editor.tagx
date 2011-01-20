@@ -224,6 +224,9 @@
 
               </ul>
               <ul class="meta">
+                <mm:hasrank minvalue="project manager">
+                  <li><a href="${mm:link('/mmbase/edit/my_editors/')}">my_editors</a></li>
+                </mm:hasrank>
                 <li><a href="${mm:link('/logout.jspx')}">logout</a></li>
                 <li>you are: <mm:cloudinfo type="user" /></li>
               </ul>
@@ -271,9 +274,19 @@
                 
               <jsp:invoke fragment="left" />
             </div>
+
   
             <jsp:invoke fragment="body"  />
-          
+              
+          </div>
+          <div id="footer">
+            <div>
+            <ul>
+              <li>
+                <mm:link page="/editors/" referids="p?"><a href="${_}">editors home</a></mm:link>
+              </li>
+            </ul>
+            </div>
           </div>
         </mm:node>
         </body>
