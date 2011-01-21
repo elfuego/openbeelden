@@ -27,49 +27,51 @@
         <mm:nodeinfo type="type" id="type" write="false" />
         <mm:import id="ttype"><mm:property nodemanager="$type" name="translations.builder" /></mm:import>
         <mm:isempty referid="ttype"><mm:import id="ttype" reset="true">${type}_translations</mm:import></mm:isempty>
-
-
-        <mm:hasrelationmanager sourcemanager="$type" destinationmanager="$ttype" role="langrel">
-          <mm:relatednodescontainer type="$ttype" role="langrel" searchdirs="destination">
-            <mm:size id="total" write="false" />
-            <ul>
-              <mm:relatednodes>
-                <li id="edit_${_node.number}">
-                  <mm:maywrite>
-                    <mm:link page="/editors/edit-node.jspx" referids="p?,_node@nr">
-                      <a class="editme" href="${_}#edit_${_node.number}">edit</a>
-                    </mm:link>
-                  </mm:maywrite>
-                  <mm:maydelete>
-                    <mm:link page="/editors/delete-node.jspx" referids="p?,_node@nr">
-                      <a class="editme delete" href="${_}#edit_${_node.number}">delete</a>
-                    </mm:link>
-                  </mm:maydelete>
-                  <div>
-                    <mm:include page="/editors/show-node.jspx" referids="p?,_node@nr" />
-                  </div>
-                </li>
-              </mm:relatednodes>
-              <mm:maycreate type="$type">
-                <c:if test="${total lt maxtranslations}">
-                  <li id="add_${ttype}">
-                    <jsp:text> <!-- empty, cause nothing exists here yet. this will be cloned to represent new nodes --> </jsp:text>
+        
+        
+        <mm:hasnodemanager name="$ttype">
+          <mm:hasrelationmanager sourcemanager="$type" destinationmanager="$ttype" role="langrel">
+            <mm:relatednodescontainer type="$ttype" role="langrel" searchdirs="destination">
+              <mm:size id="total" write="false" />
+              <ul>
+                <mm:relatednodes>
+                  <li id="edit_${_node.number}">
+                    <mm:maywrite>
+                      <mm:link page="/editors/edit-node.jspx" referids="p?,_node@nr">
+                        <a class="editme" href="${_}#edit_${_node.number}">edit</a>
+                      </mm:link>
+                    </mm:maywrite>
+                    <mm:maydelete>
+                      <mm:link page="/editors/delete-node.jspx" referids="p?,_node@nr">
+                        <a class="editme delete" href="${_}#edit_${_node.number}">delete</a>
+                      </mm:link>
+                    </mm:maydelete>
+                    <div>
+                      <mm:include page="/editors/show-node.jspx" referids="p?,_node@nr" />
+                    </div>
                   </li>
-                  <li>
-                    <mm:link page="/editors/add-node.jspx" referids="p?,_node@nr,ttype@type">
-                      <mm:param name="lang">${requestScope['javax.servlet.jsp.jstl.fmt.locale.request']}</mm:param>
-                      <mm:param name="role">langrel</mm:param>
-                      <!-- <mm:param name="fields">title,language,subtitle,intro,body,keywords,source</mm:param> -->
-                      <a class="editme" href="${_}#add_${ttype}">
-                        <fmt:message key="users.create_new_translation" />
-                      </a>
-                    </mm:link>
-                  </li>
-                </c:if>
-              </mm:maycreate>
-            </ul>
-          </mm:relatednodescontainer>
-        </mm:hasrelationmanager>
+                </mm:relatednodes>
+                <mm:maycreate type="$type">
+                  <c:if test="${total lt maxtranslations}">
+                    <li id="add_${ttype}">
+                      <jsp:text> <!-- empty, cause nothing exists here yet. this will be cloned to represent new nodes --> </jsp:text>
+                    </li>
+                    <li>
+                      <mm:link page="/editors/add-node.jspx" referids="p?,_node@nr,ttype@type">
+                        <mm:param name="lang">${requestScope['javax.servlet.jsp.jstl.fmt.locale.request']}</mm:param>
+                        <mm:param name="role">langrel</mm:param>
+                        <!-- <mm:param name="fields">title,language,subtitle,intro,body,keywords,source</mm:param> -->
+                        <a class="editme" href="${_}#add_${ttype}">
+                          <fmt:message key="users.create_new_translation" />
+                        </a>
+                      </mm:link>
+                    </li>
+                  </c:if>
+                </mm:maycreate>
+              </ul>
+            </mm:relatednodescontainer>
+          </mm:hasrelationmanager>
+        </mm:hasnodemanager>
 
       </mm:node>
 
