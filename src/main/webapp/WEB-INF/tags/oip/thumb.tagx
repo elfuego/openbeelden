@@ -69,7 +69,8 @@
           </mm:nodefunction>
         </c:when>
         <c:when test="${nodetype eq 'images'}">
-          <img src="${mm:link('/style/images/thumb_image.png')}" alt="${empty alt ? 'image' : alt}" width="${w}" height="${h}" />
+          <!-- <img src="${mm:link('/style/images/thumb_image.png')}" alt="${empty alt ? 'image' : alt}" width="${w}" height="${h}" /> -->
+          <mm:image mode="img" alt="${alt}" width="${w}" height="${h}" crop="end" />
         </c:when>
         <c:otherwise>
           <img src="${mm:link('/style/images/thumb_video.png')}" alt="${empty alt ? 'video' : alt}" width="${w}" height="${h}" />
