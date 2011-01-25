@@ -7,10 +7,35 @@
     xmlns:mm="http://www.mmbase.org/mmbase-taglib-2.0"
     xmlns:sr="http://www.mmbase.org/tags/mm/searchrelate"
     xmlns:oip="urn:jsptagdir:/WEB-INF/tags/oip">
+<jsp:directive.page buffer="64kb" />
 
   <oip:editor styleClass="portal">
     <jsp:attribute name="head">
+      
       <mm:import externid="nr" />
+      <mm:hasnode number="$nr">
+        <mm:node number="$nr"><mm:nodeinfo type="type" id="builder" write="false" /></mm:node>
+      </mm:hasnode>
+
+      <script type="text/javascript">
+        /* this is in editor.jspx */
+        $(document).ready(function() {
+            var validator = new MMBaseValidator();
+            var to_validate_id = "form_${nr}";
+            <c:if test="${!empty builder}">validator.prefetchNodeManager('${builder}');</c:if>
+            validator.lang = "${requestScope['javax.servlet.jsp.jstl.fmt.locale.request']}";
+            validator.addValidationForElements($('#' + to_validate_id + " .mm_validate"));
+            validator.validateHook = function(valid, entry) {
+               var button = $("#" + to_validate_id + " input[type=submit][class=submit]");
+		       //button[0].disabled = validator.invalidElements != 0;
+		       console.log("invalid: "  + validator.invalidElements);
+		       console.log(validator.elements);
+            }
+            validator.validateHook();
+            
+        });
+      </script>
+        
     </jsp:attribute>
     <jsp:attribute name="left">
 
@@ -37,7 +62,6 @@
     <jsp:attribute name="body">
 
       <div class="main-column">
-        
         <c:choose>
           <c:when test="${empty nr}">
             <h2>Not found</h2>
@@ -45,48 +69,61 @@
           </c:when>
           <c:otherwise>
             <mm:node number="$nr">
-              <h2><mm:nodeinfo type="type" id="type" /></h2>
+
+              <h2>Edit : <mm:nodeinfo type="type" id="type" /></h2>
+
 
               <mm:include page="edit-node.jspx" referids="p?,_node@nr" />
               <mm:include page="/mmbase/components/oip/user-translations.jspx" referids="_node@n" />
 
                 
-                <mm:hasrelationmanager sourcemanager="$type" destinationmanager="articles" role="posrel">
-                  <div class="wrap">
-                    <h2>Articles</h2>
-                    <mm:relatednodescontainer type="articles" role="posrel" searchdirs="destination">
-                      <ul>
-                        <mm:relatednodes>
-                          <li id="edit_${_node.number}">
-                            <mm:link page="/editors/edit-node.jspx" referids="p?,_node@nr">
-                              <a class="editme" href="${_}#edit_${_node.number}">edit</a>
-                            </mm:link>
-                            <mm:maydelete>
-                              <mm:link page="/editors/delete-node.jspx" referids="p?,_node@nr">
-                                <a class="editme delete" href="${_}#edit_${_node.number}">delete</a>
-                              </mm:link>
-                            </mm:maydelete>
-                            <div>
-                              <mm:field name="title" /> (<mm:field name="language" />)
-                            </div>
-                          </li>
-                        </mm:relatednodes>
-                        <li id="new_articles">
-                          <jsp:text> <!-- empty, cause nothing exists here yet --> </jsp:text>
-                        </li>
-                        <li>
-                          <mm:link page="/editors/add-node.jspx" referids="p?,nr">
-                            <mm:param name="type">articles</mm:param>
-                            <mm:param name="role">posrel</mm:param>
-                            <a class="editme" href="${_}#new_articles">add article</a>
-                          </mm:link>
-                        </li>
-                      </ul>
-                    </mm:relatednodescontainer>
-                  </div>
-                </mm:hasrelationmanager>
-             
-      
+              <mm:hasrelationmanager sourcemanager="$type" destinationmanager="articles" role="posrel">
+                <div class="wrap">
+                  <h3>Articles</h3>
+                  <mm:include page="/editors/edit-list.jspx" referids="p,_node@nr">
+                    <mm:param name="type">articles</mm:param>
+                    <mm:param name="role">posrel</mm:param>
+                    <mm:param name="dir">destination</mm:param>
+                  </mm:include>
+                </div>
+              </mm:hasrelationmanager>
+
+              <mm:hasrelationmanager sourcemanager="$type" destinationmanager="licenses" role="related">
+                <div class="wrap">
+                  <h3>Licenses</h3>
+                  <mm:include page="/editors/edit-list.jspx" referids="p,_node@nr">
+                    <mm:param name="type">licenses</mm:param>
+                    <mm:param name="role">related</mm:param>
+                    <mm:param name="dir">destination</mm:param>
+                  </mm:include>
+                </div>
+              </mm:hasrelationmanager>
+
+
+              <mm:hasrelationmanager sourcemanager="$type" destinationmanager="images" role="posrel">
+                <div class="wrap">
+                  <h3>Images</h3>
+                  <mm:include page="/editors/edit-list.jspx" referids="p,_node@nr">
+                    <mm:param name="type">images</mm:param>
+                    <mm:param name="role">posrel</mm:param>
+                    <mm:param name="dir">destination</mm:param>
+                    <mm:param name="fields">title,handle</mm:param>
+                  </mm:include>
+                </div>
+              </mm:hasrelationmanager>
+
+              <mm:hasrelationmanager sourcemanager="$type" destinationmanager="urls" role="related">
+                <div class="wrap">
+                  <h3>Links</h3>
+                  <mm:include page="/editors/edit-list.jspx" referids="p,_node@nr">
+                    <mm:param name="type">urls</mm:param>
+                    <mm:param name="role">related</mm:param>
+                    <mm:param name="dir">destination</mm:param>
+                  </mm:include>
+                </div>
+              </mm:hasrelationmanager>
+
+
             </mm:node>
       
          </c:otherwise>

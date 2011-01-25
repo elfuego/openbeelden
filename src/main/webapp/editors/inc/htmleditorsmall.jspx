@@ -7,7 +7,7 @@
   tinyMCE.init({
       theme: "advanced",
       mode : "specific_textareas",
-      editor_selector : /(mm_f_intro|mm_f_body|mm_f_description)/,
+      editor_selector : /(mm_f_intro|mm_f_body)/,
       plugins : "fullscreen,xhtmlxtras",
       content_css : "${mm:link('/style/css/tiny_mce.css')}",
       entity_encoding : "raw",

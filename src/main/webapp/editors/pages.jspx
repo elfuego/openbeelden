@@ -150,50 +150,46 @@
 
         
          <mm:node number="$nr">
+           <!-- edit page -->
            <h2>Pages : <mm:field name="title" /></h2>
  
            <mm:include page="edit-node.jspx" referids="p?,_node@nr" />
            <mm:include page="/mmbase/components/oip/user-translations.jspx" referids="_node@n" />
- 
-         
+
+
+           <!-- article list-->
            <div class="wrap">
              <h2>Articles</h2>
-             <!--
-             <mm:hasrelationmanager sourcemanager="pages" destinationmanager="articles" role="posrel">
-               <p>
-                 <mm:include page="/editors/inc/searchrelate.jspx" referids="nr">
-                   <mm:param name="type">articles</mm:param>
-                   <mm:param name="role">posrel</mm:param>
-                   <mm:param name="searchdirs">destination</mm:param>
-                   <mm:param name="sortorder">posrel.pos</mm:param>
-                   <mm:param name="list">title,author,language</mm:param>
-                 </mm:include>
-               </p>
-             </mm:hasrelationmanager> -->
- 
+
              <mm:relatednodescontainer type="articles" role="posrel" searchdirs="destination" id="related_articles">
                <mm:sortorder field="posrel.pos" direction="UP" />
-               <ul class="sortable" id="related_articles">
+               <ul class="sortable connected" id="related_articles">
                  <li class="log"><jsp:text> <!-- empty --> </jsp:text></li>
                  <mm:relatednodes>
-                   <li id="edit_${_node.number}">
-                     <mm:link page="/editors/edit-node.jspx" referids="p?,_node@nr">
-                       <a class="editme" href="${_}#edit_${_node.number}">edit</a>
+                   <c:set var="article" value="${_node.number}" />
+                   <li class="notsortable" id="edit_${_node.number}">
+                     
+                     <mm:link page="/editors/editor.jspx" referids="p?,_node@nr">
+                       <a class="edit" href="${_}">edit</a>
                      </mm:link>
-                     <mm:maydelete>
-                       <mm:link page="/editors/delete-node.jspx" referids="p?,_node@nr">
-                         <a class="editme delete" href="${_}#edit_${_node.number}">delete</a>
-                       </mm:link>
-                     </mm:maydelete>
+                     
+                     <mm:relation to="${nr}">
+                       <mm:maydelete>
+                         <mm:link page="/editors/delete-relation.jspx" referids="p?,article@nr,_node@relation,nr@related">
+                           <a class="editme unrelate" href="${_}#edit_${article}">unrelate</a>
+                         </mm:link>
+                       </mm:maydelete>
+                     </mm:relation>
+                     
                      <div>
                        <mm:include page="/editors/show-node.jspx" referids="p?,_node@nr" />
                      </div>
                    </li>
                  </mm:relatednodes>
-                 <li id="new_articles">
+                 <li class="notsortable" id="new_articles">
                    <jsp:text> <!-- empty, cause nothing exists here yet --> </jsp:text>
                  </li>
-                 <li>
+                 <li class="notsortable">
                    <mm:link page="/editors/add-node.jspx" referids="p?,nr">
                      <mm:param name="type">articles</mm:param>
                      <mm:param name="role">posrel</mm:param>
@@ -202,12 +198,29 @@
                  </li>
                </ul>
              </mm:relatednodescontainer>
-             <mm:write session="related_articles" referid="related_articles" />
-
- 
+             <!-- <mm:write session="related_articles" referid="related_articles" /> -->
+             <!-- with _current for  /mmbase/searchrelate/relate.jspx -->
+             <mm:write session="related_articles_current" referid="related_articles" />
+          
+             <!-- search -->
+             <mm:link page="/editors/search-node.jspx" id="searchlink" escapeamps="false" referids="p?,nr?">
+               <mm:param name="type">articles</mm:param>
+               <mm:param name="fields">title,online</mm:param>
+               <mm:param name="max">10</mm:param>
+             </mm:link>
+             <form id="searchform" method="post" action="${searchlink}" class="search">
+               <fieldset class="first">
+                 <div>
+                   <label for="search">Search article</label>
+                   <input type="text" name="q" id="search" size="42" />
+                 </div>
+                 <input type="submit" name="submit" value="Search" class="submit" />
+               </fieldset>
+             </form>
+             <div class="searchresults"><jsp:text> <!-- empty --> </jsp:text></div>
            </div>
- 
-         </mm:node>
+
+         </mm:node><!-- /pages node -->
 
        </c:otherwise>
       </c:choose>

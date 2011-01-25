@@ -6,9 +6,8 @@
     xmlns:mm="http://www.mmbase.org/mmbase-taglib-2.0"
     xmlns:oip="urn:jsptagdir:/WEB-INF/tags/oip"    
     expires="0" type="text/html" language="client" postprocessor="none">
-<jsp:output doctype-root-element="html"
-      doctype-public="-//W3C//DTD XHTML 1.0 Strict//EN"
-      doctype-system="http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd" />
+
+<jsp:output omit-xml-declaration="false" />
 
 <mm:cloud method="asis">
 
@@ -20,8 +19,14 @@
 <mm:import externid="type" />
 <mm:import externid="fields" vartype="List" />
 
+<mm:import externid="editme">false</mm:import>
+<mm:import externid="show">/editors/show-node.jspx</mm:import>
+<mm:import externid="editor">/editors/edit-node.jspx</mm:import>
+<mm:import externid="maydelete">true</mm:import>
+
 <mm:import externid="max">25</mm:import>
 <mm:import externid="offset">0</mm:import>
+
 
 <mm:listnodescontainer type="$type">
   
@@ -89,7 +94,7 @@
         </mm:maywrite>
 
         <div>
-          <mm:include page="/editors/show-node.jspx" referids="p,_node@nr">
+          <mm:include page="$show" referids="p,_node@nr">
             <mm:param name="fields">${fields}</mm:param>
           </mm:include>
         </div>

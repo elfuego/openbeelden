@@ -5,10 +5,10 @@
     xmlns:fmt="http://java.sun.com/jsp/jstl/fmt"
     xmlns:mm="http://www.mmbase.org/mmbase-taglib-2.0"
     expires="0" type="text/html" language="client" postprocessor="none">
-<jsp:output doctype-root-element="html"
-      doctype-public="-//W3C//DTD XHTML 1.0 Strict//EN"
-      doctype-system="http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd" />
-<mm:cloud loginpage="/editors/login.jspx" rank="portal manager">
+
+<jsp:output omit-xml-declaration="false" />
+
+<mm:cloud method="asis">
 
   <fmt:setBundle basename="eu.openimages.messages" scope="request" />
   
@@ -19,6 +19,7 @@
   <mm:import externid="property_key" />
   <mm:import externid="property_value" />
   
+
   <mm:node number="$nr">
 
     <mm:present referid="submit_property">

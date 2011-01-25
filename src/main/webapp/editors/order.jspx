@@ -2,6 +2,7 @@
     version="2.0"
     xmlns:c="http://java.sun.com/jsp/jstl/core"
     xmlns:jsp="http://java.sun.com/JSP/Page"
+    xmlns:fn="http://java.sun.com/jsp/jstl/functions"
     xmlns:mm="http://www.mmbase.org/mmbase-taglib-2.0">
     
   <mm:content 
@@ -15,11 +16,11 @@
       <!-- re-orders a list  -->
       
       <mm:import externid="order" jspvar="order" vartype="List" />
-      <mm:import externid="query_id" from="request,parameters" />
-      <mm:import from="session" externid="${query_id}" id="q" jspvar="q" vartype="org.mmbase.bridge.NodeQuery" />      
+      <mm:import externid="id" from="request,parameters" />
+      <mm:import from="session" externid="${id}_current" id="q" jspvar="q" vartype="org.mmbase.bridge.NodeQuery" />
       
       <c:choose>
-        <c:when test="${!empty order and !empty q}">
+        <c:when test="${!empty q and fn:length(order) gt 1}">
 
           <jsp:scriptlet>
             java.util.List&lt;Integer&gt; iorder = new java.util.ArrayList&lt;Integer&gt;();
@@ -29,11 +30,11 @@
             org.mmbase.bridge.util.Queries.reorderResult(q, iorder);
           </jsp:scriptlet>
           
-          <p class="msg">New order is saved!</p>
+          <p class="msg">New order saved! (order: ${order} l: ${fn:length(order)})</p>
           
         </c:when>
         <c:otherwise>
-          <p class="err">Too bad. Some error occured.</p>
+          <p class="err">Too bad. Some error occured (id: ${id}, order: ${order} l: ${fn:length(order)} ).</p>
         </c:otherwise>
       </c:choose>
 

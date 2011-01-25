@@ -16,7 +16,7 @@
   <jsp:include page="/mmbase/jquery/jquery.jspx" />
 
 </head>
-<body class="login">
+<body class="login" onload="document.getElementById('loginform').username.focus()">
 
   <div class="login">
     <mm:component name="oip" block="user-login" />

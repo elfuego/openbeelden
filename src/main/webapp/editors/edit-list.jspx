@@ -5,9 +5,8 @@
     xmlns:fmt="http://java.sun.com/jsp/jstl/fmt"
     xmlns:mm="http://www.mmbase.org/mmbase-taglib-2.0"
     expires="0" type="text/html" language="client" postprocessor="none">
-<jsp:output doctype-root-element="html"
-      doctype-public="-//W3C//DTD XHTML 1.0 Strict//EN"
-      doctype-system="http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd" />
+
+<jsp:output omit-xml-declaration="true" />
 
 <mm:cloud method="asis">
 
@@ -18,37 +17,117 @@
   <mm:import externid="fields" />
   
   <mm:import externid="type" />
-  <mm:import externid="role" />
-  <mm:import externid="dir" />
+  <mm:import externid="role">related</mm:import>
+  <mm:import externid="dir">destination</mm:import>
 
+  <mm:import externid="show">/editors/show-node.jspx</mm:import>
+  <mm:import externid="editor">/editors/edit-node.jspx</mm:import>
+  <mm:import externid="maydelete">true</mm:import>
+
+  <mm:import externid="search">true</mm:import>
+  <mm:import externid="sortable">true</mm:import>
+  <!-- c:if test="${role ne 'posrel'}">
+    <mm:import id="sortable" reset="true">false</mm:import>
+  </c:if -->
+  <mm:import externid="max">99</mm:import>
+  
   <mm:node number="$nr">
-    <mm:relatednodescontainer type="$type" role="$role" searchdirs="$dir">
-      <ul>
-        <mm:relatednodes>
+    <mm:nodeinfo type="type" id="type_of_nr" write="false" />
+    <mm:relatednodescontainer type="$type" role="$role" searchdirs="$dir" id="related_${type}">
+      <!-- c:if test="${!empty max}">
+        <mm:maxnumber value="$max" />
+      </c:if -->
+      <mm:size id="total" write="false" />
+      <c:if test="${role eq 'posrel'}">
+        <mm:sortorder field="posrel.pos" direction="UP" />
+      </c:if>
+      <ul class="${sortable ? 'sortable connected' : ''} ${total == 0 ? 'empty' : ''}" id="related_${type}">
+        <li class="log notsortable"><jsp:text> <!-- empty --> </jsp:text></li>
+        <c:if test="${total == 0 and sortable}">
+          <li class="notsortable empty">Search and drop items here to add them.</li>
+        </c:if>
+        <mm:relatednodes id="this_node">
           <li id="edit_${_node.number}">
-            <mm:link page="/editors/edit-node.jspx" referids="p,_node@nr">
-              <a class="editme" href="${_}#edit_${_node.number}">edit</a>
+            
+            <mm:link page="$editor" referids="p,_node@nr,show,editor,maydelete">
+              <a class="${editor ne '/editors/editor.jspx' ? 'editme' : 'edit'}" href="${_}#edit_${_node.number}">edit</a>
             </mm:link>
+            
             <mm:maydelete>
-              <mm:link page="/editors/delete-node.jspx" referids="p,_node@nr">
+              <mm:link page="/editors/delete-node.jspx" referids="p,_node@nr,show,editor,maydelete">
                 <a class="editme delete" href="${_}#edit_${_node.number}">delete</a>
               </mm:link>
             </mm:maydelete>
+            
+            <c:if test="${! sortable}">
+              <mm:relation to="${nr}" role="${role}">
+                <mm:maydelete>
+                  <mm:link page="/editors/delete-relation.jspx" referids="p,this_node@nr,_node@relation,nr@related,maydelete">
+                    <a class="editme unrelate" href="${_}#edit_${this_node}">unrelate</a>
+                  </mm:link>
+                </mm:maydelete>
+              </mm:relation>
+            </c:if>
+            <!-- <mm:listrelationscontainer type="$type_of_nr" role="$role" 
+              searchdir="${dir eq 'destination' ? 'source' : 'destination'}">
+              <mm:listrelations>
+                <mm:maydelete>
+                  <mm:link page="/editors/delete-relation.jspx" referids="p,this_node@nr,_node@relation,nr@related,maydelete">
+                    <a class="editme unrelate" href="${_}#edit_${this_node}">unrelate</a>
+                  </mm:link>
+                </mm:maydelete>
+              </mm:listrelations>
+            </mm:listrelationscontainer> -->
+
             <div>
-              show node
+              <mm:include page="$show" referids="p,_node@nr,show,editor,maydelete">
+                <mm:param name="fields">${fields}</mm:param>
+              </mm:include>
             </div>
+            
           </li>
         </mm:relatednodes>
-        <li id="new_${type}">
-          <jsp:text> <!-- empty, cause nothing exists here yet --> </jsp:text>
+        <li id="new_${type}" class="notsortable">
+          <jsp:text> <!-- empty --> </jsp:text>
         </li>
-        <li>
-          <mm:link page="/editors/add-node.jspx" referids="p,nr,type,role,dir">
-            <a class="editme" href="${_}#new_${type}">add ${type}</a>
-          </mm:link>
-        </li>
+        <c:if test="${total lt max}">
+          <li class="notsortable">
+            <mm:link page="/editors/add-node.jspx" referids="p,nr,type,role,dir,show,editor,maydelete">
+              <a class="editme" href="${_}#new_${type}">add ${type}</a>
+            </mm:link>
+          </li>
+        </c:if>
       </ul>
     </mm:relatednodescontainer>
+    <c:if test="${sortable}">
+      <mm:write session="related_${type}_current" referid="related_${type}" />
+    </c:if>
+    
+    
+    <c:if test="${search}">
+
+      <mm:link page="/editors/search-node.jspx" id="searchlink" escapeamps="false" referids="p,nr,type">
+        <mm:param name="max">10</mm:param>
+      </mm:link>
+      <form class="searchform" method="post" action="${searchlink}">
+        <fieldset class="first">
+          <div>
+            <label for="search">Search ${type}</label>
+            <input type="text" name="q" id="search" size="42" />
+          </div>
+          <input type="submit" name="submit" value="Search" class="submit" />
+        </fieldset>
+      </form>
+      <div class="searchresults"><jsp:text> <!-- empty --> </jsp:text>
+        <c:if test="${total gt 0}">
+          <ul id="found_${type}" class="sortable connected empty">
+            <li class="empty notsortable">Drop items here to remove from the existing list.</li>
+          </ul>
+        </c:if>
+      </div>
+             
+    </c:if>
+    
   </mm:node>
  
 </mm:cloud>

@@ -5,9 +5,8 @@
     xmlns:fmt="http://java.sun.com/jsp/jstl/fmt"
     xmlns:mm="http://www.mmbase.org/mmbase-taglib-2.0"
     expires="0" type="text/html" language="client" postprocessor="none">
-<jsp:output doctype-root-element="html"
-      doctype-public="-//W3C//DTD XHTML 1.0 Strict//EN"
-      doctype-system="http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd" />
+
+<jsp:output omit-xml-declaration="true" />
 
 <mm:cloud method="asis">
 
@@ -17,12 +16,17 @@
 <mm:import externid="nr" /><!-- node (in a list) with relation -->
 <mm:import externid="fields" />
 
-<mm:import externid="relation" /><!-- relation node to delete -->
-<mm:import externid="related" /><!-- node with which is relation -->
-
 <mm:import externid="delete" />
 <mm:import externid="cancel" />
-  
+
+<mm:import externid="related" /><!-- node with which is relation -->
+<mm:import externid="relation" /><!-- relation node to delete -->
+<mm:import externid="editme">false</mm:import>
+<mm:import externid="show">/editors/show-node.jspx</mm:import>
+<mm:import externid="editor">/editors/edit-node.jspx</mm:import>
+<mm:import externid="maydelete">true</mm:import>
+
+
 <mm:hasnode number="$nr" inverse="true">
   <p class="msg">Node not found.</p>
 </mm:hasnode>
@@ -30,6 +34,7 @@
 <mm:hasnode number="$relation" inverse="true">
   <p class="msg">Relation not found. Deleted already?</p>
 </mm:hasnode>
+
 
 <mm:hasnode number="$relation">
 
@@ -43,7 +48,11 @@
             <p class="err">Not enough privileges.</p>
           </mm:maydelete>
           <mm:maydelete>
-            <span class="node_deleted_${relation}"> Relation node ${relation} is removed!</span>
+            <span class="node_deleted_${relation} removed">
+              The relation (${relation}) is removed! Or
+              '<mm:node number="$nr"><mm:function name="gui" escape="none" /></mm:node>'
+              is removed from the list.
+            </span>
             <mm:deletenode number="$relation" />
           </mm:maydelete>
         </c:when>
@@ -51,20 +60,21 @@
         <c:when test="${!empty cancel}">
           <mm:maywrite>
             <div class="log"><jsp:text> <!-- empty --> </jsp:text></div>
-            <mm:link page="/editors/edit-node.jspx" referids="p,nr,fields?,related?">
+            <mm:link page="/editors/edit-node.jspx" referids="p,nr,fields?,related?,maydelete">
               <a class="editme" href="${_}#edit_${nr}">edit</a>
             </mm:link>
           </mm:maywrite>
-          <mm:maydelete>
-            <mm:link page="/editors/delete-node.jspx" referids="p,nr,fields?,related?">
-              <a class="editme delete" href="${_}#edit_${nr}">delete</a>
-            </mm:link>
-          </mm:maydelete>
-          
+          <c:if test="${maydelete}">
+            <mm:maydelete>
+              <mm:link page="/editors/delete-node.jspx" referids="p,nr,fields?,related?,maydelete">
+                <a class="editme delete" href="${_}#edit_${nr}">delete</a>
+              </mm:link>
+            </mm:maydelete>
+          </c:if>
           <c:if test="${!empty relation}">
             <mm:node number="$relation" notfound="skip">
               <mm:maydelete>
-                <mm:link page="/editors/delete-relation.jspx" referids="p,nr,fields?,relation,related?">
+                <mm:link page="/editors/delete-relation.jspx" referids="p,nr,fields?,relation,maydelete,related?">
                   <a class="editme unrelate" href="${_}#edit_${nr}">unrelate</a>
                 </mm:link>
               </mm:maydelete>

@@ -5,9 +5,9 @@
     xmlns:fmt="http://java.sun.com/jsp/jstl/fmt"
     xmlns:mm="http://www.mmbase.org/mmbase-taglib-2.0"
     expires="0" type="text/html" language="client" postprocessor="none">
-<jsp:output doctype-root-element="html"
-      doctype-public="-//W3C//DTD XHTML 1.0 Strict//EN"
-      doctype-system="http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd" />
+
+<jsp:directive.page buffer="64kb" />
+<jsp:output omit-xml-declaration="true" />
 
 <mm:cloud method="asis">
 
@@ -16,15 +16,22 @@
   <mm:import externid="p" /><!-- portal -->
   <mm:import externid="nr" />
   <mm:import externid="fields" vartype="List" />
+
   <mm:import externid="submit$nr" />
   <mm:import externid="cancel" />
   
+  <mm:import externid="related" />
   <mm:import externid="editme">false</mm:import>
   <mm:import externid="show">/editors/show-node.jspx</mm:import>
+  <mm:import externid="editor">/editors/edit-node.jspx</mm:import>
+  <mm:import externid="maydelete">true</mm:import>
+
 
   <mm:hasnode number="$nr" inverse="true">
     <p class="err">Node not found.</p>
   </mm:hasnode>
+
+
   <mm:hasnode number="$nr">
 
     <c:choose>
@@ -32,17 +39,32 @@
         
         <mm:node number="$nr">
           <mm:maywrite>
-            <mm:link page="/editors/edit-node.jspx" referids="p,nr">
+            <mm:link page="$editor" referids="p,nr,related?">
               <mm:param name="fields">${fields}</mm:param>
               <a class="editme" href="${_}#edit_${nr}">edit</a>
             </mm:link>
           </mm:maywrite>
-          <mm:maydelete>
-            <mm:link page="/editors/delete-node.jspx" referids="p,nr">
-              <mm:param name="fields">${fields}</mm:param>
-              <a class="editme delete" href="${_}#edit_${nr}">delete</a>
-            </mm:link>
-          </mm:maydelete>
+          <c:if test="${maydelete}">
+            <mm:maydelete>
+              <mm:link page="/editors/delete-node.jspx" referids="p,nr,related?,maydelete">
+                <mm:param name="fields">${fields}</mm:param>
+                <a class="editme delete" href="${_}#edit_${nr}">delete</a>
+              </mm:link>
+            </mm:maydelete>
+          </c:if>
+          
+          <!-- remove relation -->
+          <c:if test="${!empty related}">
+            <mm:relation to="${related}">
+              <mm:maydelete>
+                <mm:link page="/editors/delete-relation.jspx" referids="p,nr,related,_node@relation,maydelete">
+                  <a class="editme unrelate" href="${_}#edit_${nr}">unrelate</a>
+                </mm:link>
+              </mm:maydelete>
+            </mm:relation>
+          </c:if>
+
+          
         </mm:node>
         <div>
           <mm:include page="$show" referids="p,nr">
@@ -52,7 +74,8 @@
       </c:when>
       <c:otherwise>
   
-        <mm:form id="form_$nr">
+        <mm:url referids="p,nr" write="false" escapeamps="false" id="submit_link"></mm:url>
+        <mm:form id="form_$nr" page="$submit_link">
         
           <mm:node number="$nr" commitonclose="false">
             
@@ -79,10 +102,11 @@
               
               <mm:maywrite>
                 <fieldset class="buttons">
-                  <input name="p"            type="hidden" value="${p}" />
-                  <input name="nr"           type="hidden" value="${nr}" />
+                  <!-- <input name="p"            type="hidden" value="${p}" />
+                  <input name="nr"           type="hidden" value="${nr}" /> -->
                   <input name="fields"       type="hidden" value="${fields}" />
-                  <input name="submit${nr}"  type="hidden" value="Bla" />
+                  <input name="related"      type="hidden" value="${related}" />
+                  <input name="submit${nr}"  type="hidden" value="ok" />
                   <!-- <mm:nodeinfo type="type"><input name="type" type="hidden" value="${_}" /></mm:nodeinfo> -->
                   <div>
                     <fmt:message key="users.form.save" var="button_save" />

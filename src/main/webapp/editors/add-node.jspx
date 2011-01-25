@@ -5,8 +5,8 @@
     xmlns:fmt="http://java.sun.com/jsp/jstl/fmt"
     xmlns:mm="http://www.mmbase.org/mmbase-taglib-2.0"
     expires="0" type="text/html" language="${param.lang}">
-  <jsp:output
-      omit-xml-declaration="true" />
+
+<jsp:output omit-xml-declaration="true" />
 
   <mm:cloud method="asis">
 
@@ -31,17 +31,18 @@
       <mm:import id="value">${namevalue[1]}</mm:import>
     </c:if>
 
-
     <mm:import externid="submit$type" />
     <mm:import externid="cancel" />
 
     <mm:import externid="editme">false</mm:import>
     <mm:import externid="show">/editors/show-node.jspx</mm:import>
+    <mm:import externid="editor">/editors/edit-node.jspx</mm:import>
+    <mm:import externid="maydelete">true</mm:import>
+
 
     <c:choose>
       <c:when test="${cancel eq 'Cancel'}">
-        <!-- p class="msg">Cancelled.</p -->
-
+        
       </c:when>
       <c:otherwise>
 
@@ -166,7 +167,7 @@
 
           <!-- show new node -->
           <div class="node_created edit_${new_node}">
-            <mm:link page="/editors/edit-node.jspx" referids="p?,new_node@nr,show">
+            <mm:link page="$editor" referids="p?,new_node@nr,show">
               <mm:param name="fields">${fields}</mm:param>
               <a class="editme new" href="${_}#edit_${new_node}">edit</a>
             </mm:link>
@@ -174,6 +175,17 @@
               <mm:param name="fields">${fields}</mm:param>
               <a class="editme delete new" href="${_}#edit_${new_node}">delete</a>
             </mm:link>
+          
+            <mm:node referid="new_node">
+              <mm:relation to="${related}">
+                <mm:maydelete>
+                  <mm:link page="/editors/delete-relation.jspx" referids="p,new_node@nr,nr@related,_node@relation">
+                    <a class="editme unrelate" href="${_}#edit_${new_node}">unrelate</a>
+                  </mm:link>
+                </mm:maydelete>
+              </mm:relation>
+            </mm:node>
+
             <div>
               <mm:include page="$show" referids="p?,new_node@nr,show">
                 <mm:param name="fields">${fields}</mm:param>
