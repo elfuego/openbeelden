@@ -14,7 +14,7 @@ $(document).ready(function() {
 });
 
 function initSearchme() {
-    $('#searchform').submit(function(ev) {
+    $('.searchform').submit(function(ev) {
         ev.preventDefault();
         searchMe(this, ev);
     });
@@ -51,7 +51,7 @@ function searchMe(self, ev) {
         initSortable(list);
         $(this).find('a.cancel').click(function(ev){
             ev.preventDefault();
-            $(results_target).empty();
+            $(list).empty().addClass('empty').append('<li class="empty">Drop here...</li>');
         });
         $(this).find('li.pager a').click(function(ev) {
             ev.preventDefault();
@@ -110,6 +110,7 @@ function editMe(ev) {
 		   // fields validator
 		   var validator = new MMBaseValidator();
 		   validator.prefetchNodeManager(params.type);  // XXX: params.type not always present
+		   //console.log('id ' + id);
            validator.addValidationForElements($(id + " .mm_validate"));
 		   validator.validateHook = function(valid, entry) {
 		       var button = $(id + " input[type=submit][class=submit]");
@@ -184,42 +185,68 @@ function initSortable(listEl) {
 
     if ($(listEl).length > 0) {
         $(listEl).sortable({
-            update: function(ev, ui) { 
-                sortSortable(this);
-            },
             connectWith: ".connected",
             cancel: ".notsortable",
-            receive: function(ev, ui) { 
-                //console.log('receiving ' + $(ui.item).attr('id'));
+            remove: function(ev, ui) {
                 var edit_id = $(ui.item).attr('id');
                 var nodenr = edit_id.match(/\d+/);
-                var id_current = $(listEl).attr('id');
-                //console.log('receiving: ' + nodenr + ", id_current: " + id_current)
-                var params = { 
-                    id: id_current, 
-                    related: '' + nodenr, 
-                    unrelated: ''
-                    //deleted: deletedRelations
+                var currentId = $(listEl).attr('id');
+                if (currentId.indexOf('related_') > -1) {
+                    var params = { 
+                        id: currentId, 
+                        related: '',
+                        unrelated: '' + nodenr
                     };
-                $.ajax({
-                        url: "/mmbase/searchrelate/relate.jspx",
-                        type: "GET",
-                        datatype: "xml",
-                        data: params,
-                        complete: function(data) {
-                            $('#' + listEl.id + ' li.log').html(data.responseText);
-                            clearMsg('#' + listEl.id + ' li.log');
-                        }
-                    });
-                //$('#search_' + nodenr).removeClass('notsortable');
-                return;
+                    $.ajax({
+                            url: "/mmbase/searchrelate/relate.jspx",
+                            type: "GET",
+                            datatype: "xml",
+                            data: params,
+                            complete: function(data) {
+                                $('#' + listEl.id + ' li.log').html(data.responseText);
+                                clearMsg('#' + listEl.id + ' li.log');
+                                //console.log('removed ' + nodenr + ' from ' + currentId);
+                            }
+                        });
+                }
+            },
+            receive: function(ev, ui) { 
+                var edit_id = $(ui.item).attr('id');
+                var nodenr = edit_id.match(/\d+/);
+                var currentId = $(listEl).attr('id');
+                var senderId = $(ui.sender).attr('id');
+                if (senderId.indexOf('found_') > -1) {
+                    var params = { 
+                        id: currentId, 
+                        related: '' + nodenr, 
+                        unrelated: ''
+                        //deleted: deletedRelations
+                    };
+                    $.ajax({
+                            url: "/mmbase/searchrelate/relate.jspx",
+                            type: "GET",
+                            datatype: "xml",
+                            data: params,
+                            complete: function(data) {
+                                $('#' + listEl.id + ' li.log').html(data.responseText);
+                                clearMsg('#' + listEl.id + ' li.log');
+                                //console.log('received ' + nodenr + ' from ' + senderId);
+                            }
+                        });
+                }
+
+            },
+            update: function(ev, ui) { 
+                sortSortable(this);
             }
+            
         }).disableSelection();
     }
 }
 
 function sortSortable(list) {
     var items = $(list).sortable("toArray");
+    var total = 0;
     for (i = 0; i < items.length; i++) {
         var result = items[i].match(/\d+/);
         if (result != null) {
@@ -228,31 +255,51 @@ function sortSortable(list) {
             } else {
                 order = order + "," + result;
             }
+            total += 1;
+        }
+    }
+    if (total > 1) {
+        var params = new Object();
+        params['id'] = list.id;
+        params['order'] = order;
+        $.ajax({
+            url: 'order.jspx',                  /* TODO: make this ${mm:link('/editors/order.jspx')} */
+            data: params,
+            dataType: "xml",
+            complete: function(data) {
+                $('#' + list.id + ' li.log').html(data.responseText);
+                clearMsg('#' + list.id + ' li.log');
+            }
+        });
+    }
+    if (total == 0) {
+        $(list).addClass('empty');
+        $(list).append('<li class="notsortable empty">Drop here...</li>');
+    } else {
+        $(list).find('li.empty').remove();
+        if ($(list).is('.empty')) {
+            $(list).removeClass('empty');
         }
     }
     
-    var params = new Object();
-    params['id'] = list.id;
-    params['order'] = order;
-    $.ajax({
-        url: 'order.jspx',                  /* TODO: make this ${mm:link('/editors/order.jspx')} */
-        data: params,
-        dataType: "xml",
-        complete: function(data) {
-            $('#' + list.id + ' li.log').html(data.responseText);
-            clearMsg('#' + list.id + ' li.log');
-        }
-    });    
 }
 
 /*
  * Inits tinyMCE html editor on dynamically loaded forms
  */
+/*
+example:
+    // This triggers MMBaseValidator
+    $("#" + tinyMCE.activeEditor.editorId).trigger("paste");
+    tinyMCE.execCommand('mceRemoveControl', false, textAreaId );
+|mm_f_description
+*/
+
 function initTiny( ) {
     tinyMCE.init({
         theme: "advanced",
         mode : "specific_textareas",
-        editor_selector : /(mm_f_intro|mm_f_body|mm_f_description)/,
+        editor_selector : /(mm_f_intro|mm_f_body)/,
         plugins : "fullscreen,xhtmlxtras",
         //content_css : "${mm:link('/style/css/tiny_mce.css')}",
         content_css : "/style/css/tiny_mce.css",

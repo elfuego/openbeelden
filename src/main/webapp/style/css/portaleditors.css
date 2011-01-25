@@ -19,13 +19,12 @@ body.editor div#footer
 }
 body.editor div#footer div
 {
-	margin-top: 20px;
     background-image: -webkit-gradient(linear, left top, left bottom, from(#efefef), to(#fff));
     border-top: 1px solid #cfcfcf;
-	min-height: 60px;
+	min-height: 80px;
 	width: 100%;
-	margin: 0;
-	padding: 1em 0;
+	margin: 20px 0 0 0;
+	padding: 1em 0 0 0;
 }
 body.editor div#footer div ul { margin-left: 283px; }
 
@@ -65,12 +64,12 @@ a:visited { color: #069; }
 
 body.login div.login
 {
-	width: 320px;
+	width: 364px;
 	margin: 4em auto;
 	background-image: url(../images/oip-logo_en.png);
 	background-repeat: no-repeat;
-	background-position: 0 0;
-	padding-top: 110px;
+	background-position: 0 8px;
+	padding: 110px 0 10px 10px;
 }
 
 
@@ -110,22 +109,43 @@ ul.sortable li > div.log
 	padding-left: 0;
 }
 
+ul.sortable.empty
+{
+	border: 1px dotted #ccc;
+	padding: 4px;
+}
 
-ul.sortable > li > img.sorthandle {}
+ul.sortable li
+{
+	margin: 2px 0;
+	padding: 4px;
+	border: 1px dotted #ccc;
+}
+
+ul li.notsortable,
+ul.sortable li.notsortable,
+ul.sortable li.pager,
+ul.sortable li.log
+{
+	border: none;
+	padding: 0;
+}
+
+span.removed, span.deleted { color: #C33; }
 
 /* search forms */
-form.search
+form.searchform
 {
 	clear: both;
 	margin-top: 2em;
 }
 
-form.search input[type=text] {
+form.searchform input[type=text] {
     background-image: url("images/search-bg.png");
     background-position: right 50%;
     background-repeat: no-repeat;
 }
-form.search input.submit { margin: 0; }
+form.searchform input.submit { margin: 0; }
 
 div.searchresults ul
 {
@@ -155,3 +175,5 @@ div.show-media img
 	float: left;
 	margin: 4px 4px 0 0;
 }
+
+div.mm_check_error { margin-left: 148px; }
