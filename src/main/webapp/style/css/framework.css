@@ -194,9 +194,9 @@ div.left-column
 
 #footer div
 {
-	width: 15%;
+	width: 140px;
 	float: left;
-	margin-left: 42px;  /* 42 */
+	margin-left: 46px;  /* 42 */
 	font-size: 0.85em;
 }
 
@@ -204,11 +204,17 @@ div.left-column
 {
 	float: left;
 	width: 216px;       /* 216 */
-	margin-left: 28px;  /* 48 */
+	margin-left: 18px;  /* 48 */
 	font-size: 0.9em;
 	color: #777;
 }
 #footer div.logos img { margin-top: 8px; }
+
+#footer div.initiative
+{
+	float: left;
+	margin-left: 34px;
+}
 
 #footer ul { list-style: none; }
 
