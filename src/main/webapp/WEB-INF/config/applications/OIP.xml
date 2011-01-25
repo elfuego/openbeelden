@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE application PUBLIC "-//MMBase//DTD application config 1.1//EN" "http://www.mmbase.org/dtd/application_1_1.dtd">
-<application name="OIP" maintainer="openimages.eu" version="14" auto-deploy="true">
+<application name="OIP" maintainer="openimages.eu" version="15" auto-deploy="true">
 
   <requirements>
     <requires name="Streams"        maintainer="streams.mmbase.org"            />
@@ -51,7 +51,9 @@
     <relation from="pools"    to="pages"       type="posrel" />
     <relation from="pages"    to="pages"       type="posrel" />
     <relation from="pages"    to="articles"    type="posrel" />
+    <relation from="pages"    to="images"      type="posrel" />
     <relation from="pages"    to="mediafragments" type="posrel" />
+    <relation from="images"   to="urls"        type="related" />
     <relation from="articles" to="images"      type="posrel" />
     <relation from="articles" to="urls"        type="posrel" />
     <relation from="articles" to="attachments" type="posrel" />
