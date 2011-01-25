@@ -4,18 +4,48 @@
   xmlns:fmt="http://java.sun.com/jsp/jstl/fmt"
   xmlns:mm="http://www.mmbase.org/mmbase-taglib-2.0"
   version="2.0">
-
+  
   <div id="footer">
+    
     <div class="logos">
-      <p>
-        <fmt:message key="head.initiative">
-           <fmt:param>
-             <a href="http://www.beeldengeluid.nl">
-               <img src="${mm:link('/style/images/logo-beng.png')}" alt="Nederlands Instituut voor Beeld en Geluid" width="155" height="44" />
-             </a>
-           </fmt:param>
-        </fmt:message>
-      </p>
+      
+      <mm:import id="homepage" reset="true">page_home</mm:import>
+      <mm:node number="${requestScope.portal.number}" notfound="skip">
+        <mm:relatednodescontainer type="pages" role="posrel" searchdirs="destination">
+          <mm:constraint field="posrel.pos" value="0" value2="1" operator="BETWEEN" />
+          <mm:relatednodes>
+            <mm:import id="homepage" reset="true"><mm:field name="number" /></mm:import>
+          </mm:relatednodes>
+        </mm:relatednodescontainer>
+      </mm:node>
+
+      <mm:node number="$homepage" notfound="skip">
+        <mm:relatedcontainer path="posrel,images,urls" searchdirs="destination,destination"
+          fields="images.number,urls.url,posrel.pos">
+          <mm:sortorder field="posrel.pos" direction="UP" />
+          <p>
+          <mm:related>
+            <c:set var="partner_url"><mm:field name="urls.url" /></c:set>
+            <mm:node element="images">
+              <a href="${partner_url}"><mm:image width="81" mode="img" /></a>
+            </mm:node>
+          </mm:related>
+          </p>
+        </mm:relatedcontainer>        
+      </mm:node>
+      
+      <c:if test="${empty partner_url}">
+        <p>
+          <fmt:message key="head.initiative">
+             <fmt:param>
+               <a href="http://www.beeldengeluid.nl">
+                 <img src="${mm:link('/style/images/logo-beng.png')}" alt="Nederlands Instituut voor Beeld en Geluid" width="155" height="44" />
+               </a>
+             </fmt:param>
+          </fmt:message>
+        </p>
+      </c:if>
+      
     </div>
 
 
@@ -82,6 +112,20 @@
         </mm:relatednodescontainer>
       </div>
     </mm:node>
-
+    
+    <c:if test="${!empty partner_url}">
+      <div class="initiative">
+        <p>
+          <fmt:message key="head.initiative">
+             <fmt:param>
+               <a href="http://www.beeldengeluid.nl">
+                 <img src="${mm:link('/style/images/logo-beng.png')}" alt="Nederlands Instituut voor Beeld en Geluid" width="155" height="44" />
+               </a>
+             </fmt:param>
+          </fmt:message>
+        </p>
+      </div>
+    </c:if>
+    
   </div>
 </jsp:root>
