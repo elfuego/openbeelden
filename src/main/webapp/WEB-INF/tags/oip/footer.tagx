@@ -11,25 +11,33 @@
       
       <mm:import id="homepage" reset="true">page_home</mm:import>
       <mm:node number="${requestScope.portal.number}" notfound="skip">
+        
         <mm:relatednodescontainer type="pages" role="posrel" searchdirs="destination">
           <mm:constraint field="posrel.pos" value="0" value2="1" operator="BETWEEN" />
           <mm:relatednodes>
             <mm:import id="homepage" reset="true"><mm:field name="number" /></mm:import>
           </mm:relatednodes>
         </mm:relatednodescontainer>
+        
+        <mm:import id="key">partnertext</mm:import>
+        <mm:import id="prop_logos"><mm:function referids="_node@node,key" nodemanager="properties" name="get" /></mm:import>
+      
       </mm:node>
+
+
 
       <mm:node number="$homepage" notfound="skip">
         <mm:relatedcontainer path="posrel,images,urls" searchdirs="destination,destination"
           fields="images.number,urls.url,posrel.pos">
           <mm:sortorder field="posrel.pos" direction="UP" />
-          <p>
-          <mm:related>
-            <c:set var="partner_url"><mm:field name="urls.url" /></c:set>
-            <mm:node element="images">
-              <a href="${partner_url}"><mm:image width="81" mode="img" /></a>
-            </mm:node>
-          </mm:related>
+          <p> 
+            <mm:related>
+              <mm:first><c:if test="${!empty prop_logos}">${prop_logos}<br /></c:if></mm:first>
+              <c:set var="partner_url"><mm:field name="urls.url" /></c:set>
+              <mm:node element="images">
+                <a href="${partner_url}"><mm:image width="81" mode="img" /></a>
+              </mm:node>
+            </mm:related>
           </p>
         </mm:relatedcontainer>        
       </mm:node>
