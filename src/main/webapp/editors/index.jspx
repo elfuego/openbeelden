@@ -60,11 +60,13 @@
           <mm:relatednodes type="images" role="portalrel" max="1">
             <mm:import id="imgnr" reset="true"><mm:field name="number" /></mm:import>
             <div id="edit_${imgnr}">
-              <mm:image mode="img" template="s(216)" />
+              <!-- <mm:image mode="img" template="s(216)" /> -->
+              <mm:include page="/editors/show-portallogo.jspx" referids="p,_node@nr" />
             </div>
             <p>
               <mm:link page="/editors/edit-pic.jspx" referids="p,_node@nr">
                 <mm:param name="fields">handle</mm:param>
+                <mm:param name="show">/editors/show-portallogo.jspx</mm:param>
                 <a class="editme" href="${_}#edit_${imgnr}">edit picture</a>
               </mm:link>
             </p>
@@ -79,6 +81,7 @@
                 <mm:param name="fields">handle</mm:param>
                 <mm:param name="role">portalrel</mm:param>
                 <mm:param name="default">title=Portal logo ${portalName}</mm:param>
+                <mm:param name="show">/editors/show-portallogo.jspx</mm:param>
                 <a class="editme" href="${_}#add_picture">
                   <jsp:text>add picture</jsp:text>
                 </a>
@@ -95,33 +98,44 @@
         <h4>Translations</h4>
         <mm:include page="/mmbase/components/oip/user-translations.jspx" referids="_node@n" />
         
-        <div class="wrap">
 
           <mm:relatednodescontainer type="pages" role="posrel" searchdirs="destination">
             <mm:constraint field="posrel.pos" value="0" value2="1" operator="BETWEEN" />
             <mm:relatednodes>
-              <h2>Featured media</h2>
-                <p>
-                  <mm:include page="/editors/inc/searchrelate.jspx" referids="_node@nr">
-                    <mm:param name="type">mediafragments</mm:param>
-                    <mm:param name="role">posrel</mm:param>
-                    <mm:param name="searchdirs">destination</mm:param>
-                    <mm:param name="sortorder">posrel.pos</mm:param>
-                    <mm:param name="list">title,objecttype,language</mm:param>
-                    <mm:param name="create">false</mm:param>
-                  </mm:include>
-                </p>
+              <mm:import id="homepage" reset="true"><mm:field name="number" /></mm:import>
+
+              <div class="wrap">
+                <h2>Featured media</h2>
+                <mm:include page="/editors/edit-list.jspx" referids="p,_node@nr">
+                  <mm:param name="type">mediafragments</mm:param>
+                  <mm:param name="role">posrel</mm:param>
+                  <mm:param name="dir">destination</mm:param>
+                  <mm:param name="editor">/editors/editor.jspx</mm:param>
+                  <mm:param name="max">1</mm:param>
+                </mm:include>
+              </div>
+              
+              <div class="wrap">
+                <h3>Logo's partners</h3>
+                <mm:include page="/editors/edit-list.jspx" referids="p,_node@nr">
+                  <mm:param name="type">images</mm:param>
+                  <mm:param name="role">posrel</mm:param>
+                  <mm:param name="dir">destination</mm:param>
+                  <mm:param name="editor">/editors/editor.jspx</mm:param>
+                </mm:include>
+              </div>
+
             </mm:relatednodes>
-          </mm:relatednodescontainer>
-        
-        </div>
+          </mm:relatednodescontainer> 
 
         <div class="wrap">
           <h2>Properties</h2>
           <p>Settings or properties of this portal. Possible are:<br />
           <strong>newspage</strong> alias or nodenumber of a page with articles for the homepage f.e. 'pages_news',<br />
-          <strong>rss</strong> url of a feed (rss!) with news to show on your the homepage, or<br />
-          <strong>css</strong> link, f.e. '/style/css/subcollection.css' of a stylesheet.
+          <strong>rss</strong> url of a feed (rss!) with news to show on your the homepage,<br />
+          <strong>css</strong> link, f.e. '/style/css/subcollection.css' of a stylesheet, or<br />
+          <strong>partnertext</strong> text above the partner logos.
+          
           </p>
           <mm:include page="edit-properties.jspx" referids="p?,_node@nr" />
         </div>
