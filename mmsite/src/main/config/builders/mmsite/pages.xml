@@ -61,6 +61,7 @@
         </positions>
       </editor>
       <datatype base="line" xmlns="http://www.mmbase.org/xmlns/datatypes">
+        <default value="/" />
         <required value="true">
           <description xml:lang="nl">Pad is een verplicht veld</description>
           <description xml:lang="en">A path is required field</description>
