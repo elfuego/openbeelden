@@ -10,8 +10,18 @@
 
     <fmt:message key="head.title"       var="title" />
     <fmt:message key="head.description" var="description" />
+    
     <c:set var="img"><img src="${mm:link('/style/images/oip-logo.png')}" alt="${title}" width="174" height="174" /></c:set>
-    <c:set var="link">${mm:link('/')}</c:set>
+    
+    <c:choose>
+      <c:when test="${empty requestScope['org.mmbase.mmsite.language']}">
+        <c:set var="link">${mm:link('/')}</c:set>
+      </c:when>
+      <c:otherwise>
+        <c:set var="link">${mm:link('/')}.${requestScope['org.mmbase.mmsite.language']}</c:set>
+      </c:otherwise>
+    </c:choose>
+
 
     <c:choose>
       <c:when test="${empty portal}">
