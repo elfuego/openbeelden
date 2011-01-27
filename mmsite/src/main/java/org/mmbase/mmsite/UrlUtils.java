@@ -103,6 +103,11 @@ public final class UrlUtils {
             }
             return node;
         }
+        
+        /* in builder path is 255, no use in trying beyond that and creating huge db queries */
+        if (path.length() > 255) {
+            path = path.substring(0, 255); 
+        }
         NodeManager nm = cloud.getNodeManager("pages");
         NodeList nl = nm.getList("LOWER(path) = '" + path + "'", null, null);
         nl.addAll(nm.getList("LOWER(path) = '" + path + "/'", null, null));
