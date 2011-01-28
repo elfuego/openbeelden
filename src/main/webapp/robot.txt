@@ -1,4 +1,4 @@
-﻿# robots.txt for http://www.beelden.nl/
+﻿# robots.txt for http://www.openbeelden.nl/
 
 User-agent: *
 Disallow: /oip-test/
