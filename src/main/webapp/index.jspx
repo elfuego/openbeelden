@@ -162,7 +162,7 @@
       <div class="right-column">
         <div class="related">
           <oip:h2><fmt:message key="media.latest_uploads" /></oip:h2>
-          
+
           <c:set var="cachekey">oip.home.latestuploads.${page}_${requestScope['org.mmbase.mmsite.language']}</c:set>
           <os:cache key="${cachekey}" time="600">
             <c:catch var="ex1">
@@ -209,7 +209,7 @@
 
 
         <div class="main-column">
-          
+
           <!-- rss feed comes from a property 'rss' or one of two defaults  -->
           <mm:node number="$portal">
             <mm:nodelistfunction nodemanager="properties" name="list" referids="_node@node">
@@ -232,7 +232,7 @@
               <c:set var="rsslink">${rsslink_en}</c:set>
             </c:otherwise>
           </c:choose>
-          
+
           <oip:h2><fmt:message key="service.latest_news" /></oip:h2>
           <!-- news property (alias of node news page) prevails when set -->
           <c:choose>
@@ -241,7 +241,7 @@
                 <mm:param name="from" value="0" />
                 <mm:param name="to" value="460" />
                 <mm:param name="ellipsis" value=" [..]" />
-              </mm:escaper>              
+              </mm:escaper>
               <mm:node number="$property_newspage">
                 <mm:relatednodescontainer type="articles" role="posrel" searchdirs="destination">
                   <mm:sortorder field="online" direction="DOWN" />
@@ -250,7 +250,7 @@
                     <mm:link>
                       <mm:frameworkparam name="component">mmsite</mm:frameworkparam>
                       <mm:frameworkparam name="block">article</mm:frameworkparam>
-                      <mm:frameworkparam name="article">${_node}</mm:frameworkparam>                  
+                      <mm:frameworkparam name="article">${_node}</mm:frameworkparam>
                       <mm:nodefunction name="translation">
                         <div class="blog">
                           <h3><a href="${_}"><mm:field name="title" /></a></h3>
@@ -273,16 +273,16 @@
                     <mm:formatter escape="tagstripper(xss, false, false)">
                       <mm:write referid="rss" />
                       <mm:xslt>
-  
+
                         <xsl:stylesheet version="1.0"
                                         xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
                                         xmlns:oip="eu.openimages.RssDateFormat"
                                         exclude-result-prefixes="oip">
-  
+
                           <xsl:output method="html" encoding="UTF-8" indent="yes" />
                           <xsl:variable name="format" select="'E, dd MMM yyyy hh:mm:ss Z'" />
-                          <xsl:variable name="newformat" select="'d MMMM yyyy'" />
-  
+                          <xsl:variable name="newformat" select="':LONG'" />
+
                           <xsl:template match="channel">
                             <xsl:variable name="max" select="2" />
                             <xsl:for-each select="item">
@@ -290,14 +290,14 @@
                                 <xsl:variable name="rssdate" select="pubDate" />
                                 <div class="blog">
                                   <h3><a href="{link}"><xsl:value-of select="title" /></a></h3>
-                                  <p class="date"><xsl:value-of select="oip:reformatDate($rssdate,$format,$newformat)" /></p>
+                                  <p class="date"><xsl:value-of select="oip:reformatDate($rssdate, $format, $newformat)" /></p>
                                   <p><xsl:value-of select="substring(description, 0, 480)" /></p>
                                   <p><a href="{link}"><fmt:message key="service.readmore" /> »</a></p>
                                 </div>
                               </xsl:if>
                             </xsl:for-each>
                           </xsl:template>
-  
+
                         </xsl:stylesheet>
                       </mm:xslt>
                     </mm:formatter>
@@ -310,8 +310,8 @@
               </os:cache>
             </c:otherwise>
           </c:choose>
-          
-          
+
+
 
         </div>
       </div>
