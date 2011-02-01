@@ -47,8 +47,10 @@ public final class RssDateFormat {
     public static String reformatDate(String datetime, String inputformat, String outputformat) {
         String newdate = "";
         DateFormat idf = new SimpleDateFormat(inputformat, Locale.US);
-        DateFormat odf = new SimpleDateFormat(outputformat);
-        log.debug("Trying to reformat: " + datetime + ", with '" + inputformat + "' and '" + outputformat + "'");
+        DateFormat odf = org.mmbase.util.DateFormats.getInstance(outputformat, null, org.mmbase.bridge.util.CloudThreadLocal.currentCloud().getLocale());
+        if (log.isDebugEnabled()) {
+            log.debug("Trying to reformat: " + datetime + ", with '" + inputformat + "' and '" + outputformat + "'");
+        }
         try {
             Date date = idf.parse(datetime);
             newdate = odf.format(date);
