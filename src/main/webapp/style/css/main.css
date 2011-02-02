@@ -182,9 +182,11 @@ label
 	cursor: pointer;
 }
 
+/* labels for textareas */
 label.intro,
 label.body,
 label.description,
+label.you_allow,
 label.relation { float: none; }
 
 input
