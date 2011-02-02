@@ -16,7 +16,7 @@
 <mm:import externid="p" /><!-- portal -->
 <mm:import externid="q" id="search" /><!-- search with ... -->
 <mm:import externid="nr" />
-<mm:import externid="type" />
+<mm:import externid="type" required="true" />
 <mm:import externid="fields" vartype="List" />
 
 <mm:import externid="editme">false</mm:import>
@@ -103,7 +103,7 @@
     </mm:listnodes>
     <!-- mm:write session="found_$type" referid="$list_id" / -->
     
-    <li class="pager">
+    <li class="pager notsortable">
       <mm:link referids="type,search@q,p?,nr?" id="baseurl" escapeamps="false">
         <mm:param name="fields">${fields}</mm:param>
       </mm:link>
