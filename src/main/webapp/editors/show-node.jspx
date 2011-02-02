@@ -94,13 +94,13 @@
             <strong><mm:field name="key" /> : </strong> <mm:field name="value" />
           </span>
         </c:when>
-<!--
+
         <c:when test="${_ eq 'urls'}">
           <span>
             <mm:field name="name" /> :
             <mm:field name="url" />
           </span>
-        </c:when> -->
+        </c:when>
 
         <c:when test="${_ eq 'users_translations'}">
           <span>
