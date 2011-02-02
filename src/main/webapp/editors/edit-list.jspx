@@ -16,7 +16,7 @@
   <mm:import externid="nr" required="true" />
   <mm:import externid="fields" />
   
-  <mm:import externid="type" />
+  <mm:import externid="type" required="true" />
   <mm:import externid="role">related</mm:import>
   <mm:import externid="dir">destination</mm:import>
 
@@ -92,7 +92,7 @@
         </li>
         <c:if test="${total lt max}">
           <li class="notsortable">
-            <mm:link page="/editors/add-node.jspx" referids="p,nr,type,role,dir,show,editor,maydelete">
+            <mm:link escapeamps="true" page="/editors/add-node.jspx" referids="p,nr,type,fields,role,dir,show,editor,maydelete">
               <a class="editme" href="${_}#new_${type}">add ${type}</a>
             </mm:link>
           </li>
