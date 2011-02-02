@@ -190,10 +190,10 @@ function initSortable(listEl) {
             remove: function(ev, ui) {
                 var edit_id = $(ui.item).attr('id');
                 var nodenr = edit_id.match(/\d+/);
-                var currentId = $(listEl).attr('id');
-                if (currentId.indexOf('related_') > -1) {
+                var listId = $(this).attr('id');
+                if (listId.indexOf('related_') > -1) {
                     var params = { 
-                        id: currentId, 
+                        id: listId, 
                         related: '',
                         unrelated: '' + nodenr
                     };
@@ -205,7 +205,7 @@ function initSortable(listEl) {
                             complete: function(data) {
                                 $('#' + listEl.id + ' li.log').html(data.responseText);
                                 clearMsg('#' + listEl.id + ' li.log');
-                                //console.log('removed ' + nodenr + ' from ' + currentId);
+                                //console.log('removed ' + nodenr + ' from ' + listId);
                             }
                         });
                 }
@@ -213,11 +213,11 @@ function initSortable(listEl) {
             receive: function(ev, ui) { 
                 var edit_id = $(ui.item).attr('id');
                 var nodenr = edit_id.match(/\d+/);
-                var currentId = $(listEl).attr('id');
+                var listId = $(this).attr('id');
                 var senderId = $(ui.sender).attr('id');
                 if (senderId.indexOf('found_') > -1) {
                     var params = { 
-                        id: currentId, 
+                        id: listId, 
                         related: '' + nodenr, 
                         unrelated: ''
                         //deleted: deletedRelations
