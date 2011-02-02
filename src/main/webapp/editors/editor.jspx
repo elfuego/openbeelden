@@ -146,7 +146,7 @@
                     <mm:param name="type">attachments</mm:param>
                     <mm:param name="role">posrel</mm:param>
                     <mm:param name="dir">destination</mm:param>
-                    <mm:param name="fields">title,filename</mm:param>
+                    <mm:param name="fields">handle,title,filename</mm:param>
                   </mm:include>
               </mm:hasrelationmanager>
             </div>
