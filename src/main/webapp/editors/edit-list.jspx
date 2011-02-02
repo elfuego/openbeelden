@@ -49,7 +49,7 @@
         <mm:relatednodes id="this_node">
           <li id="edit_${_node.number}">
             
-            <mm:link page="$editor" referids="p,_node@nr,show,editor,maydelete">
+            <mm:link page="$editor" referids="p,_node@nr,fields,show,editor,maydelete">
               <a class="${editor ne '/editors/editor.jspx' ? 'editme' : 'edit'}" href="${_}#edit_${_node.number}">edit</a>
             </mm:link>
             
@@ -80,8 +80,7 @@
             </mm:listrelationscontainer> -->
 
             <div>
-              <mm:include page="$show" referids="p,_node@nr,show,editor,maydelete">
-                <mm:param name="fields">${fields}</mm:param>
+              <mm:include page="$show" referids="p,_node@nr,show,editor,maydelete,fields">
               </mm:include>
             </div>
             

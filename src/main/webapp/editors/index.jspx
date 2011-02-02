@@ -121,6 +121,7 @@
                   <mm:param name="type">images</mm:param>
                   <mm:param name="role">posrel</mm:param>
                   <mm:param name="dir">destination</mm:param>
+                  <mm:param name="fields">handle,title</mm:param>
                   <mm:param name="editor">/editors/editor.jspx</mm:param>
                 </mm:include>
               </div>

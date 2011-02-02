@@ -7,7 +7,7 @@
     xmlns:mm="http://www.mmbase.org/mmbase-taglib-2.0"
     xmlns:sr="http://www.mmbase.org/tags/mm/searchrelate"
     xmlns:oip="urn:jsptagdir:/WEB-INF/tags/oip">
-<jsp:directive.page buffer="64kb" />
+<!--  <jsp:directive.page buffer="64kb" /> -->
 
   <oip:editor styleClass="portal">
     <jsp:attribute name="head">
@@ -99,30 +99,57 @@
                 </div>
               </mm:hasrelationmanager>
 
-
+            <div class="wrap">
+              <mm:hasrelationmanager sourcemanager="$type" destinationmanager="images" role="related">
+                  <h3>Images</h3>
+                  <mm:include page="/editors/edit-list.jspx" referids="p,_node@nr">
+                    <mm:param name="type">images</mm:param>
+                    <mm:param name="role">related</mm:param>
+                    <mm:param name="dir">destination</mm:param>
+                    <mm:param name="fields">handle,title,description</mm:param>
+                  </mm:include>
+              </mm:hasrelationmanager>
+              
               <mm:hasrelationmanager sourcemanager="$type" destinationmanager="images" role="posrel">
-                <div class="wrap">
                   <h3>Images</h3>
                   <mm:include page="/editors/edit-list.jspx" referids="p,_node@nr">
                     <mm:param name="type">images</mm:param>
                     <mm:param name="role">posrel</mm:param>
                     <mm:param name="dir">destination</mm:param>
-                    <mm:param name="fields">title,handle</mm:param>
+                    <mm:param name="fields">handle,title,description</mm:param>
                   </mm:include>
-                </div>
               </mm:hasrelationmanager>
 
               <mm:hasrelationmanager sourcemanager="$type" destinationmanager="urls" role="related">
-                <div class="wrap">
                   <h3>Links</h3>
                   <mm:include page="/editors/edit-list.jspx" referids="p,_node@nr">
                     <mm:param name="type">urls</mm:param>
                     <mm:param name="role">related</mm:param>
                     <mm:param name="dir">destination</mm:param>
+                    <mm:param name="fields">url,name,description</mm:param>
                   </mm:include>
-                </div>
               </mm:hasrelationmanager>
 
+              <mm:hasrelationmanager sourcemanager="$type" destinationmanager="urls" role="posrel">
+                  <h3>Links</h3>
+                  <mm:include page="/editors/edit-list.jspx" referids="p,_node@nr">
+                    <mm:param name="type">urls</mm:param>
+                    <mm:param name="role">posrel</mm:param>
+                    <mm:param name="dir">destination</mm:param>
+                    <mm:param name="fields">url,name,description</mm:param>
+                  </mm:include>
+              </mm:hasrelationmanager>
+
+              <mm:hasrelationmanager sourcemanager="$type" destinationmanager="attachments" role="posrel">
+                  <h3>Files</h3>
+                  <mm:include page="/editors/edit-list.jspx" referids="p,_node@nr">
+                    <mm:param name="type">attachments</mm:param>
+                    <mm:param name="role">posrel</mm:param>
+                    <mm:param name="dir">destination</mm:param>
+                    <mm:param name="fields">title,filename</mm:param>
+                  </mm:include>
+              </mm:hasrelationmanager>
+            </div>
 
             </mm:node>
       
