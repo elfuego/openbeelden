@@ -299,7 +299,7 @@ function initTiny( ) {
     tinyMCE.init({
         theme: "advanced",
         mode : "specific_textareas",
-        editor_selector : /(mm_f_intro|mm_f_body)/,
+        editor_selector : /(mm_f_intro|mm_f_body||mm_nm_pools|mm_nm_pools_translations|mm_nm_licenses|mm_nm_licenses_translations|mm_nm_mmbaseusers)/,
         plugins : "fullscreen,xhtmlxtras",
         //content_css : "${mm:link('/style/css/tiny_mce.css')}",
         content_css : "/style/css/tiny_mce.css",
