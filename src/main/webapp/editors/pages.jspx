@@ -203,12 +203,12 @@
              <mm:write session="related_articles_current" referid="related_articles" />
           
              <!-- search -->
-             <mm:link page="/editors/search-node.jspx" id="searchlink" escapeamps="false" referids="p?,nr?">
+             <mm:link page="/editors/search-node.jspx" id="searchlink" escapeamps="false" referids="p,nr">
                <mm:param name="type">articles</mm:param>
                <mm:param name="fields">title,online</mm:param>
                <mm:param name="max">10</mm:param>
              </mm:link>
-             <form id="searchform" method="post" action="${searchlink}" class="search">
+             <form method="post" action="${searchlink}" class="searchform">
                <fieldset class="first">
                  <div>
                    <label for="search">Search article</label>
@@ -217,7 +217,13 @@
                  <input type="submit" name="submit" value="Search" class="submit" />
                </fieldset>
              </form>
-             <div class="searchresults"><jsp:text> <!-- empty --> </jsp:text></div>
+             <div class="searchresults"><jsp:text> <!-- empty --> </jsp:text>
+               <c:if test="${total gt 0}">
+                 <ul id="found_${type}" class="sortable connected empty">
+                   <li class="empty notsortable">Drop items here to remove from the existing list.</li>
+                 </ul>
+               </c:if>
+             </div>
            </div>
 
          </mm:node><!-- /pages node -->
