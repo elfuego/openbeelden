@@ -23,7 +23,7 @@
       <c:choose>
         
         <c:when test="${_ eq 'images'}">
-          <span><img width="216" alt="" src="/images/${nr}" /></span>
+          <span><mm:image template="s(216)" mode="img" /></span>
         </c:when>
 
         <c:otherwise>
