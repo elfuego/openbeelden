@@ -1,9 +1,18 @@
+/*<%@taglib uri="http://www.mmbase.org/mmbase-taglib-2.0" prefix="mm"
+%><%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"
+%><%@ taglib uri="http://www.opensymphony.com/oscache" prefix="os"
+%><jsp:directive.page session="false" />
+*///<mm:content type="text/javascript" expires="3600" postprocessor="none"><os:cache time="0"><mm:escape escape="none">
+<fmt:setBundle basename="eu.openimages.messages" scope="request" />
+<mm:import id="any_lang"><fmt:message key="search.any_language" /></mm:import>
+
 /*
   Functions for new (portal) editors in OIP 
-  @author: André van Toly
+  @author: Andre van Toly
   @version:  '$Id$
   @changes: initial version
 */
+
 $(document).ready(function() {
     initEditme('body');
     clearMsg();
@@ -198,7 +207,7 @@ function initSortable(listEl) {
                         unrelated: '' + nodenr
                     };
                     $.ajax({
-                            url: "/mmbase/searchrelate/relate.jspx",
+                            url: "${mm:link('/mmbase/searchrelate/relate.jspx')}",
                             type: "GET",
                             datatype: "xml",
                             data: params,
@@ -206,7 +215,11 @@ function initSortable(listEl) {
                                 $('#' + listEl.id + ' li.log').html(data.responseText);
                                 clearMsg('#' + listEl.id + ' li.log');
                                 //console.log('removed ' + nodenr + ' from ' + listId);
+                            },
+                            error: function(data) {
+                                $('#' + listEl.id + ' li.log').html(data.responseText);
                             }
+                            
                         });
                 }
             },
@@ -223,7 +236,7 @@ function initSortable(listEl) {
                         //deleted: deletedRelations
                     };
                     $.ajax({
-                            url: "/mmbase/searchrelate/relate.jspx",
+                            url: "${mm:link('/mmbase/searchrelate/relate.jspx')}",
                             type: "GET",
                             datatype: "xml",
                             data: params,
@@ -231,7 +244,11 @@ function initSortable(listEl) {
                                 $('#' + listEl.id + ' li.log').html(data.responseText);
                                 clearMsg('#' + listEl.id + ' li.log');
                                 //console.log('received ' + nodenr + ' from ' + senderId);
+                            },
+                            error: function(data) {
+                                $('#' + listEl.id + ' li.log').html(data.responseText);
                             }
+
                         });
                 }
 
@@ -263,7 +280,7 @@ function sortSortable(list) {
         params['id'] = list.id;
         params['order'] = order;
         $.ajax({
-            url: 'order.jspx',                  /* TODO: make this ${mm:link('/editors/order.jspx')} */
+            url: "${mm:link('/editors/order.jspx')}",
             data: params,
             dataType: "xml",
             complete: function(data) {
@@ -362,3 +379,4 @@ function initPortalSwitch() {
         document.location = newUrl;
     });
 }
+//</mm:escape></os:cache></mm:content>
