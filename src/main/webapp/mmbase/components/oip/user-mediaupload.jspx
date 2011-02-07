@@ -12,6 +12,10 @@
   <mm:cloud method="asis">
 
     <mm:maycreate type="mediafragments">
+    
+      <mm:import id="default_license">licenses_attributionsharealike</mm:import>
+      <mm:import externid="license">${default_license}</mm:import>
+      
       <div
           class="mm_c c_oip b_upload ${requestScope.className}"
           id="${requestScope['org.mmbase.componentId']}">
@@ -35,7 +39,7 @@
                     <mm:fieldinfo type="errors" />
                   </div>
                 </mm:fieldlist>
-                <mm:fieldlist fields="title,language,dc_creator">
+                <mm:fieldlist fields="title,language,intro,dc_creator">
                   <div>
                     <mm:fieldinfo type="forid">
                       <label for="${_}">
@@ -57,7 +61,46 @@
             <div class="progressInfo" id="progressInfo">
               <p><fmt:message key="users.upload.notstarted" /></p>
             </div>
-                <p class="required"><span>* </span> <fmt:message key="users.starsarerequired" /></p>
+
+            <fieldset class="licenses">
+              <h4><fmt:message key="users.upload.licensetitle" /></h4>
+              <p><fmt:message key="users.upload.licensetext" /></p>
+              <ul>
+                <mm:node number="licenses_attributionsharealike">
+                  <li>
+                    <input name="license" id="lic_0" type="radio" value="${_node}" checked="checked" />
+                    <mm:nodefunction name="translation">
+                      <mm:import id="ya" reset="true"><mm:field name="you_allow" escape="tagstripper" /></mm:import>
+                      <label for="lic_0" title="${ya}">
+                        <mm:field name="name" />
+                        <a class="_blank" href="${_node.url}" title="More information">
+                          <img src="${mm:link('/style/css/icons/info.png')}" alt="i" width="12" height="12" />
+                        </a>
+                      </label>
+                    </mm:nodefunction>
+                  </li>
+                </mm:node>
+                <mm:listnodescontainer type="licenses">
+                  <mm:constraint field="number" value="licenses_attributionsharealike" operator="EQUAL" inverse="true" />
+                  <mm:listnodes varStatus="status">
+                    <li>
+                      <input name="license" id="lic_${status.index}" type="radio" value="${_node}" />
+                      <mm:nodefunction name="translation">
+                        <mm:import id="ya" reset="true"><mm:field name="you_allow" escape="tagstripper" /></mm:import>
+                        <label for="lic_${status.index}" title="${ya}">
+                          <mm:field name="name" />
+                          <a class="_blank" href="${_node.url}" title="More information">
+                            <img src="${mm:link('/style/css/icons/info.png')}" alt="i" width="12" height="12" />
+                          </a>
+                        </label>
+                      </mm:nodefunction>
+                    </li>
+                  </mm:listnodes>
+                </mm:listnodescontainer>
+              </ul>
+            </fieldset>
+
+            <p class="required"><span>* </span> <fmt:message key="users.starsarerequired" /></p>
 
             <fieldset class="buttons">
               <input type="submit" name="submit_upload" id="submit_upload" value="Upload" class="submit" />
@@ -82,125 +125,37 @@
           <mm:node referid="newsource">
 
             <mm:voidfunction name="waitUntilRecognized" />
-            <p class="msg">
-              <fmt:message key="users.upload.finished" />
-              <!-- Submitted ${_node} URL: ${_node.url} FS: ${_node.filesize} <oip:type /> -->
-            </p>
+
+
             <!-- Make sure the mediafragment is created outside transactions and so on -->
             <mm:log level="debug">Mediafragment title: <mm:field name="title" /></mm:log>
 
+            
+            <p class="msg stay">
+              <fmt:message key="users.upload.finished" /><br />
+              <!-- Submitted ${_node} URL: ${_node.url} FS: ${_node.filesize} <oip:type /> -->
+              
+              Use this link if you're not being redirected:<br />
+              <mm:link id="editlink" absolute="true">
+                <mm:frameworkparam name="component">oip</mm:frameworkparam>
+                <mm:frameworkparam name="block">user-media</mm:frameworkparam>
+                <mm:frameworkparam name="user"><mm:cloudinfo type="usernode" /></mm:frameworkparam>
+                <mm:param name="media"><mm:field name="mediafragment" id="media" /></mm:param>
+                <a href="${_}">${_}</a>
+              </mm:link>
+            </p>
 
-            <mm:url id="editlink" absolute="true" write="false">
-              <mm:frameworkparam name="component">oip</mm:frameworkparam>
-              <mm:frameworkparam name="block">user-media</mm:frameworkparam>
-              <mm:frameworkparam name="user"><mm:cloudinfo type="usernode" /></mm:frameworkparam>
-              <mm:param name="media"><mm:field name="mediafragment" id="media" /></mm:param>
-            </mm:url>
+            <!-- relate license -->
+            <mm:node number="$media" id="mediafr" />
+            <mm:node number="$license" id="lic" />
+            <mm:createrelation source="mediafr" destination="lic" role="related" />
 
-            <!-- make sure there is always a license related (also when user leaves form without saving) -->
-            <mm:node number="$media" id="mediafr">
-              <mm:node number="licenses_attributionsharealike" id="lic" />
-              <mm:createrelation source="mediafr" destination="lic" role="related" />
-            </mm:node>
-
-            <mm:form page="$editlink">
-              <mm:node number="$media">
-                <fieldset>
-
-                  <mm:fieldlist fields="title">
-                    <div>
-                      <c:set var="fld_name"><mm:fieldinfo type="name" /></c:set>
-                      <mm:fieldinfo type="forid">
-                        <label for="${_}" class="${fld_name}"><mm:fieldinfo type="guiname" /> *</label>
-                      </mm:fieldinfo>
-                      <p class="info"><mm:fieldinfo type="description" escape="inline" /></p>
-                      <mm:fieldinfo type="input" /><mm:fieldinfo type="errors" />
-                    </div>
-                  </mm:fieldlist>
-
-                  <mm:fieldlist fields="subtitle,language">
-                    <div>
-                      <c:set var="fld_name"><mm:fieldinfo type="name" /></c:set>
-                      <mm:fieldinfo type="forid">
-                        <label for="${_}" class="${fld_name}"><mm:fieldinfo type="guiname" /></label>
-                      </mm:fieldinfo>
-                      <p class="info"><mm:fieldinfo type="description" escape="inline" /></p>
-                      <mm:fieldinfo type="input" /><mm:fieldinfo type="errors" />
-                    </div>
-                  </mm:fieldlist>
-
-                  <mm:fieldlist fields="intro,dc_creator">
-                    <div>
-                      <c:set var="fld_name"><mm:fieldinfo type="name" /></c:set>
-                      <mm:fieldinfo type="forid">
-                        <label for="${_}" class="${fld_name}"><mm:fieldinfo type="guiname" /> *</label>
-                      </mm:fieldinfo>
-                      <p class="info"><mm:fieldinfo type="description" escape="inline" /></p>
-                      <mm:fieldinfo type="input" /><mm:fieldinfo type="errors" />
-                    </div>
-                  </mm:fieldlist>
-
-                  <mm:fieldlist fields="date">
-                    <div>
-                      <c:set var="fld_name"><mm:fieldinfo type="name" /></c:set>
-                      <mm:fieldinfo type="forid">
-                        <label for="${_}" class="${fld_name}"><mm:fieldinfo type="guiname" /></label>
-                      </mm:fieldinfo>
-                      <p class="info"><mm:fieldinfo type="description" escape="inline" /></p>
-                      <mm:fieldinfo type="input" /><mm:fieldinfo type="errors" />
-                    </div>
-                  </mm:fieldlist>
-                  
-                  <p class="required"><span>* </span> <fmt:message key="users.starsarerequired" /></p>
-                  
-                </fieldset>
-              </mm:node>
-
-              <fieldset class="licenses">
-                <h4><fmt:message key="users.upload.licensetitle" /></h4>
-                <p><fmt:message key="users.upload.licensetext" /></p>
-                <ul>
-                  <mm:node number="licenses_attributionsharealike">
-                    <li>
-                      <input name="license" id="lic_0" type="radio" value="${_node}" checked="checked" />
-                      <mm:nodefunction name="translation">
-                        <mm:import id="ya" reset="true"><mm:field name="you_allow" escape="tagstripper" /></mm:import>
-                        <label for="lic_0" title="${ya}">
-                          <mm:field name="name" />
-                          <a class="_blank" href="${_node.url}" title="More information">
-                            <img src="${mm:link('/style/css/icons/info.png')}" alt="i" width="12" height="12" />
-                          </a>
-                        </label>
-                      </mm:nodefunction>
-                    </li>
-                  </mm:node>
-                  <mm:listnodescontainer type="licenses">
-                    <mm:constraint field="number" value="licenses_attributionsharealike" operator="EQUAL" inverse="true" />
-                    <mm:listnodes varStatus="status">
-                      <li>
-                        <input name="license" id="lic_${status.index}" type="radio" value="${_node}" />
-                        <mm:nodefunction name="translation">
-                          <mm:import id="ya" reset="true"><mm:field name="you_allow" escape="tagstripper" /></mm:import>
-                          <label for="lic_${status.index}" title="${ya}">
-                            <mm:field name="name" />
-                            <a class="_blank" href="${_node.url}" title="More information">
-                              <img src="${mm:link('/style/css/icons/info.png')}" alt="i" width="12" height="12" />
-                            </a>
-                          </label>
-                        </mm:nodefunction>
-                      </li>
-                    </mm:listnodes>
-                  </mm:listnodescontainer>
-                </ul>
-              </fieldset>
-
-              <fieldset class="buttons">
-                <div>
-                  <fmt:message key="users.save" var="button_save" />
-                  <input type="submit" id="submit" name="submit" value="${button_save}" class="submit" />
-                </div>
-              </fieldset>
-            </mm:form>
+            <!-- finished: redirect -->
+            <script type="text/javascript">
+              $(document).ready(function() {
+                 document.location = "${empty referrer ? editlink : referrer}";
+              });
+            </script>
 
           </mm:node>
         </mm:present>
