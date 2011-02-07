@@ -159,45 +159,12 @@
 
 
 
-
-
-
           </mm:form>
         </mm:maywrite>
         <mm:maywrite inverse="true">
           <p class="err">not allowed</p>
         </mm:maywrite>
 
-        <!-- ##### license stuff (with an ugly workaround) ##### -->
-        <mm:listrelationscontainer type="licenses" role="related">
-          <mm:sortorder field="number" direction="UP" /><!-- make sure we keep the last one -->
-          <mm:size id="nr_of_relations" write="false" />
-          <mm:listrelations>
-            <c:if test="${nr_of_relations > 1}">
-              <mm:last inverse="true">
-                <mm:deletenode />
-                <mm:remove referid="license" />
-              </mm:last>
-            </c:if>
-          </mm:listrelations>
-        </mm:listrelationscontainer>
-
-       <mm:present referid="license">
-          <mm:node number="licenses_attributionsharealike">
-            <mm:import id="pref_license"><mm:field name="number" /></mm:import>
-          </mm:node>
-          <c:if test="${license ne pref_license}">
-            <!-- mm:relation to="licenses_attributionsharealike">
-              <mm:deletenode />
-            </mm:relation -->
-            <!-- this creates a 2nd relation with another license for now,
-                 because of the above not working. Will delete the former afterwards (see above). -->
-            <mm:node number="$license" id="lic_node" />
-            <mm:createrelation source="_node" destination="lic_node" role="related" />
-            <mm:remove referid="license" />
-          </c:if>
-        </mm:present>
-        <!-- end license stuff -->
 
       </mm:node>
 
