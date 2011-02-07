@@ -300,7 +300,7 @@ $(document).ready(function() {
     
     if ($('a.lightbox').length) initLightBox();
     if ($('video').length || $('audio').length) {
-        $('.main-column, .b_user-mediapreview').oiplayer({
+        $('.main-column').oiplayer({
             'server' : '<mm:url page="/" absolute="true" />',
             'jar' : '/oiplayer/plugins/cortado-ovt-stripped-wm_r38710.jar',
             'flash' : '/oiplayer/plugins/flowplayer-3.1.5.swf',
