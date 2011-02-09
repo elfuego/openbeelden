@@ -74,7 +74,7 @@
       </c:when>
       <c:otherwise>
   
-        <mm:url referids="p,nr" write="false" escapeamps="false" id="submit_link"></mm:url>
+        <mm:url referids="p,nr" write="false" absolute="true" escapeamps="false" id="submit_link"></mm:url>
         <mm:form id="form_$nr" page="$submit_link">
         
           <mm:node number="$nr" commitonclose="false">
