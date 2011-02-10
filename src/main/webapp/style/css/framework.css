@@ -31,8 +31,8 @@ div#main
 	position: relative;
 	top: 0;
 	left: 283px;    /* 308 */
-	width: 690px;   /* 698 */
-	padding-right: 6px; /* new */
+	width: 699px;   /* 698 */
+	padding-right: 0; /* new */
 	height: 44px;
 	font-size: 1.1em;
 }
@@ -165,8 +165,8 @@ div.left-column
 
 #menu ul.meta li.you { white-space: nowrap; }
 #menu ul.meta li a.login, 
-#menu ul.meta li a.logout { text-transform: lowercase; }
-
+#menu ul.meta li a.logout,
+#menu ul.meta li a.upload { text-transform: lowercase; }
 
 #menu ul.main li.form { float: right; }
 #menu ul.main li.form,
@@ -178,8 +178,14 @@ div.left-column
 #menu ul.main select { /*width: 120px;*/ }
 #menu ul.main label { display: none; }
 
-#menu ul.meta li a { color: #C00; }
+#menu ul.meta li a { color: #7b7b7b; }
 #menu ul.meta li a.active { text-decoration: underline; }
+#menu ul.meta li a:hover,
+#menu ul.meta li a:active
+{
+	text-decoration: underline;
+	color: #c00;
+}
 
 #footer
 {
