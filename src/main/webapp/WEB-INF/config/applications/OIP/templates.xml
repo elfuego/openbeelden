@@ -35,14 +35,14 @@
 		<mimetype>text/html</mimetype>
 	</node>
 
-	<node number="354" owner="default">
+	<node number="354" owner="default" alias="template_upload">
 		<title>Upload</title>
 		<description>Template for uploading media</description>
 		<url>upload.jspx</url>
 		<mimetype>text/html</mimetype>
 	</node>
 
-	<node number="1000" owner="default">
+	<node number="1000" owner="default" alias="template_contribute">
 		<title>Contribute</title>
 		<description>Template for the contribute page</description>
 		<url>contribute.jspx</url>
