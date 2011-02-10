@@ -44,6 +44,17 @@
           </mm:relatednodes>
         </mm:relatednodescontainer>
       </mm:hasrelationmanager>
+
+      <mm:hasrelationmanager sourcemanager="$nodetype" destinationmanager="images" role="portalrel">
+        <mm:relatednodescontainer type="images" role="portalrel" searchdirs="destination">
+          <mm:sortorder field="posrel.pos" direction="UP" />
+          <mm:maxnumber value="1" />
+          <mm:relatednodes>
+            <mm:image mode="img" alt="${alt}" width="${w}" height="${h}" crop="end" />
+            <mm:import id="img">found</mm:import>
+          </mm:relatednodes>
+        </mm:relatednodescontainer>
+      </mm:hasrelationmanager>
     </c:if>
 
     <c:if test="${empty img}">
