@@ -69,14 +69,14 @@
                     </mm:field>
                     <c:choose>
                       <c:when test="${iscontribute}">
-                        <mm:node number="page_upload">
-                          <mm:link page="page" referids="_node@n">
-                            <mm:frameworkparam name="component">mmsite</mm:frameworkparam>
-                            <a href="${_}">
-                              <mm:nodefunction name="translation"><mm:field name="title" /></mm:nodefunction>
-                            </a>
-                          </mm:link>
-                        </mm:node>
+
+                        <mm:link>
+                          <mm:frameworkparam name="component">oip</mm:frameworkparam>
+                          <mm:frameworkparam name="block">user-mediaupload</mm:frameworkparam>
+                          <mm:frameworkparam name="user"><mm:cloudinfo type="usernode" /></mm:frameworkparam>
+                          <a class="upload" href="${_}"><fmt:message key="media.upload" /></a>
+                        </mm:link>
+            
                       </c:when>
                       <c:otherwise>
                         <a href="${_}">
@@ -168,6 +168,7 @@
         <li class="you">
           <jsp:text> </jsp:text>
         </li>
+        <!--
         <mm:hasrank value="anonymous" inverse="true">
           <li>
             <mm:link>
@@ -178,6 +179,7 @@
             </mm:link>
           </li>
         </mm:hasrank>
+        -->
       </c:if>
     </ul>
   
