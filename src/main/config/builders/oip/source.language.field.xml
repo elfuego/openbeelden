@@ -11,8 +11,8 @@
       <description xml:lang="nl">Taal van het media item, niet z'n beschrijving.</description>
     </descriptions>
     <gui>
-      <guiname xml:lang="nl">Taal</guiname>
-      <guiname xml:lang="en">Language</guiname>
+      <guiname xml:lang="nl">Taal van mediabestand</guiname>
+      <guiname xml:lang="en">Language of media item</guiname>
     </gui>
     <editor>
       <positions>
