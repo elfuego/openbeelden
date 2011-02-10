@@ -69,5 +69,12 @@
 		<url>reset-password.jspx</url>
 		<mimetype>text/html</mimetype>
 	</node>
+	
+	<node number="802" owner="default">
+		<title>News</title>
+		<description>Template to use as a news articles page</description>
+		<url>articles.jspx</url>
+		<mimetype>text/html</mimetype>
+	</node>
 
 </templates>
