@@ -87,11 +87,18 @@ a.delete, a.unrelate
 }
 */
 a.editme, a.edit { margin-left: 6px; }
+a.editme.add, div.add
+{
+	margin: 6pt 0;
+}
 p.translation, p.editme, p.closeme, a.editme, a.new, a.cancel
 {
 	float: right;
 	text-transform: lowercase;
 }
+
+form#form_images { width: 512px; }
+fieldset.buttons div { width: 512px; }
 
 /* forms */
 fieldset { clear: both; }
@@ -129,6 +136,7 @@ ul.sortable li.log
 {
 	border: none;
 	padding: 0;
+	margin: 0;
 }
 
 span.removed, span.deleted { color: #C33; }

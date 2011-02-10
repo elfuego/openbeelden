@@ -677,6 +677,7 @@ div#tag a.close
 	font-weight: normal;
 	color: #c00;
 	text-decoration: underline;
+	text-transform: lowercase;
 }
 div#tag label { width: 168px; }
 div#tag input { width: 318px; }
