@@ -71,11 +71,25 @@
                   </mm:fieldlist>
                 </mm:hasrank>
         
-                <mm:fieldlist fields="subtitle,language">
+                <mm:fieldlist fields="subtitle">
                   <c:set var="fld_name"><mm:fieldinfo type="name" /></c:set>
                   <div class="${fld_name}">
                     <mm:fieldinfo type="forid">
                       <label for="${_}" class="${fld_name}"><mm:fieldinfo type="guiname" /></label>
+                    </mm:fieldinfo>
+                    <p class="info"><mm:fieldinfo type="description" escape="inline" /></p>
+                    <mm:maywrite><mm:fieldinfo type="input" /><mm:fieldinfo type="errors" /></mm:maywrite>
+                    <mm:maywrite inverse="true"><mm:fieldinfo type="guivalue" escape="none" /></mm:maywrite>
+                  </div>
+                </mm:fieldlist>
+                
+                <mm:fieldlist fields="language">
+                  <c:set var="fld_name"><mm:fieldinfo type="name" /></c:set>
+                  <div class="${fld_name}">
+                    <mm:fieldinfo type="forid">
+                      <label for="${_}" class="${fld_name}">
+                        <fmt:message key="media.description_language" />
+                      </label>
                     </mm:fieldinfo>
                     <p class="info"><mm:fieldinfo type="description" escape="inline" /></p>
                     <mm:maywrite><mm:fieldinfo type="input" /><mm:fieldinfo type="errors" /></mm:maywrite>
