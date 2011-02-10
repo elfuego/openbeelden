@@ -56,10 +56,45 @@
                 </c:choose>
                 
                 <li class="${claz}">
-                  <a href="${_}">
-                    <mm:nodefunction name="translation"><mm:field name="title" /></mm:nodefunction>
-                  </a>
+                  
+                  <!-- change contribute to upload when logged in -->
+                  <mm:hasrank value="anonymous" inverse="true">
+                    <c:set var="iscontribute" value="false" />
+                    <mm:field name="template">
+                      <mm:node number="$_">
+                        <mm:hasalias name="template_contribute">
+                          <c:set var="iscontribute" value="true" />
+                        </mm:hasalias>
+                      </mm:node>
+                    </mm:field>
+                    <c:choose>
+                      <c:when test="${iscontribute}">
+                        <mm:node number="page_upload">
+                          <mm:link page="page" referids="_node@n">
+                            <mm:frameworkparam name="component">mmsite</mm:frameworkparam>
+                            <a href="${_}">
+                              <mm:nodefunction name="translation"><mm:field name="title" /></mm:nodefunction>
+                            </a>
+                          </mm:link>
+                        </mm:node>
+                      </c:when>
+                      <c:otherwise>
+                        <a href="${_}">
+                          <mm:nodefunction name="translation"><mm:field name="title" /></mm:nodefunction>
+                        </a>
+                      </c:otherwise>
+                    </c:choose>
+                  </mm:hasrank>
+                  
+                  <mm:hasrank value="anonymous">
+                    <a href="${_}">
+                      <mm:nodefunction name="translation"><mm:field name="title" /></mm:nodefunction>
+                    </a>
+                  </mm:hasrank>
+                
                 </li>
+                
+                
               </mm:link>
             </mm:relatednodes>
         </mm:relatednodescontainer>
