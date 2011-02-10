@@ -6,12 +6,8 @@
     >
   <jsp:directive.attribute name="html" type="java.lang.String" />
   <mm:import id="user">
-    <mm:field name="firstname" write="true">
-      <mm:isnotempty><jsp:text> </jsp:text></mm:isnotempty>
-    </mm:field>
-    <mm:field name="suffix" write="true">
-      <mm:isnotempty><jsp:text> </jsp:text></mm:isnotempty>
-    </mm:field>
+    <mm:field name="firstname" /><jsp:text> </jsp:text>
+    <mm:field name="suffix" /><jsp:text> </jsp:text>
     <mm:field name="lastname" />
   </mm:import>
   <c:choose>
