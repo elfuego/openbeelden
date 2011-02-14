@@ -91,16 +91,11 @@ div.left-column
 	left: 0px;
 }
 
-#menu a:link
-{
-	text-decoration: none;
-	color: #333;
-}
-
+#menu a:link,
 #menu a:visited
 {
 	text-decoration: none;
-	color: #333;
+	color: #494949;
 }
 
 #menu a:hover
@@ -122,7 +117,12 @@ div.left-column
 	margin-bottom: 60px;
 	margin-top: 44px;
 }
-#header p { font-style: italic; }
+#header p
+{
+	font-style: italic;
+	font-size: 0.95em;
+	line-height: 2em;
+}
 
 
 #menu ul.main
@@ -178,7 +178,7 @@ div.left-column
 #menu ul.main select { /*width: 120px;*/ }
 #menu ul.main label { display: none; }
 
-#menu ul.meta li a { color: #7b7b7b; }
+#menu ul.meta li a { color: #7f7f7f; }
 #menu ul.meta li a.active { text-decoration: underline; }
 #menu ul.meta li a:hover,
 #menu ul.meta li a:active
