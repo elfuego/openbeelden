@@ -20,7 +20,7 @@
         </oip:letters>
       </span>
       -->
-      <mm:image template="s(400x20!)+background(white)+font(mm:fonts/DINEngschriftStd.ttf)+fill(a5a5a5)+pointsize(24)+gravity(NorthWest)+undercolor(transparent)+text(0,1,'${mm:escape(empty imageescape ? 'text/xml' : imageescape, text)}')+trim">
+      <mm:image template="s(240x20!)+background(white)+font(mm:fonts/HelveticaNeueLight.ttf)+fill(7f7f7f)+pointsize(18)+kerning(1)+gravity(NorthWest)+undercolor(transparent)+text(0,1,'${mm:escape(empty imageescape ? 'text/xml' : imageescape, text)}')+trim">
         <span class="text" style="background-image: url('${_}'); width: ${dimension.width}px; height: ${dimension.height}px; "><span>${text}</span></span>
       </mm:image>
     </mm:node>
