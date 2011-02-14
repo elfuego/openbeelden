@@ -31,18 +31,6 @@ body
 	font-size: 0.85em;
 }
 
-@font-face {
-  font-family: "DINEngEot";
-  -webkit-font-family: "DINEngEot";
-  src: url(../fonts/DINEngschriftStd.eot);
-}
-
-@font-face {
-  font-family: "DINEng";
-  -webkit-font-family: "DINEngEot";
-  src: url(../fonts/DINEngschriftStd.otf);
-}
-
 /* html styles */
 img { border: 0; }
 hr
@@ -53,12 +41,12 @@ hr
 
 h1, h2, h3
 {
-	font-family: DINEngEot, DINEng, Helvetica, sans-serif;
-	font-weight: normal;
+	font-family: "Helvetica Neue", Helvetica, sans-serif;
+	font-weight: 100;
 	text-transform: uppercase;
-	letter-spacing: 1px;
+	letter-spacing: 2px;
 	margin: 8px 0 12px 0;
-	color: #CCC;
+	color: #7f7f7f;
 	clear: both;
 }
 
@@ -67,8 +55,8 @@ div.error h1, div.error h2 div.error.h3 {
     text-transform: none;
 }
 
-h2 { font-size: 1.6em; }
-h3 { font-size: 1.4em; }
+h2 { font-size: 1.25em; }
+h3 { font-size: 1.1em; }
 h4
 {
 	font-size: 1.05em;
