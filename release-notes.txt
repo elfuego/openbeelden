@@ -1,5 +1,27 @@
-﻿Release Notes - Open Images Platform - Version OIP 1.0.2
---------------------------------------------------------
+﻿Release Notes - Open Images Platform - Version OIP 1.1
+------------------------------------------------------
+
+UPGRADING 1.0.2 -> 1.1
+======================
+Open Images uses a new font, it uses kerning that requires at least version 6.4.7-8 of 
+ImageMagick. You can switch the use of the font of by removing the oip:t tags 
+in '/WEB-INF/tags/oip/h2.tagx' and '/WEB-INF/tags/oip/h3.tagx'.
+
+Make sure you altered the max_allowed_packet settings in MySQL's configuration. OIP 1.1 creates
+thumbnails from videos that in some cases are rather large depending on the resolution of the 
+video. You can alter these in '/etc/my.cnf' from (normally) the default 'max_allowed_packet=1M;'
+to 'max_allowed_packet=32M;'.
+
+Alterations to MySQL tables:
+
+  ALTER TABLE oi_pools_table ADD language CHAR(12);
+  DROP VIEW oi_pools;
+  
+Some new tables were introduced, like f.e. for thumbnails, but these are inited automatically. 
+
+This release is build with MMBase 1.9.6 and should run with Java 1.6 and higher on 
+Apache Tomcat version 6 and higher.
+
 
 UPGRADING 1.0.1 -> 1.0.2
 ========================
