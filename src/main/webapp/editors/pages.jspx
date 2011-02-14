@@ -49,12 +49,18 @@
     <jsp:attribute name="body">
 
       <div class="main-column">
+       <h2><mm:field name="name" /></h2>
 
+        <!-- main pools node: the portal -->
+        <!-- <mm:include page="edit-node.jspx" referids="p?,_node@nr">
+          <mm:param name="fields">name,language,description</mm:param>
+        </mm:include> -->
+        
      <c:choose>
        <c:when test="${empty nr}">
      
          <div class="wrap">
-           <h2>Pages in header</h2>
+           <h3>Pages in header</h3>
            <p>Pages in top navigation, drag and drop to reorder them.</p>
            <mm:relatednodescontainer type="pages" role="posrel" searchdirs="destination" id="pages_header">
              <mm:constraint field="posrel.pos" value="1" value2="10" operator="BETWEEN" />
@@ -81,10 +87,10 @@
                    </div>
                  </li>
                </mm:relatednodes>
-               <li class="add" id="add_pages">
+               <li class="add notsortable" id="add_pages">
                  <jsp:text> <!-- empty, cause nothing exists here yet --> </jsp:text>
                </li>
-               <li class="add">
+               <li class="add notsortable">
                  <mm:link page="/editors/add-node.jspx" referids="p,p@nr">
                    <mm:param name="type">pages</mm:param>
                    <mm:param name="role">posrel</mm:param>
@@ -95,14 +101,15 @@
                </li>
              </ul>
            </mm:relatednodescontainer>
-           <mm:write session="pages_header" referid="pages_header" />
+           <mm:write session="pages_header_current" referid="pages_header" />
          </div>
      
          <!-- only default portal can add pages to footer -->
          <c:if test="${isdefault}">
            <div class="wrap">
-             <h2>Pages in footer</h2>
+             <h3>Pages in footer</h3>
              <p>Pages in footer, drag and drop to reorder them.</p>
+             
              <mm:relatednodescontainer type="pages" role="posrel" searchdirs="destination" id="pages_footer">
                <mm:constraint field="posrel.pos" value="0" value2="10" operator="BETWEEN" inverse="true" />
                <mm:sortorder field="posrel.pos" direction="UP" />
@@ -127,10 +134,10 @@
                      </div>
                    </li>
                  </mm:relatednodes>
-                 <li class="add" id="add_footerpages">
+                 <li class="add notsortable" id="add_footerpages">
                    <jsp:text> <!-- empty, cause nothing exists here yet --> </jsp:text>
                  </li>
-                 <li class="add">
+                 <li class="add notsortable">
                    <mm:link page="/editors/add-node.jspx" referids="p,p@nr">
                      <mm:param name="type">pages</mm:param>
                      <mm:param name="role">posrel</mm:param>
@@ -141,7 +148,8 @@
                  </li>
                </ul>
              </mm:relatednodescontainer>
-             <mm:write session="pages_footer" referid="pages_footer" />
+             <mm:write session="pages_footer_current" referid="pages_footer" />
+             
            </div>
          </c:if>
        
@@ -176,7 +184,7 @@
                      <mm:relation to="${nr}">
                        <mm:maydelete>
                          <mm:link page="/editors/delete-relation.jspx" referids="p?,article@nr,_node@relation,nr@related">
-                           <a class="editme unrelate" href="${_}#edit_${article}">unrelate</a>
+                           <a class="editme unrelate" href="${_}#edit_${article}">unpublish</a>
                          </mm:link>
                        </mm:maydelete>
                      </mm:relation>

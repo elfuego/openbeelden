@@ -75,7 +75,7 @@
             <mm:node number="$relation" notfound="skip">
               <mm:maydelete>
                 <mm:link page="/editors/delete-relation.jspx" referids="p,nr,fields?,relation,maydelete,related?">
-                  <a class="editme unrelate" href="${_}#edit_${nr}">unrelate</a>
+                  <a class="editme unrelate" href="${_}#edit_${nr}">unpublish</a>
                 </mm:link>
               </mm:maydelete>
             </mm:node>

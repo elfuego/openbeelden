@@ -4,6 +4,7 @@
     xmlns:fn="http://java.sun.com/jsp/jstl/functions"
     xmlns:fmt="http://java.sun.com/jsp/jstl/fmt"
     xmlns:mm="http://www.mmbase.org/mmbase-taglib-2.0"
+    xmlns:oip="urn:jsptagdir:/WEB-INF/tags/oip"
     expires="0" type="text/html" language="client" postprocessor="none">
 
 <jsp:output omit-xml-declaration="false" />
@@ -24,6 +25,8 @@
 <mm:import externid="show">/editors/show-node.jspx</mm:import>
 <mm:import externid="editor">/editors/edit-node.jspx</mm:import>
 <mm:import externid="maydelete">true</mm:import>
+<mm:import externid="target" />
+<mm:import externid="one">false</mm:import>
 
   
 <mm:hasnode number="$nr" inverse="true">
@@ -35,6 +38,15 @@
 
   <mm:node number="$nr">
 
+            <c:choose>
+              <c:when test="${!empty target}">
+                <c:set var="linktarget">#${target}</c:set>
+              </c:when>
+              <c:otherwise>
+                <c:set var="linktarget">#edit_${nr}</c:set>
+              </c:otherwise>
+            </c:choose>
+
       <c:choose>
         
         <c:when test="${!empty delete}">
@@ -43,40 +55,49 @@
             <p class="err">Not enough privileges.</p>
           </mm:maydelete>
           <mm:maydelete>
-            <span class="node_deleted_${nr} deleted"> Node is deleted!</span>
+            <span class="node_deleted_${nr} ${one} deleted target_${target}">
+              Node is deleted! t: ${target} o: ${one}
+            </span>
             <mm:deletenode number="$nr" deleterelations="true" />
           </mm:maydelete>
+          
+          <mm:hasnode number="$related">
+            <span class="content">
+              <mm:node number="$related"><oip:thumb /></mm:node>
+            </span>
+            <span class="links">
+              <mm:link page="/editors/add-thumb.jspx" referids="p?,related@nr,related,target?,one?">
+                <mm:param name="lang">${requestScope['javax.servlet.jsp.jstl.fmt.locale.request']}</mm:param>
+                <mm:param name="type">images</mm:param>
+                <mm:param name="fields">handle</mm:param>
+                <mm:param name="show">/editors/show-thumb.jspx</mm:param>
+                <mm:param name="defaultstr">title=Thumbnail <mm:field name="title" /></mm:param>
+                <a class="editme" href="${_}${linktarget}">add image</a>
+              </mm:link>
+            </span>
+          </mm:hasnode>
         </c:when>
         
         <c:when test="${!empty cancel}">
-          <mm:maywrite>
-            <div class="log"><jsp:text> <!-- empty --> </jsp:text></div>
-            <mm:link page="$editor" referids="p,nr,fields,related?">
-              <a class="editme" href="${_}#edit_${nr}">edit</a>
-            </mm:link>
-          </mm:maywrite>
-          <c:if test="${maydelete}">
-            <mm:maydelete>
-              <mm:link page="/editors/delete-node.jspx" referids="p,nr,fields,related?">
-                <a class="editme delete" href="${_}#edit_${nr}">delete</a>
-              </mm:link>
-            </mm:maydelete>
-          </c:if>
-
-          <c:if test="${!empty related}">
-            <mm:relation to="${related}">
-              <mm:maydelete>
-                <mm:link page="/editors/delete-relation.jspx" referids="p,nr,fields?,_node@relation,related">
-                  <a class="editme unrelate" href="${_}#edit_${nr}">unpublish</a>
-                </mm:link>
-              </mm:maydelete>
-            </mm:relation>
-          </c:if>
 
           <div>
-            <mm:include page="show-node.jspx" referids="p,nr,fields" />
+            <mm:include page="$show" referids="p,nr,fields,editor,show" />
             <!-- <span>Cancelled deleting!</span> -->
           </div>
+          <mm:maywrite>
+            <div class="log"><jsp:text> <!-- empty --> </jsp:text></div>
+            <c:if test="${maydelete}">
+              <mm:maydelete>
+                <mm:link page="/editors/delete-thumb.jspx" referids="p,nr,show,editor,fields,related?">
+                  <a class="editme delete" href="${_}#edit_${nr}">delete</a> /
+                </mm:link>
+              </mm:maydelete>
+            </c:if>
+            <mm:link page="$editor" referids="p,nr,fields,show,editor,related?">
+              <a class="editme" href="${_}#edit_${nr}"><fmt:message key="users.edit_image" /></a>
+            </mm:link>
+          </mm:maywrite>
+        
         </c:when>
         
         <c:otherwise>
@@ -90,7 +111,7 @@
             <mm:url id="formurl" write="false" />
             <form id="form_${nr}" method="post" action="${formurl}">
 
-              <mm:include page="show-node.jspx" referids="p,nr,fields" />
+              <mm:include page="$show" referids="p,nr,fields,show" />
 
               <p class="msg stay">Are you sure you want to delete this node?</p>
               
@@ -100,6 +121,8 @@
                 <input name="related" type="hidden" value="${related}" />
                 <input name="show"    type="hidden" value="${show}" />
                 <input name="editor"  type="hidden" value="${editor}" />
+                <input name="one"     type="hidden" value="${one}" />
+                <input name="target"  type="hidden" value="${target}" />
                 <mm:write referid="fields">
                   <input name="fields" type="hidden" value="${_}" />
                 </mm:write>

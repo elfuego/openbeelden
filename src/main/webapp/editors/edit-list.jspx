@@ -31,12 +31,14 @@
   </c:if -->
   <mm:import externid="max">99</mm:import>
   
+<!-- <mm:constraint field="posrel.pos" value="1" value2="10" operator="BETWEEN" />   -->
+  
   <mm:node number="$nr">
     <mm:nodeinfo type="type" id="type_of_nr" write="false" />
-    <mm:relatednodescontainer type="$type" role="$role" searchdirs="$dir" id="related_${type}">
-      <!-- c:if test="${!empty max}">
+    <mm:relatednodescontainer type="$type" role="$role" searchdirs="$dir" id="related_$type">
+      <c:if test="${!empty max and max gt 1}">
         <mm:maxnumber value="$max" />
-      </c:if -->
+      </c:if>
       <mm:size id="total" write="false" />
       <c:if test="${role eq 'posrel'}">
         <mm:sortorder field="posrel.pos" direction="UP" />
@@ -53,17 +55,19 @@
               <a class="${editor ne '/editors/editor.jspx' ? 'editme' : 'edit'}" href="${_}#edit_${_node.number}">edit</a>
             </mm:link>
             
-            <mm:maydelete>
-              <mm:link page="/editors/delete-node.jspx" referids="p,_node@nr,show,editor,maydelete">
-                <a class="editme delete" href="${_}#edit_${_node.number}">delete</a>
-              </mm:link>
-            </mm:maydelete>
+            <c:if test="${maydelete}">
+              <mm:maydelete>
+                <mm:link page="/editors/delete-node.jspx" referids="p,_node@nr,show,editor,maydelete">
+                  <a class="editme delete" href="${_}#edit_${_node.number}">delete</a>
+                </mm:link>
+              </mm:maydelete>
+            </c:if>
             
             <c:if test="${! sortable}">
               <mm:relation to="${nr}" role="${role}">
                 <mm:maydelete>
                   <mm:link page="/editors/delete-relation.jspx" referids="p,this_node@nr,_node@relation,nr@related,maydelete">
-                    <a class="editme unrelate" href="${_}#edit_${this_node}">unrelate</a>
+                    <a class="editme unrelate" href="${_}#edit_${this_node}">unpublish</a>
                   </mm:link>
                 </mm:maydelete>
               </mm:relation>
@@ -92,16 +96,15 @@
         <c:if test="${total lt max}">
           <li class="notsortable">
             <mm:link escapeamps="true" page="/editors/add-node.jspx" referids="p,nr,type,fields,role,dir,show,editor,maydelete">
-              <a class="editme" href="${_}#new_${type}">add ${type}</a>
+              <a class="editme add" href="${_}#new_${type}">add ${type}</a>
             </mm:link>
           </li>
         </c:if>
       </ul>
     </mm:relatednodescontainer>
     <c:if test="${sortable}">
-      <mm:write session="related_${type}_current" referid="related_${type}" />
+      <mm:write session="related_${type}_current" referid="related_$type" />
     </c:if>
-    
     
     <c:if test="${search}">
 

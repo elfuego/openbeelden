@@ -64,29 +64,27 @@
               <mm:include page="/editors/show-portallogo.jspx" referids="p,_node@nr" />
             </div>
             <p>
-              <mm:link page="/editors/edit-pic.jspx" referids="p,_node@nr">
+              <mm:link page="/editors/edit-thumb.jspx" referids="p,_node@nr">
                 <mm:param name="fields">handle</mm:param>
                 <mm:param name="show">/editors/show-portallogo.jspx</mm:param>
-                <a class="editme" href="${_}#edit_${imgnr}">edit picture</a>
+                <a class="editme" href="${_}#edit_${imgnr}"><fmt:message key="users.edit_image" /></a>
               </mm:link>
             </p>
           </mm:relatednodes>
           <c:if test="${empty imgnr}">
             <div id="add_picture">
-              <jsp:text> <!-- empty, cause nothing exists here yet. this will be cloned to represent new nodes --> </jsp:text>
+              <p>
+                <mm:link page="/editors/add-thumb.jspx" referids="p?,_node@nr">
+                  <mm:param name="type">images</mm:param>
+                  <mm:param name="fields">handle</mm:param>
+                  <mm:param name="role">portalrel</mm:param>
+                  <mm:param name="elementid">add_picture</mm:param>
+                  <mm:param name="defaultstr">title=Portal logo ${portalName}</mm:param>
+                  <mm:param name="show">/editors/show-portallogo.jspx</mm:param>
+                  <a class="editme add" href="${_}#add_picture"><fmt:message key="users.add_image" /></a>
+                </mm:link>
+              </p>
             </div>
-            <p>
-              <mm:link page="/editors/add-node.jspx" referids="p?,_node@nr">
-                <mm:param name="type">images</mm:param>
-                <mm:param name="fields">handle</mm:param>
-                <mm:param name="role">portalrel</mm:param>
-                <mm:param name="default">title=Portal logo ${portalName}</mm:param>
-                <mm:param name="show">/editors/show-portallogo.jspx</mm:param>
-                <a class="editme" href="${_}#add_picture">
-                  <jsp:text>add picture</jsp:text>
-                </a>
-              </mm:link>
-            </p>
           </c:if>
         </div>
 
@@ -112,6 +110,7 @@
                   <mm:param name="dir">destination</mm:param>
                   <mm:param name="editor">/editors/editor.jspx</mm:param>
                   <mm:param name="max">1</mm:param>
+                  <mm:param name="maydelete">false</mm:param>
                 </mm:include>
               </div>
               

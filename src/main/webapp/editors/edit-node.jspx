@@ -52,25 +52,24 @@
               </mm:link>
             </mm:maydelete>
           </c:if>
-          
           <!-- remove relation -->
           <c:if test="${!empty related}">
             <mm:relation to="${related}">
               <mm:maydelete>
                 <mm:link page="/editors/delete-relation.jspx" referids="p,nr,related,_node@relation,maydelete">
-                  <a class="editme unrelate" href="${_}#edit_${nr}">unrelate</a>
+                  <a class="editme unrelate" href="${_}#edit_${nr}">unpublish</a>
                 </mm:link>
               </mm:maydelete>
             </mm:relation>
           </c:if>
-
-          
         </mm:node>
+        
         <div>
           <mm:include page="$show" referids="p,nr">
             <mm:param name="fields">${fields}</mm:param>
           </mm:include>
         </div>
+        
       </c:when>
       <c:otherwise>
   
@@ -102,12 +101,9 @@
               
               <mm:maywrite>
                 <fieldset class="buttons">
-                  <!-- <input name="p"            type="hidden" value="${p}" />
-                  <input name="nr"           type="hidden" value="${nr}" /> -->
                   <input name="fields"       type="hidden" value="${fields}" />
                   <input name="related"      type="hidden" value="${related}" />
                   <input name="submit${nr}"  type="hidden" value="ok" />
-                  <!-- <mm:nodeinfo type="type"><input name="type" type="hidden" value="${_}" /></mm:nodeinfo> -->
                   <div>
                     <fmt:message key="users.form.save" var="button_save" />
                     <fmt:message key="users.cancel" var="button_cancel" />
@@ -127,11 +123,37 @@
 
                 <mm:commit />
                 <c:choose>
-                  <!-- do not show form again when using ajax editor -->
                   <c:when test="${editme eq 'true'}">
+
+                    <mm:maywrite>
+                      <mm:link page="$editor" referids="p,nr,related?">
+                        <mm:param name="fields">${fields}</mm:param>
+                        <a class="editme" href="${_}#edit_${nr}">edit</a>
+                      </mm:link>
+                    </mm:maywrite>
+                    <c:if test="${maydelete}">
+                      <mm:maydelete>
+                        <mm:link page="/editors/delete-node.jspx" referids="p,nr,related?,maydelete">
+                          <mm:param name="fields">${fields}</mm:param>
+                          <a class="editme delete" href="${_}#edit_${nr}">delete</a>
+                        </mm:link>
+                      </mm:maydelete>
+                    </c:if>
+                    <!-- remove relation -->
+                    <c:if test="${!empty related}">
+                      <mm:relation to="${related}">
+                        <mm:maydelete>
+                          <mm:link page="/editors/delete-relation.jspx" referids="p,nr,related,_node@relation,maydelete">
+                            <a class="editme unrelate" href="${_}#edit_${nr}">unpublish</a>
+                          </mm:link>
+                        </mm:maydelete>
+                      </mm:relation>
+                    </c:if>
+                    
                     <mm:include page="$show" referids="p,nr">
                       <mm:param name="fields">${fields}</mm:param>
                     </mm:include>
+                    
                   </c:when>
                   <c:otherwise>
                     <mm:write referid="buffer" escape="none" />

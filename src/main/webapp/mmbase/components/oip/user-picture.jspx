@@ -35,22 +35,31 @@
         <c:choose>
           <c:when test="${empty img}">
             <p class="description">
-              <mm:link page="/editors/add-node.jspx" referids="_node@nr">
+              <mm:link page="/editors/add-thumb.jspx" referids="p?,_node@nr,_node@related">
                 <mm:param name="lang">${requestScope['javax.servlet.jsp.jstl.fmt.locale.request']}</mm:param>
                 <mm:param name="type">images</mm:param>
                 <mm:param name="role">posrel</mm:param>
                 <mm:param name="fields">handle</mm:param>
                 <mm:param name="show">/editors/show-thumb.jspx</mm:param>
+                <mm:param name="editor">/editors/edit-thumb.jspx</mm:param>
                 <mm:param name="defaultstr">title=User picture ${user_name}</mm:param>
+                <mm:param name="one">one</mm:param>
+                <mm:param name="target">edit-picture</mm:param>
                 <a class="editme" href="${_}#edit-picture"><fmt:message key="users.add_image" /></a>
               </mm:link>
             </p>
           </c:when>
           <c:otherwise>
             <p class="description">
-              <mm:link page="/editors/edit-pic.jspx" referids="img@nr">
+              <mm:link page="/editors/edit-thumb.jspx" referids="p?,img@nr,_node@related">
+                <mm:param name="lang">${requestScope['javax.servlet.jsp.jstl.fmt.locale.request']}</mm:param>
                 <mm:param name="fields">handle</mm:param>
                 <mm:param name="show">/editors/show-thumb.jspx</mm:param>
+                <mm:param name="editor">/editors/edit-thumb.jspx</mm:param>
+                <mm:param name="fields">handle</mm:param>
+                <mm:param name="show">/editors/show-thumb.jspx</mm:param>
+                <mm:param name="one">one</mm:param>
+                <mm:param name="target">edit-picture</mm:param>
                 <a class="editme" href="${_}#edit-picture"><fmt:message key="users.edit_image" /></a>
               </mm:link>
             </p>

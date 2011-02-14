@@ -4,116 +4,174 @@
     xmlns:fn="http://java.sun.com/jsp/jstl/functions"
     xmlns:fmt="http://java.sun.com/jsp/jstl/fmt"
     xmlns:mm="http://www.mmbase.org/mmbase-taglib-2.0"
-    expires="0" type="text/html" language="client" postprocessor="none">
+    expires="0" type="text/html" language="${param.lang}">
 
-<jsp:output omit-xml-declaration="false" />
+<jsp:output omit-xml-declaration="true" />
 
 <mm:cloud method="asis">
 
   <fmt:setBundle basename="eu.openimages.messages" scope="request" />
   
-  <mm:import externid="p" />
+  <mm:import externid="p" /><!-- portal -->
   <mm:import externid="nr" />
   <mm:import externid="fields" vartype="List">handle</mm:import>
+  
   <mm:import externid="submit$nr" />
   <mm:import externid="cancel" />
 
   <mm:import externid="editme">false</mm:import>
   <mm:import externid="show">/editors/show-thumb.jspx</mm:import>
+  <mm:import externid="editor">/editors/edit-thumb.jspx</mm:import>
+  <mm:import externid="maydelete">true</mm:import>
+  <mm:import externid="related" />
+  <mm:import externid="target" />
+  <mm:import externid="one">false</mm:import>
+
+  <mm:hasnode number="$nr" inverse="true">
+    <p class="err">Node not found.</p>
+  </mm:hasnode>
 
 
-<c:choose>
-  <c:when test="${cancel eq 'Cancel'}">
-    <mm:node number="$nr">
-      <!--
-      <mm:link page="/editors/edit-pic.jspx" referids="p,nr">
-        <mm:param name="fields">${fields}</mm:param>
-        <a class="editme" href="${_}#edit_${nr}">edit</a>
-      </mm:link>
-      -->
-      <!--
-      <mm:maydelete>
-        <mm:link page="/editors/delete-node.jspx" referids="p,nr">
-          <mm:param name="fields">${fields}</mm:param>
-          <a class="editme delete" href="${_}#edit_${nr}">delete</a>
-        </mm:link>
-      </mm:maydelete>
-      -->
-    </mm:node>
-    <mm:include page="$show" referids="p,nr">
-      <mm:param name="fields">${fields}</mm:param>
-    </mm:include>
-  </c:when>
-  <c:otherwise>
+  <mm:hasnode number="$nr">
+
+    <c:choose>
+      <c:when test="${cancel eq 'Cancel'}">
+        <span class="content">
+          <mm:include page="$show" referids="p,nr,related">
+            <mm:param name="fields">${fields}</mm:param>
+          </mm:include>
+        </span>
+
+        <span class="links">
+          <mm:link page="/editors/delete-thumb.jspx" referids="p?,nr,show,one,target,related">
+            <mm:param name="fields">${fields}</mm:param>
+            <a class="editme delete" href="${_}#edit_${nr}">delete</a>
+            <jsp:text> / </jsp:text>
+          </mm:link>
+          <mm:link page="$editor" referids="p?,nr,show,one,target,related">
+            <mm:param name="fields">${fields}</mm:param>
+            <a class="editme" href="${_}#edit_${nr}">change image</a>
+          </mm:link>
+        </span>
+
+      </c:when>
+      <c:otherwise>
   
+        <mm:url referids="p,nr" write="false" absolute="true" escapeamps="false" id="submit_link"></mm:url>
+        <mm:form id="form_$nr" page="$submit_link">
   
-  <mm:form id="form_${nr}">
-    <mm:node number="$nr" commitonclose="false">
+          <mm:node number="$nr" commitonclose="false">
         
-      <mm:import id="buffer">
-        <c:if test="${editme eq 'true'}">
-          <a class="cancel" href="#close">close</a>
-          <div class="log"><jsp:text> <!-- empty --> </jsp:text></div>
-          <!-- jsp:directive.include file="inc/htmleditorsmall.jspx" / -->
-        </c:if>
-        
-        <fieldset>
-          <mm:fieldlist fields="handle">
-            <div>
-              <c:set var="fld_name"><mm:fieldinfo type="name" /></c:set>
-              <mm:fieldinfo type="forid">
-                <label for="${_}" class="${fld_name}">Upload a new image</label>
-              </mm:fieldinfo>
-              <p class="info"><mm:fieldinfo type="description" escape="inline" /></p>
-              <mm:maywrite><mm:fieldinfo type="input" /><mm:fieldinfo type="errors" /></mm:maywrite>
-              <mm:maywrite inverse="true"><mm:fieldinfo type="guivalue" escape="none" /></mm:maywrite>
-            </div>
-          </mm:fieldlist>
-        </fieldset>
-        
-        <mm:maywrite>
-          <fieldset class="buttons">
-            <input name="p"  type="hidden" value="${p}" />
-            <input name="nr" type="hidden" value="${nr}" />
-            <input name="fields"       type="hidden" value="${fields}" />
-            <input name="submit${nr}"  type="hidden" value="submit" />
-            <div>
-              <fmt:message key="users.form.save" var="button_save" />
-              <input type="submit" name="submit${nr}" value="${button_save}" class="submit" />
+            <mm:import id="buffer">
               <c:if test="${editme eq 'true'}">
-                <input type="button" name="cancel" value="Cancel" class="cancel" /> 
+                <div class="log"><jsp:text> <!-- empty --> </jsp:text></div>
+                <a class="cancel" href="#close"><fmt:message key="users.close" /></a>
               </c:if>
-            </div>
-          </fieldset>
-        </mm:maywrite>
-        
-      </mm:import>
+              
+              <fieldset>
+                <mm:fieldlist fields="${fields}" type="${empty fields ? 'edit' : ''}">
+                  <div>
+                    <c:set var="fld_name"><mm:fieldinfo type="name" /></c:set>
+                    <mm:fieldinfo type="forid">
+                      <label for="${_}" class="${fld_name}"><mm:fieldinfo type="guiname" /></label>
+                    </mm:fieldinfo>
+                    <p class="info"><mm:fieldinfo type="description" escape="inline" /></p>
+                    <mm:maywrite><mm:fieldinfo type="input" /><mm:fieldinfo type="errors" /></mm:maywrite>
+                    <mm:maywrite inverse="true"><mm:fieldinfo type="guivalue" escape="none" /></mm:maywrite>
+                  </div>
+                </mm:fieldlist>
+              </fieldset>
+              
+              <mm:maywrite>
+                <fieldset class="buttons">
+                  <input name="fields"       type="hidden" value="${fields}" />
+                  <input name="related"      type="hidden" value="${related}" />
+                  <input name="show"         type="hidden" value="${show}" />
+                  <input name="one"          type="hidden" value="${one}" />
+                  <input name="target"       type="hidden" value="${target}" />
+                  <input name="submit${nr}"  type="hidden" value="ok" />
+                  <div>
+                    <fmt:message key="users.form.save" var="button_save" />
+                    <fmt:message key="users.cancel" var="button_cancel" />
+                    <input type="submit" name="action" value="${button_save}" class="submit" />
+                    <c:if test="${editme eq 'true'}">
+                      <input type="button" name="cancel" value="${button_cancel}" class="cancel" /> 
+                    </c:if>
+                  </div>
+                </fieldset>
+              </mm:maywrite>
+            </mm:import>
       
-      <mm:present referid="submit$nr">
-        <mm:valid>
-          <p class="msg">
-            Your changes are saved.
-          </p>
-          <mm:commit />
-          <mm:import id="saved">OK</mm:import>
-        </mm:valid>
-        <mm:valid inverse="true">
-          <p class="err">The form contains an error.</p>
-          <mm:cancel />
-        </mm:valid>
-      </mm:present>
+            <mm:present referid="submit$nr">
+              
+              <mm:valid>
+                <p class="msg">Your changes are saved.</p>
+
+                <mm:commit />
+                <c:choose>
+                  <c:when test="${editme eq 'true'}">
+
+                    <c:choose>
+                      <c:when test="${!empty target}">
+                        <c:set var="linktarget">#${target}</c:set>
+                      </c:when>
+                      <c:otherwise>
+                        <c:set var="linktarget">#edit_${nr}</c:set>
+                      </c:otherwise>
+                    </c:choose>
+                    
+                    <span class="content ${one}">
+                      <mm:include page="$show" referids="p,nr,related,editor">
+                        <mm:param name="fields">${fields}</mm:param>
+                      </mm:include>
+                    </span>
+
+                    <span class="links">
+                      <c:if test="${maydelete}">
+                        <mm:maydelete>
+                          <mm:link page="/editors/delete-thumb.jspx" referids="p,nr,editor,show,related,maydelete,one,target">
+                            <mm:param name="fields">${fields}</mm:param>
+                            <a class="editme delete" href="${_}${linktarget}">delete</a>
+                          </mm:link>
+                          <jsp:text> / </jsp:text>
+                        </mm:maydelete>
+                      </c:if>
+                      
+                      <mm:maywrite>
+                        <mm:link page="$editor" referids="p,nr,show,editor,related,target,one">
+                          <mm:param name="fields">${fields}</mm:param>
+                          <a class="editme" href="${_}${linktarget}">change image</a>
+                        </mm:link>
+                      </mm:maywrite>
+                    </span>
+                    
+                  </c:when>
+                  <c:otherwise>
+                    <mm:write referid="buffer" escape="none" />
+                  </c:otherwise>
+                </c:choose>
+              </mm:valid>
+              
+              <mm:valid inverse="true">
+                <p class="err">The form contains an error.</p>
+                <mm:cancel />
+                <mm:write referid="buffer" escape="none" />
+              </mm:valid>
+              
+            </mm:present>
     
-    </mm:node>
+          </mm:node>
 
-    <mm:notpresent referid="submit$nr">
-      <mm:write referid="buffer" escape="none" />
-    </mm:notpresent>
+          <mm:notpresent referid="submit$nr">
+            <mm:write referid="buffer" escape="none" />
+          </mm:notpresent>
+      
+        </mm:form>
 
-        
-  </mm:form>
+      </c:otherwise>
+    </c:choose>
 
-  </c:otherwise>
-</c:choose>
+  </mm:hasnode>
 
 </mm:cloud>
 </mm:content>

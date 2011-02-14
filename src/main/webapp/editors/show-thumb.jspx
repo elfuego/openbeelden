@@ -8,7 +8,7 @@
 <jsp:output doctype-root-element="html"
       doctype-public="-//W3C//DTD XHTML 1.0 Strict//EN"
       doctype-system="http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd" />
-<mm:cloud loginpage="/editors/login.jspx" rank="portal manager">
+<mm:cloud loginpage="/editors/login.jspx" rank="site user">
 
 <fmt:setBundle basename="eu.openimages.messages" scope="request" />
 

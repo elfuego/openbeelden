@@ -77,6 +77,7 @@ function initEditme(el) {
         ev.preventDefault();
         editMe(ev);
     });
+    //console.log('initEditme for: ' + el);
 }
 
 jQuery.fn.editme = function(settings) {
@@ -101,12 +102,15 @@ function editMe(ev) {
     var formId = (params.type != null ? '#form_' + params.type : '#form_' + params.nr);
     params['editme'] = 'true';  /* inform form about being editme ajax editor */
     $(id).load(link, params, function() {
+           
+           $(id).addClass('editmeform');
 		   
 		   // what to do while cancelling
 		   $(formId + ' .cancel').click(function(ev) {
                ev.preventDefault();
                params['cancel'] = 'Cancel'; 
                $(id).load(link, params, function() { 
+                   $(id).removeClass('editmeform');
                    $(this).find('a.editme').click(function(ev){ 
                        ev.preventDefault();
                        editMe(ev);
@@ -123,13 +127,13 @@ function editMe(ev) {
            validator.addValidationForElements($(id + " .mm_validate"));
 		   validator.validateHook = function(valid, entry) {
 		       var button = $(id + " input[type=submit][class=submit]");
-		       button[0].disabled = validator.invalidElements != 0;
+		       //button[0].disabled = validator.invalidElements != 0;
 		   };
 		   validator.validateHook();
 		   
 		   // ajax form options
 		   var options = {
-		       target: id + ' div.log',
+		       target: id,
 		       success: afterSubmit,
 		       data: { editme: 'true' }
 		   };
@@ -145,13 +149,23 @@ function editMe(ev) {
 function afterSubmit(response, status, xhr) {
     
     var parent = $(this).parent();
+    
+    var thisId = $(this).attr('id');
+    //console.log('thisId ' + thisId);
+    var one = 'no';
+    if (response.indexOf('one') > -1) {
+        var one = 'yes';
+    }
+    //console.log('one: ' + one);
 
-    if (response.indexOf('node_created') > -1) {   /* indicates we've made a new node */
-        $(parent).next().find('a.editme').show();  /* make sure tag 'new' is shown again */
-
-        var newContent = $(parent).find('div.node_created');
+    if (response.indexOf('node_created') > -1) {        /* node created */
+        /* make sure tag 'new' is shown again */
+        $(this).next().find('a.editme').show();
+        $(parent).find('.dobuttons').show();
+        
+        var newContent = $(this).find('div.node_created');
         var classes = $(newContent).attr('class').split(' ');
-        var newItem = $(parent).clone().empty();
+        var newItem = $(this).clone().empty();
         var newId = 'newId';
         for (var i = 0; i < classes.length; i++) {
             if (classes[i].indexOf('edit_') > -1) {
@@ -160,25 +174,72 @@ function afterSubmit(response, status, xhr) {
         }
         newItem.attr('id', newId);
         newItem.removeClass('notsortable');
-        newItem.html(newContent);
-        newItem.insertAfter(parent);
-        $(newItem).find('a.new').click(function(ev){
-            ev.preventDefault();
-            editMe(ev);
-        });
+        
+        var newLinks = $(newContent).find('span.links');
+        if (one == 'yes') {
+            newItem.html($(newContent).find('span.content'));
+        } else {
+            newItem.html(newContent);
+        }
         
         /* after saving new node, form is kept around for some reason */
         $(parent).find('form').remove();
-    }
-
-    if (response.indexOf('node_deleted') > -1) { /* node is deleted */
-        $(parent).find('form').remove();
-        $(this).find('a.cancel').click(function(ev){
-            ev.preventDefault();
-            $(parent).remove();
-        });
-    }
+        if (one == 'yes') {
+            $(this).append(newItem);
+            $('#' + thisId + '_buttons').empty().append(newLinks);
+            initEditme('#' + thisId + '_buttons');
+            //console.log('appended');
+        } else {
+            newItem.insertBefore(this);
+            initEditme('#' + newId);
+            /* $(newItem).find('a.new').click(function(ev){
+                ev.preventDefault();
+                editMe(ev);
+            }); */
+            //console.log('inserted before');
+        }
+        
+    } else if (response.indexOf('node_deleted') > -1) { /* node deleted */
+        
+        if (one == 'yes') {
+            var placeholder = $(this).find('span.content');
+            var newLinks = $(this).find('span.links');
+            var add_link = $(newLinks).find('a').attr('href')
+            var add_id = add_link.substring(add_link.indexOf("#")); //var id = link.substring(link.indexOf("#"));
+            //console.log('add_id ' + add_id);
+            $(add_id).empty().html(placeholder);
+            $(add_id + '_buttons').empty().append(newLinks);
+            
+            initEditme(add_id + '_buttons');
+        } else {
+            
+            $(parent).find('form').remove();
+            var self = this;
+            $(this).find('a.cancel').click(function(ev){
+                ev.preventDefault();
+                $(self).remove();
+            });
+        }
     
+    } else {                                            /* node edited (or action cancelled) */
+        //console.log('cancelled or edited.. ' + thisId);
+        
+        if (one == 'yes') {
+            var content = $(this).find('span.content');
+            var links = $(this).find('span.links');
+            var add_link = $(links).find('a').attr('href')
+            var target_id = add_link.substring(add_link.indexOf("#")); //var id = link.substring(link.indexOf("#"));
+            //console.log('target_id ' + target_id);
+            
+            $(target_id).empty().html(content);
+            $(target_id + '_buttons').empty().append(links);
+            initEditme(target_id + '_buttons');
+            
+        } else {
+            initEditme(this);
+        }
+    }
+    //console.log('we are at ' + thisId);
     clearMsg(this);
 }
 
@@ -200,7 +261,16 @@ function initSortable(listEl) {
                 var edit_id = $(ui.item).attr('id');
                 var nodenr = edit_id.match(/\d+/);
                 var listId = $(this).attr('id');
-                if (listId.indexOf('related_') > -1) {
+                
+                // remove from list
+                //if (listId.indexOf('related_') > -1) {
+
+                var senderId = $(ui.sender).attr('id');
+
+                if (listId.indexOf('found_') < 0 
+                        && listId.indexOf('_footer') < 0 && listId.indexOf('_header') < 0) {
+                    //console.log('rm listId ' + listId + ', senderId ' + senderId + ', nr ' + nodenr);
+
                     var params = { 
                         id: listId, 
                         related: '',
@@ -228,7 +298,12 @@ function initSortable(listEl) {
                 var nodenr = edit_id.match(/\d+/);
                 var listId = $(this).attr('id');
                 var senderId = $(ui.sender).attr('id');
-                if (senderId.indexOf('found_') > -1) {
+                
+                // add to list (and remove from?)
+                //if (senderId.indexOf('found_') > -1) {
+                if (listId.indexOf('found_') < 0
+                        && listId.indexOf('_footer') < 0 && listId.indexOf('_header') < 0) {
+                    //console.log('a listId ' + listId + ', senderId ' + senderId + ', nr ' + nodenr);
                     var params = { 
                         id: listId, 
                         related: '' + nodenr, 
@@ -316,7 +391,7 @@ function initTiny( ) {
     tinyMCE.init({
         theme: "advanced",
         mode : "specific_textareas",
-        editor_selector : /(mm_f_intro|mm_f_body|mm_nm_pools|mm_nm_pools_translations|mm_nm_licenses|mm_nm_licenses_translations|mm_nm_mmbaseusers)/,
+        editor_selector : /(mm_f_body|mm_nm_pools|mm_nm_pools_translations|mm_nm_licenses|mm_nm_licenses_translations|mm_nm_mmbaseusers)/,
         plugins : "fullscreen,xhtmlxtras",
         //content_css : "${mm:link('/style/css/tiny_mce.css')}",
         content_css : "/style/css/tiny_mce.css",

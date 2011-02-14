@@ -35,29 +35,33 @@
     <mm:import externid="cancel" />
 
     <mm:import externid="editme">false</mm:import>
+    <mm:import externid="target" />
+    <mm:import externid="one">false</mm:import>
     <mm:import externid="show">/editors/show-thumb.jspx</mm:import>
-    <mm:import externid="editor">/editors/edit-node.jspx</mm:import>
+    <mm:import externid="editor">/editors/edit-thumb.jspx</mm:import>
     <mm:import externid="maydelete">true</mm:import>
-
+    <mm:import externid="related" />
+    
 
     <c:choose>
       <c:when test="${cancel eq 'Cancel'}">
-        <mm:include page="$show" referids="p?,nr,show">
-          <mm:param name="fields">${fields}</mm:param>
+        <mm:include page="$show" referids="p?,nr,show,related">
+          <!-- <mm:param name="fields">${fields}</mm:param> -->
         </mm:include>
 
-        <mm:node number="$nr">
-          <p class="description">
-            <mm:link page="/editors/add-thumb.jspx" referids="p?,_node@nr">
+        <!-- <mm:node number="$nr">
+          <p class="description"> 
+            <mm:link page="/editors/add-thumb.jspx" referids="p?,_node@nr,role,dir,elementid">
               <mm:param name="lang">${requestScope['javax.servlet.jsp.jstl.fmt.locale.request']}</mm:param>
               <mm:param name="type">images</mm:param>
               <mm:param name="fields">handle</mm:param>
               <mm:param name="show">/editors/show-thumb.jspx</mm:param>
               <mm:param name="defaultstr">title=Thumbnail <mm:field name="title" /></mm:param>
-              <a class="editme" href="${_}#edit-picture"><fmt:message key="users.add_image" /></a>
+              <c:set var="link">${_}#${elementid}</c:set>
+              <a class="editme add" href="${link}"><fmt:message key="users.add_image" /></a>
             </mm:link>
-          </p>
-        </mm:node>
+           </p> 
+        </mm:node> -->
 
       </c:when>
       <c:otherwise>
@@ -104,6 +108,10 @@
                 <input name="pos"  type="hidden" value="${pos}" />
                 <input name="dir"  type="hidden" value="${dir}" />
                 <input name="show" type="hidden" value="${show}" />
+                <input name="related" type="hidden" value="${related}" />
+                <input name="editor" type="hidden" value="${editor}" />
+                <input name="one"    type="hidden" value="${one}" />
+                <input name="target" type="hidden" value="${target}" />
                 <input name="defaultstr"  type="hidden" value="${defaultstr}" />
                 <p>
                   <fmt:message key="users.cancel" var="button_cancel" />
@@ -121,11 +129,7 @@
 
             <mm:valid>
               <mm:import id="saved">
-                Your <mm:nodeinfo nodetype="$type" type="guitype" escape="lowercase" />
-                '<strong>
-                <mm:node referid="new_node"><mm:function name="gui" escape="tagstripper,lowercase"  /></mm:node>
-                </strong>'
-                is saved
+                Your <mm:nodeinfo nodetype="$type" type="guitype" escape="lowercase" /> is saved
                 <c:if test="${!empty nr and !empty role}">
                   <mm:node number="$nr" id="rel_node" />
                   <c:choose>
@@ -179,19 +183,35 @@
 
 
         <c:if test="${!empty saved and editme eq 'true'}">
-          <p class="msg"><mm:write referid="saved" escape="none" /></p>
-
+          <p class="msg"><mm:write referid="saved" escape="none" /> t: ${target}</p>
+          
+          <c:choose>
+            <c:when test="${!empty target}">
+              <c:set var="linktarget">#${target}</c:set>
+            </c:when>
+            <c:otherwise>
+              <c:set var="linktarget">#edit_${new_node}</c:set>
+            </c:otherwise>
+          </c:choose>
+          
           <!-- show new node -->
-          <div class="node_created edit_${new_node}">
-            <mm:link page="$editor" referids="p?,new_node@nr,show">
-              <mm:param name="fields">${fields}</mm:param>
-              <a class="editme new" href="${_}#edit_${new_node}">change image »</a>
-            </mm:link>
-            <div>
-              <mm:include page="$show" referids="p?,new_node@nr,show">
+          <div class="node_created ${one} edit_${new_node}">
+            <span class="content">
+              <mm:include page="$show" referids="p?,new_node@nr,show,related">
                 <mm:param name="fields">${fields}</mm:param>
               </mm:include>
-            </div>
+            </span>
+            <span class="links">
+              <mm:link page="/editors/delete-thumb.jspx" referids="p?,new_node@nr,related,target?">
+                <mm:param name="fields">${fields}</mm:param>
+                <a class="editme delete" href="${_}${linktarget}">delete</a>
+                <jsp:text> / </jsp:text>
+              </mm:link>
+              <mm:link page="$editor" referids="p?,new_node@nr,show,related,target?">
+                <mm:param name="fields">${fields}</mm:param>
+                <a class="editme" href="${_}${linktarget}">change image</a>
+              </mm:link>
+            </span>
           </div>
         </c:if>
 
