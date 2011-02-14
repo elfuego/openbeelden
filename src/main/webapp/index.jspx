@@ -198,7 +198,7 @@
            </os:cache>
            <!-- value: ${value} cachekey: ${cachekey} -->
 
-          <p class="more"><a href="${mm:link('/media')}${langpostfix}"><fmt:message key="media.more" /> »</a></p>
+          <p class="more"><a href="${mm:link('/media')}${langpostfix}"><fmt:message key="media.more" /></a></p>
         </div>
       </div>
 
