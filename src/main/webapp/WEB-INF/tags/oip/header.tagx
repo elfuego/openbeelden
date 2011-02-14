@@ -11,7 +11,7 @@
     <fmt:message key="head.title"       var="title" />
     <fmt:message key="head.description" var="description" />
     
-    <c:set var="img"><img src="${mm:link('/style/images/oip-logo.png')}" alt="${title}" width="174" height="174" /></c:set>
+    <c:set var="img"><img src="${mm:link('/style/images/oip-logo.png')}" alt="${title}" width="157" height="157" /></c:set>
     
     <c:choose>
       <c:when test="${empty requestScope['org.mmbase.mmsite.language']}">
@@ -39,7 +39,7 @@
           <mm:listfunction set="utils" name="degradeLocale">
             <mm:haspage page="/style/images/oip-logo_${_}.png">
               <mm:link page="/style/images/oip-logo_${_}.png">
-                <c:set var="img"><img src="${_}" alt="${title}" width="174" height="174" /></c:set>
+                <c:set var="img"><img src="${_}" alt="${title}" width="157" height="157" /></c:set>
               </mm:link>
             </mm:haspage>
           </mm:listfunction>
@@ -59,7 +59,7 @@
               <mm:listfunction set="utils" name="degradeLocale">
                 <mm:haspage page="/style/images/oip-logo_${_}.png">
                   <mm:link page="/style/images/oip-logo_${_}.png">
-                    <c:set var="img"><img src="${_}" alt="${title}" width="174" height="174" /></c:set>
+                    <c:set var="img"><img src="${_}" alt="${title}" width="157" height="157" /></c:set>
                   </mm:link>
                 </mm:haspage>
               </mm:listfunction>
