@@ -292,7 +292,7 @@ ul.sortby li.thumbsonly a { padding-left: 0; }
 h3.subtitle, h3.mediatitle
 {
     font-family: Helvetica, sans-serif;
-    color: #555;
+    color: #a2a2a2;
     text-transform: none;
     font-weight: bold;
     font-size: 1.2em;
@@ -364,8 +364,8 @@ ul.toolbar a:active
     outline: none;
 }
 
-ul.toolbar li.favorite a { color: #999; }
-ul.toolbar li.favorite a.selected { color: #555; }
+ul.toolbar li.favorite a { color: #555; }
+ul.toolbar li.favorite a.selected { color: #65af0e; }
 
 p.media-intro
 {
@@ -551,7 +551,7 @@ form#search p
 form#search p a:link,
 form#search p a:visited
 {
-    color: #555;
+    color: #868686;
     text-decoration: none;
 }
 
