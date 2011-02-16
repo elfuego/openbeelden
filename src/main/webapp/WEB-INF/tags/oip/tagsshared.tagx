@@ -1,0 +1,36 @@
+<jsp:root
+    version="2.0"
+    xmlns:c="http://java.sun.com/jsp/jstl/core"
+    xmlns:jsp="http://java.sun.com/JSP/Page"
+    xmlns:fmt="http://java.sun.com/jsp/jstl/fmt"
+    xmlns:mm="http://www.mmbase.org/mmbase-taglib-2.0"
+    xmlns:oip="urn:jsptagdir:/WEB-INF/tags/oip">
+ 
+  <jsp:directive.attribute name="list" type="org.mmbase.bridge.NodeList"
+        description="The list with mediafragments to show"  />
+  
+
+    <mm:import id="taglist" vartype="List" jspvar="taglist" />        
+    <mm:listnodes varStatus="status" referid="list">
+      <mm:relatednodescontainer type="tags" role="related" searchdirs="destination">
+        <mm:relatednodes id="mytag">
+          <mm:node referid="mytag" jspvar="mytag">
+            <jsp:scriptlet>
+              if (!taglist.contains(mytag)) { taglist.add(mytag); }
+            </jsp:scriptlet>
+          </mm:node>
+        </mm:relatednodes>
+      </mm:relatednodescontainer>
+    </mm:listnodes>
+    
+    <ul>
+      <mm:listnodes referid="taglist">
+        <mm:link page="tag">
+          <mm:frameworkparam name="component">oip</mm:frameworkparam>
+          <mm:frameworkparam name="tag">${_node}</mm:frameworkparam>
+          <li><a href="${_}"><mm:field name="name" /></a></li>
+        </mm:link>
+      </mm:listnodes>
+    </ul>
+
+</jsp:root>
