@@ -39,14 +39,15 @@
             <p>No tags.</p>
           </c:when>
           <c:otherwise>
-            <ul>
+            <ul class="tags">
               <c:forEach var="tag" items="${tags}" varStatus="status">
                 <mm:node number="${tag.key}">
                   <mm:link page="tag">
                     <mm:frameworkparam name="component">oip</mm:frameworkparam>
                     <mm:frameworkparam name="tag">${_node}</mm:frameworkparam>
                     <li>
-                      <a href="${_}"><mm:field name="name" /></a> (${tag.value})
+                      <a style="font-size:${(tag.value / 10 le 1) ? tag.value / 10 + 1 : (tag.value / 10 gt 2) ? '2' : tag.value / 10}em;"
+                        href="${_}"><mm:field name="name" /></a> (${tag.value})
                     </li>
                   </mm:link>
                 </mm:node>
