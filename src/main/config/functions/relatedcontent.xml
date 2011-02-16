@@ -2,7 +2,7 @@
 <!DOCTYPE functionset PUBLIC "//MMBase - functionset //" "http://www.mmbase.org/dtd/functionset_1_0.dtd">
 <functionset>
 <version>0</version>
-<description>Tags functions</description>
+<description>Tag functions</description>
 
   <function name="nodes">
     <description>
@@ -29,6 +29,17 @@
     <param name="node"  type="Node" description="Node related to one or more tags" />
     <param name="type"  type="String" description="Type of content to look for, defaults to type of the source node" />
     <param name="max"   type="String" description="Maximum number of result nodes to return" />
+  </function>
+
+  <function name="tagcount">
+    <description>
+      Map with tags sorted by most used (relation count), not included unused tags (0 relations).
+    </description>
+    <type>class</type>
+    <class>eu.openimages.RelatedByTags</class>
+    <method>getTagsByCount</method>
+    <param name="type"  type="String" description="Type of content to look for, defaults to object" />
+    <param name="max"   type="String" description="Maximum number of tags to return, default to 99" />
   </function>
 
 

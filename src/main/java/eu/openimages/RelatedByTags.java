@@ -28,7 +28,9 @@ import org.mmbase.bridge.NodeManager;
 import org.mmbase.bridge.NodeList;
 import org.mmbase.bridge.NodeIterator;
 import org.mmbase.bridge.Query;
+import org.mmbase.bridge.util.CloudThreadLocal;
 import org.mmbase.bridge.util.Queries;
+import org.mmbase.bridge.util.SearchUtil;
 import org.mmbase.bridge.NotFoundException;
 
 import org.mmbase.storage.search.Constraint;
@@ -85,6 +87,68 @@ public class RelatedByTags {
         return hitsMap(nodesMap, -1);
     }
     
+    /**
+     * Most used tags, sorted by most popular not included tags with no relations (unused tags).
+     *
+     * @param type  Optional nodemanager to use 
+     * @param max   Maximum number of tags to return, defaults to 99
+     * @return tags with count attached (node/count)
+     */
+    public Map<Integer, Integer> getTagsByCount(String type, String max) {
+        if (type == null || "".equals(type)) type = "object";
+        int imax = 99;
+        if (max != null) {
+            try {
+                imax = Integer.parseInt(max);
+            } catch (NumberFormatException nfe) {
+                log.error("Could not parse max value '" + max + "': " + nfe);
+            }
+        }
+        
+        Cloud cloud = CloudThreadLocal.currentCloud();
+        HashMap<Integer,Integer> map = new HashMap<Integer,Integer>();
+        NodeList list = SearchUtil.findNodeList(cloud, "tags");
+        
+        int c = 0;
+        NodeIterator ni = list.nodeIterator();
+        
+        while (ni.hasNext() && c < imax) {
+            Node node = ni.next();
+            int relations = node.getRelatedNodes(type, "related", "source").size();
+            
+            if (relations > 0) {
+                map.put(node.getNumber(), relations);
+                c++;
+            }
+        }
+
+        List keyMap = new ArrayList(map.keySet());
+        List valMap = new ArrayList(map.values());
+        Collections.sort(valMap);
+        Collections.reverse(valMap);
+    
+        LinkedHashMap<Integer,Integer> sortedMap = new LinkedHashMap<Integer,Integer>();
+        Iterator<Integer> vit = valMap.iterator();
+        while (vit.hasNext()) {
+            Integer val = vit.next();
+            Iterator<Integer> kit = keyMap.iterator();
+            while (kit.hasNext()) {
+                Integer key = kit.next();
+                Integer comp1 = map.get(key);
+                Integer comp2 = val;
+                
+                if (comp1 == val) {
+                    map.remove(key);
+                    keyMap.remove(key);
+                    sortedMap.put(key, val);
+                    break;
+                }
+            }
+        }
+
+        return sortedMap;
+    }
+
     
     /**
      * Finds tags related to a node with a maximum number of related tags.
