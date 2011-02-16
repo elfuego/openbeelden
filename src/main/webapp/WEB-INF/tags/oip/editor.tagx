@@ -93,7 +93,7 @@
                 <c:set var="img"><mm:image mode="img" template="s(216)" /></c:set>
               </mm:relatednodes>
               <c:if test="${empty img}">
-                <c:set var="img"><img src="${mm:link('/style/images/oip-logo_en.png')}" width="174" height="174" alt="Open Images" /></c:set>
+                <c:set var="img"><img src="${mm:link('/style/images/oip-logo_en.png')}" width="157" height="157" alt="Open Images" /></c:set>
               </c:if>
               <a href="${mm:link('/editors/')}">${img}</a>
             </div>
