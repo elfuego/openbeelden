@@ -735,7 +735,6 @@ ul#tags li a:active {
 } 
 ul#tags li a:focus { outline: none; } 
 
-
 ul#tags li a.delete
 {
 	width: 12px;
@@ -770,6 +769,11 @@ a.tag.add
 	margin-right: 8px;
 }
 
+ul.tags li
+{
+	list-style: none;
+	display: inline;
+}
 
 div.legaltext
 {
