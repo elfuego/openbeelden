@@ -77,4 +77,11 @@
 		<mimetype>text/html</mimetype>
 	</node>
 
+	<node number="807" owner="default">
+		<title>Tags</title>
+		<description>Template with an overview of tags used</description>
+		<url>tags.jspx</url>
+		<mimetype>text/html</mimetype>
+	</node>
+
 </templates>

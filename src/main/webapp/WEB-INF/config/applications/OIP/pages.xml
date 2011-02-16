@@ -82,7 +82,7 @@
 
 	<node number="330" owner="default">
 		<title>Contact</title>
-		<description></description>
+		<description>The contact page with an email form</description>
 		<template>458</template>
 		<path>/contact</path>
 		<expires>120</expires>
@@ -90,7 +90,7 @@
 
 	<node number="332" owner="default" alias="page_upload">
 		<title>Upload</title>
-		<description></description>
+		<description>Page to upload media content</description>
 		<template>354</template>
 		<path>/upload</path>
 		<expires>120</expires>
@@ -98,9 +98,17 @@
 
 	<node number="803" owner="default" alias="page_resetpassword">
 		<title>Forgot password</title>
-		<description></description>
+		<description>Page to reset your password</description>
 		<template>801</template>
 		<path>/forgot_password</path>
+		<expires>120</expires>
+	</node>
+
+	<node number="809" owner="default" alias="page_tags">
+		<title>Tags</title>
+		<description>Page with an overview of tags used</description>
+		<template>807</template>
+		<path>/tags</path>
 		<expires>120</expires>
 	</node>
 
