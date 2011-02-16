@@ -13,46 +13,54 @@
           class="mm_c c_oip b_user-delete ${requestScope.className}"
           id="${requestScope['org.mmbase.componentId']}">
 
-        <mm:import externid="user"><mm:cloudinfo type="usernode" /></mm:import>
-
-        <mm:listnodescontainer type="object" id="q">
-          <mm:constraint field="owner" value="${user}" casesensitive="true" />
-          <mm:typeconstraint name="mediafragments,mediasources,images" descendants="true" />
-          <mm:size id="size" write="false" />
-        </mm:listnodescontainer>
-        <c:choose>
-          <c:when test="${request.method eq 'GET'}">
-            <mm:listnodescontainer referid="q">
-              <p>
-                <fmt:message key="user.nodestodelete">
-                  <fmt:param value="${size + 1}" />
-                </fmt:message>
-              </p>
-              <form method="post">
-                <fmt:message key="user.delete_sure" var="sure">
-                  <fmt:param><oip:user html="attribute" /></fmt:param>
-                </fmt:message>
-                <input type="submit" name="sure" value="${sure}" />
-              </form>
-            </mm:listnodescontainer>
-          </c:when>
-          <c:otherwise>
-            <mm:import externid="sure" />
-            <mm:present referid="sure">
+        <mm:hasrank minvalue="site user">
+          
+          <mm:import externid="user"><mm:cloudinfo type="usernode" /></mm:import>
+  
+          <mm:listnodescontainer type="object" id="q">
+            <mm:constraint field="owner" value="${user}" casesensitive="true" />
+            <mm:typeconstraint name="mediafragments,mediasources,images" descendants="true" />
+            <mm:size id="size" write="false" />
+          </mm:listnodescontainer>
+          <c:choose>
+            <c:when test="${request.method eq 'GET'}">
               <mm:listnodescontainer referid="q">
-                <mm:listnodes id="n">
-                  <mm:function set="cloudcontextworkflow" name="markfordelete" referids="n@node" />
-                </mm:listnodes>
+                <p>
+                  <fmt:message key="user.nodestodelete">
+                    <fmt:param value="${size + 1}" />
+                  </fmt:message>
+                </p>
+                <form method="post">
+                  <fmt:message key="user.delete_sure" var="sure">
+                    <fmt:param><oip:user html="attribute" /></fmt:param>
+                  </fmt:message>
+                  <input type="submit" name="sure" value="${sure}" />
+                </form>
               </mm:listnodescontainer>
-              <mm:node referid="user">
-                <mm:setfield name="status">BLOCKED</mm:setfield>
-              </mm:node>
-              <fmt:message key="user.deleted">
+            </c:when>
+            <c:otherwise>
+              <mm:import externid="sure" />
+              <mm:present referid="sure">
+                <mm:listnodescontainer referid="q">
+                  <mm:listnodes id="n">
+                    <mm:function set="cloudcontextworkflow" name="markfordelete" referids="n@node" />
+                  </mm:listnodes>
+                </mm:listnodescontainer>
+                <mm:node referid="user">
+                  <mm:setfield name="status">BLOCKED</mm:setfield>
+                </mm:node>
+                <fmt:message key="user.deleted">
                   <fmt:param value="${size + 1}" />
                 </fmt:message>
-            </mm:present>
-          </c:otherwise>
-        </c:choose>
+              </mm:present>
+            </c:otherwise>
+          </c:choose>
+          
+        </mm:hasrank>
+        <mm:hasrank minvalue="site user" inverse="true">
+          <p class="err">not allowed</p>
+        </mm:hasrank>
+        
       </div>
 
     </mm:cloud>
