@@ -17,7 +17,7 @@
 
     <mm:node number="$n" id="tag">
     
-      <h2>Tags / <mm:field name="name" /></h2>
+      <oip:h2>Tags / <mm:field name="name" /></oip:h2>
 
       <mm:import externid="offset">0</mm:import>
       <mm:import id="max">25</mm:import>
@@ -39,33 +39,7 @@
         <oip:pager total="${total}" offset="${offset}" max="${max}" baseurl="${pageurl}" />
       </p>      
 
-      
-      <!-- other tags -->
-      <mm:import id="taglist" vartype="List" jspvar="taglist" />        
-      <mm:listnodes varStatus="status" referid="results">
-        <mm:relatednodescontainer type="tags" role="related" searchdirs="destination">
-          <mm:relatednodes id="mytag">
-            <mm:node referid="mytag" jspvar="mytag">
-            <jsp:scriptlet>
-              if (!taglist.contains(mytag)) { taglist.add(mytag); }
-            </jsp:scriptlet>
-            </mm:node>
-          </mm:relatednodes>
-        </mm:relatednodescontainer>
-      </mm:listnodes>
-      <p>
-        <mm:listnodes referid="taglist">
-          <mm:link page="tag">
-            <mm:frameworkparam name="component">oip</mm:frameworkparam>
-            <mm:frameworkparam name="tag">${_node}</mm:frameworkparam>
-            <a href="${_}"><mm:field name="name" /></a>
-          </mm:link> <mm:last inverse="true"> - </mm:last> 
-        </mm:listnodes>
-      </p>
-      
     </mm:node>
-    
-
 
   </div>
 </mm:content>
