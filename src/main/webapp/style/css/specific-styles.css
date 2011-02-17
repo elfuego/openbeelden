@@ -636,25 +636,20 @@ div.popup a.close
     width: 20px;
 }
 
+div#license h5
+{
+	font-size: 1.1em;
+	margin: 0 6px;
+	color: #333;
+}
+
 div#license img
 {
 	float: left;
 	margin: 4px 8px 0 6px;
 }
 
-div#license p img
-{
-	margin: 2px 4px 0 0;
-}
-
-div#license h5
-{
-	font-size: 1.1em;
-	margin: 16px 6px 0 6px;
-	color: #333;
-}
-
-div#license p { clear: both; }
+div#license img p { margin: 4px 8px 0 0; }
 
 
 /* tagging */
@@ -769,11 +764,20 @@ a.tag.add
 	margin-right: 8px;
 }
 
+ul.tags { 
+    width: 512px; 
+    list-style: none;
+}
+
 ul.tags li
 {
 	list-style: none;
 	display: inline;
+	float: left;
+	margin: 0 3px 0 0;
 }
+
+/*ul.tags li a, ul.tags li span { margin: 2px 4px 2px 0; }*/
 
 div.legaltext
 {
