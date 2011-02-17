@@ -23,6 +23,7 @@
       <mm:import id="max">25</mm:import>
       
       <mm:relatednodescontainer type="mediafragments" role="related" searchdirs="source">
+        <mm:constraint field="show" value="true" operator="EQUAL" />
         <mm:size id="total" write="false" />
         <mm:maxnumber value="$max" />
         <mm:offset value="$offset" />
