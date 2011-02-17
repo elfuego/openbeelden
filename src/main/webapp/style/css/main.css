@@ -42,7 +42,7 @@ hr
 h1, h2, h3
 {
 	font-family: "Helvetica Neue", Helvetica, sans-serif;
-	font-weight: 100;
+	font-weight: 200;
 	text-transform: uppercase;
 	letter-spacing: 2px;
 	margin: 8px 0 12px 0;
@@ -50,13 +50,12 @@ h1, h2, h3
 	clear: both;
 }
 
-div.error h1, div.error h2 div.error.h3 {
-    font-family: Helvetica, sans-serif;
-    text-transform: none;
-}
+div.error h1, 
+div.error h2,
+div.error.h3 { text-transform: none; }
 
-h2 { font-size: 1.25em; }
-h3 { font-size: 1.1em; }
+h2 { font-size: 1.3em; }
+h3 { font-size: 1.2em; }
 h4
 {
 	font-size: 1.05em;

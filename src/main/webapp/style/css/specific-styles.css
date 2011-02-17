@@ -30,10 +30,7 @@ div.right-column ul li ul li ul
 }
 
 div.blog a:link,
-div.blog a:visited {
-    color: #555;
-    text-decoration: none;
-}
+div.blog a:visited { color: #555; }
 
 div.blog a:hover,
 div.blog a:active {
@@ -50,7 +47,6 @@ div.blog
 }
 div.blog h3
 {
-	font-family: Helvetica, sans-serif;
 	font-size: 1.05em;
 	font-weight: bold;
 	text-transform: none;
@@ -229,17 +225,13 @@ dl.list a:active
 }
 
 dl.list a.edit:link,
-dl.list a.edit:visited
-{
-    color: #c00;
-    text-decoration: underline;
-}
+dl.list a.edit:visited { text-decoration: underline; }
 
 dl.list a.edit:hover,
 dl.list a.edit:active
 {
     text-decoration: underline;
-    color: #f00;
+    color: #c00;
 }
 
 p.pager
@@ -291,7 +283,6 @@ ul.sortby li.thumbsonly a { padding-left: 0; }
 /* media item page */
 h3.subtitle, h3.mediatitle
 {
-    font-family: Helvetica, sans-serif;
     color: #a2a2a2;
     text-transform: none;
     font-weight: bold;
@@ -303,7 +294,6 @@ h3.subtitle, h3.mediatitle
 h3.mediatitle a.edit
 {
 	font-size: 0.85em;
-	color: #c00;
 	text-decoration: underline;
 }
 h3.subtitle {
@@ -471,14 +461,13 @@ a.edit
 	text-decoration: underline;
 }
 
-a.edit:link, a.edit:visited { color: #C00; }
 a.edit:hover, a.edit:active
 {
-	color: #F00;
+	color: #c00;
 	text-decoration: underline;
 }
 
-.more a:link, .more a:visited { color: #C00; }
+.more a:link, .more a:visited { color: #666; }
 .more a:hover, .more a:active { color: #C00; }
 
 p.more {

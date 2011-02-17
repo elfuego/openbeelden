@@ -7,16 +7,6 @@ body, td
 	color: #555;
 }
 
-@font-face    {
-  webkit-font-family: "DINEngEot";
-  src: url(../fonts/DINEngschriftStd.eot);
-}
-
-@font-face    {
-  font-family: "DINEng";
-  src: url(../fonts/DINEngschriftStd.otf);
-}
-
 a:link { color: #c00; }
 a:visited { color: #333; }
 a:hover { color: #c00; }
@@ -28,8 +18,8 @@ a:active
 
 h1, h2, h3
 {
-	font-family: "DINEng", "DINEngEot", Helvetica, sans-serif;
-	font-weight: normal;
+	font-family: "Helvetica Neue", Helvetica, sans-serif;
+	font-weight: 200;
 	text-transform: uppercase;
 	letter-spacing: 1px;
 	margin: 8px 0 12px 0;

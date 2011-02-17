@@ -311,11 +311,7 @@ body.error div.main-column
 }
 
 body.error div.main-column h2,
-body.error div.main-column h3
-{
-	font-family: Helvetica, sans-serif;
-	text-transform: none;
-}
+body.error div.main-column h3 { text-transform: none; }
 
 body.error #footer ul
 {
