@@ -266,7 +266,7 @@
                           <h3><a href="${_}"><mm:field name="title" /></a></h3>
                           <p class="date"><mm:field name="online"><mm:time format=":LONG" /></mm:field></p>
                           <mm:field name="intro" escape="paragraph,links,wrap_intro" />
-                          <p class="readmore"><a href="${_}"><fmt:message key="service.readmore" /> »</a></p>
+                          <p class="readmore"><a href="${_}"><fmt:message key="service.readmore" /></a></p>
                         </div>
                       </mm:nodefunction>
                     </mm:link>
@@ -302,7 +302,7 @@
                                   <h3><a href="{link}"><xsl:value-of select="title" /></a></h3>
                                   <p class="date"><xsl:value-of select="oip:reformatDate($rssdate, $format, $newformat)" /></p>
                                   <p><xsl:value-of select="substring(description, 0, 480)" /></p>
-                                  <p><a href="{link}"><fmt:message key="service.readmore" /> »</a></p>
+                                  <p><a href="{link}"><fmt:message key="service.readmore" /></a></p>
                                 </div>
                               </xsl:if>
                             </xsl:for-each>
