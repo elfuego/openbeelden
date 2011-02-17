@@ -91,6 +91,26 @@ public class TagsUrlConverter extends DirectoryUrlConverter {
             Node n = frameworkParameters.get(TAG);
             if (n == null) throw new IllegalStateException("No tag parameter used in " + frameworkParameters);
             
+            Cloud cloud = n.getCloud();
+            if (cloud.hasNode("pool_oip")) {
+                
+                Node portal = cloud.getNode("pool_oip");
+                Node portalurlNode = SearchUtil.findRelatedNode(portal, "urls", "portalrel");
+                
+                if (portalurlNode != null) {
+                    String portalUrl = portalurlNode.getStringValue("url");
+                    
+                    if (log.isDebugEnabled()) {
+                        log.debug("inserting portal url " + portalUrl);
+                    }
+                    
+                    b.insert(0, portalUrl);
+                }
+                
+            } else {
+                log.warn("There is no default pool with alias 'pool_oip'");
+            }
+
             //b.append("/").append(trans.transform(n.getStringValue("name")));
             b.append(n.getStringValue("name"));
             
