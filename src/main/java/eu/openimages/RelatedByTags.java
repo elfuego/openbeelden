@@ -88,14 +88,21 @@ public class RelatedByTags {
     }
     
     /**
-     * Most used tags, sorted by most popular not included tags with no relations (unused tags).
+     * Most used tags, sorted by most popular if needed,
+     * not included tags with no relations (unused tags).
      *
      * @param type  Optional nodemanager to use 
      * @param max   Maximum number of tags to return, defaults to 99
+     * @param sort  Sort tags: up or down
      * @return tags with count attached (node/count)
      */
-    public Map<Integer, Integer> getTagsByCount(String type, String max) {
-        if (type == null || "".equals(type)) type = "object";
+    public Map<Integer, Integer> getTagsByCount(String type, String max, String sort) {
+        if (type == null || "".equals(type)) {
+            type = "object";
+        }
+        if (!"up".equals(sort) && !"down".equals(sort)) {
+            sort = "none";
+        }
         int imax = 99;
         if (max != null) {
             try {
@@ -121,32 +128,40 @@ public class RelatedByTags {
                 c++;
             }
         }
-
-        List keyMap = new ArrayList(map.keySet());
-        List valMap = new ArrayList(map.values());
-        Collections.sort(valMap);
-        Collections.reverse(valMap);
-    
-        LinkedHashMap<Integer,Integer> sortedMap = new LinkedHashMap<Integer,Integer>();
-        Iterator<Integer> vit = valMap.iterator();
-        while (vit.hasNext()) {
-            Integer val = vit.next();
-            Iterator<Integer> kit = keyMap.iterator();
-            while (kit.hasNext()) {
-                Integer key = kit.next();
-                Integer comp1 = map.get(key);
-                Integer comp2 = val;
-                
-                if (comp1 == val) {
-                    map.remove(key);
-                    keyMap.remove(key);
-                    sortedMap.put(key, val);
-                    break;
+        
+        if ("none".equals(sort)) {
+            return map;
+        
+        } else {
+            List keyMap = new ArrayList(map.keySet());
+            List valMap = new ArrayList(map.values());
+            
+            Collections.sort(valMap);
+            if ("up".equals(sort)) {
+                Collections.reverse(valMap);
+            }
+        
+            LinkedHashMap<Integer,Integer> sortedMap = new LinkedHashMap<Integer,Integer>();
+            Iterator<Integer> vit = valMap.iterator();
+            while (vit.hasNext()) {
+                Integer val = vit.next();
+                Iterator<Integer> kit = keyMap.iterator();
+                while (kit.hasNext()) {
+                    Integer key = kit.next();
+                    Integer comp1 = map.get(key);
+                    Integer comp2 = val;
+                    
+                    if (comp1 == val) {
+                        map.remove(key);
+                        keyMap.remove(key);
+                        sortedMap.put(key, val);
+                        break;
+                    }
                 }
             }
+    
+            return sortedMap;
         }
-
-        return sortedMap;
     }
 
     
