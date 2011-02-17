@@ -24,7 +24,8 @@
     </jsp:attribute>
 
     <jsp:attribute name="body">
-
+      <div id="main">
+      
       <div class="main-column">
 
         <oip:h2>Tags</oip:h2>
@@ -64,6 +65,7 @@
 
         </div>
       </div>
+    </div><!-- /#main -->
     </jsp:attribute>
 
 
