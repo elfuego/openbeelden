@@ -129,6 +129,16 @@ public class UsersUrlConverter extends DirectoryUrlConverter {
             Node n = frameworkParameters.get(USER);
             if (n == null) throw new IllegalStateException("No node found in " + frameworkParameters + " (pars: " + parameters + ")");
             Cloud cloud = n.getCloud();
+
+            if (blockName.equals("user")) {
+                
+                /* append url default portal to user page */
+                String portalurl = PortalFilter.getPortalUrl(cloud);
+                if (portalurl != null && !"".equals(portalurl)) {
+                    b.insert(0, portalurl);
+                }
+            }
+
             String username = n.getStringValue("username");
             b.append(username);
 

@@ -40,6 +40,7 @@ import org.mmbase.util.logging.Logging;
 /**
  * Portal stuff likely needed during most requests. Looks for portal (pools) node that is related
  * with an urls node that is similar to server name, puts pools node on request with parameter 'portal'.
+ * Default portal is a pools node with alias 'pool_oip'.
  *
  * @author Andre van Toly
  * @since OIP-1.1
@@ -207,6 +208,33 @@ public class PortalFilter implements Filter, SystemEventListener {
 
     }
 
+    /** 
+     * Default portal url when that is defined, e.g. via portalrel related urls node.
+     * Default portal is a pools node with alias 'pool_oip'.
+     *
+     * @param cloud MMBase cloud
+     * @return link defined for default portal with alias 'pool_oip'
+     */
+    protected static String getPortalUrl(Cloud cloud) {
+        String url = null;
+        if (cloud.hasNode("pool_oip")) {
+            
+            Node portal = cloud.getNode("pool_oip");
+            Node portalurlNode = SearchUtil.findRelatedNode(portal, "urls", "portalrel");
+            if (portalurlNode != null) {
+                url = portalurlNode.getStringValue("url");
+                if (LOG.isDebugEnabled()) {
+                    LOG.debug("portal url " + url);
+                }
+            }
+            
+        } else {
+            LOG.warn("There is no default pool with alias 'pool_oip'");
+        } 
+
+        return url;        
+    }
+    
 
     private static Cloud getCloud(HttpServletRequest req) {
         return ContextProvider.getDefaultCloudContext().getCloud("mmbase");
