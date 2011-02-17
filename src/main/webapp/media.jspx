@@ -305,12 +305,25 @@
 
         <c:if test="${!empty value2}">
           <div class="wrap">
+            
             <h4><fmt:message key="media.results_from_complete_repository"><fmt:param value="${total2}" /></fmt:message></h4>
-              <oip:medialist list="${results2}" />
-              <p class="pager">
-                <oip:pager total="${total2}" offset="${offset}" max="${max}"
-                  baseurl="${pageurl}" />
-              </p>
+            
+            <mm:node number="pool_oip" notfound="skip">
+              <mm:relatednodescontainer type="urls" role="portalrel" searchdirs="destination">
+                <mm:maxnumber value="1" />
+                <mm:relatednodes>
+                  <c:set var="defaultportalurl"><mm:field name="url" /></c:set>
+                </mm:relatednodes>
+              </mm:relatednodescontainer>
+            </mm:node>
+
+            <oip:medialist list="${results2}" portalurl="${defaultportalurl}" />
+            
+            <p class="pager">
+              <oip:pager total="${total2}" offset="${offset}" max="${max}"
+                baseurl="${pageurl}" />
+            </p>
+            
           </div>
         </c:if>
       </div><!-- /.main-column -->
