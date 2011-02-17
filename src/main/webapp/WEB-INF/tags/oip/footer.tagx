@@ -120,7 +120,7 @@
           <mm:sortorder field="posrel.pos" direction="UP" />
           <ul>
             <mm:relatednodes>
-              <mm:link page="page" referids="_node@n">
+              <mm:link page="page" referids="_node@n" absolute="${empty defaultportalurl ? 'true' : 'context'}">
                 <mm:frameworkparam name="component">mmsite</mm:frameworkparam>
                 <li><a href="${defaultportalurl}${_}"><mm:field name="title" /></a></li>
               </mm:link>
