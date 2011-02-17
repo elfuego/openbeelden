@@ -52,8 +52,13 @@
 		<pos>1</pos>
 	</node>
 	
-	<node number="804" owner="admin" snumber="335" dnumber="803" rtype="posrel" dir="bidirectional">
-		<pos>-1</pos>
+	<node number="804" owner="default" snumber="335" dnumber="803" rtype="posrel" dir="bidirectional">
+		<pos>15</pos>
 	</node>
+	
+	<node number="810" owner="default" snumber="335" dnumber="809" rtype="posrel" dir="bidirectional">
+		<pos>16</pos>
+	</node>
+
 
 </posrel>
