@@ -12,7 +12,12 @@
   
   <jsp:directive.attribute name="type" 
         description="Type of list, possible options are 'list' (default) and 'thumbs'"  />
+  
+  <jsp:directive.attribute name="portalurl"
+        description="Url of default portal" />
           
+    <c:set var="absolute" value="${empty portalurl ? 'true' : 'context'}" />
+    
     <mm:cloudinfo type="usernode" id="iam" write="false" />
     <mm:escaper id="wrap_title" type="substring">
       <mm:param name="from" value="0" />
@@ -41,7 +46,7 @@
       <mm:nodefunction name="translation">
         <mm:import id="mf_title" reset="true"><mm:field name="title" /></mm:import>
       </mm:nodefunction>
-      <mm:link>
+      <mm:link absolute="${absolute}">
         <mm:frameworkparam name="component">oip</mm:frameworkparam>
         <mm:frameworkparam name="block">mediafragment</mm:frameworkparam>
         <mm:frameworkparam name="media">${_node}</mm:frameworkparam>
@@ -56,21 +61,21 @@
             <dl class="${gridclass} thumbs">
               <dt>
                 <mm:maywrite>
-                  <mm:link referids="_node@media">
+                  <mm:link absolute="${absolute}" referids="_node@media">
                     <mm:frameworkparam name="component">oip</mm:frameworkparam>
                     <mm:frameworkparam name="block">user-media</mm:frameworkparam>
                     <mm:frameworkparam name="user">${iam}</mm:frameworkparam>
-                    <a href="${_}" title="edit" class="edit">edit</a><jsp:text> </jsp:text>
+                    <a href="${portalurl}${_}" title="edit" class="edit">edit</a><jsp:text> </jsp:text>
                   </mm:link>
                 </mm:maywrite>
-                <a title="${mf_title}" href="${_}">
+                <a title="${mf_title}" href="${portalurl}${_}">
                   <mm:nodefunction name="translation">
                     <mm:field name="title" escape="wrap_title" />
                   </mm:nodefunction>
                 </a>
               </dt>
               <dd class="img">
-                <a title="${mf_title}" href="${_}">
+                <a title="${mf_title}" href="${portalurl}${_}">
                   <c:catch>
                     <oip:thumb alt="${mf_title}" />
                   </c:catch>
@@ -83,21 +88,21 @@
             <dl class="list">
               <dt>
                 <mm:maywrite>
-                  <mm:link referids="_node@media">
+                  <mm:link absolute="${absolute}" referids="_node@media">
                     <mm:frameworkparam name="component">oip</mm:frameworkparam>
                     <mm:frameworkparam name="block">user-media</mm:frameworkparam>
                     <mm:frameworkparam name="user">${iam}</mm:frameworkparam>
-                    <a href="${_}" title="edit" class="edit"><fmt:message key="media.edit" /></a><jsp:text> </jsp:text>
+                    <a href="${portalurl}${_}" title="edit" class="edit"><fmt:message key="media.edit" /></a><jsp:text> </jsp:text>
                   </mm:link>
                 </mm:maywrite>
-                <a title="${mf_title}" href="${_}">
+                <a title="${mf_title}" href="${portalurl}${_}">
                   <mm:nodefunction name="translation">
                     <mm:field name="title" escape="wrap_title" />
                   </mm:nodefunction>
                 </a>
               </dt>
               <dd class="img">
-                <a title="${mf_title}" href="${_}">
+                <a title="${mf_title}" href="${portalurl}${_}">
                   <c:catch>
                     <oip:thumb alt="${mf_title}" />
                   </c:catch>
