@@ -110,11 +110,12 @@
               </mm:nodefunction>
               <mm:relatednodescontainer type="images" role="related" searchdirs="destination">
                 <mm:relatednodes>
-                  <a rel="license" href="${license_url}"><mm:image width="88" mode="img" /></a>
+                  <c:set var="license_image"><a rel="license" href="${license_url}"><mm:image width="88" mode="img" /></a></c:set>
                 </mm:relatednodes>
               </mm:relatednodescontainer>
               <mm:nodefunction name="translation">
                 <h5><a rel="license" href="${license_url}"><mm:field name="name" /></a></h5>
+                ${license_image}
                 <mm:field name="description" escape="paragraph" />
               </mm:nodefunction>
             </mm:relatednodes>
