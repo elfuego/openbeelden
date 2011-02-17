@@ -6,12 +6,11 @@
     >
   
     <!-- properties for google analytics -->
-    <mm:node number="pool_oip">
-      <mm:nodelistfunction nodemanager="properties" name="list" referids="_node@node">
-        <mm:field name="key" id="propkey">
-          <mm:import id="property_$[propkey]" reset="true"><mm:field name="value" /></mm:import>
-        </mm:field>
-      </mm:nodelistfunction>
+    <mm:import externid="portal" from="request">pool_oip</mm:import>
+    <mm:node number="$portal">
+
+      <mm:import id="key" reset="true">gacode</mm:import>
+      <mm:import id="property_gacode"><mm:function referids="_node@node,key@key" nodemanager="properties" name="get" /></mm:import>
 
       <c:if test="${!empty property_gacode}">
         
