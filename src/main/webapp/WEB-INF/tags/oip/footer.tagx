@@ -104,6 +104,15 @@
     </mm:listcontainer>
 
     <mm:node number="pool_oip" notfound="skip">
+      <c:if test="${!isdefaultportal}">
+        <mm:relatednodescontainer type="urls" role="portalrel" searchdirs="destination">
+          <mm:maxnumber value="1" />
+          <mm:relatednodes>
+            <c:set var="defaultportalurl"><mm:field name="url" /></c:set>
+          </mm:relatednodes>
+        </mm:relatednodescontainer>
+      </c:if>
+
       <div>
         <strong>Service</strong>
         <mm:relatednodescontainer type="pages" role="posrel" searchdirs="destination">
@@ -113,7 +122,7 @@
             <mm:relatednodes>
               <mm:link page="page" referids="_node@n">
                 <mm:frameworkparam name="component">mmsite</mm:frameworkparam>
-                <li><a href="${_}"><mm:field name="title" /></a></li>
+                <li><a href="${defaultportalurl}${_}"><mm:field name="title" /></a></li>
               </mm:link>
             </mm:relatednodes>
           </ul>
