@@ -234,15 +234,25 @@
           </c:choose>
 
           <oip:h2><fmt:message key="service.latest_news" /></oip:h2>
-          <!-- news property (alias of node news page) prevails when set -->
+          <!-- get news page: page in this portal using template with alias 'template_news' -->
+          <mm:node number="$portal">
+            <mm:relatednodescontainer type="pages" role="posrel" searchdirs="destination">
+              <mm:constraint field="template" value="template_news" operator="EQUAL" />
+              <mm:maxnumber value="1" />
+              <mm:relatednodes>
+                <mm:field name="number" write="false" id="page_news" />
+              </mm:relatednodes>
+            </mm:relatednodescontainer>
+          </mm:node>
+          
           <c:choose>
-            <c:when test="${!empty property_newspage}">
+            <c:when test="${!empty page_news}">
               <mm:escaper id="wrap_intro" type="substring">
                 <mm:param name="from" value="0" />
                 <mm:param name="to" value="460" />
                 <mm:param name="ellipsis" value=" [..]" />
               </mm:escaper>
-              <mm:node number="$property_newspage">
+              <mm:node number="$page_news">
                 <mm:relatednodescontainer type="articles" role="posrel" searchdirs="destination">
                   <mm:sortorder field="online" direction="DOWN" />
                   <mm:maxnumber value="1" />
