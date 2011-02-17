@@ -115,18 +115,34 @@ public class RelatedByTags {
         Cloud cloud = CloudThreadLocal.currentCloud();
         HashMap<Integer,Integer> map = new HashMap<Integer,Integer>();
         NodeList list = SearchUtil.findNodeList(cloud, "tags");
+        NodeManager sourceNodeManager = cloud.getNodeManager(type);
         
         int c = 0;
         NodeIterator ni = list.nodeIterator();
         
         while (ni.hasNext() && c < imax) {
             Node node = ni.next();
-            int relations = node.getRelatedNodes(type, "related", "source").size();
-            
-            if (relations > 0) {
-                map.put(node.getNumber(), relations);
-                c++;
+            //int count = 0;
+            try {
+                Query query = Queries.createRelatedNodesQuery(node, sourceNodeManager, "related", "source");
+
+                if (sourceNodeManager.hasField("show")) {
+                    Constraint extraConstraint = Queries.createConstraint(query, type + ".show", FieldValueConstraint.EQUAL, 1);
+                    query.setConstraint(extraConstraint);
+                }
+                
+                int count = cloud.getList(query).size();
+                if (count > 0) {
+                    log.debug("tag #" + node.getStringValue("name") + " : size " + count);
+                    
+                    map.put(node.getNumber(), count);
+                    c++;
+                }
+                
+            } catch (Exception e) {
+                log.error("Exception while building query: " + e);
             }
+
         }
         
         if ("none".equals(sort)) {
