@@ -30,6 +30,8 @@
         <oip:h2>Tags</oip:h2>
 
         <mm:functioncontainer>
+          <mm:param name="type">mediafragments</mm:param>
+          <mm:param name="max">99</mm:param>
           <mm:voidfunction set="relatedcontent" name="tagcount" id="tags" />
         </mm:functioncontainer>
 
