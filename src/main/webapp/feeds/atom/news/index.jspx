@@ -1,0 +1,114 @@
+<mm:content
+    type="application/xml"
+    postprocessor="none"
+    expires="1800"
+    language="en_US" 
+    xmlns:jsp="http://java.sun.com/JSP/Page"
+    xmlns:c="http://java.sun.com/jsp/jstl/core"
+    xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+    xmlns:fmt="http://java.sun.com/jsp/jstl/fmt"
+    xmlns:mm="http://www.mmbase.org/mmbase-taglib-2.0"
+    xmlns:media="http://search.yahoo.com/mrss/">
+
+  <jsp:directive.page session="false" />
+  <jsp:directive.page import="org.mmbase.bridge.*" />
+  <!-- version: '$Id: index.jspx 43635 2010-10-11 09:48:45Z andre $' -->
+  <mm:cloud>  
+    
+    <mm:import externid="portal" from="request">pool_oip</mm:import>
+    <mm:node number="$portal">
+      <mm:relatednodescontainer type="pages" role="posrel" searchdirs="destination">
+        <mm:constraint field="template" value="template_news" operator="EQUAL" />
+        <mm:maxnumber value="1" />
+        <mm:relatednodes>
+          <mm:field name="number" write="false" id="page_news" />
+        </mm:relatednodes>
+      </mm:relatednodescontainer>
+      <c:set var="portalname"><mm:field name="name" /></c:set>
+    </mm:node>
+
+    <c:if test="${!empty page_news}">
+    <mm:node number="$page_news">
+      
+      <mm:relatednodescontainer type="articles" role="posrel" searchdirs="destination">
+        <mm:maxnumber value="25" />
+        <mm:sortorder field="online" direction="DOWN" />
+        <mm:relatednodes id="entries" />
+      </mm:relatednodescontainer>
+
+      
+      <mm:escaper referid="urlparam" inverse="true" id="undo" />
+      <mm:import id="requesturl"><c:out value="${pageContext.request.requestURL}" /><c:if test="${!empty pageContext.request.queryString}">?<c:out value="${pageContext.request.queryString}" /></c:if></mm:import>
+      
+        <feed xmlns="http://www.w3.org/2005/Atom" xmlns:media="http://search.yahoo.com/mrss/">
+          <title><mm:field name="title" /> - ${portalname}</title>
+          <subtitle><mm:field name="description" escape="tagstripper" /></subtitle>
+          <link href="${requesturl}" rel="self" type="application/atom+xml" />
+          <mm:link absolute="true" page="/"><link href="${_}" /></mm:link>
+          <id><mm:url absolute="true" /></id>
+          
+          <mm:present referid="entries">
+            <mm:listnodes referid="entries" varStatus="status">
+              <c:if test="${status.index == 1}">
+                <mm:field name="lastmodified">
+                  <updated><mm:time format="yyyy-MM-dd" />T<mm:time format="HH:mm:ss" />Z</updated>
+                </mm:field>
+              </c:if>
+            </mm:listnodes>
+          </mm:present>
+          
+          <author>
+            <name>${portalname}</name>
+            <uri><mm:url page="/" absolute="true" /></uri>
+            <email>info@openimages.eu</email>
+          </author>
+          <!-- <rights>Creative Commons Attribution 3.0</rights> -->
+          <generator uri="http://www.mmbase.org/" version="1.9.6">MMBase</generator>
+          <icon><mm:url absolute="true" page="/favicon.ico" /></icon>
+          <!-- <logo><mm:url absolute="true" page="/style/images/oip-logo-sm_en.png" /></logo> -->
+          
+          <mm:present referid="entries">
+            <mm:listnodes referid="entries" varStatus="status">
+              <mm:link absolute="true">
+                <mm:frameworkparam name="component">mmsite</mm:frameworkparam>
+                <mm:frameworkparam name="block">article</mm:frameworkparam>
+                <mm:frameworkparam name="article">${_node}</mm:frameworkparam>
+                
+                <entry>
+                  <title>
+                    <mm:field name="title"><mm:isnotempty>${_}</mm:isnotempty><mm:isempty>no title</mm:isempty></mm:field>
+                  </title>
+                  <link href="${_}" />
+                  <id>${_}</id>
+                  <updated>
+                    <mm:field name="lastmodified"><mm:time format="yyyy-MM-dd" time="${_}" />T<mm:time format="HH:mm:ss" time="${_}" />Z</mm:field>
+                  </updated>
+                  <published>
+                    <mm:field name="online"><mm:time format="yyyy-MM-dd" time="${_}" />T<mm:time format="HH:mm:ss" time="${_}" />Z</mm:field>
+                  </published> 
+                  <mm:field name="intro">
+                    <mm:isnotempty><summary type="html"><mm:write /></summary></mm:isnotempty>
+                  </mm:field>
+                  <mm:field name="body">
+                    <mm:isnotempty><content type="html"><mm:write /></content></mm:isnotempty>
+                  </mm:field>
+
+                  <mm:relatednodescontainer type="images" role="posrel" searchdirs="destination">
+                    <mm:relatednodes>
+                        <mm:import id="img" reset="true"><mm:image width="220" mode="url" absolute="true" /></mm:import>
+                        <mm:import id="enclosuresize" reset="true"><mm:field name="filesize" /></mm:import>
+                        <link type="image/${_node.itype}" href="${img}" length="${enclosuresize}" rel="enclosure" />
+                    </mm:relatednodes>
+                  </mm:relatednodescontainer>
+
+                </entry>
+                
+              </mm:link>
+            </mm:listnodes>
+          </mm:present>
+          
+        </feed>
+      </mm:node>
+    </c:if>
+  </mm:cloud>
+</mm:content>
