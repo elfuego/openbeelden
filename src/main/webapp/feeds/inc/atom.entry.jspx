@@ -57,7 +57,7 @@
       <c:choose>
         <c:when test="${fn:startsWith(mediatype, 'image')}">
           <mm:relatednodes type="imagesources">
-            <mm:image id="img" mode="url" absolute="true" width="320" height="240" crop="middle" write="false" />
+            <mm:image id="img" mode="url" absolute="true" width="320" write="false" />
             <mm:import id="enclosuresize" reset="true"><mm:field name="filesize" /></mm:import>
           </mm:relatednodes>
           <link type="${_[0].mimeType}" href="${img}" length="${enclosuresize}" rel="enclosure" />
