@@ -71,7 +71,7 @@
               <c:when test="${empty title and !empty page}">
                 <mm:node referid="page">
                   <mm:hasfield name="username"><mm:field name="username" /> - </mm:hasfield>
-                  <mm:hasfield name="title"><mm:field name="title" /> - </mm:hasfield>
+                  <mm:hasfield name="title"><mm:nodefunction name="translation"><mm:field name="title" /></mm:nodefunction> - </mm:hasfield>
                 </mm:node>
               </c:when>
               <c:otherwise>
