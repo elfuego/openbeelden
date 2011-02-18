@@ -6,6 +6,21 @@
     xmlns:mm="http://www.mmbase.org/mmbase-taglib-2.0">
   
   <oip:html styleClass="articles">
+    <jsp:attribute name="head">
+
+    <mm:import externid="portal" from="request">pool_oip</mm:import>
+    <mm:node number="$portal">
+      <c:set var="portalname"><mm:field name="name" /></c:set>
+      <mm:relatednodescontainer type="pages" role="posrel" searchdirs="destination">
+        <mm:constraint field="template" value="template_news" operator="EQUAL" />
+        <mm:maxnumber value="1" />
+        <mm:relatednodes>
+          <link rel="alternate" type="application/atom+xml" 
+                href="${mm:link('/feeds/atom/news/')}" title="${_node.title} - ${portalname}" />
+        </mm:relatednodes>
+      </mm:relatednodescontainer>
+    </mm:node>
+    </jsp:attribute>
     <jsp:attribute name="body">
 
       <mm:import id="node" externid="n" />
