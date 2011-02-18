@@ -12,7 +12,7 @@
 
   <jsp:directive.page session="false" />
   <jsp:directive.page import="org.mmbase.bridge.*" />
-  <!-- version: '$Id: index.jspx 43635 2010-10-11 09:48:45Z andre $' -->
+  <!-- version: '$Id$' -->
   <mm:cloud>  
     
     <mm:import externid="portal" from="request">pool_oip</mm:import>
