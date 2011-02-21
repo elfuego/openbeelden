@@ -59,6 +59,7 @@ public class UsersUrlConverter extends DirectoryUrlConverter {
         if (oip == null) throw new IllegalStateException("No such component oip");
         addBlock(oip.getBlock("user"));
         addBlock(oip.getBlock("user-edit"));
+        addBlock(oip.getBlock("user-favorites"));
         addBlock(oip.getBlock("user-picture"));
         addBlock(oip.getBlock("user-media"));
         addBlock(oip.getBlock("user-mediaupload"));
@@ -221,6 +222,8 @@ public class UsersUrlConverter extends DirectoryUrlConverter {
                         b.append("/interrupt");
                     }
                 }
+            } else if (blockName.equals("user-favorites")) {
+                b.append("/").append(editpath).append("/favorites");
             } else if (blockName.equals("user-delete")) {
                 b.append("/").append(editpath).append("/delete");
             } else if (blockName.equals("user")) {
@@ -317,6 +320,10 @@ public class UsersUrlConverter extends DirectoryUrlConverter {
                             if (log.isDebugEnabled()) log.debug("Deleting of " + username);
                             result.append("&block=user-delete&cacheable=false");
 
+                        } else if (type.equals("favorites")) {
+                            if (log.isDebugEnabled()) log.debug("Favorites of " + username);
+                            result.append("&block=user-favorites&cacheable=false");
+                        
                         /* /users/[username]/dashboard/media/[234]/my_title */
                         } else if (type.equals("media") && path.size() > 3) {
                             String nodenr = path.get(3);
