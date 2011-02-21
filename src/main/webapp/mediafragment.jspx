@@ -6,6 +6,9 @@
     xmlns:mm="http://www.mmbase.org/mmbase-taglib-2.0"
     xmlns:addthis="http://www.addthis.com/help/api-spec"
     xmlns:oip="urn:jsptagdir:/WEB-INF/tags/oip">
+    <mm:escaper id="myfilesize" type="filesize">
+      <mm:param name="binaryPrefixes">${empty initParam['org.mmbase.filesize.binaryPrefixes'] ? true : initParam['org.mmbase.filesize.binaryPrefixes']}</mm:param>
+    </mm:escaper>
   <oip:html
       cacheable="false"
       styleClass="media-item"
@@ -29,7 +32,7 @@
           <script src="${mm:link('/oiplayer/js/jquery.oiplayer.js')}" type="text/javascript"><jsp:text><!-- help ie --></jsp:text></script>
         </c:otherwise>
       </c:choose>
-  
+
       <mm:link page="/feeds/atom/">
         <mm:param name="related"><mm:field name="number" /></mm:param>
         <link href="${_}" rel="alternate" type="application/atom+xml" title="Open Image Platform related items of ${_node.title}" />
@@ -48,7 +51,7 @@
 
       <div class="main-column">
         <oip:h2><fmt:message key="media.item" /></oip:h2>
-        
+
         <oip:media width="512" height="288" />
 
         <h3 class="mediatitle">
@@ -136,12 +139,12 @@
                     <c:when test="${! empty _.info.label}"> ${_.info.label} </c:when>
                     <c:otherwise> ${_.info.bitrate} </c:otherwise>
                   </c:choose>
-                  <jsp:text>${mm:escape('filesize',_.filesize)}): </jsp:text>
+                  <jsp:text>${mm:escape('myfilesize',_.filesize)}): </jsp:text>
                   <mm:import id="filename" reset="true">${_.filename}</mm:import>
                   <c:choose>
                     <c:when test="${_.available}">
-                      <a class="${nmtype eq 'imagefragments' ? 'lightbox' : ''}" 
-                         title="${_.state eq 'SOURCE' ? 'Originaly uploaded' : ''} ${_.dimension} ${fn:toLowerCase(_.format)}" 
+                      <a class="${nmtype eq 'imagefragments' ? 'lightbox' : ''}"
+                         title="${_.state eq 'SOURCE' ? 'Originaly uploaded' : ''} ${_.dimension} ${fn:toLowerCase(_.format)}"
                          href="${mm:escape('text/xml', _.URL)}">
                          <oip:filesubstr filename="${filename}" length="60" />
                       </a>
@@ -162,7 +165,7 @@
           <mm:link absolute="true">
             <!-- AddThis Button BEGIN -->
             <div class="addthis_toolbox addthis_default_style ">
-              <a href="http://www.addthis.com/bookmark.php?v=250&amp;username=elfuego" 
+              <a href="http://www.addthis.com/bookmark.php?v=250&amp;username=elfuego"
               addthis:url="${_}"
               class="addthis_button_compact">Share</a>
               <span class="addthis_separator">|</span>
@@ -174,7 +177,7 @@
             <script type="text/javascript">
               var addthis_config = { "data_track_clickback":true };
               var addthis_share = {
-                 templates: { 
+                 templates: {
                     twitter: '{{title}} {{url}} #oip'
                  }
               };
