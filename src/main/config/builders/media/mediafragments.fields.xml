@@ -82,8 +82,8 @@
       <description xml:lang="en">Complete description or text of this item</description>
     </descriptions>
     <gui>
-      <guiname xml:lang="nl">Tekst</guiname>
-      <guiname xml:lang="en">Text</guiname>
+      <guiname xml:lang="nl">Beschrijving</guiname>
+      <guiname xml:lang="en">Description</guiname>
     </gui>
     <datatype base="field" xmlns="http://www.mmbase.org/xmlns/datatypes">
       <maxLength value="64000" enforce="never"/>
