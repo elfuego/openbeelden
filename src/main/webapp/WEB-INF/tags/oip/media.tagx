@@ -20,14 +20,33 @@
   <mm:nodeinfo type="nodemanager">
     <c:choose>
       <c:when test="${_ eq 'imagefragments'}">
+        <mm:field name="title" id="title" write="false" />
+        <mm:escaper id="myfilesize" type="filesize">
+          <mm:param name="binaryPrefixes">${empty initParam['mmbase.filesize.binaryPrefixes'] ? true : initParam['mmbase.filesize.binaryPrefixes']}</mm:param>
+        </mm:escaper>
+
         <mm:relatednodes type="imagesources">
           <mm:import id="embedtag" reset="true"><mm:image mode="url" absolute="true" width="${w}" /></mm:import>
-          <mm:image absolute="true" width="${w}">
-            <a href="${_}" title="${dimension.width}x${dimension.height} png" class="lightbox">
-              <mm:image mode="img" width="${w}" height="${h}" crop="end" />
+          <mm:image absolute="true" width="${w}" height="${h}" crop="end">
+            <a class="lightbox" 
+               title="${title} - png, ${dimension.width}x${dimension.height}, ${mm:escape('myfilesize',_node.filesize)}"
+               href="${_}">
+                <!-- <mm:image mode="img" width="${w}" height="${h}" crop="end" /> -->
+              <img src="${_}" width="${w}" height="${h}" alt="${title} - png, ${dimension.width}x${dimension.height}, ${mm:escape('myfilesize',_node.filesize)}" />
             </a>
           </mm:image>
         </mm:relatednodes>
+
+        <mm:listfunction name="filteredurls">
+          <mm:node number="${_.source.number}">
+            <c:if test="${_.state ne 'SOURCE' and _.available}">
+              <a class="lightbox hidden" 
+                 title="${title} - ${fn:toLowerCase(_.format)}, ${_.dimension}, ${mm:escape('myfilesize',_node.filesize)}" 
+                 href="${mm:escape('text/xml', _.URL)}">${_.filename}</a>
+            </c:if>
+          </mm:node>
+        </mm:listfunction>
+        
       </c:when>
       <c:when test="${_ eq 'audiofragments'}">
         <oip:audio width="${w}" height="${h}" length="${l}" />
