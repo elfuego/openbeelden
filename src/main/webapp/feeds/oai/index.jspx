@@ -13,6 +13,7 @@
     feeds/oai/?verb=ListSets
     feeds/oai/?verb=ListIdentifiers&metadataPrefix=oai_dc
     feeds/oai/?verb=ListRecords&metadataPrefix=oai_dc&set=openimages
+    feeds/oai/?verb=ListRecords&metadataPrefix=oai_dc&from=2009-01-01
     feeds/oai/?verb=GetRecord&identifier=oai:openimages.eu:23173
     
   version: '$Id$'
@@ -117,7 +118,7 @@
     <c:if test="${empty verb}"><c:set var="verb">Identify</c:set></c:if>
     <c:choose>
       <c:when test="${!empty set}">
-        <mm:compare referid="set" valueset="openimages" inverse="true"><!-- add more sets in future -->
+        <mm:compare referid="set" valueset="openimages,subcollection" inverse="true"><!-- add more sets in future -->
           <c:set var="error" value="badArgument" />
           <c:set var="kind" value="set unknown" />
         </mm:compare>
@@ -184,6 +185,20 @@
               <setSpec>openimages</setSpec>
               <setName>Open Images media items: images, audio and video.</setName>
             </set>
+
+            <mm:listnodescontainer type="properties">
+              <mm:constraint field="key" value="oai-set" operator="EQUAL" />
+              <mm:listnodes>
+                <set>
+                  <setSpec><mm:field name="value" /></setSpec>
+                  <mm:import id="prop" reset="true"><mm:field name="parent" /></mm:import>
+                  <mm:node number="$prop">
+                    <setName><mm:field name="name" /></setName>
+                  </mm:node>
+                </set>
+              </mm:listnodes>
+            </mm:listnodescontainer>
+
           </ListSets>
         </c:when>
         
@@ -212,7 +227,95 @@
                   set="${set}">${requesturl}</request>
             </c:otherwise>
           </c:choose>
+      
+      <!-- Lucene query configuration to create list -->
+      <c:choose>
+        <c:when test="${set ne 'openimages'}">
+
+          <mm:listnodescontainer type="properties">
+            <mm:constraint field="key" value="oai-set" operator="EQUAL" />
+            <mm:constraint field="value" value="${set}" operator="EQUAL" />
+            <mm:maxnumber value="1" />
+            <mm:listnodes>
+              <mm:field name="parent" id="portal" write="false" />
+            </mm:listnodes>
+          </mm:listnodescontainer>
+
+          <mm:hasnode number="$portal">
+            <mm:node number="$portal">
+  
+              <!-- set portal manager as default user -->
+              <mm:relatednodescontainer type="mmbaseusers" role="portalrel" searchdirs="source">
+                <mm:maxnumber value="1" />
+                <mm:relatednodes>
+                  <c:set var="p_users">user:"<mm:field name="username" />"</c:set>
+                </mm:relatednodes>
+              </mm:relatednodescontainer>
+  
+              <!-- portal filter: users, tags, keywords -->
+              <mm:relatednodescontainer type="filters" role="portalrel" searchdirs="destination">
+                <mm:relatednodes>
+                  <mm:field name="users" escape="none">
+                    <mm:isnotempty>
+                      <c:forTokens items="${_}" delims=";" var="usr">
+                        <c:set var="p_users">${p_users}<jsp:text> </jsp:text>user:"<c:out value="${fn:trim(usr)}" />"</c:set>
+                      </c:forTokens>
+                    </mm:isnotempty>
+                  </mm:field>
+                  <mm:field name="keywords" escape="none">
+                    <mm:isnotempty>
+                      <c:forTokens items="${_}" delims=";" var="kw">
+                        <c:set var="p_keywords">${p_keywords}<jsp:text> </jsp:text>keywords:"<c:out value="${fn:trim(kw)}" />"</c:set>
+                      </c:forTokens>
+                    </mm:isnotempty>
+                  </mm:field>
+                  <mm:field name="tags" escape="none">
+                    <mm:isnotempty>
+                      <c:forTokens items="${_}" delims=";" var="tag">
+                        <c:set var="p_tags">${p_tags}<jsp:text> </jsp:text>tags:"<c:out value="${fn:trim(tag)}" />"</c:set>
+                      </c:forTokens>
+                    </mm:isnotempty>
+                  </mm:field>
+                </mm:relatednodes>
+              </mm:relatednodescontainer>
+            </mm:node>
+          </mm:hasnode>
+
+          <mm:import id="value">
+            <c:if test="${!empty p_keywords or !empty p_tags or !empty p_users}">+(${p_keywords} ${p_tags} ${p_users}) -excludedportal:${portal} </c:if>
+          </mm:import>
+
+        </c:when>
+        <c:otherwise>
+          <!-- default portal, display latest -->
+          <mm:import id="value">media*</mm:import>
+          <mm:import id="fields">indexId</mm:import>
+        </c:otherwise>
+      </c:choose>
+
+      <!-- lucene query config -->
+      <mm:import id="index">media</mm:import>
+      <mm:import id="extraconstraints"></mm:import>
+      <mm:import id="sortfields">REVERSE:lastmodified</mm:import>
+      <mm:import id="filter">
+        <c:if test="${!empty start}">lastmodified:GTE:<mm:time format="yyyyMMddHHmm" time="$start" />00</c:if>
+        <c:if test="${!empty end}">${!empty start ? '+ ' : ''}lastmodified:LTE:<mm:time format="yyyyMMddHHmm" time="$end" />00</c:if>
+      </mm:import>
+
+      <mm:nodelistfunction 
+          module="lucene"
+          id="list"
+          name="search"
+          referids="index,value,offset,max,fields?,sortfields?,filter?,extraconstraints" />
+
+      <mm:function
+          module="lucene"
+          id="total"
+          name="searchsize"
+          write="false"
+          referids="index,value,fields?,filter?,extraconstraints" />          
           
+          <!--
           <mm:listnodescontainer type="mediafragments">
             <mm:constraint field="show" value="true" operator="EQUAL" />
             <c:if test="${!empty start}">
@@ -228,21 +331,22 @@
             <mm:size id="foundsome" write="false" />
             <mm:listnodes id="list" />
           </mm:listnodescontainer>
+          -->
           
           <c:choose>
-            <c:when test="${foundsome gt 0 and verb eq 'ListIdentifiers'}">
+            <c:when test="${total gt 0 and verb eq 'ListIdentifiers'}">
               <ListIdentifiers>
                 <mm:listnodes referid="list">
                   <jsp:include page="/feeds/inc/oai.record.header.jspx" />
                 </mm:listnodes>
-                <c:if test="${(offset + max) lt size}">
+                <c:if test="${(offset + max) lt total}">
                   <resumptionToken
-                      completeListSize="${size}" 
+                      completeListSize="${total}" 
                       cursor="${offset}">!f${from}!u${until}!${metadataPrefix}!${offset + max}</resumptionToken>
                 </c:if>
               </ListIdentifiers>
             </c:when>
-            <c:when test="${foundsome gt 0 and verb eq 'ListRecords'}">
+            <c:when test="${total gt 0 and verb eq 'ListRecords'}">
               <ListRecords>
                 <c:choose>
                   <c:when test="${metadataPrefix eq 'oai_oi'}">
@@ -260,9 +364,9 @@
                     </mm:listnodes>
                   </c:otherwise>
                 </c:choose>
-                <c:if test="${(offset + max) lt size}">
+                <c:if test="${(offset + max) lt total}">
                   <resumptionToken
-                      completeListSize="${size}" 
+                      completeListSize="${total}" 
                       cursor="${offset}">!f${from}!u${until}!${metadataPrefix}!${offset + max}</resumptionToken>
                 </c:if>
               </ListRecords>
@@ -270,6 +374,7 @@
             <c:otherwise>
               <error code="noRecordsMatch">
                 The combination of the values of the from, until, set and metadataPrefix arguments results in an empty list.
+                ${value}
               </error>
             </c:otherwise>
           </c:choose>
