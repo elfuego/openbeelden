@@ -31,6 +31,7 @@
       <mmsq:field name="creator" alias="user"   keyword="true" boost="4" />
       <mmsq:field name="created" alias="created" />
       <mmsq:field name="date"    alias="date" />
+      <mmsq:field name="lastmodified" alias="lastmodified" />
       <mmsq:field name="identifier" />
       <mmsq:field name="relation" />
       <mmsq:field name="keywords" />
