@@ -348,7 +348,7 @@
       <artifactId>mmbase-lucene</artifactId>
       <version>${mmbase.version}</version>
       <classifier>classes</classifier>
-      <scope>compile</scope>
+      <scope>provided</scope>
     </dependency>
 
     <dependency>
