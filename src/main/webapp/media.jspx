@@ -41,11 +41,6 @@
       <c:if test="${offset lt 0}"><mm:import id="offset" reset="true">0</mm:import></c:if>
 
       <div class="main-column">
-        <oip:h2><mm:field name="title" /></oip:h2>
-        <mm:nodefunction name="translation">
-          <mm:field name="description" escape="paragraph" />
-        </mm:nodefunction>
-
 
         <c:choose>
           <c:when test="${isdefault}">
@@ -58,6 +53,7 @@
                 <mm:import id="fields" reset="true">indexId</mm:import>
               </c:when>
               <c:otherwise>
+                <c:set var="searched" value="true" />
                 <mm:import id="value">
                   <c:if test="${!empty q}">${q} </c:if>
                   <c:if test="${!empty user}">user:"${user}" </c:if>
@@ -116,15 +112,15 @@
             -->
             <mm:import id="value">
               <c:choose>
-                <c:when test="${empty q}">${index}* </c:when>
-                <c:otherwise>${q} </c:otherwise>
+                <c:when test="${empty q}">${index}* AND </c:when>
+                <c:otherwise>${q} AND </c:otherwise>
               </c:choose>
-              <c:if test="${!empty user}">AND user:"${user}" </c:if>
-              <c:if test="${!empty source}">AND source:"${source}" </c:if>
+              <c:if test="${!empty user}">user:"${user}" AND </c:if>
+              <c:if test="${!empty source}">source:"${source}" AND </c:if>
               <c:if test="${!empty p_keywords or !empty p_tags or !empty p_users}">
                 <c:choose>
-                  <c:when test="${!empty user and user ne portalmanager}">AND +(${p_keywords} ${p_tags}) -excludedportal:${p} </c:when>
-                  <c:otherwise>AND +(${p_keywords} ${p_tags} ${p_users}) -excludedportal:${p} </c:otherwise>
+                  <c:when test="${!empty user and user ne portalmanager}">+(${p_keywords} ${p_tags}) -excludedportal:${p} </c:when>
+                  <c:otherwise> +(${p_keywords} ${p_tags} ${p_users}) -excludedportal:${p} </c:otherwise>
                 </c:choose>
               </c:if>
             </mm:import>
@@ -133,15 +129,15 @@
             <c:if test="${empty q}"><mm:import id="fields" reset="true">indexId</mm:import></c:if>
             <mm:import id="value2">
               <c:choose>
-                <c:when test="${empty q}">${index}* </c:when>
-                <c:otherwise>${q} </c:otherwise>
+                <c:when test="${empty q}">${index}* AND </c:when>
+                <c:otherwise>${q} AND </c:otherwise>
               </c:choose>
-              <c:if test="${!empty user}">AND user:"${user}" </c:if>
-              <c:if test="${!empty source}">AND source:"${source}" </c:if>
+              <c:if test="${!empty user}">user:"${user}" AND </c:if>
+              <c:if test="${!empty source}">source:"${source}" AND </c:if>
               <c:if test="${!empty p_keywords or !empty p_tags or !empty p_users}">
                 <c:choose>
-                  <c:when test="${!empty user and user ne portalmanager}">AND -(${p_keywords} ${p_tags} -excludedportal:${p}) </c:when>
-                  <c:otherwise>AND -(${p_keywords} ${p_tags} ${p_users} -excludedportal:${p})  </c:otherwise>
+                  <c:when test="${!empty user and user ne portalmanager}"> -(${p_keywords} ${p_tags} -excludedportal:${p}) </c:when>
+                  <c:otherwise> -(${p_keywords} ${p_tags} ${p_users} -excludedportal:${p}) </c:otherwise>
                 </c:choose>
               </c:if>
             </mm:import>
@@ -180,14 +176,6 @@
           <c:if test="${!empty license}">licensenr:EQ:${license} </c:if>
         </mm:import>
         
-        <!-- <p>
-          value: ${value}<br />
-          value2: ${value2}<br />
-          extraconstraints: ${extraconstraints}<br />
-          filter: ${filter} <br />
-          p: ${p}
-        </p> -->
-
         <mm:function
             id="total"
             write="false"
@@ -249,13 +237,29 @@
               referids="index,value2@value,offset,max,fields?,sortfields?,filter,extraconstraints" />
         </c:if>
 
-        <p>
-          <c:if test="${!empty q}">
-            <fmt:message key="search.searched_with">
-              <fmt:param><strong>${mm:escape('text/xml', q)}</strong></fmt:param>
-            </fmt:message>
-          </c:if>
-        </p>
+        <div class="text">
+          <oip:h2><mm:field name="title" /></oip:h2>
+
+          <!-- p>
+          value: ${value}<br />
+          value2: ${value2}<br />
+          extraconstraints: ${extraconstraints} filter: ${filter} 
+          p: ${p} portalmanager: ${portalmanager} user: ${user}
+          </p --> 
+        
+          <mm:nodefunction name="translation">
+            <mm:field name="description" escape="paragraph" />
+          </mm:nodefunction>
+          <p>
+            <c:if test="${!empty searched}">
+              <fmt:message key="search.searched_with">
+                <fmt:param>
+                  <strong>'${mm:escape('text/xml', q)}'</strong>
+                </fmt:param>
+              </fmt:message>
+            </c:if>
+          </p>
+        </div>
 
         <div id="tabs">
           <ul class="list-tabs">
@@ -326,6 +330,7 @@
             
           </div>
         </c:if>
+        <!-- br class="clear" / -->
       </div><!-- /.main-column -->
 
       <div class="right-column">
