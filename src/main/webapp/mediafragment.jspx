@@ -6,9 +6,6 @@
     xmlns:mm="http://www.mmbase.org/mmbase-taglib-2.0"
     xmlns:addthis="http://www.addthis.com/help/api-spec"
     xmlns:oip="urn:jsptagdir:/WEB-INF/tags/oip">
-    <mm:escaper id="myfilesize" type="filesize">
-      <mm:param name="binaryPrefixes">${empty initParam['mmbase.filesize.binaryPrefixes'] ? true : initParam['mmbase.filesize.binaryPrefixes']}</mm:param>
-    </mm:escaper>
   <oip:html
       cacheable="false"
       styleClass="media-item"
@@ -47,6 +44,9 @@
         <mm:param name="from" value="0" />
         <mm:param name="to" value="30" />
         <mm:param name="ellipsis" value="..." />
+      </mm:escaper>
+      <mm:escaper id="myfilesize" type="filesize">
+        <mm:param name="binaryPrefixes">${empty initParam['mmbase.filesize.binaryPrefixes'] ? true : initParam['mmbase.filesize.binaryPrefixes']}</mm:param>
       </mm:escaper>
 
       <div class="main-column">
@@ -143,8 +143,7 @@
                   <mm:import id="filename" reset="true">${_.filename}</mm:import>
                   <c:choose>
                     <c:when test="${_.available}">
-                      <a class="${nmtype eq 'imagefragments' ? 'lightbox' : ''}"
-                         title="${_.state eq 'SOURCE' ? 'Originaly uploaded' : ''} ${_.dimension} ${fn:toLowerCase(_.format)}"
+                      <a title="${_.state eq 'SOURCE' ? 'source' : ''} ${_.dimension} ${fn:toLowerCase(_.format)}"
                          href="${mm:escape('text/xml', _.URL)}">
                          <oip:filesubstr filename="${filename}" length="60" />
                       </a>
