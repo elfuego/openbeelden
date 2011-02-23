@@ -2,7 +2,7 @@
 %><%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"
 %><%@ taglib uri="http://www.opensymphony.com/oscache" prefix="os"
 %><jsp:directive.page session="false" />
-*///<mm:content type="text/javascript" expires="3600" postprocessor="none" varies="Accept-Language"><os:cache time="0"><mm:escape escape="none">
+*///<mm:content type="text/javascript" expires="3600" postprocessor="none" language="${param.locale}"><os:cache time="0"><mm:escape escape="none">
 <fmt:setBundle basename="eu.openimages.messages" scope="request" />
 <fmt:message key="search.any_language" var="any_lang" />
 
@@ -14,18 +14,17 @@
 
 function initMultiLang() {
     // change the empty language options
-    //var choose_lang = $("#menu label[for='mm_org.mmbase.mmsite.language']").text();
-    //$("select[id='mm_org.mmbase.mmsite.language'] option[value='']").text(choose_lang);
     $("select[id='mm_searchlang'] option[value='']").text("${any_lang}");
+    
     if ($('form#search').length) {  // change selected language in adv. search
         var la = $("#hiddensearchlang").val();
         $("select[id='mm_searchlang'] option[value='" + la + "']").attr("selected", "selected");
     }
+    
     if ($('form#upload_form').length) {
         var loc = location.href;
         var langs = loc.split('.');
         var lang = langs[langs.length - 1];
-        //console.log("loc: " + loc + " lang: " + lang);
         if (lang.length < 3) {
             $("select[id='mm_upload_form_language'] option[value='" + lang + "']").attr("selected", "selected");
         }
