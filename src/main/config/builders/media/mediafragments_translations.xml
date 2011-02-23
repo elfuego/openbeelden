@@ -26,6 +26,7 @@
   <xi:include href="http://www.mmbase.org/builders/media/mediafragments.fields.xml" />
 
   <fieldlist>
+    
     <field name="source">
       <descriptions>
         <description xml:lang="en">Author or source of this item</description>
@@ -37,13 +38,47 @@
       </gui>
       <editor>
         <positions>
-          <input>22</input>
-          <search>22</search>
+          <input>-1</input>
+          <search>-1</search>
         </positions>
       </editor>
       <datatype base="line" xmlns="http://www.mmbase.org/xmlns/datatypes">
         <maxLength value="255" />
       </datatype>
+    </field>
+    
+    <field name="dc_creator">
+      <descriptions>
+        <description xml:lang="en">Creator of this work.</description>
+        <description xml:lang="nl">Maker van dit werk.</description>
+      </descriptions>
+      <gui>
+        <guiname xml:lang="en">Creator</guiname>
+        <guiname xml:lang="nl">Maker</guiname>
+      </gui>
+      <editor>
+        <positions>
+          <input>20</input>
+          <search>20</search>
+        </positions>
+      </editor>
+      <datatype base="eline" xmlns="http://www.mmbase.org/xmlns/datatypes">
+        <required value="true">
+          <description xml:lang="en">... this field is required.</description>
+          <description xml:lang="nl">... dit veld is verplicht.</description>
+        </required>
+        <minLength value="3" enforce="onvalidate">
+          <description xml:lang="en">... this field is required, at least 3 characters.</description>        
+          <description xml:lang="nl">... dit veld is verplicht, tenminste 3 karakters.</description>
+        </minLength>
+        <maxLength value="255" />
+        <setprocessor>
+          <class name="eu.openimages.processors.CreatorName$Setter" />
+        </setprocessor>
+        <getprocessor>
+          <class name="eu.openimages.processors.CreatorName$Getter" />
+        </getprocessor>
+      </datatype> 
     </field>
     
     <field name="keywords">
@@ -65,6 +100,47 @@
         <maxLength value="511" />
       </datatype>
     </field>
+
+    <field name="coverage">
+      <descriptions>
+        <description xml:lang="en">Semicolon separated list with spatial locations.</description>
+        <description xml:lang="nl">Puntkomma-gescheiden lijst met geografische locaties.</description>
+      </descriptions>
+      <gui>
+        <guiname xml:lang="en">Locations</guiname>
+        <guiname xml:lang="nl">Locaties</guiname>
+      </gui>
+      <editor>
+        <positions>
+          <input>25</input>
+          <search>25</search>
+        </positions>
+      </editor>
+      <datatype base="line" xmlns="http://www.mmbase.org/xmlns/datatypes">
+        <maxLength value="511" />
+      </datatype>
+    </field>
+  
+    <field name="relation">
+      <descriptions>
+        <description xml:lang="en">Related resources or related works (dc:relation).</description>
+        <description xml:lang="nl">Gerelateerd werk, gerelateerde bronnen (dc:relation).</description>
+      </descriptions>
+      <gui>
+        <guiname xml:lang="en">Relation</guiname>
+        <guiname xml:lang="nl">Relaties</guiname>
+      </gui>
+      <editor>
+        <positions>
+          <input>29</input>
+          <search>29</search>
+        </positions>
+      </editor>
+      <datatype base="field" xmlns="http://www.mmbase.org/xmlns/datatypes">
+        <maxLength value="1024" />
+      </datatype>
+    </field>
+  
   </fieldlist>
 
 </builder>
