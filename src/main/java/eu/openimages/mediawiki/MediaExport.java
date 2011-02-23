@@ -26,7 +26,9 @@ import java.io.*;
 
 import org.mmbase.bridge.*;
 import org.mmbase.applications.media.urlcomposers.*;
+import org.mmbase.applications.media.Format;
 import org.mmbase.security.ActionRepository;
+import org.mmbase.security.Action;
 
 import org.mmbase.bridge.util.SearchUtil;
 import org.mmbase.util.functions.*;
@@ -43,15 +45,15 @@ import org.mmbase.util.logging.*;
  */
 public final class MediaExport extends NodeFunction<String> {
     private static final long serialVersionUID = 0L;
-    private static final Logger log = Logging.getLoggerInstance(MediaExport.class);
+    private static final Logger LOG = Logging.getLoggerInstance(MediaExport.class);
 
     private  static final Parameter<String> USER     = new Parameter<String>("username",   String.class);
     private  static final Parameter<String> PASSWORD = new Parameter<String>("password",   String.class);
-    private  static final Parameter<Node> PORTAL     = new Parameter<Node>("portal",   Node.class);
+    private  static final Parameter<Node> PORTAL     = new Parameter<Node>("portal",       Node.class);
 
-    private final static Parameter[] PARAMETERS = { USER, PASSWORD, PORTAL, Parameter.LOCALE };
+    private final static Parameter[] PARAMETERS = { USER, PASSWORD, PORTAL, Parameter.LOCALE};
 
-    private final static String URL_KEY = MediaExport.class.getName() + ".url";
+    private final static String URL_KEY    = MediaExport.class.getName() + ".url";
     private final static String STATUS_KEY = MediaExport.class.getName() + ".status";
 
     private final Map<Integer, Future<?>> runningJobs = new ConcurrentHashMap<Integer, Future<?>>();
@@ -64,10 +66,19 @@ public final class MediaExport extends NodeFunction<String> {
     protected URLComposer getUploadedSource(Node node) {
         Function filteredUrlFunction = node.getFunction("filteredurls");
         Parameters args = filteredUrlFunction.createParameters();
+        args.setAutoCasting(true);
+        // only OGV
+        args.set("format", Format.OGV);
+
+        // And prefer the one which is labeled with 'hi'.
+        Map<String, String> attributes = new HashMap<String, String>();
+        attributes.put(org.mmbase.applications.media.filters.ClientLabelSorter.ATT, "hi");
+        args.set("attributes", attributes);
+
         List sources = (List) filteredUrlFunction.getFunctionValue(args);
 
-        if (log.isDebugEnabled()) {
-            log.debug("source: " + sources);
+        if (LOG.isDebugEnabled()) {
+            LOG.debug("source: " + sources);
         }
 
         URLComposer uc = (URLComposer) sources.get(0);
@@ -98,6 +109,7 @@ public final class MediaExport extends NodeFunction<String> {
         setProperty(node, URL_KEY, result);
     }
     protected void setWikiStatus(Node node, String status) {
+        LOG.info("Status status of " + node.getNumber() + " to " + status);
         setProperty(node, STATUS_KEY, status);
     }
     protected String getWikiUrl(Node node) {
@@ -143,6 +155,7 @@ public final class MediaExport extends NodeFunction<String> {
         File file = (File) source.getFunctionValue("file", null).get();
         exporter.setFile(file);
         exporter.setProperty("extension", uc.getFormat().toString().toLowerCase());
+        exporter.setProperty("url", uc.getURL());
 
     }
 
@@ -152,9 +165,9 @@ public final class MediaExport extends NodeFunction<String> {
                     @Override
                     public void run() {
                         try {
-                            if (log.isDebugEnabled()) {
-                                log.debug("media : " + node);
-                                log.debug("params: " + parameters);
+                            if (LOG.isDebugEnabled()) {
+                                LOG.debug("media : " + node);
+                                LOG.debug("params: " + parameters);
                             }
                             Exporter exporter = new Exporter();
                             //exporter.setLogger(log);
@@ -164,23 +177,26 @@ public final class MediaExport extends NodeFunction<String> {
                             MediaExport.this.setFile(exporter, node);
                             Node portal = parameters.get(PORTAL);
                             exporter.setProperty("project", portal != null ? portal.getStringValue("title") : "Open Images");
-                            log.debug("Now calling " + exporter);
+                            LOG.debug("Now calling " + exporter);
                             String url =  exporter.export();
                             // upload is ready
                             MediaExport.this.setWikiUrl(node, url);
                             MediaExport.this.setWikiStatus(node, "ok");
                         } catch (IOException ioe) {
-                            log.error(ioe.getMessage(), ioe);
+                            LOG.error(ioe.getMessage(), ioe);
                             MediaExport.this.setWikiStatus(node, "IOERROR " + ioe.getMessage());
                         } catch (org.mmbase.util.externalprocess.ProcessException pe) {
-                            log.error(pe.getMessage(), pe);
+                            LOG.error(pe.getMessage(), pe);
                             MediaExport.this.setWikiStatus(node, "PERROR " + pe.getMessage());
                         } catch (InterruptedException ie) {
-                            log.error(ie.getMessage(), ie);
+                            LOG.error(ie.getMessage(), ie);
                             MediaExport.this.setWikiStatus(node, "INTERRUPTED " + ie.getMessage());
+                        } catch (Throwable t) {
+                            LOG.error(t.getMessage(), t);
+                            MediaExport.this.setWikiStatus(node, "UNEXPECTED " + t.getMessage());
                         } finally {
                             MediaExport.this.runningJobs.remove(node.getNumber());
-                            log.info("Running jobs " + MediaExport.this.runningJobs);
+                            LOG.info("Running jobs " + MediaExport.this.runningJobs);
                         }
                     }
                 });
@@ -190,11 +206,15 @@ public final class MediaExport extends NodeFunction<String> {
     public String getFunctionValue(final Node node, final Parameters parameters) {
         String status = getWikiStatus(node);
         if (status == null) {
-            if (node.getCloud().may(ActionRepository.getInstance().get("oip", "exportmedia"), null)) {
+            Action action = ActionRepository.getInstance().get("oip", "exportmedia");
+            if (action == null) {
+                throw new IllegalStateException("Action could not be found");
+            }
+            if (node.getCloud().may(action, null)) {
                 synchronized(runningJobs) {
                     Future<?> future = runningJobs.get(node.getNumber());
                     if (future == null) {
-                        setWikiStatus(node, "busy");
+                        setWikiStatus(node, "busy:" + System.currentTimeMillis());
                         future = submit(node, parameters);
                     }
                 }
