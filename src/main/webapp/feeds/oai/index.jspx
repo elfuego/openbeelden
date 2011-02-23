@@ -38,6 +38,21 @@
     <mm:import externid="metadataPrefix" />
     <mm:import externid="set" />
     
+    
+    <!-- An OAI-PMH set is based on a portal. Default portal with all content is 'openimages', 
+         other portals can be found by a pools property key 'oai-set' with the name of a set, 
+         f.e. 'subcollection', as its value. The property points to a portal pools node.
+         Portals are configured with a portal filter that is being used in a Lucene query.
+         A filter contains users, keywords and tags.
+    -->
+    <mm:import id="setnamelist">openimages</mm:import>
+    <mm:listnodescontainer type="properties">
+      <mm:constraint field="key" value="oai-set" operator="EQUAL" />
+      <mm:listnodes id="set_props">
+        <mm:import id="setnamelist" reset="true">${setnamelist},<mm:field name="value" /></mm:import>
+      </mm:listnodes>
+    </mm:listnodescontainer>
+    
     <mm:import externid="from" /><!-- 1998-01-15 -->
     <mm:present referid="from">
       <mm:compare referid="from" regexp="[0-9]{4}-[0-9]{2}-[0-9]{2}">
@@ -95,7 +110,7 @@
       </c:otherwise>
     </c:choose>
     
-    <!-- get the nodenumber from the identifier, f.e. oai:openimages.eu:746 -->
+    <!-- get nodenumber from identifier, f.e. oai:openimages.eu:746 -->
     <mm:import id="record" />
     <c:if test="${!empty identifier}">
       <c:set var="pieces" value="${fn:split(identifier, ':')}" />
@@ -114,13 +129,12 @@
       <c:set var="kind" value="metadataPrefix incorrect" />
     </c:if>
     
-    <!-- fill some parameters when empty -->
-    <c:if test="${empty verb}"><c:set var="verb">Identify</c:set></c:if>
+    <!-- check set -->
     <c:choose>
       <c:when test="${!empty set}">
-        <mm:compare referid="set" valueset="openimages,subcollection" inverse="true"><!-- add more sets in future -->
+        <mm:compare referid="set" valueset="$setnamelist" inverse="true">
           <c:set var="error" value="badArgument" />
-          <c:set var="kind" value="set unknown" />
+          <c:set var="kind" value="unknown set '${set}'" />
         </mm:compare>
       </c:when>
       <c:otherwise>
@@ -128,6 +142,9 @@
       </c:otherwise>
     </c:choose>
   
+    <!-- default verb -->
+    <c:if test="${empty verb}"><c:set var="verb">Identify</c:set></c:if>
+
     <OAI-PMH 
       xmlns="http://www.openarchives.org/OAI/2.0/" 
       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
@@ -169,10 +186,10 @@
             <granularity>YYYY-MM-DD</granularity>
             <description>
               <oai-identifier xmlns="http://www.openarchives.org/OAI/2.0/oai-identifier" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.openarchives.org/OAI/2.0/oai-identifier http://www.openarchives.org/OAI/2.0/oai-identifier.xsd">
-              <scheme>oai</scheme>
-              <repositoryIdentifier>openimages.eu</repositoryIdentifier>
-              <delimiter>:</delimiter>
-              <sampleIdentifier>oai:openimages.eu:23173</sampleIdentifier>
+                <scheme>oai</scheme>
+                <repositoryIdentifier>openimages.eu</repositoryIdentifier>
+                <delimiter>:</delimiter>
+                <sampleIdentifier>oai:openimages.eu:23173</sampleIdentifier>
               </oai-identifier>
             </description>
           </Identify>
@@ -228,10 +245,11 @@
             </c:otherwise>
           </c:choose>
       
-      <!-- Lucene query configuration to create list -->
+      <!-- Lucene query configuration to create list based on set -->
       <c:choose>
         <c:when test="${set ne 'openimages'}">
 
+          <!-- get this set's portal -->
           <mm:listnodescontainer type="properties">
             <mm:constraint field="key" value="oai-set" operator="EQUAL" />
             <mm:constraint field="value" value="${set}" operator="EQUAL" />
@@ -293,7 +311,6 @@
         </c:otherwise>
       </c:choose>
 
-      <!-- lucene query config -->
       <mm:import id="index">media</mm:import>
       <mm:import id="extraconstraints"></mm:import>
       <mm:import id="sortfields">REVERSE:lastmodified</mm:import>
