@@ -235,7 +235,7 @@
               <p><fmt:message key="media.related.notfound" /></p>
             </c:when>
             <c:otherwise>
-              <c:forEach var="hit" items="${hits}" varStatus="status">
+              <c:forEach var="hit" items="${hits}">
                 <mm:context>
                   <mm:node number="${hit.value}">
                     <mm:nodefunction name="translation">
