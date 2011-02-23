@@ -39,6 +39,15 @@
       </mm:relatednodescontainer>
 
       <oi:creator xml:lang="${_node.language}"><mm:field name="dc_creator" id="dc_creator" /></oi:creator>
+      <mm:relatednodescontainer type="mediafragments_translations" role="langrel" searchdirs="destination">
+        <mm:relatednodes>
+          <mm:field name="dc_creator">
+            <mm:isnotempty>
+              <oi:creator xml:lang="${_node.language}"><mm:write /></oi:creator>
+            </mm:isnotempty>
+          </mm:field>
+        </mm:relatednodes>
+      </mm:relatednodescontainer>
 
       <!-- oi:subject -->
       <mm:field name="keywords" escape="none">
@@ -192,7 +201,16 @@
       </oi:language>
 
       <oi:references xml:lang="${_node.language}"><mm:field name="relation" /></oi:references>
-
+      <mm:relatednodescontainer type="mediafragments_translations" role="langrel" searchdirs="destination">
+        <mm:relatednodes>
+          <mm:field name="relation">
+            <mm:isnotempty>
+              <oi:references xml:lang="${_node.language}"><mm:write /></oi:references>
+            </mm:isnotempty>
+          </mm:field>
+        </mm:relatednodes>
+      </mm:relatednodescontainer>
+      
       <!-- oi:spatial -->
       <mm:field name="coverage" escape="none">
         <mm:isnotempty>
@@ -201,6 +219,17 @@
           </c:forTokens>
         </mm:isnotempty>
       </mm:field>
+      <mm:relatednodescontainer type="mediafragments_translations" role="langrel" searchdirs="destination">
+        <mm:relatednodes>
+          <mm:field name="coverage" escape="none">
+            <mm:isnotempty>
+              <c:forTokens items="${_}" delims=";" var="coverage_translated">
+                <oi:spatial xml:lang="${_node.language}"><c:out value="${fn:trim(coverage_translated)}" /></oi:spatial>
+              </c:forTokens>
+            <mm:isnotempty>
+          </mm:field>
+        </mm:relatednodes>
+      </mm:relatednodescontainer>
 
       <!-- oi:license etc. -->
       <mm:url absolute="true" id="page_link" write="false">
