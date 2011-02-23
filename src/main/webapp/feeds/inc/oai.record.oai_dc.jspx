@@ -29,6 +29,15 @@
        </mm:relatednodescontainer>
 
        <dc:creator xml:lang="${_node.language}"><mm:field name="dc_creator" /></dc:creator>
+       <mm:relatednodescontainer type="mediafragments_translations" role="langrel" searchdirs="destination">
+         <mm:relatednodes>
+           <mm:field name="dc_creator">
+             <mm:isnotempty>
+               <dc:creator xml:lang="${_node.language}"><mm:write /></dc:creator>
+             </mm:isnotempty>
+           </mm:field>
+         </mm:relatednodes>
+       </mm:relatednodescontainer>
 
        <!-- dc:subject -->
        <mm:field name="keywords" escape="none">
@@ -139,7 +148,16 @@
        </mm:relatednodescontainer>
 
        <dc:relation xml:lang="${_node.language}"><mm:field name="relation" /></dc:relation>
-
+       <mm:relatednodescontainer type="mediafragments_translations" role="langrel" searchdirs="destination">
+         <mm:relatednodes>
+           <mm:field name="relation">
+             <mm:isnotempty>
+               <dc:relation xml:lang="${_node.language}"><mm:write /></dc:relation>
+             </mm:isnotempty>
+           </mm:field>
+         </mm:relatednodes>
+       </mm:relatednodescontainer>
+      
        <!-- dc:language -->
        <dc:language>
          <mm:listfunction name="filteredurls">
@@ -162,6 +180,17 @@
            </c:forTokens>
          </mm:isnotempty>
        </mm:field>
+       <mm:relatednodescontainer type="mediafragments_translations" role="langrel" searchdirs="destination">
+         <mm:relatednodes>
+           <mm:field name="coverage" escape="none">
+             <mm:isnotempty>
+               <c:forTokens items="${_}" delims=";" var="coverage_translated">
+                 <dc:coverage xml:lang="${_node.language}"><c:out value="${fn:trim(coverage_translated)}" /></dc:coverage>
+               </c:forTokens>
+             <mm:isnotempty>
+           </mm:field>
+         </mm:relatednodes>
+       </mm:relatednodescontainer>
 
        <!-- dc:rights -->
        <mm:relatednodescontainer type="licenses" role="related" searchdirs="destination">
