@@ -11,15 +11,41 @@
 
 <mainFilter>
   <chain>
-    <filter id="client">org.mmbase.applications.media.filters.ClientFormatFilter</filter>
-    <filter id="intermediatesorter">org.mmbase.applications.media.filters.FieldValueSorter</filter>
-    <filter>org.mmbase.applications.media.filters.AvailableSorter</filter>
-    <filter id="format">org.mmbase.applications.media.filters.ServerFormatSorter</filter>
-    <filter id="nodetype">org.mmbase.applications.media.filters.NodeTypeSorter</filter>
-    <filter id="dimensions">org.mmbase.applications.media.filters.ServerDimensionSorter</filter>
+    <!-- ================================================================================
+         labeling
+    -->
+
+    <!-- using the bitrate field, labels with bitrate=hi or bitrate=lo -->
+    <filter id="bitratelabeler">org.mmbase.applications.media.filters.BitrateLabeler</filter>
+    <!-- using the label field, labels with bitrate=hi or bitrate=lo -->
     <filter id="hilabeler">org.mmbase.applications.media.filters.FieldValueLabeler</filter>
     <filter id="lolabeler">org.mmbase.applications.media.filters.FieldValueLabeler</filter>
-    <filter id="bitratelabeler">org.mmbase.applications.media.filters.BitrateLabeler</filter>
+
+    <!-- ================================================================================
+         Removing
+    -->
+    <!-- allow to filter out unwanted formats -->
+    <filter>org.mmbase.applications.media.filters.ClientFormatFilter</filter>
+
+
+    <!-- ================================================================================
+         Sorting
+    -->
+    <!-- Sort to our preference -->
+    <filter id="format">org.mmbase.applications.media.filters.ServerFormatSorter</filter>
+    <filter id="nodetype">org.mmbase.applications.media.filters.NodeTypeSorter</filter>
+
+    <!-- The player has 512x288, we prefer that -->
+    <filter id="dimensions">org.mmbase.applications.media.filters.ServerDimensionSorter</filter>
+    <!-- move 'intermediate' result down in the result -->
+    <filter id="intermediatesorter">org.mmbase.applications.media.filters.FieldValueSorter</filter>
+
+    <!-- allow a client to sort (e.g. to upload ogv to wikimedia in MediaExport#getUploadedSource) -->
+    <filter>org.mmbase.applications.media.filters.ClientFieldValueSorter</filter>
+
+    <!-- Move unavailable result down in any case-->
+    <filter>org.mmbase.applications.media.filters.AvailableSorter</filter>
+
   </chain>
 
   <filterConfigs>
@@ -32,10 +58,12 @@
     <config filter="hilabeler">
       <property name="label">hi</property>
       <property name="pattern">.*\bhi\b.*</property>
+      <property name="key">bitrate</property>
     </config>
     <config filter="lolabeler">
       <property name="label">lo</property>
       <property name="pattern">.*\blo\b.*</property>
+      <property name="key">bitrate</property>
     </config>
     <config filter="format">
       <preferredSource>
