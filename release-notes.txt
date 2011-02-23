@@ -12,11 +12,18 @@ thumbnails from videos that in some cases are rather large depending on the reso
 video. You can alter these in '/etc/my.cnf' from (normally) the default 'max_allowed_packet=1M;'
 to 'max_allowed_packet=32M;'.
 
-Alterations to MySQL tables:
+The fields coverage, dc_creator and relation were added to mediafragments_translations. To pools
+a field language was added. Alterations to MySQL tables:
 
   ALTER TABLE oi_pools_table ADD language CHAR(12);
   DROP VIEW oi_pools;
+
+  ALTER TABLE oi_mediafragments_translations_table ADD dc_creator VARCHAR(255);
+  ALTER TABLE oi_mediafragments_translations_table ADD relation TEXT;
+  ALTER TABLE oi_mediafragments_translations_table ADD coverage TEXT;
+  DROP VIEW oi_mediafragments_translations;
   
+
 Some new tables were introduced, like f.e. for thumbnails, but these are inited automatically. 
 
 This release is build with MMBase 1.9.6 and should run with Java 1.6 and higher on 
