@@ -179,20 +179,20 @@
                 </mm:listcontainer>
               </mm:hasrank>
 
-              <mm:import id="newskey" reset="true">newspage</mm:import>
-              <mm:import id="newsprop"><mm:function referids="_node@node,newskey@key" nodemanager="properties" name="get" /></mm:import>
-              <mm:isnotempty referid="newsprop">
-                <h3>News</h3>
-                <ul>
-                  <li>
-                    <mm:node number="$newsprop">
+              <!-- news page related to template 'template_news' -->
+              <mm:relatednodescontainer type="pages" role="posrel" searchdirs="destination">
+                <mm:constraint field="template" value="template_news" operator="EQUAL" />
+                <mm:relatednodes>
+                  <h3>News</h3>
+                  <ul>
+                    <li>
                       <mm:link referids="_node@nr,p" page="/editors/pages.jspx">
                         <a href="${_}"><mm:field name="title" /></a>
                       </mm:link>
-                    </mm:node>
-                  </li>
-                </ul>
-              </mm:isnotempty>
+                    </li>
+                  </ul>
+                </mm:relatednodes>
+              </mm:relatednodescontainer>
                 
               <jsp:invoke fragment="left" />
             </div>
