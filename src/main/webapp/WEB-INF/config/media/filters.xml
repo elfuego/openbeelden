@@ -40,8 +40,9 @@
     <!-- move 'intermediate' result down in the result -->
     <filter id="intermediatesorter">org.mmbase.applications.media.filters.FieldValueSorter</filter>
 
-    <!-- allow a client to sort (e.g. to upload ogv to wikimedia in MediaExport#getUploadedSource) -->
-    <filter>org.mmbase.applications.media.filters.ClientFieldValueSorter</filter>
+    <!-- allow a client to filter (e.g. to upload ogv to wikimedia in MediaExport#getUploadedSource) -->
+    <filter>org.mmbase.applications.media.filters.ClientLabelFilter</filter>
+    <filter>org.mmbase.applications.media.filters.ClientLabelSorter</filter>
 
     <!-- Move unavailable result down in any case-->
     <filter>org.mmbase.applications.media.filters.AvailableSorter</filter>
@@ -58,12 +59,12 @@
     <config filter="hilabeler">
       <property name="label">hi</property>
       <property name="pattern">.*\bhi\b.*</property>
-      <property name="key">bitrate</property>
+      <property name="key">label</property>
     </config>
     <config filter="lolabeler">
       <property name="label">lo</property>
       <property name="pattern">.*\blo\b.*</property>
-      <property name="key">bitrate</property>
+      <property name="key">label</property>
     </config>
     <config filter="format">
       <preferredSource>
