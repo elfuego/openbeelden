@@ -131,9 +131,9 @@
         <div class="wrap">
           <h2>Properties</h2>
           <p>Settings or properties of this portal. Possible are:<br />
-          <strong>newspage</strong> alias or nodenumber of a page with articles for the homepage f.e. 'pages_news',<br />
+          <strong>oai-set</strong> name of the OAI-PMH set, f.e. 'subcollection' (portal only),<br />
           <strong>rss</strong> url of a feed (rss!) with news to show on your the homepage,<br />
-          <strong>css</strong> link, f.e. '/style/css/subcollection.css' of a stylesheet, or<br />
+          <strong>css</strong> link, f.e. '/style/css/subcollection.css' of a stylesheet (portal only), or<br />
           <strong>partnertext</strong> text above the partner logos.
           
           </p>
