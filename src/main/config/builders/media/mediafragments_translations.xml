@@ -63,21 +63,7 @@
         </positions>
       </editor>
       <datatype base="eline" xmlns="http://www.mmbase.org/xmlns/datatypes">
-        <required value="true">
-          <description xml:lang="en">... this field is required.</description>
-          <description xml:lang="nl">... dit veld is verplicht.</description>
-        </required>
-        <minLength value="3" enforce="onvalidate">
-          <description xml:lang="en">... this field is required, at least 3 characters.</description>        
-          <description xml:lang="nl">... dit veld is verplicht, tenminste 3 karakters.</description>
-        </minLength>
         <maxLength value="255" />
-        <setprocessor>
-          <class name="eu.openimages.processors.CreatorName$Setter" />
-        </setprocessor>
-        <getprocessor>
-          <class name="eu.openimages.processors.CreatorName$Getter" />
-        </getprocessor>
       </datatype> 
     </field>
     
