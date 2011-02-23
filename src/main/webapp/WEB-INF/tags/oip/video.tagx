@@ -89,7 +89,7 @@
         <mm:frameworkparam name="component">oip</mm:frameworkparam>
         <mm:frameworkparam name="block">user</mm:frameworkparam>
         <mm:frameworkparam name="user">${_node}</mm:frameworkparam>
-        <c:set var="creatorlink" value="${_}"/> 
+        <c:set var="creatorlink" value="${_}" /> 
       </mm:link>
     </mm:node>
   </mm:hasnode>
@@ -116,7 +116,7 @@
         </mm:listfunction>
       </mm:functioncontainer>
     </video><br />
-	<mm:link page="mediafragment">
+	<mm:link page="mediafragment" absolute="true">
       <mm:frameworkparam name="component">oip</mm:frameworkparam>
       <mm:frameworkparam name="media">${_node}</mm:frameworkparam><a property="dct:title"
 	   rel="cc:attributionURL"
