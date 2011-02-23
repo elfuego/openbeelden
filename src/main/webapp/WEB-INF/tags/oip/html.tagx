@@ -52,12 +52,8 @@
         <mm:hasnode number="$portal">
           <mm:node number="$portal">
             <c:set var="portal_name"><mm:field name="name" /></c:set>
-            <!-- get and set portal properties -->
-            <mm:nodelistfunction nodemanager="properties" name="list" referids="_node@node">
-              <mm:field name="key" id="propkey">
-                <mm:import id="property_$[propkey]" reset="true"><mm:field name="value" /></mm:import>
-              </mm:field>
-            </mm:nodelistfunction>
+            <mm:import id="csskey" reset="true">css</mm:import>
+            <mm:import id="property_css"><mm:function referids="_node@node,csskey@key" nodemanager="properties" name="get" /></mm:import>
           </mm:node>
         </mm:hasnode>
 
