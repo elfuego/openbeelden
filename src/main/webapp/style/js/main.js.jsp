@@ -2,9 +2,9 @@
 %><%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"
 %><%@ taglib uri="http://www.opensymphony.com/oscache" prefix="os"
 %><jsp:directive.page session="false" />
-*///<mm:content type="text/javascript" expires="3600" postprocessor="none"><os:cache time="0"><mm:escape escape="none">
+*///<mm:content type="text/javascript" expires="3600" postprocessor="none" varies="Accept-Language"><os:cache time="0"><mm:escape escape="none">
 <fmt:setBundle basename="eu.openimages.messages" scope="request" />
-<mm:import id="any_lang"><fmt:message key="search.any_language" /></mm:import>
+<fmt:message key="search.any_language" var="any_lang" />
 
 /*
   Main javascript file for the Open Images Platform
@@ -52,7 +52,9 @@ function clearMsg(el) {
 function initToolbar() {
     if ($("div.popup").length) {
         var loc = document.location.href;
-        $(loc.substring(loc.indexOf('#'))).toggle();
+        if (loc.indexOf('#license') < 0) {
+            $(loc.substring(loc.indexOf('#'))).toggle();
+        }
     }
     $('li.license a, li.download a, li.share a').click(function(ev) {
         var link = ev.target.href;
@@ -274,7 +276,7 @@ function initPlusfields() {
 
 function initLightBox() {
     var settings = jQuery.extend({
-        imageLoading:   '${mm:link('/style/css/images/lightbox-ico-loading.gif')}',
+        imageLoading:   '${mm:link('/style/css/images/loading.gif')}',
         imageBtnPrev:   '${mm:link('/style/css/images/lightbox-prev.png')}',
         imageBtnNext:   '${mm:link('/style/css/images/lightbox-next.png')}',
         imageBtnClose:  '${mm:link('/style/css/images/lightbox-close.png')}',
