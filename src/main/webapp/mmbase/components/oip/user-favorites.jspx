@@ -13,7 +13,6 @@
         id="${requestScope['org.mmbase.componentId']}">
 
       <mm:maywrite>
-        <oip:h2><fmt:message key="users.my_favorites" /></oip:h2>
         
         <div class="msgspot"><jsp:text><!-- empty --></jsp:text></div>
 
@@ -28,8 +27,8 @@
                 <mm:frameworkparam name="media">${_node}</mm:frameworkparam>
 
                 <c:choose>
-                  <c:when test="${(status.index - 1) % 3 == 0}"><c:set var="gridclass" value="grid first" /></c:when>
-                  <c:otherwise><c:set var="gridclass" value="grid" /></c:otherwise>
+                  <c:when test="${(status.index) % 5 == 0}"><c:set var="gridclass" value="grid last ${(status.index)}" /></c:when>
+                  <c:otherwise><c:set var="gridclass" value="grid ${(status.index)}" /></c:otherwise>
                 </c:choose>
 
                 <dl class="${gridclass} noverflow">
