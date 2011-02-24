@@ -221,7 +221,7 @@
       <div class="right-column">
 
         <div class="related">
-          <oip:h3><fmt:message key="media.related_items" /></oip:h3>
+          <oip:h3><fmt:message key="media.related" /></oip:h3>
           <mm:functioncontainer>
             <mm:param name="type">mediafragments</mm:param>
             <mm:param name="max">4</mm:param>

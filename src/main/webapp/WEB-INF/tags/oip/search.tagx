@@ -33,7 +33,7 @@
     <c:set var="searchlink">${mm:link('/media')}${langpostfix}</c:set>
 
     <form action="${searchlink}" method="post" id="search">
-      <oip:h2><fmt:message key="search.media_items" /></oip:h2>
+      <oip:h2><fmt:message key="search.media" /></oip:h2>
       <fieldset>
         <input name="q" value="${q}" type="text" id="searchinput" tabindex="2" />
         <c:if test="${advanced eq false}">

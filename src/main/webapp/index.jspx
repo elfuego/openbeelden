@@ -161,7 +161,7 @@
 
       <div class="right-column">
         <div class="related">
-          <oip:h2><fmt:message key="media.latest_uploads" /></oip:h2>
+          <oip:h2><fmt:message key="media.new_media" /></oip:h2>
 
           <c:set var="cachekey">oip.home.latestuploads.${page}_${requestScope['org.mmbase.mmsite.language']}</c:set>
           <os:cache key="${cachekey}" time="600">
