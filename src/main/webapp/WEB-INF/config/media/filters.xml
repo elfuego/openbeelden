@@ -3,7 +3,7 @@
  <!ENTITY % format SYSTEM "http://www.mmbase.org/dtd/formatcomparator_1_0.dtd" >
  <!ENTITY % dimension SYSTEM "http://www.mmbase.org/dtd/dimensioncomparator_1_0.dtd" >
  <!ENTITY % bitrate SYSTEM  "http://www.mmbase.org/dtt/clientbitratefilter_1_0.dtd" >
- <!ENTITY % configSubTags "preferredSource|preferredDimension|bitrates|property*">
+ <!ENTITY % configSubTags "(preferredSource|preferredDimension|bitrates)?,property*">
  %format;
  %dimension;
  %bitrate;
@@ -15,11 +15,12 @@
          labeling
     -->
 
-    <!-- using the bitrate field, labels with bitrate=hi or bitrate=lo -->
-    <filter id="bitratelabeler">org.mmbase.applications.media.filters.BitrateLabeler</filter>
     <!-- using the label field, labels with bitrate=hi or bitrate=lo -->
     <filter id="hilabeler">org.mmbase.applications.media.filters.FieldValueLabeler</filter>
     <filter id="lolabeler">org.mmbase.applications.media.filters.FieldValueLabeler</filter>
+
+    <!-- if that didn't work, use the bitrate field to label with bitrate=hi or bitrate=lo -->
+    <filter id="bitratelabeler">org.mmbase.applications.media.filters.BitrateLabeler</filter>
 
     <!-- ================================================================================
          Removing
@@ -41,8 +42,8 @@
     <filter id="intermediatesorter">org.mmbase.applications.media.filters.FieldValueSorter</filter>
 
     <!-- allow a client to filter (e.g. to upload ogv to wikimedia in MediaExport#getUploadedSource) -->
-    <filter>org.mmbase.applications.media.filters.ClientLabelFilter</filter>
-    <filter>org.mmbase.applications.media.filters.ClientLabelSorter</filter>
+    <filter id="clientlabels">org.mmbase.applications.media.filters.ClientLabelFilter</filter>
+    <filter id="clientlabels">org.mmbase.applications.media.filters.ClientLabelSorter</filter>
 
     <!-- Move unavailable result down in any case-->
     <filter>org.mmbase.applications.media.filters.AvailableSorter</filter>
@@ -50,11 +51,16 @@
   </chain>
 
   <filterConfigs>
-     <config filter="bitratelabeler">
+    <config filter="bitratelabeler">
       <bitrates>
         <bitrate name="lo" min="-1"     max="128000" />
         <bitrate name="hi" min="128001" max="" />
       </bitrates>
+      <property name="key">label</property>
+      <property name="overwrite">false</property>
+    </config>
+    <config filter="clientlabels">
+      <property name="keys">label,bitrate</property>
     </config>
     <config filter="hilabeler">
       <property name="label">hi</property>
