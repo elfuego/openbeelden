@@ -44,10 +44,13 @@ h1, h2, h3
 	font-family: "Helvetica Neue", Helvetica, sans-serif;
 	font-weight: 200;
 	text-transform: uppercase;
-	letter-spacing: 2px;
+	letter-spacing: 2pt;
 	margin: 8px 0 12px 0;
-	color: #7f7f7f;
+	color: #7F7F7F;
 	clear: both;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+	overflow: hidden;
 }
 
 div.error h1, 
@@ -304,6 +307,74 @@ span.text, span.text span {
   overflow: hidden;
   background-repeat: no-repeat;
   white-space: nowrap;
+}
+
+/* search form */
+form#search { width: 190px; }
+form#search fieldset { width: 190px; }
+form#search label
+{
+	font-style: italic;
+	cursor: default;
+}
+form#search label.license, form#search label.mm_searchlang
+{
+	font-style: italic;
+	display: none;
+}
+form#search input { width: 180px; }
+@media screen and (-webkit-min-device-pixel-ratio:0) { 
+    form#search input { padding: 2px; width: 186px; } 
+}
+
+form#search select
+{
+	width: 190px;
+	margin-bottom: 4px;
+}
+form#search select#mm_searchlang,
+form#search select#license { margin-top: 10px; }
+
+form#search input.submit
+{
+	width: auto;
+	margin-right: 0;
+	padding-left: 6px;
+	padding-right: 6px;
+}
+
+input#searchinput
+{
+	background-image: url(images/search-bg.png);
+	background-position: right 50%;
+	background-repeat: no-repeat;
+}
+
+form#search p
+{
+    text-align: right;
+    text-transform: lowercase;
+    font-size: 0.9em;
+}
+
+form#search p a:link,
+form#search p a:visited
+{
+    color: #868686;
+    text-decoration: none;
+}
+
+form#search p a:hover,
+form#search p a:active
+{
+    color: #c00;
+    text-decoration: underline;
+}
+
+#usersearch input {
+    background-image: url(images/search-bg.png);
+    background-position: 100% 50%;
+    background-repeat: no-repeat;
 }
 
 /* 

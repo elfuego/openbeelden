@@ -67,7 +67,7 @@ div.b_user-picture input.cancel
 
 div.b_user-picture input.cancel,
 div.b_user-mediapreview input.cancel { border-left: none; }
-div.b_user-mediapreview #edit-picture { margin-top: 1em; }
+div.b_user-mediapreview #edit-picture { margin-top: 38px; }
 
 div.b_user-mediapreview p img { margin: 1em 8px -6px 0; }
 
@@ -150,12 +150,10 @@ div.b_user-translations textarea.small { height: 180px; }
 
 div.b_user-edit textarea.big,
 div.b_user-translations textarea.big,
-div.b_user-media textarea.big 
-{ height: 280px; }
+div.b_user-media textarea.big { height: 280px; }
 
 div.b_user-edit textarea.mm_f_description,
-div.b_user-translations textarea.mm_f_description 
-{ height: 120px; }
+div.b_user-translations textarea.mm_f_description { height: 120px; }
 
 fieldset.confirm-registration input { width: auto; }
 fieldset.confirm-registration label
@@ -234,3 +232,11 @@ div.b_user-favorites a.favorite.remove
     height /**/: 20px;  /* for IE5/Win */
 }
 div.b_user-favorites a.favorite.remove img { border: none; }
+
+div.b_user-delete input.submit, 
+div.b_user-delete input.cancel
+{
+	float: left;
+	margin-left: 0;
+	margin-right: 16px;
+}
