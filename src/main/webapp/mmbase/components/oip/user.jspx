@@ -20,9 +20,7 @@
       </mm:link>
     </mm:maywrite>
     
-    <h3 class="subtitle">
-      <mm:nodefunction name="translation"><oip:user /></mm:nodefunction>
-    </h3>
+    <h3 class="subtitle"><oip:user /></h3>
 
     <mm:nodefunction name="translation">
       <mm:field name="description" escape="paragraph(description)" />
