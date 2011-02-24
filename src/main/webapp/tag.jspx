@@ -31,32 +31,15 @@
         
       </div>
       <div class="right-column">
-        <div class="related-grey">
-          
-          <oip:h3>Tags shared</oip:h3>
-  
-          <mm:import externid="offset">0</mm:import>
-          <mm:import id="max">25</mm:import>
-          
-          <mm:relatednodescontainer type="mediafragments" role="related" searchdirs="source">
-            <mm:size id="total" write="false" />
-            <mm:constraint field="show" value="true" operator="EQUAL" />
-            <mm:maxnumber value="$max" />
-            <mm:offset value="$offset" />
-            <mm:relatednodes id="results" />
-          </mm:relatednodescontainer>
-      
-          <oip:tagsshared list="${results}" />
-
-          <p class="more">
+        <div class="related">
+          <p>
             <mm:node number="page_tags" notfound="skip">
               <mm:link page="page" referids="_node@n">
                 <mm:frameworkparam name="component">mmsite</mm:frameworkparam>
-                <a href="${_}">More tags</a>
+                <a href="${_}"><fmt:message key="tag.show_all_tags" /></a>
               </mm:link>
             </mm:node>
           </p>
-          
         </div>
       </div>
     </jsp:attribute>
