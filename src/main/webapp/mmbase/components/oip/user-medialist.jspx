@@ -21,12 +21,7 @@
       <mm:import externid="offset">0</mm:import>
       <c:if test="${offset lt 0}"><mm:import id="offset" reset="true">0</mm:import></c:if>
 
-      <mm:escaper id="wrapper" type="substring">
-        <mm:param name="from" value="0" />
-        <mm:param name="to" value="32" />
-        <mm:param name="ellipsis" value="..." />
-      </mm:escaper>
-
+      
       <mm:listnodescontainer type="videofragments">
         <mm:constraint field="show" value="true" operator="EQUAL" />
 <!-- 
@@ -69,11 +64,25 @@
         <mm:listnodes id="imageslist" />
       </mm:listnodescontainer>
 
+      <!-- favorites -->
+      <mm:maywrite>
+        <mm:relatednodescontainer type="mediafragments" role="ratingrel" searchdirs="destination">
+          <mm:constraint field="show" value="true" operator="EQUAL" />
+          <mm:size id="total_favorites" write="false" />
+          <mm:maxnumber value="100" />
+          <mm:relatednodes varStatus="status" id="favoriteslist" />
+        </mm:relatednodescontainer>
+      </mm:maywrite>
+
+
       <div id="tabs">
         <ul class="list-tabs">
           <li><a href="#t_video"><span><fmt:message key="media.video"><fmt:param value="${total_video}" /></fmt:message></span></a></li>
           <li><a href="#t_images"><span><fmt:message key="media.images"><fmt:param value="${total_images}" /></fmt:message></span></a></li>
           <li><a href="#t_audio"><span><fmt:message key="media.audio"><fmt:param value="${total_audio}" /></fmt:message></span></a></li>
+          <mm:maywrite>
+            <li><a href="#t_favorites"><span><fmt:message key="media.favorites"><fmt:param value="${total_favorites}" /></fmt:message></span></a></li>
+          </mm:maywrite>
         </ul>
 
         <mm:url absolute="true" id="baseurl" write="false" />
@@ -100,6 +109,12 @@
               baseurl="${baseurl}" fragment="#audio" />
           </p>
         </div>
+        
+        <mm:maywrite>
+          <div id="t_favorites">
+            <mm:component name="oip" block="user-favorites" />
+          </div>
+        </mm:maywrite>
         
       </div><!-- /#tabs -->
 
