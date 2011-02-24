@@ -11,13 +11,9 @@
 
   <oip:html
       cacheable="${cacheable}"
-      styleClass="tag">
+      styleClass="tags">
 
-    <jsp:attribute name="title">
-      <mm:node referid="n">
-        <mm:hasfield name="name"><mm:field name="name" /> - </mm:hasfield>
-      </mm:node> tags
-    </jsp:attribute>
+    <jsp:attribute name="title"></jsp:attribute>
 
     <jsp:attribute name="head">
         <!-- nothing here yet -->
@@ -28,7 +24,7 @@
       
       <div class="main-column">
 
-        <oip:h2>Tags</oip:h2>
+        <oip:h2><mm:field name="title" /></oip:h2>
 
         <mm:functioncontainer>
           <mm:param name="type">mediafragments</mm:param>
