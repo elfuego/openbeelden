@@ -6,11 +6,11 @@
     xmlns:mm="http://www.mmbase.org/mmbase-taglib-2.0"
     >
   <jsp:directive.attribute name="html" type="java.lang.String" />
-  <mm:import id="user">
-    <mm:field name="firstname" /><jsp:text> </jsp:text>
-    <mm:field name="suffix" /><jsp:text> </jsp:text>
-    <mm:field name="lastname" />
-  </mm:import>
+  <mm:nodefunction name="translation">
+    <c:set var="user"><mm:field name="firstname" /></c:set>
+    <c:set var="user">${user}${!empty user ? ' ' : '' }<mm:field name="suffix" /></c:set>
+    <c:set var="user">${user}${!empty user ? ' ' : '' }<mm:field name="lastname" /></c:set>
+  </mm:nodefunction>
   <c:if test="${fn:length(user) lt 4}"><mm:import id="user" reset="true" /></c:if>
   <c:choose>
     <c:when test="${empty html or html == 'block'}">
