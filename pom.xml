@@ -58,9 +58,10 @@
 
   <developers>
     <developer>
-      <id>0</id>
+      <id>andre</id>
       <name>Andre van Toly</name>
       <email>andre@toly.nl</email>
+      <url>http://www.toly.nl/</url>
       <timezone>1</timezone>
     </developer>
     <developer>
