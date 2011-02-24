@@ -68,9 +68,13 @@
       <mm:maywrite>
         <mm:relatednodescontainer type="mediafragments" role="ratingrel" searchdirs="destination">
           <mm:constraint field="show" value="true" operator="EQUAL" />
+<!-- 
+          <mm:constraint field="online" value="$today" operator="LESS" />
+          <mm:constraint field="offline" value="$today" operator="GREATER" />
+ -->
           <mm:size id="total_favorites" write="false" />
           <mm:maxnumber value="100" />
-          <mm:relatednodes varStatus="status" id="favoriteslist" />
+          <mm:relatednodes id="favoriteslist" />
         </mm:relatednodescontainer>
       </mm:maywrite>
 
