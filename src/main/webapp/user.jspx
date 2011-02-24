@@ -109,7 +109,8 @@
             </c:when>
             <c:otherwise>
 
-                <div class="related-grey">
+              <div class="related-grey">
+                <oip:h2><fmt:message key="users.options" /></oip:h2>
                 <ul>
                   <li>
                     <mm:link>
@@ -131,10 +132,10 @@
                     <mm:link>
                       <mm:frameworkparam name="component">oip</mm:frameworkparam>
                       <mm:frameworkparam name="block">user-delete</mm:frameworkparam>
-                      <mm:frameworkparam name="user"><mm:cloudinfo type="usernode" /></mm:frameworkparam>
+                      <mm:frameworkparam name="user">${n}</mm:frameworkparam>
                       <a href="${_}">
                         <fmt:message key="user.delete">
-                          <fmt:param><oip:user /></fmt:param>
+                          <fmt:param><mm:field name="username" /></fmt:param>
                         </fmt:message>
                       </a>
                     </mm:link>
