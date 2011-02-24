@@ -27,23 +27,28 @@
   </mm:relatednodescontainer>
 
   <c:if test="${empty poster}">
+    THUMB
+    s(${w}x${h})+size(${w}x${h}&gt;)+xc:transparent+gravity(center)+composite"
     <mm:nodefunction name="thumbnail">
-      <mm:image template="s(${w}x${h})+size(${w}x${h}&gt;)+xc:transparent+gravity(center)+composite" id="poster" absolute="true" write="false" />
+      <mm:image template="s(${w}x${h})+size(${w}x${h}&gt;)+xc:transparent+'+swap'+gravity(center)+composite+colorspace(gray)"
+                id="poster" absolute="true" write="false" />
     </mm:nodefunction>
   </c:if>
+
+
 
   <mm:import id="mediaurls">
     <mm:functioncontainer>
       <mm:param name="format">WEBM,OGV,MP4,OGG,M3U8</mm:param>
       <mm:listfunction name="filteredurls" varStatus="status">
         <!-- <c:choose>
-          <c:when test="${!empty _.acodec}">
-            <c:set var="codecs">${mm:escape('lowercase', _.codec)}, ${mm:escape('lowercase', _.acodec)}</c:set>
-          </c:when>
-          <c:otherwise>
-            <c:set var="codecs">${mm:escape('lowercase', _.codec)}</c:set>
-          </c:otherwise>
-        </c:choose> -->
+             <c:when test="${!empty _.acodec}">
+             <c:set var="codecs">${mm:escape('lowercase', _.codec)}, ${mm:escape('lowercase', _.acodec)}</c:set>
+             </c:when>
+             <c:otherwise>
+             <c:set var="codecs">${mm:escape('lowercase', _.codec)}</c:set>
+             </c:otherwise>
+             </c:choose> -->
         <c:choose>
           <c:when test="${!empty _.codec and _.codec ne 'UNKNOWN'}">
             <c:set var="codecs">; codecs=${mm:escape('lowercase', _.codec)}</c:set>
@@ -58,7 +63,7 @@
       </mm:listfunction>
     </mm:functioncontainer>
   </mm:import>
-  
+
   <c:choose>
     <c:when test="${!empty mediaurls}">
       <video controls="controls"
@@ -81,7 +86,7 @@
       </div>
     </c:otherwise>
   </c:choose>
-  
+
   <mm:field name="owner" id="owner" write="false" />
   <mm:hasnode number="$owner">
     <mm:node number="$owner">
@@ -89,47 +94,64 @@
         <mm:frameworkparam name="component">oip</mm:frameworkparam>
         <mm:frameworkparam name="block">user</mm:frameworkparam>
         <mm:frameworkparam name="user">${_node}</mm:frameworkparam>
-        <c:set var="creatorlink" value="${_}" /> 
+        <c:set var="creatorlink" value="${_}" />
       </mm:link>
     </mm:node>
   </mm:hasnode>
 
   <!-- media tag to share -->
-  <mm:import id="embedtag"><div about="${first_source}"
-       xmlns:cc="http://creativecommons.org/ns#"
-       xmlns:dct="http://purl.org/dc/terms/">
-    <video controls="controls">
-      <mm:functioncontainer>
-        <mm:param name="format">WEBM,OGV,MP4,OGG,M3U8</mm:param>
-        <mm:listfunction name="filteredurls">
-          <mm:node number="${_.source.number}">
-            <c:if test="${_.available and _node.label eq 'lo'}">
-              <c:choose>
-                <c:when test="${!empty _.codec and _.codec ne 'UNKNOWN'}">
-                  <c:set var="codecs">; codecs=${mm:escape('lowercase', _.codec)}</c:set>
-                </c:when>
-                <c:otherwise><c:set var="codecs" value="" /></c:otherwise>
-              </c:choose>
-              <source src="${mm:escape('text/xml', _.URL)}" type="${_.mimeType}${codecs}" />
-            </c:if>
-          </mm:node>
-        </mm:listfunction>
-      </mm:functioncontainer>
-    </video><br />
-	<mm:link page="mediafragment" absolute="true">
-      <mm:frameworkparam name="component">oip</mm:frameworkparam>
-      <mm:frameworkparam name="media">${_node}</mm:frameworkparam><a property="dct:title"
-	   rel="cc:attributionURL"
-	   href="${_}"
-	   >${_node.title}</a></mm:link>, <fmt:message key="media.license.by" /> <a 
-	   property="cc:attributionName" 
-	   rel="dct:creator"
-	   href="${creatorlink}"
-	   >${_node.dc_creator}</a>, <fmt:message key="media.license.is_licensed_under" /> <mm:relatednodescontainer type="licenses" role="related" searchdirs="destination">
-        <mm:relatednodes><mm:nodefunction name="translation"> <a rel="license" href="${_node.url}"><mm:field name="name" /></a>.</mm:nodefunction></mm:relatednodes>
-      </mm:relatednodescontainer></div>
+  <mm:import id="embedtag">
+    <div about="${first_source}"
+         xmlns:cc="http://creativecommons.org/ns#"
+         xmlns:dct="http://purl.org/dc/terms/">
+      <video controls="controls">
+        <mm:functioncontainer>
+          <mm:param name="format">WEBM,OGV,MP4,OGG,M3U8</mm:param>
+          <mm:listfunction name="filteredurls">
+            <mm:node number="${_.source.number}">
+              <c:if test="${_.available and _node.label eq 'lo'}">
+                <c:choose>
+                  <c:when test="${!empty _.codec and _.codec ne 'UNKNOWN'}">
+                    <c:set var="codecs">; codecs=${mm:escape('lowercase', _.codec)}</c:set>
+                  </c:when>
+                  <c:otherwise><c:set var="codecs" value="" /></c:otherwise>
+                </c:choose>
+                <source src="${mm:escape('text/xml', _.URL)}" type="${_.mimeType}${codecs}" />
+              </c:if>
+            </mm:node>
+          </mm:listfunction>
+        </mm:functioncontainer>
+      </video>
+      <br />
+      <mm:link page="mediafragment" absolute="true">
+        <mm:frameworkparam name="component">oip</mm:frameworkparam>
+        <mm:frameworkparam name="media">${_node}</mm:frameworkparam>
+        <a property="dct:title"
+           rel="cc:attributionURL"
+           href="${_}">${_node.title}</a>
+      </mm:link>
+      <jsp:text>, </jsp:text>
+      <fmt:message key="media.license.by" />
+      <jsp:text> </jsp:text>
+      <a property="cc:attributionName"
+         rel="dct:creator"
+         href="${creatorlink}" >${_node.dc_creator}</a>
+      <jsp:text>, </jsp:text>
+      <fmt:message key="media.license.is_licensed_under" />
+      <jsp:text> </jsp:text>
+      <mm:relatednodescontainer type="licenses" role="related" searchdirs="destination">
+        <mm:relatednodes>
+          <mm:nodefunction name="translation">
+            <a rel="license" href="${_node.url}">
+              <mm:field name="name" />
+            </a>
+            <jsp:text>.</jsp:text>
+          </mm:nodefunction>
+        </mm:relatednodes>
+      </mm:relatednodescontainer>
+    </div>
   </mm:import>
-	   
+
   <div id="clientcaps"><jsp:text> <!-- this waste of space is for msie plugin detection --> </jsp:text></div>
 
 </jsp:root>
