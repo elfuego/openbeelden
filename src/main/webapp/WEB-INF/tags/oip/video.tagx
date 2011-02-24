@@ -27,8 +27,6 @@
   </mm:relatednodescontainer>
 
   <c:if test="${empty poster}">
-    THUMB
-    s(${w}x${h})+size(${w}x${h}&gt;)+xc:transparent+gravity(center)+composite"
     <mm:nodefunction name="thumbnail">
       <mm:image template="s(${w}x${h})+size(${w}x${h}&gt;)+xc:transparent+'+swap'+gravity(center)+composite+colorspace(gray)"
                 id="poster" absolute="true" write="false" />
