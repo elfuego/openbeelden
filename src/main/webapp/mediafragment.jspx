@@ -119,7 +119,7 @@
               </mm:relatednodescontainer>
               <mm:nodefunction name="translation">
                 <h5><a rel="license" href="${license_url}"><mm:field name="name" /></a></h5>
-                ${license_image}
+                <jsp:text>${license_image}</jsp:text>
                 <mm:field name="description" escape="paragraph" />
               </mm:nodefunction>
             </mm:relatednodes>
@@ -135,10 +135,7 @@
                   <strong>${_.format}</strong>
                   <jsp:text> (</jsp:text>
                   <c:if test="${!empty _.dimension}">${_.dimension},</c:if>
-                  <c:choose>
-                    <c:when test="${! empty _.info.label}"> ${_.info.label} </c:when>
-                    <c:otherwise> ${_.info.bitrate} </c:otherwise>
-                  </c:choose>
+                  <jsp:text> ${_.info.label} </jsp:text>
                   <jsp:text>${mm:escape('myfilesize',_.filesize)}): </jsp:text>
                   <mm:import id="filename" reset="true">${_.filename}</mm:import>
                   <c:choose>
