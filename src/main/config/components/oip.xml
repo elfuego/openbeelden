@@ -289,6 +289,7 @@
     <title xml:lang="en">Delete user</title>
     <title xml:lang="nl">Verwijder gebruiker</title>
     <body jsp="user-delete.jspx">
+      <param name="n"    type="org.mmbase.bridge.Node" />
       <param name="user" type="org.mmbase.bridge.Node" />
     </body>
   </block>
