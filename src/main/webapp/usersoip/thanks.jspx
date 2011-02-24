@@ -27,6 +27,6 @@
         </mm:node>      
       </p>
     </div>
-    <div class="right-column"> </div>
   </jsp:attribute>
+
 </oip:html>
