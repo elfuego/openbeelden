@@ -129,14 +129,21 @@
          </mm:listfunction>
        </mm:functioncontainer>
        <!-- dc:format thumbnail -->
-       <mm:relatednodescontainer type="images" role="related" searchdirs="destination">
-         <mm:maxnumber value="1" />
-         <mm:relatednodes>
-           <oip:imagecrop width="320" height="240">
-             <dc:format><mm:image absolute="true" template="${crop}" /></dc:format>
-           </oip:imagecrop>
-         </mm:relatednodes>
-       </mm:relatednodescontainer>
+       <mm:nodeinfo type="type">
+         <c:if test="${fn:startsWith(_,'video')}">
+           <mm:nodefunction name="thumbnail">
+             <dc:format><mm:image template="s(512x288)+size(512x288&gt;)" absolute="true" /></dc:format>
+           </mm:nodefunction>
+         </c:if>
+         <c:if test="${fn:startsWith(_,'audio')}">
+           <mm:relatednodescontainer type="images" role="related" searchdirs="destination">
+             <mm:maxnumber value="1" />
+             <mm:relatednodes>
+               <dc:format><mm:image template="s(512x288)+size(512x288&gt;)" absolute="true" /></dc:format>
+             </mm:relatednodes>
+           </mm:relatednodescontainer>
+         </c:if>
+       </mm:nodeinfo>
 
        <dc:identifier><mm:field name="identifier" /></dc:identifier>
 

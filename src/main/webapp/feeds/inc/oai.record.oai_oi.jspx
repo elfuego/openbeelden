@@ -162,14 +162,21 @@
         </mm:listfunction>
       </mm:functioncontainer>
       <!-- oi:medium thumbnail -->
-      <mm:relatednodescontainer type="images" role="related" searchdirs="destination">
-        <mm:maxnumber value="1" />
-        <mm:relatednodes>
-           <oip:imagecrop width="320" height="240">
-             <oi:medium><mm:image absolute="true" template="${crop}" /></oi:medium>
-           </oip:imagecrop>
-        </mm:relatednodes>
-      </mm:relatednodescontainer>
+      <mm:nodeinfo type="type">
+        <c:if test="${fn:startsWith(_,'video')}">
+          <mm:nodefunction name="thumbnail">
+            <oi:medium><mm:image template="s(512x288)+size(512x288&gt;)" absolute="true" /></oi:medium>
+          </mm:nodefunction>
+        </c:if>
+        <c:if test="${fn:startsWith(_,'audio')}">
+          <mm:relatednodescontainer type="images" role="related" searchdirs="destination">
+            <mm:maxnumber value="1" />
+            <mm:relatednodes>
+              <oi:medium><mm:image template="s(512x288)+size(512x288&gt;)" absolute="true" /></oi:medium>
+            </mm:relatednodes>
+          </mm:relatednodescontainer>
+        </c:if>
+      </mm:nodeinfo>
 
       <mm:field name="identifier">
         <mm:isnotempty><oi:identifier xml:lang="${_node.language}"><mm:write /></oi:identifier></mm:isnotempty>
@@ -226,7 +233,7 @@
               <c:forTokens items="${_}" delims=";" var="coverage_translated">
                 <oi:spatial xml:lang="${_node.language}"><c:out value="${fn:trim(coverage_translated)}" /></oi:spatial>
               </c:forTokens>
-            <mm:isnotempty>
+            </mm:isnotempty>
           </mm:field>
         </mm:relatednodes>
       </mm:relatednodescontainer>
