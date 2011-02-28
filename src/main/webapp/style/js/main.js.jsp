@@ -2,7 +2,7 @@
 %><%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"
 %><%@ taglib uri="http://www.opensymphony.com/oscache" prefix="os"
 %><jsp:directive.page session="false" />
-*///<mm:content type="text/javascript" expires="3600" postprocessor="none" language="${param.locale}"><os:cache time="0"><mm:escape escape="none">
+*///<mm:content type="text/javascript" expires="3600" postprocessor="none" language="${param.locale}"><os:cache time="3600"><mm:escape escape="javascript-compress">
 <fmt:setBundle basename="eu.openimages.messages" scope="request" />
 <fmt:message key="search.any_language" var="any_lang" />
 
@@ -12,8 +12,9 @@
   @version  '$Id$'
 */
 
+/* Fills language pulldown with 'Any language' in appropiate language in some forms. */
 function initMultiLang() {
-    // change the empty language options
+    // change empty language options
     $("select[id='mm_searchlang'] option[value='']").text("${any_lang}");
     
     if ($('form#search').length) {  // change selected language in adv. search
@@ -32,12 +33,14 @@ function initMultiLang() {
 
 }
 
+/* Portal pulldown */
 function initPortalSwitch() {
     $("select[id='choose_portal']").change(function() {
         document.location = $(this).val();
     });
 }
 
+/* Remove messages after a couple of seconds. Use '.msg.stay' if you want a msg to stay. */
 function clearMsg(el) {
     setTimeout(function(){
         if (el != undefined) {
@@ -48,6 +51,7 @@ function clearMsg(el) {
     }, 5000);
 }
 
+/* Toolbar on media item page */
 function initToolbar() {
     if ($("div.popup").length) {
         var loc = document.location.href;
@@ -71,9 +75,25 @@ function initToolbar() {
             }
         });
     });
-    
 }
 
+/* Close toolbar 'pop-ups'. */
+function initClose() {
+    $('div.popup a.close').click(function(ev) {
+        ev.preventDefault();
+        $(this).closest('div.popup').slideUp(400);
+    });
+}
+
+/* Selects input type contents, makes it easier to copy */
+function initCopyInput() {
+    $('input.copyvalue, textarea.copyvalue').click(function(ev) {
+        $(this).focus();
+        $(this).select();
+    });
+}
+
+/* Remove user favorite */
 function initRemoveFav() {
     $('div.b_user-favorites a.favorite').click(function(ev) {
         ev.preventDefault();
@@ -91,6 +111,7 @@ function initRemoveFav() {
     });
 }
 
+/* Add and remove tags with ajax etc. */
 function initTags() {
     if ($("div#tag").length) {
         $('div#tag').toggle();
@@ -148,21 +169,7 @@ function addedTag() {
     clearMsg('#tagfeedback');
 }
 
-function initClose() {
-    $('div.popup a.close').click(function(ev) {
-        ev.preventDefault();
-        $(this).closest('div.popup').slideUp(400);
-    });
-}
-
-/* Makes input type contents easier to copy */
-function initCopyInput() {
-    $('input.copyvalue, textarea.copyvalue').click(function(ev) {
-        $(this).focus();
-        $(this).select();
-    });
-}
-
+/* Tabs video, audio etc. */
 function initTabs(id) {
     if ($('#' + id).length) {
         var $tabs = $('#' + id).tabs();   /* jquery-ui.js must be included */
@@ -201,7 +208,7 @@ function initTabs(id) {
     }
 }
 
-/* show/hide information about form fields */
+/* Show/hide form field information  */
 function initFieldInfos() {
     if ($('form fieldset p.info').length) {
         $('form fieldset label').hover(function(ev) {
@@ -212,37 +219,7 @@ function initFieldInfos() {
     }
 }
 
-/* put and show/hide labels behind inputs and textareas */
-function initLabelsInInput() {
-    $('fieldset.labelininput label').each(function(index) {
-        var label = this;
-        var inputId = $(this).attr('for');
-        if ($('textarea#' +inputId).length > 0 || $('input#' +inputId).length > 0) {
-            $(label).addClass('ininput');
-            var input = $('#' + inputId);
-            if (input.val().length > 0) {
-                $(label).find('span').addClass('transparent');
-            }
-            input.focusin(function() {
-                if (input.val().length == 0) {
-                    $(label).find('span').animate( {'opacity': 0.50}, 'normal',
-                        function(){ $(label).find('span').addClass('grey').css('opacity', 1.0); });
-                }
-            });
-            input.live('keydown', function() { $(label).find('span').animate({'opacity': 0}, 'fast'); });
-            input.live('paste', function() { $(label).find('span').animate({'opacity': 0}, 'fast'); });
-            input.focusout(function() {
-                if (input.val().length == 0) {
-                    $(label).find('span').removeClass('grey transparent');
-                    $(label).find('span').animate({ 'opacity': 1 });
-                }
-            });
-        }
-    });
-}
-
-
-/* Open link in new window or tab */
+/* Open link in new window or tab (uses '._blank') */
 function initBlank() {
     $('._blank').click(function(ev){ 
         ev.preventDefault();
@@ -254,6 +231,7 @@ function initBlank() {
     });
 }
 
+/* Media play statistics: registers start. */
 function initPlayStats() {
     $('div.oiplayer').bind("oiplayerplay", function(ev, pl) {
         var url = "${mm:link('/action/stats.jspx')}?id=" + pl.id;
@@ -265,7 +243,7 @@ function initPlayStats() {
     });
 }
 
-/* show/hide fieldset.plus */
+/* Show/hide fieldset.plus */
 function initPlusfields() {
     $('fieldset.plus').hide();
     $('input.info').click(function(ev) {
@@ -273,6 +251,7 @@ function initPlusfields() {
     });
 }
 
+/* Lightbox for images */
 function initLightBox() {
     var settings = jQuery.extend({
         imageLoading:   '${mm:link('/style/css/images/loading.gif')}',
@@ -298,8 +277,9 @@ $(document).ready(function() {
     initBlank();
     initPlusfields();
     initFieldInfos();
-    
     if ($('a.lightbox').length) initLightBox();
+    
+    /* Init oiplayer only when there is video or audio tag */
     if ($('video').length || $('audio').length) {
         $('.main-column').oiplayer({
             'server' : '<mm:url page="/" absolute="true" />',
