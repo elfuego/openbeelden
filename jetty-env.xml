@@ -3,7 +3,7 @@
 <!--This resouce configuration points to the test database-->
 <Configure class="org.mortbay.jetty.webapp.WebAppContext">
 
-<Set name="sessionHandler">
+  <Set name="sessionHandler">
    <New class="org.mortbay.jetty.servlet.SessionHandler">
      <Arg>
        <New class="org.mortbay.jetty.servlet.HashSessionManager">
@@ -12,16 +12,16 @@
      </Arg>
    </New>
  </Set>
+
   <!--
       When using jetty:run use an hsql database in the directory 'data'.
   -->
-  <!--
+
   <New  class="org.mortbay.jetty.plus.naming.EnvEntry">
     <Arg type="java.lang.String">mmbase/mmbaseroot/database</Arg>
     <Arg type="java.lang.String">hsqldb_csv</Arg>
     <Arg type="boolean">true</Arg>
   </New>
-
   <New class="org.mortbay.jetty.plus.naming.Resource">
     <Arg>jdbc/MMBase</Arg>
     <Arg>
@@ -33,16 +33,17 @@
       </New>
     </Arg>
    </New>
-   -->
+
   <!--
-      The 'setNodeManager' funcationality which is used, is only implemented in implementations which don't use foreign keys.
-      I'm going to fix that eventually, but for now please use MySQL.
+      a mysql configuration
   -->
+  <!--
   <New  class="org.mortbay.jetty.plus.naming.EnvEntry">
     <Arg type="java.lang.String">mmbase/mmbaseroot/database</Arg>
     <Arg type="java.lang.String">mysql_with_views</Arg>
     <Arg type="boolean">true</Arg>
   </New>
+
   <New class="org.mortbay.jetty.plus.naming.Resource">
     <Arg>jdbc/MMBase</Arg>
     <Arg>
@@ -54,6 +55,7 @@
       </New>
     </Arg>
    </New>
+   -->
    <!--
        Put all mmbase date files there too.
    -->
@@ -114,7 +116,7 @@
     <Arg>
       <New class="org.mortbay.naming.factories.MailSessionReference">
         <Set name="user">mihxiltest@gmail.com</Set>
-        <Set name="password">mihxil knows the password</Set>
+        <Set name="password">ask mihxil</Set>
         <Set name="properties">
           <New class="java.util.Properties">
             <Put name="mail.smtp.host">smtp.gmail.com</Put>
