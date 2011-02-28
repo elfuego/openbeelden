@@ -45,6 +45,7 @@
         </positions>
       </editor>
       <datatype base="line" xmlns="http://www.mmbase.org/xmlns/datatypes">
+        <maxLength value="255" />
         <getprocessor>
           <class name="org.mmbase.mmsite.RelatedCommentField$Getter">
             <param name="type">articles</param>
