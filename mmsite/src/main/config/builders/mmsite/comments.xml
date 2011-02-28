@@ -6,9 +6,9 @@
     xsi:schemaLocation="http://www.mmbase.org/xmlns/builder
                         http://www.mmbase.org/xmlns/builder.xsd"
     name="comments" maintainer="mmbase.org" version="0" extends="object">
-  <status>active</status>  
+  <status>active</status>
   <searchage>31</searchage>
-  
+
   <names>
     <singular xml:lang="en">Comment</singular>
     <singular xml:lang="nl">Reactie</singular>
@@ -20,13 +20,13 @@
     <description xml:lang="nl">Een reactie op een item</description>
   </descriptions>
   <properties>
-<!--
-    <property name="postas">forum</property>
-	<property name="maxbodysize">1024</property> 
--->
+    <!--
+        <property name="postas">forum</property>
+        <property name="maxbodysize">1024</property>
+    -->
   </properties>
 
-<fieldlist>
+  <fieldlist>
 
     <field name="title">
       <descriptions>
@@ -54,7 +54,7 @@
         </getprocessor>
       </datatype>
     </field>
-    
+
     <field name="text">
       <descriptions>
         <description xml:lang="en">Main text</description>
@@ -74,7 +74,7 @@
         <maxLength value="2048" />
       </datatype>
     </field>
-    
+
     <field name="author">
       <descriptions>
         <description xml:lang="en">Author of this item</description>
@@ -135,9 +135,9 @@
         <maxLength value="255" />
       </datatype>
     </field>
-  
+
   </fieldlist>
-  
+
   <xi:include href="http://www.mmbase.org/builders/mmsite/content.meta.fields.xml" />
-  
+
 </builder>
