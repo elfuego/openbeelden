@@ -38,7 +38,7 @@
       <c:choose>
         
         <c:when test="${!empty delete}">
-          <a class="editme cancel" href="#close"><fmt:message key="users.close" /></a>
+          <a class="editme cancel" href="#close"><fmt:message key="users.cancel" /></a>
           <mm:maydelete inverse="true">
             <p class="err">Not enough privileges.</p>
           </mm:maydelete>
@@ -92,7 +92,10 @@
 
               <mm:include page="show-node.jspx" referids="p,nr,fields" />
 
-              <p class="msg stay">Are you sure you want to delete this node?</p>
+              <p class="msg stay">
+                Are you sure you want to delete this node?<br />
+                It has <mm:countrelations /> relations with other nodes.
+              </p>
               
               <fieldset class="buttons">
                 <input name="p"  type="hidden" value="${p}" />
