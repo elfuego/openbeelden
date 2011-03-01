@@ -194,7 +194,7 @@
                <c:forTokens items="${_}" delims=";" var="coverage_translated">
                  <dc:coverage xml:lang="${_node.language}"><c:out value="${fn:trim(coverage_translated)}" /></dc:coverage>
                </c:forTokens>
-             <mm:isnotempty>
+             </mm:isnotempty>
            </mm:field>
          </mm:relatednodes>
        </mm:relatednodescontainer>
