@@ -38,14 +38,16 @@
                   <li id="edit_${_node.number}">
                     <mm:maywrite>
                       <mm:link page="/editors/edit-node.jspx" referids="p?,_node@nr">
+                        <mm:param name="lang">${requestScope['javax.servlet.jsp.jstl.fmt.locale.request']}</mm:param>
                         <mm:param name="relation">false</mm:param>
-                        <a class="editme" href="${_}#edit_${_node.number}">edit</a>
+                        <a class="editme" href="${_}#edit_${_node.number}"><fmt:message key="users.edit" /></a>
                       </mm:link>
                     </mm:maywrite>
                     <mm:maydelete>
                       <mm:link page="/editors/delete-node.jspx" referids="p?,_node@nr">
+                        <mm:param name="lang">${requestScope['javax.servlet.jsp.jstl.fmt.locale.request']}</mm:param>
                         <mm:param name="relation">false</mm:param>
-                        <a class="editme delete" href="${_}#edit_${_node.number}">delete</a>
+                        <a class="editme delete" href="${_}#edit_${_node.number}"><fmt:message key="users.delete" /></a>
                       </mm:link>
                     </mm:maydelete>
                     <div>
