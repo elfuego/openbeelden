@@ -35,6 +35,12 @@
           </span>
         </c:when>
 
+        <c:when test="${_ eq 'attachments'}">
+          <span>
+            <mm:field name="title" /> - <mm:field name="filename" />
+          </span>
+        </c:when>
+        
         <c:when test="${_ eq 'images'}">
           <span>
             <c:set var="title"><mm:field name="title" /></c:set>

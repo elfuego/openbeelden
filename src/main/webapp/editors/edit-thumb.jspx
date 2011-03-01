@@ -36,24 +36,31 @@
 
     <c:choose>
       <c:when test="${cancel eq 'Cancel'}">
-        <span class="content">
-          <mm:include page="$show" referids="p,nr,related">
-            <mm:param name="fields">${fields}</mm:param>
-          </mm:include>
-        </span>
-
-        <span class="links">
-          <mm:link page="/editors/delete-thumb.jspx" referids="p?,nr,show,one,target,related">
-            <mm:param name="fields">${fields}</mm:param>
-            <a class="editme delete" href="${_}#edit_${nr}">delete</a>
-            <jsp:text> / </jsp:text>
-          </mm:link>
-          <mm:link page="$editor" referids="p?,nr,show,one,target,related">
-            <mm:param name="fields">${fields}</mm:param>
-            <a class="editme" href="${_}#edit_${nr}">change image</a>
-          </mm:link>
-        </span>
-
+        <mm:node number="$nr">
+          <span class="content">
+            <mm:include page="$show" referids="p?,nr,related">
+              <mm:param name="fields">${fields}</mm:param>
+            </mm:include>
+          </span>
+    
+          <span class="links">
+            <c:if test="${maydelete}">
+              <mm:maydelete>
+                <mm:link page="/editors/delete-thumb.jspx" referids="p?,nr,show,one,target,related">
+                  <mm:param name="fields">${fields}</mm:param>
+                  <a class="editme delete" href="${_}#edit_${nr}"><fmt:message key="users.delete" /></a>
+                  <jsp:text> / </jsp:text>
+                </mm:link>
+              </mm:maydelete>
+            </c:if>
+            <mm:maywrite>
+              <mm:link page="$editor" referids="p?,nr,show,one,target,related">
+                <mm:param name="fields">${fields}</mm:param>
+                <a class="editme" href="${_}#edit_${nr}"><fmt:message key="users.edit_image" /></a>
+              </mm:link>
+            </mm:maywrite>
+          </span>
+        </mm:node>
       </c:when>
       <c:otherwise>
   
@@ -65,7 +72,7 @@
             <mm:import id="buffer">
               <c:if test="${editme eq 'true'}">
                 <div class="log"><jsp:text> <!-- empty --> </jsp:text></div>
-                <a class="cancel" href="#close"><fmt:message key="users.close" /></a>
+                <a class="cancel" href="#close"><fmt:message key="users.cancel" /></a>
               </c:if>
               
               <fieldset>
@@ -131,7 +138,7 @@
                         <mm:maydelete>
                           <mm:link page="/editors/delete-thumb.jspx" referids="p,nr,editor,show,related,maydelete,one,target">
                             <mm:param name="fields">${fields}</mm:param>
-                            <a class="editme delete" href="${_}${linktarget}">delete</a>
+                            <a class="editme delete" href="${_}${linktarget}"><fmt:message key="users.delete" /></a>
                           </mm:link>
                           <jsp:text> / </jsp:text>
                         </mm:maydelete>
@@ -140,7 +147,7 @@
                       <mm:maywrite>
                         <mm:link page="$editor" referids="p,nr,show,editor,related,target,one">
                           <mm:param name="fields">${fields}</mm:param>
-                          <a class="editme" href="${_}${linktarget}">change image</a>
+                          <a class="editme" href="${_}${linktarget}"><fmt:message key="users.edit_image" /></a>
                         </mm:link>
                       </mm:maywrite>
                     </span>

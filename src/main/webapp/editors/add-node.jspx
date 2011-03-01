@@ -38,7 +38,7 @@
     <mm:import externid="show">/editors/show-node.jspx</mm:import>
     <mm:import externid="editor">/editors/edit-node.jspx</mm:import>
     <mm:import externid="maydelete">true</mm:import>
-
+    <mm:import externid="unpublish">false</mm:import>
 
     <c:choose>
       <c:when test="${cancel eq 'Cancel'}">
@@ -60,8 +60,13 @@
           <mm:import id="buffer">
 
             <mm:createnode type="$type" id="new_node" commitonclose="false">
+              <strong>
+                <fmt:message key="users.new" />
+                <jsp:text> </jsp:text>
+                <mm:nodeinfo type="guitype" nodetype="$type" escape="lowercase" />
+              </strong>
 
-              <a class="editme cancel" href="#close"><fmt:message key="users.close" /></a>
+              <a class="editme cancel" href="#close"><fmt:message key="users.cancel" /></a>
 
               <fieldset>
                 <mm:fieldlist type="${empty fields ? 'edit' : ''}" fields="${fields}">
@@ -94,14 +99,12 @@
                 <input name="show" type="hidden" value="${show}" />
                 <input name="editor" type="hidden" value="${editor}" />
                 <input name="defaultstr"  type="hidden" value="${defaultstr}" />
-                <p>
-                  <fmt:message key="users.cancel" var="button_cancel" />
-                  <fmt:message key="users.form.save" var="button_save" />
-                  <input type="submit" name="action" value="${button_save}" class="submit" />
-                  <c:if test="${editme eq 'true'}">
-                    <input type="button" name="cancel" value="${button_cancel}" class="cancel" />
-                  </c:if>
-                </p>
+                <fmt:message key="users.cancel" var="button_cancel" />
+                <fmt:message key="users.form.save" var="button_save" />
+                <input type="submit" name="action" value="${button_save}" class="submit" />
+                <c:if test="${editme eq 'true'}">
+                  <input type="button" name="cancel" value="${button_cancel}" class="cancel" />
+                </c:if>
               </fieldset>
             </mm:createnode>
           </mm:import>
@@ -175,22 +178,22 @@
             
             <mm:link page="$editor" referids="p?,new_node@nr,show">
               <mm:param name="fields">${fields}</mm:param>
-              <a class="editme new" href="${_}#edit_${new_node}">edit</a>
+              <a class="editme new" href="${_}#edit_${new_node}"><fmt:message key="users.edit" /></a>
             </mm:link>
             <mm:link page="/editors/delete-node.jspx" referids="p?,new_node@nr">
               <mm:param name="fields">${fields}</mm:param>
-              <a class="editme delete new" href="${_}#edit_${new_node}">delete</a>
+              <a class="editme delete new" href="${_}#edit_${new_node}"><fmt:message key="users.delete" /></a>
             </mm:link>
           
-            <mm:node referid="new_node">
-              <mm:relation to="${related}">
-                <mm:maydelete>
+            <c:if test="${unpublish}">
+              <mm:node referid="new_node">
+                <mm:relation to="${related}">
                   <mm:link page="/editors/delete-relation.jspx" referids="p,new_node@nr,nr@related,_node@relation">
                     <a class="editme unrelate" href="${_}#edit_${new_node}">unpublish</a>
                   </mm:link>
-                </mm:maydelete>
-              </mm:relation>
-            </mm:node>
+                </mm:relation>
+              </mm:node>
+            </c:if>
 
             <div>
               <mm:include page="$show" referids="p?,new_node@nr,show">

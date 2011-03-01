@@ -77,7 +77,7 @@
 
             <mm:createnode type="$type" id="new_node" commitonclose="false">
 
-              <a class="editme cancel" href="#close"><fmt:message key="users.close" /></a>
+              <a class="editme cancel" href="#close"><fmt:message key="users.cancel" /></a>
 
               <fieldset>
                 <mm:fieldlist type="${empty fields ? 'edit' : ''}" fields="${fields}">
@@ -204,12 +204,12 @@
             <span class="links">
               <mm:link page="/editors/delete-thumb.jspx" referids="p?,new_node@nr,related,target?">
                 <mm:param name="fields">${fields}</mm:param>
-                <a class="editme delete" href="${_}${linktarget}">delete</a>
+                <a class="editme delete" href="${_}${linktarget}"><fmt:message key="users.delete" /></a>
                 <jsp:text> / </jsp:text>
               </mm:link>
               <mm:link page="$editor" referids="p?,new_node@nr,show,related,target?">
                 <mm:param name="fields">${fields}</mm:param>
-                <a class="editme" href="${_}${linktarget}">change image</a>
+                <a class="editme" href="${_}${linktarget}"><fmt:message key="users.edit_image" /></a>
               </mm:link>
             </span>
           </div>

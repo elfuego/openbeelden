@@ -61,13 +61,13 @@
           <mm:maywrite>
             <div class="log"><jsp:text> <!-- empty --> </jsp:text></div>
             <mm:link page="/editors/edit-node.jspx" referids="p,nr,fields?,related?,maydelete">
-              <a class="editme" href="${_}#edit_${nr}">edit</a>
+              <a class="editme" href="${_}#edit_${nr}"><fmt:message key="users.edit" /></a>
             </mm:link>
           </mm:maywrite>
           <c:if test="${maydelete}">
             <mm:maydelete>
               <mm:link page="/editors/delete-node.jspx" referids="p,nr,fields?,related?,maydelete">
-                <a class="editme delete" href="${_}#edit_${nr}">delete</a>
+                <a class="editme delete" href="${_}#edit_${nr}"><fmt:message key="users.delete" /></a>
               </mm:link>
             </mm:maydelete>
           </c:if>

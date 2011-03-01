@@ -23,6 +23,7 @@
   <mm:import externid="show">/editors/show-node.jspx</mm:import>
   <mm:import externid="editor">/editors/edit-node.jspx</mm:import>
   <mm:import externid="maydelete">true</mm:import>
+  <mm:import externid="unpublish">false</mm:import>
 
   <mm:import externid="search">true</mm:import>
   <mm:import externid="sortable">true</mm:import>
@@ -43,45 +44,39 @@
       <c:if test="${role eq 'posrel'}">
         <mm:sortorder field="posrel.pos" direction="UP" />
       </c:if>
-      <ul class="${sortable ? 'sortable connected' : ''} ${total == 0 ? 'empty' : ''}" id="related_${type}">
+      <ul class="${sortable ? 'sortable connected' : ''} ${role eq 'related' ? 'sortcancel' : role} ${total == 0 ? 'empty' : total}" id="related_${type}">
         <li class="log notsortable"><jsp:text> <!-- empty --> </jsp:text></li>
         <c:if test="${total == 0 and sortable}">
-          <li class="notsortable empty">Search and drop items here to add them.</li>
+          <li class="notsortable empty">Drop items here to add them.</li>
         </c:if>
         <mm:relatednodes id="this_node">
-          <li id="edit_${_node.number}">
+          <mm:relation to="${nr}" role="${role}">
+            <c:set var="relation_class">relation_${role}_${_node}</c:set>
+          </mm:relation>
+          <li id="edit_${_node.number}" class="${relation_class}">
             
             <mm:link page="$editor" referids="p,_node@nr,fields,show,editor,maydelete">
-              <a class="${editor ne '/editors/editor.jspx' ? 'editme' : 'edit'}" href="${_}#edit_${_node.number}">edit</a>
+              <a class="${editor ne '/editors/editor.jspx' ? 'editme' : 'edit'}" 
+                 href="${_}#edit_${_node.number}"><fmt:message key="users.edit" /></a>
             </mm:link>
             
             <c:if test="${maydelete}">
               <mm:maydelete>
                 <mm:link page="/editors/delete-node.jspx" referids="p,_node@nr,show,editor,maydelete">
-                  <a class="editme delete" href="${_}#edit_${_node.number}">delete</a>
+                  <a class="editme delete" href="${_}#edit_${_node.number}"><fmt:message key="users.delete" /></a>
                 </mm:link>
               </mm:maydelete>
             </c:if>
             
-            <c:if test="${! sortable}">
               <mm:relation to="${nr}" role="${role}">
-                <mm:maydelete>
-                  <mm:link page="/editors/delete-relation.jspx" referids="p,this_node@nr,_node@relation,nr@related,maydelete">
-                    <a class="editme unrelate" href="${_}#edit_${this_node}">unpublish</a>
-                  </mm:link>
-                </mm:maydelete>
+                <c:if test="${! sortable and unpublish}">
+                  <mm:maydelete>
+                    <mm:link page="/editors/delete-relation.jspx" referids="p,this_node@nr,_node@relation,nr@related,maydelete">
+                      <a class="editme unrelate" href="${_}#edit_${this_node}">unpublish</a>
+                    </mm:link>
+                  </mm:maydelete>
+                </c:if>
               </mm:relation>
-            </c:if>
-            <!-- <mm:listrelationscontainer type="$type_of_nr" role="$role" 
-              searchdir="${dir eq 'destination' ? 'source' : 'destination'}">
-              <mm:listrelations>
-                <mm:maydelete>
-                  <mm:link page="/editors/delete-relation.jspx" referids="p,this_node@nr,_node@relation,nr@related,maydelete">
-                    <a class="editme unrelate" href="${_}#edit_${this_node}">unrelate</a>
-                  </mm:link>
-                </mm:maydelete>
-              </mm:listrelations>
-            </mm:listrelationscontainer> -->
 
             <div>
               <mm:include page="$show" referids="p,_node@nr,show,editor,maydelete,fields">
@@ -96,7 +91,11 @@
         <c:if test="${total lt max}">
           <li class="notsortable">
             <mm:link escapeamps="true" page="/editors/add-node.jspx" referids="p,nr,type,fields,role,dir,show,editor,maydelete">
-              <a class="editme add" href="${_}#new_${type}">add ${type}</a>
+              <a class="editme add" href="${_}#new_${type}">
+                <fmt:message key="users.add_something">
+                  <fmt:param><mm:nodeinfo type="guitype" nodetype="$type" escape="lowercase" /></fmt:param>
+                </fmt:message>
+              </a>
             </mm:link>
           </li>
         </c:if>
@@ -114,7 +113,7 @@
       <form class="searchform" method="post" action="${searchlink}">
         <fieldset class="first">
           <div>
-            <label for="search">Search ${type}</label>
+            <label for="search"><fmt:message key="users.search" /> ${type}</label>
             <input type="text" name="q" id="search" size="42" />
           </div>
           <input type="submit" name="submit" value="Search" class="submit" />
@@ -123,7 +122,7 @@
       <div class="searchresults"><jsp:text> <!-- empty --> </jsp:text>
         <c:if test="${total gt 0}">
           <ul id="found_${type}" class="sortable connected empty">
-            <li class="empty notsortable">Drop items here to remove from the existing list.</li>
+            <li class="empty notsortable">Drop items here to remove.</li>
           </ul>
         </c:if>
       </div>

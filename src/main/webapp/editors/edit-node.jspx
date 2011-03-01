@@ -25,6 +25,7 @@
   <mm:import externid="show">/editors/show-node.jspx</mm:import>
   <mm:import externid="editor">/editors/edit-node.jspx</mm:import>
   <mm:import externid="maydelete">true</mm:import>
+  <mm:import externid="unpublish">false</mm:import>
 
 
   <mm:hasnode number="$nr" inverse="true">
@@ -41,19 +42,19 @@
           <mm:maywrite>
             <mm:link page="$editor" referids="p,nr,related?">
               <mm:param name="fields">${fields}</mm:param>
-              <a class="editme" href="${_}#edit_${nr}">edit</a>
+              <a class="editme" href="${_}#edit_${nr}"><fmt:message key="users.edit" /></a>
             </mm:link>
           </mm:maywrite>
           <c:if test="${maydelete}">
             <mm:maydelete>
               <mm:link page="/editors/delete-node.jspx" referids="p,nr,related?,maydelete">
                 <mm:param name="fields">${fields}</mm:param>
-                <a class="editme delete" href="${_}#edit_${nr}">delete</a>
+                <a class="editme delete" href="${_}#edit_${nr}"><fmt:message key="users.delete" /></a>
               </mm:link>
             </mm:maydelete>
           </c:if>
           <!-- remove relation -->
-          <c:if test="${!empty related}">
+          <c:if test="${!empty related and unpublish}">
             <mm:relation to="${related}">
               <mm:maydelete>
                 <mm:link page="/editors/delete-relation.jspx" referids="p,nr,related,_node@relation,maydelete">
@@ -80,15 +81,19 @@
             
             <mm:import id="buffer">
               <c:if test="${editme eq 'true'}">
-                <a class="cancel" href="#close"><fmt:message key="users.close" /></a>
+                <a class="cancel" href="#close"><fmt:message key="users.cancel" /></a>
                 <div class="log"><jsp:text> <!-- empty --> </jsp:text></div>
-               
+                <strong>
+                  <fmt:message key="users.edit" />
+                  <jsp:text> </jsp:text>
+                  <mm:nodeinfo type="guitype" escape="lowercase" />
+                </strong>
               </c:if>
               
               <fieldset>
                 <mm:fieldlist fields="${fields}" type="${empty fields ? 'edit' : ''}">
-                  <div>
-                    <c:set var="fld_name"><mm:fieldinfo type="name" /></c:set>
+                  <c:set var="fld_name"><mm:fieldinfo type="name" /></c:set>
+                  <div class="${fld_name}">
                     <mm:fieldinfo type="forid">
                       <label for="${_}" class="${fld_name}"><mm:fieldinfo type="guiname" /></label>
                     </mm:fieldinfo>
@@ -140,7 +145,7 @@
                       </mm:maydelete>
                     </c:if>
                     <!-- remove relation -->
-                    <c:if test="${!empty related}">
+                    <c:if test="${!empty related and unpublish}">
                       <mm:relation to="${related}">
                         <mm:maydelete>
                           <mm:link page="/editors/delete-relation.jspx" referids="p,nr,related,_node@relation,maydelete">

@@ -24,6 +24,7 @@
 <mm:import externid="show">/editors/show-node.jspx</mm:import>
 <mm:import externid="editor">/editors/edit-node.jspx</mm:import>
 <mm:import externid="maydelete">true</mm:import>
+<mm:import externid="unpublish">false</mm:import>
 
   
 <mm:hasnode number="$nr" inverse="true">
@@ -38,7 +39,7 @@
       <c:choose>
         
         <c:when test="${!empty delete}">
-          <a class="editme cancel" href="#close"><fmt:message key="users.cancel" /></a>
+          <a class="editme cancel" href="#close"><fmt:message key="users.close" /></a>
           <mm:maydelete inverse="true">
             <p class="err">Not enough privileges.</p>
           </mm:maydelete>
@@ -52,18 +53,18 @@
           <mm:maywrite>
             <div class="log"><jsp:text> <!-- empty --> </jsp:text></div>
             <mm:link page="$editor" referids="p,nr,fields,related?">
-              <a class="editme" href="${_}#edit_${nr}">edit</a>
+              <a class="editme" href="${_}#edit_${nr}"><fmt:message key="users.edit" /></a>
             </mm:link>
           </mm:maywrite>
           <c:if test="${maydelete}">
             <mm:maydelete>
               <mm:link page="/editors/delete-node.jspx" referids="p,nr,fields,related?">
-                <a class="editme delete" href="${_}#edit_${nr}">delete</a>
+                <a class="editme delete" href="${_}#edit_${nr}"><fmt:message key="users.delete" /></a>
               </mm:link>
             </mm:maydelete>
           </c:if>
 
-          <c:if test="${!empty related}">
+          <c:if test="${!empty related and unpublish}">
             <mm:relation to="${related}">
               <mm:maydelete>
                 <mm:link page="/editors/delete-relation.jspx" referids="p,nr,fields?,_node@relation,related">
@@ -88,7 +89,15 @@
           
           <mm:maydelete>
             <mm:url id="formurl" write="false" />
+            
             <form id="form_${nr}" method="post" action="${formurl}">
+              
+              <strong>
+                <fmt:message key="users.delete" />
+                <jsp:text> </jsp:text>
+                <mm:nodeinfo type="guitype" escape="lowercase" />
+                <jsp:text> </jsp:text><br />
+              </strong>
 
               <mm:include page="show-node.jspx" referids="p,nr,fields" />
 

@@ -67,25 +67,13 @@
 
   <mm:import id="list_id" reset="true">found_${type}</mm:import>
   <ul class="sortable connected" id="found_${type}">
+    
     <mm:listnodes varStatus="status" id="${list_id}">
       <c:choose>
         <c:when test="${status.index % 2 == 0}"><c:set var="oddeven" value="even" /></c:when>
         <c:otherwise><c:set var="oddeven" value="odd" /></c:otherwise>
       </c:choose>
       <li class="${oddeven}" id="search_${_node.number}">
-        <!--
-        <mm:fieldlist nodetype="$type" type="${empty fields ? 'edit' : ''}" fields="${fields}">
-          <mm:first>
-            <mm:maywrite>
-              <mm:link page="/editors/editor.jspx" referids="_node@nr,type?">
-                <a href="${_}"><mm:fieldinfo type="guivalue" /></a>
-              </mm:link>
-            </mm:maywrite>
-            <mm:maywrite inverse="true"><mm:fieldinfo type="guivalue" /></mm:maywrite>
-          </mm:first> 
-          <mm:first inverse="true"><mm:fieldinfo type="guivalue" /></mm:first>
-          <jsp:text> </jsp:text>
-        </mm:fieldlist> -->
 
         <mm:maywrite>
           <mm:link page="/editors/editor.jspx" referids="p,_node@nr">
@@ -101,7 +89,6 @@
         
       </li>
     </mm:listnodes>
-    <!-- mm:write session="found_$type" referid="$list_id" / -->
     
     <li class="pager notsortable">
       <mm:link referids="type,search@q,p?,nr?" id="baseurl" absolute="true" escapeamps="false">
@@ -109,6 +96,7 @@
       </mm:link>
       <oip:pager total="${total}" offset="${offset}" max="${max}" baseurl="${baseurl}" />
     </li>
+  
   </ul>
 
 </mm:listnodescontainer>

@@ -27,7 +27,7 @@
       </mm:listnodes>
       <mm:listnodes referid="unrelated" jspvar="n">
         R:<jsp:expression>n.getNumber()</jsp:expression>
-       <jsp:expression>Queries.removeFromResultOnce(current, n)</jsp:expression>
+        <jsp:expression>Queries.removeFromResultOnce(current, n)</jsp:expression>
       </mm:listnodes>
       
       <mm:present referid="deleted">
