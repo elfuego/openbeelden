@@ -86,7 +86,7 @@ div.b_user-picture a.cancel
 }
 div.b_user-mediapreview a.editme { text-transform: lowercase; }
 
-
+/*
 div.b_user-translations form
 {
 	background-image: url(images/dots2.png);
@@ -100,7 +100,7 @@ div.b_user-translations form fieldset.buttons {
 	background-repeat: repeat-x;
 	background-position: 0 100%;
 }
-
+*/
 
 div.progressInfo
 {
@@ -153,7 +153,8 @@ div.b_user-translations textarea.big,
 div.b_user-media textarea.big { height: 280px; }
 
 div.b_user-edit textarea.mm_f_description,
-div.b_user-translations textarea.mm_f_description { height: 120px; }
+div.b_user-translations textarea.mm_f_description, 
+div.b_user-translations textarea.mm_f_you_allow { height: 120px; }
 
 fieldset.confirm-registration input { width: auto; }
 fieldset.confirm-registration label

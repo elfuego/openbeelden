@@ -1,10 +1,12 @@
 /*<%@taglib uri="http://www.mmbase.org/mmbase-taglib-2.0" prefix="mm"
 %><%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"
+%><%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"
 %><%@ taglib uri="http://www.opensymphony.com/oscache" prefix="os"
 %><jsp:directive.page session="false" />
 *///<mm:content type="text/javascript" expires="3600" postprocessor="none"><os:cache time="0"><mm:escape escape="none">
 <fmt:setBundle basename="eu.openimages.messages" scope="request" />
 <mm:import id="any_lang"><fmt:message key="search.any_language" /></mm:import>
+<mm:import id="textarea_classes">textarea.mm_f_intro, textarea.mm_f_body, textarea.mm_nm_pools_translations, textarea.mm_nm_licenses, textarea.mm_nm_licenses_translations</mm:import>
 
 /*
   Functions for new (portal) editors in OIP 
@@ -18,9 +20,40 @@ $(document).ready(function() {
     clearMsg();
     initPortalSwitch();
     initSortable();
-    
     initSearchme();
+    initMMBasevalidatorForTiny();
+
+    /* field descriptions */
+    if ($('form fieldset p.info').length) {
+        $('form fieldset label').hover(function(ev) {
+            $(this).parent('div').find('p.info').show();
+        }, function(ev) {
+            $(this).parent('div').find('p.info').hide();
+        });
+    }
 });
+
+var tinyMceConfig = {
+    theme: "advanced",
+    mode : "specific_textareas",
+    //editor_selector : /(mm_f_intro|mm_f_body)/,
+    plugins : "fullscreen,xhtmlxtras",
+    content_css : "${mm:link('/style/css/tiny_mce.css')}",
+    entity_encoding : "raw",
+    <c:if test="${!empty requestScope['javax.servlet.jsp.jstl.fmt.locale.request']}">
+      language : "${requestScope['javax.servlet.jsp.jstl.fmt.locale.request']}",
+    </c:if>
+    
+    theme_advanced_toolbar_align : "left",
+    theme_advanced_blockformats : "p,h3,h4,h5,blockquote",
+    theme_advanced_path_location : "bottom",
+    theme_advanced_toolbar_location : "top",
+  
+    theme_advanced_buttons1 : "formatselect,bold,italic,|,link,unlink,|,removeformat,fullscreen",
+    theme_advanced_buttons2 : "",
+    theme_advanced_buttons3 : "",
+    theme_advanced_resizing : true
+}
 
 function initSearchme() {
     $('.searchform').submit(function(ev) {
@@ -47,9 +80,8 @@ function pageMe(target, ev) {
 
 function searchMe(self, ev) {
     ev.preventDefault();
+    
     var link = $(self).attr('action');
-    //console.log('link ' + link);
-
     var query = link.substring(link.indexOf("?") + 1, link.indexOf('#'));
     var params = getParams(query);
     params['q'] = $(self).find('input[name=q]').val();
@@ -89,7 +121,7 @@ jQuery.fn.editme = function(settings) {
     });
 }
 
-/* forms to add, edit and delete nodes */
+/* Forms to add, edit and delete nodes */
 function editMe(ev) {
     var tag = ev.target;
     var link = ev.target.href;
@@ -117,32 +149,96 @@ function editMe(ev) {
                    });
                    clearMsg(id);
                });
+               $(id).find("${textarea_classes}").each(function() {
+                   console.log('removed tiny from ' + $(this).attr('id'));
+                   $(this).tinymce().remove();
+               });
+
                $(tag).show();
            });
 
 		   // fields validator
 		   var validator = new MMBaseValidator();
 		   validator.prefetchNodeManager(params.type);  // XXX: params.type not always present
-		   //console.log('id ' + id);
            validator.addValidationForElements($(id + " .mm_validate"));
 		   validator.validateHook = function(valid, entry) {
 		       var button = $(id + " input[type=submit][class=submit]");
-		       //button[0].disabled = validator.invalidElements != 0;
+		       if (button.length) {
+    		       button[0].disabled = validator.invalidElements != 0;
+    		   }
 		   };
 		   validator.validateHook();
 		   
 		   // ajax form options
 		   var options = {
 		       target: id,
+		       beforeSubmit: beforeSubmit,
 		       success: afterSubmit,
 		       data: { editme: 'true' }
 		   };
 		   $(formId).ajaxForm(options);
 		   
-		   // init tinyMCE html editor
-		   initTiny();
-	});
+		   initTiny(id);
+
+           /* field descriptions */
+           if ($(formId + ' fieldset p.info').length) {
+               $(formId + ' fieldset label').hover(function(ev) {
+                   $(this).parent('div').find('p.info').show();
+               }, function(ev) {
+                   $(this).parent('div').find('p.info').hide();
+               });
+           }
+		   
+	}).hide().fadeIn("fast");
     $(tag).hide();
+}
+
+/* Trigger events on original textareas to have tinyMCE and MMBaseValidator cooperate */
+function initMMBasevalidatorForTiny() {
+    $("body").mousedown(function(ev) {
+        var ed = tinyMCE.activeEditor;
+        if (ed != null && ed.isDirty()) {
+            console.log("dirty: " + ed.editorId);
+            tinyMCE.triggerSave();  // ?! does tiny paste here?
+            // event on original textarea triggers MMBaseValidator
+            $("#" + ed.editorId).trigger("paste");
+        }
+    });
+}
+
+/*
+ * Integrates tinyMCE with jquery.ajaxForm. 
+ * Puts tinyMCE's content in the array submitted by ajaxForm
+ * and removes tinyMCE which otherwise would still be bound.
+ */
+function beforeSubmit(arr, $form, options) {
+    $($form).find("${textarea_classes}").each(function() {
+        var edId = $(this).attr("id"); 
+        var edName = $(this).attr("name");
+        for (var i = 0; i < arr.length; i++) {
+            var some = arr[i];
+            if (some['name'] == edName) {
+                var content = $('#' + edId).tinymce().getContent();
+                //console.log('doing: ' + some['name']);
+                some['name'] = edName;
+                some['value'] = content;
+            }
+        }
+        $(this).tinymce().remove();
+    });
+	
+	return true;    // true = submit
+}
+
+/*
+ * Inits tinyMCE html editor on dynamically loaded forms
+ */
+function initTiny(el) {
+    $(el).find("${textarea_classes}").each(function() {
+        $(this).tinymce(tinyMceConfig);
+        console.log("added tiny to: " + $(this).attr("id"));
+    });
+    initMMBasevalidatorForTiny();
 }
 
 /* ajaxFrom success after submit */
@@ -151,7 +247,8 @@ function afterSubmit(response, status, xhr) {
     var parent = $(this).parent();
     
     var thisId = $(this).attr('id');
-    //console.log('thisId ' + thisId);
+    console.log('thisId ' + thisId);
+    
     var one = 'no';
     if (response.indexOf('one') > -1) {
         var one = 'yes';
@@ -256,26 +353,56 @@ function initSortable(listEl) {
     if ($(listEl).length > 0) {
         $(listEl).sortable({
             connectWith: ".connected",
+            start: function(ev, ui) {    /* check for tinyMCE (sigh..) */
+               var listId = $(this).attr('id');
+               console.log('start moving list ' + listId);
+               $('#' + listId).find("${textarea_classes}").each(function() {
+                   $(this).tinymce().remove();
+               });                
+            },
+            stop: function(ev, ui) {    /* check for tinyMCE (sigh..) */
+               var listId = $(this).attr('id');
+               console.log('stop moving list ' + listId);
+               $('#' + listId).find("${textarea_classes}").each(function() {
+                   $(this).tinymce(tinyMceConfig);
+               });                
+            },
             cancel: ".notsortable",
             remove: function(ev, ui) {
+                console.log("removing: " + listId);
                 var edit_id = $(ui.item).attr('id');
                 var nodenr = edit_id.match(/\d+/);
                 var listId = $(this).attr('id');
                 
-                // remove from list
-                //if (listId.indexOf('related_') > -1) {
-
+                
                 var senderId = $(ui.sender).attr('id');
 
                 if (listId.indexOf('found_') < 0 
                         && listId.indexOf('_footer') < 0 && listId.indexOf('_header') < 0) {
                     //console.log('rm listId ' + listId + ', senderId ' + senderId + ', nr ' + nodenr);
 
-                    var params = { 
-                        id: listId, 
-                        related: '',
-                        unrelated: '' + nodenr
-                    };
+                    var editclasses = $("#" + edit_id).attr("class");
+                    if (editclasses.indexOf('relation_') > -1) {
+                        var relnr = editclasses.match(/\d+/);
+                        console.log("relnr '" + relnr + "'");
+                    }
+    
+                    if (relnr != undefined) {
+                        console.log('using relnr ' + relnr);
+                        var params = { 
+                            id: listId, 
+                            related: '',
+                            unrelated: '',
+                            deleted: '' + relnr
+                        };
+                    } else {
+                        var params = { 
+                            id: listId, 
+                            related: '',
+                            unrelated: '' + nodenr
+                            //deleted: deletedRelations
+                        };
+                    }
                     $.ajax({
                             url: "${mm:link('/mmbase/searchrelate/relate.jspx')}",
                             type: "GET",
@@ -296,19 +423,23 @@ function initSortable(listEl) {
             receive: function(ev, ui) { 
                 var edit_id = $(ui.item).attr('id');
                 var nodenr = edit_id.match(/\d+/);
+                
                 var listId = $(this).attr('id');
+                console.log("receiving: " + listId);
                 var senderId = $(ui.sender).attr('id');
                 
                 // add to list (and remove from?)
-                //if (senderId.indexOf('found_') > -1) {
                 if (listId.indexOf('found_') < 0
                         && listId.indexOf('_footer') < 0 && listId.indexOf('_header') < 0) {
-                    //console.log('a listId ' + listId + ', senderId ' + senderId + ', nr ' + nodenr);
+                    console.log('receive - listId ' + listId + ', senderId ' + senderId + ', nr ' + nodenr);
+                    if ( $('#' + listId).hasClass("sortcancel") && senderId.indexOf('found_') >= 0) {
+                        console.log("receive - cancel sorting? " + listId);
+                        //$( "#" + listId ).sortable("cancel");
+                    }
                     var params = { 
                         id: listId, 
                         related: '' + nodenr, 
                         unrelated: ''
-                        //deleted: deletedRelations
                     };
                     $.ajax({
                             url: "${mm:link('/mmbase/searchrelate/relate.jspx')}",
@@ -329,7 +460,37 @@ function initSortable(listEl) {
 
             },
             update: function(ev, ui) { 
-                sortSortable(this);
+                var edit_id = $(ui.item).attr('id');
+                var listId = $(this).attr('id');
+                console.log("updating: " + listId);
+                var senderId = $(ui.sender).attr('id');
+                console.log("list #" + listId + ' sender id ' + senderId );
+                
+                // are we updating related?
+                // and its the sender
+                if (listId.indexOf('related_') > -1 && senderId != undefined && senderId.indexOf('related_') > -1) {
+                    console.log('doing related_ ');
+                    
+                    if ( $('#' + listId).hasClass("sortcancel") ) {
+                        console.log("canceled sorting on '"+ listId + "' because of class");
+                        $('#' + listId).sortable("cancel");
+                        
+                    } else {
+                        console.log('sorting')
+                        sortSortable(this);
+                    }
+                } else {
+                    
+                    if ( $('#' + listId).hasClass("sortcancel") ) {
+                        console.log('not sorting because of class');
+                        //$('#' + listId).sortable("cancel");
+                    } else {
+                        console.log('sorting')
+                        sortSortable(this);
+                    }
+
+                }
+
             }
             
         }).disableSelection();
@@ -374,40 +535,6 @@ function sortSortable(list) {
         }
     }
     
-}
-
-/*
- * Inits tinyMCE html editor on dynamically loaded forms
- */
-/*
-example:
-    // This triggers MMBaseValidator
-    $("#" + tinyMCE.activeEditor.editorId).trigger("paste");
-    tinyMCE.execCommand('mceRemoveControl', false, textAreaId );
-|mm_f_description
-*/
-
-function initTiny( ) {
-    tinyMCE.init({
-        theme: "advanced",
-        mode : "specific_textareas",
-        editor_selector : /(mm_f_body|mm_nm_pools|mm_nm_pools_translations|mm_nm_licenses|mm_nm_licenses_translations|mm_nm_mmbaseusers)/,
-        plugins : "fullscreen,xhtmlxtras",
-        //content_css : "${mm:link('/style/css/tiny_mce.css')}",
-        content_css : "/style/css/tiny_mce.css",
-        entity_encoding : "raw",
-        // language : "${requestScope['javax.servlet.jsp.jstl.fmt.locale.request']}",
-        
-        theme_advanced_toolbar_align : "left",
-        theme_advanced_blockformats : "p,h3,h4,h5,blockquote",
-        theme_advanced_path_location : "bottom",
-        theme_advanced_toolbar_location : "top",
-      
-        theme_advanced_buttons1 : "formatselect,bold,italic,|,link,unlink,|,removeformat,fullscreen",
-        theme_advanced_buttons2 : "",
-        theme_advanced_buttons3 : "",
-        theme_advanced_resizing : true    
-    });
 }
 
 /*

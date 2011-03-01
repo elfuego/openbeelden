@@ -51,7 +51,11 @@ div.left-column ul {
     margin-bottom: 2em; 
 }
 
-h1, h2, h3 { color: #3BA0D9; }
+h1, h2, h3
+{
+	color: #3BA0D9;
+	font-weight: 200;
+}
 
 #portalform
 {
@@ -97,7 +101,7 @@ p.translation, p.editme, p.closeme, a.editme, a.new, a.cancel
 	text-transform: lowercase;
 }
 
-form#form_images { width: 512px; }
+/*form#form_images { width: 512px; }*/
 fieldset.buttons div { width: 512px; }
 
 /* forms */
@@ -125,7 +129,7 @@ ul.sortable.empty
 ul.sortable li
 {
 	margin: 2px 0;
-	padding: 4px;
+	padding: 4px 4px 0 4px;
 	border: 1px dotted #ccc;
 }
 
@@ -135,7 +139,6 @@ ul.sortable li.pager,
 ul.sortable li.log
 {
 	border: none;
-	padding: 0;
 	margin: 0;
 }
 
@@ -185,3 +188,53 @@ div.show-media img
 }
 
 div.mm_check_error { margin-left: 148px; }
+
+/* some specials styles */
+.editmeform
+{
+	border: 1px solid #d4d4d4;
+	background-color: #f9f9f9;
+	padding: 4px;
+	margin-bottom: 4px;
+}
+.editmeform strong
+{
+	font-size: 1.2em;
+	color: #555;
+	font-weight: 400;
+}
+/*.editmeform strong.type { text-transform: lowercase; }*/
+.editmeform label { color: #777; }
+
+.editmeform p.info { width: 346px; }
+
+.editmeform div.intro p.info,
+.editmeform div.body p.info,
+.editmeform div.description p.info,
+.editmeform div.you_allow p.info,
+.editmeform div.relation p.info { width: 494px; }
+
+
+.editmeform fieldset { width: auto; }
+.editmeform input[type="text"] { width: 342px; }
+.editmeform textarea { width: 490px; }
+
+@media screen and (-webkit-min-device-pixel-ratio:0) { 
+    .editmeform input[type="text"] { padding: 2px; width: 348px; } 
+    div.b_user-media textarea.big, div.b_user-media textarea.small { padding: 2px; width: 496px; } 
+}
+
+.editmeform input[type="submit"],
+.editmeform input[type="button"]
+{
+	width: auto;
+	margin-right: 1px;
+}
+.editmeform input[type="file"] { margin-left: 150px; }
+
+.editmeform fieldset
+{
+	padding-top: 4px;
+	margin-bottom: 0;
+}
+.editmeform fieldset.buttons > div { width: 502px; }
