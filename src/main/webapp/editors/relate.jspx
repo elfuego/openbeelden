@@ -1,0 +1,45 @@
+<jsp:root
+    version="2.0"
+    xmlns:c="http://java.sun.com/jsp/jstl/core"
+    xmlns:jsp="http://java.sun.com/JSP/Page"
+    xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+    xmlns:mm="http://www.mmbase.org/mmbase-taglib-2.0">
+    
+  <mm:content 
+      type="application/xml"
+      postprocessor="none"
+      expires="0">
+    <jsp:output omit-xml-declaration="true" />
+    
+    <mm:cloud method="asis">
+
+      <!-- relate and unrelate nodes -->
+      
+      <mm:import externid="id" from="request,parameters" />
+      <mm:import from="session" externid="${id}_current" id="q" jspvar="q" vartype="org.mmbase.bridge.NodeQuery" />
+
+      <mm:import externid="related"   vartype="List" />
+      <mm:import externid="unrelated" vartype="List" />
+      <mm:import externid="deleted"   vartype="List" />
+
+      <mm:listnodes referid="related" jspvar="n">
+        <jsp:expression>Queries.addToResult(current, n)</jsp:expression>
+      </mm:listnodes>
+      <mm:listnodes referid="unrelated" jspvar="n">
+        R:<jsp:expression>n.getNumber()</jsp:expression>
+       <jsp:expression>Queries.removeFromResultOnce(current, n)</jsp:expression>
+      </mm:listnodes>
+      
+      <mm:present referid="deleted">
+        <mm:listnodes referid="deleted">
+          <mm:maydelete>
+            <mm:hasfield name="dnumber">
+              <mm:field name="dnumber" /> <mm:deletenode />
+            </mm:hasfield>
+          </mm:maydelete>
+        </mm:listnodes>
+      </mm:present>
+
+    </mm:cloud>
+  </mm:content>
+</jsp:root>
