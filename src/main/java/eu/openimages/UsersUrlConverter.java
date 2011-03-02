@@ -84,9 +84,6 @@ public class UsersUrlConverter extends DirectoryUrlConverter {
         return Math.max(q, q + 1000);
     }
 
-    public void setLocales(String s) {
-        localeUtil.setLocales(s);
-    }
 
     public void setEditpath(String e) {
         editpath = e;
@@ -253,7 +250,7 @@ public class UsersUrlConverter extends DirectoryUrlConverter {
         HttpServletRequest request = frameworkParameters.get(Parameter.REQUEST);
 
         StringBuilder result = new StringBuilder();
-        if (path.size() == 0) {
+        if (path.isEmpty()) {
             //result.append("/url.user/index.jspx");
             return Url.NOT; // handled by mmsite
         } else {

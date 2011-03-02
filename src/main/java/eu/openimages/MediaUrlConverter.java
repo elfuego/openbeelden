@@ -56,11 +56,6 @@ public class MediaUrlConverter extends DirectoryUrlConverter {
         addBlock(ComponentRepository.getInstance().getComponent("oip").getBlock("mediafragment"));
     }
 
-
-    public void setLocales(String s) {
-        localeUtil.setLocales(s);
-    }
-
     public void setUseTitle(boolean t) {
         useTitle = t;
     }

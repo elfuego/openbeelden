@@ -57,11 +57,7 @@ public class TagsUrlConverter extends DirectoryUrlConverter {
         setDirectory("/tags/");
         addBlock(ComponentRepository.getInstance().getComponent("oip").getBlock("tag"));
     }
-
-    public void setLocales(String s) {
-        localeUtil.setLocales(s);
-    }
-
+ 
     @Override
     public int getDefaultWeight() {
         int q = super.getDefaultWeight();
