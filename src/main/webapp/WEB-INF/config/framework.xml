@@ -20,7 +20,6 @@
     </description>
     <param name="directory">/users/</param>
     <param name="editpath">dashboard</param><!-- /users/[username]/dashboard -->
-    <param name="locales">en,nl</param>
   </urlconverter>
 
   <urlconverter class="eu.openimages.MediaUrlConverter">
@@ -29,15 +28,13 @@
     </description>
     <param name="directory">/media/</param>
     <param name="useTitle">true</param>
-    <param name="locales">en,nl</param>
   </urlconverter>
-  
+
   <urlconverter class="eu.openimages.TagsUrlConverter">
     <description xml:lang="en">
       The urlconverter for tags
     </description>
     <param name="directory">/tags/</param>
-    <param name="locales">en,nl</param>
   </urlconverter>
 
   <urlconverter class="org.mmbase.mmsite.SiteUrlConverter">
@@ -49,7 +46,6 @@
     <param name="excludedPaths">mmbase,editors,style,inc,html,feeds,images,files</param>
     <param name="useExtension">false</param>
     <param name="extension">html</param>
-    <param name="locales">en,nl</param>
   </urlconverter>
 
   <urlconverter class="org.mmbase.mmsite.ArticlesUrlConverter">
