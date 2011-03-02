@@ -2,7 +2,7 @@
 <!DOCTYPE util PUBLIC "-//MMBase//DTD util config 1.0//EN" "http://www.mmbase.org/dtd/util_1_0.dtd">
 <util>
   <properties>
-    <property name="displayLocales">en,nl</property>
+    <property name="displayLocales">DATATYPE:oip_language</property>
     <property name="acceptedLocales"><!-- accept everything --></property>
   </properties>
 </util>
