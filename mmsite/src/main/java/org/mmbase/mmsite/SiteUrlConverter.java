@@ -62,7 +62,7 @@ public class SiteUrlConverter extends DirectoryUrlConverter {
     protected final List<String> excludedPaths = new ArrayList<String>();
     protected String extension = "html";
     protected boolean useExtension = false;
-    private   final LocaleUtil localeUtil = new LocaleUtil();
+    private   final LocaleUtil localeUtil = LocaleUtil.getInstance();
     private static SiteUrlConverter instance;
     
     @SuppressWarnings("LeakingThisInConstructor")

@@ -66,7 +66,7 @@ public class ArticlesUrlConverter extends DirectoryUrlConverter {
     private boolean useTitle = false;
     private String template = "/article.jspx";
 
-    private final LocaleUtil  localeUtil = new LocaleUtil();
+    private final LocaleUtil  localeUtil = LocaleUtil.getInstance();
 
     public ArticlesUrlConverter(BasicFramework fw) {
         super(fw);

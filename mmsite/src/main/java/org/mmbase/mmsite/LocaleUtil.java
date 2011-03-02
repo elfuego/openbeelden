@@ -25,6 +25,11 @@ import java.util.*;
 import java.util.regex.Pattern;
 import javax.servlet.http.HttpServletRequest;
 import org.mmbase.bridge.NotFoundException;
+import org.mmbase.core.event.EventManager;
+import org.mmbase.core.event.SystemEvent;
+import org.mmbase.core.event.SystemEventListener;
+import org.mmbase.datatypes.DataTypes;
+import org.mmbase.datatypes.StringDataType;
 
 
 import org.mmbase.util.functions.*;
@@ -42,7 +47,7 @@ import org.mmbase.util.xml.UtilReader;
  * @author Michiel Meeuwissen
  * @version $Id: UrlUtils.java 36206 2009-06-19 23:44:46Z michiel $
  */
-public class LocaleUtil {
+public class LocaleUtil implements SystemEventListener {
     private static final Logger log = Logging.getLoggerInstance(LocaleUtil.class);
 
     public static final Parameter<Locale> LOCALE  = new Parameter<Locale>("userlocale", Locale.class);
@@ -61,8 +66,18 @@ public class LocaleUtil {
 
     private Map<String, String> properties;
     {
-        setProperties("localeutil.xml");
-        configure();
+        EventManager.getInstance().addEventListener(this);
+    }
+    @Override
+    public void notify(SystemEvent se ){
+        if (se instanceof SystemEvent.Up) {
+            setProperties("localeutil.xml");
+            configure();
+        }
+    }
+    @Override
+    public int getWeight() {
+        return 0;
     }
     
     public void setProperties(String fileName) {
@@ -106,9 +121,13 @@ public class LocaleUtil {
 
 
     protected static List<Locale> getLocales(String s) {
+        if (s.startsWith("DATATYPE:")) {
+            String dt = s.substring("DATATYPE:".length());
+            s = ((StringDataType) DataTypes.getDataType(dt)).getPattern().pattern();
+        }
         List<Locale> result = new ArrayList<Locale>();
         if (s != null && s.length() > 0) {
-            for (String l : s.split(",")) {
+            for (String l : s.split("[,|]")) {
                 result.add(LocalizedString.getLocale(l.trim()));
             }
             addDegraded(result);
