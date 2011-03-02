@@ -4,10 +4,20 @@
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="http://www.mmbase.org/xmlns/datatypes http://www.mmbase.org/xmlns/datatypes.xsd">
 
-  <!-- 
-    @version $Id$ 
+  <!--
+    @version $Id$
   -->
-  
+
+  <!-- Override all node fields to use S&R -->
+  <datatype id="node">
+    <description xml:lang="en">
+      Reference to an MMBase node.
+    </description>
+    <class name="org.mmbase.datatypes.NodeDataType" />
+    <handler mimetype="text/html,application/xml+xhtml" name="org.mmbase.searchrelate.handlers.SRNodeHandler" />
+  </datatype>
+
+
   <datatype id="oip_language"
             base="iso639" xmlns="http://www.mmbase.org/xmlns/datatypes">
 
@@ -17,11 +27,11 @@
       <description xml:lang="nl">... is verplicht.</description>
     </required>
     <pattern value="en|nl" />
-    
+
     <deleteprocessor>
       <class name="eu.openimages.DeleteTranslationsProcessor">  </class>
     </deleteprocessor>
-    
+
   </datatype>
 
 </datatypes>
