@@ -22,15 +22,17 @@ along with MMBase. If not, see <http://www.gnu.org/licenses/>.
 package org.mmbase.mmsite;
 
 import java.util.*;
+import java.util.regex.Pattern;
 import javax.servlet.http.HttpServletRequest;
+import org.mmbase.bridge.NotFoundException;
 
-import org.mmbase.bridge.*;
 
 import org.mmbase.util.functions.*;
 import org.mmbase.util.LocalizedString;
 
 import org.mmbase.util.logging.Logger;
 import org.mmbase.util.logging.Logging;
+import org.mmbase.util.xml.UtilReader;
 
 
 /**
@@ -47,14 +49,48 @@ public class LocaleUtil {
     public static final String LOCALE_KEY = "javax.servlet.jsp.jstl.fmt.locale.request";
     public static final String EXPLICIT_LOCALE_KEY = "org.mmbase.mmsite.language";
 
-    private static final List<Locale> acceptedLocales = new ArrayList<Locale>();
-    private static final List<String> acceptedLocaleStrings = new ArrayList<String>();
+    private static final LocaleUtil instance = new LocaleUtil();
+    
+    public static LocaleUtil getInstance() {
+        return instance;
+    }
 
+
+    private final List<Locale> displayLocales = new ArrayList<Locale>();
+    private final List<Locale> acceptedLocales = new ArrayList<Locale>();
+
+    private Map<String, String> properties;
+    {
+        setProperties("localeutil.xml");
+        configure();
+    }
+    
+    public void setProperties(String fileName) {
+        properties = new UtilReader(fileName,
+            new Runnable() {
+                @Override
+                public void run() {
+                    LocaleUtil.this.configure();
+                }
+            }).getProperties();
+    }
+    protected void configure() {
+        if (properties != null) {
+            {
+                String d = properties.get("displayLocales");
+                setDisplayLocales(d);
+            }
+            {
+                String a = properties.get("acceptedLocales");
+                setAcceptedLocales(a);
+            }
+        }
+    }
 
     /**
-     * now add also degrated locales, if not yet present
+     * now add also degraded locales, if not yet present
      */
-    protected Collection<Locale> addDegraded(Collection<Locale> locales) {
+    protected static Collection<Locale> addDegraded(Collection<Locale> locales) {
         for (Locale original : new ArrayList<Locale>(locales)) {
             Locale loc = LocalizedString.degrade(original, original);
             while (loc != null) {
@@ -68,33 +104,43 @@ public class LocaleUtil {
         return locales;
     }
 
-    public void setLocales(String s) {
-        acceptedLocales.clear();
+
+    protected static List<Locale> getLocales(String s) {
+        List<Locale> result = new ArrayList<Locale>();
         if (s != null && s.length() > 0) {
             for (String l : s.split(",")) {
-                acceptedLocales.add(new Locale(l));
-                acceptedLocaleStrings.add(l);
+                result.add(LocalizedString.getLocale(l.trim()));
             }
-            addDegraded(acceptedLocales);
+            addDegraded(result);
         }
+        return result;
+    }
+
+    public void setDisplayLocales(String s) {
+        displayLocales.clear();
+        displayLocales.addAll(getLocales(s));
     }
     
-    public List<String> getAcceptedLocaleStrings() {
-        return acceptedLocaleStrings;
+    public List<Locale> getDisplayLocales() {
+        return Collections.unmodifiableList(displayLocales);
     }
-    
+
+    public void setAcceptedLocales(String s) {
+        acceptedLocales.clear();
+        acceptedLocales.addAll(getLocales(s));
+    }
     public List<Locale> getAcceptedLocales() {
-        return acceptedLocales;
+        return Collections.unmodifiableList(acceptedLocales);
     }
 
     public boolean isMultiLanguage() {
-        return acceptedLocales.size() > 0;
+        return displayLocales.size() > 0;
     }
 
 
     /**
      * Searches the request for the attribute 'org.mmbase.mmsite.language' which can contain
-     * the prefered language setting for the site. If not found it returns an empty String.
+     * the preferred language setting for the site. If not found it returns an empty String.
      *
      * @param  request HttpServletRequest
      * @return language code or null if not found
@@ -122,48 +168,51 @@ public class LocaleUtil {
             buf.append(".").append(locale);
         }
     }
+    private final Pattern LANG_PATTERN = Pattern.compile("[a-z]{2}(_[A-Z]{2})?");
+    
     public String setLanguage(String path, HttpServletRequest request) {
         if (! isMultiLanguage()) return path;
 
         int lastDot = path.lastIndexOf(".");
         if (lastDot >= 0) {
-            String lang = path.substring(lastDot + 1, path.length());
-            
-            if (! acceptedLocaleStrings.contains(lang)) {
-                if (log.isDebugEnabled()) {
-                    log.debug("Returning path because '" + lang + "' not in " + acceptedLocaleStrings);
-                }
+            String  language = path.substring(lastDot + 1, path.length());
+            if ( ! LANG_PATTERN.matcher(language).matches()) {
                 return path;
             }
-            
-            Locale language = new Locale(lang);
-            if (! acceptedLocales.contains(language)) {
+            Locale locale = LocalizedString.getLocale(language);
+            if (! acceptedLocales.isEmpty() && ! acceptedLocales.contains(locale)) {
                 throw new NotFoundException("Locale '" + language + "' is not supported (path: " + path + ")");
             }
 
-            request.setAttribute(EXPLICIT_LOCALE_KEY, language.toString());
-            request.setAttribute(LOCALE_KEY, language);
+            request.setAttribute(EXPLICIT_LOCALE_KEY, locale.toString());
+            request.setAttribute(LOCALE_KEY, locale);
             return path.substring(0, lastDot);
         } else {
             request.setAttribute(EXPLICIT_LOCALE_KEY, "");
             Locale inferredLocale = null;
             if (log.isDebugEnabled()) {
-                log.debug("Matching " + addDegraded(Collections.list(request.getLocales())) + " to " + acceptedLocales);
+                log.debug("Matching " + addDegraded(Collections.list(request.getLocales())) + " to " + displayLocales);
             }
-            LOC:
-            for (Locale proposal : addDegraded(Collections.list(request.getLocales()))) {
-                log.trace("Considering user preference " + proposal);
-                for (Locale serverLocale : acceptedLocales) {
-                    log.trace("Comparing with " + serverLocale);
-                    if (serverLocale.equals(proposal)) {
-                        log.debug("" + proposal + " is a  hit!");
-                        inferredLocale = proposal;
-                        break LOC;
+            if (acceptedLocales.isEmpty()) {
+                if (request.getHeader("Accept-Language") != null ){
+                    inferredLocale = (Locale) Collections.list(request.getLocales()).get(0);
+                }
+            } else {
+                LOC:
+                for (Locale proposal : addDegraded(Collections.list(request.getLocales()))) {
+                    log.trace("Considering user preference " + proposal);
+                    for (Locale serverLocale : acceptedLocales) {
+                        log.trace("Comparing with " + serverLocale);
+                        if (serverLocale.equals(proposal)) {
+                            log.debug("" + proposal + " is a  hit!");
+                            inferredLocale = proposal;
+                            break LOC;
+                        }
                     }
                 }
             }
             if (inferredLocale == null) {
-                inferredLocale = acceptedLocales.get(0);
+                inferredLocale = displayLocales.get(0);
                 log.debug("No hit found, taking " + inferredLocale);
 
             }

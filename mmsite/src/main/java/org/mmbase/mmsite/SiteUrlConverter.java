@@ -63,11 +63,21 @@ public class SiteUrlConverter extends DirectoryUrlConverter {
     protected String extension = "html";
     protected boolean useExtension = false;
     private   final LocaleUtil localeUtil = new LocaleUtil();
-
+    private static SiteUrlConverter instance;
+    
+    @SuppressWarnings("LeakingThisInConstructor")
     public SiteUrlConverter(BasicFramework fw) {
         super(fw);
         setDirectory("/");
         addBlock(ComponentRepository.getInstance().getComponent("mmsite").getBlock("page"));
+        instance = this;
+    }
+    /**
+     * 
+     * @return The last instance of a SiteUrlConverter
+     */
+    public static SiteUrlConverter getInstance() {
+        return instance;
     }
 
     public void setExcludedPaths(String l) {

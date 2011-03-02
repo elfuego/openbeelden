@@ -1,6 +1,6 @@
 /*
 
-This file is part of the MMBase MMSite application, 
+This file is part of the MMBase MMSite application,
 which is part of MMBase - an open source content management system.
     Copyright (C) 2009 André van Toly
 
@@ -21,7 +21,6 @@ along with MMBase. If not, see <http://www.gnu.org/licenses/>.
 
 package org.mmbase.mmsite;
 
-import java.util.Collections;
 import javax.servlet.http.HttpServletRequest;
 
 import org.mmbase.bridge.*;
@@ -30,7 +29,7 @@ import org.mmbase.util.logging.Logging;
 
 
 /**
- * Utility methods for url's and pagestructure.
+ * Utility methods for url's and page structure.
  *
  * @author Andr&eacute; van Toly
  * @version $Id$
@@ -50,18 +49,18 @@ public final class UrlUtils {
     }
 
     /**
-     * Generate a crumbpath of nodes of the same type, like for example pages, 
+     * Generate a crumb path of nodes of the same type, like for example pages,
      * which means you get the 'most root' node first.
      * Nodes start form this node to the root, these require a field 'path'.
      *
      * @param  node	A node of some type with a field 'path'
-     * @return list with all the nodes from the homepage or 'most root' node to the present node
+     * @return list with all the nodes from the home page or 'most root' node to the present node
      */
     public static NodeList crumbs(Node node) {
         NodeList l = listNodes2Root(node);
         return l;
     }
-    
+
     /**
      * The parent node in the hierarchy.
      *
@@ -78,16 +77,16 @@ public final class UrlUtils {
     }
 
     /**
-     * Get the '(most) root' node, being the (grand)parent of all the nodes in the crumbpath.
+     * Get the '(most) root' node, being the (grand)parent of all the nodes in the crumb path.
      *
      * @param  node	A node of some type with a field 'path'
-     * @return the node highest to the top, often the homepage
+     * @return the node highest to the top, often the home page
      */
     public static Node root(Node node) {
         NodeList l = listNodes2Root(node);
         return l.get(0);
     }
-    
+
     /**
      * Retrieve a pages node with a certain path.
      *
@@ -103,13 +102,13 @@ public final class UrlUtils {
             }
             return node;
         }
-        
+
         /* in builder path is 255, no use in trying beyond that and creating huge db queries */
         if (path.length() > 255) {
-            path = path.substring(0, 255); 
+            path = path.substring(0, 255);
         }
         NodeManager nm = cloud.getNodeManager("pages");
-        NodeList nl = nm.getList("LOWER(path) = '" + path + "'", null, null);
+        NodeList nl = nm.getList("LOWER(path) = '" + path + "'", null, null);// WTF
         nl.addAll(nm.getList("LOWER(path) = '" + path + "/'", null, null));
 
         if (nl.size() > 0)  node = nl.getNode(0);
@@ -119,7 +118,7 @@ public final class UrlUtils {
     /**
      * Nodes from here to the root while examining the field 'path'.
      * The parent of a node with path '/news/article/some' is the one
-     * with '/news/article', then '/news'. It contains the node from which you 
+     * with '/news/article', then '/news'. It contains the node from which you
      * want to resolve the (crumb)path.
      *
      * @param  node	A node of certain type with field path

@@ -99,7 +99,7 @@ public class ArticlesUrlConverter extends DirectoryUrlConverter {
     public boolean isFilteredMode(Parameters frameworkParameters) throws FrameworkException {
         HttpServletRequest request = org.mmbase.framework.basic.BasicUrlConverter.getUserRequest(frameworkParameters.get(Parameter.REQUEST));
         String path = FrameworkFilter.getPath(request);
-        for (String e : SiteUrlConverter.excludedPaths) {
+        for (String e : SiteUrlConverter.getInstance().excludedPaths) {
             if (path.startsWith("/" + e + "/")) {
                 return false;
             }
@@ -159,8 +159,8 @@ public class ArticlesUrlConverter extends DirectoryUrlConverter {
             }
             
             if (b.length() > b_len) {   // check if url is altered
-                if (SiteUrlConverter.useExtension) {
-                    b.append(".").append(SiteUrlConverter.extension);
+                if (SiteUrlConverter.getInstance().useExtension) {
+                    b.append(".").append(SiteUrlConverter.getInstance().extension);
                 }
             }
             localeUtil.appendLanguage(b, frameworkParameters);
@@ -186,16 +186,16 @@ public class ArticlesUrlConverter extends DirectoryUrlConverter {
         HttpServletRequest request = frameworkParameters.get(Parameter.REQUEST);
 
         StringBuilder result = new StringBuilder();
-        if (path.size() == 0) {
+        if (path.isEmpty()) {
             return Url.NOT;
         } else {
-            result.append(template + "?n=");
+            result.append(template).append("?n=");
 
             // last element can contain language and/or extension
             String last = path.get(path.size() - 1); 
             last = localeUtil.setLanguage(last, request);
-            if (SiteUrlConverter.useExtension && last.indexOf(SiteUrlConverter.extension) > -1) {
-                last = last.substring(0, last.lastIndexOf(SiteUrlConverter.extension));
+            if (SiteUrlConverter.getInstance().useExtension && last.indexOf(SiteUrlConverter.getInstance().extension) > -1) {
+                last = last.substring(0, last.lastIndexOf(SiteUrlConverter.getInstance().extension));
             }
             path.set(path.size() - 1, last);    // put it back
             

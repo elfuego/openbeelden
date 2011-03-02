@@ -52,16 +52,16 @@
     <description>
       Locales
     </description>
-    <type>class</type>
+    <type>singleton</type>
     <class>org.mmbase.mmsite.LocaleUtil</class>
-    <method>getAcceptedLocales</method>
+    <method>getDisplayLocales</method>
   </function>
 
   <function name="ismultilanguage">
     <description>
       Locales
     </description>
-    <type>class</type>
+    <type>singleton</type>
     <class>org.mmbase.mmsite.LocaleUtil</class>
     <method>isMultiLanguage</method>
   </function>
