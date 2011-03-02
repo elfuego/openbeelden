@@ -48,7 +48,7 @@ public class MediaUrlConverter extends DirectoryUrlConverter {
     private static CharTransformer trans = new Identifier();
     private boolean useTitle = false;
 
-    private final LocaleUtil  localeUtil = new LocaleUtil();
+    private final LocaleUtil  localeUtil = LocaleUtil.getInstance();
 
     public MediaUrlConverter(BasicFramework fw) {
         super(fw);

@@ -47,10 +47,7 @@ public class TagsUrlConverter extends DirectoryUrlConverter {
     private static final long serialVersionUID = 0L;
     private static final Logger log = Logging.getLoggerInstance(TagsUrlConverter.class);
 
-    private static CharTransformer trans = new Identifier();
-    private boolean useTitle = false;
-
-    private final LocaleUtil  localeUtil = new LocaleUtil();
+    private final LocaleUtil  localeUtil = LocaleUtil.getInstance();
 
     public TagsUrlConverter(BasicFramework fw) {
         super(fw);
