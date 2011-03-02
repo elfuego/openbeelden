@@ -59,10 +59,9 @@ public class SiteUrlConverter extends DirectoryUrlConverter {
     private static final long serialVersionUID = 0L;
     private static final Logger log = Logging.getLoggerInstance(SiteUrlConverter.class);
 
-    protected final static List<String> excludedPaths = new ArrayList<String>();
-    protected static String extension = "html";
-    protected static boolean useExtension = false;
-
+    protected final List<String> excludedPaths = new ArrayList<String>();
+    protected String extension = "html";
+    protected boolean useExtension = false;
     private   final LocaleUtil localeUtil = new LocaleUtil();
 
     public SiteUrlConverter(BasicFramework fw) {
@@ -84,9 +83,6 @@ public class SiteUrlConverter extends DirectoryUrlConverter {
         extension = e;
     }
 
-    public void setLocales(String s) {
-        localeUtil.setLocales(s);
-    }
 
     @Override
     public int getDefaultWeight() {
