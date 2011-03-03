@@ -197,7 +197,7 @@ input[type="file"]
 	width: auto;
 	border: none;
 }
-input[type="file"] { margin-left: 150px; }
+input[type="file"] { margin-left: 148px; }
 textarea
 {
 	width: 498px;
@@ -257,6 +257,7 @@ input.info
 	width: auto;
 	float: right;
 	cursor: pointer;
+	min-width: 72px;
 	padding: 5px 10px;
 	margin-top: 8px;
 	margin-left: 16px;

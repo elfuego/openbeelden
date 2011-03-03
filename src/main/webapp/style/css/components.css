@@ -49,10 +49,10 @@ div.b_user-mediapreview p.description{ margin-left: 90px; }
 
 div.b_user-picture a.cancel, 
 div.b_user-mediapreview a.cancel { float: right; }
-div.b_user-picture label,
-div.b_user-mediapreview label { float: none; }
+
 div.b_user-picture img,
 div.b_user-mediapreview img { margin-right: 10px;}
+
 div.b_user-picture fieldset,
 div.b_user-mediapreview fieldset { margin: 0; }
 
