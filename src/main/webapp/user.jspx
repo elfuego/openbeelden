@@ -128,18 +128,23 @@
                       <a href="${_}"><fmt:message key="user.dashboard" /></a>
                     </mm:link>
                   </li>
-                  <li>
-                    <mm:link>
-                      <mm:frameworkparam name="component">oip</mm:frameworkparam>
-                      <mm:frameworkparam name="block">user-delete</mm:frameworkparam>
-                      <mm:frameworkparam name="user">${n}</mm:frameworkparam>
-                      <a href="${_}">
-                        <fmt:message key="user.delete">
-                          <fmt:param><mm:field name="username" /></fmt:param>
-                        </fmt:message>
-                      </a>
-                    </mm:link>
-                  </li>
+
+                  <mm:cloudinfo type="user" id="userid" write="false" />
+                  <c:if test="${userid eq 'admin' or userid eq _node.username}">
+                    <li>
+                      <mm:link>
+                        <mm:frameworkparam name="component">oip</mm:frameworkparam>
+                        <mm:frameworkparam name="block">user-delete</mm:frameworkparam>
+                        <mm:frameworkparam name="user">${n}</mm:frameworkparam>
+                        <a href="${_}">
+                          <fmt:message key="user.delete">
+                            <fmt:param><mm:field name="username" /></fmt:param>
+                          </fmt:message>
+                        </a>
+                      </mm:link>
+                    </li>
+                  </c:if>
+                  
                 </ul>
               </div>
 
