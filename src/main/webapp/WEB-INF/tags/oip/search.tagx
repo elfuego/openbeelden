@@ -70,7 +70,7 @@
           <c:set var="label_date"><fmt:message key="search.any_period" /></c:set>
           <label for="date"><fmt:message key="media.date" /></label>
           <select id="date" name="date">
-            <option    label="${label_date}" value="">${label_date}</option>
+            <option label="${label_date}" value="">${label_date}</option>
             <mm:option value="2010" compare="${date}">
               <fmt:message key="search.after">
                 <fmt:param>2010</fmt:param>
@@ -108,7 +108,9 @@
             <select id="license" name="license">
               <option value="" label="${label_license}">${label_license}</option>
               <mm:listnodes>
-                <mm:option value="${_node.number}" compare="${license}"><mm:write value="${_node.name}" /></mm:option>
+                <mm:option value="${_node.number}" compare="${license}">
+                  <mm:nodefunction name="translation"><mm:field name="name" /></mm:nodefunction>
+                </mm:option>
               </mm:listnodes>
             </select>
           </mm:listnodescontainer>
