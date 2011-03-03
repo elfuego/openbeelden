@@ -21,6 +21,7 @@
 
 <mm:import externid="related" />
 <mm:import externid="editme">false</mm:import>
+<mm:import externid="target" />
 <mm:import externid="show">/editors/show-node.jspx</mm:import>
 <mm:import externid="editor">/editors/edit-node.jspx</mm:import>
 <mm:import externid="maydelete">true</mm:import>
@@ -39,35 +40,39 @@
       <c:choose>
         
         <c:when test="${!empty delete}">
-          <a class="editme cancel" href="#close"><fmt:message key="users.close" /></a>
           <mm:maydelete inverse="true">
+            <a class="editme cancel" href="#close"><fmt:message key="users.cancel" /></a>
             <p class="err">Not enough privileges.</p>
           </mm:maydelete>
           <mm:maydelete>
+            <a class="close" href="#close"><fmt:message key="users.close" /></a>
             <span class="node_deleted_${nr} deleted"> Node is deleted!</span>
             <mm:deletenode number="$nr" deleterelations="true" />
           </mm:maydelete>
         </c:when>
         
         <c:when test="${!empty cancel}">
+          
           <mm:maywrite>
             <div class="log"><jsp:text> <!-- empty --> </jsp:text></div>
-            <mm:link page="$editor" referids="p,nr,fields,related?">
+            <mm:link page="$editor" 
+              referids="p,nr,fields,related?,show,editor,maydelete,unpublish">
               <a class="editme" href="${_}#edit_${nr}"><fmt:message key="users.edit" /></a>
             </mm:link>
           </mm:maywrite>
           <c:if test="${maydelete}">
             <mm:maydelete>
-              <mm:link page="/editors/delete-node.jspx" referids="p,nr,fields,related?">
+              <mm:link page="/editors/delete-node.jspx" 
+                referids="p,nr,fields,related?,show,editor,maydelete,unpublish">
                 <a class="editme delete" href="${_}#edit_${nr}"><fmt:message key="users.delete" /></a>
               </mm:link>
             </mm:maydelete>
           </c:if>
-
           <c:if test="${!empty related and unpublish}">
             <mm:relation to="${related}">
               <mm:maydelete>
-                <mm:link page="/editors/delete-relation.jspx" referids="p,nr,fields?,_node@relation,related">
+                <mm:link page="/editors/delete-relation.jspx" 
+                  referids="p,nr,fields?,_node@relation,related?,show,editor,maydelete,unpublish">
                   <a class="editme unrelate" href="${_}#edit_${nr}">unpublish</a>
                 </mm:link>
               </mm:maydelete>
@@ -98,7 +103,9 @@
                 <mm:nodeinfo type="guitype" escape="lowercase" />
                 <jsp:text> </jsp:text><br />
               </strong>
-
+              
+              <a class="editme cancel" href="#close"><fmt:message key="users.cancel" /></a>
+              
               <mm:include page="show-node.jspx" referids="p,nr,fields" />
 
               <p class="msg stay">
@@ -112,6 +119,7 @@
                 <input name="related" type="hidden" value="${related}" />
                 <input name="show"    type="hidden" value="${show}" />
                 <input name="editor"  type="hidden" value="${editor}" />
+                <input name="target"  type="hidden" value="${target}" />
                 <mm:write referid="fields">
                   <input name="fields" type="hidden" value="${_}" />
                 </mm:write>

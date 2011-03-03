@@ -36,7 +36,6 @@
 
     <mm:import externid="editme">false</mm:import>
     <mm:import externid="target" />
-    <mm:import externid="one">false</mm:import>
     <mm:import externid="show">/editors/show-thumb.jspx</mm:import>
     <mm:import externid="editor">/editors/edit-thumb.jspx</mm:import>
     <mm:import externid="maydelete">true</mm:import>
@@ -45,23 +44,22 @@
 
     <c:choose>
       <c:when test="${cancel eq 'Cancel'}">
+        
         <mm:include page="$show" referids="p?,nr,show,related">
           <!-- <mm:param name="fields">${fields}</mm:param> -->
         </mm:include>
 
-        <!-- <mm:node number="$nr">
+        <mm:node number="$nr">
+          
           <p class="description"> 
-            <mm:link page="/editors/add-thumb.jspx" referids="p?,_node@nr,role,dir,elementid">
+            <mm:link page="/editors/add-thumb.jspx" 
+              referids="p?,_node@nr,related,role,dir,type,show,editor,fields,defaultstr,maydelete">
               <mm:param name="lang">${requestScope['javax.servlet.jsp.jstl.fmt.locale.request']}</mm:param>
-              <mm:param name="type">images</mm:param>
-              <mm:param name="fields">handle</mm:param>
-              <mm:param name="show">/editors/show-thumb.jspx</mm:param>
-              <mm:param name="defaultstr">title=Thumbnail <mm:field name="title" /></mm:param>
-              <c:set var="link">${_}#${elementid}</c:set>
+              <c:set var="link">${_}#${target}</c:set>
               <a class="editme add" href="${link}"><fmt:message key="users.add_image" /></a>
             </mm:link>
            </p> 
-        </mm:node> -->
+        </mm:node>
 
       </c:when>
       <c:otherwise>
@@ -110,7 +108,6 @@
                 <input name="show" type="hidden" value="${show}" />
                 <input name="related" type="hidden" value="${related}" />
                 <input name="editor" type="hidden" value="${editor}" />
-                <input name="one"    type="hidden" value="${one}" />
                 <input name="target" type="hidden" value="${target}" />
                 <input name="defaultstr"  type="hidden" value="${defaultstr}" />
                 <p>
@@ -183,33 +180,26 @@
 
 
         <c:if test="${!empty saved and editme eq 'true'}">
-          <p class="msg"><mm:write referid="saved" escape="none" /> t: ${target}</p>
-          
-          <c:choose>
-            <c:when test="${!empty target}">
-              <c:set var="linktarget">#${target}</c:set>
-            </c:when>
-            <c:otherwise>
-              <c:set var="linktarget">#edit_${new_node}</c:set>
-            </c:otherwise>
-          </c:choose>
+          <p class="msg"><mm:write referid="saved" escape="none" /></p>
           
           <!-- show new node -->
-          <div class="node_created ${one} edit_${new_node}">
-            <span class="content">
+          <div class="node_created edit_${new_node}">
+            <span class="content ditis_${new_node}">
               <mm:include page="$show" referids="p?,new_node@nr,show,related">
                 <mm:param name="fields">${fields}</mm:param>
               </mm:include>
             </span>
             <span class="links">
-              <mm:link page="/editors/delete-thumb.jspx" referids="p?,new_node@nr,related,target?">
+              <mm:link page="/editors/delete-thumb.jspx"
+                referids="p?,new_node@nr,related,role,dir,type,show,editor,fields,defaultstr,maydelete">
                 <mm:param name="fields">${fields}</mm:param>
-                <a class="editme delete" href="${_}${linktarget}"><fmt:message key="users.delete" /></a>
+                <a class="editme delete" href="${_}#edit_${new_node}"><fmt:message key="users.delete" /></a>
                 <jsp:text> / </jsp:text>
               </mm:link>
-              <mm:link page="$editor" referids="p?,new_node@nr,show,related,target?">
+              <mm:link page="$editor"
+                referids="p?,new_node@nr,related,role,dir,type,show,editor,fields,defaultstr,maydelete">
                 <mm:param name="fields">${fields}</mm:param>
-                <a class="editme" href="${_}${linktarget}"><fmt:message key="users.edit_image" /></a>
+                <a class="editme" href="${_}#edit_${new_node}"><fmt:message key="users.edit_image" /></a>
               </mm:link>
             </span>
           </div>

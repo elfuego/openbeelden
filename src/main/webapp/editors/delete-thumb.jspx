@@ -26,7 +26,6 @@
 <mm:import externid="editor">/editors/edit-node.jspx</mm:import>
 <mm:import externid="maydelete">true</mm:import>
 <mm:import externid="target" />
-<mm:import externid="one">false</mm:import>
 
   
 <mm:hasnode number="$nr" inverse="true">
@@ -38,25 +37,26 @@
 
   <mm:node number="$nr">
 
-            <c:choose>
-              <c:when test="${!empty target}">
-                <c:set var="linktarget">#${target}</c:set>
-              </c:when>
-              <c:otherwise>
-                <c:set var="linktarget">#edit_${nr}</c:set>
-              </c:otherwise>
-            </c:choose>
-
+      <c:choose>
+        <c:when test="${!empty target}">
+          <c:set var="hashtarget">#${target}</c:set>
+        </c:when>
+        <c:otherwise>
+          <c:set var="hashtarget">#edit_${nr}</c:set>
+        </c:otherwise>
+      </c:choose>
+      
       <c:choose>
         
         <c:when test="${!empty delete}">
-          <a class="editme cancel" href="#close"><fmt:message key="users.cancel" /></a>
           <mm:maydelete inverse="true">
+            <a class="editme cancel" href="#close"><fmt:message key="users.close" /></a>
             <p class="err">Not enough privileges.</p>
           </mm:maydelete>
           <mm:maydelete>
-            <span class="node_deleted_${nr} ${one} deleted target_${target}">
-              Node is deleted! t: ${target} o: ${one}
+            <a class="editme cancel" href="#close"><fmt:message key="users.cancel" /></a>
+            <span class="node_deleted_${nr} deleted target_${target}">
+              Node is deleted!
             </span>
             <mm:deletenode number="$nr" deleterelations="true" />
           </mm:maydelete>
@@ -66,16 +66,17 @@
               <mm:node number="$related"><oip:thumb /></mm:node>
             </span>
             <span class="links">
-              <mm:link page="/editors/add-thumb.jspx" referids="p?,related@nr,related,target?,one?">
+              <mm:link page="/editors/add-thumb.jspx" 
+                referids="p?,related@nr,related,show?,editor?,target?">
                 <mm:param name="lang">${requestScope['javax.servlet.jsp.jstl.fmt.locale.request']}</mm:param>
                 <mm:param name="type">images</mm:param>
                 <mm:param name="fields">handle</mm:param>
-                <mm:param name="show">/editors/show-thumb.jspx</mm:param>
                 <mm:param name="defaultstr">title=Thumbnail <mm:field name="title" /></mm:param>
-                <a class="editme" href="${_}${linktarget}">add image</a>
+                <a class="editme" href="${_}${hashtarget}"><fmt:message key="users.add_image" /></a>
               </mm:link>
             </span>
           </mm:hasnode>
+          
         </c:when>
         
         <c:when test="${!empty cancel}">
@@ -88,12 +89,14 @@
             <div class="log"><jsp:text> <!-- empty --> </jsp:text></div>
             <c:if test="${maydelete}">
               <mm:maydelete>
-                <mm:link page="/editors/delete-thumb.jspx" referids="p,nr,show,editor,fields,related?">
-                  <a class="editme delete" href="${_}#edit_${nr}">delete</a> /
+                <mm:link page="/editors/delete-thumb.jspx"
+                  referids="p,nr,show,editor,fields,related?">
+                  <a class="editme delete" href="${_}#edit_${nr}"><fmt:message key="users.delete" /></a> /
                 </mm:link>
               </mm:maydelete>
             </c:if>
-            <mm:link page="$editor" referids="p,nr,fields,show,editor,related?">
+            <mm:link page="$editor" 
+              referids="p,nr,fields,show,editor,related?">
               <a class="editme" href="${_}#edit_${nr}"><fmt:message key="users.edit_image" /></a>
             </mm:link>
           </mm:maywrite>
@@ -121,7 +124,6 @@
                 <input name="related" type="hidden" value="${related}" />
                 <input name="show"    type="hidden" value="${show}" />
                 <input name="editor"  type="hidden" value="${editor}" />
-                <input name="one"     type="hidden" value="${one}" />
                 <input name="target"  type="hidden" value="${target}" />
                 <mm:write referid="fields">
                   <input name="fields" type="hidden" value="${_}" />

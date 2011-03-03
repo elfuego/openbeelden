@@ -35,6 +35,7 @@
     <mm:import externid="cancel" />
 
     <mm:import externid="editme">false</mm:import>
+    <mm:import externid="target" />
     <mm:import externid="show">/editors/show-node.jspx</mm:import>
     <mm:import externid="editor">/editors/edit-node.jspx</mm:import>
     <mm:import externid="maydelete">true</mm:import>
