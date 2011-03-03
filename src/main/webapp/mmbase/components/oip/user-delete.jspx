@@ -16,8 +16,17 @@
         <mm:import externid="n" required="true" />
 
         <mm:hasrank minvalue="site user">
+            
             <mm:import externid="user">${n}</mm:import>
-            user: ${user}
+            <!-- check if this user node is in default users group -->
+            <mm:node number="$n">
+              <mm:relatednodescontainer type="mmbasegroups" role="contains" searchdirs="source">
+                <mm:constraint field="number" value="defaultusergroup" operator="EQUAL" />
+                <mm:relatednodes>
+                  <c:set var="indefaultusergroup" value="true" />
+                </mm:relatednodes>
+              </mm:relatednodescontainer>
+            </mm:node>
             <mm:listnodescontainer type="object" id="q">
               <mm:constraint field="owner" value="${user}" casesensitive="true" />
               <mm:typeconstraint name="mediafragments,mediasources,images" descendants="true" />
@@ -25,58 +34,72 @@
             </mm:listnodescontainer>
             
             <c:choose>
-              <c:when test="${request.method eq 'GET'}">
-                
-                <mm:listnodescontainer referid="q">
-                  <p>
-                    <fmt:message key="user.nodestodelete">
-                      <fmt:param value="${size + 1}" />
-                    </fmt:message>.
-                  </p>
-                  <form method="post">
-                    <fieldset class="buttons">
-                      <div>
-                        <fmt:message key="user.delete_sure" var="sure">
-                          <fmt:param><strong><oip:user html="attribute" /></strong></fmt:param>
+              <c:when test="${indefaultusergroup}">
+    
+                <c:choose>
+                  <c:when test="${request.method eq 'GET'}">
+    
+                    <mm:listnodescontainer referid="q">
+                      <p>
+                        <fmt:message key="user.nodestodelete">
+                          <fmt:param value="${size + 1}" />
+                        </fmt:message>.
+                      </p>
+                      <form method="post">
+                        <fieldset class="buttons">
+                          <div>
+                            <fmt:message key="user.delete_sure" var="sure">
+                              <fmt:param><strong><oip:user html="attribute" /></strong></fmt:param>
+                            </fmt:message>
+                            <p>${sure}</p>
+    
+                            <fmt:message key="user.yes" var="button_yes" />
+                            <fmt:message key="user.no"  var="button_no" />
+    
+                            <input type="submit" name="sure"   value="${button_yes}" class="submit" />
+                            <input type="submit" name="cancel" value="${button_no}"  class="cancel" />
+                          </div>
+                        </fieldset>
+                      </form>
+                    </mm:listnodescontainer>
+                    
+                  </c:when>
+                  <c:otherwise>
+                    
+                    <mm:import externid="sure" />
+                    <mm:import externid="cancel" />
+                    
+                    <mm:present referid="sure">
+                      <p>
+                        
+                        <mm:listnodescontainer referid="q">
+                          <mm:listnodes id="marked">
+                            <mm:function set="cloudcontextworkflow" name="markfordelete" referids="marked@node" />
+                          </mm:listnodes>
+                        </mm:listnodescontainer>
+                        <mm:node referid="user">
+                          <mm:setfield name="status">BLOCKED</mm:setfield>
+                        </mm:node>
+                        <fmt:message key="user.deleted">
+                          <fmt:param value="${size + 1}" />
                         </fmt:message>
-                        <p>${sure}</p>
+                        
+                        
+                      </p>
+                    </mm:present>
+    
+                    <mm:present referid="cancel">
+                      <p class="msg stay">Cancelled removing user.</p>
+                    </mm:present>
+                  
+                  </c:otherwise>
+                </c:choose>
 
-                        <fmt:message key="user.yes" var="button_yes" />
-                        <fmt:message key="user.no"  var="button_no" />
-
-                        <input type="submit" name="sure"   value="${button_yes}" class="submit" />
-                        <input type="submit" name="cancel" value="${button_no}"  class="cancel" />
-                      </div>
-                    </fieldset>
-                  </form>
-                </mm:listnodescontainer>
-                
               </c:when>
               <c:otherwise>
-                
-                <mm:import externid="sure" />
-                <mm:import externid="cancel" />
-                
-                <mm:present referid="sure">
-                  <p>
-                    <mm:listnodescontainer referid="q">
-                      <mm:listnodes id="n">
-                        <mm:function set="cloudcontextworkflow" name="markfordelete" referids="n@node" />
-                      </mm:listnodes>
-                    </mm:listnodescontainer>
-                    <mm:node referid="user">
-                      <mm:setfield name="status">BLOCKED</mm:setfield>
-                    </mm:node>
-                    <fmt:message key="user.deleted">
-                      <fmt:param value="${size + 1}" />
-                    </fmt:message>
-                  </p>
-                </mm:present>
-
-                <mm:present referid="cancel">
-                  <p class="msg stay">Cancelled removing user.</p>
-                </mm:present>
-              
+                <p class="msg stay">
+                  User <oip:user /> can not be deleted.
+                </p>
               </c:otherwise>
             </c:choose>
             
