@@ -97,7 +97,7 @@
                   </div>
                 </mm:fieldlist>
 
-                <mm:fieldlist fields="dc_creator,publisher,intro">
+                <mm:fieldlist fields="dc_creator,intro">
                   <c:set var="fld_name"><mm:fieldinfo type="name" /></c:set>
                   <div class="${fld_name}">
                     <mm:fieldinfo type="forid">

@@ -57,6 +57,10 @@
               <dd>
                 <mm:field name="date"><mm:time format="d MMM yyyy" /></mm:field>
               </dd>
+              <mm:fieldlist fields="publisher">
+                <dt><mm:fieldinfo type="guiname" />:</dt>
+                <dd><mm:fieldinfo type="guivalue" /></dd>
+              </mm:fieldlist>
             </dl>
 
             <dl class="media-info">
@@ -70,16 +74,16 @@
                   </mm:listrelations>
                 </mm:listrelationscontainer><br />
               </dd>
-             <mm:fieldlist fields="keywords">
-              <dt><mm:fieldinfo type="guiname" />:</dt>
-              <dd><mm:fieldinfo type="guivalue" /></dd>
-             </mm:fieldlist>
+              <mm:fieldlist fields="keywords">
+                <dt><mm:fieldinfo type="guiname" />:</dt>
+                <dd><mm:fieldinfo type="guivalue" /></dd>
+              </mm:fieldlist>
            </dl>
            
            <dl class="media-info">
              <mm:fieldlist fields="source,identifier,contributor,relation,coverage,created,lastmodified">
-              <dt><mm:fieldinfo type="guiname" />:</dt>
-              <dd><mm:fieldinfo type="guivalue" /><br /></dd>
+               <dt><mm:fieldinfo type="guiname" />:</dt>
+               <dd><mm:fieldinfo type="guivalue" /><br /></dd>
              </mm:fieldlist>
            </dl>
           
