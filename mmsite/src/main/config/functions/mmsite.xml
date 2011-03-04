@@ -52,7 +52,7 @@
     <description>
       Locales
     </description>
-    <type>singleton</type>
+    <type>instance</type>
     <class>org.mmbase.mmsite.LocaleUtil</class>
     <method>getDisplayLocales</method>
   </function>
@@ -61,7 +61,7 @@
     <description>
       Locales
     </description>
-    <type>singleton</type>
+    <type>instance</type>
     <class>org.mmbase.mmsite.LocaleUtil</class>
     <method>isMultiLanguage</method>
   </function>
