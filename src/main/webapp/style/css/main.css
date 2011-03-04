@@ -273,6 +273,10 @@ input.info
 	background: -moz-linear-gradient(top, #f9f9f9, #efefef);
 }
 
+/* remove ugly borders in Firefox */
+input[type="submit"]::-moz-focus-inner,
+input[type="button"]::-moz-focus-inner { border: 0; }
+
 div.b_user-media input.submit,
 div.b_user-media input.info
 {
