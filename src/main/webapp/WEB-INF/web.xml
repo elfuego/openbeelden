@@ -55,7 +55,7 @@
 
   <context-param>
     <param-name>mmbase.taglib.max_enumhandler_length</param-name>
-    <param-value>20</param-value>
+    <param-value>60</param-value>
   </context-param>
 
   <context-param>
