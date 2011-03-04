@@ -3,6 +3,7 @@
     xmlns:c="http://java.sun.com/jsp/jstl/core"
     xmlns:jsp="http://java.sun.com/JSP/Page"
     xmlns:fmt="http://java.sun.com/jsp/jstl/fmt"
+    xmlns:fn="http://java.sun.com/jsp/jstl/functions"
     xmlns:mm="http://www.mmbase.org/mmbase-taglib-2.0"
     >
   <jsp:output omit-xml-declaration="true" />
@@ -13,18 +14,19 @@
         <mm:param name="key">eu.openimages.mediawiki.MediaExport.status</mm:param>
         <mm:function id="wikistatus" nodemanager="properties" name="get" referids="_node@node" write="false" />
       </mm:functioncontainer>
-      <div class="${wikistatus eq 'busy' ? 'busy' : ''}">
+      <div class="${fn:startsWith(wikistatus, 'busy:') ? 'busy' : ''}">
+        <mm:functioncontainer>
+          <mm:param name="attributes">
+            <mm:param name="org.mmbase.applications.media.filters.ClientLabelFilter.label" value="hi" />
+          </mm:param>
+          <mm:listfunction name="filteredurls">
+            <mm:write />,
+          </mm:listfunction>
+        </mm:functioncontainer>
         <c:choose>
-          <c:when test="${empty wikistatus}">
-            <mm:may component="oip" action="exportmedia">
-              <mm:link>
-                <mm:param name="export">export</mm:param>
-                <a href="${_}"><fmt:message key="media.wikipedia.upload" /></a>
-              </mm:link>
-            </mm:may>
-          </c:when>
-          <c:when test="${wikistatus eq 'busy'}">
+          <c:when test="${fn:startsWith(wikistatus, 'busy:')}">
             <p><fmt:message key="media.wikipedia.is_being_uploaded" /></p>
+            <img width="128" height="15" src="${mm:link('/style/images/ajax-uploading.gif')}" />
           </c:when>
           <c:when test="${wikistatus eq 'ok'}">
             <mm:functioncontainer>
@@ -38,6 +40,23 @@
             <p class="error"><mm:write value="${wikistatus}" /></p>
           </c:otherwise>
         </c:choose>
+        <c:if test="${empty wikistatus or ! fn:startsWith(wikistatus, 'busy:')}">
+          <mm:may component="oip" action="exportmedia">
+            <form method="POST">
+              <input type="hidden" name="export" value="export" />
+              <a href="#upload" onclick="$(this).parent('form')[0].submit(); return false;">
+                <c:choose>
+                  <c:when test="${empty wikistatus}">
+                    <fmt:message key="media.wikipedia.upload" />
+                  </c:when>
+                  <c:otherwise>
+                    <fmt:message key="media.wikipedia.reupload" />
+                  </c:otherwise>
+                </c:choose>
+              </a>
+            </form>
+          </mm:may>
+        </c:if>
       </div>
     </mm:node>
   </mm:cloud>
