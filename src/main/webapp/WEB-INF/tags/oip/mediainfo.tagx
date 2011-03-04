@@ -44,8 +44,8 @@
         <mm:remove referid="owner" />
       </mm:hasnode>
     </dd>
-    <dt><fmt:message key="media.publisher" />:</dt>
-    <dd><mm:field name="publisher" /></dd>
+    <dt><fmt:message key="media.creator" />:</dt> 
+    <dd><mm:field name="dc_creator" /></dd>
     <mm:field name="source">
       <mm:isnotempty>
         <dt><fmt:message key="media.source" />:</dt>
