@@ -38,19 +38,13 @@ div.blog a:active {
     text-decoration: underline;
 }
 
-div.blog
-{
-/*
-	margin-bottom: 1.1em;
-	font-size: 0.95em;
-*/
-}
 div.blog h3
 {
 	font-size: 1.05em;
 	font-weight: bold;
 	text-transform: none;
 	letter-spacing: normal;
+	white-space: normal;
 }
 
 div.blog h3,

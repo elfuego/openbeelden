@@ -9,7 +9,7 @@ div#main
 {
 	width: 965px;
 	min-height: 640px;
-	margin: 0;
+	margin: 0 0 0 5px;
 	padding: 0;
 }
 
@@ -17,7 +17,7 @@ div#main
 {
 	position: absolute;
 	top: 0;
-	left: 0;
+	left: 5px;
 	padding-left: 43px;
 	padding-right: 22px;
 	width: 277px;	/* for IE5/Win */
@@ -89,7 +89,7 @@ div.left-column
 {
 	position: absolute;
 	top: 420px;
-	left: 0px;
+	left: 5px;
 }
 
 #menu a:link,
@@ -191,12 +191,13 @@ div.left-column
 #footer
 {
 	clear: both;
-	width: 100%;
-    background-image: url(images/dots2.png);
+	width: 965px;
+	background-image: url(images/dots2.png);
 	background-repeat: repeat-x;
 	background-position: 0 60px;
 	padding-top: 80px;
 	min-height: 266px;
+	margin-left: 5px;
 }
 
 #footer div
@@ -263,9 +264,9 @@ body.home > div#main > div.right-column
 
 body.home > div#main > div.wrap
 {
-	width: 789px;
+	width: 784px;
 	position: absolute;
-	left: 0px;
+	left: 5px;
 	top: 420px;
 }
 
@@ -284,7 +285,7 @@ div.wrap > div.main-column
 	float: left;
 	padding-top: 16px;
 	margin-left: 22px;
-	width: 512px;
+	width: 507px;
 }
 
 body.home div#main div.wrap div.right-column { display: none; }
