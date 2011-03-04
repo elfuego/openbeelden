@@ -62,10 +62,8 @@
           </mm:maydelete>
           
           <mm:hasnode number="$related">
-            <span class="content">
-              <mm:node number="$related"><oip:thumb /></mm:node>
-            </span>
-            <span class="links">
+            <mm:node number="$related"><oip:thumb /></mm:node>
+            <p class="description">
               <mm:link page="/editors/add-thumb.jspx" 
                 referids="p?,related@nr,related,show?,editor?,target?">
                 <mm:param name="lang">${requestScope['javax.servlet.jsp.jstl.fmt.locale.request']}</mm:param>
@@ -74,7 +72,7 @@
                 <mm:param name="defaultstr">title=Thumbnail <mm:field name="title" /></mm:param>
                 <a class="editme" href="${_}${hashtarget}"><fmt:message key="users.add_image" /></a>
               </mm:link>
-            </span>
+            </p>
           </mm:hasnode>
           
         </c:when>
@@ -87,18 +85,21 @@
           </div>
           <mm:maywrite>
             <div class="log"><jsp:text> <!-- empty --> </jsp:text></div>
-            <c:if test="${maydelete}">
-              <mm:maydelete>
-                <mm:link page="/editors/delete-thumb.jspx"
-                  referids="p,nr,show,editor,fields,related?">
-                  <a class="editme delete" href="${_}#edit_${nr}"><fmt:message key="users.delete" /></a> /
-                </mm:link>
-              </mm:maydelete>
-            </c:if>
-            <mm:link page="$editor" 
-              referids="p,nr,fields,show,editor,related?">
-              <a class="editme" href="${_}#edit_${nr}"><fmt:message key="users.edit_image" /></a>
-            </mm:link>
+            <p class="description">
+              <c:if test="${maydelete}">
+                <mm:maydelete>
+                  <mm:link page="/editors/delete-thumb.jspx"
+                    referids="p,nr,show,editor,fields,related?">
+                    <a class="editme delete" href="${_}#edit_${nr}"><fmt:message key="users.delete_image" /></a>
+                  </mm:link>
+                  <jsp:text> / </jsp:text>
+                </mm:maydelete>
+              </c:if>
+              <mm:link page="$editor" 
+                referids="p,nr,fields,show,editor,related?">
+                <a class="editme" href="${_}#edit_${nr}"><fmt:message key="users.edit_image" /></a>
+              </mm:link>
+            </p>
           </mm:maywrite>
         
         </c:when>

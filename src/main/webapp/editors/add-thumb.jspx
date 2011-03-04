@@ -58,7 +58,8 @@
               <c:set var="link">${_}#${target}</c:set>
               <a class="editme add" href="${link}"><fmt:message key="users.add_image" /></a>
             </mm:link>
-           </p> 
+           </p>
+           
         </mm:node>
 
       </c:when>

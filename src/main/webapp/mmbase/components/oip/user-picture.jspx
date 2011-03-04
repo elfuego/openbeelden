@@ -27,44 +27,58 @@
           </mm:relatednodes>
         </mm:relatednodescontainer>
 
-        <div id="edit-picture">
-          <oip:thumb />
+        <div id="edit-picture" class="targetme">
+          
+          <c:choose>
+            <c:when test="${empty img}">
+              
+              <oip:thumb />
+              <h3 class="subtitle"><oip:user /></h3>
+              
+              <p class="description">
+                <mm:link page="/editors/add-thumb.jspx" referids="p?,_node@nr,_node@related">
+                  <mm:param name="lang">${requestScope['javax.servlet.jsp.jstl.fmt.locale.request']}</mm:param>
+                  <mm:param name="type">images</mm:param>
+                  <mm:param name="role">posrel</mm:param>
+                  <mm:param name="fields">handle</mm:param>
+                  <mm:param name="show">/editors/show-thumb.jspx</mm:param>
+                  <mm:param name="editor">/editors/edit-thumb.jspx</mm:param>
+                  <mm:param name="defaultstr">title=User picture ${user_name}</mm:param>
+                  <a class="editme" href="${_}#edit-picture"><fmt:message key="users.add_image" /></a>
+                </mm:link>
+              </p>
+              
+            </c:when>
+            <c:otherwise>
+              <div id="edit_${img}">
+                
+                <oip:thumb />
+                <h3 class="subtitle"><oip:user /></h3>
+                
+                <p class="description">
+                  <mm:link page="/editors/delete-thumb.jspx" referids="p?,img@nr,_node@related">
+                    <mm:param name="lang">${requestScope['javax.servlet.jsp.jstl.fmt.locale.request']}</mm:param>
+                    <mm:param name="fields">handle</mm:param>
+                    <mm:param name="show">/editors/show-thumb.jspx</mm:param>
+                    <mm:param name="editor">/editors/edit-thumb.jspx</mm:param>
+                    <a class="editme delete" href="${_}#edit_${img}"><fmt:message key="users.delete_image" /></a>
+                  </mm:link>
+                  <jsp:text> / </jsp:text>
+                  <mm:link page="/editors/edit-thumb.jspx" referids="p?,img@nr,_node@related">
+                    <mm:param name="lang">${requestScope['javax.servlet.jsp.jstl.fmt.locale.request']}</mm:param>
+                    <mm:param name="fields">handle</mm:param>
+                    <mm:param name="show">/editors/show-thumb.jspx</mm:param>
+                    <mm:param name="editor">/editors/edit-thumb.jspx</mm:param>
+                    <a class="editme" href="${_}#edit_${img}"><fmt:message key="users.edit_image" /></a>
+                  </mm:link>
+                </p>
+                
+              </div>
+            </c:otherwise>
+          </c:choose>
+          
         </div>
-        <h3 class="subtitle"><oip:user /></h3>
 
-        <c:choose>
-          <c:when test="${empty img}">
-            <p class="description">
-              <mm:link page="/editors/add-thumb.jspx" referids="p?,_node@nr,_node@related">
-                <mm:param name="lang">${requestScope['javax.servlet.jsp.jstl.fmt.locale.request']}</mm:param>
-                <mm:param name="type">images</mm:param>
-                <mm:param name="role">posrel</mm:param>
-                <mm:param name="fields">handle</mm:param>
-                <mm:param name="show">/editors/show-thumb.jspx</mm:param>
-                <mm:param name="editor">/editors/edit-thumb.jspx</mm:param>
-                <mm:param name="defaultstr">title=User picture ${user_name}</mm:param>
-                <mm:param name="one">one</mm:param>
-                <mm:param name="target">edit-picture</mm:param>
-                <a class="editme" href="${_}#edit-picture"><fmt:message key="users.add_image" /></a>
-              </mm:link>
-            </p>
-          </c:when>
-          <c:otherwise>
-            <p class="description">
-              <mm:link page="/editors/edit-thumb.jspx" referids="p?,img@nr,_node@related">
-                <mm:param name="lang">${requestScope['javax.servlet.jsp.jstl.fmt.locale.request']}</mm:param>
-                <mm:param name="fields">handle</mm:param>
-                <mm:param name="show">/editors/show-thumb.jspx</mm:param>
-                <mm:param name="editor">/editors/edit-thumb.jspx</mm:param>
-                <mm:param name="fields">handle</mm:param>
-                <mm:param name="show">/editors/show-thumb.jspx</mm:param>
-                <mm:param name="one">one</mm:param>
-                <mm:param name="target">edit-picture</mm:param>
-                <a class="editme" href="${_}#edit-picture"><fmt:message key="users.edit_image" /></a>
-              </mm:link>
-            </p>
-          </c:otherwise>
-        </c:choose>
 
       </mm:node>
     </div>
