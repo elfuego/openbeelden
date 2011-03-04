@@ -50,7 +50,7 @@ public class UsersUrlConverter extends DirectoryUrlConverter {
     /* piece of path that leads to edit environment of user account, e.g. /user/[username]/edit */
     protected String editpath = "edit";
 
-    private static final LocaleUtil  localeUtil = new LocaleUtil();
+    private static final LocaleUtil  localeUtil = LocaleUtil.getInstance();
 
     public UsersUrlConverter(BasicFramework fw) {
         super(fw);
