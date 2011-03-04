@@ -103,7 +103,6 @@ function searchMe(self, ev) {
 
 /* TODO: make this a jquery plugin? */
 function initEditme(el) {
-    console.log('initEditme for: ' + el);
     $(el).find('a.editme').click(function(ev){
         ev.preventDefault();
         editMe(ev);
@@ -133,7 +132,6 @@ function editMe(ev) {
     params['editme'] = 'true';  /* inform form about being editme ajax editor */
     params['target'] = id;
     $('#' + id).load(link, params, function() {
-           console.log('load in id ' + id);
            $('#' + id).addClass('editmeform');
 		   
 		   // what to do while cancelling
@@ -142,7 +140,6 @@ function editMe(ev) {
                params['cancel'] = 'Cancel';
                params['target'] = id;
                $('#' + id).load(link, params, function() {
-                   console.log('cancelling ' + id);
                    $('#' + id).removeClass('editmeform');
                    $(this).find('a.editme').click(function(ev){ 
                        ev.preventDefault();
@@ -151,7 +148,7 @@ function editMe(ev) {
                    clearMsg('#' + id);
                });
                $('#' + id).find("${textarea_classes}").each(function() {
-                   console.log('removed tiny from ' + $(this).attr('id'));
+                   //console.log('removed tiny from ' + $(this).attr('id'));
                    $(this).tinymce().remove();
                });
 
@@ -159,7 +156,6 @@ function editMe(ev) {
            });
            
            var formId = $('#' + id + ' form').attr('id');
-           console.log('formId is : ' + formId);
 
 		   // fields validator
 		   var validator = new MMBaseValidator();
@@ -180,7 +176,6 @@ function editMe(ev) {
 		       success: afterSubmit,
 		       data: { editme: 'true', target: id }
 		   };
-		   console.log('ajaxForm on ' + formId);
 		   $('#' + formId).ajaxForm(options);
 		   
 		   initTiny('#' + id);
@@ -203,7 +198,7 @@ function initMMBasevalidatorForTiny() {
     $("body").mousedown(function(ev) {
         var ed = tinyMCE.activeEditor;
         if (ed != null && ed.isDirty()) {
-            console.log("dirty: " + ed.editorId);
+            //console.log("dirty: " + ed.editorId);
             tinyMCE.triggerSave();  // ?! does tiny paste here?
             // event on original textarea triggers MMBaseValidator
             $("#" + ed.editorId).trigger("paste");
@@ -241,7 +236,6 @@ function beforeSubmit(arr, $form, options) {
 function initTiny(el) {
     $(el).find("${textarea_classes}").each(function() {
         $(this).tinymce(tinyMceConfig);
-        console.log("added tiny to: " + $(this).attr("id"));
     });
     initMMBasevalidatorForTiny();
 }
@@ -251,8 +245,6 @@ function afterSubmit(response, status, xhr) {
     var parent = $(this).parent();
     
     var thisId = $(this).attr('id');
-    console.log('thisId ' + thisId);    // same as target?
-    
     if (response.indexOf('node_created') > -1) {        /* node created */
         /* make sure tag 'new' is shown again */
         $(this).next().find('a.editme').show();
@@ -272,24 +264,23 @@ function afterSubmit(response, status, xhr) {
         
         /* after saving new node, form is kept around for some reason */
         if ($(parent).find('form').length) {
-            console.log('still found a form ' + $(parent).find('form').length);
+            //console.log('still found a form ' + $(parent).find('form').length);
             $(parent).find('form').remove();
         }
         
         /* if this (div) contains .targetme : append new content to it */
         if ($(this).hasClass('targetme')) {
-            console.log('putting ' + newId + ' in target: ' + $(this).attr('id') );
+            //console.log('putting ' + newId + ' in target: ' + $(this).attr('id') );
             $(this).html(newItem);
             initEditme('#' + newId);
         } else {
-            console.log('inserting ' + newId + ' before: ' + $(this).attr('id') );
+            //console.log('inserting ' + newId + ' before: ' + $(this).attr('id') );
             newItem.insertBefore(this);
             initEditme('#' + newId);
         }
         
     } else if (response.indexOf('node_deleted') > -1) { /* node deleted */
-        /* <span class="node_deleted_${nr} deleted"> */
-        console.log('deleted init editme on ' + thisId + ' initEditme on this');
+        //console.log('deleted init editme on ' + thisId + ' initEditme on this');
         initEditme(this);
         
         var self = this;
@@ -299,8 +290,6 @@ function afterSubmit(response, status, xhr) {
         });
     
     } else {                                            /* node edited (or action cancelled) */
-        console.log('cancelled or edited.. ' + thisId + ' initEditme on this');
-        
         initEditme(this);
         
     }
@@ -324,21 +313,18 @@ function initSortable(listEl) {
             connectWith: ".connected",
             start: function(ev, ui) {    /* check for tinyMCE (sigh..) */
                var listId = $(this).attr('id');
-               console.log('start moving list ' + listId);
                $('#' + listId).find("${textarea_classes}").each(function() {
                    $(this).tinymce().remove();
                });                
             },
             stop: function(ev, ui) {    /* check for tinyMCE (sigh..) */
                var listId = $(this).attr('id');
-               console.log('stop moving list ' + listId);
                $('#' + listId).find("${textarea_classes}").each(function() {
                    $(this).tinymce(tinyMceConfig);
                });                
             },
             cancel: ".notsortable",
             remove: function(ev, ui) {
-                console.log("removing: " + listId);
                 var edit_id = $(ui.item).attr('id');
                 var nodenr = edit_id.match(/\d+/);
                 var listId = $(this).attr('id');
@@ -348,16 +334,14 @@ function initSortable(listEl) {
 
                 if (listId.indexOf('found_') < 0 
                         && listId.indexOf('_footer') < 0 && listId.indexOf('_header') < 0) {
-                    //console.log('rm listId ' + listId + ', senderId ' + senderId + ', nr ' + nodenr);
 
                     var editclasses = $("#" + edit_id).attr("class");
                     if (editclasses.indexOf('relation_') > -1) {
                         var relnr = editclasses.match(/\d+/);
-                        console.log("relnr '" + relnr + "'");
+                        //console.log("relnr '" + relnr + "'");
                     }
     
                     if (relnr != undefined) {
-                        console.log('using relnr ' + relnr);
                         var params = { 
                             id: listId, 
                             related: '',
@@ -380,7 +364,6 @@ function initSortable(listEl) {
                             complete: function(data) {
                                 $('#' + listEl.id + ' li.log').html(data.responseText);
                                 clearMsg('#' + listEl.id + ' li.log');
-                                //console.log('removed ' + nodenr + ' from ' + listId);
                             },
                             error: function(data) {
                                 $('#' + listEl.id + ' li.log').html(data.responseText);
@@ -394,15 +377,14 @@ function initSortable(listEl) {
                 var nodenr = edit_id.match(/\d+/);
                 
                 var listId = $(this).attr('id');
-                console.log("receiving: " + listId);
                 var senderId = $(ui.sender).attr('id');
                 
                 // add to list (and remove from?)
                 if (listId.indexOf('found_') < 0
                         && listId.indexOf('_footer') < 0 && listId.indexOf('_header') < 0) {
-                    console.log('receive - listId ' + listId + ', senderId ' + senderId + ', nr ' + nodenr);
+                    //console.log('receive - listId ' + listId + ', senderId ' + senderId + ', nr ' + nodenr);
                     if ( $('#' + listId).hasClass("sortcancel") && senderId.indexOf('found_') >= 0) {
-                        console.log("receive - cancel sorting? " + listId);
+                        //console.log("receive - cancel sorting? " + listId);
                         //$( "#" + listId ).sortable("cancel");
                     }
                     var params = { 
@@ -431,30 +413,23 @@ function initSortable(listEl) {
             update: function(ev, ui) { 
                 var edit_id = $(ui.item).attr('id');
                 var listId = $(this).attr('id');
-                console.log("updating: " + listId);
                 var senderId = $(ui.sender).attr('id');
-                console.log("list #" + listId + ' sender id ' + senderId );
                 
                 // are we updating related?
                 // and its the sender
                 if (listId.indexOf('related_') > -1 && senderId != undefined && senderId.indexOf('related_') > -1) {
-                    console.log('doing related_ ');
                     
                     if ( $('#' + listId).hasClass("sortcancel") ) {
-                        console.log("canceled sorting on '"+ listId + "' because of class");
                         $('#' + listId).sortable("cancel");
-                        
                     } else {
-                        console.log('sorting')
                         sortSortable(this);
                     }
                 } else {
                     
                     if ( $('#' + listId).hasClass("sortcancel") ) {
-                        console.log('not sorting because of class');
+                        //console.log('not sorting because of class');
                         //$('#' + listId).sortable("cancel");
                     } else {
-                        console.log('sorting')
                         sortSortable(this);
                     }
 
