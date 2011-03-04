@@ -122,9 +122,11 @@
                 </mm:node>
               </c:otherwise>
             </c:choose>
+            
+            <oip:footer />
+            
           </div>
 
-          <oip:footer />
 
           <oip:googleanalytics />
 
