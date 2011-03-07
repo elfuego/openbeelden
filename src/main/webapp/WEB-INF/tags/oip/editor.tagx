@@ -201,6 +201,10 @@
 
   
             <jsp:invoke fragment="body"  />
+
+            <div class="right-column">
+              <jsp:invoke fragment="right" />
+            </div>
               
           </div>
           <div id="footer">
@@ -212,6 +216,7 @@
             </ul>
             </div>
           </div>
+
         </mm:node>
         </body>
       </html>
