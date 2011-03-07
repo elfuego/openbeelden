@@ -23,7 +23,11 @@ package org.mmbase.mmsite;
 
 import javax.servlet.http.HttpServletRequest;
 
-import org.mmbase.bridge.*;
+import org.mmbase.bridge.Node;
+import org.mmbase.bridge.NodeManager;
+import org.mmbase.bridge.NodeList;
+import org.mmbase.bridge.Cloud;
+import org.mmbase.bridge.util.SearchUtil;
 import org.mmbase.util.logging.Logger;
 import org.mmbase.util.logging.Logging;
 
@@ -95,6 +99,18 @@ public final class UrlUtils {
      * @return  a 'pages' node or null if not found
      */
     protected static Node getPagebyPath(Cloud cloud, String path) {
+        return getPagebyPath(cloud, cloud.getNodeManager("pages"), path);
+    }
+
+    /**
+     * Retrieve a pages node with a certain path.
+     *
+     * @param   cloud   MMBase cloud
+     * @param   nm      NodeManager with a field named 'path'
+     * @param   path    Value of field path, f.e. '/news/new'
+     * @return  a 'pages' node or null if not found
+     */
+    protected static Node getPagebyPath(Cloud cloud, NodeManager nm, String path) {
         Node node = null;
         if (path == null || "".equals(path)) {
             if (log.isDebugEnabled()) {
@@ -107,13 +123,16 @@ public final class UrlUtils {
         if (path.length() > 255) {
             path = path.substring(0, 255);
         }
-        NodeManager nm = cloud.getNodeManager("pages");
-        NodeList nl = nm.getList("LOWER(path) = '" + path + "'", null, null);// WTF
-        nl.addAll(nm.getList("LOWER(path) = '" + path + "/'", null, null));
-
-        if (nl.size() > 0)  node = nl.getNode(0);
+        
+        NodeList nl = SearchUtil.findNodeList(cloud, nm.getName(), "path", path, "number", "UP");
+        nl.addAll(SearchUtil.findNodeList(cloud, nm.getName(), "path", "/" + path, "number", "UP"));
+        if (nl.size() > 0) {
+            node = nl.getNode(0);
+        }
+        
         return node;
     }
+
 
     /**
      * Nodes from here to the root while examining the field 'path'.
@@ -130,7 +149,9 @@ public final class UrlUtils {
         String path = node.getStringValue("path");
         if (path.startsWith("/")) path = path.substring(1, path.length());
         if (path.endsWith("/")) path = path.substring(0, path.length() - 1);
-        if (log.isDebugEnabled()) log.debug("path from field: " + path);
+        if (log.isDebugEnabled()) {
+            log.debug("path from field: " + path);
+        }
 
         String[] pieces = path.split("/");
         StringBuilder sb = new StringBuilder();
@@ -138,19 +159,17 @@ public final class UrlUtils {
             if (i > 0) sb.append("/");
             sb.append(pieces[i]);
             String ppath = sb.toString();
-            if (log.isDebugEnabled()) log.debug("testing: " + ppath);
-
-            NodeList nl = nm.getList("LOWER(path) = '" + ppath + "'", null, null);
-            nl.addAll(nm.getList("LOWER(path) = '/" + ppath + "'", null, null));
-
-            // results
-            if (nl.size() > 0) {
-                Node n = nl.getNode(0);
-                list.add(n);
+            if (log.isDebugEnabled()) {
+                log.debug("testing: " + ppath);
             }
+            
+            Node n = getPagebyPath(node.getCloud(), nm, ppath);
+ 
+            list.add(n);
         }
 
-        list.add(node);
+        list.add(node);     // add node itself to list
+        
         return list;
     }
 
