@@ -68,6 +68,7 @@ public class LocaleUtil implements SystemEventListener {
     {
         EventManager.getInstance().addEventListener(this);
     }
+    
     @Override
     public void notify(SystemEvent se ){
         if (se instanceof SystemEvent.Up) {
@@ -75,6 +76,7 @@ public class LocaleUtil implements SystemEventListener {
             configure();
         }
     }
+    
     @Override
     public int getWeight() {
         return 0;
@@ -89,14 +91,17 @@ public class LocaleUtil implements SystemEventListener {
                 }
             }).getProperties();
     }
+    
     protected void configure() {
         if (properties != null) {
             {
                 String d = properties.get("displayLocales");
+                log.info("Locales displayed: " + d);
                 setDisplayLocales(d);
             }
             {
                 String a = properties.get("acceptedLocales");
+                log.info("Locales accepted: " + a);
                 setAcceptedLocales(a);
             }
         }
@@ -132,6 +137,7 @@ public class LocaleUtil implements SystemEventListener {
             }
             addDegraded(result);
         }
+        log.debug("result: " + result);
         return result;
     }
 
