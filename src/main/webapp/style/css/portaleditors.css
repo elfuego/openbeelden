@@ -95,7 +95,7 @@ a.editme.add, div.add
 {
 	margin: 6pt 0;
 }
-p.translation, p.editme, p.closeme, a.editme, a.new, a.cancel
+p.translation, p.editme, p.closeme, a.editme, a.new, a.cancel, a.close
 {
 	float: right;
 	text-transform: lowercase;
@@ -150,7 +150,6 @@ form.searchform
 	clear: both;
 	margin-top: 2em;
 }
-
 form.searchform input[type=text] {
     background-image: url("images/search-bg.png");
     background-position: right 50%;
@@ -193,7 +192,7 @@ div.mm_check_error { margin-left: 148px; }
 .editmeform
 {
 	border: 1px solid #d4d4d4;
-	background-color: #f9f9f9;
+	background-color: #f9f9f9;  /* #e3e2de;   f9f9f9 */
 	padding: 4px;
 	margin-bottom: 4px;
 }
@@ -204,7 +203,7 @@ div.mm_check_error { margin-left: 148px; }
 	font-weight: 400;
 }
 /*.editmeform strong.type { text-transform: lowercase; }*/
-.editmeform label { color: #777; }
+.editmeform label { color: #666; }
 
 .editmeform p.info { width: 346px; }
 

@@ -56,7 +56,7 @@ var tinyMceConfig = {
 }
 
 function initSearchme() {
-    $('.searchform').submit(function(ev) {
+    $('.searchme').submit(function(ev) {
         ev.preventDefault();
         searchMe(this, ev);
     });
@@ -104,8 +104,11 @@ function searchMe(self, ev) {
 /* TODO: make this a jquery plugin? */
 function initEditme(el) {
     $(el).find('a.editme').click(function(ev){
-        ev.preventDefault();
-        editMe(ev);
+        var link = ev.target.href.substring(0, ev.target.href.indexOf("?"));
+        if (link.indexOf('editors/editor.jspx') < 0) {
+            ev.preventDefault();
+            editMe(ev);
+        }
     });
 }
 
@@ -141,10 +144,7 @@ function editMe(ev) {
                params['target'] = id;
                $('#' + id).load(link, params, function() {
                    $('#' + id).removeClass('editmeform');
-                   $(this).find('a.editme').click(function(ev){ 
-                       ev.preventDefault();
-                       editMe(ev);
-                   });
+                   initEditme(this);
                    clearMsg('#' + id);
                });
                $('#' + id).find("${textarea_classes}").each(function() {
@@ -284,7 +284,7 @@ function afterSubmit(response, status, xhr) {
         initEditme(this);
         
         var self = this;
-        $(this).find('a.cancel').click(function(ev){
+        $(this).find('a.close').click(function(ev){
             ev.preventDefault();
             $(self).remove();
         });
