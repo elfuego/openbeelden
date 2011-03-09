@@ -13,43 +13,11 @@
     </jsp:attribute>
     <jsp:attribute name="left">
 
+
       <c:set var="isdefault" value="false" />
       <mm:node id="p" number="$_node.number">
         <mm:hasalias name="pool_oip"><c:set var="isdefault" value="true" /></mm:hasalias>
       </mm:node>
-
-      <h2>Pages</h2>
-      <ul>
-        <li>
-          <mm:link page="/editors/pages.jspx" referids="p">
-            <a href="${_}">Pages</a>
-          </mm:link>
-        </li>
-      </ul>
-
-      <mm:relatednodescontainer type="pages" role="posrel" searchdirs="destination">
-        <mm:sortorder field="posrel.pos" direction="UP" />
-        <ul>
-          <mm:relatednodes>
-            <mm:link referids="_node@nr,p" page="/editors/pages.jspx">
-              <li><a href="${_}"><mm:field name="title" /></a></li>
-            </mm:link>
-          </mm:relatednodes>
-        </ul>
-      </mm:relatednodescontainer>
-
-      <ul>
-        <li id="tab4">
-          <mm:link page="/editors/edit.jspx"><mm:param name="type">pages</mm:param><a href="${_}">pages</a></mm:link>
-        </li>
-        <li id="tab5">
-          <mm:link page="/editors/edit.jspx">
-            <mm:param name="type">articles</mm:param>
-            <a href="${_}">articles</a>
-          </mm:link>
-        </li>
-
-      </ul>
 
     </jsp:attribute>
     <jsp:attribute name="body">
