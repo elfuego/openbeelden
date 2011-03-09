@@ -85,7 +85,8 @@
         <c:when test="${_ eq 'mediafragments' or _ eq 'imagefragments' or _ eq 'audiofragments' or _ eq 'videofragments'}">
           <div class="show-media">
             <c:set var="title"><mm:field name="title" /></c:set>
-            <oip:thumb alt="${title}" /> ${title} (<mm:field name="language" />)
+            <oip:thumb alt="${title}" /> ${title} (<mm:field name="language" />)<br />
+            <em>${fn:substringBefore(_, 'fragments')}</em>
           </div>
         </c:when>
         
@@ -101,6 +102,13 @@
           </span>
         </c:when>
 
+        <c:when test="${_ eq 'tags'}">
+          <span>
+            <mm:field name="name" /> : 
+            <mm:countrelations type="mediafragments" role="related" searchdir="source" />
+          </span>
+        </c:when>
+        
         <c:when test="${_ eq 'urls'}">
           <span>
             <mm:field name="name" /> :

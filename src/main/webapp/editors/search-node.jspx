@@ -23,6 +23,7 @@
 <mm:import externid="show">/editors/show-node.jspx</mm:import>
 <mm:import externid="editor">/editors/edit-node.jspx</mm:import>
 <mm:import externid="maydelete">true</mm:import>
+<mm:import externid="sortable">true</mm:import>
 
 <mm:import externid="max">25</mm:import>
 <mm:import externid="offset">0</mm:import>
@@ -58,7 +59,9 @@
   <mm:maxnumber value="$max" />
   <mm:offset value="$offset" />
 
-  <a class="cancel" href="#cancel">close</a>
+  <c:if test="${editme}">
+    <a class="cancel" href="#cancel">close</a>
+  </c:if>
   <strong>
     Found ${total} <mm:nodeinfo type="plural_guitype" nodetype="$type" escape="lowercase" />
     <c:if test="${!empty search}"> with '${search}' </c:if>
@@ -66,7 +69,7 @@
   </strong>
 
   <mm:import id="list_id" reset="true">found_${type}</mm:import>
-  <ul class="sortable connected" id="found_${type}">
+  <ul class="${sortable ? 'sortable' : ''} connected" id="found_${type}">
     
     <mm:listnodes varStatus="status" id="${list_id}">
       <c:choose>
@@ -76,13 +79,21 @@
       <li class="${oddeven}" id="search_${_node.number}">
 
         <mm:maywrite>
-          <mm:link page="/editors/editor.jspx" referids="p,_node@nr">
-            <a class="edit" href="${_}">edit</a>
+          <mm:link page="$editor" referids="p?,_node@nr">
+            <a class="edit" href="${_}"><fmt:message key="users.edit" /></a>
           </mm:link>
         </mm:maywrite>
 
+        <c:if test="${maydelete}">
+          <mm:maydelete>
+            <mm:link page="/editors/delete-node.jspx" referids="p?,_node@nr,show,editor,maydelete">
+              <a class="editme delete" href="${_}#search_${_node.number}"><fmt:message key="users.delete" /></a>
+            </mm:link>
+          </mm:maydelete>
+        </c:if>
+
         <div>
-          <mm:include page="$show" referids="p,_node@nr">
+          <mm:include page="$show" referids="p?,_node@nr">
             <mm:param name="fields">${fields}</mm:param>
           </mm:include>
         </div>

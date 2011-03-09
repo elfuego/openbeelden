@@ -11,31 +11,50 @@
   <oip:editor styleClass="portal">
     <jsp:attribute name="head">
       
+      <mm:import externid="mediatype" />
       <mm:import externid="type">mediafragments</mm:import>
+      <c:if test="${!empty mediatype}">
+       <mm:import id="type" reset="true">${mediatype}</mm:import>
+      </c:if>
         
     </jsp:attribute>
     <jsp:attribute name="left">
 
+      <!--
       <c:set var="isdefault" value="false" />
       <mm:node id="p" number="$_node.number">
         <mm:hasalias name="pool_oip"><c:set var="isdefault" value="true" /></mm:hasalias>
       </mm:node>
-
+      -->
 
     </jsp:attribute>
     <jsp:attribute name="body">
 
       <div class="main-column">
-
+      
         <h2><mm:nodeinfo type="plural_guitype" nodetype="$type" /></h2>
 
         <mm:import externid="q" />
-        <mm:link id="searchlink" escapeamps="false" referids="p,type">
+        <mm:link id="searchlink" escapeamps="false" referids="p?,type">
           <mm:param name="max">25</mm:param>
         </mm:link>
         
         <form class="searchform" method="post" action="${searchlink}">
           <fieldset class="first">
+            <c:if test="${type eq 'mediafragments' 
+                       or type eq 'videofragments' 
+                       or type eq 'audiofragments' 
+                       or type eq 'imagefragments'}">
+              <div>
+                <label for="mediatype">Kind of media</label>
+                <select name="mediatype">
+                  <mm:option value="mediafragments" compare="${mediatype}">All kinds</mm:option>
+                  <mm:option value="videofragments" compare="${mediatype}">Video</mm:option>
+                  <mm:option value="audiofragments" compare="${mediatype}">Audio</mm:option>
+                  <mm:option value="imagefragments" compare="${mediatype}">Images</mm:option>
+                </select>
+              </div>
+            </c:if>
             <div>
               <label for="search"><fmt:message key="users.search" /> ${type}</label>
               <input type="text" name="q" value="${q}" id="search" size="42" />

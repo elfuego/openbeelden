@@ -39,24 +39,11 @@
     </jsp:attribute>
     <jsp:attribute name="left">
 
+      <!--
       <c:set var="isdefault" value="false" />
       <mm:node id="p" number="$_node.number">
         <mm:hasalias name="pool_oip"><c:set var="isdefault" value="true" /></mm:hasalias>
-      </mm:node>
-
-      <h2>Pages</h2>
-
-      <mm:relatednodescontainer type="pages" role="posrel" searchdirs="destination">
-        <mm:sortorder field="posrel.pos" direction="UP" />
-        <ul>
-          <mm:relatednodes>
-            <mm:link referids="_node@nr,p" page="/editors/pages.jspx">
-              <li><a href="${_}"><mm:field name="title" /></a></li>
-            </mm:link>
-          </mm:relatednodes>
-        </ul>
-      </mm:relatednodescontainer>
-
+      </mm:node> -->
 
     </jsp:attribute>
     <jsp:attribute name="body">
@@ -80,7 +67,7 @@
               <mm:hasrelationmanager sourcemanager="$type" destinationmanager="articles" role="posrel">
                 <div class="wrap">
                   <h3>Articles</h3>
-                  <mm:include page="/editors/edit-list.jspx" referids="p,_node@nr">
+                  <mm:include page="/editors/edit-list.jspx" referids="p?,_node@nr">
                     <mm:param name="type">articles</mm:param>
                     <mm:param name="role">posrel</mm:param>
                     <mm:param name="dir">destination</mm:param>
@@ -91,7 +78,7 @@
               <mm:hasrelationmanager sourcemanager="$type" destinationmanager="licenses" role="related">
                 <div class="wrap">
                   <h3>Licenses</h3>
-                  <mm:include page="/editors/edit-list.jspx" referids="p,_node@nr">
+                  <mm:include page="/editors/edit-list.jspx" referids="p?,_node@nr">
                     <mm:param name="type">licenses</mm:param>
                     <mm:param name="role">related</mm:param>
                     <mm:param name="dir">destination</mm:param>
@@ -102,7 +89,7 @@
             <div class="wrap">
               <mm:hasrelationmanager sourcemanager="$type" destinationmanager="images" role="related">
                   <h3>Images</h3>
-                  <mm:include page="/editors/edit-list.jspx" referids="p,_node@nr">
+                  <mm:include page="/editors/edit-list.jspx" referids="p?,_node@nr">
                     <mm:param name="type">images</mm:param>
                     <mm:param name="role">related</mm:param>
                     <mm:param name="dir">destination</mm:param>
@@ -112,7 +99,7 @@
               
               <mm:hasrelationmanager sourcemanager="$type" destinationmanager="images" role="posrel">
                   <h3>Images</h3>
-                  <mm:include page="/editors/edit-list.jspx" referids="p,_node@nr">
+                  <mm:include page="/editors/edit-list.jspx" referids="p?,_node@nr">
                     <mm:param name="type">images</mm:param>
                     <mm:param name="role">posrel</mm:param>
                     <mm:param name="dir">destination</mm:param>
@@ -122,7 +109,7 @@
 
               <mm:hasrelationmanager sourcemanager="$type" destinationmanager="urls" role="related">
                   <h3>Links</h3>
-                  <mm:include page="/editors/edit-list.jspx" referids="p,_node@nr">
+                  <mm:include page="/editors/edit-list.jspx" referids="p?,_node@nr">
                     <mm:param name="type">urls</mm:param>
                     <mm:param name="role">related</mm:param>
                     <mm:param name="dir">destination</mm:param>
@@ -132,7 +119,7 @@
 
               <mm:hasrelationmanager sourcemanager="$type" destinationmanager="urls" role="posrel">
                   <h3>Links</h3>
-                  <mm:include page="/editors/edit-list.jspx" referids="p,_node@nr">
+                  <mm:include page="/editors/edit-list.jspx" referids="p?,_node@nr">
                     <mm:param name="type">urls</mm:param>
                     <mm:param name="role">posrel</mm:param>
                     <mm:param name="dir">destination</mm:param>
@@ -142,12 +129,25 @@
 
               <mm:hasrelationmanager sourcemanager="$type" destinationmanager="attachments" role="posrel">
                   <h3>Files</h3>
-                  <mm:include page="/editors/edit-list.jspx" referids="p,_node@nr">
+                  <mm:include page="/editors/edit-list.jspx" referids="p?,_node@nr">
                     <mm:param name="type">attachments</mm:param>
                     <mm:param name="role">posrel</mm:param>
                     <mm:param name="dir">destination</mm:param>
                     <mm:param name="fields">handle,title,filename</mm:param>
                   </mm:include>
+              </mm:hasrelationmanager>
+
+              <mm:hasrelationmanager sourcemanager="mediafragments" destinationmanager="$type" role="related">
+                <h3>Media</h3>
+                <mm:include page="/editors/edit-list.jspx" referids="p?,_node@nr">
+                  <mm:param name="type">mediafragments</mm:param>
+                  <mm:param name="role">related</mm:param>
+                  <mm:param name="dir">source</mm:param>
+                  <mm:param name="editor">/editors/editor.jspx</mm:param>
+                  <mm:param name="maydelete">false</mm:param>
+                  <mm:param name="unpublish">true</mm:param>
+                  <mm:param name="sortable">false</mm:param>
+                </mm:include>
               </mm:hasrelationmanager>
             </div>
 
@@ -157,6 +157,13 @@
         </c:choose>
 
       </div><!-- /.main-column -->
+    </jsp:attribute>
+    <jsp:attribute name="right">
+      <c:if test="${!empty nr and (type eq 'videofragments' or type eq 'audiofragments' or type eq 'imagefragments') }">
+        <mm:cloudinfo type="usernode" id="iam" write="false" />
+        <h3>Info</h3>
+        <mm:include page="/mmbase/components/oip/user-mediainfo.jspx" referids="iam@n,nr@media" />
+      </c:if>
     </jsp:attribute>
   </oip:editor>
 </jsp:root>
