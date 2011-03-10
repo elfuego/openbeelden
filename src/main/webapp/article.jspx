@@ -9,6 +9,10 @@
     <jsp:attribute name="body">
 
       <mm:import id="page" externid="n" />
+
+      <mm:escaper id="myfilesize" type="filesize">
+        <mm:param name="binaryPrefixes">${empty initParam['mmbase.filesize.binaryPrefixes'] ? true : initParam['mmbase.filesize.binaryPrefixes']}</mm:param>
+      </mm:escaper>
       
       <div class="main-column">
         <mm:relatednodescontainer type="articles" role="posrel" searchdirs="destination">
@@ -102,7 +106,7 @@
                       <mm:relatednodes>
                         <li>
                           <mm:attachment><a title="${_node.description}" href="${_}"><mm:field name="title" /></a></mm:attachment>
-                          (<mm:field name="mimetype" />, <mm:field name="size" escape="filesize" />)
+                          (<mm:field name="mimetype" />, <mm:field name="size" escape="myfilesize" />)
                         </li>
                       </mm:relatednodes>
                       </ul>
