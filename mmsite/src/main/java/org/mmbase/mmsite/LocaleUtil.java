@@ -137,7 +137,9 @@ public class LocaleUtil implements SystemEventListener {
             }
             addDegraded(result);
         }
-        log.debug("result: " + result);
+        if (log.isDebugEnabled()) {
+            log.debug("result: " + result);
+        }
         return result;
     }
 
@@ -229,7 +231,9 @@ public class LocaleUtil implements SystemEventListener {
                     for (Locale serverLocale : acceptedLocales) {
                         log.trace("Comparing with " + serverLocale);
                         if (serverLocale.equals(proposal)) {
-                            log.debug("" + proposal + " is a  hit!");
+                            if (log.isDebugEnabled()) {
+                                log.debug("" + proposal + " is a  hit!");
+                            }
                             inferredLocale = proposal;
                             break LOC;
                         }
@@ -238,7 +242,9 @@ public class LocaleUtil implements SystemEventListener {
             }
             if (inferredLocale == null) {
                 inferredLocale = displayLocales.get(0);
-                log.debug("No hit found, taking " + inferredLocale);
+                if (log.isDebugEnabled()) {
+                    log.debug("No hit found, taking " + inferredLocale);
+                }
 
             }
             request.setAttribute(LOCALE_KEY, inferredLocale);
