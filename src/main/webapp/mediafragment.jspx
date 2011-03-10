@@ -255,7 +255,7 @@
             </c:otherwise>
           </c:choose>
 
-          <oip:wikipedia />
+          <!-- <oip:wikipedia /> -->
 
         </div>
 
