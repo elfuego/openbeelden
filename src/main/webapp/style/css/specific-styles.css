@@ -403,13 +403,18 @@ dl.preview
 {
 	width: 150px;
 	overflow: hidden;
-	margin-bottom: 12px;
+	margin-bottom: 0;
 }
 
-dl.preview dt { margin-bottom: 0; }
+dl.preview dt
+{
+	width: 150px;
+	height: 111px;
+}
+
 dl.preview dd
 {
-	margin-top: 0;
+	margin: 3px 0;
 	max-width: 150px;
 	overflow: hidden;
 	white-space: nowrap;
