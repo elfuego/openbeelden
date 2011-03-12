@@ -414,7 +414,7 @@ dl.preview dt
 
 dl.preview dd
 {
-	margin: 3px 0;
+	margin: 2px 0;
 	max-width: 150px;
 	overflow: hidden;
 	white-space: nowrap;
@@ -467,8 +467,10 @@ a.edit:hover, a.edit:active
 .more a:link, .more a:visited { color: #666; }
 .more a:hover, .more a:active { color: #C00; }
 
-p.more {
+p.more
+{
 	text-align: right;
+	margin-top: 1.4em;
 }
 
 div.right-column > p.more { margin-right: 16px; }

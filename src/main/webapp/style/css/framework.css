@@ -88,7 +88,7 @@ div.right-column a { color: #666; }
 div.left-column
 {
 	position: absolute;
-	top: 420px;
+	top: 414px;
 	left: 5px;
 }
 
@@ -264,10 +264,10 @@ body.home > div#main > div.right-column
 
 body.home > div#main > div.wrap
 {
-	width: 784px;
+	width: 789px;
 	position: absolute;
 	left: 5px;
-	top: 420px;
+	top: 414px;
 }
 
 div.wrap > div.left-column
@@ -285,7 +285,7 @@ div.wrap > div.main-column
 	float: left;
 	padding-top: 16px;
 	margin-left: 22px;
-	width: 507px;
+	width: 512px;
 }
 
 body.home div#main div.wrap div.right-column { display: none; }
