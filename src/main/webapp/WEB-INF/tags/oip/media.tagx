@@ -3,6 +3,7 @@
     xmlns:c="http://java.sun.com/jsp/jstl/core"
     xmlns:fn="http://java.sun.com/jsp/jstl/functions"
     xmlns:jsp="http://java.sun.com/JSP/Page"
+    xmlns:fmt="http://java.sun.com/jsp/jstl/fmt"
     xmlns:oip="urn:jsptagdir:/WEB-INF/tags/oip"
     xmlns:mm="http://www.mmbase.org/mmbase-taglib-2.0"
     >
@@ -20,13 +21,27 @@
   <mm:nodeinfo type="nodemanager">
     <c:choose>
       <c:when test="${_ eq 'imagefragments'}">
+
+        <mm:field name="owner" id="owner" write="false" />
+        <mm:hasnode number="$owner">
+          <mm:node number="$owner">
+            <mm:link>
+              <mm:frameworkparam name="component">oip</mm:frameworkparam>
+              <mm:frameworkparam name="block">user</mm:frameworkparam>
+              <mm:frameworkparam name="user">${_node}</mm:frameworkparam>
+              <c:set var="creatorlink" value="${_}" />
+            </mm:link>
+          </mm:node>
+        </mm:hasnode>
+        
         <mm:field name="title" id="title" write="false" />
         <mm:escaper id="myfilesize" type="filesize">
           <mm:param name="binaryPrefixes">${empty initParam['mmbase.filesize.binaryPrefixes'] ? true : initParam['mmbase.filesize.binaryPrefixes']}</mm:param>
         </mm:escaper>
 
         <mm:relatednodes type="imagesources">
-          <mm:import id="embedtag" reset="true"><mm:image mode="url" absolute="true" width="${w}" /></mm:import>
+          <mm:import id="img_src" reset="true"><mm:image mode="url" absolute="true" width="${w}" /></mm:import>
+          <mm:import id="img_tag" reset="true"><mm:image mode="img" absolute="true" width="${w}" /></mm:import>
           <mm:image absolute="true" width="${w}" height="${h}" crop="end">
             <a class="lightbox" 
                title="${title} - png, ${dimension.width}x${dimension.height}, ${mm:escape('myfilesize',_node.filesize)}"
@@ -46,6 +61,43 @@
             </c:if>
           </mm:node>
         </mm:listfunction>
+
+        
+        <!-- media (img) tag to share -->
+        <mm:import id="embedtag">
+          <div about="${img_src}"
+               xmlns:cc="http://creativecommons.org/ns#"
+               xmlns:dct="http://purl.org/dc/terms/">
+            <mm:write referid="img_tag" escape="none" />
+            <br />
+            <mm:link page="mediafragment" absolute="true">
+              <mm:frameworkparam name="component">oip</mm:frameworkparam>
+              <mm:frameworkparam name="media">${_node}</mm:frameworkparam>
+              <a property="dct:title"
+                 rel="cc:attributionURL"
+                 href="${_}">${_node.title}</a>
+            </mm:link>
+            <jsp:text>, </jsp:text>
+            <fmt:message key="media.license.by" />
+            <jsp:text> </jsp:text>
+            <a property="cc:attributionName"
+               rel="dct:creator"
+               href="${creatorlink}" >${_node.dc_creator}</a>
+            <jsp:text>, </jsp:text>
+            <fmt:message key="media.license.is_licensed_under" />
+            <jsp:text> </jsp:text>
+            <mm:relatednodescontainer type="licenses" role="related" searchdirs="destination">
+              <mm:relatednodes>
+                <mm:nodefunction name="translation">
+                  <a rel="license" href="${_node.url}">
+                    <mm:field name="name" />
+                  </a>
+                  <jsp:text>.</jsp:text>
+                </mm:nodefunction>
+              </mm:relatednodes>
+            </mm:relatednodescontainer>
+          </div>
+        </mm:import>
         
       </c:when>
       <c:when test="${_ eq 'audiofragments'}">
