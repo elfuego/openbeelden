@@ -32,19 +32,17 @@
               <fieldset>
                 <mm:fieldlist fields="url" id="urlfield">
                   <div>
-                    <label for="${_}">
-                      <span><fmt:message key="media.upload_file" /> *</span>
-                    </label>
-                    <mm:fieldinfo type="input" />
-                    <mm:fieldinfo type="errors" />
+                    <mm:fieldinfo type="forid">
+                      <label for="${_}"><fmt:message key="media.upload_file" /> *</label>
+                    </mm:fieldinfo>
+                    <p class="info"><fmt:message key="media.upload_file.information" /></p>
+                    <mm:fieldinfo type="input" /><mm:fieldinfo type="errors" />
                   </div>
                 </mm:fieldlist>
                 <mm:fieldlist fields="title,language,intro,dc_creator">
                   <div>
                     <mm:fieldinfo type="forid">
-                      <label for="${_}">
-                        <span><mm:fieldinfo type="guiname" /> *</span>
-                      </label>
+                      <label for="${_}"><mm:fieldinfo type="guiname" /> *</label>
                     </mm:fieldinfo>
                     <p class="info"><mm:fieldinfo type="description" escape="inline" /></p>
                     <mm:fieldinfo type="input" /><mm:fieldinfo type="errors" />
