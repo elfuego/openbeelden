@@ -70,7 +70,7 @@
              height="${h}"
              poster="${poster}">
         <mm:write referid="mediaurls" escape="none" />
-        <jsp:text>You need a browser that understands the html5 video tag to play this item.</jsp:text>
+        <span class="html5warning">You need a browser that understands the html5 video tag to play this item.</span>
       </video>
     </c:when>
     <c:otherwise>
