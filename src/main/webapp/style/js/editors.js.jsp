@@ -6,7 +6,7 @@
 *///<mm:content type="text/javascript" expires="3600" postprocessor="none"><os:cache time="0"><mm:escape escape="none">
 <fmt:setBundle basename="eu.openimages.messages" scope="request" />
 <mm:import id="any_lang"><fmt:message key="search.any_language" /></mm:import>
-<mm:import id="textarea_classes">textarea.mm_f_intro, textarea.mm_f_body, textarea.mm_nm_pools_translations, textarea.mm_nm_licenses, textarea.mm_nm_licenses_translations</mm:import>
+<mm:import id="textarea_classes">textarea.mm_f_intro, textarea.mm_f_body, textarea.mm_nm_pages, textarea.mm_nm_pages_translations, textarea.mm_nm_pools_translations, textarea.mm_nm_licenses, textarea.mm_nm_licenses_translations</mm:import>
 
 /*
   Functions for new (portal) editors in OIP 
