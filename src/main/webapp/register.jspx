@@ -40,7 +40,7 @@
           <mm:node number="page_login">
             <mm:link page="page" referids="_node@n">
               <mm:frameworkparam name="component">mmsite</mm:frameworkparam>
-              <a href="${_}"><fmt:message key="login.login" /></a>
+              <a href="${_}"><fmt:message key="login.sign_in" /></a>
             </mm:link>
           </mm:node>
         </div>
