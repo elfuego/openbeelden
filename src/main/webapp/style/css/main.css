@@ -48,9 +48,6 @@ h1, h2, h3
 	margin: 8px 0 12px 0;
 	color: #7F7F7F;
 	clear: both;
-	white-space: nowrap;
-	text-overflow: ellipsis;
-	overflow: hidden;
 }
 
 div.error h1, 
@@ -197,7 +194,7 @@ input[type="file"]
 	width: auto;
 	border: none;
 }
-input[type="file"] { margin-left: 148px; }
+input[type="file"] { /*margin-left: 148px;*/ }
 textarea
 {
 	width: 498px;
