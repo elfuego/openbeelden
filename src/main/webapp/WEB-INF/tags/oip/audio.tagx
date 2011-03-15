@@ -61,7 +61,7 @@
         controls="controls">
         <mm:write referid="mediaurls" escape="none" />
         <img src="${poster}" alt="audio" width="${w}" height="${h}" />
-        You need a browser that understands the html5 audio tag to play this item.
+        <span class="html5warning">You need a browser that understands the html5 video tag to play this item.</span>
       </audio>
     </c:otherwise>
   </c:choose>
