@@ -22,6 +22,7 @@
 
   <mm:import externid="show">/editors/show-node.jspx</mm:import>
   <mm:import externid="editor">/editors/edit-node.jspx</mm:import>
+  <mm:import externid="maycreate">true</mm:import>
   <mm:import externid="maydelete">true</mm:import>
   <mm:import externid="unpublish">false</mm:import>
 
@@ -88,7 +89,7 @@
         <li id="new_${type}" class="notsortable">
           <jsp:text> <!-- empty --> </jsp:text>
         </li>
-        <c:if test="${total lt max}">
+        <c:if test="${maycreate and total lt max}">
           <li class="notsortable">
             <mm:link escapeamps="true" page="/editors/add-node.jspx" referids="p?,nr,type,fields,role,dir,show,editor,maydelete">
               <a class="editme add" href="${_}#new_${type}">

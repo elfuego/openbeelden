@@ -5,7 +5,6 @@
     xmlns:c="http://java.sun.com/jsp/jstl/core"
     xmlns:fmt="http://java.sun.com/jsp/jstl/fmt"
     xmlns:mm="http://www.mmbase.org/mmbase-taglib-2.0"
-    xmlns:sr="http://www.mmbase.org/tags/mm/searchrelate"
     xmlns:oip="urn:jsptagdir:/WEB-INF/tags/oip">
 
   <oip:editor styleClass="portal">
@@ -20,12 +19,6 @@
     </jsp:attribute>
     <jsp:attribute name="left">
 
-      <!--
-      <c:set var="isdefault" value="false" />
-      <mm:node id="p" number="$_node.number">
-        <mm:hasalias name="pool_oip"><c:set var="isdefault" value="true" /></mm:hasalias>
-      </mm:node>
-      -->
 
     </jsp:attribute>
     <jsp:attribute name="body">

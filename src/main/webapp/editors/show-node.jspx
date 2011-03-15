@@ -116,9 +116,23 @@
           </span>
         </c:when>
 
+        <c:when test="${_ eq 'mmbaseusers'}">
+          <span>
+            <mm:field name="username" /><jsp:text> </jsp:text>
+            <mm:field name="firstname" /><jsp:text> </jsp:text><mm:field name="suffix" /><jsp:text> </jsp:text><mm:field name="lastname" /> (<mm:field name="language" />)
+          </span>
+        </c:when>
+        
         <c:when test="${_ eq 'users_translations'}">
           <span>
             <mm:field name="firstname" /><jsp:text> </jsp:text><mm:field name="suffix" /><jsp:text> </jsp:text><mm:field name="lastname" /> (<mm:field name="language" />)
+          </span>
+        </c:when>
+        
+        <c:when test="${_ eq 'videostreamsourcescaches'}">
+          <span>
+            <mm:field name="url" /> : <mm:field name="mimetype" />
+            (<mm:field name="format" />, <mm:field name="codec" />)
           </span>
         </c:when>
        

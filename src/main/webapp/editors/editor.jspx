@@ -27,7 +27,9 @@
             validator.addValidationForElements($('#' + to_validate_id + " .mm_validate"));
             validator.validateHook = function(valid, entry) {
                var button = $("#" + to_validate_id + " input[type=submit][class=submit]");
-		       //button[0].disabled = validator.invalidElements != 0;
+		       if (button.length) {
+    		       button[0].disabled = validator.invalidElements != 0;
+    		   }
 		       console.log("invalid: "  + validator.invalidElements);
 		       console.log(validator.elements);
             }
@@ -149,8 +151,26 @@
                   <mm:param name="sortable">false</mm:param>
                 </mm:include>
               </mm:hasrelationmanager>
-            </div>
+            </div><!-- /.wrap -->
 
+            <mm:hasrelationmanager sourcemanager="$type" destinationmanager="videostreamsourcescaches" role="related">
+              <div class="wrap">
+              <h3>Video streams</h3>
+              <mm:include page="/editors/edit-list.jspx" referids="p?,_node@nr">
+                <mm:param name="type">videostreamsourcescaches</mm:param>
+                <mm:param name="role">related</mm:param>
+                <mm:param name="dir">destination</mm:param>
+                <mm:param name="editor">/editors/editor.jspx</mm:param>
+                <mm:param name="maydelete">true</mm:param>
+                <mm:param name="maycreate">false</mm:param>
+                <mm:param name="unpublish">false</mm:param>
+                <mm:param name="search">false</mm:param>
+                <mm:param name="sortable">false</mm:param>
+              </mm:include>
+              </div>
+            </mm:hasrelationmanager>
+
+            
             </mm:node>
       
          </c:otherwise>
