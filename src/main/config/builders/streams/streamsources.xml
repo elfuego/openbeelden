@@ -41,7 +41,7 @@
         <description xml:lang="nl">Maker van dit werk (dc:creator).</description>
       </descriptions>
       <gui>
-        <guiname xml:lang="nl">Creater</guiname>
+        <guiname xml:lang="nl">Maker</guiname>
         <guiname xml:lang="en">Creator</guiname>
       </gui>
       <datatype base="eline" xmlns="http://www.mmbase.org/xmlns/datatypes" >
