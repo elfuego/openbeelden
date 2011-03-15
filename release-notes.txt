@@ -1,6 +1,7 @@
 ﻿Release Notes - Open Images Platform - Version OIP 1.1
 ------------------------------------------------------
 
+
 UPGRADING 1.0.2 -> 1.1
 ======================
 Open Images uses a new font, it uses kerning that requires at least version 6.4.7-8 of 
@@ -24,10 +25,49 @@ a field language was added. Alterations to MySQL tables:
   DROP VIEW oi_mediafragments_translations;
   
 
-Some new tables were introduced, like f.e. for thumbnails, but these are inited automatically. 
+Some new tables were introduced, like f.e. for thumbnails, but normally they are automatically 
+initialized by mmbase. 
 
 This release is build with MMBase 1.9.6 and should run with Java 1.6 and higher on 
 Apache Tomcat version 6 and higher.
+
+The following are the release notes. They can be completely read in our bugtracker:
+http://www.mmbase.org/jira/secure/ReleaseNote.jspa?projectId=10030&version=10211
+
+
+** Bug
+    * [OIP-134] - File names in downloadbox don't always fit
+    * [OIP-148] - Weird filenames like "Met de 'Jan Pietersz Coen' naar Indië 00 - 03.35.m4v" cause unfound resulting files
+    * [OIP-154] - Error while uploading items 45598
+    * [OIP-157] - Player ratio differs for certains platforms
+
+** Improvement
+    * [OIP-10] - Navigation for editing user profile/uploading content is required
+    * [OIP-98] - Make keywords/tags clickable
+    * [OIP-145] - Replace fixed positioned footer with a static one plus make a sitemap-like footer out of it
+    * [OIP-155] - Include search field options in translation
+    * [OIP-156] - OAI-PMH change sortorder and datestamp to lastmodified field
+    * [OIP-158] - Wider middle column, smaller right column
+    * [OIP-162] - Portal editors
+    * [OIP-165] - Use native2ascii to improve compatibility with translatewiki and move resources
+    * [OIP-170] - Added fields to media translations
+
+** New Feature
+    * [OIP-159] - Player 16:9 (512x288 pixels)
+    * [OIP-160] - Portal functionality
+    * [OIP-161] - New rank portal manager
+    * [OIP-163] - Generate video frames or thumb nails
+    * [OIP-164] - Advanced search will include portals and periods for upload and publication date
+    * [OIP-167] - News from articles in portal news section
+    * [OIP-168] - OIA-PMH support for locations (ISO_6709)
+    * [OIP-169] - Contribute menu item changes to Upload when logged in
+
+** Task
+    * [OIP-113] - When deleting a site user account enable deletion of related account stuff
+
+** Sub-task
+    * [OIP-166] - Change create streams transcoding configuration to 16:9
+
 
 
 UPGRADING 1.0.1 -> 1.0.2
