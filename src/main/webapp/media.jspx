@@ -48,7 +48,7 @@
             <c:choose>
               <c:when test="${empty q and empty user and empty source}">
                 <!-- not searched nor a portal, display latest -->
-                <c:set var="searched" value="empty" />
+                <c:set var="searched" value="" />
                 <mm:import id="value">${index}*</mm:import>
                 <mm:import id="fields" reset="true">indexId</mm:import>
               </c:when>
