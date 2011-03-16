@@ -1,7 +1,7 @@
 $(document).ready(
     function() {
 	var progressUrl = $("head meta[name=ContextRoot]").attr("content") + "action/progress.jspx";
-	$("form[enctype=multipart/form-data]").each(
+	$("form.mm_form").each(
 	    function() {
 		var pInfo = $(this).find(".progressInfo").first();
 		$(this).submit(
