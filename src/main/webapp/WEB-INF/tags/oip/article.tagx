@@ -11,7 +11,17 @@
             description="Show the author of the article or not">false</jsp:directive.attribute>
     <jsp:directive.attribute name="showdate"
             description="Show publication date or not">false</jsp:directive.attribute>
+    <jsp:directive.attribute name="showlinks"
+            description="Show related links (urls) or not">false</jsp:directive.attribute>
+    <jsp:directive.attribute name="showfiles"
+            description="Show related files (attachments) not">false</jsp:directive.attribute>
 
+      
+      <mm:escaper id="myfilesize" type="filesize">
+        <mm:param name="binaryPrefixes">${empty initParam['mmbase.filesize.binaryPrefixes'] ? true : initParam['mmbase.filesize.binaryPrefixes']}</mm:param>
+      </mm:escaper>
+  
+    <div class="article">
       <mm:nodefunction name="translation">
         <oip:h2><mm:field name="title" /></oip:h2>
       </mm:nodefunction>
@@ -40,5 +50,44 @@
         </c:if>
         
       </mm:nodefunction>
+
+      <c:if test="${showlinks}">      
+        <mm:relatednodescontainer type="urls" role="posrel" searchdirs="destination">
+          <mm:sortorder field="posrel.pos" direction="UP" />
+          <mm:size>
+            <mm:isgreaterthan value="0">
+              <ul class="links">
+                <mm:relatednodes>
+                  <li>
+                    <mm:field name="url">
+                      <a title="${_node.description}" href="${_}"><mm:field name="name" /></a>
+                    </mm:field>
+                  </li>
+                </mm:relatednodes>
+              </ul>
+            </mm:isgreaterthan>
+          </mm:size>
+        </mm:relatednodescontainer>
+      </c:if>
+
+      <c:if test="${showfiles}">      
+        <mm:relatednodescontainer type="attachments" role="posrel" searchdirs="destination">
+          <mm:sortorder field="posrel.pos" direction="UP" />
+          <mm:size>
+            <mm:isgreaterthan value="0">
+              <ul class="docs">
+              <mm:relatednodes>
+                <li>
+                  <mm:attachment><a title="${_node.description}" href="${_}"><mm:field name="title" /></a></mm:attachment>
+                  (<mm:field name="mimetype" />, <mm:field name="size" escape="myfilesize" />)
+                </li>
+              </mm:relatednodes>
+              </ul>
+            </mm:isgreaterthan>
+          </mm:size>
+        </mm:relatednodescontainer>
+      </c:if>
+        
+    </div>      
 
 </jsp:root>
