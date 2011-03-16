@@ -45,12 +45,12 @@
 
           <!-- portals -->
           <c:if test="${isdefaultportal}">
-            <label for="search_portal">Portal</label>
             <mm:listcontainer path="pools,portalrel,urls" searchdirs="destination"
               fields="pools.number,pools.name">
               <mm:distinct />
               <mm:size>
-                <mm:isgreaterthan value="0">
+                <mm:isgreaterthan value="1">
+                  <label for="search_portal">Portal</label>
                   <select name="p" id="search_portal">
                     <mm:list>
                       <mm:node element="pools">
