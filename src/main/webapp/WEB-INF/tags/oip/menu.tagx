@@ -103,7 +103,7 @@
       <!-- portals -->
       <mm:listcontainer path="pools,portalrel,urls" searchdirs="destination" fields="pools.number,urls.url">
         <mm:size>
-          <mm:isgreaterthan value="0">
+          <mm:isgreaterthan value="1">
             
             <li class="form">
               <form method="post" action="${mm:link('/')}">
