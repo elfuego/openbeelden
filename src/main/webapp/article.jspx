@@ -17,9 +17,11 @@
       <div class="main-column">
         <mm:relatednodescontainer type="articles" role="posrel" searchdirs="destination">
           <mm:sortorder field="posrel.pos" direction="UP" />
-          <mm:maxnumber value="1" />
           <mm:relatednodes>
-            <oip:article />
+            <mm:first><oip:article /></mm:first>
+            <mm:first inverse="true">
+              <oip:article showlinks="true" showfiles="true" />
+            </mm:first>
           </mm:relatednodes>
         </mm:relatednodescontainer>
       </div>
