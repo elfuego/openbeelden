@@ -163,7 +163,7 @@
         <div class="related">
           <oip:h2><fmt:message key="media.new_media" /></oip:h2>
 
-          <c:set var="cachekey">oip.home.latestuploads.${page}.${requestScope['org.mmbase.mmsite.language']}</c:set>
+          <c:set var="cachekey">oip.home.latestuploads.${page}.${requestScope['javax.servlet.jsp.jstl.fmt.locale.request'].language}</c:set>
           <os:cache key="${cachekey}" time="120">
             <c:catch var="ex1">
                <mm:nodelistfunction
