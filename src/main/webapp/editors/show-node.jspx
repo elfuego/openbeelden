@@ -59,7 +59,6 @@
         <c:when test="${_ eq 'licenses_translations'}">
           <span>
             <mm:field name="name" /> <jsp:text> </jsp:text>
-            <mm:field name="version" /> <jsp:text> </jsp:text>
             (<mm:field name="language" />)
           </span>
         </c:when>
