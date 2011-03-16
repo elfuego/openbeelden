@@ -243,6 +243,7 @@ div.left-column
 
 
 /* differences per page */
+body.home > div#main { height: 680px; }
 body.home > div#main > div.left-column { display: none; }
 
 div.main-column,
