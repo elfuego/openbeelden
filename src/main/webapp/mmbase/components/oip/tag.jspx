@@ -20,7 +20,7 @@
       <oip:h2>Tags / <mm:field name="name" /></oip:h2>
 
       <mm:import externid="offset">0</mm:import>
-      <mm:import id="max">25</mm:import>
+      <mm:import id="max">2</mm:import>
       
       <mm:relatednodescontainer type="mediafragments" role="related" searchdirs="source">
         <mm:constraint field="show" value="true" operator="EQUAL" />
@@ -30,11 +30,18 @@
         <mm:relatednodes id="results" />
       </mm:relatednodescontainer>
 
-      
-      <mm:url id="pageurl" write="false" absolute="true" escapeamps="false"
-        referids="user?,source?,date?,uploaded?,sf?,so?" />
-
       <oip:medialist list="${results}" />
+
+      
+      
+      <mm:url page="tag" id="pageurl" absolute="true" write="false">
+        <mm:frameworkparam name="component">oip</mm:frameworkparam>
+        <mm:frameworkparam name="tag">${_node}</mm:frameworkparam>
+      </mm:url>
+      
+      <c:if test="${fn:indexOf(pageurl, '?') > -1}">
+        <c:set var="pageurl">${fn:substringBefore(pageurl, '?')}</c:set>
+      </c:if>
       
       <p class="pager">
         <oip:pager total="${total}" offset="${offset}" max="${max}" baseurl="${pageurl}" />
