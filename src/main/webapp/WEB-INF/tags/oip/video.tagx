@@ -18,11 +18,8 @@
   <mm:relatednodescontainer type="images" role="related" searchdirs="destination">
     <mm:maxnumber value="1" />
     <mm:relatednodes>
-      <oip:imagecrop width="${w}" height="${h}">
-        <c:set var="poster">
-          <mm:image absolute="true" template="${crop}" />
-        </c:set>
-      </oip:imagecrop>
+      <mm:image template="s(${w}x${h})+size(${w}x${h}&gt;)+xc:transparent+'+swap'+gravity(center)+composite"
+                id="poster" absolute="true" write="false" />
     </mm:relatednodes>
   </mm:relatednodescontainer>
 
