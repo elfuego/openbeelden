@@ -20,7 +20,7 @@
       <oip:h2>Tags / <mm:field name="name" /></oip:h2>
 
       <mm:import externid="offset">0</mm:import>
-      <mm:import id="max">2</mm:import>
+      <mm:import id="max">25</mm:import>
       
       <mm:relatednodescontainer type="mediafragments" role="related" searchdirs="source">
         <mm:constraint field="show" value="true" operator="EQUAL" />
