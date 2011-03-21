@@ -64,7 +64,7 @@
                              <mm:param name="fields">handle</mm:param>
                              <mm:param name="show">/editors/show-thumb.jspx</mm:param>
                              <mm:param name="editor">/editors/edit-thumb.jspx</mm:param>
-                             <a class="editme delete" href="${_}#edit_${img}"><fmt:message key="users.edit_image" /></a>
+                             <a class="editme delete" href="${_}#edit_${img}"><fmt:message key="users.delete" /></a>
                            </mm:link>
                            <jsp:text> / </jsp:text>
                            <mm:link page="/editors/edit-thumb.jspx" referids="p?,img@nr,_node@related">
