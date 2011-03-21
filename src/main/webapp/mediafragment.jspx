@@ -143,11 +143,11 @@
                     <c:when test="${_.available}">
                       <a title="${_.state eq 'SOURCE' ? 'source' : ''} ${_.dimension} ${fn:toLowerCase(_.format)}"
                          href="${mm:escape('text/xml', _.URL)}">
-                         <oip:filesubstr filename="${filename}" length="60" />
+                         <oip:filesubstr filename="${filename}" length="44" />
                       </a>
                     </c:when>
                     <c:otherwise>
-                      <oip:filesubstr filename="${filename}" length="60" />
+                      <oip:filesubstr filename="${filename}" length="44" />
                     </c:otherwise>
                   </c:choose>
                 </li>
