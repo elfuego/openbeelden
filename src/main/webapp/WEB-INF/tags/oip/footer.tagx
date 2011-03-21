@@ -67,7 +67,11 @@
             <mm:relatednodes>
               <mm:link page="page" referids="_node@n">
                 <mm:frameworkparam name="component">mmsite</mm:frameworkparam>
-                <li><a href="${_}"><mm:field name="title" /></a></li>
+                <li>
+                  <a href="${_}">
+                    <mm:nodefunction name="translation"><mm:field name="title" /></mm:nodefunction>
+                  </a>
+                </li>
               </mm:link>
             </mm:relatednodes>
           </ul>
@@ -122,7 +126,11 @@
             <mm:relatednodes>
               <mm:link page="page" referids="_node@n" absolute="${empty defaultportalurl ? 'true' : 'context'}">
                 <mm:frameworkparam name="component">mmsite</mm:frameworkparam>
-                <li><a href="${defaultportalurl}${_}"><mm:field name="title" /></a></li>
+                <li>
+                  <a href="${defaultportalurl}${_}">
+                    <mm:nodefunction name="translation"><mm:field name="title" /></mm:nodefunction>
+                  </a>
+                </li>
               </mm:link>
             </mm:relatednodes>
           </ul>
