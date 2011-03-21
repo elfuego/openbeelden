@@ -270,7 +270,7 @@
             <li class="hidden"><a href="#t_thumbs"><span>Thumbs (${total})</span></a></li> <!--mixed ? -->
           </ul>
 
-          <mm:url id="pageurl" write="false" absolute="true" escapeamps ="false"
+          <mm:url id="pageurl" write="false" absolute="true" escapeamps="false"
             referids="q,p?,user?,source?,date?,uploaded?,_searchlang?,license?,sf?,so?" />
 
           <div id="t_video">
