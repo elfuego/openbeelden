@@ -28,7 +28,7 @@
 
   <mm:import id="mediaurls">
     <mm:functioncontainer>
-      <mm:param name="format">MP3,OGG,OGA</mm:param>
+      <mm:param name="format">MP3,OGG,OGA,AAC</mm:param>
       <mm:listfunction name="filteredurls" varStatus="status">
         <c:choose>
           <c:when test="${!empty _.codec and _.codec ne 'UNKNOWN'}">
