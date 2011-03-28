@@ -129,31 +129,132 @@
         <div class="popup" id="download">
           <h4><a class="close" href="#toolbar">close</a> <fmt:message key="media.download" /></h4>
           <ul>
-            <mm:listfunction name="filteredurls">
-              <mm:node number="${_.source.number}">
-                <li class="${_.state}" title="${fn:toLowerCase(_.state)}: ${_.mimeType}">
-                  <strong>${_.format}</strong>
-                  <jsp:text> (</jsp:text>
-                  <c:if test="${!empty _.dimension}">${_.dimension}, </c:if>
-                  <jsp:text>${_.info.label} </jsp:text>
-                  <c:if test="${_.filesize > 0}">${mm:escape('myfilesize',_.filesize)}</c:if>
-                  <jsp:text>): </jsp:text>
-                  <mm:import id="filename" reset="true">${_.filename}</mm:import>
-                  <c:choose>
-                    <c:when test="${_.available}">
-                      <a title="${_.state eq 'SOURCE' ? 'source' : ''} ${_.dimension} ${fn:toLowerCase(_.format)}"
-                         href="${mm:escape('text/xml', _.URL)}">
-                         <oip:filesubstr filename="${filename}" length="44" />
-                      </a>
-                    </c:when>
-                    <c:otherwise>
-                      <oip:filesubstr filename="${filename}" length="44" />
-                    </c:otherwise>
-                  </c:choose>
-                </li>
-              </mm:node>
-            </mm:listfunction>
+            <mm:nodeinfo type="nodemanager">
+              <c:choose>
+                <c:when test="${_ eq 'imagefragments'}">
+                  
+                  <!-- image links -->
+                  <mm:listfunction name="filteredurls">
+                    <mm:node number="${_.source.number}">
+                      <li class="${_.state}" title="${fn:toLowerCase(_.state)}: ${_.mimeType}">
+                        <strong>${_.format}</strong>
+                        <jsp:text> ${_.state eq 'SOURCE' ? '(source ' :'('}${_.dimension}, </jsp:text>
+                        <c:if test="${_.filesize > 0}">${mm:escape('myfilesize',_.filesize)}</c:if>
+                        <jsp:text>): </jsp:text>
+                        <mm:import id="filename" reset="true">${_.filename}</mm:import>
+                        <a title="${_.state eq 'SOURCE' ? 'source' : ''} ${_.dimension} ${fn:toLowerCase(_.format)}"
+                           href="${mm:escape('text/xml', _.URL)}">
+                           <oip:filesubstr filename="${filename}" length="44" />
+                        </a>
+                      </li>
+                    </mm:node>
+                  </mm:listfunction>
+                  
+                </c:when>
+                 <c:when test="${_ eq 'audiofragments'}">
+                  
+                  <!-- audio links -->
+                  <mm:functioncontainer>
+                    <mm:param name="format">AAC,FLAC,MP3,OGG</mm:param>
+                    <mm:listfunction name="filteredurls">
+                      <mm:node number="${_.source.number}">
+                        <c:if test="${_.state ne 'SOURCE'}">
+                          <li class="${_.state}" title="${fn:toLowerCase(_.state)}: ${_.mimeType}">
+                            <strong>${_.format}</strong>
+                            <jsp:text> (</jsp:text>
+                            <c:if test="${_.filesize > 0}">${mm:escape('myfilesize',_.filesize)}</c:if>
+                            <jsp:text>): </jsp:text>
+                            <mm:import id="filename" reset="true">${_.filename}</mm:import>
+                            <a title="${_.state eq 'SOURCE' ? 'source' : ''} ${_.dimension} ${fn:toLowerCase(_.format)}"
+                               href="${mm:escape('text/xml', _.URL)}">
+                               <oip:filesubstr filename="${filename}" length="44" />
+                            </a>
+                          </li>
+                        </c:if>
+                      </mm:node>
+                    </mm:listfunction>
+                  </mm:functioncontainer>
+  
+                  <!-- audio source -->
+                  <mm:listfunction name="filteredurls">
+                    <mm:node number="${_.source.number}">
+                    <c:if test="${_.state eq 'SOURCE'}">
+                      <li class="${_.state}" title="${fn:toLowerCase(_.state)}: ${_.mimeType}">
+                         <strong>${_.format}</strong>
+                         <jsp:text> (source </jsp:text>
+                         <c:if test="${!empty _.dimension}">${_.dimension}, </c:if>
+                         <c:if test="${_.filesize > 0}">${mm:escape('myfilesize',_.filesize)}</c:if>
+                         <jsp:text>): </jsp:text>
+                         <mm:import id="filename" reset="true">${_.filename}</mm:import>
+                         <a title="SOURCE ${_.dimension} ${fn:toLowerCase(_.format)}"
+                            href="${mm:escape('text/xml', _.URL)}">
+                            <oip:filesubstr filename="${filename}" length="44" />
+                         </a>
+                      </li>
+                    </c:if>
+                    </mm:node>
+                  </mm:listfunction>
+                  
+                 </c:when>
+                <c:otherwise>
+                  
+                  <!-- video links -->
+                  <mm:functioncontainer>
+                    <mm:param name="format">WEBM,OGV,MP4,OGG</mm:param>
+                    <mm:listfunction name="filteredurls">
+                      <mm:node number="${_.source.number}">
+                        <c:if test="${_.state ne 'SOURCE'}">
+                          <li class="${_.state}" title="${fn:toLowerCase(_.state)}: ${_.mimeType}">
+                            <strong>${_.format}</strong>
+                            <jsp:text> (</jsp:text>
+                            <c:if test="${!empty _.dimension}">${_.dimension}, </c:if>
+                            <jsp:text>${_.info.label} </jsp:text>
+                            <c:if test="${_.filesize > 0}">${mm:escape('myfilesize',_.filesize)}</c:if>
+                            <jsp:text>): </jsp:text>
+                            <mm:import id="filename" reset="true">${_.filename}</mm:import>
+                            <c:choose>
+                              <c:when test="${_.available}">
+                                <a title="${_.state eq 'SOURCE' ? 'source' : ''} ${_.dimension} ${fn:toLowerCase(_.format)}"
+                                   href="${mm:escape('text/xml', _.URL)}">
+                                   <oip:filesubstr filename="${filename}" length="44" />
+                                </a>
+                              </c:when>
+                              <c:otherwise>
+                                <oip:filesubstr filename="${filename}" length="44" />
+                              </c:otherwise>
+                            </c:choose>
+                          </li>
+                        </c:if>
+                      </mm:node>
+                    </mm:listfunction>
+                  </mm:functioncontainer>
+  
+                  <!-- video source -->
+                  <mm:listfunction name="filteredurls">
+                    <mm:node number="${_.source.number}">
+                    <c:if test="${_.state eq 'SOURCE'}">
+                      <li class="${_.state}" title="${fn:toLowerCase(_.state)}: ${_.mimeType}">
+                         <strong>${_.format}</strong>
+                         <jsp:text> (source </jsp:text>
+                         <c:if test="${!empty _.dimension}">${_.dimension}, </c:if>
+                         <c:if test="${_.filesize > 0}">${mm:escape('myfilesize',_.filesize)}</c:if>
+                         <jsp:text>): </jsp:text>
+                         <mm:import id="filename" reset="true">${_.filename}</mm:import>
+                         <a title="SOURCE ${_.dimension} ${fn:toLowerCase(_.format)}"
+                            href="${mm:escape('text/xml', _.URL)}">
+                            <oip:filesubstr filename="${filename}" length="44" />
+                         </a>
+                      </li>
+                    </c:if>
+                    </mm:node>
+                  </mm:listfunction>
+                  
+                </c:otherwise>
+              </c:choose>
+            </mm:nodeinfo>
           </ul>
+
+
         </div>
 
         <div class="popup" id="share">
