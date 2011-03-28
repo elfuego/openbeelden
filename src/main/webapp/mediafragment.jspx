@@ -203,7 +203,7 @@
                     <mm:param name="format">WEBM,OGV,MP4,OGG</mm:param>
                     <mm:listfunction name="filteredurls">
                       <mm:node number="${_.source.number}">
-                        <c:if test="${_.state ne 'SOURCE'}">
+                        <c:if test="${fn:indexOf(_node.label, 'hi') > -1 and _.state ne 'SOURCE'}">
                           <li class="${_.state}" title="${fn:toLowerCase(_.state)}: ${_.mimeType}">
                             <strong>${_.format}</strong>
                             <jsp:text> (</jsp:text>
