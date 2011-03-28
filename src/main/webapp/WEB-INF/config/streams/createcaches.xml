@@ -12,6 +12,7 @@
   <server max_simultaneous_transcoders="2" host="192.168.1.13" port="1679" />
   -->
 
+  <!-- for testing only -->
   <!-- 
   <transcoder>
     <class name="org.mmbase.streams.transcoders.InfiniteTranscoder">
@@ -19,7 +20,7 @@
   </transcoder>
   -->
 
-  <!-- uses ffmpeg -i to recognize uploaded video, audio or image -->
+  <!-- recognizer: uses ffmpeg -i to recognize uploaded video, audio or image -->
   <recognizer label="source hi"
               id="recognizer" >
     <class name="org.mmbase.streams.transcoders.FFMpegRecognizer">
@@ -29,7 +30,7 @@
     </loganalyzer>
   </recognizer>
 
-  <!-- intermediate mpeg used as input for all other video files -->
+  <!-- intermediate mpeg2: input for all other video files -->
   <transcoder label="intermediate hi"
               mimetype="video/*" id="v1" in="recognizer">
     <class name="org.mmbase.streams.transcoders.FFMpegTranscoder">
@@ -45,17 +46,18 @@
     <loganalyzer name="org.mmbase.streams.transcoders.FFMpegAnalyzer" />
   </transcoder>
 
+  <!-- ogv low -->
   <transcoder
       label="lo"
       mimetype="video/*" in="v1" id="v2">
     <class name="org.mmbase.streams.transcoders.FFMpeg2TheoraTranscoder">
       <param name="videoQuality">5</param>
-      <param name="width">512</param>
+      <param name="height">288</param>
     </class>
     <loganalyzer name="org.mmbase.streams.transcoders.FFMpeg2TheoraAnalyzer" />
   </transcoder>
 
-<!-- 
+  <!-- ogv high -->
   <transcoder
       label="hi"
       mimetype="video/*" in="v1" id="v3">
@@ -64,8 +66,8 @@
     </class>
     <loganalyzer name="org.mmbase.streams.transcoders.FFMpeg2TheoraAnalyzer" />
   </transcoder>
- -->
 
+  <!-- mp4 low -->
   <transcoder
       label="lo"
       mimetype="video/*" in="v1" id="v4">
@@ -79,13 +81,13 @@
       <param name="abitrate">128k</param>
       <param name="audioChannels">2</param>
       <param name="async">1</param>
-      <param name="width">512</param>
-      <param name="height">288</param>
+      <param name="-vf">scale=-1:288</param>
     </class>
     <loganalyzer name="org.mmbase.streams.transcoders.FFMpegAnalyzer" />
   </transcoder>
 
-  <!-- config for webm/vp8, can maybe done better with vpre:
+  <!-- webm low
+       config for webm/vp8, can maybe done better with vpre:
        ffmpeg -i video.mpg -vpre libvpx_vp8-360p -b 1700k -pass 2 
        -acodec libvorbis -ab 128k -ar 44100 -threads 0 video.webm
   -->
@@ -101,6 +103,7 @@
       <param name="-threads">0</param>
       <param name="audioChannels">2</param>
       <param name="async">1</param>
+      <param name="-vf">scale=-1:288</param>
     </class>
     <loganalyzer name="org.mmbase.streams.transcoders.FFMpegAnalyzer" />
   </transcoder>
@@ -203,7 +206,7 @@
   </transcoder>
  -->
  
-  <!-- ffmpeg -i audio.wav -acodec libvorbis -aq 32 -ab 192k audio.ogg -->
+  <!-- audio ogg: ffmpeg -i audio.wav -acodec libvorbis -aq 32 -ab 192k audio.ogg -->
   <transcoder mimetype="audio/*" id="a1" in="recognizer">
     <class name="org.mmbase.streams.transcoders.FFMpegTranscoder">
       <param name="format">ogg</param>
@@ -214,7 +217,7 @@
     <loganalyzer name="org.mmbase.streams.transcoders.FFMpegAnalyzer" />
   </transcoder>
 
-  <!-- ffmpeg -i audio.wav -acodec libmp3lame -aq 32 -ab 192k audio.mp3 -->
+  <!-- audio mp3: ffmpeg -i audio.wav -acodec libmp3lame -aq 32 -ab 192k audio.mp3 -->
   <transcoder mimetype="audio/*" id="a2" in="recognizer">
     <class name="org.mmbase.streams.transcoders.FFMpegTranscoder">
       <param name="format">mp3</param>
@@ -225,7 +228,7 @@
     <loganalyzer name="org.mmbase.streams.transcoders.FFMpegAnalyzer" />
   </transcoder>
 
-  <!-- ffmpeg -i Goo.mp3 -f flac -aq 60 -ab 192k goo.flac -->
+  <!-- audio flac: ffmpeg -i Goo.mp3 -f flac -aq 60 -ab 192k goo.flac -->
   <transcoder mimetype="audio/*" id="a3" in="recognizer">
     <class name="org.mmbase.streams.transcoders.FFMpegTranscoder">
       <param name="format">flac</param>
