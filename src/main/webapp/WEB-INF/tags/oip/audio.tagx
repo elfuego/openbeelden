@@ -69,7 +69,7 @@
   <mm:field name="owner" id="owner" write="false" />
   <mm:hasnode number="$owner">
     <mm:node number="$owner">
-      <mm:link>
+      <mm:link absolute="true">
         <mm:frameworkparam name="component">oip</mm:frameworkparam>
         <mm:frameworkparam name="block">user</mm:frameworkparam>
         <mm:frameworkparam name="user">${_node}</mm:frameworkparam>
