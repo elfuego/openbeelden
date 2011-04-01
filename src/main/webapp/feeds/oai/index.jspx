@@ -468,7 +468,7 @@
                 </metadataFormat>
                 <metadataFormat>
                   <metadataPrefix>oai_oi</metadataPrefix>
-                  <schema>http://www.openbeelden.nl/oai/oai_oi.xsd</schema>
+                  <schema>http://www.openbeelden.nl/feeds/oai/oai_oi.xsd</schema>
                   <metadataNamespace>http://www.openbeelden.nl/feeds/oai/</metadataNamespace>
                 </metadataFormat>
               </ListMetadataFormats>
