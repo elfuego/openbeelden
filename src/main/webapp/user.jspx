@@ -8,8 +8,8 @@
 
   <jsp:directive.page buffer="64kb" />
 
-  <mm:import externid="block"     required="true" />
-  <mm:import externid="n"         required="true" />
+  <mm:import externid="block" />
+  <mm:import externid="n" />
   <mm:import externid="cacheable"  />
 
   <oip:html
@@ -33,20 +33,22 @@
 
     <jsp:attribute name="head">
 
-      <mm:component name="oip" block="${block}" render="head" />
-      <c:choose>
-        <c:when test="${block eq 'user-media'}">
-          <mm:component name="oip" block="user-mediapreview" render="head" />
-          <mm:component name="oip" block="user-translations" render="head" />
-        </c:when>
-        <c:when test="${block eq 'user-edit'}">
-          <mm:component name="oip" block="user-picture" render="head" />
-          <mm:component name="oip" block="user-translations" render="head" />
-        </c:when>
-        <c:otherwise>
-          <mm:component name="oip" block="user-mediaupload" render="head"/>
-        </c:otherwise>
-      </c:choose>
+      <c:if test="${!empty block and !empty n}">
+        <mm:component name="oip" block="${block}" render="head" />
+        <c:choose>
+          <c:when test="${block eq 'user-media'}">
+            <mm:component name="oip" block="user-mediapreview" render="head" />
+            <mm:component name="oip" block="user-translations" render="head" />
+          </c:when>
+          <c:when test="${block eq 'user-edit'}">
+            <mm:component name="oip" block="user-picture" render="head" />
+            <mm:component name="oip" block="user-translations" render="head" />
+          </c:when>
+          <c:otherwise>
+            <mm:component name="oip" block="user-mediaupload" render="head"/>
+          </c:otherwise>
+        </c:choose>
+      </c:if>
 
       <mm:link page="/feeds/atom/">
         <mm:hasnode number="$n">
@@ -64,24 +66,26 @@
 
       <div class="main-column">
 
-        <oip:h2 block="${block}" />
-
-        <c:if test="${block eq 'user-edit'}">
-          <mm:component name="oip" block="user-picture" />
-          <mm:component name="oip" block="user-translations" />
+        <c:if test="${!empty block and !empty n}">
+          <oip:h2 block="${block}" />
+  
+          <c:if test="${block eq 'user-edit'}">
+            <mm:component name="oip" block="user-picture" />
+            <mm:component name="oip" block="user-translations" />
+          </c:if>
+  
+          <c:if test="${block eq 'user-media'}">
+            <mm:component name="oip" block="user-mediapreview" />
+            <mm:component name="oip" block="user-translations" />
+          </c:if>
+  
+          <mm:component name="oip" block="${block}" />
+  
+          <c:if test="${block eq 'user' or block eq 'user-edit'}">
+            <mm:component name="oip" block="user-medialist" />
+          </c:if>
         </c:if>
-
-        <c:if test="${block eq 'user-media'}">
-          <mm:component name="oip" block="user-mediapreview" />
-          <mm:component name="oip" block="user-translations" />
-        </c:if>
-
-        <mm:component name="oip" block="${block}" />
-
-        <c:if test="${block eq 'user' or block eq 'user-edit'}">
-          <mm:component name="oip" block="user-medialist" />
-        </c:if>
-
+      
       </div>
       <div class="right-column">
 
@@ -130,7 +134,7 @@
                   </li>
 
                   <mm:cloudinfo type="user" id="userid" write="false" />
-                  <c:if test="${userid eq 'admin' or userid eq _node.username}">
+                  <c:if test="${!empty n and userid eq 'admin' or userid eq _node.username}">
                     <li>
                       <mm:link>
                         <mm:frameworkparam name="component">oip</mm:frameworkparam>
