@@ -5,6 +5,5 @@
     xsi:schemaLocation="http://www.mmbase.org/xmlns/builder
                         http://www.mmbase.org/xmlns/builder.xsd"
     name="translation">
-    <!-- <class>eu.openimages.NodeTranslation</class> -->
     <class>org.mmbase.mmsite.NodeTranslation</class>
 </function>
