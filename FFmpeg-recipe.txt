@@ -21,6 +21,10 @@ You can get information about the abilities of your version by typing 'ffmpeg -v
     libpostproc   51. 2. 0 / 51. 2. 0
     built on Jul  1 2009 15:02:58, gcc: 4.0.1 (Apple Inc. build 5493)
  
+Download the source of FFmpeg or get it from svn:
+
+    svn checkout svn://svn.ffmpeg.org/ffmpeg/trunk ffmpeg
+
 Notice that this command reports on the second line the exact configuration with which FFmpeg was build. This is what we aim at. 
  
    ./configure --prefix=/usr/local --enable-gpl --enable-nonfree --enable-shared --enable-postproc --enable-avfilter --enable-avfilter-lavf --enable-pthreads --enable-x11grab --enable-bzlib --enable-libmp3lame --enable-libtheora --enable-libvorbis --enable-libx264 --enable-zlib --enable-libfaac --enable-libfaad
@@ -76,7 +80,7 @@ And I installed each of the others with the following commands. Move to each of 
 
 Configure FFmpeg to build it.
 
-  ./configure --prefix=/usr/local --enable-gpl --enable-nonfree --enable-shared --enable-postproc --enable-avfilter --enable-avfilter-lavf --enable-pthreads --enable-x11grab --enable-bzlib --enable-libmp3lame --enable-libtheora --enable-libvorbis --enable-libx264 --enable-zlib --enable-libfaac --enable-libfaad
+  ./configure --prefix=/usr/local --enable-gpl --enable-nonfree --enable-shared --enable-postproc --enable-avfilter --enable-pthreads --enable-x11grab --enable-bzlib --enable-libmp3lame --enable-libtheora --enable-libvorbis --enable-libx264 --enable-zlib --enable-libfaac --enable-libfaad --disable-yasm
 
 And then:
   

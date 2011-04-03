@@ -62,8 +62,6 @@ public class Authorization extends Verify {
                 } else {
                     return super.getContextNameField(table);
                 }
-
-
             }
 
             @Override
@@ -134,6 +132,8 @@ public class Authorization extends Verify {
                 }
                 return super.mayDo(user, node, operation);
             }
+            
+            
             @Override
             public boolean mayDoOnContext(MMObjectNode userNode, MMObjectNode contextNode,
                                           Operation operation, boolean checkOwnRights) {

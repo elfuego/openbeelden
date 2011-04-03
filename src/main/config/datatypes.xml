@@ -29,7 +29,8 @@
     <pattern value="en|nl" />
 
     <deleteprocessor>
-      <class name="eu.openimages.DeleteTranslationsProcessor">  </class>
+      <!-- <class name="eu.openimages.DeleteTranslationsProcessor">  </class> -->
+      <class name="org.mmbase.mmsite.DeleteTranslationsProcessor">  </class>
     </deleteprocessor>
 
   </datatype>

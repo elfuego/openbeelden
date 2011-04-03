@@ -41,7 +41,8 @@ import org.mmbase.util.xml.UtilReader;
 
 
 /**
- * Utility methods for UrlConverter that support language postfixing in the URL.
+ * Utility methods for UrlConverter to support language postfixing in the URL, 
+ * f.e. '/articles/random.en' or '/articles/random.nl'.
  *
  * @author Andr&eacute; van Toly
  * @author Michiel Meeuwissen
