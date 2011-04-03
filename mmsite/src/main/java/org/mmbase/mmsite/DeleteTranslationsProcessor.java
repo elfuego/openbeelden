@@ -1,24 +1,25 @@
 /*
 
-This file is part of the Open Images Platform, a webapplication to manage and publish open media.
-    Copyright (C) 2009 Netherlands Institute for Sound and Vision
+This file is part of the MMBase MMSite application, 
+which is part of MMBase - an open source content management system.
+    Copyright (C) 2011 André van Toly
 
-The Open Images Platform is free software: you can redistribute it and/or modify
+MMBase MMSite is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
 the Free Software Foundation, either version 3 of the License, or
 (at your option) any later version.
 
-The Open Images Platform is distributed in the hope that it will be useful,
+MMBase MMSite is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of
 MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License
-along with The Open Images Platform.  If not, see <http://www.gnu.org/licenses/>.
+along with MMBase. If not, see <http://www.gnu.org/licenses/>.
 
 */
 
-package eu.openimages;
+package org.mmbase.mmsite;
 
 import org.mmbase.bridge.*;
 import org.mmbase.bridge.util.SearchUtil;
@@ -27,10 +28,9 @@ import org.mmbase.util.logging.*;
 
 
 /**
- * This commit-processor is used on nodes of the type 'mediafragments' and
- * deletes associated 'mediasources' when a 'mediafragments' node is deleted.
- * To a 'mediasources' belonging nodes of type 'streamsources' in Streams will be 
- * deleted by org.mmbase.streams.DeleteCachesProcessor.
+ * This commit-processor is used on translations of nodes, normally ending with 
+ * '[nodetype]_translations'. While deleting the original node it also deletes
+ * the related translations.
  *
  * @author André van Toly
  * @version $Id$
