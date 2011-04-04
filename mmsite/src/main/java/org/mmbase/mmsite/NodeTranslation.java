@@ -42,6 +42,7 @@ import org.mmbase.util.logging.Logging;
  * otherwise a nodemanager will be guessed by appending '_translations'.
  * Only the translatable fields are part of 'articles_translations', fields like dates etc. are
  * ommited. The same untranslated node is returned when no translation is found. 
+ * If a field is not translated (yet), the value of the original node is used.
  * 
  * @author Andr&eacute; van Toly
  * @version $Id$
@@ -77,8 +78,8 @@ public final class NodeTranslation extends NodeFunction<Node> {
                 }
                 Query query = Queries.createRelatedNodesQuery(node, translationsNM, "langrel", "destination");
                 Queries.addConstraint(query, Queries.createConstraint(query, "language", Queries.getOperator("EQUAL"), loc.toString(), null, true));
-                if (log.isDebugEnabled()) {
-                    log.debug("query: " + query.toSql());
+                if (log.isTraceEnabled()) {
+                    log.trace("query: " + query.toSql());
                 }
                 
                 NodeList nl = cloud.getList(query);
@@ -105,7 +106,24 @@ public final class NodeTranslation extends NodeFunction<Node> {
         Map<String, Object> map = new HashMap<String, Object>();
         map.putAll(new NodeMap(node));
         if (translation != null) {
-            map.putAll(new NodeMap(translation));
+            
+            Map<String, Object> translationMap = new NodeMap(translation);
+            Iterator<Map.Entry<String,Object>> iter = translationMap.entrySet().iterator();
+            
+            while(iter.hasNext()) {
+                Map.Entry<String,Object> e = iter.next();
+                
+                // overwrite only non-empty and non-system fields
+                String fldName = e.getKey();
+                if (!"number".equals(fldName) && 
+                    !"owner".equals(fldName) && 
+                    !"otype".equals(fldName) && 
+                    !"language".equals(fldName) &&
+                    e.getValue() != null && !"".equals(e.getValue())) {
+                    
+                    map.put(fldName, e.getValue());
+                }
+            }
         }
         
         return new MapNode<Object>(map, cloud);
