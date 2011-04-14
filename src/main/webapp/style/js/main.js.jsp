@@ -223,7 +223,7 @@ function initFieldInfos() {
 function initBlank() {
     $('._blank').click(function(ev){ 
         ev.preventDefault();
-        if (ev.target.tagName.toLowerCase == 'a') {
+        if (ev.target.tagName.toLowerCase() == 'a') {
             window.open(ev.target); 
         } else {
             window.open($(ev.target).parent().attr('href')); 
