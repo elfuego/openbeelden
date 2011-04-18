@@ -1,4 +1,18 @@
-﻿Release Notes - Open Images Platform - Version OIP 1.1
+﻿Release Notes - Open Images Platform - Version OIP 1.1.1
+--------------------------------------------------------
+
+UPGRADING 1.1 -> 1.1.1
+======================
+Since MMBase 1.9.5 the icaches table has a larger field ckey, it has changed from VARCHAR(255) to
+VARCHAR(1024) to accommodate the larger video thumbnails keys. For MySQL with views:
+
+  ALTER TABLE oi_icaches_table MODIFY ckey varchar(1024);
+  DROP VIEW oi_icaches;
+
+
+
+
+Release Notes - Open Images Platform - Version OIP 1.1
 ------------------------------------------------------
 
 
