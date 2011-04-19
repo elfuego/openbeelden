@@ -19,7 +19,7 @@
 <mm:import externid="fields" vartype="List" />
   
   <mm:node number="$nr">
-    <mm:nodeinfo type="type">
+    <mm:nodeinfo type="type" write="false">
       <c:choose>
         
         <c:when test="${_ eq 'images'}">
@@ -27,11 +27,11 @@
         </c:when>
 
         <c:otherwise>
-          <span> 
+          <!-- span> 
             <mm:fieldlist type="${empty fields ? 'list' : ''}" fields="${fields}">
               <mm:fieldinfo type="value" /><jsp:text> </jsp:text>
             </mm:fieldlist>
-          </span>
+          </span -->
         </c:otherwise>
       
       </c:choose>
