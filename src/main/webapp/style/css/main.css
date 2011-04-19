@@ -319,6 +319,7 @@ form#search label
 {
 	font-style: italic;
 	cursor: default;
+	font-size: 0.9em;
 }
 form#search label.license, form#search label.mm_searchlang
 {
@@ -337,6 +338,7 @@ form#search select
 }
 form#search select#mm_searchlang,
 form#search select#license { margin-top: 10px; }
+form#search select#license { margin-bottom: 16px; }
 
 form#search input.submit
 {
