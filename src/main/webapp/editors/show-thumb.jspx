@@ -16,6 +16,14 @@
   
   <mm:node number="$nr">
   
+    <mm:nodeinfo type="type" write="false">
+      <c:if test="${_ eq 'mmbaseusers'}">
+        <oip:thumb />
+        <h3 class="subtitle"><oip:user /></h3>
+        <c:set var="thumb" value="yep" />
+      </c:if>
+    </mm:nodeinfo>
+  
     <mm:relatednodescontainer type="mediafragments" role="related" searchdirs="source">
       <mm:maxnumber value="1" />
       <mm:relatednodes>
