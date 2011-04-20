@@ -6,7 +6,7 @@
 *///<mm:content type="text/javascript" expires="3600" postprocessor="none"><os:cache time="0"><mm:escape escape="none">
 <fmt:setBundle basename="eu.openimages.messages" scope="request" />
 <mm:import id="any_lang"><fmt:message key="search.any_language" /></mm:import>
-<mm:import id="textarea_classes">textarea.mm_f_intro, textarea.mm_f_body, textarea.mm_nm_pages, textarea.mm_nm_pages_translations, textarea.mm_nm_pools_translations, textarea.mm_nm_licenses, textarea.mm_nm_licenses_translations</mm:import>
+<mm:import id="textarea_classes">textarea.mm_f_intro, textarea.mm_f_body, textarea.mm_nm_mmbaseusers, textarea.mm_nm_users_translations, textarea.mm_nm_pages, textarea.mm_nm_pages_translations, textarea.mm_nm_pools, textarea.mm_nm_pools_translations, textarea.mm_nm_licenses, textarea.mm_nm_licenses_translations</mm:import>
 
 /*
   Functions for new (portal) editors in OIP 
@@ -21,7 +21,8 @@ $(document).ready(function() {
     initPortalSwitch();
     initSortable();
     initSearchme();
-    initMMBasevalidatorForTiny();
+    //initTiny('#main');
+    //initMMBasevalidatorForTiny('body');
 
     /* field descriptions */
     if ($('form fieldset p.info').length) {
@@ -43,6 +44,15 @@ var tinyMceConfig = {
     <c:if test="${!empty requestScope['javax.servlet.jsp.jstl.fmt.locale.request']}">
       language : "${requestScope['javax.servlet.jsp.jstl.fmt.locale.request']}",
     </c:if>
+    setup : function(ed) { 
+        ed.onDeactivate.add(function(ed) {  // check if we need to validate
+            if (ed.isDirty() || ed.getContent() == 0) {
+                ed.save();
+                $("#" + ed.id).trigger("paste"); // triggers mmbase
+                //console.log('saved on deactivate: ' + ed.id);
+            }
+        });
+    },
     
     theme_advanced_toolbar_align : "left",
     theme_advanced_blockformats : "p,h3,h4,h5,blockquote",
@@ -194,14 +204,26 @@ function editMe(ev) {
 }
 
 /* Trigger events on original textareas to have tinyMCE and MMBaseValidator cooperate */
-function initMMBasevalidatorForTiny() {
+function initMMBasevalidatorForTiny(el) {
     $("body").mousedown(function(ev) {
-        var ed = tinyMCE.activeEditor;
-        if (ed != null && ed.isDirty()) {
-            //console.log("dirty: " + ed.editorId);
-            tinyMCE.triggerSave();  // ?! does tiny paste here?
-            // event on original textarea triggers MMBaseValidator
-            $("#" + ed.editorId).trigger("paste");
+        for (edId in tinyMCE.editors) {
+            var ed = tinyMCE.editors[edId];
+            if (ed.isDirty() && ed.id == tinyMCE.activeEditor.id) {
+                ed.save();
+                $("#" + edId).trigger("paste");
+                //console.log('saved on mousedown : ' + ed.id);
+            }
+        }
+    });
+
+    $(el).find('input').focus(function(ev){
+        for (edId in tinyMCE.editors) {
+            var ed = tinyMCE.editors[edId];
+            if (ed.isDirty() && ed.id == tinyMCE.activeEditor.id) {
+                ed.save();
+                $("#" + edId).trigger("paste");
+                //console.log('saved on input focus : ' + ed.id);
+            }
         }
     });
 }
@@ -237,7 +259,7 @@ function initTiny(el) {
     $(el).find("${textarea_classes}").each(function() {
         $(this).tinymce(tinyMceConfig);
     });
-    initMMBasevalidatorForTiny();
+    initMMBasevalidatorForTiny(el);
 }
 
 /* ajaxFrom success after submit */
