@@ -63,8 +63,8 @@
             </c:choose>
 
           </c:when>
-          <c:otherwise>
-
+          <c:otherwise> 
+            <!-- not the default portal -->
             <mm:node number="$p" notfound="skip">
 
               <!-- set portal manager as default user -->
@@ -110,6 +110,8 @@
             pseudo code: lucene.Find((someField == "bar" || someField == "baz") && anotherField == "foo");
             translates to: +(someField:bar someField:baz) +anotherField:foo
             -->
+            <mm:import id="analyzer" reset="true">org.apache.lucene.analysis.KeywordAnalyzer</mm:import>
+            <c:if test="${empty q}"><mm:import id="fields" reset="true">indexId</mm:import></c:if>
             <mm:import id="value">
               <c:choose>
                 <c:when test="${empty q}">${index}* AND </c:when>
@@ -126,7 +128,6 @@
             </mm:import>
 
             <!-- value2: query for recommendations (inverse of above query) -->
-            <c:if test="${empty q}"><mm:import id="fields" reset="true">indexId</mm:import></c:if>
             <mm:import id="value2">
               <c:choose>
                 <c:when test="${empty q}">${index}* AND </c:when>
@@ -181,25 +182,25 @@
             write="false"
             module="lucene"
             name="searchsize"
-            referids="index,value,fields?,filter,extraconstraints" />
+            referids="index,value,fields?,filter,analyzer?,extraconstraints" />
         <mm:function
             id="total_video"
             write="false"
             module="lucene"
             name="searchsize"
-            referids="index,value,fields?,filter,video@extraconstraints" />
+            referids="index,value,fields?,filter,analyzer?,video@extraconstraints" />
         <mm:function
             id="total_audio"
             write="false"
             module="lucene"
             name="searchsize"
-            referids="index,value,fields?,filter,audio@extraconstraints" />
+            referids="index,value,fields?,filter,analyzer?,audio@extraconstraints" />
         <mm:function
             id="total_images"
             write="false"
             module="lucene"
             name="searchsize"
-            referids="index,value,fields?,filter,images@extraconstraints" />
+            referids="index,value,fields?,filter,analyzer?,images@extraconstraints" />
 
         <!-- second list with suggestions from complete repository -->
         <c:if test="${!empty value2}">
@@ -208,7 +209,7 @@
               write="false"
               module="lucene"
               name="searchsize"
-              referids="index,value2@value,fields?,filter,extraconstraints" />
+              referids="index,value2@value,fields?,filter,analyzer?,extraconstraints" />
         </c:if>
 
         <!-- sorting -->
@@ -220,21 +221,21 @@
         </c:if>
         <mm:nodelistfunction
             module="lucene" name="search" id="results"
-            referids="index,value,offset,thumbsmax@max,fields?,sortfields?,filter,extraconstraints" />
+            referids="index,value,offset,thumbsmax@max,fields?,sortfields?,filter,extraconstraints,analyzer?" />
         <mm:nodelistfunction
             module="lucene" name="search" id="results_video"
-            referids="index,value,offset,max,fields?,sortfields?,filter,video@extraconstraints" />
+            referids="index,value,offset,max,fields?,sortfields?,filter,video@extraconstraints,analyzer?" />
         <mm:nodelistfunction
             module="lucene" name="search" id="results_audio"
-            referids="index,value,offset,max,fields?,sortfields?,filter,audio@extraconstraints" />
+            referids="index,value,offset,max,fields?,sortfields?,filter,audio@extraconstraints,analyzer?" />
         <mm:nodelistfunction
             module="lucene" name="search" id="results_images"
-            referids="index,value,offset,max,fields?,sortfields?,filter,images@extraconstraints" />
+            referids="index,value,offset,max,fields?,sortfields?,filter,images@extraconstraints,analyzer?" />
 
         <c:if test="${!empty value2}">
           <mm:nodelistfunction
               module="lucene" name="search" id="results2"
-              referids="index,value2@value,offset,max,fields?,sortfields?,filter,extraconstraints" />
+              referids="index,value2@value,offset,max,fields?,sortfields?,filter,extraconstraints,analyzer?" />
         </c:if>
 
         <div class="text">
