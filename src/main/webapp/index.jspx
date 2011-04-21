@@ -93,7 +93,7 @@
 
           <mm:import id="analyzer" reset="true">org.apache.lucene.analysis.KeywordAnalyzer</mm:import>
           <mm:import id="value">
-            <c:if test="${!empty p_keywords or !empty p_tags or !empty p_users}">+(${p_keywords} ${p_tags} ${p_users}) -excludedportal:${portal} </c:if>
+            <c:if test="${!empty p_keywords or !empty p_tags or !empty p_users}"> +(${p_keywords} ${p_tags} ${p_users}) -excludedportal:${portal} </c:if>
           </mm:import>
 
         </c:when>
