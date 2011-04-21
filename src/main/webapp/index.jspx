@@ -91,6 +91,7 @@
             </mm:relatednodescontainer>
           </mm:node>
 
+          <mm:import id="analyzer" reset="true">org.apache.lucene.analysis.KeywordAnalyzer</mm:import>
           <mm:import id="value">
             <c:if test="${!empty p_keywords or !empty p_tags or !empty p_users}">+(${p_keywords} ${p_tags} ${p_users}) -excludedportal:${portal} </c:if>
           </mm:import>
@@ -168,7 +169,7 @@
             <c:catch var="ex1">
                <mm:nodelistfunction
                   module="lucene" name="search" id="results"
-                  referids="index,value,offset,max,fields?,sortfields?,filter?,extraconstraints" />
+                  referids="index,value,offset,max,fields?,sortfields?,filter?,extraconstraints,analyzer?" />
 
                <mm:listnodes referid="results">
                  <mm:link encode="false">
