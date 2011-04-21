@@ -324,7 +324,7 @@ public class UsersUrlConverter extends DirectoryUrlConverter {
                         /* /users/[username]/dashboard/media/[234]/my_title */
                         } else if (type.equals("media") && path.size() > 3) {
                             String nodenr = path.get(3);
-                            String title = path.get(4);
+                            //String title = path.get(4);
                             if (log.isDebugEnabled()) {
                                 log.debug("type: " + type);
                                 log.debug("nodenr: " + nodenr);
