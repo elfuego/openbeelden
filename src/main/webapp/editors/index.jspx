@@ -24,37 +24,56 @@
 
       <div class="main-column">
         <h2>Portal editor : <mm:field name="name" id="portalName" /></h2>
-        <div class="edit-pic">
-          <mm:relatednodes type="images" role="portalrel" max="1">
-            <mm:import id="imgnr" reset="true"><mm:field name="number" /></mm:import>
-            <div id="edit_${imgnr}">
-              <!-- <mm:image mode="img" template="s(216)" /> -->
-              <mm:include page="/editors/show-portallogo.jspx" referids="p,_node@nr" />
-            </div>
-            <p>
-              <mm:link page="/editors/edit-thumb.jspx" referids="p,_node@nr">
-                <mm:param name="fields">handle</mm:param>
-                <mm:param name="show">/editors/show-portallogo.jspx</mm:param>
-                <a class="editme" href="${_}#edit_${imgnr}"><fmt:message key="users.edit_image" /></a>
-              </mm:link>
-            </p>
+        <h3>${requestScope['javax.servlet.jsp.jstl.fmt.locale.request']}</h3>
+
+        <!-- ##### van hier -->
+
+        <mm:relatednodescontainer type="images" role="portalrel" searchdirs="destination">
+          <mm:maxnumber value="1" />
+          <mm:relatednodes>
+            <mm:node id="portalimg" />
           </mm:relatednodes>
-          <c:if test="${empty imgnr}">
-            <div id="add_picture">
-              <p>
-                <mm:link page="/editors/add-thumb.jspx" referids="p?,_node@nr">
+        </mm:relatednodescontainer>
+
+        <div class="targetme edit-pic" id="edit-picture">
+
+          <c:choose>
+            <c:when test="${empty portalimg}">
+                <mm:link page="/editors/add-thumb.jspx" referids="p,_node@nr,_node@related">
+                  <mm:param name="lang">${requestScope['javax.servlet.jsp.jstl.fmt.locale.request']}</mm:param>
                   <mm:param name="type">images</mm:param>
                   <mm:param name="fields">handle</mm:param>
                   <mm:param name="role">portalrel</mm:param>
-                  <mm:param name="elementid">add_picture</mm:param>
                   <mm:param name="defaultstr">title=Portal logo ${portalName}</mm:param>
                   <mm:param name="show">/editors/show-portallogo.jspx</mm:param>
-                  <a class="editme add" href="${_}#add_picture"><fmt:message key="users.add_image" /></a>
+                  <mm:param name="maydelete">false</mm:param>
+                  <a class="editme add" href="${_}#edit-picture"><fmt:message key="users.add_image" /></a>
                 </mm:link>
-              </p>
-            </div>
-          </c:if>
+            </c:when>
+            <c:otherwise>
+              <div id="edit_${portalimg}">
+                <mm:include page="/editors/show-portallogo.jspx" referids="p,portalimg@nr" />
+                  <mm:link page="/editors/edit-thumb.jspx" referids="p,portalimg@nr,p@related">
+                    <mm:param name="lang">${requestScope['javax.servlet.jsp.jstl.fmt.locale.request']}</mm:param>
+                    <mm:param name="fields">handle</mm:param>
+                    <mm:param name="show">/editors/show-portallogo.jspx</mm:param>
+                    <mm:param name="maydelete">false</mm:param>
+                    <a class="editme" href="${_}#edit_${portalimg}"><fmt:message key="users.edit_image" /></a>
+                  </mm:link>
+              </div>
+            </c:otherwise>
+          </c:choose>
+          
+          
+
+          
         </div>
+        <!-- ##### tot hier -->
+
+        
+        
+        
+        
 
         <!-- main pools node: the portal -->
         <mm:include page="edit-node.jspx" referids="p?,_node@nr">

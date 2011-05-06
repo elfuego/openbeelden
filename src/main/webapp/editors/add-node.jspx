@@ -15,6 +15,7 @@
     <mm:import externid="p" /><!-- portal -->
     <mm:import externid="type" required="true" /><!-- type of new node to create -->
     <mm:import externid="fields" vartype="List" />
+    <mm:import externid="lang" />
 
     <!-- if we have nr and role, a relation will be made with nr -->
     <mm:import externid="nr" />
@@ -92,6 +93,7 @@
                 <input name="p"        type="hidden" value="${p}" />
                 <input name="nr"       type="hidden" value="${nr}" />
                 <input name="fields"   type="hidden" value="${fields}" />
+                <input name="lang"     type="hidden" value="${lang}" />
                 <input name="submit${type}" type="hidden" value="submit" />
                 <input name="type" type="hidden" value="${type}" />
                 <input name="role" type="hidden" value="${role}" />
@@ -176,12 +178,14 @@
 
           <!-- show new node -->
           <div class="node_created edit_${new_node}">
-            
-            <mm:link page="$editor" referids="p?,new_node@nr,show">
+            <span class="links">
+            <mm:link page="$editor" 
+              referids="p?,new_node@nr,lang?,related?,show,editor,maydelete,unpublish,target?">
               <mm:param name="fields">${fields}</mm:param>
               <a class="editme new" href="${_}#edit_${new_node}"><fmt:message key="users.edit" /></a>
             </mm:link>
-            <mm:link page="/editors/delete-node.jspx" referids="p?,new_node@nr">
+            <mm:link page="/editors/delete-node.jspx" 
+              referids="p?,new_node@nr,lang?,related?,show,editor,maydelete,unpublish,target?">
               <mm:param name="fields">${fields}</mm:param>
               <a class="editme delete new" href="${_}#edit_${new_node}"><fmt:message key="users.delete" /></a>
             </mm:link>
@@ -189,18 +193,20 @@
             <c:if test="${unpublish}">
               <mm:node referid="new_node">
                 <mm:relation to="${related}">
-                  <mm:link page="/editors/delete-relation.jspx" referids="p,new_node@nr,nr@related,_node@relation">
+                  <mm:link page="/editors/delete-relation.jspx" 
+                    referids="p?,new_node@nr,nr@related,_node@relation,lang?,show,editor,maydelete,target?">
                     <a class="editme unrelate" href="${_}#edit_${new_node}">unpublish</a>
                   </mm:link>
                 </mm:relation>
               </mm:node>
             </c:if>
+            </span>
 
-            <div>
-              <mm:include page="$show" referids="p?,new_node@nr,show">
+            <span class="content">
+              <mm:include page="$show" referids="new_node@nr">
                 <mm:param name="fields">${fields}</mm:param>
               </mm:include>
-            </div>
+            </span>
           </div>
         </c:if>
 

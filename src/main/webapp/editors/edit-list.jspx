@@ -22,10 +22,11 @@
 
   <mm:import externid="show">/editors/show-node.jspx</mm:import>
   <mm:import externid="editor">/editors/edit-node.jspx</mm:import>
+  <mm:import externid="unpublish">false</mm:import>
+  
+  <!-- following apply to edit-list.jspx -->
   <mm:import externid="maycreate">true</mm:import>
   <mm:import externid="maydelete">true</mm:import>
-  <mm:import externid="unpublish">false</mm:import>
-
   <mm:import externid="search">true</mm:import>
   <mm:import externid="sortable">true</mm:import>
   <!-- c:if test="${role ne 'posrel'}">
@@ -56,14 +57,16 @@
           </mm:relation>
           <li id="edit_${_node.number}" class="${relation_class}">
             
-            <mm:link page="$editor" referids="p?,_node@nr,fields,show,editor,maydelete">
+            <mm:link page="$editor" 
+              referids="p?,_node@nr,fields?,lang?,show,editor,maydelete,target?">
               <a class="${editor ne '/editors/editor.jspx' ? 'editme' : 'edit'}" 
                  href="${_}#edit_${_node.number}"><fmt:message key="users.edit" /></a>
             </mm:link>
             
             <c:if test="${maydelete}">
               <mm:maydelete>
-                <mm:link page="/editors/delete-node.jspx" referids="p?,_node@nr,show,editor,maydelete">
+                <mm:link page="/editors/delete-node.jspx" 
+                  referids="p?,_node@nr,fields?,lang?,show,editor,maydelete,target?">
                   <a class="editme delete" href="${_}#edit_${_node.number}"><fmt:message key="users.delete" /></a>
                 </mm:link>
               </mm:maydelete>
@@ -72,7 +75,8 @@
               <mm:relation to="${nr}" role="${role}">
                 <c:if test="${! sortable and unpublish}">
                   <mm:maydelete>
-                    <mm:link page="/editors/delete-relation.jspx" referids="p?,this_node@nr,_node@relation,nr@related,maydelete">
+                    <mm:link page="/editors/delete-relation.jspx" 
+                      referids="p?,this_node@nr,_node@relation,nr@related,fields?,lang?,show,editor,maydelete,target?">
                       <a class="editme unrelate" href="${_}#edit_${this_node}">unpublish</a>
                     </mm:link>
                   </mm:maydelete>
@@ -80,7 +84,7 @@
               </mm:relation>
 
             <div>
-              <mm:include page="$show" referids="p?,_node@nr,show,editor,maydelete,fields">
+              <mm:include page="$show" referids="p?,_node@nr,fields?">
               </mm:include>
             </div>
             
@@ -91,7 +95,8 @@
         </li>
         <c:if test="${maycreate and total lt max}">
           <li class="notsortable">
-            <mm:link escapeamps="true" page="/editors/add-node.jspx" referids="p?,nr,type,fields,role,dir,show,editor,maydelete">
+            <mm:link escapeamps="true" page="/editors/add-node.jspx" 
+              referids="p?,nr,type,fields?,role,dir,show,editor,maydelete,target?">
               <a class="editme add" href="${_}#new_${type}">
                 <fmt:message key="users.add_something">
                   <fmt:param><mm:nodeinfo type="guitype" nodetype="$type" escape="lowercase" /></fmt:param>
@@ -108,7 +113,8 @@
     
     <c:if test="${search}">
 
-      <mm:link page="/editors/search-node.jspx" id="searchlink" escapeamps="false" referids="p?,nr,type">
+      <mm:link page="/editors/search-node.jspx" id="searchlink" escapeamps="false" 
+        referids="p?,nr,type,editor">
         <mm:param name="max">10</mm:param>
       </mm:link>
       <form class="searchme searchform" method="post" action="${searchlink}">

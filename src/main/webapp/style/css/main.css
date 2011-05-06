@@ -150,6 +150,7 @@ fieldset
 {
 	border: 0;
 	margin-bottom: 1em;
+	clear: both;
 }
 fieldset > div
 {

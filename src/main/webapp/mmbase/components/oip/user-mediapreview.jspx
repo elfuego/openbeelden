@@ -42,7 +42,7 @@
                        
                        <oip:thumb />
                        <p class="description">
-                         <mm:link page="/editors/add-thumb.jspx" referids="p?,_node@nr,_node@related">
+                         <mm:link page="/editors/add-thumb.jspx" referids="_node@nr,_node@related">
                            <mm:param name="lang">${requestScope['javax.servlet.jsp.jstl.fmt.locale.request']}</mm:param>
                            <mm:param name="type">images</mm:param>
                            <mm:param name="fields">handle</mm:param>
@@ -59,15 +59,15 @@
                        <div id="edit_${img}">
                          <oip:thumb />
                          <p class="description">
-                           <mm:link page="/editors/delete-thumb.jspx" referids="p?,img@nr,_node@related">
+                           <mm:link page="/editors/delete-thumb.jspx" referids="img@nr,_node@related">
                              <mm:param name="lang">${requestScope['javax.servlet.jsp.jstl.fmt.locale.request']}</mm:param>
                              <mm:param name="fields">handle</mm:param>
                              <mm:param name="show">/editors/show-thumb.jspx</mm:param>
                              <mm:param name="editor">/editors/edit-thumb.jspx</mm:param>
-                             <a class="editme delete" href="${_}#edit_${img}"><fmt:message key="users.delete" /></a>
+                             <a class="editme delete" href="${_}#edit_${img}"><fmt:message key="users.delete_image" /></a>
                            </mm:link>
                            <jsp:text> / </jsp:text>
-                           <mm:link page="/editors/edit-thumb.jspx" referids="p?,img@nr,_node@related">
+                           <mm:link page="/editors/edit-thumb.jspx" referids="img@nr,_node@related">
                              <mm:param name="lang">${requestScope['javax.servlet.jsp.jstl.fmt.locale.request']}</mm:param>
                              <mm:param name="fields">handle</mm:param>
                              <mm:param name="show">/editors/show-thumb.jspx</mm:param>

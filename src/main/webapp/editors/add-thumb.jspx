@@ -45,20 +45,16 @@
     <c:choose>
       <c:when test="${cancel eq 'Cancel'}">
         
-        <mm:include page="$show" referids="p?,nr,show,related">
-          <!-- <mm:param name="fields">${fields}</mm:param> -->
-        </mm:include>
+        <mm:include page="$show" referids="nr,fields?" />
 
         <mm:node number="$nr">
           
-          <p class="description"> 
-            <mm:link page="/editors/add-thumb.jspx" 
-              referids="p?,_node@nr,related,role,dir,type,show,editor,fields,defaultstr,maydelete">
-              <mm:param name="lang">${requestScope['javax.servlet.jsp.jstl.fmt.locale.request']}</mm:param>
-              <c:set var="link">${_}#${target}</c:set>
-              <a class="editme add" href="${link}"><fmt:message key="users.add_image" /></a>
-            </mm:link>
-           </p>
+          <mm:link page="/editors/add-thumb.jspx" 
+            referids="p?,_node@nr,related,role,dir,type,show,editor,fields,defaultstr,maydelete">
+            <mm:param name="lang">${requestScope['javax.servlet.jsp.jstl.fmt.locale.request']}</mm:param>
+            <c:set var="link">${_}#${target}</c:set>
+            <a class="editme add" href="${link}"><fmt:message key="users.add_image" /></a>
+          </mm:link>
            
         </mm:node>
 
@@ -68,6 +64,7 @@
         <c:if test="${editme eq 'true'}">
           <mm:notpresent referid="submit$type">
             <div class="log"><jsp:text> <!-- empty --> </jsp:text></div>
+            <strong><fmt:message key="users.add_image" /></strong>
           </mm:notpresent>
         </c:if>
 
@@ -186,7 +183,7 @@
           <!-- show new node -->
           <div class="node_created edit_${new_node}">
             <span class="content ditis_${new_node}">
-              <mm:include page="$show" referids="p?,new_node@nr,show,related">
+              <mm:include page="$show" referids="new_node@nr">
                 <mm:param name="fields">${fields}</mm:param>
               </mm:include>
             </span>

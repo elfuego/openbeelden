@@ -80,7 +80,7 @@
 
         <mm:maywrite>
           <mm:link page="$editor" referids="p?,_node@nr">
-            <a class="edit" href="${_}"><fmt:message key="users.edit" /></a>
+            <a class="editme edit" href="${_}"><fmt:message key="users.edit" /></a>
           </mm:link>
         </mm:maywrite>
 

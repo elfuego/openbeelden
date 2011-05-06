@@ -14,7 +14,6 @@
 
 <fmt:setBundle basename="eu.openimages.messages" scope="request" />
 
-<mm:import externid="p" /><!-- portal -->
 <mm:import externid="nr" />
 <mm:import externid="fields"  />
   

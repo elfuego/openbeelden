@@ -16,14 +16,15 @@
 <mm:import externid="p" /><!-- portal -->
 <mm:import externid="nr" />
 <mm:import externid="fields" />
+<mm:import externid="lang" />
 
 <mm:import externid="delete" />
 <mm:import externid="cancel" />
 
 <mm:import externid="related" />
 <mm:import externid="editme">false</mm:import>
-<mm:import externid="show">/editors/show-node.jspx</mm:import>
-<mm:import externid="editor">/editors/edit-node.jspx</mm:import>
+<mm:import externid="show">/editors/show-thumb.jspx</mm:import>
+<mm:import externid="editor">/editors/edit-thumb.jspx</mm:import>
 <mm:import externid="maydelete">true</mm:import>
 <mm:import externid="target" />
 
@@ -62,44 +63,48 @@
           </mm:maydelete>
           
           <mm:hasnode number="$related">
-            <mm:node number="$related"><oip:thumb /></mm:node>
-            <p class="description">
+            <span class="content">
+            <mm:node number="$related">
+              <mm:include page="$show" referids="related@nr,fields?" />
+            </mm:node>
+            </span>
+            <span class="links">
               <mm:link page="/editors/add-thumb.jspx" 
-                referids="p?,related@nr,related,show?,editor?,target?">
+                referids="p?,related@nr,lang?,related?,show,editor,maydelete,target?">
                 <mm:param name="lang">${requestScope['javax.servlet.jsp.jstl.fmt.locale.request']}</mm:param>
                 <mm:param name="type">images</mm:param>
                 <mm:param name="fields">handle</mm:param>
                 <mm:param name="defaultstr">title=Thumbnail <mm:field name="title" /></mm:param>
                 <a class="editme" href="${_}${hashtarget}"><fmt:message key="users.add_image" /></a>
               </mm:link>
-            </p>
+            </span>
           </mm:hasnode>
           
         </c:when>
         
         <c:when test="${!empty cancel}">
 
-          <div>
-            <mm:include page="$show" referids="p,nr,fields,editor,show" />
+          <span class="content">
+            <mm:include page="$show" referids="nr,fields?" />
             <!-- <span>Cancelled deleting!</span> -->
-          </div>
+          </span>
           <mm:maywrite>
             <div class="log"><jsp:text> <!-- empty --> </jsp:text></div>
-            <p class="description">
+            <span class="links">
               <c:if test="${maydelete}">
                 <mm:maydelete>
                   <mm:link page="/editors/delete-thumb.jspx"
-                    referids="p,nr,show,editor,fields,related?">
+                    referids="p?,nr,fields?,lang?,related?,show,editor,maydelete,target?">
                     <a class="editme delete" href="${_}#edit_${nr}"><fmt:message key="users.delete_image" /></a>
                   </mm:link>
                   <jsp:text> / </jsp:text>
                 </mm:maydelete>
               </c:if>
               <mm:link page="$editor" 
-                referids="p,nr,fields,show,editor,related?">
+                referids="p?,nr,fields?,lang?,related?,show,editor,maydelete,target?">
                 <a class="editme" href="${_}#edit_${nr}"><fmt:message key="users.edit_image" /></a>
               </mm:link>
-            </p>
+            </span>
           </mm:maywrite>
         
         </c:when>
@@ -115,7 +120,7 @@
             <mm:url id="formurl" write="false" />
             <form id="form_${nr}" method="post" action="${formurl}">
 
-              <mm:include page="$show" referids="p,nr,fields,show" />
+              <mm:include page="$show" referids="nr,fields?" />
 
               <p class="msg stay">Are you sure you want to delete this node?</p>
               

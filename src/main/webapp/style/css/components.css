@@ -47,8 +47,8 @@ div.b_user-profile p.description,
 div.b_user-picture p.description,
 div.b_user-mediapreview p.description { margin-left: 90px; }
 
-div.b_user-profile p.description a, 
-div.b_user-picture p.description a { text-transform: lowercase; }
+div.b_user-profile a.editme, 
+div.b_user-picture a.editme { text-transform: lowercase; }
 
 div.b_user-picture a.cancel, 
 div.b_user-mediapreview a.cancel { float: right; }

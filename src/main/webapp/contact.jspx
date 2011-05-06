@@ -9,12 +9,15 @@
     <jsp:attribute name="head">
       <jsp:directive.include file="/mmbase/validation/javascript.jspxf" />
       <script type="text/javascript">
-        var validator = new MMBaseValidator();
-        validator.prefetchNodeManager('email');
-        validator.lang = "${requestScope['javax.servlet.jsp.jstl.fmt.locale.request']}";
-        validator.validateHook = function(valid) {
-            document.getElementById('submit').disabled = this.invalidElements != 0;
-        }
+        $(document).ready(function() {
+            var validator = new MMBaseValidator();
+            validator.prefetchNodeManager('email');
+            validator.lang = "${requestScope['javax.servlet.jsp.jstl.fmt.locale.request']}";
+            validator.validateHook = function(valid) {
+                document.getElementById('submit').disabled = this.invalidElements != 0;
+            }
+            validator.setup(document.getElementById("contactform"));
+        });
       </script>
     </jsp:attribute>
     <jsp:attribute name="styleClass">contact</jsp:attribute>
@@ -62,18 +65,21 @@
               <mm:setfield name="to">${property_to_email}</mm:setfield>
               <fieldset class="labelininput">
                 <mm:fieldlist fields="from,subject,body">
-                  <mm:fieldinfo type="forid">
-                    <label for="${_}">
-                      <span><mm:fieldinfo type="guiname" /></span>
-                    </label>
-                  </mm:fieldinfo>
-                  <mm:fieldinfo type="input" />
-                  <mm:fieldinfo type="errors" />
+                  <div>
+                    <mm:fieldinfo type="forid">
+                      <label for="${_}">
+                        <span><mm:fieldinfo type="guiname" /></span>
+                      </label>
+                    </mm:fieldinfo>
+                    <mm:fieldinfo type="input" /><mm:fieldinfo type="errors" />
+                  </div>
                 </mm:fieldlist>
               </fieldset>
             </mm:createnode>
             <fieldset>
-              <input type="submit" name="submit" id="submit" value="Send" class="submit" />
+              <div>
+                <input type="submit" name="submit" id="submit" value="Send" class="submit" />
+              </div>
             </fieldset>
           </mm:import>
           <mm:notpresent referid="submit">

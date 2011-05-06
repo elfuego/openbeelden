@@ -4,7 +4,7 @@
     xmlns:fn="http://java.sun.com/jsp/jstl/functions"
     xmlns:fmt="http://java.sun.com/jsp/jstl/fmt"
     xmlns:mm="http://www.mmbase.org/mmbase-taglib-2.0"
-    expires="0" type="text/html" language="client" postprocessor="none">
+    expires="0" type="text/html" language="${param.lang}" postprocessor="none">
 
 <jsp:directive.page buffer="64kb" />
 <jsp:output omit-xml-declaration="true" />
@@ -16,12 +16,14 @@
   <mm:import externid="p" /><!-- portal -->
   <mm:import externid="nr" />
   <mm:import externid="fields" vartype="List" />
+  <mm:import externid="lang" />
 
   <mm:import externid="submit$nr" />
   <mm:import externid="cancel" />
   
   <mm:import externid="related" />
   <mm:import externid="editme">false</mm:import>
+  <mm:import externid="target" />
   <mm:import externid="show">/editors/show-node.jspx</mm:import>
   <mm:import externid="editor">/editors/edit-node.jspx</mm:import>
   <mm:import externid="maydelete">true</mm:import>
@@ -40,14 +42,16 @@
         
         <mm:node number="$nr">
           <mm:maywrite>
-            <mm:link page="$editor" referids="p,nr,related?">
+            <mm:link page="$editor" 
+              referids="p?,nr,lang?,related?,show,editor,maydelete,target?">
               <mm:param name="fields">${fields}</mm:param>
               <a class="editme" href="${_}#edit_${nr}"><fmt:message key="users.edit" /></a>
             </mm:link>
           </mm:maywrite>
           <c:if test="${maydelete}">
             <mm:maydelete>
-              <mm:link page="/editors/delete-node.jspx" referids="p,nr,related?,maydelete">
+              <mm:link page="/editors/delete-node.jspx" 
+                referids="p?,nr,lang?,related?,show,editor,maydelete,target?">
                 <mm:param name="fields">${fields}</mm:param>
                 <a class="editme delete" href="${_}#edit_${nr}"><fmt:message key="users.delete" /></a>
               </mm:link>
@@ -57,7 +61,8 @@
           <c:if test="${!empty related and unpublish}">
             <mm:relation to="${related}">
               <mm:maydelete>
-                <mm:link page="/editors/delete-relation.jspx" referids="p,nr,related,_node@relation,maydelete">
+                <mm:link page="/editors/delete-relation.jspx" 
+                  referids="p?,nr,lang?,related?,_node@relation,show,editor,maydelete,target?">
                   <a class="editme unrelate" href="${_}#edit_${nr}">unpublish</a>
                 </mm:link>
               </mm:maydelete>
@@ -66,7 +71,7 @@
         </mm:node>
         
         <div>
-          <mm:include page="$show" referids="p,nr">
+          <mm:include page="$show" referids="nr">
             <mm:param name="fields">${fields}</mm:param>
           </mm:include>
         </div>
@@ -74,7 +79,7 @@
       </c:when>
       <c:otherwise>
   
-        <mm:url referids="p,nr" write="false" absolute="true" escapeamps="false" id="submit_link"></mm:url>
+        <mm:url referids="p?,nr,lang?" write="false" absolute="true" escapeamps="false" id="submit_link"></mm:url>
         <mm:form id="form_$nr" page="$submit_link">
         
           <mm:node number="$nr" commitonclose="false">
@@ -83,11 +88,7 @@
               <c:if test="${editme eq 'true'}">
                 <a class="cancel" href="#close"><fmt:message key="users.cancel" /></a>
                 <div class="log"><jsp:text> <!-- empty --> </jsp:text></div>
-                <strong>
-                  <fmt:message key="users.edit" />
-                  <jsp:text> </jsp:text>
-                  <mm:nodeinfo type="guitype" escape="lowercase" />
-                </strong>
+                <strong>Edit <mm:nodeinfo type="guitype" escape="lowercase" /></strong>
               </c:if>
               
               <fieldset>
@@ -130,17 +131,20 @@
                 <c:choose>
                   <c:when test="${editme eq 'true'}">
 
+                    <span class="links">
                     <mm:maywrite>
-                      <mm:link page="$editor" referids="p,nr,related?">
+                      <mm:link page="$editor" 
+                        referids="p?,nr,lang?,related?,show,editor,maydelete,target?">
                         <mm:param name="fields">${fields}</mm:param>
-                        <a class="editme" href="${_}#edit_${nr}">edit</a>
+                        <a class="editme" href="${_}#edit_${nr}"><fmt:message key="users.edit" /></a>
                       </mm:link>
                     </mm:maywrite>
                     <c:if test="${maydelete}">
                       <mm:maydelete>
-                        <mm:link page="/editors/delete-node.jspx" referids="p,nr,related?,maydelete">
+                        <mm:link page="/editors/delete-node.jspx" 
+                          referids="p?,nr,lang?,related?,show,editor,maydelete,target?">
                           <mm:param name="fields">${fields}</mm:param>
-                          <a class="editme delete" href="${_}#edit_${nr}">delete</a>
+                          <a class="editme delete" href="${_}#edit_${nr}"><fmt:message key="users.delete" /></a>
                         </mm:link>
                       </mm:maydelete>
                     </c:if>
@@ -148,16 +152,20 @@
                     <c:if test="${!empty related and unpublish}">
                       <mm:relation to="${related}">
                         <mm:maydelete>
-                          <mm:link page="/editors/delete-relation.jspx" referids="p,nr,related,_node@relation,maydelete">
+                          <mm:link page="/editors/delete-relation.jspx" 
+                            referids="p?,nr,lang?,related?,show,editor,maydelete,_node@relation,target?">
                             <a class="editme unrelate" href="${_}#edit_${nr}">unpublish</a>
                           </mm:link>
                         </mm:maydelete>
                       </mm:relation>
                     </c:if>
+                    </span>
                     
-                    <mm:include page="$show" referids="p,nr">
-                      <mm:param name="fields">${fields}</mm:param>
-                    </mm:include>
+                    <span class="links">
+                      <mm:include page="$show" referids="nr">
+                        <mm:param name="fields">${fields}</mm:param>
+                      </mm:include>
+                    </span>
                     
                   </c:when>
                   <c:otherwise>

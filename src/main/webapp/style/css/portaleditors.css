@@ -63,6 +63,8 @@ h1, h2, h3
 	clear: both;
 }
 
+#edit-picture { margin-bottom: 2em; }
+
 a:link, a:hover, a:active { color: #3BA0D9; }
 a:visited { color: #069; }
 
@@ -76,9 +78,6 @@ body.login div.login
 	padding: 110px 0 10px 10px;
 }
 
-
-div.edit-pic div { float: left; }
-div.edit-pic a { margin-left: 12px; }
 
 a.edit:link,
 a.edit:visited { color: #3BA0D9; }

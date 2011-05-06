@@ -15,6 +15,7 @@
 <mm:import externid="p" /><!-- portal -->
 <mm:import externid="nr" />
 <mm:import externid="fields" />
+<mm:import externid="lang" />
 
 <mm:import externid="delete" />
 <mm:import externid="cancel" />
@@ -61,18 +62,18 @@
         </c:when>
         
         <c:when test="${!empty cancel}">
-          
+          <span class="links">
           <mm:maywrite>
             <div class="log"><jsp:text> <!-- empty --> </jsp:text></div>
             <mm:link page="$editor" 
-              referids="p,nr,fields,related?,show,editor,maydelete,unpublish">
+              referids="p?,nr,fields?,lang?,related?,show,editor,maydelete,unpublish,target?">
               <a class="editme" href="${_}${linktarget}"><fmt:message key="users.edit" /></a>
             </mm:link>
           </mm:maywrite>
           <c:if test="${maydelete}">
             <mm:maydelete>
               <mm:link page="/editors/delete-node.jspx" 
-                referids="p,nr,fields,related?,show,editor,maydelete,unpublish">
+                referids="p?,nr,fields?,lang?,related?,show,editor,maydelete,unpublish,target?">
                 <a class="editme delete" href="${_}${linktarget}"><fmt:message key="users.delete" /></a>
               </mm:link>
             </mm:maydelete>
@@ -81,17 +82,18 @@
             <mm:relation to="${related}">
               <mm:maydelete>
                 <mm:link page="/editors/delete-relation.jspx" 
-                  referids="p,nr,fields?,_node@relation,related?,show,editor,maydelete,unpublish">
+                  referids="p?,nr,fields?,lang?,_node@relation,related?,show,editor,maydelete,unpublish,target?">
                   <a class="editme unrelate" href="${_}${linktarget}">unpublish</a>
                 </mm:link>
               </mm:maydelete>
             </mm:relation>
           </c:if>
+          </span>
 
-          <div>
-            <mm:include page="show-node.jspx" referids="p,nr,fields" />
+          <span class="content">
+            <mm:include page="show-node.jspx" referids="nr,fields?" />
             <!-- <span>Cancelled deleting!</span> -->
-          </div>
+          </span>
         </c:when>
         
         <c:otherwise>
@@ -115,7 +117,7 @@
               
               <a class="editme cancel" href="#close"><fmt:message key="users.cancel" /></a>
               
-              <mm:include page="show-node.jspx" referids="p,nr,fields" />
+              <mm:include page="show-node.jspx" referids="nr,fields?" />
 
               <p class="msg stay">
                 This node has <mm:countrelations /> relations with other nodes.

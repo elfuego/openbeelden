@@ -15,16 +15,19 @@
   <mm:import externid="p" /><!-- portal -->
   <mm:import externid="nr" />
   <mm:import externid="fields" vartype="List">handle</mm:import>
+  <mm:import externid="lang" />
   
   <mm:import externid="submit$nr" />
   <mm:import externid="cancel" />
 
+  <mm:import externid="related" />
   <mm:import externid="editme">false</mm:import>
   <mm:import externid="target" />
   <mm:import externid="show">/editors/show-thumb.jspx</mm:import>
   <mm:import externid="editor">/editors/edit-thumb.jspx</mm:import>
   <mm:import externid="maydelete">true</mm:import>
-  <mm:import externid="related" />
+  <mm:import externid="unpublish">false</mm:import>
+
 
   <mm:hasnode number="$nr" inverse="true">
     <p class="err">Node not found.</p>
@@ -45,8 +48,9 @@
     <c:choose>
       <c:when test="${cancel eq 'Cancel'}">
         <mm:node number="$nr">
+          
           <span class="content">
-            <mm:include page="$show" referids="p?,nr,related">
+            <mm:include page="$show" referids="nr">
               <mm:param name="fields">${fields}</mm:param>
             </mm:include>
           </span>
@@ -54,15 +58,17 @@
           <span class="links">
             <c:if test="${maydelete}">
               <mm:maydelete>
-                <mm:link page="/editors/delete-thumb.jspx" referids="p?,nr,show,related,editor,maydelete">
+                <mm:link page="/editors/delete-thumb.jspx" 
+                  referids="p?,nr,lang?,related?,show,editor,maydelete,target?">
                   <mm:param name="fields">${fields}</mm:param>
-                  <a class="editme delete" href="${_}${linktarget}"><fmt:message key="users.delete" /></a>
+                  <a class="editme delete" href="${_}${linktarget}"><fmt:message key="users.delete_image" /></a>
                   <jsp:text> / </jsp:text>
                 </mm:link>
               </mm:maydelete>
             </c:if>
             <mm:maywrite>
-              <mm:link page="$editor" referids="p?,nr,show,related,editor,maydelete">
+              <mm:link page="$editor" 
+                referids="p?,nr,lang?,related?,show,editor,maydelete,target?">
                 <mm:param name="fields">${fields}</mm:param>
                 <a class="editme" href="${_}${linktarget}"><fmt:message key="users.edit_image" /></a>
               </mm:link>
@@ -79,8 +85,9 @@
         
             <mm:import id="buffer">
               <c:if test="${editme eq 'true'}">
-                <div class="log"><jsp:text> <!-- empty --> </jsp:text></div>
                 <a class="cancel" href="#close"><fmt:message key="users.cancel" /></a>
+                <div class="log"><jsp:text> <!-- empty --> </jsp:text></div>
+                <strong><fmt:message key="users.edit_image" /></strong>
               </c:if>
               
               <fieldset>
@@ -102,6 +109,7 @@
                   <input name="fields"       type="hidden" value="${fields}" />
                   <input name="related"      type="hidden" value="${related}" />
                   <input name="show"         type="hidden" value="${show}" />
+                  <input name="lang"         type="hidden" value="${lang}" />
                   <input name="submit${nr}"  type="hidden" value="ok" />
                   <div>
                     <fmt:message key="users.form.save" var="button_save" />
@@ -134,9 +142,9 @@
                       <c:if test="${maydelete}">
                         <mm:maydelete>
                           <mm:link page="/editors/delete-thumb.jspx" 
-                            referids="p,nr,editor,show,related,maydelete">
+                            referids="p?,nr,lang?,related?,show,editor,maydelete,target?">
                             <mm:param name="fields">${fields}</mm:param>
-                            <a class="editme delete" href="${_}${linktarget}"><fmt:message key="users.delete" /></a>
+                            <a class="editme delete" href="${_}${linktarget}"><fmt:message key="users.delete_image" /></a>
                           </mm:link>
                           <jsp:text> / </jsp:text>
                         </mm:maydelete>
@@ -144,7 +152,7 @@
                       
                       <mm:maywrite>
                         <mm:link page="$editor" 
-                          referids="p,nr,show,editor,related,maydelete">
+                          referids="p?,nr,lang?,related?,show,editor,maydelete,target?">
                           <mm:param name="fields">${fields}</mm:param>
                           <a class="editme" href="${_}${linktarget}"><fmt:message key="users.edit_image" /></a>
                         </mm:link>
