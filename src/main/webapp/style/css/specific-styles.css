@@ -273,6 +273,9 @@ ul.sortby li.thumbsonly
 	background-repeat: no-repeat;
 	background-position: 4px 6px;
 }
+ul.sortby li.thumbsonly.active { background-image: url(icons/grid-list.png); }
+
+ul.sortby li.thumbsonly {}
 ul.sortby li.thumbsonly a { padding-left: 0; }
 
 /* media item page */

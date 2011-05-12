@@ -5,6 +5,8 @@
 *///<mm:content type="text/javascript" expires="3600" postprocessor="none" language="${param.locale}"><os:cache time="3600"><mm:escape escape="javascript-compress">
 <fmt:setBundle basename="eu.openimages.messages" scope="request" />
 <fmt:message key="search.any_language" var="any_lang" />
+<fmt:message key="media.list"       var="media_list" />
+<fmt:message key="media.thumbnails" var="media_thumbs" />
 
 /*
   Main javascript file for the Open Images Platform
@@ -192,9 +194,30 @@ function initTabs(id) {
                 } else {
                     document.location = "#t_" + a.substring(1);
                 }
+                
+                if (a.indexOf('thumbs') < 0) {
+                    $(".thumbsonly a").each(function() {
+                        if ($(this).hasClass('thumbsactive')) {
+                            $(this).removeClass('thumbsactive').text("${media_thumbs}");
+                            $(this).parent('.thumbsonly').removeClass("active");
+                        }
+                    });
+                }
             });
 
         $(".thumbsonly a").click(function(ev) {
+                $(this).toggleClass('thumbsactive');
+                
+                if ($(this).hasClass('thumbsactive')) {
+                    $(this).text("${media_list}");
+                    $(this).parent('.thumbsonly').addClass("active");
+                    $tabs.tabs('select', 3); // switch to fourth
+                } else {
+                    $(this).text("${media_thumbs}");
+                    $(this).parent('.thumbsonly').removeClass("active");
+                    $tabs.tabs('select', 1); // switch to fourth
+                }
+
                 var a = ev.target.href;
                 a = a.substring(a.indexOf('#'));
                 if (a.indexOf('#t_') == 0) {
@@ -202,7 +225,7 @@ function initTabs(id) {
                 } else {
                     document.location = "#t_" + a.substring(1);
                 }
-                $tabs.tabs('select', 3); // switch to fourth
+                
                 return false;
             });
     }
