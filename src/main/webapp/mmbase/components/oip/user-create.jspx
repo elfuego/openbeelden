@@ -19,7 +19,9 @@
           var validator = new MMBaseValidator();
           validator.prefetchNodeManager('mmbaseusers');
           validator.validateHook = function(valid) {
-            document.getElementById('submit_registration').disabled = this.invalidElements != 0;
+            if (document.getElementById('submit_registration')) {
+                document.getElementById('submit_registration').disabled = this.invalidElements != 0;
+            }
           }
           validator.setup(document.getElementById("${requestScope['org.mmbase.componentId']}"));
         });
