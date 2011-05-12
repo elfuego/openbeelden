@@ -219,6 +219,18 @@ function initFieldInfos() {
     }
 }
 
+/* Hides username input value when it matches user0 in registration form */
+function hideUser0() {
+    if ($('#mm_username').length) {
+        var username = $('#mm_username').val();
+        var user = /^user\d+/;   // user0
+        if (username.match(user)) {
+            //console.log('hiding user0 :' + username);
+            $('#mm_username').val("");
+        }
+    }
+}
+
 /* Open link in new window or tab (uses '._blank') */
 function initBlank() {
     $('._blank').click(function(ev){ 
@@ -277,6 +289,7 @@ $(document).ready(function() {
     initBlank();
     initPlusfields();
     initFieldInfos();
+    hideUser0();
     if ($('a.lightbox').length) initLightBox();
     
     /* Init oiplayer only when there is video or audio tag */
