@@ -56,8 +56,8 @@
                 <c:set var="searched" value="true" />
                 <mm:import id="value">
                   <c:if test="${!empty q}">${q} </c:if>
-                  <c:if test="${!empty user}">AND user:"${user}" </c:if>
-                  <c:if test="${!empty source}">AND source:"${source}" </c:if>
+                  <c:if test="${!empty user}"><c:if test="${!empty q}">AND </c:if>username:"${user}" </c:if>
+                  <c:if test="${!empty source}"><c:if test="${!empty q or !empty user}">AND </c:if>source:"${source}" </c:if>
                 </mm:import>
               </c:otherwise>
             </c:choose>
@@ -119,7 +119,7 @@
                 <c:when test="${empty q}">${index}* AND </c:when>
                 <c:otherwise>${q} AND </c:otherwise>
               </c:choose>
-              <!-- c:if test="${!empty user}">user:"${user}" AND </c:if -->
+              <c:if test="${!empty user}">user:"${user}" AND </c:if>
               <c:if test="${!empty source}">source:"${source}" AND </c:if>
               <c:if test="${!empty p_keywords or !empty p_tags or !empty p_users}">
                 <c:choose>
