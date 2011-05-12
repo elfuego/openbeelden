@@ -29,6 +29,7 @@
       <mmsq:field name="offline" alias="offline" />
       <mmsq:field name="length"  alias="length" keyword="true" store="true" />
       <mmsq:field name="creator" alias="user"   keyword="true" boost="4" />
+      <mmsq:field name="creator" alias="username" boost="4" />
       <mmsq:field name="created" alias="created" />
       <mmsq:field name="date"    alias="date" />
       <mmsq:field name="lastmodified" alias="lastmodified" />
