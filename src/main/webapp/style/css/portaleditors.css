@@ -79,6 +79,8 @@ body.login div.login
 }
 
 
+a.editme:link,
+a.editme:visited,
 a.edit:link,
 a.edit:visited { color: #3BA0D9; }
 
