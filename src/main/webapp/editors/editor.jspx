@@ -116,6 +116,8 @@
                     <mm:param name="role">related</mm:param>
                     <mm:param name="dir">destination</mm:param>
                     <mm:param name="fields">url,name,description</mm:param>
+                    <mm:param name="editor">/editors/edit-node.jspx</mm:param>
+                    <mm:param name="unpublish">true</mm:param>
                   </mm:include>
               </mm:hasrelationmanager>
 
@@ -126,6 +128,8 @@
                     <mm:param name="role">posrel</mm:param>
                     <mm:param name="dir">destination</mm:param>
                     <mm:param name="fields">url,name,description</mm:param>
+                    <mm:param name="editor">/editors/edit-node.jspx</mm:param>
+                    <mm:param name="unpublish">true</mm:param>
                   </mm:include>
               </mm:hasrelationmanager>
 

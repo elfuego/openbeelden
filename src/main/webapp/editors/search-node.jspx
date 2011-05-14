@@ -16,8 +16,12 @@
 <mm:import externid="p" /><!-- portal -->
 <mm:import externid="q" id="search" /><!-- search with ... -->
 <mm:import externid="nr" />
-<mm:import externid="type" required="true" />
 <mm:import externid="fields" vartype="List" />
+<mm:import externid="lang" />
+
+<mm:import externid="type" />
+<mm:import externid="role">related</mm:import>
+<mm:import externid="dir">destination</mm:import>
 
 <mm:import externid="editme">false</mm:import>
 <mm:import externid="show">/editors/show-node.jspx</mm:import>
@@ -79,14 +83,14 @@
       <li class="${oddeven}" id="search_${_node.number}">
 
         <mm:maywrite>
-          <mm:link page="$editor" referids="p?,_node@nr">
-            <a class="editme edit" href="${_}"><fmt:message key="users.edit" /></a>
+          <mm:link page="$editor" referids="p?,_node@nr,lang?,show?,editor?,maydelete?,target?">
+            <a class="editme edit" href="${_}#search_${_node.number}"><fmt:message key="users.edit" /></a>
           </mm:link>
         </mm:maywrite>
 
         <c:if test="${maydelete}">
           <mm:maydelete>
-            <mm:link page="/editors/delete-node.jspx" referids="p?,_node@nr,show,editor,maydelete">
+            <mm:link page="/editors/delete-node.jspx" referids="p?,_node@nr,lang?,show,editor,maydelete,target?">
               <a class="editme delete" href="${_}#search_${_node.number}"><fmt:message key="users.delete" /></a>
             </mm:link>
           </mm:maydelete>
@@ -102,7 +106,7 @@
     </mm:listnodes>
     
     <li class="pager notsortable">
-      <mm:link referids="type,search@q,p?,nr?" id="baseurl" absolute="true" escapeamps="false">
+      <mm:link referids="type,search@q,p?,nr?,lang?" id="baseurl" absolute="true" escapeamps="false">
         <mm:param name="fields">${fields}</mm:param>
       </mm:link>
       <oip:pager total="${total}" offset="${offset}" max="${max}" baseurl="${baseurl}" />

@@ -15,7 +15,8 @@
   <mm:import externid="p" /><!-- portal -->
   <mm:import externid="nr" required="true" />
   <mm:import externid="fields" />
-  
+  <mm:import externid="lang" />
+ 
   <mm:import externid="type" required="true" />
   <mm:import externid="role">related</mm:import>
   <mm:import externid="dir">destination</mm:import>
