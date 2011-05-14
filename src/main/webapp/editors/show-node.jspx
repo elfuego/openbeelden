@@ -24,7 +24,9 @@
         
         <c:when test="${_ eq 'articles'}">
           <span>
-            <mm:field name="title" /> (<mm:field name="language" />)
+            <mm:field name="title" /> (<mm:field name="language" />)<br />
+            <mm:field name="online"><mm:time format="dd MMM yyyy" /></mm:field>
+            <mm:field name="author"><mm:isnotempty> by <mm:write /></mm:isnotempty></mm:field>
           </span>
         </c:when>
         
