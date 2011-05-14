@@ -76,6 +76,7 @@ function pageMe(target, ev) {
     var link = ev.target.href;
     $(target).load(link, function() {
         var list = $(this).find('ul.sortable');
+        initEditme(target);
         initSortable(list);
         $(this).find('a.cancel').click(function(ev){
             ev.preventDefault();
@@ -99,6 +100,7 @@ function searchMe(self, ev) {
     var results_target = $(self).next('div.searchresults');
     $(results_target).load(link, params, function() {
         var list = $(this).find('ul.sortable');
+        initEditme(results_target);
         initSortable(list);
         $(this).find('a.cancel').click(function(ev){
             ev.preventDefault();
