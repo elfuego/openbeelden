@@ -192,7 +192,7 @@
                <mm:param name="fields">title,online</mm:param>
                <mm:param name="max">10</mm:param>
              </mm:link>
-             <form method="post" action="${searchlink}" class="searchform">
+             <form method="post" action="${searchlink}" class="searchform searchme">
                <fieldset class="first">
                  <div>
                    <label for="search">Search article</label>
