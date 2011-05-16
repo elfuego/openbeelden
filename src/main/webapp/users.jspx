@@ -107,7 +107,7 @@
         </mm:listnodes>
 
         <p class="pager">
-          <mm:url absolute="true" id="baseurl" write="false" referids="qu?" />
+          <mm:url id="baseurl" absolute="true" write="false" referids="qu?,sf?,t?,d?" escapeamps="false" />
           <oip:pager total="${total}" offset="${offset}" max="${max}" baseurl="${baseurl}" />
         </p>
       </div>
@@ -116,16 +116,17 @@
         <div class="related-grey">
           <oip:h3><fmt:message key="media.sortby" /></oip:h3>
 
+          <mm:url id="sorturl" absolute="true" write="false" referids="qu?" />
           <ul class="sortby">
             <li>
-              <mm:link referid="baseurl">
+              <mm:link referid="sorturl">
                 <mm:param name="sf">date</mm:param>
                 <mm:param name="d">${d eq 'up' ? 'down' : 'up'}</mm:param>
                 <a class="${empty sf or sf eq 'date' ? d : ''}" href="${_}">Join date</a>
               </mm:link>
             </li>
             <li>
-              <mm:link referid="baseurl">
+              <mm:link referid="sorturl">
                 <mm:param name="sf">name</mm:param>
                 <mm:param name="t">${t eq 'up' ? 'down' : 'up'}</mm:param>
                 <a class="${sf eq 'name' ? t : ''}" href="${_}">Username</a>
