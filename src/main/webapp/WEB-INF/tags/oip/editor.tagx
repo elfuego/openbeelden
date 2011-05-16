@@ -180,22 +180,18 @@
 
               <mm:hasrank minvalue="project manager">
                 <mm:listcontainer path="pools,portalrel,urls" searchdirs="destination" fields="pools.number,urls.url">
-                  <mm:size>
-                    <mm:isgreaterthan value="1">
-                      <h2>Portals</h2>
-                      <ul class="portals">
-                        <mm:listnodescontainer type="pools">
-                          <mm:listnodes>
-                            <li>
-                              <mm:link page="/editors/index.jspx" referids="_node@p">
-                                <a href="${_}"><mm:field name="name" /></a>
-                              </mm:link>
-                            </li>
-                          </mm:listnodes>
-                        </mm:listnodescontainer>
-                      </ul>
-                    </mm:isgreaterthan>
-                  </mm:size>
+                  <h2>Portals</h2>
+                  <ul class="portals">
+                    <mm:listnodescontainer type="pools">
+                      <mm:listnodes>
+                        <li>
+                          <mm:link page="/editors/index.jspx" referids="_node@p">
+                            <a href="${_}"><mm:field name="name" /></a>
+                          </mm:link>
+                        </li>
+                      </mm:listnodes>
+                    </mm:listnodescontainer>
+                  </ul>
                 </mm:listcontainer>
               </mm:hasrank>
               <mm:hasrank minvalue="project manager" inverse="true">
