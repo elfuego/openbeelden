@@ -1,0 +1,156 @@
+<mm:content 
+    xmlns:jsp="http://java.sun.com/JSP/Page"
+    xmlns:c="http://java.sun.com/jsp/jstl/core"
+    xmlns:x="http://java.sun.com/jsp/jstl/xml"
+    xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+    xmlns:mm="http://www.mmbase.org/mmbase-taglib-2.0"
+    expires="120" type="text/html">
+<jsp:output doctype-root-element="html"
+      doctype-public="-//W3C//DTD XHTML 1.1//EN"
+      doctype-system="http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd" />
+<mm:cloud method="http" rank="administrator">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="nl">
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+  <title>Formulier</title>
+<style type="text/css">
+body
+{
+	margin: 1em;
+	font-family: Helvetica, sans-serif;
+}
+h1, h2, h3 { margin-top: 0; }
+fieldset
+{
+	margin: 10px 0;
+	padding: 8px;
+	background: #efefef;
+	border: 1px solid #ccc;
+	width: 480px;
+}
+label
+{
+	display: block;
+	font-weight: bold;
+}
+
+.msg
+{
+	border: 2px solid #679911;
+	background-color: #CEFFCD;
+}
+
+.err
+{
+	border: 2px #F93537 solid;
+	background-color: #FDD3C7;
+}
+
+.msg, .err
+{
+	margin: 4px 0 4px 0;
+	padding: 0.5em;
+	width: 320px;
+}
+
+
+</style>
+
+</head>
+<body>
+
+<mm:import externid="nr" />
+<mm:import externid="change_owner" />
+<mm:import externid="search_owner" />
+
+<h1>Change owner</h1>
+<mm:url id="formlinks" write="false" />
+
+<form method="post" action="${formlink}">
+  <fieldset>
+    <label for="number">Search a node by its number</label>
+    <input name="nr" id="nr" type="text" value="${nr}" size="12" maxlength="255" />
+    <input name="action" type="submit" value="Search" />
+  </fieldset>
+</form>
+
+<mm:present referid="nr">
+  <mm:hasnode number="$nr">
+    <mm:node number="$nr">
+      
+      <form method="post" action="${formlink}">
+        <fieldset>
+          
+          <mm:present referid="change_owner">
+            <h3>Trying to save as owner: ${change_owner}</h3>
+            <mm:hasnode number="$change_owner" inverse="true">No node with that number (or alias)</mm:hasnode>
+            <mm:node number="$change_owner" notfound="skip">
+              <mm:nodeinfo type="type">
+                <c:set var="cansave" value="false" />
+                <c:choose>
+                <c:when test="${_ eq 'mmbaseusers'}">
+                  <c:set var="cansave" value="true" />
+                  <p class="msg">Owner saved!</p>
+                </c:when>
+                <c:otherwise>
+                  <p class="err">Not a mmbaseusers node!</p></c:otherwise>
+                </c:choose>
+              </mm:nodeinfo>
+            </mm:node>
+            <c:if test="${cansave}">
+              <mm:setfield name="owner"><mm:write referid="change_owner" /></mm:setfield>
+            </c:if>
+          </mm:present>
+
+
+          <h2>Node of type: <mm:nodeinfo type="type" /></h2>
+          <mm:fieldlist type="list">
+            <strong><mm:fieldinfo type="name" /> : </strong> <mm:fieldinfo type="value" /> <br />
+          </mm:fieldlist>
+          <label>Owner (change value in this field to new owner number)</label>
+          <input type="text" name="change_owner" value="${_node.owner}" />
+          <input type="hidden" name="nr" value="${nr}" />
+          <input name="action" type="submit" value="Save" />
+        </fieldset>
+      </form>
+    </mm:node>
+    
+    <!-- search new owner -->
+    <form method="post" action="${formlink}">
+      <fieldset>
+        
+        <mm:present referid="search_owner">
+          <h3>Searched for owner: ${search_owner}</h3>
+          <mm:listnodescontainer type="mmbaseusers">
+           <mm:constraint field="username" value="$search_owner" operator="EQUAL" />
+            <mm:listnodes>
+              <c:set var="userfound" value="true" />
+              <p class="msg">Found username <strong><mm:field name="username" /></strong> with number
+              <strong><mm:field name="number" /></strong> </p>
+            </mm:listnodes>
+          </mm:listnodescontainer>
+          <c:if test="${!userfound}">
+            <p class="err">No user found with username <strong>'${search_owner}'</strong>.</p>
+          </c:if>
+        </mm:present>
+
+        <label for="owner">Search a new owner</label>
+        <input name="search_owner" id="search_owner" type="text" value="" size="32" maxlength="255" />
+        <input type="hidden" name="nr" value="${nr}" />
+        <input name="action" type="submit" value="Search" />
+      </fieldset>
+    </form>
+
+
+    
+  </mm:hasnode>
+  <mm:hasnode number="$nr" inverse="true">
+    <p>No node with number '${nr}'.</p>
+  </mm:hasnode>
+</mm:present>
+
+
+</body>
+</html>
+</mm:cloud>
+</mm:content>
