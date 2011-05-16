@@ -15,6 +15,39 @@
   </properties>
 
   <fieldlist>
+  
+    <field name="username">
+      <descriptions>
+        <description xml:lang="en">Username or account.</description>
+        <description xml:lang="nl">Gebruikersnaam of accountnaam.</description>
+      </descriptions>
+      <gui>
+        <guiname xml:lang="nl">Account</guiname>
+        <guiname xml:lang="eo">Uzulo</guiname>
+        <guiname xml:lang="en">Account</guiname>
+      </gui>
+      <editor>
+        <positions>
+          <list>1</list>
+          <input>1</input>
+        </positions>
+      </editor>
+      <datatype base="eline" xmlns="http://www.mmbase.org/xmlns/datatypes">
+        <property name="collator" value=":IDENTICAL" />
+        <unique value="true" />
+        <required value="true" enforce="never" />
+        <minLength value="1" />
+        <maxLength value="32" />
+          <pattern
+            enforce="onvalidate"
+            value="(?i)\A([A-Z0-9_\-\+\*\.])+\z">
+          <description xml:lang="nl">'${VALUE}' is geen geldige gebruikersnaam</description>
+          <description xml:lang="en">'${VALUE}' is not a valid account name</description>
+          <description xml:lang="fr">'${VALUE}' n'est pas correct</description>
+          <description xml:lang="eo">'${VALUE}' ne estas korektforma </description>
+        </pattern>
+      </datatype>
+    </field>
 
     <xi:include href="http://www.mmbase.org/builders/oip/language.field.xml" />
     
