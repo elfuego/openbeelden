@@ -39,16 +39,16 @@
   
             <c:choose>
               <c:when test="${empty portalimg}">
-                  <mm:link page="/editors/add-thumb.jspx" referids="p,_node@nr,_node@related">
-                    <mm:param name="lang">${requestScope['javax.servlet.jsp.jstl.fmt.locale.request']}</mm:param>
-                    <mm:param name="type">images</mm:param>
-                    <mm:param name="fields">handle</mm:param>
-                    <mm:param name="role">portalrel</mm:param>
-                    <mm:param name="defaultstr">title=Portal logo ${portalName}</mm:param>
-                    <mm:param name="show">/editors/show-portallogo.jspx</mm:param>
-                    <mm:param name="maydelete">false</mm:param>
-                    <a class="editme add" href="${_}#edit-picture"><fmt:message key="users.add_image" /></a>
-                  </mm:link>
+                <mm:link page="/editors/add-thumb.jspx" referids="p,_node@nr,_node@related">
+                  <mm:param name="lang">${requestScope['javax.servlet.jsp.jstl.fmt.locale.request']}</mm:param>
+                  <mm:param name="type">images</mm:param>
+                  <mm:param name="fields">handle</mm:param>
+                  <mm:param name="role">portalrel</mm:param>
+                  <mm:param name="defaultstr">title=Portal logo ${portalName}</mm:param>
+                  <mm:param name="show">/editors/show-portallogo.jspx</mm:param>
+                  <mm:param name="maydelete">false</mm:param>
+                  <a class="editme add" href="${_}#edit-picture"><fmt:message key="users.add_image" /></a>
+                </mm:link>
               </c:when>
               <c:otherwise>
                 <div id="edit_${portalimg}">
@@ -156,9 +156,21 @@
                 <mm:include page="edit-node.jspx" referids="p?,_node@nr">
                   <mm:param name="fields">name,url</mm:param>
                 </mm:include>
+                <mm:node id="url_node" />
               </mm:relatednodes>
             </mm:relatednodescontainer>
             
+            <c:if test="${empty url_node}">
+              <div id="add_url"> <jsp:text> <!-- empty --> </jsp:text> </div>
+              <p class="add">
+                <mm:link page="/editors/add-node.jspx" referids="p?,_node@nr">
+                  <mm:param name="type">urls</mm:param>
+                  <mm:param name="role">portalrel</mm:param>
+                  <a class="editme" href="${_}#add_url">add url</a>
+                </mm:link>
+              </p>
+            </c:if>
+              
           </div>
         </c:if>
 
