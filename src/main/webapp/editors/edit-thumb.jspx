@@ -78,7 +78,7 @@
       </c:when>
       <c:otherwise>
   
-        <mm:url referids="p,nr" write="false" absolute="true" escapeamps="false" id="submit_link"></mm:url>
+        <mm:url referids="p?,nr,maydelete,lang?" write="false" absolute="true" escapeamps="false" id="submit_link"></mm:url>
         <mm:form id="form_$nr" page="$submit_link">
   
           <mm:node number="$nr" commitonclose="false">
@@ -92,8 +92,8 @@
               
               <fieldset>
                 <mm:fieldlist fields="${fields}" type="${empty fields ? 'edit' : ''}">
-                  <div>
-                    <c:set var="fld_name"><mm:fieldinfo type="name" /></c:set>
+                  <c:set var="fld_name"><mm:fieldinfo type="name" /></c:set>
+                  <div class="${fld_name}">
                     <mm:fieldinfo type="forid">
                       <label for="${_}" class="${fld_name}"><mm:fieldinfo type="guiname" /></label>
                     </mm:fieldinfo>
@@ -109,16 +109,13 @@
                   <input name="fields"       type="hidden" value="${fields}" />
                   <input name="related"      type="hidden" value="${related}" />
                   <input name="show"         type="hidden" value="${show}" />
-                  <input name="lang"         type="hidden" value="${lang}" />
                   <input name="submit${nr}"  type="hidden" value="ok" />
-                  <div>
                     <fmt:message key="users.form.save" var="button_save" />
                     <fmt:message key="users.cancel" var="button_cancel" />
                     <input type="submit" name="action" value="${button_save}" class="submit" />
                     <c:if test="${editme eq 'true'}">
                       <input type="button" name="cancel" value="${button_cancel}" class="cancel" /> 
                     </c:if>
-                  </div>
                 </fieldset>
               </mm:maywrite>
             </mm:import>
@@ -133,7 +130,7 @@
                   <c:when test="${editme eq 'true'}">
 
                     <span class="content">
-                      <mm:include page="$show" referids="p,nr,related,editor">
+                      <mm:include page="$show" referids="p?,nr">
                         <mm:param name="fields">${fields}</mm:param>
                       </mm:include>
                     </span>

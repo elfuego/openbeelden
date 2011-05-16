@@ -286,11 +286,13 @@ function afterSubmit(response, status, xhr) {
         newItem.attr('id', newId);
         newItem.removeClass('notsortable');
         
-        /* after saving new node, form is kept around for some reason */
+        /* after saving new node, form is kept around for some reason ?! */
+        /*
         if ($(parent).find('form').length) {
-            //console.log('still found a form ' + $(parent).find('form').length);
-            $(parent).find('form').remove();
-        }
+            console.log('still found a form ' + $(parent).find('form').length);
+            console.log(parent);
+            //$(parent).find('form').remove();
+        } */
         
         /* if this (div) contains .targetme : append new content to it */
         if ($(this).hasClass('targetme')) {
@@ -299,9 +301,11 @@ function afterSubmit(response, status, xhr) {
             initEditme('#' + newId);
         } else {
             //console.log('inserting ' + newId + ' before: ' + $(this).attr('id') );
+            $(this).removeClass('editmeform');
             newItem.insertBefore(this);
             initEditme('#' + newId);
         }
+        $('#' + newId).removeClass('editmeform');
         
     } else if (response.indexOf('node_deleted') > -1) { /* node deleted */
         //console.log('deleted init editme on ' + thisId + ' initEditme on this');

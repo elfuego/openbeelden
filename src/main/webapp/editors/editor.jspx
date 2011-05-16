@@ -7,7 +7,7 @@
     xmlns:mm="http://www.mmbase.org/mmbase-taglib-2.0"
     xmlns:sr="http://www.mmbase.org/tags/mm/searchrelate"
     xmlns:oip="urn:jsptagdir:/WEB-INF/tags/oip">
-<!--  <jsp:directive.page buffer="64kb" /> -->
+<jsp:directive.page buffer="64kb" /> 
 
   <oip:editor styleClass="portal">
     <jsp:attribute name="head">
@@ -150,9 +150,7 @@
                   <mm:param name="role">related</mm:param>
                   <mm:param name="dir">source</mm:param>
                   <mm:param name="editor">/editors/editor.jspx</mm:param>
-                  <mm:param name="maydelete">false</mm:param>
-                  <mm:param name="unpublish">true</mm:param>
-                  <mm:param name="sortable">false</mm:param>
+                  <mm:param name="maydelete">true</mm:param>
                 </mm:include>
               </mm:hasrelationmanager>
             </div><!-- /.wrap -->

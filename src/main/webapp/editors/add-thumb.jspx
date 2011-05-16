@@ -15,6 +15,7 @@
     <mm:import externid="p" /><!-- portal -->
     <mm:import externid="type" required="true" /><!-- type of new node to create -->
     <mm:import externid="fields" vartype="List" />
+    <mm:import externid="lang" />
 
     <!-- if we have nr and role, a relation will be made with nr -->
     <mm:import externid="nr" />
@@ -46,16 +47,13 @@
       <c:when test="${cancel eq 'Cancel'}">
         
         <mm:include page="$show" referids="nr,fields?" />
-
         <mm:node number="$nr">
-          
           <mm:link page="/editors/add-thumb.jspx" 
             referids="p?,_node@nr,related,role,dir,type,show,editor,fields,defaultstr,maydelete">
             <mm:param name="lang">${requestScope['javax.servlet.jsp.jstl.fmt.locale.request']}</mm:param>
             <c:set var="link">${_}#${target}</c:set>
             <a class="editme add" href="${link}"><fmt:message key="users.add_image" /></a>
           </mm:link>
-           
         </mm:node>
 
       </c:when>
@@ -64,7 +62,6 @@
         <c:if test="${editme eq 'true'}">
           <mm:notpresent referid="submit$type">
             <div class="log"><jsp:text> <!-- empty --> </jsp:text></div>
-            <strong><fmt:message key="users.add_image" /></strong>
           </mm:notpresent>
         </c:if>
 
@@ -72,7 +69,7 @@
           <mm:import id="buffer">
 
             <mm:createnode type="$type" id="new_node" commitonclose="false">
-
+              <strong><fmt:message key="users.add_image" /></strong>
               <a class="editme cancel" href="#close"><fmt:message key="users.cancel" /></a>
 
               <fieldset>
@@ -98,24 +95,24 @@
                 <input name="p"        type="hidden" value="${p}" />
                 <input name="nr"       type="hidden" value="${nr}" />
                 <input name="fields"   type="hidden" value="${fields}" />
+                <input name="lang"     type="hidden" value="${lang}" />
                 <input name="submit${type}" type="hidden" value="submit" />
                 <input name="type" type="hidden" value="${type}" />
                 <input name="role" type="hidden" value="${role}" />
                 <input name="pos"  type="hidden" value="${pos}" />
                 <input name="dir"  type="hidden" value="${dir}" />
                 <input name="show" type="hidden" value="${show}" />
+                <input name="maydelete" type="hidden" value="${maydelete}" />
                 <input name="related" type="hidden" value="${related}" />
                 <input name="editor" type="hidden" value="${editor}" />
                 <input name="target" type="hidden" value="${target}" />
                 <input name="defaultstr"  type="hidden" value="${defaultstr}" />
-                <p>
-                  <fmt:message key="users.cancel" var="button_cancel" />
-                  <fmt:message key="users.form.save" var="button_save" />
-                  <input type="submit" name="action" value="${button_save}" class="submit" />
-                  <c:if test="${editme eq 'true'}">
-                    <input type="button" name="cancel" value="${button_cancel}" class="cancel" />
-                  </c:if>
-                </p>
+                <fmt:message key="users.cancel" var="button_cancel" />
+                <fmt:message key="users.form.save" var="button_save" />
+                <input type="submit" name="action" value="${button_save}" class="submit" />
+                <c:if test="${editme eq 'true'}">
+                  <input type="button" name="cancel" value="${button_cancel}" class="cancel" />
+                </c:if>
               </fieldset>
             </mm:createnode>
           </mm:import>
@@ -188,12 +185,14 @@
               </mm:include>
             </span>
             <span class="links">
-              <mm:link page="/editors/delete-thumb.jspx"
-                referids="p?,new_node@nr,related,role,dir,type,show,editor,fields,defaultstr,maydelete">
-                <mm:param name="fields">${fields}</mm:param>
-                <a class="editme delete" href="${_}#edit_${new_node}"><fmt:message key="users.delete" /></a>
-                <jsp:text> / </jsp:text>
-              </mm:link>
+              <c:if test="${maydelete}">
+                <mm:link page="/editors/delete-thumb.jspx"
+                  referids="p?,new_node@nr,related,role,dir,type,show,editor,fields,defaultstr,maydelete">
+                  <mm:param name="fields">${fields}</mm:param>
+                  <a class="editme delete" href="${_}#edit_${new_node}"><fmt:message key="users.delete" /></a>
+                  <jsp:text> / </jsp:text>
+                </mm:link>
+              </c:if>
               <mm:link page="$editor"
                 referids="p?,new_node@nr,related,role,dir,type,show,editor,fields,defaultstr,maydelete">
                 <mm:param name="fields">${fields}</mm:param>

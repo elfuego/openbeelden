@@ -53,13 +53,13 @@
               <c:otherwise>
                 <div id="edit_${portalimg}">
                   <mm:include page="/editors/show-portallogo.jspx" referids="p,portalimg@nr" />
-                    <mm:link page="/editors/edit-thumb.jspx" referids="p,portalimg@nr,p@related">
-                      <mm:param name="lang">${requestScope['javax.servlet.jsp.jstl.fmt.locale.request']}</mm:param>
-                      <mm:param name="fields">handle</mm:param>
-                      <mm:param name="show">/editors/show-portallogo.jspx</mm:param>
-                      <mm:param name="maydelete">false</mm:param>
-                      <a class="editme" href="${_}#edit_${portalimg}"><fmt:message key="users.edit_image" /></a>
-                    </mm:link>
+                  <mm:link page="/editors/edit-thumb.jspx" referids="p,portalimg@nr,p@related">
+                    <mm:param name="lang">${requestScope['javax.servlet.jsp.jstl.fmt.locale.request']}</mm:param>
+                    <mm:param name="fields">handle</mm:param>
+                    <mm:param name="show">/editors/show-portallogo.jspx</mm:param>
+                    <mm:param name="maydelete">false</mm:param>
+                    <a class="editme" href="${_}#edit_${portalimg}"><fmt:message key="users.edit_image" /></a>
+                  </mm:link>
                 </div>
               </c:otherwise>
             </c:choose>

@@ -4,7 +4,9 @@
     xmlns:fn="http://java.sun.com/jsp/jstl/functions"
     xmlns:fmt="http://java.sun.com/jsp/jstl/fmt"
     xmlns:mm="http://www.mmbase.org/mmbase-taglib-2.0"
+    xmlns:oip="urn:jsptagdir:/WEB-INF/tags/oip"
     expires="0" type="text/html" language="client" postprocessor="none">
+
 
 <jsp:output omit-xml-declaration="true" />
 
@@ -33,24 +35,27 @@
   <!-- c:if test="${role ne 'posrel'}">
     <mm:import id="sortable" reset="true">false</mm:import>
   </c:if -->
-  <mm:import externid="max">99</mm:import>
+  <mm:import externid="max">10</mm:import>
+  <mm:import externid="offset">0</mm:import>
   
 <!-- <mm:constraint field="posrel.pos" value="1" value2="10" operator="BETWEEN" />   -->
   
   <mm:node number="$nr">
     <mm:nodeinfo type="type" id="type_of_nr" write="false" />
     <mm:relatednodescontainer type="$type" role="$role" searchdirs="$dir" id="related_$type">
+      <mm:size id="total" write="false" />
       <c:if test="${!empty max and max gt 1}">
         <mm:maxnumber value="$max" />
       </c:if>
-      <mm:size id="total" write="false" />
+      <mm:offset value="$offset" />
+      <mm:size id="size" write="false" />
       <c:if test="${role eq 'posrel'}">
         <mm:sortorder field="posrel.pos" direction="UP" />
       </c:if>
-      <ul class="${sortable ? 'sortable connected' : ''} ${role eq 'related' ? 'sortcancel' : role} ${total == 0 ? 'empty' : total}" id="related_${type}">
+      <ul class="${sortable ? 'sortable connected' : ''} ${role eq 'related' ? 'sortcancel' : role} ${size == 0 ? 'empty' : size}" id="related_${type}">
         <li class="log notsortable"><jsp:text> <!-- empty --> </jsp:text></li>
-        <c:if test="${total == 0 and sortable}">
-          <li class="notsortable empty">Drop items here to add them.</li>
+        <c:if test="${size == 0 and sortable}">
+          <li class="notsortable empty">Search <mm:nodeinfo nodetype="$type" type="type" /> and drop them here to add them to the list (e.g. create relation).</li>
         </c:if>
         <mm:relatednodes id="this_node">
           <mm:relation to="${nr}" role="${role}">
@@ -94,7 +99,7 @@
         <li id="new_${type}" class="notsortable">
           <jsp:text> <!-- empty --> </jsp:text>
         </li>
-        <c:if test="${maycreate and total lt max}">
+        <c:if test="${maycreate and size lt max}">
           <li class="notsortable">
             <mm:link escapeamps="true" page="/editors/add-node.jspx" 
               referids="p?,nr,type,fields?,role,dir,show,editor,maydelete,target?">
@@ -106,6 +111,14 @@
             </mm:link>
           </li>
         </c:if>
+
+    <li class="pager notsortable">
+      <mm:link referids="type?,p?,nr?,editor?,lang?" id="baseurl" absolute="true" escapeamps="false">
+        <mm:param name="fields">${fields}</mm:param>
+      </mm:link>
+      <!-- url : ${baseurl} t : ${total} m : ${max} o : ${offset} -->
+      <oip:pager total="${total}" offset="${offset}" max="${max}" baseurl="${baseurl}" />
+    </li>
       </ul>
     </mm:relatednodescontainer>
     <c:if test="${sortable}">
@@ -115,22 +128,22 @@
     <c:if test="${search}">
 
       <mm:link page="/editors/search-node.jspx" id="searchlink" escapeamps="false" 
-        referids="p?,nr,type,editor">
+        referids="p?,nr,type,editor,sortable?">
         <mm:param name="max">10</mm:param>
       </mm:link>
       <form class="searchme searchform" method="post" action="${searchlink}">
         <fieldset class="first">
           <div>
-            <label for="search"><fmt:message key="users.search" /> ${type}</label>
+            <label for="search">Search ${type}</label>
             <input type="text" name="q" id="search" size="42" />
           </div>
           <input type="submit" name="submit" value="Search" class="submit" />
         </fieldset>
       </form>
       <div class="searchresults"><jsp:text> <!-- empty --> </jsp:text>
-        <c:if test="${total gt 0}">
+        <c:if test="${size gt 0 and sortable}">
           <ul id="found_${type}" class="sortable connected empty">
-            <li class="empty notsortable">Drop items here to remove.</li>
+            <li class="empty notsortable">Drop items here to remove them from the list (e.g. sever relation).</li>
           </ul>
         </c:if>
       </div>
