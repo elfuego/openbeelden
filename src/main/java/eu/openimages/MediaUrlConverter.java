@@ -145,7 +145,7 @@ public class MediaUrlConverter extends DirectoryUrlConverter {
                 Date online = mediafragment.getDateValue("online");
                 Date offline = mediafragment.getDateValue("offline");
                 if (!show || online.after(today) || offline.before(today)) {
-                    log.warn("mediafragment not shown: " + show + ", online: " + online + ", offline: " + offline);
+                    log.warn("Media item offline - because show: " + show + ", online: " + online + " or offline: " + offline);
                     return Url.NOT;
                 } else {
                     frameworkParameters.set(MEDIA, mediafragment);
