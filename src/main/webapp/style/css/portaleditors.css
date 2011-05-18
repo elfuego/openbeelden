@@ -94,7 +94,7 @@ a.delete, a.unrelate
 a.editme, a.edit { margin-left: 6px; }
 a.editme.add, div.add
 {
-	margin: 6pt 0;
+	margin: 16pt 0 6pt 0;
 }
 p.translation, p.editme, p.closeme, a.editme, a.new, a.cancel, a.close
 {
