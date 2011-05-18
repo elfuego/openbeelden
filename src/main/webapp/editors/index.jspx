@@ -167,6 +167,7 @@
               <p class="add">
                 <mm:link page="/editors/add-node.jspx" referids="p?,_node@nr">
                   <mm:param name="type">urls</mm:param>
+                  <mm:param name="fields">name,url,description</mm:param>
                   <mm:param name="role">portalrel</mm:param>
                   <a class="editme" href="${_}#add_url">add url</a>
                 </mm:link>
