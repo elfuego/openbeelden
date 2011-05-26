@@ -281,7 +281,7 @@ public class UsersUrlConverter extends DirectoryUrlConverter {
                 Date validto = node.getDateValue("validto");
                 if (status < 1 || validfrom.after(today) || validto.before(today)) {
                     if (log.isServiceEnabled()) {
-                        log.service("user offline because status: " + status + ", validfrom: " + validfrom + ", validto: " + validto);
+                        log.service("User #" + username  + " offline because status: " + status + ", validfrom: " + validfrom + ", validto: " + validto);
                     }
                     return Url.NOT;
                 }
