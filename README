@@ -11,22 +11,26 @@ Installation instructions can be found in INSTALL in this same directory.
 
 CHECKOUT SOURCES WITH SVN
 -------------------------
-Check out OIP-1.0 with: 
-$ svn co http://scm.mmbase.org/view/openimages/tags/1.0/
+Check out OIP-1.1 with: 
+
+$ svn co http://scm.mmbase.org/view/openimages/tags/1.1/
 
 Or OIP HEAD with: 
+
 $ svn co https://scm.mmbase.org/openimages/trunk/
 
 
-BUILDING WITH MAVEN
--------------------
+MAVEN 2 BUILD
+-------------
 You can build it with Maven 2. Standing in this directory (or the one you just checked out):
+
 $ mvn clean install
 
 
 RUN IT (JETTY)
 --------------
 You can run it with Jetty. Change 'jetty-env.xml' to correctly refer to your database and:
+
 $ mvn jetty:run
 
 Point your webbrowser at http://localhost:8080.

@@ -46,7 +46,7 @@ OIP's war is configured to be able to run right away using a HSQL database:
 
 1. Copy the downloaded oip-1.1.war file to you Java web application servers (f.e. Tomcat) webapps 
    directory.
-2. Start your web application server, wait a minute to have it complete deploying OIP.
+2. Start your web application server, wait a minute for the server to complete deploying OIP.
 3. Point your web browser to http://localhost:8080/oip-1.1.
 
 
