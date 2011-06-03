@@ -42,7 +42,15 @@ OIP is a Java web application that is based upon MMBase, for more detailed infor
 installing web applications refer to your server's documentation or the MMBase installation
 documentation: http://www.mmbase.org/mmdocs/releases/installation.txt
 
-Basically installing OIP boils down to:
+OIP's war is configured to be able to run right away using a HSQL database:
+
+1. Copy the downloaded oip-1.1.war file to you Java web application servers (f.e. Tomcat) webapps 
+   directory.
+2. Start your web application server, wait a minute to have it complete deploying OIP.
+3. Point your web browser to http://localhost:8080/oip-1.1.
+
+
+For a full installation with mail and a more persistant database like MySQL, follow these steps:
 
 1. Install Java.
 2. Install the Java web application server, for example Apache Tomcat. 
@@ -59,14 +67,14 @@ Basically installing OIP boils down to:
       '[catalina-home]/lib'.
 4. Install JavaMail: 'mail.jar' (and 'activation.jar' for Java < 1.5). These should typically be 
    in the same directory as the jdbc driver. 
-5. Place the 'oip-1.0.war' in your servers webapps directory and start the server.
+5. Place the 'oip-1.1.war' in your servers webapps directory and start the server.
    Wait a minute or two while the war deploys. Needed tables and some example content are 
    automatically created in the 'oip' database.
    A configuration file with the most important settings can now be found in servers configuration 
-   directory, in Tomcat that will probably be '[catalina-home]/conf/Catalina/localhost/oip-1.0.xml'
+   directory, in Tomcat that will probably be '[catalina-home]/conf/Catalina/localhost/oip-1.1.xml'
    for database settings, logging etc. Other configuration options are found in the 'WEB-INF/config' 
-   directory of oip-1.0.
-6. Visit http://127.0.0.1:8080/oip-1.0 to make sure it runs. 
+   directory of oip-1.1.
+6. Visit http://127.0.0.1:8080/oip-1.1 to make sure it runs. 
 7. Login with 'admin' and 'openimages2009'. Or 'foofoo' and 'barbar' as a project manager.
 
 When OIP is running allright, you may need to configure some other applications to enable the 
@@ -94,13 +102,13 @@ What do you really need to configure?
 * Media: creation of streams is configured in '/WEB-INF/config/createcaches.xml'.
 
 * Email: the smtp server that is being used.
-Edit the application context xml (f.e. '[catalina-home]/conf/Catalina/localhost/oip-1.0.xml').
+Edit the application context xml (f.e. '[catalina-home]/conf/Catalina/localhost/oip-1.1.xml').
 
 What can be configured?
 -----------------------
 * Remote server transcodings, see '/WEB-INF/config/createcaches.xml'.
 * Database. To use a different table, database etc. edit the context xml (f.e. 
-  '[catalina-home]/conf/Catalina/localhost/oip-1.0.xml').
+  '[catalina-home]/conf/Catalina/localhost/oip-1.1.xml').
 * User management, enable a user as project manager.
 
 
@@ -114,17 +122,17 @@ These users have only access to content they create themselves. A user with rank
 
 * Editors
 Managing media and site content 
-http://localhost:8080/oip-1.0/editors
+http://localhost:8080/oip-1.1/editors
 
 * MMBase
 Main configuration and management of MMBase
-http://localhost:8080/oip-1.0/mmbase
+http://localhost:8080/oip-1.1/mmbase
 
 * Streams and media
-http://127.0.0.1:8080/oip-1.0/mmbase/streams/streams/admin
+http://127.0.0.1:8080/oip-1.1/mmbase/streams/streams/admin
 
 * Lucene search indexes: 
-http://127.0.0.1:8080/oip-1.0/mmbase/lucene/lucene/admin
+http://127.0.0.1:8080/oip-1.1/mmbase/lucene/lucene/admin
 
 
 MORE INFORMATION
