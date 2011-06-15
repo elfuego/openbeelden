@@ -55,19 +55,8 @@
         <oip:media width="512" height="288" />
 
         <h3 class="mediatitle">
-          <mm:maywrite>
-            <mm:link referids="_node@media">
-              <mm:frameworkparam name="component">oip</mm:frameworkparam>
-              <mm:frameworkparam name="block">user-media</mm:frameworkparam>
-              <mm:frameworkparam name="user">${iam}</mm:frameworkparam>
-              <a class="edit" href="${_}"><fmt:message key="media.edit" /></a>
-            </mm:link>
-          </mm:maywrite>
           <mm:nodefunction name="translation"><mm:field name="title" /></mm:nodefunction>
         </h3>
-        <mm:nodefunction name="translation">
-          <mm:field name="subtitle"><mm:isnotempty><h4>${_}</h4></mm:isnotempty></mm:field>
-        </mm:nodefunction>
 
         <!--
         <p class="nr_of_views">
@@ -101,6 +90,16 @@
                 </mm:link>
               </li>
             </mm:maycreate>
+            <mm:maywrite>
+              <li class="edit">
+                <mm:link referids="_node@media">
+                  <mm:frameworkparam name="component">oip</mm:frameworkparam>
+                  <mm:frameworkparam name="block">user-media</mm:frameworkparam>
+                  <mm:frameworkparam name="user">${iam}</mm:frameworkparam>
+                  <a href="${_}"><fmt:message key="media.edit" /></a>
+                </mm:link>
+              </li>
+            </mm:maywrite>
           </ul>
         </div>
 
@@ -304,6 +303,7 @@
         </div>
 
         <mm:nodefunction name="translation">
+          <mm:field name="subtitle"><mm:isnotempty><h4>${_}</h4></mm:isnotempty></mm:field>
           <mm:field name="intro" escape="paragraph(media-intro)" />
         </mm:nodefunction>
 

@@ -294,15 +294,10 @@ h3.subtitle, h3.mediatitle
 	white-space: nowrap;
 	letter-spacing: normal;
 }
-h3.mediatitle a.edit
-{
-	font-size: 0.85em;
-	text-decoration: underline;
-}
 
 div.toolbar
 {
-	margin: 10px 0;
+	margin: 6px 0 12px 0;
 	height: 32px;
 }
 
@@ -334,7 +329,8 @@ ul.toolbar li a
 }
 
 ul.toolbar li.license a { border-left: 1px #CCC solid; }
-ul.toolbar li.favorite a
+ul.toolbar li.favorite a,
+ul.toolbar li.edit a
 {
 	background-position: left 50%;
 	padding: 6px 14px 2px 14px;
@@ -351,14 +347,13 @@ ul.toolbar a:active
     outline: none;
 }
 
-ul.toolbar li.favorite a { color: #555; }
+ul.toolbar li.favorite a { color: #666; }
 ul.toolbar li.favorite a.selected { color: #65af0e; }
 
 p.media-intro
 {
     clear: both;
-    padding-top: 4px;
-    margin-bottom: 2px;
+    padding-top: 6px;
 }
 
 table.media-info th
