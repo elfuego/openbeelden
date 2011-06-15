@@ -39,37 +39,39 @@
           <mm:param name="binaryPrefixes">${empty initParam['mmbase.filesize.binaryPrefixes'] ? true : initParam['mmbase.filesize.binaryPrefixes']}</mm:param>
         </mm:escaper>
 
-        <mm:relatednodes type="imagesources">
-          <mm:import id="img_src" reset="true"><mm:image mode="url" absolute="true" width="${w}" /></mm:import>
-          <mm:import id="img_tag" reset="true"><mm:image mode="img" absolute="true" width="${w}" /></mm:import>
-          <mm:image absolute="true" width="${w}" height="${h}">
-            <a class="lightbox" 
-               title="${title} - png, ${dimension.width}x${dimension.height}, ${mm:escape('myfilesize',_node.filesize)}"
-               href="${_}">
-              <img src="${_}" alt="${title} - png, ${dimension.width}x${dimension.height}, ${mm:escape('myfilesize',_node.filesize)}" />
-            </a>
-          </mm:image>
-        </mm:relatednodes>
-
-        <mm:listfunction name="filteredurls">
-          <mm:node number="${_.source.number}">
-            <c:if test="${_.state ne 'SOURCE' and _.available}">
-              <c:choose> <!-- check max width and height for lightbox -->
-                <c:when test="${_node.width > 1880 or _node.height > 980}">
-                  <c:set var="lightbox_img"><mm:image template="s(1880x980)" /></c:set>
-                  <a class="lightbox hidden" 
-                     title="${title} - smaller rendering of the original ${fn:toLowerCase(_.format)}, ${_.dimension}, ${mm:escape('myfilesize',_node.filesize)}. You will find the original file in the download box on this page." 
-                     href="${lightbox_img}">${_.filename}</a>
-                </c:when>
-                <c:otherwise> 
-                  <a class="lightbox hidden" 
-                     title="${title} - ${fn:toLowerCase(_.format)}, ${_.dimension}, ${mm:escape('myfilesize',_node.filesize)}" 
-                     href="${mm:escape('text/xml', _.URL)}">${_.filename}</a>
-                </c:otherwise>
-              </c:choose>
-            </c:if>
-          </mm:node>
-        </mm:listfunction>
+        <div class="mediaimage">
+          <mm:relatednodes type="imagesources">
+            <mm:import id="img_src" reset="true"><mm:image mode="url" absolute="true" width="${w}" /></mm:import>
+            <mm:import id="img_tag" reset="true"><mm:image mode="img" absolute="true" width="${w}" /></mm:import>
+            <mm:image absolute="true" width="${w}" height="${h}">
+              <a class="lightbox" 
+                 title="${title} - png, ${dimension.width}x${dimension.height}, ${mm:escape('myfilesize',_node.filesize)}"
+                 href="${_}">
+                <img src="${_}" alt="${title} - png, ${dimension.width}x${dimension.height}, ${mm:escape('myfilesize',_node.filesize)}" />
+              </a>
+            </mm:image>
+          </mm:relatednodes>
+  
+          <mm:listfunction name="filteredurls">
+            <mm:node number="${_.source.number}">
+              <c:if test="${_.state ne 'SOURCE' and _.available}">
+                <c:choose> <!-- check max width and height for lightbox -->
+                  <c:when test="${_node.width > 1880 or _node.height > 980}">
+                    <c:set var="lightbox_img"><mm:image template="s(1880x980)" /></c:set>
+                    <a class="lightbox hidden" 
+                       title="${title} - smaller rendering of the original ${fn:toLowerCase(_.format)}, ${_.dimension}, ${mm:escape('myfilesize',_node.filesize)}. You will find the original file in the download box on this page." 
+                       href="${lightbox_img}">${_.filename}</a>
+                  </c:when>
+                  <c:otherwise> 
+                    <a class="lightbox hidden" 
+                       title="${title} - ${fn:toLowerCase(_.format)}, ${_.dimension}, ${mm:escape('myfilesize',_node.filesize)}" 
+                       href="${mm:escape('text/xml', _.URL)}">${_.filename}</a>
+                  </c:otherwise>
+                </c:choose>
+              </c:if>
+            </mm:node>
+          </mm:listfunction>
+        </div>
 
         
         <!-- media (img) tag to share -->

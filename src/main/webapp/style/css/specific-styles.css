@@ -279,6 +279,7 @@ ul.sortby li.thumbsonly {}
 ul.sortby li.thumbsonly a { padding-left: 0; }
 
 /* media item page */
+div.mediaimage { height: 288px; }
 h3.subtitle, h3.mediatitle
 {
     color: #a2a2a2;
