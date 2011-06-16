@@ -172,7 +172,7 @@
                   <li><a href="${mm:link('/mmbase/edit/my_editors/')}">my_editors</a></li>
                 </mm:hasrank>
                 <li><a href="${mm:link('/logout.jspx')}">logout</a></li>
-                <li>you are: <mm:cloudinfo type="user" /></li>
+                <li>you are: <mm:cloudinfo type="user" />, <mm:cloudinfo type="rank" /></li>
               </ul>
             </div>
   
