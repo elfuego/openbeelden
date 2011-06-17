@@ -290,7 +290,7 @@ function initPlusfields() {
 /* Delete media form is hidden below edit media form */
 function initDeleteform() {
     $('body.user-media div.b_user-mediadelete').hide();
-    $('input#deletemedia, input#cancel').click(function(ev) {
+    $('input#deletemedia, body.user-media input#cancel').click(function(ev) {
         ev.preventDefault();
         $('div.b_user-mediadelete').slideToggle('fast');
     });
