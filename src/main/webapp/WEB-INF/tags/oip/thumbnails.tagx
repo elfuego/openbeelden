@@ -17,8 +17,8 @@
 
   <mm:node>
     <mm:hasfield name="length">
+      
       <c:if test="${! empty _node.length}">
-
         <c:forEach begin="0" end="${_node.length}" step="${_node.length / (number -1)}" var="offset">
           <mm:hasfunction name="thumbnail">
             <mm:nodefunction name="thumbnail" referids="offset">
@@ -31,8 +31,9 @@
               </mm:image>
             </mm:nodefunction>
           </mm:hasfunction>
-      </c:forEach>
+        </c:forEach>
       </c:if>
+      
     </mm:hasfield>
   </mm:node>
 
