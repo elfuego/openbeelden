@@ -1,0 +1,133 @@
+<mm:content
+    type="application/xml"
+    xmlns:c="http://java.sun.com/jsp/jstl/core"
+    xmlns:jsp="http://java.sun.com/JSP/Page"
+    xmlns:fmt="http://java.sun.com/jsp/jstl/fmt"
+    xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+    xmlns:mm="http://www.mmbase.org/mmbase-taglib-2.0"
+    xmlns:oip="urn:jsptagdir:/WEB-INF/tags/oip"
+    >
+  <jsp:output omit-xml-declaration="true" />
+    <mm:cloud method="asis">
+      <div
+          class="mm_c c_oip b_user-mediadelete ${requestScope.className}"
+          id="${requestScope['org.mmbase.componentId']}">
+
+        <mm:import externid="n" required="true" />
+        <mm:import externid="media" required="true" />
+
+        <mm:import externid="delete" />
+        <mm:import externid="cancel" />
+
+        <mm:escaper id="myfilesize" type="filesize">
+          <mm:param name="binaryPrefixes">${empty initParam['mmbase.filesize.binaryPrefixes'] ? true : initParam['mmbase.filesize.binaryPrefixes']}</mm:param>
+        </mm:escaper>
+
+        
+        <mm:hasrank minvalue="site user">
+            <mm:import externid="user">${n}</mm:import>
+
+            <mm:present referid="delete">
+
+              <mm:node number="${media}">
+                <mm:field name="number" />
+                <mm:maydelete>
+                  <mm:deletenode number="${media}" deleterelations="true" />
+                </mm:maydelete>
+              </mm:node>
+
+              <p class="msg stay">Media item is deleted. Go to 
+                <mm:link>
+                  <mm:frameworkparam name="component">oip</mm:frameworkparam>
+                  <mm:frameworkparam name="block">user</mm:frameworkparam>
+                  <mm:frameworkparam name="user"><mm:cloudinfo type="usernode" /></mm:frameworkparam>
+                  <a href="${_}"><fmt:message key="user.dashboard" /></a>
+                </mm:link>              
+              </p>
+            </mm:present>
+            <mm:notpresent referid="delete">
+
+            <mm:present referid="cancel">
+              <p class="msg stay">
+                Canceled deleting
+                <mm:node number="${media}">
+                <mm:link>
+                  <mm:frameworkparam name="media">${media}</mm:frameworkparam>
+                  <mm:frameworkparam name="block">mediafragment</mm:frameworkparam>
+                  <mm:frameworkparam name="component">oip</mm:frameworkparam>
+                  <a href="${_}"><mm:field name="title" /></a>.
+                </mm:link>
+                </mm:node>
+              </p>
+            </mm:present>
+              
+            <mm:notpresent referid="cancel">
+            
+              <mm:url page="user-mediadelete" referids="n,media" absolute="true" write="false" id="form_url" />
+              <mm:form page="${form_url}">
+              <mm:node number="${media}">
+                <p class="msg stay">Permanently delete this media item and all its related content?</p>
+                
+                <mm:link>
+                  <mm:frameworkparam name="media">${media}</mm:frameworkparam>
+                  <mm:frameworkparam name="block">mediafragment</mm:frameworkparam>
+                  <mm:frameworkparam name="component">oip</mm:frameworkparam>
+                  <div class="thumb"><a href="${_}"><oip:thumb /></a></div>
+                  <h4><a href="${_}"><mm:nodefunction name="translation"><mm:field name="title" /></mm:nodefunction></a></h4>
+                </mm:link>
+<!-- <h5>Media files</h5> -->
+<ul>
+<mm:listfunction name="filteredurls">
+  <mm:node number="${_.source.number}">
+    <li class="${_.state}" title="${fn:toLowerCase(_.state)}: ${_.mimeType}">
+      <mm:import id="filename" reset="true">${_.filename}</mm:import>
+      <c:if test="${_.filesize > 0}"><c:set var="filesize">${mm:escape('myfilesize',_.filesize)}</c:set></c:if>
+      <a title="${fn:toLowerCase(_.format)} ${_.state eq 'SOURCE' ? 'original upload' : ''} ${_.dimension} ${filesize}"
+         href="${mm:escape('text/xml', _.URL)}">
+         <oip:filesubstr filename="${filename}" length="44" />
+      </a>
+    </li>
+  </mm:node>
+</mm:listfunction>
+</ul>
+
+<!--
+<mm:relatednodescontainer type="images" role="related" searchdirs="destination">
+  <mm:relatednodes>
+    <mm:first><h5>Thumbs (afbeeldingen)</h5></mm:first>
+    <mm:field name="title" /><br />
+  </mm:relatednodes>
+</mm:relatednodescontainer>
+
+<mm:relatednodescontainer type="mediafragments_translations" role="langrel" searchdirs="destination">
+  <mm:relatednodes>
+    <mm:first><h5>Translations</h5></mm:first>
+    <mm:field name="title" /> (<mm:field name="language" />)<br />
+  </mm:relatednodes>
+</mm:relatednodescontainer>
+-->
+
+                  <fieldset class="buttons">
+                    <c:set var="button_delete"><fmt:message key="users.delete" /></c:set>
+                    <c:set var="button_cancel"><fmt:message key="users.cancel" /></c:set>
+                    <mm:maydelete>
+                      <input name="delete" type="submit" value="${button_delete}" id="delete" class="submit" />
+                    </mm:maydelete>
+                    <input name="cancel" type="submit" value="${button_cancel}" id="cancel" class="submit" />
+                  </fieldset>
+                
+                </mm:node>
+              </mm:form>
+            </mm:notpresent><!-- / cancel -->
+              
+          </mm:notpresent><!-- / delete -->
+          
+        </mm:hasrank>
+        <mm:hasrank minvalue="site user" inverse="true">
+          <p class="err"><fmt:message key="tag.notallowed" /></p>
+        </mm:hasrank>
+        
+      </div>
+
+    </mm:cloud>
+</mm:content>
