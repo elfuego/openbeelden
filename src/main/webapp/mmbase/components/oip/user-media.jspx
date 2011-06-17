@@ -127,8 +127,12 @@
                 <p class="required"><span>* </span> <fmt:message key="users.starsarerequired" /></p>
                 <c:set var="button_save"><fmt:message key="users.form.save" /></c:set>
                 <c:set var="button_info"><fmt:message key="users.form.add_more_info" /></c:set>
-                <input name="submit" type="submit" value="${button_save}" id="submit" class="submit" />
+                <c:set var="button_delete"><fmt:message key="users.delete" /></c:set>
+                <mm:maydelete>
+                  <input name="delete" type="button" value="${button_delete}" id="deletemedia" class="info" />
+                </mm:maydelete>
                 <input name="add_more_info" type="button" value="${button_info}" id="add_more_info" class="info" />
+                <input name="submit" type="submit" value="${button_save}" id="submit" class="submit" />
               </fieldset>
 
               <fieldset class="plus">
@@ -146,7 +150,6 @@
                 </mm:fieldlist>
               </fieldset>
               <fieldset class="plus">
-                <c:set var="button_save"><fmt:message key="users.form.save" /></c:set>
                 <input name="submit" type="submit" value="${button_save}" id="submit2" class="submit" />
               </fieldset>
 
