@@ -83,6 +83,10 @@
   
           <mm:component name="oip" block="${block}" />
   
+          <c:if test="${block eq 'user-media'}">
+            <mm:component name="oip" block="user-mediadelete" />
+          </c:if>
+          
           <c:if test="${block eq 'user' or block eq 'user-edit'}">
             <mm:component name="oip" block="user-medialist" />
           </c:if>
