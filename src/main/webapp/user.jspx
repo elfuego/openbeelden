@@ -147,9 +147,16 @@
                         <mm:frameworkparam name="block">user-delete</mm:frameworkparam>
                         <mm:frameworkparam name="user">${n}</mm:frameworkparam>
                         <a href="${_}">
-                          <fmt:message key="user.delete">
-                            <fmt:param><mm:field name="username" /></fmt:param>
-                          </fmt:message>
+                          <mm:hasfield name="username">
+                            <fmt:message key="user.delete">
+                              <fmt:param><mm:field name="username" /></fmt:param>
+                            </fmt:message>
+                          </mm:hasfield>
+                          <mm:hasfield name="username" inverse="true">
+                            <fmt:message key="user.delete">
+                              <fmt:param><jsp:text> </jsp:text></fmt:param>
+                            </fmt:message>
+                          </mm:hasfield>
                         </a>
                       </mm:link>
                     </li>
