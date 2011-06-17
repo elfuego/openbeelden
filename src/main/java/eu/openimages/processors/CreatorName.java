@@ -158,7 +158,7 @@ public class CreatorName {
                 sb.append(username);
             }
         } else {
-            log.warn("no usernode found");
+            log.service("No usernode found for #" + node.getNumber() + ", maybe user '" + username + "' no longer exists.");
         }
         if (log.isDebugEnabled()) { 
             log.debug("returning: " + sb.toString()); 
