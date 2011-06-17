@@ -166,6 +166,16 @@ public class UsersUrlConverter extends DirectoryUrlConverter {
                     b.append("/").append(trans.transform(mediaNode.getStringValue("title")));
                 }
 
+            } else if (blockName.equals("user-mediadelete")) {
+                String media = (String) parameters.get("media");
+
+                if (cloud.hasNode(media)) {
+                    Node mediaNode = cloud.getNode(media);
+                    b.append("/").append(editpath).append("/media/").append(media);
+                    b.append("/").append(trans.transform(mediaNode.getStringValue("title")));
+                    b.append("/delete");
+                }
+
             } else if (blockName.equals("user-mediapreview")) {
                 String media = (String) parameters.get("media");
                 parameters.set("media", null);
@@ -323,13 +333,18 @@ public class UsersUrlConverter extends DirectoryUrlConverter {
                         
                         /* /users/[username]/dashboard/media/[234]/my_title */
                         } else if (type.equals("media") && path.size() > 3) {
-                            String nodenr = path.get(3);
+                            String medianr = path.get(3);
                             //String title = path.get(4);
                             if (log.isDebugEnabled()) {
                                 log.debug("type: " + type);
-                                log.debug("nodenr: " + nodenr);
+                                log.debug("medianr: " + medianr);
                             }
-                            result.append("&media=").append(nodenr);
+                            
+                            if (cloud.hasNode(medianr)) {
+                                result.append("&media=").append(medianr);
+                            } else {
+                                return Url.NOT;
+                            }
 
                             /* /user/[username]/dashboard/media/[234]/my_title/preview */
                             if (path.size() > 5 && path.get(5).equals("preview")) {
@@ -339,6 +354,11 @@ public class UsersUrlConverter extends DirectoryUrlConverter {
                                     if (log.isDebugEnabled()) log.debug("edit: " + edit);
                                     result.append("&edit=").append(edit);
                                 }
+                            
+                            /* /user/[username]/dashboard/media/[234]/my_title/delete */
+                            } else if (path.size() > 5 && path.get(5).equals("delete")) {
+                                result.append("&block=user-mediadelete");
+                            
                             /* /users/[username]/dashboard/media/[234]/my_title/streams */
                             } else if (path.size() > 5 && path.get(5).equals("streams")) {
                                 result.append("&block=user-streams");
@@ -347,7 +367,7 @@ public class UsersUrlConverter extends DirectoryUrlConverter {
                                     /* f.e. /users/[username]/dashboard/media/[234]/my_title/streams/trigger/all/[123] */
                                     if (action.equals("trigger")) {
                                         if (log.isDebugEnabled()) log.debug("trigger: " + action);
-                                        result.append("&trigger=").append(nodenr);  // number mediafragment
+                                        result.append("&trigger=").append(medianr);  // number mediafragment
                                         if (path.size() > 7) {
                                             String path8 = path.get(7);
                                             if (log.isDebugEnabled()) log.debug("all or node: " + path8);
@@ -364,7 +384,7 @@ public class UsersUrlConverter extends DirectoryUrlConverter {
                                         }
                                     } else if (action.equals("interrupt")) {
                                         if (log.isDebugEnabled()) log.debug("interrupt: " + action);
-                                        result.append("&interrupt=").append(nodenr);
+                                        result.append("&interrupt=").append(medianr);
                                     }
                                 }
 
