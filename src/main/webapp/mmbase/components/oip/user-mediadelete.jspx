@@ -30,13 +30,12 @@
             <mm:present referid="delete">
 
               <mm:node number="${media}">
-                <mm:field name="number" />
                 <mm:maydelete>
                   <mm:deletenode number="${media}" deleterelations="true" />
                 </mm:maydelete>
               </mm:node>
 
-              <p class="msg stay">Media item is deleted. Go to 
+              <p class="msg stay">Media item is deleted. Back to 
                 <mm:link>
                   <mm:frameworkparam name="component">oip</mm:frameworkparam>
                   <mm:frameworkparam name="block">user</mm:frameworkparam>
@@ -64,62 +63,62 @@
             <mm:notpresent referid="cancel">
             
               <mm:url page="user-mediadelete" referids="n,media" absolute="true" write="false" id="form_url" />
-              <mm:form page="${form_url}">
+              <mm:form page="${form_url}" id="deletemedia">
               <mm:node number="${media}">
-                <p class="msg stay">Permanently delete this media item and all its related content?</p>
-                
-                <mm:link>
-                  <mm:frameworkparam name="media">${media}</mm:frameworkparam>
-                  <mm:frameworkparam name="block">mediafragment</mm:frameworkparam>
-                  <mm:frameworkparam name="component">oip</mm:frameworkparam>
-                  <div class="thumb"><a href="${_}"><oip:thumb /></a></div>
-                  <h4><a href="${_}"><mm:nodefunction name="translation"><mm:field name="title" /></mm:nodefunction></a></h4>
-                </mm:link>
-<!-- <h5>Media files</h5> -->
-<ul>
-<mm:listfunction name="filteredurls">
-  <mm:node number="${_.source.number}">
-    <li class="${_.state}" title="${fn:toLowerCase(_.state)}: ${_.mimeType}">
-      <mm:import id="filename" reset="true">${_.filename}</mm:import>
-      <c:if test="${_.filesize > 0}"><c:set var="filesize">${mm:escape('myfilesize',_.filesize)}</c:set></c:if>
-      <a title="${fn:toLowerCase(_.format)} ${_.state eq 'SOURCE' ? 'original upload' : ''} ${_.dimension} ${filesize}"
-         href="${mm:escape('text/xml', _.URL)}">
-         <oip:filesubstr filename="${filename}" length="44" />
-      </a>
-    </li>
-  </mm:node>
-</mm:listfunction>
-</ul>
+                <mm:maydelete>
 
-<!--
-<mm:relatednodescontainer type="images" role="related" searchdirs="destination">
-  <mm:relatednodes>
-    <mm:first><h5>Thumbs (afbeeldingen)</h5></mm:first>
-    <mm:field name="title" /><br />
-  </mm:relatednodes>
-</mm:relatednodescontainer>
-
-<mm:relatednodescontainer type="mediafragments_translations" role="langrel" searchdirs="destination">
-  <mm:relatednodes>
-    <mm:first><h5>Translations</h5></mm:first>
-    <mm:field name="title" /> (<mm:field name="language" />)<br />
-  </mm:relatednodes>
-</mm:relatednodescontainer>
--->
-
-                  <fieldset class="buttons">
-                    <c:set var="button_delete"><fmt:message key="users.delete" /></c:set>
-                    <c:set var="button_cancel"><fmt:message key="users.cancel" /></c:set>
-                    <mm:maydelete>
+                  <p class="msg stay">Permanently delete this media item and all its related content?</p>
+                  
+                  <mm:link>
+                    <mm:frameworkparam name="media">${media}</mm:frameworkparam>
+                    <mm:frameworkparam name="block">mediafragment</mm:frameworkparam>
+                    <mm:frameworkparam name="component">oip</mm:frameworkparam>
+                    <div class="thumb"><a href="${_}"><c:catch><oip:thumb /></c:catch></a></div>
+                    <h4><a href="${_}"><mm:nodefunction name="translation"><mm:field name="title" /></mm:nodefunction></a></h4>
+                  </mm:link>
+  
+                  <ul>
+                    <mm:listfunction name="filteredurls">
+                      <mm:node number="${_.source.number}">
+                        <li class="${_.state}" title="${fn:toLowerCase(_.state)}: ${_.mimeType}">
+                          <mm:import id="filename" reset="true">${_.filename}</mm:import>
+                          <c:if test="${_.filesize > 0}"><c:set var="filesize">${mm:escape('myfilesize',_.filesize)}</c:set></c:if>
+                          <a title="${fn:toLowerCase(_.format)} ${_.state eq 'SOURCE' ? 'original upload' : ''} ${_.dimension} ${filesize}"
+                             href="${mm:escape('text/xml', _.URL)}">
+                             <oip:filesubstr filename="${filename}" length="44" />
+                          </a>
+                        </li>
+                      </mm:node>
+                    </mm:listfunction>
+                  </ul>
+  
+  <!--
+  <mm:relatednodescontainer type="images" role="related" searchdirs="destination">
+    <mm:relatednodes>
+      <mm:first><h5>Thumbs (afbeeldingen)</h5></mm:first>
+      <mm:field name="title" /><br />
+    </mm:relatednodes>
+  </mm:relatednodescontainer>
+  
+  <mm:relatednodescontainer type="mediafragments_translations" role="langrel" searchdirs="destination">
+    <mm:relatednodes>
+      <mm:first><h5>Translations</h5></mm:first>
+      <mm:field name="title" /> (<mm:field name="language" />)<br />
+    </mm:relatednodes>
+  </mm:relatednodescontainer>
+  -->
+  
+                    <fieldset class="buttons">
+                      <c:set var="button_cancel"><fmt:message key="users.cancel" /></c:set>
+                      <c:set var="button_delete"><fmt:message key="users.delete" /></c:set>
+                      <input name="cancel" type="submit" value="${button_cancel}" id="cancel" class="submit" />
                       <input name="delete" type="submit" value="${button_delete}" id="delete" class="submit" />
-                    </mm:maydelete>
-                    <input name="cancel" type="submit" value="${button_cancel}" id="cancel" class="submit" />
-                  </fieldset>
+                    </fieldset>
                 
+                  </mm:maydelete>
                 </mm:node>
               </mm:form>
             </mm:notpresent><!-- / cancel -->
-              
           </mm:notpresent><!-- / delete -->
           
         </mm:hasrank>
