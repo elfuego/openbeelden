@@ -76,7 +76,7 @@
         </c:when>
         <c:when test="${nodetype eq 'videofragments'}">
           <mm:nodefunction name="thumbnail">
-            <mm:image mode="img" alt="${alt}" width="${w}" height="${h}" crop="end" />
+            <c:catch><mm:image mode="img" alt="${alt}" width="${w}" height="${h}" crop="end" /></c:catch>
           </mm:nodefunction>
         </c:when>
         <c:when test="${nodetype eq 'images'}">
