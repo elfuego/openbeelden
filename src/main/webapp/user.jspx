@@ -75,7 +75,9 @@
           </c:if>
   
           <c:if test="${block eq 'user-media'}">
-            <mm:component name="oip" block="user-mediapreview" />
+            <mm:component name="oip" block="user-mediapreview">
+              <mm:param name="edit">true</mm:param>
+            </mm:component>
             <mm:component name="oip" block="user-translations" />
           </c:if>
   
