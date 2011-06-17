@@ -249,6 +249,22 @@
     </body>
   </block>
 
+  <block name="user-mediadelete"
+         classification="oip"
+         mimetype="text/html">
+    <title xml:lang="en">Delete media item</title>
+    <title xml:lang="nl">Verwijder media item</title>
+    <description xml:lang="en">Remove a media item and all its related content</description>
+    <description xml:lang="nl">Verwijder een mediaitem en alle gerelateerde content</description>
+    <head>
+    </head>
+    <body jsp="user-mediadelete.jspx">
+      <param name="n" type="org.mmbase.bridge.Node" />
+      <param name="media"  type="String" />
+      <param name="delete" type="String" />
+    </body>
+  </block>
+
   <block name="user-streams"
          classification="oip"
          mimetype="text/html">
