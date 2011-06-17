@@ -281,8 +281,18 @@ function initPlayStats() {
 /* Show/hide fieldset.plus */
 function initPlusfields() {
     $('fieldset.plus').hide();
-    $('input.info').click(function(ev) {
+    $('input#add_more_info').click(function(ev) {
         $('fieldset.plus').slideToggle('slow');
+    });
+    initDeleteform();
+}
+
+/* Delete media form is hidden below edit media form */
+function initDeleteform() {
+    $('body.user-media div.b_user-mediadelete').hide();
+    $('input#deletemedia, input#cancel').click(function(ev) {
+        ev.preventDefault();
+        $('div.b_user-mediadelete').slideToggle('fast');
     });
 }
 
