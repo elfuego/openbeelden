@@ -250,8 +250,7 @@ input.radiobutton { width: auto; }
 
 input.submit, 
 input.cancel, 
-input.info
-{
+input.info {
 	width: auto;
 	float: right;
 	cursor: pointer;
@@ -275,16 +274,21 @@ input.info
 input[type="submit"]::-moz-focus-inner,
 input[type="button"]::-moz-focus-inner { border: 0; }
 
+div.b_user-media input#delete,
 div.b_user-media input.submit,
-div.b_user-media input.info
+div.b_user-media input.info,
+div.b_user-mediadelete input#cancel,
+div.b_user-mediadelete input#delete
+
 {
 	float: left;
 	margin-left: 0;
 }
+div.b_user-mediadelete input#cancel { margin-right: 12px; }
 
 div.b_user-media input.info
 {
-	border-left: 0;
+	border-right: 0;
 	padding-right: 26px;
 	background-image: url(images/button-gradient.png);
 	background-repeat: no-repeat;

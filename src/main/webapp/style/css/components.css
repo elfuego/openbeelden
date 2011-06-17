@@ -70,14 +70,32 @@ div.b_user-picture input.cancel
 
 div.b_user-picture input.cancel,
 div.b_user-mediapreview input.cancel { border-left: none; }
-div.b_user-mediapreview #edit-picture { margin-top: 38px; }
+div.b_user-mediapreview #edit-picture { margin-top: 32px; }
 
 div.b_user-mediapreview p img { margin: 1em 8px -6px 0; }
+
+div.b_user-mediadelete div.thumb
+{
+	float: left;
+	margin: 0 8px 8px 0;
+	padding-top: 4px;
+}
+div.b_user-mediadelete ul li
+{
+	float: left;
+	list-style: none;
+	padding-right: 8px;
+}
 
 textarea#mm_upload_form_intro { height: 6em; }
 
 /* translations */
-div.b_user-translations { clear: both; }
+div.b_user-translations
+{
+	clear: both;
+	margin-bottom: 12px;
+	min-height: 8px;
+}
 div.b_user-translations a.editme,
 div.b_user-translations a.cancel,
 div.b_user-mediapreview a.cancel,
