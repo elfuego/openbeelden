@@ -1,11 +1,12 @@
 <mm:content
     type="application/xml"
     postprocessor="none"
-    expires="1800"
+    expires="0"
     language="en_US" 
+    xmlns:jsp="http://java.sun.com/JSP/Page"
     xmlns:c="http://java.sun.com/jsp/jstl/core"
     xmlns:fmt="http://java.sun.com/jsp/jstl/fmt"
-    xmlns:jsp="http://java.sun.com/JSP/Page"
+    xmlns:os="http://www.opensymphony.com/oscache"
     xmlns:mm="http://www.mmbase.org/mmbase-taglib-2.0">
   <jsp:directive.page session="false" />
   <jsp:directive.page import="org.mmbase.bridge.*" />
@@ -90,6 +91,8 @@
     
     <mm:import id="requesturl"><c:out value="${pageContext.request.requestURL}" /><c:if test="${!empty pageContext.request.queryString}">?<c:out value="${pageContext.request.queryString}" /></c:if></mm:import>
     
+<os:cache key="oip.atom.latestuploads" time="3600">
+  <c:catch var="ex1">
     <feed xmlns="http://www.w3.org/2005/Atom" xmlns:media="http://search.yahoo.com/mrss/">
       <title>Open Images Platform / Open Beelden Platform</title>
       <subtitle>
@@ -154,5 +157,12 @@
       </mm:present>
       
     </feed>
+  
+  </c:catch> 
+  <c:if test="${! empty ex1}">
+    <os:usecached />
+  </c:if>
+</os:cache>
+
   </mm:cloud>
 </mm:content>

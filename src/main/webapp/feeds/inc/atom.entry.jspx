@@ -4,7 +4,8 @@
     xmlns:fn="http://java.sun.com/jsp/jstl/functions"
     xmlns:fmt="http://java.sun.com/jsp/jstl/fmt"
     xmlns:mm="http://www.mmbase.org/mmbase-taglib-2.0"
-    xmlns:media="http://search.yahoo.com/mrss/">
+    xmlns:media="http://search.yahoo.com/mrss/"
+    xmlns:oip="urn:jsptagdir:/WEB-INF/tags/oip">
   <jsp:output omit-xml-declaration="true" />
   <jsp:directive.page session="false" />
 
@@ -36,12 +37,15 @@
     <published>
       <mm:field name="date"><mm:time format="yyyy-MM-dd" time="${_}" />T<mm:time format="HH:mm:ss" time="${_}" />Z</mm:field>
     </published> 
-    <mm:field name="intro">
-      <mm:isnotempty><summary type="html"><mm:write /></summary></mm:isnotempty>
-    </mm:field>
-    <mm:field name="body">
-      <mm:isnotempty><content type="html"><mm:write /></content></mm:isnotempty>
-    </mm:field>
+    <summary type="html">
+      <mm:field name="subtitle" />
+      <mm:field name="intro" />
+    </summary>
+    <content type="html">
+      <mm:field name="intro"  escape="paragraph" />
+      <oip:media width="512" height="288" />
+      <mm:field name="body" escape="paragraph" />
+    </content>
 
     <!-- thumbnail -->
     <mm:relatednodescontainer type="images" role="related" searchdirs="destination">
