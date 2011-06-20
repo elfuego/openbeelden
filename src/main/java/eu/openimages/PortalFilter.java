@@ -142,6 +142,9 @@ public class PortalFilter implements Filter, SystemEventListener {
     protected boolean decorateRequest(HttpServletRequest req, HttpServletResponse res, boolean cache) throws IOException {
 
         String serverName = req.getServerName();
+        if (LOG.isDebugEnabled()) {
+            LOG.debug("serverName " + serverName);
+        }
 
         Map<String, Object> attributes = CACHE.get(serverName);
 
