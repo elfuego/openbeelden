@@ -60,10 +60,6 @@
           </class>
         </setprocessor>
         <getprocessor>
-          <class name="org.mmbase.datatypes.processors.RelatedField$Creator">
-            <param name="createTypeProperty">org.mmbase.media.containertype</param>
-            <param name="searchDir">source</param>
-          </class>
           <class name="org.mmbase.datatypes.processors.RelatedField$Getter">
             <param name="type">mediafragments</param>
             <param name="searchDir">source</param>
