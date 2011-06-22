@@ -34,8 +34,9 @@
             <mm:related>
               <mm:first><c:if test="${!empty prop_logos}">${prop_logos}<br /></c:if></mm:first>
               <c:set var="partner_url"><mm:field name="urls.url" /></c:set>
+              <c:set var="partner_url_title"><mm:field name="urls.url" /></c:set>
               <mm:node element="images">
-                <a href="${partner_url}"><mm:image width="81" mode="img" /></a>
+                <a title="${partner_url_title}" href="${partner_url}"><mm:image width="81" mode="img" /></a>
               </mm:node>
             </mm:related>
           </p>
