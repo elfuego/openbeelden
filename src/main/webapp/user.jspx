@@ -140,23 +140,17 @@
                   </li>
 
                   <mm:cloudinfo type="user" id="userid" write="false" />
-                  <c:if test="${!empty n and userid eq 'admin' or userid eq _node.username}">
+                  <mm:cloudinfo type="usernode" id="usernode" write="false" />
+                  <c:if test="${!empty n and userid eq 'admin' or userid eq usernode.username}">
                     <li>
                       <mm:link>
                         <mm:frameworkparam name="component">oip</mm:frameworkparam>
                         <mm:frameworkparam name="block">user-delete</mm:frameworkparam>
                         <mm:frameworkparam name="user">${n}</mm:frameworkparam>
                         <a href="${_}">
-                          <mm:hasfield name="username">
-                            <fmt:message key="user.delete">
-                              <fmt:param><mm:field name="username" /></fmt:param>
-                            </fmt:message>
-                          </mm:hasfield>
-                          <mm:hasfield name="username" inverse="true">
-                            <fmt:message key="user.delete">
-                              <fmt:param><jsp:text> </jsp:text></fmt:param>
-                            </fmt:message>
-                          </mm:hasfield>
+                          <fmt:message key="user.delete">
+                            <fmt:param>${usernode.username}</fmt:param>
+                          </fmt:message>
                         </a>
                       </mm:link>
                     </li>
