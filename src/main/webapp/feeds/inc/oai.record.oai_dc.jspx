@@ -121,7 +121,7 @@
 
        <!-- dc:format -->
        <mm:functioncontainer>
-         <mm:param name="format">WEBM,OGV,MP4,OGG,TS,M3U8,MP3,OGG,OGA,PNG,JPG,JPEG</mm:param>
+         <mm:param name="format">WEBM,OGV,MP4,OGG,TS,M3U8,MP3,OGG,OGA,PNG,JPG,JPEG,MPG,MPEG</mm:param>
          <mm:listfunction name="filteredurls">
            <c:if test="${_.available}">
              <dc:format><mm:url page="${_.URL}" absolute="true" /></dc:format>
