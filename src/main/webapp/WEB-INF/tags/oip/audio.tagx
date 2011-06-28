@@ -48,7 +48,7 @@
     <c:when test="${empty mediaurls}">
       <div class="audio inavailable" style="background-image: url(${poster});">
         <p>
-          <jsp:text>No audio sources available.</jsp:text>
+          <jsp:text>No audio sources available (yet, they may still be transcoding).</jsp:text>
           <c:if test="${!empty unsupported}">
             <jsp:text> Unsupported original media file.</jsp:text>
           </c:if>
