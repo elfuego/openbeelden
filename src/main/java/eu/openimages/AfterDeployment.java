@@ -32,6 +32,7 @@ import org.mmbase.util.logging.Logging;
  * Class to be run after the OIP application with data has finished loading when the application is
  * first installed on an empty database.
  * It creates and sets needed security configuration, groups, ranks and accounts.
+ * You need to change the default admin password after this has run.
  * 
  * @author Michiel Meeuwissen;
  * @version $Id$
@@ -40,6 +41,7 @@ public class AfterDeployment implements Runnable {
     private static final Logger log = Logging.getLoggerInstance(AfterDeployment.class);
 
 
+    /* may need to add comments and locations later */
     private final String[] SITEUSER_OBJECTS = new String[] {
         "videofragments", "videostreamsources", "videostreamsourcescaches",
         "audiofragments", "audiostreamsources", "audiostreamsourcescaches",
@@ -65,7 +67,7 @@ public class AfterDeployment implements Runnable {
         adminNode.setStringValue("password", "openimages2009");
         adminNode.commit();
 
-        /* site users */
+        /* site user - registered users have rank 50 */
         log.info("Revoking some rights of 'Users' on the 'default' context.");
         Node defaultContext   = SearchUtil.findNode(cloud, "mmbasecontexts", "name", "default");
         Node systemContext    = SearchUtil.findNode(cloud, "mmbasecontexts", "name", "system");
@@ -83,7 +85,7 @@ public class AfterDeployment implements Runnable {
             cloud.getNodeManager(nm).setContext("siteusers");
         }
 
-        /* b+g */
+        /* b+g is a site user */
         Node begUser    = SearchUtil.findNode(cloud, "mmbaseusers", "username", "beeldengeluid");
         Node begContext = SearchUtil.findNode(cloud, "mmbasecontexts", "name", "beeldengeluid");
         if (begUser != null && begContext != null) {
@@ -91,7 +93,7 @@ public class AfterDeployment implements Runnable {
             begUser.commit();
         }
         
-        /* project managers */
+        /* project managers have rank 500 (while portal managers have rank 400) */
         Node pmGroup = SearchUtil.findNode(cloud, "mmbasegroups", "name", "Project managers");
         log.info("Granting some rights to group 'Project managers' #" + pmGroup.getNumber());
         
