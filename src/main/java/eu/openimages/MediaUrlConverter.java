@@ -129,7 +129,7 @@ public class MediaUrlConverter extends DirectoryUrlConverter {
                 return Url.NOT;
             }
             Cloud cloud = frameworkParameters.get(Parameter.CLOUD);
-            if (cloud.hasNode(nr)) {
+            if (cloud.hasNode(nr) && cloud.mayRead(Integer.parseInt(nr))) {
                 Node mediafragment = cloud.getNode(nr);
                 
                 String nmName = mediafragment.getNodeManager().getName();
