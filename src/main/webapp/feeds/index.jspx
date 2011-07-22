@@ -11,14 +11,74 @@
 
       <div class="main-column">
         <oip:h2>Feeds</oip:h2>
+        
+        <h3>Atom</h3>
         <ul>
-          <li><mm:link page="/feeds/atom"><a href="${_}">Atom RSS</a></mm:link></li>
+          <li>
+            <mm:link page="/feeds/atom"><a href="${_}">Atom RSS</a></mm:link>
+          </li>
+          <li>
+            
+            <mm:listnodescontainer type="tags">
+              <mm:maxnumber value="1" />
+              <mm:offset value="10" />
+              <mm:sortorder field="number" direction="DOWN" />
+              <mm:listnodes>
+                <mm:relatednodescontainer type="mediafragments" role="related" searchdirs="source">
+                  <mm:maxnumber value="1" />
+                  <mm:constraint field="show" value="true" operator="EQUAL" />
+                  <mm:relatednodes>
+                    <li>
+                      <mm:link page="/feeds/atom" referids="_node@related">
+                        <a href="${_}">Atom RSS: media related to '<mm:field name="title" />'</a>
+                      </mm:link>
+                    </li>
+                  </mm:relatednodes>
+                </mm:relatednodescontainer>
+              </mm:listnodes>
+            </mm:listnodescontainer>
+            
+          </li>
+        </ul>
+        <h3>OAI-PMH</h3>
+        <ul>
           <li>
             <mm:link page="/feeds/oai">
               <mm:param name="verb">Identify</mm:param>
               <a href="${_}">OAI-PMH</a>
             </mm:link>
           </li>
+          <li>
+            <mm:link page="/feeds/oai">
+              <mm:param name="verb">ListIdentifiers</mm:param>
+              <mm:param name="metadataPrefix">oai_dc</mm:param>
+              <a href="${_}">OAI-PMH ListIdentifiers oai_dc</a>
+            </mm:link>
+          </li>
+          <li>
+            <mm:link page="/feeds/oai">
+              <mm:param name="verb">ListSets</mm:param>
+              <mm:param name="metadataPrefix">oai_oi</mm:param>
+              <a href="${_}">OAI-PMH ListSets oai_oi</a>
+            </mm:link>
+          </li>
+          
+          <mm:listnodescontainer type="mediafragments">
+          <mm:constraint field="show" value="true" operator="EQUAL" />
+          <mm:maxnumber value="1" />
+          <mm:sortorder field="number" direction="DOWN" />
+            <mm:listnodes>
+            <li>
+              <mm:link page="/feeds/oai">
+                <mm:param name="verb">GetRecord</mm:param>
+                <mm:param name="identifier">oai:openimages.eu:${_node}</mm:param>
+                <mm:param name="metadataPrefix">oai_oi</mm:param>
+                <a href="${_}">OAI-PMH GetRecord</a>
+              </mm:link>
+            </li>
+            </mm:listnodes>
+          </mm:listnodescontainer>
+          
         </ul>
       </div>
 
