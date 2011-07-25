@@ -329,7 +329,7 @@ $(document).ready(function() {
     if ($('video').length || $('audio').length) {
         $('.main-column').oiplayer({
             'server' : '<mm:url page="/" absolute="true" />',
-            'jar' : '/oiplayer/plugins/cortado-ovt-stripped-wm_r38710.jar',
+            'jar' : '/oiplayer/plugins/cortado-ovt-stripped-0.6.0.jar',
             'flash' : '/oiplayer/plugins/flowplayer-3.1.5.swf',
             'controls' : 'top'
         });
