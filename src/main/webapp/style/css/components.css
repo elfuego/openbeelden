@@ -74,6 +74,7 @@ div.b_user-mediapreview #edit-picture { margin-top: 32px; }
 
 div.b_user-mediapreview p img { margin: 1em 8px -6px 0; }
 
+div.b_user-mediadelete p.msg { margin: 4px 0 16px 0; }
 div.b_user-mediadelete div.thumb
 {
 	float: left;
