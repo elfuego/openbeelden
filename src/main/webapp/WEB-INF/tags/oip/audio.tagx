@@ -79,9 +79,11 @@
   </mm:hasnode>
   
   <!-- media tag to share -->
-  <mm:import id="embedtag"><div about="${first_source}"
+  <mm:import id="embedtag">
+    <div about="${first_source}"
        xmlns:cc="http://creativecommons.org/ns#"
-       xmlns:dct="http://purl.org/dc/terms/">
+       xmlns:dct="http://purl.org/dc/terms/"
+       class="oip_media">
     <audio controls="controls"><mm:write referid="mediaurls" escape="none" /></audio><br />
 	<mm:link page="mediafragment" absolute="true">
       <mm:frameworkparam name="component">oip</mm:frameworkparam>

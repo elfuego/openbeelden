@@ -78,7 +78,8 @@
         <mm:import id="embedtag">
           <div about="${img_src}"
                xmlns:cc="http://creativecommons.org/ns#"
-               xmlns:dct="http://purl.org/dc/terms/">
+               xmlns:dct="http://purl.org/dc/terms/"
+               class="oip_media">
             <mm:write referid="img_tag" escape="none" />
             <br />
             <mm:link page="mediafragment" absolute="true">

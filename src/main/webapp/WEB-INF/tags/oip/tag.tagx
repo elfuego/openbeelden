@@ -22,7 +22,7 @@
                 <a href="${_}"><mm:field name="name" /></a>
               </mm:link>
             </mm:relatednode>
-            <mm:maydelete>
+            <mm:maydelete><!-- may remove relation with tag, not tag itself -->
               <fmt:message key="tag.remove" var="tag_remove" />
               <mm:link page="/action/tagsubmit.jspx" referids="tagrel@delete">
                 <a href="${_}" title="${tag_remove}" class="delete">-</a>
