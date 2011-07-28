@@ -5,7 +5,9 @@
     xmlns:fmt="http://java.sun.com/jsp/jstl/fmt"
     xmlns:mm="http://www.mmbase.org/mmbase-taglib-2.0"
     xmlns:oip="urn:jsptagdir:/WEB-INF/tags/oip"
-    expires="0" type="text/html" language="client" postprocessor="none">
+    expires="0" type="text/html" 
+    language="${empty param.lang ? 'client' : param.lang}" 
+    postprocessor="none">
 
 <jsp:output omit-xml-declaration="false" />
 

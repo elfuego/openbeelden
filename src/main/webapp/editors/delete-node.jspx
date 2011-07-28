@@ -4,7 +4,9 @@
     xmlns:fn="http://java.sun.com/jsp/jstl/functions"
     xmlns:fmt="http://java.sun.com/jsp/jstl/fmt"
     xmlns:mm="http://www.mmbase.org/mmbase-taglib-2.0"
-    expires="0" type="text/html" language="client" postprocessor="none">
+    expires="0" type="text/html" 
+    language="${empty param.lang ? 'client' : param.lang}" 
+    postprocessor="none">
 
 <jsp:output omit-xml-declaration="false" />
 
@@ -91,7 +93,7 @@
           </span>
 
           <span class="content">
-            <mm:include page="show-node.jspx" referids="nr,fields?" />
+            <mm:include page="show-node.jspx" referids="nr,fields?,lang?" />
             <!-- <span>Cancelled deleting!</span> -->
           </span>
         </c:when>
@@ -117,7 +119,7 @@
               
               <a class="editme cancel" href="#close"><fmt:message key="users.cancel" /></a>
               
-              <mm:include page="show-node.jspx" referids="nr,fields?" />
+              <mm:include page="show-node.jspx" referids="nr,fields?,lang?" />
 
               <p class="msg stay">
                 This node has <mm:countrelations /> relations with other nodes.

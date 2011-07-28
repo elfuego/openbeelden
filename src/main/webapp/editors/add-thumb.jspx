@@ -4,7 +4,8 @@
     xmlns:fn="http://java.sun.com/jsp/jstl/functions"
     xmlns:fmt="http://java.sun.com/jsp/jstl/fmt"
     xmlns:mm="http://www.mmbase.org/mmbase-taglib-2.0"
-    expires="0" type="text/html" language="${param.lang}">
+    expires="0" type="text/html" 
+    language="${empty param.lang ? 'client' : param.lang}">
 
 <jsp:output omit-xml-declaration="true" />
 

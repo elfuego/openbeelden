@@ -4,7 +4,9 @@
     xmlns:fn="http://java.sun.com/jsp/jstl/functions"
     xmlns:fmt="http://java.sun.com/jsp/jstl/fmt"
     xmlns:mm="http://www.mmbase.org/mmbase-taglib-2.0"
-    expires="0" type="text/html" language="client" postprocessor="none">
+    expires="0" type="text/html"
+    language="${empty param.lang ? 'client' : param.lang}" 
+    postprocessor="none">
 
 <jsp:output omit-xml-declaration="true" />
 
@@ -88,7 +90,7 @@
 
           <div>
             <mm:node number="$nr">
-              <mm:include page="show-node.jspx" referids="_node@nr,fields?" />
+              <mm:include page="show-node.jspx" referids="nr,fields?,lang?" />
             </mm:node>
             <span>Canceled removing relation!</span>
           </div>
@@ -106,7 +108,7 @@
             <form id="form_${nr}" method="post" action="${formurl}">
 
               <mm:node number="$nr">
-                <mm:include page="show-node.jspx" referids="_node@nr,fields?" />
+                <mm:include page="show-node.jspx" referids="_node@nr,fields?,lang?" />
                 <p class="msg stay">Remove <strong>relation</strong> with this node?</p>
               </mm:node>
               

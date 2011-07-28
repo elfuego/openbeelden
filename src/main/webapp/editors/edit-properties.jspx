@@ -4,7 +4,9 @@
     xmlns:fn="http://java.sun.com/jsp/jstl/functions"
     xmlns:fmt="http://java.sun.com/jsp/jstl/fmt"
     xmlns:mm="http://www.mmbase.org/mmbase-taglib-2.0"
-    expires="0" type="text/html" language="client" postprocessor="none">
+    expires="0" type="text/html" 
+    language="${empty param.lang ? 'client' : param.lang}" 
+    postprocessor="none">
 
 <jsp:output omit-xml-declaration="false" />
 
@@ -40,13 +42,13 @@
           <mm:maywrite>
             <mm:link page="/editors/edit-node.jspx" referids="p?,propnr@nr">
               <mm:param name="fields">key,value</mm:param>
-              <a class="editme" title="edit property" href="${_}#edit_${propnr}">edit</a>
+              <a class="editme" title="edit property" href="${_}#edit_${propnr}"><fmt:message key="users.edit" /></a>
             </mm:link>
           </mm:maywrite>
           <mm:maydelete>
             <mm:link page="/editors/delete-node.jspx" referids="p?,propnr@nr">
               <mm:param name="fields">key,value</mm:param>
-              <a class="editme delete" href="${_}#edit_${propnr}" title="delete property">delete</a>
+              <a class="editme delete" href="${_}#edit_${propnr}" title="delete property"><fmt:message key="users.delete" /></a>
             </mm:link>
           </mm:maydelete>
           

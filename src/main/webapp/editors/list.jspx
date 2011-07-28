@@ -62,6 +62,7 @@
 
         <mm:include page="search-node.jspx" referids="type,q">
           <mm:param name="editor">/editors/editor.jspx</mm:param>
+          <mm:param name="lang">${requestScope['javax.servlet.jsp.jstl.fmt.locale.request']}</mm:param>
           <mm:param name="sortable">false</mm:param>
         </mm:include>
 

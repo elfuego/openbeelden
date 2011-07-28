@@ -5,7 +5,9 @@
     xmlns:fmt="http://java.sun.com/jsp/jstl/fmt"
     xmlns:mm="http://www.mmbase.org/mmbase-taglib-2.0"
     xmlns:oip="urn:jsptagdir:/WEB-INF/tags/oip"
-    expires="0" type="text/html" language="client" postprocessor="none">
+    expires="0" type="text/html" 
+    language="${empty param.lang ? 'client' : param.lang}"
+    postprocessor="none">
 
 
 <jsp:output omit-xml-declaration="true" />
@@ -129,6 +131,7 @@
 
       <mm:link page="/editors/search-node.jspx" id="searchlink" escapeamps="false" 
         referids="p?,nr,type,editor,sortable?">
+        <mm:param name="lang">${requestScope['javax.servlet.jsp.jstl.fmt.locale.request']}</mm:param>
         <mm:param name="max">10</mm:param>
       </mm:link>
       <form class="searchme searchform" method="post" action="${searchlink}">

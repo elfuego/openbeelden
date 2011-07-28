@@ -73,10 +73,13 @@
         <!-- main pools node: the portal -->
         <mm:include page="edit-node.jspx" referids="p?,_node@nr">
           <mm:param name="fields">name,language,description</mm:param>
+          <mm:param name="lang">${requestScope['javax.servlet.jsp.jstl.fmt.locale.request']}</mm:param>
         </mm:include>
 
         <h4>Translations</h4>
-        <mm:include page="/mmbase/components/oip/user-translations.jspx" referids="_node@n" />
+        <mm:include page="/mmbase/components/oip/user-translations.jspx" referids="_node@n">
+          <mm:param name="lang">${requestScope['javax.servlet.jsp.jstl.fmt.locale.request']}</mm:param>
+        </mm:include>
         
 
           <mm:relatednodescontainer type="pages" role="posrel" searchdirs="destination">
@@ -87,6 +90,7 @@
               <div class="wrap">
                 <h2>Featured media</h2>
                 <mm:include page="/editors/edit-list.jspx" referids="p,_node@nr">
+                  <mm:param name="lang">${requestScope['javax.servlet.jsp.jstl.fmt.locale.request']}</mm:param>
                   <mm:param name="type">mediafragments</mm:param>
                   <mm:param name="role">posrel</mm:param>
                   <mm:param name="dir">destination</mm:param>
@@ -121,7 +125,7 @@
           <strong>partnertext</strong> text above the partner logos.
           
           </p>
-          <mm:include page="edit-properties.jspx" referids="p?,_node@nr" />
+          <mm:include page="edit-properties.jspx" referids="p?,_node@nr,lang?" />
         </div>
 
         <!-- the default portal has no specific url nor a content filter -->

@@ -4,7 +4,9 @@
     xmlns:fn="http://java.sun.com/jsp/jstl/functions"
     xmlns:fmt="http://java.sun.com/jsp/jstl/fmt"
     xmlns:mm="http://www.mmbase.org/mmbase-taglib-2.0"
-    expires="0" type="text/html" language="${param.lang}" postprocessor="none">
+    expires="0" type="text/html" 
+    language="${empty param.lang ? 'client' : param.lang}" 
+    postprocessor="none">
 
 <jsp:directive.page buffer="64kb" />
 <jsp:output omit-xml-declaration="true" />
@@ -29,11 +31,10 @@
   <mm:import externid="maydelete">true</mm:import>
   <mm:import externid="unpublish">false</mm:import>
 
-
+  
   <mm:hasnode number="$nr" inverse="true">
     <p class="err">Node not found.</p>
   </mm:hasnode>
-
 
   <mm:hasnode number="$nr">
 
