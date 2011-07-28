@@ -5,8 +5,7 @@
     xmlns:fmt="http://java.sun.com/jsp/jstl/fmt"
     xmlns:fn="http://java.sun.com/jsp/jstl/functions"
     xmlns:mm="http://www.mmbase.org/mmbase-taglib-2.0"
-    xmlns:oip="urn:jsptagdir:/WEB-INF/tags/oip"
-    >
+    xmlns:oip="urn:jsptagdir:/WEB-INF/tags/oip">
   <jsp:output omit-xml-declaration="true" />
   <mm:cloud method="asis">
     <div
@@ -22,7 +21,7 @@
 
       <mm:node number="$node">
 
-        <mm:import id="maxtranslations">2</mm:import><!-- TODO: check with config -->
+        <mm:import id="maxtranslations">9</mm:import><!-- TODO: check with config -->
 
         <mm:nodeinfo type="type" id="type" write="false" />
         <mm:import id="ttype"><mm:property nodemanager="$type" name="translations.builder" /></mm:import>
@@ -51,12 +50,15 @@
                       </mm:link>
                     </mm:maydelete>
                     <div>
-                      <mm:include page="/editors/show-node.jspx" referids="p?,_node@nr" />
+                      <mm:include page="/editors/show-node.jspx" referids="p?,_node@nr">
+                        <mm:param name="lang">${requestScope['javax.servlet.jsp.jstl.fmt.locale.request']}</mm:param>
+                      </mm:include>
                     </div>
                   </li>
                 </mm:relatednodes>
                 <mm:maycreate type="$type">
                   <c:if test="${total lt maxtranslations}">
+                    <c:set var="new_translation"><fmt:message key="users.create_new_translation" /></c:set>
                     <li id="add_${ttype}">
                       <jsp:text> <!-- empty, cause nothing exists here yet. this will be cloned to represent new nodes --> </jsp:text>
                     </li>
@@ -66,9 +68,7 @@
                         <mm:param name="role">langrel</mm:param>
                         <mm:param name="relation">false</mm:param>
                         <!-- <mm:param name="fields">title,language,subtitle,intro,body,keywords,source</mm:param> -->
-                        <a class="editme" href="${_}#add_${ttype}">
-                          <fmt:message key="users.create_new_translation" />
-                        </a>
+                        <a class="editme" href="${_}#add_${ttype}">${new_translation}</a>
                       </mm:link>
                     </li>
                   </c:if>
