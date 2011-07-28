@@ -405,12 +405,14 @@
           
           <mm:hasnode number="${record}">
             <mm:node number="${record}">
+              <c:set var="show"><mm:field name="show" /></c:set>
               <mm:nodeinfo type="type" id="nodetype" write="false" />
-              <c:if test="${nodetype eq 'mediafragments'
+              <c:if test="${show eq true 
+                    and (nodetype eq 'mediafragments'
                     or nodetype eq 'audiofragments' 
                     or nodetype eq 'videofragments'
                     or nodetype eq 'imagefragments' 
-                    or nodetype eq 'images'
+                    or nodetype eq 'images')
                     }">
                 <GetRecord>
                   <c:choose>
