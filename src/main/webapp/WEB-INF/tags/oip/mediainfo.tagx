@@ -45,7 +45,9 @@
       </mm:hasnode>
     </dd>
     <dt><fmt:message key="media.creator" />:</dt> 
-    <dd><mm:field name="dc_creator" /></dd>
+    <dd>
+      <mm:nodefunction name="translation"><mm:field name="dc_creator" /></mm:nodefunction>
+    </dd>
     <mm:field name="source">
       <mm:isnotempty>
         <dt><fmt:message key="media.source" />:</dt>
