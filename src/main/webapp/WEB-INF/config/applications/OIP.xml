@@ -62,7 +62,7 @@
     <relation from="mediafragments" to="images"   type="related" />
     <relation from="mediafragments" to="licenses" type="related" />
     <relation from="licenses"       to="images"   type="related" />
-    <relation from="mediafragments" to="locations" type="related" />
+    <relation from="mediafragments" to="locations" type="posrel" />
     <relation from="mediafragments" to="stats"    type="related" />
 
     <relation from="mmbaseusers"    to="pools"    type="portalrel" /><!-- portal manager -->
