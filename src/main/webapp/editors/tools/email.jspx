@@ -1,0 +1,32 @@
+<mm:content 
+    xmlns:jsp="http://java.sun.com/JSP/Page"
+    xmlns:c="http://java.sun.com/jsp/jstl/core"
+    xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+    xmlns:mm="http://www.mmbase.org/mmbase-taglib-2.0"
+    expires="120" type="text/html">
+<jsp:output doctype-root-element="html"
+      doctype-public="-//W3C//DTD XHTML 1.1//EN"
+      doctype-system="http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd" />
+<mm:cloud loginpage="../login.jspx" rank="project manager">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="nl">
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+  <title>E-mail adresses</title>
+</head>
+<body>
+
+<mm:listnodescontainer type="mmbaseusers">
+<h1><mm:size /> e-mail adresses</h1>
+  <mm:maxnumber value="999" />
+<textarea rows="40" cols="92">username;email;firstname;suffix;lastname;organisation
+<mm:listnodes><mm:field name="username" />;<mm:field name="email" />;<mm:field name="firstname" />;<mm:field name="suffix" />;<mm:field name="lastname" />;<mm:field name="organisation" /><jsp:text>
+</jsp:text>
+</mm:listnodes>
+</textarea>
+</mm:listnodescontainer>
+
+
+</body>
+</html>
+</mm:cloud>
+</mm:content>
