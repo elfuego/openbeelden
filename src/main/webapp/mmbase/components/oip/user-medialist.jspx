@@ -89,7 +89,12 @@
           </mm:maywrite>
         </ul>
 
-        <mm:url id="baseurl" absolute="true" escapeamps="false" write="false" />
+        <mm:url id="baseurl" absolute="true" write="false">
+          <mm:frameworkparam name="user">${_node}</mm:frameworkparam>
+          <mm:frameworkparam name="block">user</mm:frameworkparam>
+          <mm:frameworkparam name="component">oip</mm:frameworkparam>
+        </mm:url>
+
         <div id="t_video">
           <oip:medialist list="${videolist}" />
           <p class="pager">
