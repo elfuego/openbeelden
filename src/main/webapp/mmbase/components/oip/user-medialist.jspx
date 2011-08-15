@@ -89,9 +89,7 @@
           </mm:maywrite>
         </ul>
 
-        <mm:url id="pageurl" write="false" absolute="true" escapeamps="false"
-          referids="q,p?,user?,source?,date?,uploaded?,_searchlang?,license?,sf?,so?" />
-        <mm:url absolute="true" id="baseurl" write="false" escapeamps="false" />
+        <mm:url id="baseurl" absolute="true" escapeamps="false" write="false" />
         <div id="t_video">
           <oip:medialist list="${videolist}" />
           <p class="pager">
