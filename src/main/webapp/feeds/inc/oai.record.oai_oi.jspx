@@ -18,7 +18,7 @@
   <metadata>
     <oai_oi:oi
         xmlns:oi="http://www.openbeelden.nl/oai/"
-        xmlns:oai_oi="http://www.openarchives.org/OAI/2.0/oai_dc/"
+        xmlns:oai_oi="http://www.openbeelden.nl/feeds/oai/"
         xmlns:dc="http://purl.org/dc/elements/1.1/"
         xmlns:dcterms="http://purl.org/dc/terms"
         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
