@@ -195,8 +195,10 @@
 
       <!-- oi:language -->
       <oi:language>
+        <c:set var="count" value="0" />
         <mm:listfunction name="filteredurls">
-          <c:if test="${_.main}">
+          <c:if test="${_.main and count lt 1}"><!-- only one possible, but imported streams can have multiple sources -->
+            <c:set var="count" value="1" />
             <mm:node number="${_.source.number}">
               <mm:field name="language">
                 <mm:isempty>nl</mm:isempty>
