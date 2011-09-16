@@ -29,6 +29,9 @@
                       var="roundedLength" />
     <c:choose>
       <c:when test="${sessionScope['org.mmbase.uploadInfo'].elapsedTime gt 100}">
+        <c:if test="${sessionScope['org.mmbase.uploadInfo'].elapsedTime lt 3000}">
+          <mm:log level="info">Uploading <mm:escape escape="myfilesize">${sessionScope['org.mmbase.uploadInfo'].totalSize}</mm:escape></mm:log>
+        </c:if>
         <div>
           <div class="${sessionScope['org.mmbase.uploadInfo'].status}" style="width: ${roundedLength}${unit};">
             <jsp:text> <!-- empty --> </jsp:text>
