@@ -25,7 +25,7 @@
   <!-- simple node lists -->
   <cache name="NodeListCache">
     <status>active</status>
-    <size>512</size>
+    <size>1024</size>
     <!--
       If you want to use the OSCache implementation to overflow on disk, you can uncomment
       this code
@@ -41,7 +41,7 @@
   <!-- cluster nodes -->
   <cache name="MultilevelCache">
     <status>active</status>
-    <size>1024</size>
+    <size>2048</size>
   </cache>
 
   <!-- used for queries like select max(votes) and select count(title) -->
@@ -53,7 +53,7 @@
   <!-- related nodes -->
   <cache name="RelatedNodesCache">
     <status>active</status>
-    <size>1024</size>
+    <size>2048</size>
   </cache>
 
   <!-- relation nodes -->
