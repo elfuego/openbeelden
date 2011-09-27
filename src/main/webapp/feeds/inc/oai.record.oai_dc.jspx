@@ -129,7 +129,7 @@
          </mm:listfunction>
        </mm:functioncontainer>
        <!-- dc:format thumbnail -->
-       <mm:nodeinfo type="type">
+       <mm:nodeinfo type="type" write="false">
          <c:if test="${fn:startsWith(_,'video')}">
            <mm:nodefunction name="thumbnail">
              <dc:format><mm:image template="s(512x288)+size(512x288&gt;)" absolute="true" /></dc:format>

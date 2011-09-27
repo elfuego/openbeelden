@@ -9,6 +9,7 @@
     <!-- oai:HUBerlin.de:3000218 -->
     <identifier>oai:openimages.eu:${_node}</identifier>
     <datestamp><mm:field name="lastmodified"><mm:time format="yyyy-MM-dd" time="${_}" />T<mm:time format="HH:mm:ss" time="${_}" />Z</mm:field></datestamp>
-    <setSpec>${set}</setSpec>
-
+    <c:if test="${!empty set}">
+      <setSpec>${set}</setSpec>
+    </c:if>
   </header>
