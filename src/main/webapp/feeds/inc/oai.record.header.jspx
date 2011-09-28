@@ -9,7 +9,99 @@
     <!-- oai:HUBerlin.de:3000218 -->
     <identifier>oai:openimages.eu:${_node}</identifier>
     <datestamp><mm:field name="lastmodified"><mm:time format="yyyy-MM-dd" time="${_}" />T<mm:time format="HH:mm:ss" time="${_}" />Z</mm:field></datestamp>
-    <c:if test="${!empty set}">
-      <setSpec>${set}</setSpec>
-    </c:if>
+
+    <c:set var="setlist" value="" />
+    
+    <!-- check portal (= set): get all the variables -->
+    <c:set var="mf">${_node}</c:set>
+    <c:set var="creator"><mm:field name="creator" /></c:set>
+    <c:set var="keywords"><mm:field name="keywords" escape="none" /></c:set>
+    <mm:relatednodescontainer type="tags" role="related" searchdirs="destination">
+      <mm:relatednodes>
+        <c:set var="tags">${tags}${!empty tags ? ';' : ''}<mm:field name="name" /></c:set>
+      </mm:relatednodes>
+    </mm:relatednodescontainer>
+
+    
+    <!-- list portal filters and their portals. NOTE: constraint is MySQL specific -->
+    <mm:listcontainer path="filters,portalrel,pools" searchdirs="source"
+      fields="filters.users,filters.tags,filters.keywords,pools.name">
+      
+      <mm:composite operator="OR">
+        <mm:constraint field="filters.users" value="${creator}" operator="LIKE" />
+        <c:if test="${!empty keywords}">
+          <c:forTokens items="${keywords}" delims=";" var="kw">
+            <c:set var="regex">[[:&lt;:]]${fn:trim(kw)}[[:&gt;:]]</c:set>
+            <mm:constraint field="filters.keywords" value="${regex}" operator="REGEXP" />
+          </c:forTokens>
+        </c:if>
+        <c:if test="${!empty tags}">
+          <c:forTokens items="${tags}" delims=";" var="tag">
+            <c:set var="regex">[[:&lt;:]]${fn:trim(tag)}[[:&gt;:]]</c:set>
+            <mm:constraint field="filters.tags" value="${regex}" operator="REGEXP" />
+          </c:forTokens>
+        </c:if>
+      </mm:composite>
+      
+      <mm:list>
+    
+        <c:set var="excluded" value="false" />
+        <!-- if we're here we've found a portal (pools node) by tag, keyword or user -->
+        <mm:node element="pools">
+          <!-- excluded from portal? -->
+          <mm:relatednodescontainer type="mediafragments" role="excluded" searchdirs="destination">
+            <mm:constraint field="number" value="${mf}" operator="EQUAL" />
+            <mm:relatednodes>
+              <c:set var="excluded" value="true" />
+            </mm:relatednodes>
+          </mm:relatednodescontainer>
+          <c:if test="${!excluded}">
+            <c:if test="${setlist!=''}">
+              <c:set var="setlist" value="${setlist};" />
+            </c:if>
+            <c:if test="${! fn:contains(setlist, portal)}">
+              <mm:import id="oaikey" reset="true">oai-set</mm:import><!-- property key -->
+              <c:set var="setspec"><mm:function referids="_node@node,oaikey@key" nodemanager="properties" name="get" /></c:set>
+              <c:set var="setlist" value="${setlist}${setspec}" />
+            </c:if>
+          </c:if>
+        </mm:node>
+
+      </mm:list>
+    </mm:listcontainer>
+
+    
+    <!-- or the current node's creator is a portal manager. TODO: check user's rank? -->
+    <mm:listcontainer path="mmbaseusers,portalrel,pools" searchdirs="destination"
+      fields="mmbaseusers.username,pools.name">
+      
+      <mm:constraint field="mmbaseusers.username" value="${creator}" operator="EQUAL" />
+      
+      <mm:list>
+        <mm:node element="pools">
+          <!-- excluded from portal? -->
+          <mm:relatednodescontainer type="mediafragments" role="excluded" searchdirs="destination">
+            <mm:constraint field="number" value="$mf" operator="EQUAL" />
+            <mm:relatednodes>
+              <c:set var="excluded" value="true" />
+            </mm:relatednodes>
+          </mm:relatednodescontainer>
+          <c:if test="${!excluded}">
+            <c:if test="${setlist!=''}">
+              <c:set var="setlist" value="${setlist};" />
+            </c:if>
+            <c:if test="${! fn:contains(setlist, portal)}">
+              <mm:import id="oaikey" reset="true">oai-set</mm:import><!-- property key -->
+              <c:set var="setspec"><mm:function referids="_node@node,oaikey@key" nodemanager="properties" name="get" /></c:set>
+              <c:set var="setlist" value="${setlist}${setspec}" />
+            </c:if>
+          </c:if>
+        </mm:node>
+      </mm:list>
+    </mm:listcontainer>
+    
+    <c:forTokens items="${setlist}" delims=";" var="st">
+      <setSpec>${st}</setSpec>
+    </c:forTokens>
+    
   </header>
