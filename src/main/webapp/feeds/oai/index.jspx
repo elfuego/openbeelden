@@ -38,6 +38,7 @@
     <mm:import externid="metadataPrefix" />
     <mm:import externid="set" />
     
+    <mm:escaper type="tagstripper" id="tagstripper" /><!-- to strip html -->
     
     <!-- An OAI-PMH set is based on a portal. Default portal with all content is 'openimages', 
          other portals can be found by a pools property key 'oai-set' with the name of a set, 
@@ -74,25 +75,48 @@
       </mm:compare>
     </mm:present>
     
-    <!-- resumptionToken, looks like: !f1969-07-21!u2003-08-18!oai_dc!200 -->
-    <mm:import externid="resumptionToken" /><!-- starts at 0 -->
+    <!-- resumptionToken, looks like: !f1969-07-21!u2003-08-18!oai_dc!200 (index starts at 0) -->
+    <mm:import externid="resumptionToken" />
     <c:choose>
       <c:when test="${!empty resumptionToken}">
+        
         <c:if test="${!empty from or !empty until or !empty set}">
           <c:set var="error" value="badArgument" />
           <c:set var="kind" value="have resumptionToken but from not empty or until not empty or set not empty" />
         </c:if>
+        <mm:compare referid="resumptionToken" inverse="true"
+            regexp="(?i)!f([0-9]{4}-[0-9]{2}-[0-9]{2})?!u([0-9]{4}-[0-9]{2}-[0-9]{2})?!oai_dc![0-9]+">
+          <c:set var="error" value="badResumptionToken" />
+          <c:set var="kind" value="no match with regexp" />
+        </mm:compare>
+        
         <c:set var="tokens" value="${fn:split(resumptionToken, '!')}" />
         <c:choose>
+          <c:when test="${empty metadataPrefix}"><!-- XXX: without it not valid ?! -->
+            <!-- <c:set var="error" value="badResumptionToken" />
+            <c:set var="kind" value=" No metadataPrefix in ${requesturl}, so we can not construct a valid resumptionToken." /> -->
+          </c:when>
           <c:when test="${fn:length(tokens) eq 4}">
             <c:set var="tfrom"  value="${fn:substringAfter(tokens[0], 'f')}" />
             <c:set var="tuntil" value="${fn:substringAfter(tokens[1], 'u')}" />
-            <c:if test="${!empty tfrom}">
-              <mm:import id="start" reset="true"><mm:time inputformat="yyyy-MM-dd" time="${tfrom}" precision="days" /></mm:import>
-            </c:if>
-            <c:if test="${!empty tuntil}">
-              <mm:import id="end" reset="true"><mm:time inputformat="yyyy-MM-dd" time="${tuntil}" precision="days" /></mm:import>
-            </c:if>
+            <c:choose>
+              <c:when test="${!empty tfrom}">
+                <mm:import id="start" reset="true"><mm:time inputformat="yyyy-MM-dd" time="${tfrom}" precision="days" /></mm:import>
+              </c:when>
+              <c:otherwise>
+                <!-- <c:set var="error" value="badResumptionToken" />
+                <c:set var="kind" value="from" /> -->
+              </c:otherwise>
+            </c:choose>
+            <c:choose>
+              <c:when test="${!empty tuntil}">
+                <mm:import id="end" reset="true"><mm:time inputformat="yyyy-MM-dd" time="${tuntil}" precision="days" /></mm:import>
+              </c:when>
+              <c:otherwise>
+                <!-- <c:set var="error" value="badResumptionToken" />
+                <c:set var="kind" value="untill" /> -->
+              </c:otherwise>
+            </c:choose>
             <mm:import id="metadataPrefix" reset="true">${tokens[2]}</mm:import>
             <mm:import id="offset" reset="true">${tokens[3]}</mm:import>
           </c:when>
@@ -100,6 +124,7 @@
             <c:set var="error" value="badResumptionToken" />
           </c:otherwise>
         </c:choose>
+        
       </c:when>
       <c:otherwise>
         <c:if test="${empty metadataPrefix 
@@ -154,6 +179,7 @@
         <mm:time format="yyyy-MM-dd" time="now" />T<mm:time format="HH:mm:ss" time="now" />Z
       </responseDate>
   
+      <!-- errors and Identify -->
       <c:choose>
         <c:when test="${error eq 'badVerb'}">
           <request>${requesturl}</request>
@@ -172,6 +198,7 @@
           <request>${requesturl}</request>
           <error code="badResumptionToken">
             The value of the resumptionToken argument is invalid or expired.
+            [${kind}]
           </error>
         </c:when>
         <c:when test="${verb eq 'Identify'}">
@@ -195,6 +222,7 @@
           </Identify>
         </c:when>
         
+        <!-- ListSets -->
         <c:when test="${verb eq 'ListSets'}">
           <request verb="${verb}">${requesturl}</request>
           <ListSets>
@@ -211,6 +239,17 @@
                   <mm:import id="prop" reset="true"><mm:field name="parent" /></mm:import>
                   <mm:node number="$prop">
                     <setName><mm:field name="name" /></setName>
+                    <setDescription>
+                    <oai_dc:dc 
+                      xmlns:oai_dc="http://www.openarchives.org/OAI/2.0/oai_dc/" 
+                      xmlns:dc="http://purl.org/dc/elements/1.1/" 
+                      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+                      xsi:schemaLocation="http://www.openarchives.org/OAI/2.0/oai_dc/ http://www.openarchives.org/OAI/2.0/oai_dc.xsd">
+                        <dc:description>
+                          <mm:field name="description" escape="tagstripper,text/xml" />
+                        </dc:description>
+                      </oai_dc:dc>
+                    </setDescription>
                   </mm:node>
                 </set>
               </mm:listnodes>
@@ -350,6 +389,8 @@
           </mm:listnodescontainer>
           -->
           
+          
+          <!-- ListIdentifiers, ListRecords and GetRecord -->
           <c:choose>
             <c:when test="${total gt 0 and verb eq 'ListIdentifiers'}">
               <ListIdentifiers>
@@ -407,7 +448,7 @@
             <mm:node number="${record}">
               <c:set var="show"><mm:field name="show" /></c:set>
               <mm:nodeinfo type="type" id="nodetype" write="false" />
-              <c:if test="${show eq true 
+              <c:if test="${show eq 'true' 
                     and (nodetype eq 'mediafragments'
                     or nodetype eq 'audiofragments' 
                     or nodetype eq 'videofragments'
@@ -448,6 +489,7 @@
           </c:if>
         </c:when>
 
+        <!-- ListMetadataFormats -->
         <c:when test="${verb eq 'ListMetadataFormats'}">
           <mm:hasnode number="${record}">
             <c:set var="hasnode" value="true" />
