@@ -12,7 +12,7 @@
     feeds/oai/?verb=Identify
     feeds/oai/?verb=ListSets
     feeds/oai/?verb=ListIdentifiers&metadataPrefix=oai_dc
-    feeds/oai/?verb=ListRecords&metadataPrefix=oai_dc&set=openimages
+    feeds/oai/?verb=ListRecords&metadataPrefix=oai_dc&set=beeldengeluid
     feeds/oai/?verb=ListRecords&metadataPrefix=oai_dc&from=2009-01-01
     feeds/oai/?verb=GetRecord&identifier=oai:openimages.eu:23173
     
@@ -42,7 +42,7 @@
     
     <!-- An OAI-PMH set is based on a portal. Default portal with all content is 'openimages', 
          other portals can be found by a pools property key 'oai-set' with the name of a set, 
-         f.e. 'subcollection', as its value. The property points to a portal pools node.
+         f.e. 'beeldengeluid', as its value. The property points to a portal pools node.
          Portals are configured with a portal filter that is being used in a Lucene query.
          A filter contains users, keywords and tags.
     -->
@@ -154,7 +154,7 @@
       <c:set var="kind" value="metadataPrefix incorrect" />
     </c:if>
     
-    <!-- check set -->
+    <!-- check set parameter with setnamelist-->
     <c:choose>
       <c:when test="${!empty set}">
         <mm:compare referid="set" valueset="$setnamelist" inverse="true">
@@ -163,7 +163,7 @@
         </mm:compare>
       </c:when>
       <c:otherwise>
-        <c:set var="set" value="openimages" />
+        <!-- <c:set var="set" value="openimages" /> -->
       </c:otherwise>
     </c:choose>
   
@@ -261,32 +261,84 @@
         <!-- ListIdentifiers + ListRecords -->
         <c:when test="${verb eq 'ListIdentifiers' or verb eq 'ListRecords'}">
         
+          <!-- but first the request 
+               TODO: rewrite this to fewer lines -->
           <c:choose>
             <c:when test="${!empty resumptionToken}">
-              <request verb="${verb}" metadataPrefix="${metadataPrefix}" 
-                  set="${set}" resumptionToken="${resumptionToken}">${requesturl}</request>
+              
+              <c:choose>
+                <c:when test="${!empty set}">
+                  <request verb="${verb}" metadataPrefix="${metadataPrefix}" 
+                      set="${set}" resumptionToken="${resumptionToken}">${requesturl}</request>
+                </c:when>
+                <c:otherwise>
+                  <request verb="${verb}" metadataPrefix="${metadataPrefix}" 
+                      resumptionToken="${resumptionToken}">${requesturl}</request>
+                </c:otherwise>
+              </c:choose>
+              
             </c:when>
             <c:when test="${!empty from and !empty until}">
-              <request verb="${verb}" metadataPrefix="${metadataPrefix}" 
-                  set="${set}" from="${from}" until="${until}">${requesturl}</request>
+              
+              <c:choose>
+                <c:when test="${!empty set}">
+                  <request verb="${verb}" metadataPrefix="${metadataPrefix}" 
+                      set="${set}" from="${from}" until="${until}">${requesturl}</request>
+                </c:when>
+                <c:otherwise>
+                  <request verb="${verb}" metadataPrefix="${metadataPrefix}" 
+                      from="${from}" until="${until}">${requesturl}</request>
+                </c:otherwise>
+              </c:choose>
+              
             </c:when>
             <c:when test="${!empty from and empty until}">
-              <request verb="${verb}" metadataPrefix="${metadataPrefix}" 
-                  set="${set}" from="${from}">${requesturl}</request>
+              
+              <c:choose>
+                <c:when test="${!empty set}">
+                  <request verb="${verb}" metadataPrefix="${metadataPrefix}" 
+                      set="${set}" from="${from}">${requesturl}</request>
+                </c:when>
+                <c:otherwise>
+                  <request verb="${verb}" metadataPrefix="${metadataPrefix}" 
+                      from="${from}">${requesturl}</request>
+                </c:otherwise>
+              </c:choose>
+                  
             </c:when>
             <c:when test="${empty from and !empty until}">
-              <request verb="${verb}" metadataPrefix="${metadataPrefix}" 
-                  set="${set}" until="${until}">${requesturl}</request>
+              
+              <c:choose>
+                <c:when test="${!empty set}">
+                  <request verb="${verb}" metadataPrefix="${metadataPrefix}" 
+                      set="${set}" until="${until}">${requesturl}</request>
+                </c:when>
+                <c:otherwise>
+                  <request verb="${verb}" metadataPrefix="${metadataPrefix}" 
+                      until="${until}">${requesturl}</request>
+                </c:otherwise>
+              </c:choose>
+              
             </c:when>
             <c:otherwise>
-              <request verb="${verb}" metadataPrefix="${metadataPrefix}"
-                  set="${set}">${requesturl}</request>
+              
+              <c:choose>
+                <c:when test="${!empty set}">
+                  <request verb="${verb}" metadataPrefix="${metadataPrefix}"
+                      set="${set}">${requesturl}</request>
+                </c:when>
+                <c:otherwise>
+                  <request verb="${verb}" metadataPrefix="${metadataPrefix}">${requesturl}</request>
+                </c:otherwise>
+              </c:choose>
+              
             </c:otherwise>
           </c:choose>
       
+      
       <!-- Lucene query configuration to create list based on set -->
       <c:choose>
-        <c:when test="${set ne 'openimages'}">
+        <c:when test="${!empty set}">
 
           <!-- get this set's portal -->
           <mm:listnodescontainer type="properties">
