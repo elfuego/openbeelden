@@ -31,6 +31,7 @@
  *       'log' : when your specify 'info' some debug messages are shown about the media playing 
  *
  * @changes: replaced jquery.ui.slider with "own" scrubber, improved controls
+ * @version: '$Id$'
 */
 
 jQuery.fn.oiplayer = function(settings) {
@@ -970,7 +971,7 @@ CortadoPlayer.prototype.mute = function() {
 CortadoPlayer.prototype.position = function() {
     if (this.state != 'init') {
         this.pos = this.player.getPlayPosition();
-    return this.pos;
+        return this.pos;
     } else {
         return 0;
     }
