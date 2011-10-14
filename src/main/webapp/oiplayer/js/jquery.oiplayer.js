@@ -462,7 +462,7 @@ jQuery.fn.oiplayer = function(settings) {
                 }
             }
         }
-        if (proposal.type == undefined) {
+        if (proposal.type == undefined || proposal.type.indexOf('cortado') > -1) {
             var flash_url;
             for (var i = 0; i < types.length; i++) {
                 if (types[i].indexOf("video/flv") > -1 || types[i].indexOf("video/x-flv") > -1) {
