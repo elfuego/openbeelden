@@ -264,7 +264,7 @@ input.info {
 	background-color: #f4f4f4;
 	background-image: url(images/button-gradient.png);
 	background-repeat: no-repeat;
-	background-position: right 50%;
+	background-position: 0 50%;
 	/* for css3 savvy browsers below */
 	background-image: -webkit-gradient(linear, left top, left bottom, from(#f9f9f9), to(#efefef));
 	background: -moz-linear-gradient(top, #f9f9f9, #efefef);
@@ -279,7 +279,6 @@ div.b_user-media input.submit,
 div.b_user-media input.info,
 div.b_user-mediadelete input#cancel,
 div.b_user-mediadelete input#delete
-
 {
 	float: left;
 	margin-left: 0;
