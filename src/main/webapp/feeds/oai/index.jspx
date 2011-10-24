@@ -150,8 +150,15 @@
                    and (empty metadataPrefix or metadataPrefix ne 'oai_dc')
                    and (empty metadataPrefix or metadataPrefix ne 'oai_oi')
                    and empty error}">
-      <c:set var="error" value="badArgument" />
-      <c:set var="kind" value="metadataPrefix incorrect" />
+      <c:choose>
+        <c:when test="${verb eq 'ListIdentifiers' and !empty resumptionToken}">
+          <!-- we're good  -->
+        </c:when>
+        <c:otherwise>
+          <c:set var="error" value="badArgument" />
+          <c:set var="kind" value="metadataPrefix incorrect or missing" />
+        </c:otherwise>
+      </c:choose> 
     </c:if>
     
     <!-- check set parameter with setnamelist-->
@@ -226,10 +233,6 @@
         <c:when test="${verb eq 'ListSets'}">
           <request verb="${verb}">${requesturl}</request>
           <ListSets>
-            <set>
-              <setSpec>openimages</setSpec>
-              <setName>Open Images media items: images, audio and video.</setName>
-            </set>
 
             <mm:listnodescontainer type="properties">
               <mm:constraint field="key" value="oai-set" operator="EQUAL" />
@@ -261,19 +264,25 @@
         <!-- ListIdentifiers + ListRecords -->
         <c:when test="${verb eq 'ListIdentifiers' or verb eq 'ListRecords'}">
         
-          <!-- but first the request 
-               TODO: rewrite this to fewer lines -->
+          <!-- but first the request -->
           <c:choose>
             <c:when test="${!empty resumptionToken}">
               
               <c:choose>
-                <c:when test="${!empty set}">
-                  <request verb="${verb}" metadataPrefix="${metadataPrefix}" 
-                      set="${set}" resumptionToken="${resumptionToken}">${requesturl}</request>
+                <c:when test="${!empty set and !empty metadataPrefix}"> <!-- both present -->
+                  <request set="${set}" metadataPrefix="${metadataPrefix}" 
+                      verb="${verb}" resumptionToken="${resumptionToken}">${requesturl}</request>
                 </c:when>
-                <c:otherwise>
-                  <request verb="${verb}" metadataPrefix="${metadataPrefix}" 
-                      resumptionToken="${resumptionToken}">${requesturl}</request>
+                <c:when test="${empty set and !empty metadataPrefix}">  <!-- no set -->
+                  <request metadataPrefix="${metadataPrefix}" 
+                      verb="${verb}" resumptionToken="${resumptionToken}">${requesturl}</request>
+                </c:when>
+                <c:when test="${!empty set and empty metadataPrefix}">  <!-- no metadataPrefix -->
+                  <request set="${set}" 
+                      verb="${verb}" resumptionToken="${resumptionToken}">${requesturl}</request>
+                </c:when>
+                <c:otherwise>                                           <!-- both missing -->
+                  <request verb="${verb}" resumptionToken="${resumptionToken}">${requesturl}</request>
                 </c:otherwise>
               </c:choose>
               
