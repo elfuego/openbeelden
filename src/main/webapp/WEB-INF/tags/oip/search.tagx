@@ -72,7 +72,7 @@
           <select id="date" name="date">
             <option label="${label_date}" value="">${label_date}</option>
             <mm:option value="2010" compare="${date}">
-              <fmt:message key="search.after">
+              <fmt:message key="search.from">
                 <fmt:param>2010</fmt:param>
               </fmt:message>
             </mm:option>
