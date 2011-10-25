@@ -11,8 +11,8 @@
     <jsp:attribute name="body">
 
       <div class="main-column">
-        <oip:h2><mm:field name="title" /></oip:h2>
         <mm:nodefunction name="translation">
+          <oip:h2><mm:field name="title" /></oip:h2>
           <mm:field name="description" escape="paragraph" />
         </mm:nodefunction>
 
