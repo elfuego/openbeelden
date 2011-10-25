@@ -3,10 +3,10 @@
 %><%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"
 %><%@ taglib uri="http://www.opensymphony.com/oscache" prefix="os"
 %><jsp:directive.page session="false" />
-*///<mm:content type="text/javascript" expires="3600" postprocessor="none"><os:cache time="0"><mm:escape escape="none">
+*///<mm:content type="text/javascript" expires="0" postprocessor="none"><os:cache time="0"><mm:escape escape="none">
 <fmt:setBundle basename="eu.openimages.messages" scope="request" />
 <mm:import id="any_lang"><fmt:message key="search.any_language" /></mm:import>
-<mm:import id="textarea_classes">textarea.mm_f_intro, textarea.mm_f_body, textarea.mm_nm_mmbaseusers, textarea.mm_nm_users_translations, textarea.mm_nm_pages, textarea.mm_nm_pages_translations, textarea.mm_nm_pools, textarea.mm_nm_pools_translations, textarea.mm_nm_licenses, textarea.mm_nm_licenses_translations</mm:import>
+<mm:import id="textarea_classes">textarea.mm_f_body, textarea.mm_f_intro, textarea.mm_nm_mmbaseusers, textarea.mm_nm_users_translations, textarea.mm_nm_pages, textarea.mm_nm_pages_translations, textarea.mm_nm_pools, textarea.mm_nm_pools_translations, textarea.mm_nm_licenses, textarea.mm_nm_licenses_translations</mm:import>
 
 /*
   Functions for new (portal) editors in OIP 
@@ -37,6 +37,7 @@ $(document).ready(function() {
 var tinyMceConfig = {
     theme: "advanced",
     mode : "specific_textareas",
+    gecko_spellcheck : true,
     //editor_selector : /(mm_f_intro|mm_f_body)/,
     plugins : "fullscreen,xhtmlxtras",
     content_css : "${mm:link('/style/css/tiny_mce.css')}",
@@ -45,11 +46,40 @@ var tinyMceConfig = {
       language : "${requestScope['javax.servlet.jsp.jstl.fmt.locale.request']}",
     </c:if>
     setup : function(ed) { 
+        
+        var saveTiny = function (ed) {
+            ed.save();
+            $("#" + ed.id).trigger("paste"); // triggers mmbase
+        }
+        
+        ed.onInit.add(function(ed) {  
+            if ($.browser.msie) {   // MSIE only
+                saveTiny(ed);
+            }
+        });
+        /* onChange: Fires when a new undo level is added to the editor */
+        //ed.onChange.add(function(ed) {    
+        ed.onActivate.add(function(ed) {
+            var followTinyMCE = null;
+            clearInterval(followTinyMCE);
+            var count = 0;
+            var followTinyMCE = setInterval(function(){
+                if (ed.isDirty() || ed.getContent() == 0) {
+                    //console.log('dirty start checking ' + ed.id + ' [' + count + ']');
+                    saveTiny(ed);
+                } else {    /* editors get activated at init then deactivated, make them stop following */
+                    saveTiny(ed);
+                    clearInterval(followTinyMCE);
+                }
+                if (count > 999) {  // seems reasonable to stop after some time
+                     clearInterval(followTinyMCE);
+                }
+                count++;
+            }, 1500);   /* 1.5 sec interval seems needed to give other threads (mmbase validator) time to check */
+        });
         ed.onDeactivate.add(function(ed) {  // check if we need to validate
             if (ed.isDirty() || ed.getContent() == 0) {
-                ed.save();
-                $("#" + ed.id).trigger("paste"); // triggers mmbase
-                //console.log('saved on deactivate: ' + ed.id);
+                saveTiny(ed);
             }
         });
     },
@@ -59,7 +89,7 @@ var tinyMceConfig = {
     theme_advanced_path_location : "bottom",
     theme_advanced_toolbar_location : "top",
   
-    theme_advanced_buttons1 : "formatselect,bold,italic,|,link,unlink,|,removeformat,fullscreen",
+    theme_advanced_buttons1 : "formatselect,bold,italic,|,bullist,numlist,|,link,unlink,|,removeformat,code,fullscreen",
     theme_advanced_buttons2 : "",
     theme_advanced_buttons3 : "",
     theme_advanced_resizing : true
@@ -213,21 +243,19 @@ function initMMBasevalidatorForTiny(el) {
             if (ed.isDirty() && ed.id == tinyMCE.activeEditor.id) {
                 ed.save();
                 $("#" + edId).trigger("paste");
-                //console.log('saved on mousedown : ' + ed.id);
             }
         }
     });
-
     $(el).find('input').focus(function(ev){
         for (edId in tinyMCE.editors) {
             var ed = tinyMCE.editors[edId];
             if (ed.isDirty() && ed.id == tinyMCE.activeEditor.id) {
                 ed.save();
                 $("#" + edId).trigger("paste");
-                //console.log('saved on input focus : ' + ed.id);
             }
         }
     });
+
 }
 
 /*
