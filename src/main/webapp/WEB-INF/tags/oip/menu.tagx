@@ -16,11 +16,16 @@
       <mm:import id="locale">${requestScope['org.mmbase.mmsite.language']}</mm:import>
     </c:if>
     
-    <mm:url id="current" write="false" /><!-- current link without locale, f.e. .en -->
+    <!-- get current link without locale, f.e. .en etc. -->
+    <c:set var="current"><mm:url /></c:set>
     <c:if test="${fn:indexOf(current, '.') gt -1}">
-      <c:set var="current" >${fn:substringBefore(current, '.')}</c:set>
+      <c:set var="current">${fn:substringBefore(current, '.')} </c:set>
     </c:if>
-    
+    <!-- workaround for ${fn:endsWith(current, '/')} -->
+    <c:if test="${fn:substring(current, fn:length(current)-1, fn:length(current)) == '/'}">
+      <c:set var="current">${fn:substring(current, 0, fn:length(current)-1)}</c:set>
+    </c:if>
+
     <c:choose>
       <c:when test="${empty requestScope['javax.servlet.forward.context_path']}">
          <c:set var="firstpart">/${fn:split(current, '/')[0]}</c:set>
@@ -149,7 +154,7 @@
     </c:if>
     
     <ul class="meta">
-      <li>
+      <li> 
         <mm:listfunction set="mmsite" name="locales" varStatus="status">
           <a class="${_ eq locale ? 'active' : ''}" href="${current}.${_}">${_}</a>
           <c:if test="${! status.last}"><jsp:text> / </jsp:text></c:if>
