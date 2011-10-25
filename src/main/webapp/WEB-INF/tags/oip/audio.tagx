@@ -86,18 +86,41 @@
        class="oip_media">
       <audio controls="controls"><mm:write referid="mediaurls" escape="none" /></audio>
       <span class="license">
-      <mm:link page="mediafragment" absolute="true">
-        <mm:frameworkparam name="component">oip</mm:frameworkparam>
-        <mm:frameworkparam name="media">${_node}</mm:frameworkparam><a property="dct:title"
-         rel="cc:attributionURL"
-         href="${_}"
-         >${_node.title}</a></mm:link>, <fmt:message key="media.license.by" /> <a 
-         property="cc:attributionName" 
-         rel="dct:creator"
-         href="${creatorlink}"
-         >${_node.dc_creator}</a>, <fmt:message key="media.license.is_licensed_under" /> <mm:relatednodescontainer type="licenses" role="related" searchdirs="destination">
-          <mm:relatednodes><mm:nodefunction name="translation"> <a rel="license" href="${_node.url}"><mm:field name="name" /></a>.</mm:nodefunction></mm:relatednodes>
-        </mm:relatednodescontainer>
+        <fmt:message key="media.license.is_licensed_under">
+          <fmt:param>
+            <mm:link page="mediafragment" absolute="true">
+              <mm:frameworkparam name="component">oip</mm:frameworkparam>
+              <mm:frameworkparam name="media">${_node}</mm:frameworkparam>
+              <a property="dct:title"
+                 rel="cc:attributionURL"
+                 href="${_}">
+                 <mm:nodefunction name="translation">
+                   <mm:field name="title" />
+                 </mm:nodefunction>
+              </a>
+            </mm:link>
+          </fmt:param>
+          <fmt:param>
+            <a property="cc:attributionName"
+               rel="dct:creator"
+               href="${creatorlink}">
+               <mm:nodefunction name="translation">
+                 <mm:field name="dc_creator" />
+               </mm:nodefunction>
+            </a>
+          </fmt:param>
+          <fmt:param>
+            <mm:relatednodescontainer type="licenses" role="related" searchdirs="destination">
+              <mm:relatednodes>
+                <mm:nodefunction name="translation">
+                  <a rel="license" href="${_node.url}">
+                    <mm:field name="name" />
+                  </a>
+                </mm:nodefunction>
+              </mm:relatednodes>
+            </mm:relatednodescontainer>
+          </fmt:param>
+        </fmt:message>
       </span>
     </div>
   </mm:import>
