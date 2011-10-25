@@ -30,6 +30,7 @@
 
             <mm:nodefunction name="translation">
               <oip:h2><mm:field name="title" /></oip:h2>
+              <mm:field name="description" escape="paragraph" />
             </mm:nodefunction>
 
             <mm:relatednodescontainer type="images" role="posrel" searchdirs="destination">
