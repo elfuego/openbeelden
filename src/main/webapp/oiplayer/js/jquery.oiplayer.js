@@ -183,10 +183,13 @@ jQuery.fn.oiplayer = function(settings) {
                 fullscreen(pl);
             });
             
+            $(pl.ctrls).find('div.back').click(function(ev){
+                jumpScrubberOnClick(pl, ev);
+            });
             $(pl.ctrls).find('div.loaded').click(function(ev){
                 jumpScrubberOnClick(pl, ev);
             });
-            $(pl.ctrls).find('div.back').click(function(ev){
+            $(pl.ctrls).find('div.played').click(function(ev){
                 jumpScrubberOnClick(pl, ev);
             });
             $(pl.ctrls).find('div.pos a').click(function(ev){ ev.preventDefault(); });
