@@ -56,7 +56,7 @@
   </block>
 
   <block name="user-create"
-         classification="mmbase.oip"
+         classification="oip"
          mimetype="text/html">
     <title xml:lang="en">New user</title>
     <title xml:lang="nl">Nieuwe gebruiker</title>
@@ -150,7 +150,7 @@
   </block>
 
   <block name="user-favorites"
-         classification="mmbase.oip"
+         classification="oip"
          mimetype="text/html">
     <title xml:lang="en">My favorites</title>
     <title xml:lang="nl">Mijn favorieten</title>
@@ -299,6 +299,17 @@
     </body>
   </block>
 
+  <block name="user-apitoken"
+         classification="oip"
+         mimetype="text/html">
+    <title xml:lang="en">API token</title>
+    <title xml:lang="nl">API token</title>
+    <body jsp="user-apitoken.jspx">
+      <param name="n"    type="org.mmbase.bridge.Node" />
+      <param name="seed" type="String">pindakaas</param><!-- change this to make guessing more difficult -->
+    </body>
+  </block>
+  
   <block name="user-delete"
          classification="oip"
          mimetype="text/html">
