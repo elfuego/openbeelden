@@ -12,26 +12,29 @@
     <jsp:attribute name="body">
       <div class="main-column">
 
-        <mm:nodefunction name="translation">
-          <h2><mm:field name="title" /></h2>
-          <mm:field name="description" escape="paragraph" />
-        </mm:nodefunction>
-        
         <mm:import id="iframe">/cremix/imframed.jspx</mm:import>
         <mm:import id="seed">testseed</mm:import>
 
-        <mm:import id="seedprop" reset="true">seed</mm:import>
-        <mm:import id="seedp" reset="true"><mm:function referids="_node@node,seedprop@key" nodemanager="properties" name="get" /></mm:import>
-        <c:if test="${!empty seedp}">
-          <mm:import id="seed" reset="true">${seedp}</mm:import>
-        </c:if>
- 
-        <mm:import id="iframeprop" reset="true">iframe</mm:import>
-        <mm:import id="iframep" reset="true"><mm:function referids="_node@node,iframeprop@key" nodemanager="properties" name="get" /></mm:import>
-        <c:if test="${!empty iframep}">
-          <mm:import id="iframe" reset="true">${iframep}</mm:import>
-        </c:if>
+        
+        <mm:present referid="page">
+          <mm:nodefunction name="translation">
+            <h2><mm:field name="title" /></h2>
+            <mm:field name="description" escape="paragraph" />
+          </mm:nodefunction>
 
+          <mm:import id="seedprop" reset="true">seed</mm:import>
+          <mm:import id="seedp" reset="true"><mm:function referids="_node@node,seedprop@key" nodemanager="properties" name="get" /></mm:import>
+          <c:if test="${!empty seedp}">
+            <mm:import id="seed" reset="true">${seedp}</mm:import>
+          </c:if>
+   
+          <mm:import id="iframeprop" reset="true">iframe</mm:import>
+          <mm:import id="iframep" reset="true"><mm:function referids="_node@node,iframeprop@key" nodemanager="properties" name="get" /></mm:import>
+          <c:if test="${!empty iframep}">
+            <mm:import id="iframe" reset="true">${iframep}</mm:import>
+          </c:if>
+        </mm:present>
+        
         
         <mm:import id="teststr">${seed}:<mm:cloudinfo type="user" /></mm:import>
         <mm:import id="hash" reset="true"><mm:write referid="teststr" escape="md5" /></mm:import>
