@@ -1,0 +1,68 @@
+<jsp:root
+    version="2.0"
+    xmlns:c="http://java.sun.com/jsp/jstl/core"
+    xmlns:jsp="http://java.sun.com/JSP/Page"
+    xmlns:oip="urn:jsptagdir:/WEB-INF/tags/oip"
+    xmlns:mm="http://www.mmbase.org/mmbase-taglib-2.0">
+  
+  <oip:html>
+    <jsp:attribute name="head">
+    </jsp:attribute>
+    <jsp:attribute name="styleClass">iframe</jsp:attribute>
+    <jsp:attribute name="body">
+      <div class="main-column">
+
+        <mm:nodefunction name="translation">
+          <h2><mm:field name="title" /></h2>
+          <mm:field name="description" escape="paragraph" />
+        </mm:nodefunction>
+        
+        <mm:import id="iframe">/cremix/imframed.jspx</mm:import>
+        <mm:import id="seed">testseed</mm:import>
+
+        <mm:import id="seedprop" reset="true">seed</mm:import>
+        <mm:import id="seedp" reset="true"><mm:function referids="_node@node,seedprop@key" nodemanager="properties" name="get" /></mm:import>
+        <c:if test="${!empty seedp}">
+          <mm:import id="seed" reset="true">${seedp}</mm:import>
+        </c:if>
+ 
+        <mm:import id="iframeprop" reset="true">iframe</mm:import>
+        <mm:import id="iframep" reset="true"><mm:function referids="_node@node,iframeprop@key" nodemanager="properties" name="get" /></mm:import>
+        <c:if test="${!empty iframep}">
+          <mm:import id="iframe" reset="true">${iframep}</mm:import>
+        </c:if>
+
+        
+        <mm:import id="teststr">${seed}:<mm:cloudinfo type="user" /></mm:import>
+        <mm:import id="hash" reset="true"><mm:write referid="teststr" escape="md5" /></mm:import>
+
+        <mm:import id="iframe" reset="true"><mm:url absolute="true" page="${iframe}">
+          <mm:param name="username"><mm:cloudinfo type="user" /></mm:param>
+        </mm:url></mm:import>
+        
+        <p>
+          current iframe: ${iframe}<br />
+          seed: ${seed}<br /> 
+          hash: ${hash} (= MD5 of "seed:username")
+        </p>
+        
+        <mm:import id="mijncookie" reset="true">${hash}:<mm:cloudinfo type="user" /></mm:import>
+        <p>
+          cookie named 'remixer' written: ${mijncookie}<br />
+          cookie consists of "hash:username". username can be used as a parameter.
+        </p>
+
+        <mm:write referid="mijncookie" cookie="remixer" />
+        <mm:link page="$iframe">
+          ${_}
+        </mm:link>
+        <mm:link referid="iframe">
+          <iframe src="${_}" frameborder="0" height="420" scrolling="auto" width="688">
+            <jsp:text> <!-- empty --> </jsp:text>
+          </iframe>
+        </mm:link>
+
+      </div>
+    </jsp:attribute>
+  </oip:html>
+</jsp:root>
