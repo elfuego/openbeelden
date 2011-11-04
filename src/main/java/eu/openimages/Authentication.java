@@ -20,15 +20,20 @@ along with The Open Images Platform.  If not, see <http://www.gnu.org/licenses/>
 
 package eu.openimages;
 
-import org.mmbase.security.implementation.cloudcontext.*;
 import org.mmbase.module.core.MMObjectNode;
+import org.mmbase.security.implementation.cloudcontext.Authenticate;
+import org.mmbase.security.implementation.cloudcontext.BasicUserProvider;
+import org.mmbase.security.implementation.cloudcontext.UserProvider;
+import org.mmbase.security.implementation.cloudcontext.UserStatus;
+import org.mmbase.util.functions.Parameter;
+import org.mmbase.util.functions.Parameters;
 import org.mmbase.util.logging.Logger;
 import org.mmbase.util.logging.Logging;
 
 /**
  * Authentication of users in Open Images, only users with an activated
  * status {@link org.mmbase.security.implementation.cloudcontext.UserStatus.INUSE} have access.
- * The user node (own account) is the default context of nodes (see owner field) this user creates. 
+ * The user node (own account) is the default context of nodes (see owner field) this user creates.
  *
  * @author Michiel Meeuwissen
  * @version $Id$
@@ -70,9 +75,24 @@ public class Authentication extends Authenticate {
     }
     @Override
     public org.mmbase.security.UserContext login(String application, java.util.Map<String, ?> loginInfo, Object[] parameters) throws SecurityException {
+
         return super.login(application, loginInfo, parameters);
     }
 
 
+    @Override
+    public Parameters createParameters(String application) {
+        application = application.toLowerCase();
+        if ("APIToken".equals(application)) {
+            return new Parameters(new Parameter("apitoken", String.class));
+        } else {
+            return super.createParameters(application);
+        }
+    }
 
+    @Override
+    public String[] getTypes(int method) {
+        // Add APIToken
+        return super.getTypes();
+    }
 }
