@@ -11,6 +11,7 @@
     >
 
   <properties>
+    <property name="allowencodedpassword">true</property>
     <property name="translations.builder">users_translations</property>
   </properties>
 
