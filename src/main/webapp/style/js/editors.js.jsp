@@ -3,7 +3,7 @@
 %><%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"
 %><%@ taglib uri="http://www.opensymphony.com/oscache" prefix="os"
 %><jsp:directive.page session="false" />
-*///<mm:content type="text/javascript" expires="0" postprocessor="none"><os:cache time="0"><mm:escape escape="none">
+*///<mm:content type="text/javascript" expires="3600" postprocessor="none"><os:cache time="3600"><mm:escape escape="javascript-compress">
 <fmt:setBundle basename="eu.openimages.messages" scope="request" />
 <mm:import id="any_lang"><fmt:message key="search.any_language" /></mm:import>
 <mm:import id="textarea_classes">textarea.mm_f_body, textarea.mm_f_intro, textarea.mm_nm_mmbaseusers, textarea.mm_nm_users_translations, textarea.mm_nm_pages, textarea.mm_nm_pages_translations, textarea.mm_nm_pools, textarea.mm_nm_pools_translations, textarea.mm_nm_licenses, textarea.mm_nm_licenses_translations</mm:import>
@@ -65,7 +65,6 @@ var tinyMceConfig = {
             var count = 0;
             var followTinyMCE = setInterval(function(){
                 if (ed.isDirty() || ed.getContent() == 0) {
-                    //console.log('dirty start checking ' + ed.id + ' [' + count + ']');
                     saveTiny(ed);
                 } else {    /* editors get activated at init then deactivated, make them stop following */
                     saveTiny(ed);
@@ -95,27 +94,63 @@ var tinyMceConfig = {
     theme_advanced_resizing : true
 }
 
+/*
+ * Inits tinyMCE html editor on dynamically loaded forms
+ */
+function initTiny(el) {
+    $(el).find("${textarea_classes}").each(function() {
+        $(this).tinymce(tinyMceConfig);
+    });
+    initMMBasevalidatorForTiny(el);
+}
+
+/* Trigger events on original textareas to have tinyMCE and MMBaseValidator cooperate */
+function initMMBasevalidatorForTiny(el) {
+    $("body").mousedown(function(ev) {
+        for (edId in tinyMCE.editors) {
+            var ed = tinyMCE.editors[edId];
+            if (ed.isDirty() && ed.id == tinyMCE.activeEditor.id) {
+                ed.save();
+                $("#" + edId).trigger("paste");
+            }
+        }
+    });
+    $(el).find('input').focus(function(ev){
+        for (edId in tinyMCE.editors) {
+            var ed = tinyMCE.editors[edId];
+            if (ed.isDirty() && ed.id == tinyMCE.activeEditor.id) {
+                ed.save();
+                $("#" + edId).trigger("paste");
+            }
+        }
+    });
+}
+
+
+/* TODO: make this a jquery plugin? */
+function initEditme(el) {
+    $(el).find('a.editme').click(function(ev){
+        var link = ev.target.href.substring(0, ev.target.href.indexOf("?"));
+        if (link.indexOf('editors/editor.jspx') < 0) {
+            ev.preventDefault();
+            editMe(ev);
+        }
+    });
+}
+
+jQuery.fn.editme = function(settings) {
+    var config = {};
+    if (settings) $.extend(config, settings);
+    
+    this.each(function(){
+        $(this).find('a.editme').click(function(ev){});
+    });
+}
+
 function initSearchme() {
     $('.searchme').submit(function(ev) {
         ev.preventDefault();
         searchMe(this, ev);
-    });
-}
-
-function pageMe(target, ev) {
-    var link = ev.target.href;
-    $(target).load(link, function() {
-        var list = $(this).find('ul.sortable');
-        initEditme(target);
-        initSortable(list);
-        $(this).find('a.cancel').click(function(ev){
-            ev.preventDefault();
-            $(target).empty();
-        });
-        $(this).find('li.pager a').click(function(ev) {
-            ev.preventDefault();
-            pageMe(target, ev);
-        });
     });
 }
 
@@ -143,23 +178,20 @@ function searchMe(self, ev) {
     });
 }
 
-/* TODO: make this a jquery plugin? */
-function initEditme(el) {
-    $(el).find('a.editme').click(function(ev){
-        var link = ev.target.href.substring(0, ev.target.href.indexOf("?"));
-        if (link.indexOf('editors/editor.jspx') < 0) {
+function pageMe(target, ev) {
+    var link = ev.target.href;
+    $(target).load(link, function() {
+        var list = $(this).find('ul.sortable');
+        initEditme(target);
+        initSortable(list);
+        $(this).find('a.cancel').click(function(ev){
             ev.preventDefault();
-            editMe(ev);
-        }
-    });
-}
-
-jQuery.fn.editme = function(settings) {
-    var config = {};
-    if (settings) $.extend(config, settings);
-    
-    this.each(function(){
-        $(this).find('a.editme').click(function(ev){});
+            $(target).empty();
+        });
+        $(this).find('li.pager a').click(function(ev) {
+            ev.preventDefault();
+            pageMe(target, ev);
+        });
     });
 }
 
@@ -190,7 +222,6 @@ function editMe(ev) {
                    clearMsg('#' + id);
                });
                $('#' + id).find("${textarea_classes}").each(function() {
-                   //console.log('removed tiny from ' + $(this).attr('id'));
                    $(this).tinymce().remove();
                });
 
@@ -235,29 +266,6 @@ function editMe(ev) {
     $(tag).hide();
 }
 
-/* Trigger events on original textareas to have tinyMCE and MMBaseValidator cooperate */
-function initMMBasevalidatorForTiny(el) {
-    $("body").mousedown(function(ev) {
-        for (edId in tinyMCE.editors) {
-            var ed = tinyMCE.editors[edId];
-            if (ed.isDirty() && ed.id == tinyMCE.activeEditor.id) {
-                ed.save();
-                $("#" + edId).trigger("paste");
-            }
-        }
-    });
-    $(el).find('input').focus(function(ev){
-        for (edId in tinyMCE.editors) {
-            var ed = tinyMCE.editors[edId];
-            if (ed.isDirty() && ed.id == tinyMCE.activeEditor.id) {
-                ed.save();
-                $("#" + edId).trigger("paste");
-            }
-        }
-    });
-
-}
-
 /*
  * Integrates tinyMCE with jquery.ajaxForm. 
  * Puts tinyMCE's content in the array submitted by ajaxForm
@@ -271,7 +279,6 @@ function beforeSubmit(arr, $form, options) {
             var some = arr[i];
             if (some['name'] == edName) {
                 var content = $('#' + edId).tinymce().getContent();
-                //console.log('doing: ' + some['name']);
                 some['name'] = edName;
                 some['value'] = content;
             }
@@ -280,16 +287,6 @@ function beforeSubmit(arr, $form, options) {
     });
 	
 	return true;    // true = submit
-}
-
-/*
- * Inits tinyMCE html editor on dynamically loaded forms
- */
-function initTiny(el) {
-    $(el).find("${textarea_classes}").each(function() {
-        $(this).tinymce(tinyMceConfig);
-    });
-    initMMBasevalidatorForTiny(el);
 }
 
 /* ajaxFrom success after submit */
@@ -324,11 +321,9 @@ function afterSubmit(response, status, xhr) {
         
         /* if this (div) contains .targetme : append new content to it */
         if ($(this).hasClass('targetme')) {
-            //console.log('putting ' + newId + ' in target: ' + $(this).attr('id') );
             $(this).html(newItem);
             initEditme('#' + newId);
         } else {
-            //console.log('inserting ' + newId + ' before: ' + $(this).attr('id') );
             $(this).removeClass('editmeform');
             newItem.insertBefore(this);
             initEditme('#' + newId);
@@ -336,7 +331,6 @@ function afterSubmit(response, status, xhr) {
         $('#' + newId).removeClass('editmeform');
         
     } else if (response.indexOf('node_deleted') > -1) { /* node deleted */
-        //console.log('deleted init editme on ' + thisId + ' initEditme on this');
         initEditme(this);
         
         var self = this;
@@ -349,7 +343,6 @@ function afterSubmit(response, status, xhr) {
         initEditme(this);
         
     }
-    //console.log('we are at ' + thisId);
     clearMsg(this);
 }
 
