@@ -9,6 +9,28 @@ VARCHAR(1024) to accommodate the larger video thumbnails keys. For MySQL with vi
   ALTER TABLE oi_icaches_table MODIFY ckey varchar(1024);
   DROP VIEW oi_icaches;
 
+Our release notes for this version:
+http://www.mmbase.org/jira/secure/ReleaseNote.jspa?projectId=10030&version=10233
+
+** Bug
+    * [OIP-172] - Usernames containing spaces create problems in search and urls
+    * [OIP-175] - Uploads do not appear on the media page (but are visible via the user profile page of the uploader) 
+    * [OIP-176] - Language of blog doesn't change when user changes language
+    * [OIP-177] - Automatic redirect to Dutch Wordpress blog when logging on to the English Wordpress for Open Images 
+    * [OIP-179] - The 'Creator' doesn't switch to English when changing the language 
+    * [OIP-180] - XLM namespace for oai_oi and oai_dc are the same in the XML source
+    * [OIP-182] - oi:language 
+    * [OIP-183] - Language switch does not remove trailing slash
+    * [OIP-184] - Various translation key issues
+    * [OIP-186] - Individual media items should display sets they are in
+    * [OIP-187] - Thumbnails are no longer automatically generated and can't be uploaded
+    * [OIP-189] - Titles are not translated
+
+** Improvement
+    * [OIP-171] - Move all mulit-language methods to mmsite application
+
+** New Feature
+    * [OIP-173] - Delete button in edit media metadata form
 
 
 
