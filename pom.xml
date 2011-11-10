@@ -14,8 +14,8 @@
   <description>Sound and Vision - Open Images Platform Web Application</description>
 
   <organization>
-    <name>Beeld &amp; Geluid</name>
-    <url>http://</url>
+    <name>Nederlands Instituut voor Beeld &amp; Geluid</name>
+    <url>http://www.beeldengeluid.nl</url>
   </organization>
 
 
@@ -214,7 +214,7 @@
             </manifestEntries>
             <manifestSections>
               <manifestSection>
-                <name>eu.openbeelden</name>
+                <name>eu.openimages</name>
                 <manifestEntries>
                   <Vendor>Beeld &amp; Geluid</Vendor>
                   <Version>${project.version}.${timestamp}</Version>
