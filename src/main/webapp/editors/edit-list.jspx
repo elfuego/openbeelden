@@ -37,28 +37,35 @@
   <!-- c:if test="${role ne 'posrel'}">
     <mm:import id="sortable" reset="true">false</mm:import>
   </c:if -->
-  <mm:import externid="max">10</mm:import>
   <mm:import externid="offset">0</mm:import>
+  <mm:import externid="max">10</mm:import>
   
-<!-- <mm:constraint field="posrel.pos" value="1" value2="10" operator="BETWEEN" />   -->
+  <mm:import externid="startpos">0</mm:import>
+  <mm:import externid="endpos" />
+  
   
   <mm:node number="$nr">
     <mm:nodeinfo type="type" id="type_of_nr" write="false" />
     <mm:relatednodescontainer type="$type" role="$role" searchdirs="$dir" id="related_$type">
+      
       <mm:size id="total" write="false" />
-      <c:if test="${!empty max and max gt 1}">
-        <mm:maxnumber value="$max" />
-      </c:if>
-      <mm:offset value="$offset" />
-      <mm:size id="size" write="false" />
       <c:if test="${role eq 'posrel'}">
+        <c:if test="${!empty endpos}">
+          <mm:constraint field="posrel.pos" value="$startpos" value2="$endpos" operator="BETWEEN" />
+        </c:if>
         <mm:sortorder field="posrel.pos" direction="UP" />
       </c:if>
+      <mm:size id="sizeinbetween" write="false" />
+      <mm:maxnumber value="99" />
+      <mm:offset value="$offset" />
+      <mm:size id="size" write="false" />
+      
       <ul class="${sortable ? 'sortable connected' : ''} ${role eq 'related' ? 'sortcancel' : role} ${size == 0 ? 'empty' : size}" id="related_${type}">
         <li class="log notsortable"><jsp:text> <!-- empty --> </jsp:text></li>
         <c:if test="${size == 0 and sortable}">
           <li class="notsortable empty">Search <mm:nodeinfo nodetype="$type" type="type" /> and drop them here to add them to the list (e.g. create relation).</li>
         </c:if>
+        
         <mm:relatednodes id="this_node">
           <mm:relation to="${nr}" role="${role}">
             <c:set var="relation_class">relation_${role}_${_node}</c:set>
@@ -98,10 +105,10 @@
             
           </li>
         </mm:relatednodes>
-        <li id="new_${type}" class="notsortable">
-          <jsp:text> <!-- empty --> </jsp:text>
-        </li>
-        <c:if test="${maycreate and size lt max}">
+        <c:if test="${maycreate}">
+          <li id="new_${type}" class="notsortable">
+            <jsp:text> <!-- empty --> </jsp:text>
+          </li>
           <li class="notsortable">
             <mm:link escapeamps="true" page="/editors/add-node.jspx" 
               referids="p?,nr,type,fields?,role,dir,show,editor,maydelete,target?">
@@ -114,13 +121,16 @@
           </li>
         </c:if>
 
-    <li class="pager notsortable">
-      <mm:link referids="type?,p?,nr?,editor?,lang?" id="baseurl" absolute="true" escapeamps="false">
-        <mm:param name="fields">${fields}</mm:param>
-      </mm:link>
-      <!-- url : ${baseurl} t : ${total} m : ${max} o : ${offset} -->
-      <oip:pager total="${total}" offset="${offset}" max="${max}" baseurl="${baseurl}" />
-    </li>
+        <!-- url : ${baseurl} t : ${total} m : ${max} o : ${offset} -->
+        <!-- c:if test="${endpos gt max}">
+          <li class="pager notsortable">
+            <mm:link referids="type?,p?,nr?,editor?,lang?" id="baseurl" absolute="true" escapeamps="false">
+              <mm:param name="fields">${fields}</mm:param>
+            </mm:link>
+            <oip:pager total="${total}" offset="${offset}" max="${max}" baseurl="${baseurl}" />
+          </li>
+        </c:if -->
+      
       </ul>
     </mm:relatednodescontainer>
     <c:if test="${sortable}">
