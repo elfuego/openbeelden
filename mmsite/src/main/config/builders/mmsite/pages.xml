@@ -125,7 +125,9 @@
           <search>9</search>
         </positions>
       </editor>
-      <datatype base="integer" xmlns="http://www.mmbase.org/xmlns/datatypes" />
+      <datatype base="integer" xmlns="http://www.mmbase.org/xmlns/datatypes">
+        <default value="120" />
+      </datatype>
     </field>
   </fieldlist>
 </builder>
