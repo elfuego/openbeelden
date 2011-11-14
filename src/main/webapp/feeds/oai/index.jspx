@@ -37,6 +37,7 @@
     <mm:import externid="identifier" />
     <mm:import externid="metadataPrefix" />
     <mm:import externid="set" />
+    <mm:import externid="resumptionToken" />
     
     <mm:escaper type="tagstripper" id="tagstripper" /><!-- to strip html -->
     
@@ -75,8 +76,27 @@
       </mm:compare>
     </mm:present>
     
+    <!-- metadataPrefix -->
+    <c:choose>
+      <c:when test="${!empty resumptionToken 
+                        and (verb eq 'ListRecords' or verb eq 'ListIdentifiers') 
+                        and !empty metadataPrefix}">
+        <!-- metadataPrefix should be empty when ListRecords or ListIdentifiers includes a resumptionToken -->
+        <c:set var="error" value="badArgument" />
+        <c:set var="kind" value="metadataPrefix and resumptionToken in same request not possible" />
+      </c:when>
+      <c:otherwise> 
+        <c:if test="${empty resumptionToken 
+                        and (verb eq 'ListIdentifiers' or verb eq 'ListRecords' or verb eq 'GetRecord') 
+                        and metadataPrefix ne 'oai_dc' 
+                        and metadataPrefix ne 'oai_oi'}">
+          <c:set var="error" value="badArgument" />
+          <c:set var="kind" value="metadataPrefix '${metadataPrefix}' (token '${resumptionToken}') incorrect or missing" />
+        </c:if>      
+      </c:otherwise>
+    </c:choose>
+
     <!-- resumptionToken, looks like: !f1969-07-21!u2003-08-18!oai_dc!200 (index starts at 0) -->
-    <mm:import externid="resumptionToken" />
     <c:choose>
       <c:when test="${!empty resumptionToken}">
         
@@ -92,33 +112,28 @@
         
         <c:set var="tokens" value="${fn:split(resumptionToken, '!')}" />
         <c:choose>
-          <c:when test="${empty metadataPrefix}"><!-- XXX: without it not valid ?! -->
-            <!-- <c:set var="error" value="badResumptionToken" />
-            <c:set var="kind" value=" No metadataPrefix in ${requesturl}, so we can not construct a valid resumptionToken." /> -->
-          </c:when>
           <c:when test="${fn:length(tokens) eq 4}">
             <c:set var="tfrom"  value="${fn:substringAfter(tokens[0], 'f')}" />
             <c:set var="tuntil" value="${fn:substringAfter(tokens[1], 'u')}" />
-            <c:choose>
-              <c:when test="${!empty tfrom}">
-                <mm:import id="start" reset="true"><mm:time inputformat="yyyy-MM-dd" time="${tfrom}" precision="days" /></mm:import>
-              </c:when>
-              <c:otherwise>
-                <!-- <c:set var="error" value="badResumptionToken" />
-                <c:set var="kind" value="from" /> -->
-              </c:otherwise>
-            </c:choose>
-            <c:choose>
-              <c:when test="${!empty tuntil}">
-                <mm:import id="end" reset="true"><mm:time inputformat="yyyy-MM-dd" time="${tuntil}" precision="days" /></mm:import>
-              </c:when>
-              <c:otherwise>
-                <!-- <c:set var="error" value="badResumptionToken" />
-                <c:set var="kind" value="untill" /> -->
-              </c:otherwise>
-            </c:choose>
+            <c:if test="${!empty tfrom}">
+              <mm:import id="start" reset="true"><mm:time inputformat="yyyy-MM-dd" time="${tfrom}" precision="days" /></mm:import>
+            </c:if>
+            <c:if test="${!empty tuntil}">
+              <mm:import id="end" reset="true"><mm:time inputformat="yyyy-MM-dd" time="${tuntil}" precision="days" /></mm:import>
+            </c:if>
             <mm:import id="metadataPrefix" reset="true">${tokens[2]}</mm:import>
             <mm:import id="offset" reset="true">${tokens[3]}</mm:import>
+          </c:when>
+          <c:when test="${fn:length(tokens) eq 3}">
+            <c:set var="tfrom"  value="${fn:substringAfter(tokens[0], 'f')}" />
+            <c:set var="tuntil" value="${fn:substringAfter(tokens[1], 'u')}" />
+            <c:if test="${!empty tfrom}">
+              <mm:import id="start" reset="true"><mm:time inputformat="yyyy-MM-dd" time="${tfrom}" precision="days" /></mm:import>
+            </c:if>
+            <c:if test="${!empty tuntil}">
+              <mm:import id="end" reset="true"><mm:time inputformat="yyyy-MM-dd" time="${tuntil}" precision="days" /></mm:import>
+            </c:if>
+            <mm:import id="offset" reset="true">${tokens[2]}</mm:import>
           </c:when>
           <c:otherwise>
             <c:set var="error" value="badResumptionToken" />
@@ -143,26 +158,6 @@
       <mm:import id="record" reset="true">${pieces[len - 1]}</mm:import>
     </c:if>
     
-    <!-- metadataPrefix -->
-    <c:choose>
-      <c:when test="${!empty resumptionToken 
-                        and (verb eq 'ListRecords' or verb eq 'ListIdentifiers') 
-                        and !empty metadataPrefix}">
-        <!-- metadataPrefix should be empty when ListRecords or ListIdentifiers includes a resumptionToken -->
-        <c:set var="error" value="badArgument" />
-        <c:set var="kind" value="metadataPrefix and resumptionToken in same request not possible" />
-      </c:when>
-      <c:otherwise> 
-        <c:if test="${empty resumptionToken 
-                        and (verb eq 'ListIdentifiers' or verb eq 'ListRecords' or verb eq 'GetRecord') 
-                        and metadataPrefix ne 'oai_dc' 
-                        and metadataPrefix ne 'oai_oi'}">
-          <c:set var="error" value="badArgument" />
-          <c:set var="kind" value="metadataPrefix '${metadataPrefix}' incorrect or missing" />
-        </c:if>      
-      </c:otherwise>
-    </c:choose>    
-
     <!-- check set parameter with setnamelist-->
     <c:choose>
       <c:when test="${!empty set}">
