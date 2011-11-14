@@ -144,23 +144,25 @@
     </c:if>
     
     <!-- metadataPrefix -->
-    <c:if test="${verb ne 'Identify' 
-                   and verb ne 'ListMetadataFormats' 
-                   and verb ne 'ListSets' 
-                   and (empty metadataPrefix or metadataPrefix ne 'oai_dc')
-                   and (empty metadataPrefix or metadataPrefix ne 'oai_oi')
-                   and empty error}">
-      <c:choose>
-        <c:when test="${verb eq 'ListIdentifiers' and !empty resumptionToken}">
-          <!-- we're good  -->
-        </c:when>
-        <c:otherwise>
+    <c:choose>
+      <c:when test="${!empty resumptionToken 
+                        and (verb eq 'ListRecords' or verb eq 'ListIdentifiers') 
+                        and !empty metadataPrefix}">
+        <!-- metadataPrefix should be empty when ListRecords or ListIdentifiers includes a resumptionToken -->
+        <c:set var="error" value="badArgument" />
+        <c:set var="kind" value="metadataPrefix and resumptionToken in same request not possible" />
+      </c:when>
+      <c:otherwise> 
+        <c:if test="${empty resumptionToken 
+                        and (verb eq 'ListIdentifiers' or verb eq 'ListRecords' or verb eq 'GetRecord') 
+                        and metadataPrefix ne 'oai_dc' 
+                        and metadataPrefix ne 'oai_oi'}">
           <c:set var="error" value="badArgument" />
-          <c:set var="kind" value="metadataPrefix incorrect or missing" />
-        </c:otherwise>
-      </c:choose> 
-    </c:if>
-    
+          <c:set var="kind" value="metadataPrefix '${metadataPrefix}' incorrect or missing" />
+        </c:if>      
+      </c:otherwise>
+    </c:choose>    
+
     <!-- check set parameter with setnamelist-->
     <c:choose>
       <c:when test="${!empty set}">
