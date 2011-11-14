@@ -455,11 +455,18 @@
                 <mm:listnodes referid="list">
                   <jsp:include page="/feeds/inc/oai.record.header.jspx" />
                 </mm:listnodes>
-                <c:if test="${(offset + max) lt total}">
-                  <resumptionToken
-                      completeListSize="${total}" 
-                      cursor="${offset}">!f${from}!u${until}!${metadataPrefix}!${offset + max}</resumptionToken>
-                </c:if>
+                <c:choose>
+                  <c:when test="${(offset + max) lt total}">
+                    <resumptionToken
+                        completeListSize="${total}" 
+                        cursor="${offset}">!f${from}!u${until}!${metadataPrefix}!${offset + max}</resumptionToken>
+                  </c:when>
+                  <c:otherwise>
+                    <resumptionToken
+                        completeListSize="${total}" 
+                        cursor="${offset}"><!-- empty --></resumptionToken>
+                  </c:otherwise>
+                </c:choose>
               </ListIdentifiers>
             </c:when>
             <c:when test="${total gt 0 and verb eq 'ListRecords'}">
@@ -480,11 +487,18 @@
                     </mm:listnodes>
                   </c:otherwise>
                 </c:choose>
-                <c:if test="${(offset + max) lt total}">
-                  <resumptionToken
-                      completeListSize="${total}" 
-                      cursor="${offset}">!f${from}!u${until}!${metadataPrefix}!${offset + max}</resumptionToken>
-                </c:if>
+                <c:choose>
+                  <c:when test="${(offset + max) lt total}">
+                    <resumptionToken
+                        completeListSize="${total}" 
+                        cursor="${offset}">!f${from}!u${until}!${metadataPrefix}!${offset + max}</resumptionToken>
+                  </c:when>
+                  <c:otherwise>
+                    <resumptionToken
+                        completeListSize="${total}" 
+                        cursor="${offset}"><!-- empty --></resumptionToken>
+                  </c:otherwise>
+                </c:choose>
               </ListRecords>
             </c:when>
             <c:otherwise>
