@@ -17,27 +17,11 @@
         
         
         <c:if test="${userid eq _node.username}">
-        
-          <!-- to substring password -->
-          <mm:escaper id="substr" type="substring">
-            <mm:param name="from" value="0" />
-            <mm:param name="to" value="6" />
-          </mm:escaper>
-          
-          <!-- encrypter: all default-->
-          <mm:escaper id="encrypter" type="encryption">
-            <mm:param name="algorithm" value="AES" />
-            <!-- mm:param name="format" value="base64" / -->
-            <mm:param name="direction" value="encrypt" />
-          </mm:escaper>                  
-          <mm:import id="str" reset="true">${seed}<mm:field name="password" escape="substr" /></mm:import>
-          
           
           <h3>API token</h3>
           <p>
-            Your API token is <code><mm:write referid="str" escape="encrypter" /></code>
-            - keep it secret! Changing your password will generate a new token
-            (<mm:field name="username" />, seed: <mm:write referid="seed" />).
+            Your API token is <code><mm:function name="apitoken" /></code>
+            - keep it secret! Changing your password will generate a new token.
           </p>
           
         </c:if>
