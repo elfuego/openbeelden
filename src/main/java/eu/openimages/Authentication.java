@@ -23,6 +23,7 @@ package eu.openimages;
 import javax.servlet.http.HttpServletRequest;
 
 import org.mmbase.module.core.MMObjectNode;
+import org.mmbase.module.core.MMObjectBuilder;
 import org.mmbase.security.implementation.cloudcontext.Authenticate;
 import org.mmbase.security.implementation.cloudcontext.BasicUserProvider;
 import org.mmbase.security.implementation.cloudcontext.UserProvider;
@@ -32,6 +33,8 @@ import org.mmbase.util.functions.Parameter;
 import org.mmbase.util.functions.Parameters;
 import org.mmbase.util.logging.Logger;
 import org.mmbase.util.logging.Logging;
+
+import eu.openimages.api.ApiToken;
 
 /**
  * Authentication of users in Open Images, only users with an activated
@@ -85,55 +88,79 @@ public class Authentication extends Authenticate {
             throw new SecurityException("builders for security not installed, if you are trying to install the application belonging to this security, please restart the application after all data has been imported");
         }
 
-        allowEncodedPassword = org.mmbase.util.Casting.toBoolean(users.getUserBuilder().getInitParameter("allowencodedpassword"));
         if (application.equals("apikey")) {
-            log.debug("application " + application);
-            log.debug("users " + users + ", allowEncodedPassword " + allowEncodedPassword);
+            allowEncodedPassword = org.mmbase.util.Casting.toBoolean(users.getUserBuilder().getInitParameter("allowencodedpassword"));
+            String apitokenkey = (String) users.getUserBuilder().getInitParameter("apitokenkey");
+            log.debug("application " + application + ", allowEncodedPassword " + allowEncodedPassword + ", apitokenkey: " + apitokenkey);
             
             String apikey = (String) loginInfo.get("apikey");
-            
             if (apikey == null || "".equals(apikey)) {
                 HttpServletRequest req = (HttpServletRequest) loginInfo.get(Parameter.REQUEST.getName());
                 apikey = (String) req.getAttribute("apikey");
             }
+            log.debug("apikey: " + apikey);
             
-            log.debug("API key is " + apikey);
-            
-            /* call method for API key: get username and password from API key */
-            String username = "foofoo";
-            String password = "5426824942db4253";
-            
-            // login with provided credentials with "name/encodedpassword"
-            // below copied from name/encodedpassword in super 
-            if (username == null || password == null) {
-                log.debug("SecurityException 1");
-                throw new SecurityException("Expected the property 'username' and 'password'. But received " + loginInfo);
+            // Retrieve username and password from API key
+            ApiToken apiToken = new ApiToken();
+            //apiToken.setFormat("base64");
+            String user = "";
+            String pass = "";
+            try {
+                java.util.Map<String,String> userpass = apiToken.decrypt(apikey, apitokenkey);
+                user = userpass.get("username");
+                pass = userpass.get("password");
+            } catch (javax.crypto.IllegalBlockSizeException ibe) {
+                log.error("IllegalBlockSizeException " + ibe);
+                throw new SecurityException("Incorrect API key.");
+            } catch (java.security.GeneralSecurityException ge) {
+                log.error("General security exception " + ge);
+                throw new SecurityException("Incorrect API key.");
+            } catch (IllegalArgumentException iae) {
+                log.error("IllegalArgumentException " + iae);
+                throw new SecurityException("Incorrect API key.");
             }
-            MMObjectNode node = users.getUser(username, password, true);
+            
+            /* Copied following part from org.mmbase.security.implementation.cloudcontext.Authenticate
+               since it's not permitted to switch authentication type in mid-flight. */
+            if (user == null || "".equals(user) || pass == null || "".equals(pass)) {
+                throw new SecurityException("Incorrect API key: expected to find 'username' and 'password' in it.");
+            }
+            
+            MMObjectNode node = users.getUser(user, pass, true);
             if (node != null && ! users.isValid(node)) {
-                log.debug("SecurityException 2");
                 throw new SecurityException("Logged in an invalid user");
             }
-            log.debug("user " + node);
-            if (node == null) return null;
+            if (node == null) return null; 
             return new User(node, getKey(), application);
             
-            // TODO: put creditials from apikey in logInfo map
-            //loginInfo.put("username", username);
-            //loginInfo.put("encodedpassword", password);
-            
             // switch application to name/encodedpassword
-            //application = "name/encodedpassword";
+            /* application = "name/encodedpassword";
+            java.util.HashMap newInfo = new java.util.HashMap();
+            newInfo.put("username", user);
+            newInfo.put("encodedpassword", pass);
+            return super.login(application, newInfo, parameters); */
         }
         return super.login(application, loginInfo, parameters);
     }
+
+    private static final Parameter PARAMETER_APIKEY = new Parameter("apikey", String.class, false);
+    private static final Parameter PARAMETER_USERNAME = new Parameter("username", String.class, false);
+    private static final Parameter PARAMETER_ENCODEDPASSWORD = new Parameter("encodedpassword", String.class, false);
+    private static final Parameter[] PARAMETERS_NAME_ENCODEDPASSWORD_APIKEY = 
+        new Parameter[] {
+            Parameter.REQUEST,
+            PARAMETER_APIKEY,
+            PARAMETER_USERNAME,
+            PARAMETER_ENCODEDPASSWORD,
+            new Parameter.Wrapper(PARAMETERS_USERS) 
+        };
 
 
     @Override
     public Parameters createParameters(String application) {
         application = application.toLowerCase();
         if ("apikey".equals(application)) {
-            return new Parameters(Parameter.REQUEST, new Parameter("apikey", String.class));
+            return new Parameters(PARAMETERS_NAME_ENCODEDPASSWORD_APIKEY);
         } else {
             return super.createParameters(application);
         }

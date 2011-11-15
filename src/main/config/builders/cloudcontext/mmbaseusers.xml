@@ -13,6 +13,7 @@
   <properties>
     <property name="allowencodedpassword">true</property>
     <property name="translations.builder">users_translations</property>
+    <property name="apitokenkey">pindakaasmethageslag?</property>
   </properties>
 
   <fieldlist>
@@ -197,6 +198,9 @@
   
   <functionlist>
     <xi:include href="http://www.mmbase.org/builders/oip/translation.function.xml" />
+    <function name="apitoken">
+      <class>eu.openimages.api.ApiTokenFunction</class>
+    </function>
   </functionlist>
   
 </builder>

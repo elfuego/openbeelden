@@ -13,6 +13,9 @@
   <function name="exportmedia">
     <class>eu.openimages.mediawiki.MediaExport</class>
   </function>
+  <function name="download">
+    <class>eu.openimages.api.MediaDownload</class>
+  </function>
 
 
 </functionlist>
