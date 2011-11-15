@@ -215,7 +215,7 @@
     </editor>
     <datatype base="datetime" xmlns="http://www.mmbase.org/xmlns/datatypes">
       <default value="now" />
-      <minInclusive enforce="never" value="today - 99 year" />
+      <minInclusive enforce="never" value="today - 200 year" />
       <maxInclusive enforce="never" value="today + 10 year" />
     </datatype>
   </field>
