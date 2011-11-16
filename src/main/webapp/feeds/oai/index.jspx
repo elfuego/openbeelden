@@ -23,6 +23,24 @@
     <mm:import id="max">100</mm:import>
     <mm:import id="offset">0</mm:import>
   
+    <c:forEach items="${paramValues}" var="parameter">
+      <!-- allowed parameters and just once -->
+      <c:if test="${parameter.key ne 'verb'
+               and parameter.key ne 'identifier'
+               and parameter.key ne 'metadataPrefix'
+               and parameter.key ne 'set'
+               and parameter.key ne 'resumptionToken'
+               and parameter.key ne 'from'
+               and parameter.key ne 'until'}">
+        <c:set var="error" value="badArgument" />
+      </c:if>
+      <c:set var="countparams" value="0" />
+      <c:forEach var="value" items="${parameter.value}">
+         <c:set var="countparams" value="${countparams + 1}" />
+         <c:if test="${countparams gt 1}"><c:set var="error" value="badArgument" /></c:if>
+      </c:forEach>
+    </c:forEach>
+    
     <mm:import externid="verb" />
     <c:if test="${!empty verb
               and verb ne 'Identify' 
@@ -212,7 +230,7 @@
             <baseURL><mm:url page="/" absolute="true" /></baseURL>
             <protocolVersion>2.0</protocolVersion>
             <adminEmail>info@openimages.eu</adminEmail>
-            <earliestDatestamp>1919-01-01</earliestDatestamp>
+            <earliestDatestamp>1826-01-01</earliestDatestamp>
             <deletedRecord>no</deletedRecord>
             <granularity>YYYY-MM-DD</granularity>
             <description>
