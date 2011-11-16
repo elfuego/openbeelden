@@ -32,6 +32,10 @@ import org.mmbase.servlet.FileServlet;
 import org.mmbase.util.transformers.*;
 
 /**
+ * This is called by {@link MediaDownload} and does the actual downloading and saving 
+ * of the downloaded stream on the filesystem. Returns filename of the file streams is
+ * saved into. 
+ *
  * @author Andr&eacute; van Toly
  * @author Michiel Meeuwissen
  * @version $Id$
@@ -133,17 +137,19 @@ public class Downloader {
         out.close();
         
         String urlValue = f.toString().substring(dir.toString().length() + 1);
-        node.setValueWithoutProcess("url", urlValue);
+        //node.setValue("url", urlValue);
         
         if (log.isDebugEnabled()) {
-            log.debug("Saved in url field: " + urlValue);
+            log.debug("Returning url field: " + urlValue);
             log.debug("Set a file " + f.getName());
         }
         
         if (node.getNodeManager().hasField(contenttypeField)) {
             if (! node.isChanged(contenttypeField) || node.isNull(contenttypeField)) {
+                if (log.isDebugEnabled()) {
+                    log.debug("Found " + huc.getContentType());
+                }
                 node.setStringValue(contenttypeField, huc.getContentType());
-                log.info("Found " + huc.getContentType());
             } else {
                 if (log.isDebugEnabled()) {
                     log.debug("Field " + contenttypeField + " is already changed " + node.getChanged() + " not setting to " + huc.getContentType());
@@ -155,7 +161,8 @@ public class Downloader {
             }
         }
 
-        return getUrl().toString();
+        //return getUrl().toString();
+        return urlValue;
     }
 
     /**

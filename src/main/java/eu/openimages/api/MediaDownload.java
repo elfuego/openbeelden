@@ -38,7 +38,11 @@ import org.mmbase.util.logging.*;
 
 
 /**
- * Downloads an url for a media item (mediafragments) into Open Beelden.
+ * Downloads a media stream from an url for a media item (mediafragments node) into Open Images. 
+ * It starts a thread and calls {@link Downloader} to do the actual work. The media file itself is
+ * saved in a mediasources node and transcoded by the streams application when the download finishes.
+ * Url and information about success or failure of the download are saved as properties 
+ * on the mediafragments node.
  *
  * @author Michiel Meeuwissen
  * @author Andr&eacute; van Toly
@@ -96,24 +100,23 @@ public final class MediaDownload extends NodeFunction<String> {
     }
 
 
-    private Node getMediaSource(Node mediafr) {
+    private Node getMediaSource(Node mediafragment) {
         Node n = null;
-        NodeList list = SearchUtil.findRelatedNodeList(mediafr, "mediasources", "related");
+        NodeList list = SearchUtil.findRelatedNodeList(mediafragment, "mediasources", "related");
+        mediafragment.getCloud().setProperty(org.mmbase.streams.createcaches.Processor.NOT, "no implicit processing please");
         if (list.size() > 0) {
             if (list.size() > 1) {
                 log.warn("more then one node found");
             }
             n = list.get(0);
-            n.setNodeValue("mediafragment", mediafr);
+            n.setNodeValue("mediafragment", mediafragment);
             if (log.isDebugEnabled()) {
                 log.debug("Existing source " + n.getNodeManager().getName() + " " + n.getNumber());
             }
         } else {
             // create node
-            n = mediafr.getCloud().getNodeManager("streamsources").createNode();
-            //n.setValueWithoutProcess("url", "#downloading");
-            n.setNodeValue("mediafragment", mediafr);
-            //n.commit();
+            n = mediafragment.getCloud().getNodeManager("streamsources").createNode();
+            n.setNodeValue("mediafragment", mediafragment);
             if (log.isDebugEnabled()) {
                 log.debug("Created source " + n.getNodeManager().getName() + " " + n.getNumber());
             }
@@ -140,13 +143,18 @@ public final class MediaDownload extends NodeFunction<String> {
                             Downloader downloader = new Downloader();
                             downloader.setUrl(url);
                             downloader.setNode(source);
-                            log.info("Now calling " + downloader);
-                            String resultUrl = downloader.download();
+                            log.info("Now calling: " + downloader);
+                            String result = downloader.download();
                             
                             // download is ready
-                            source.commit();
-                            MediaDownload.this.setDownloadUrl(node, resultUrl);
+                            MediaDownload.this.setDownloadUrl(node, parameters.get(URL));
                             MediaDownload.this.setDownloadStatus(node, "ok");
+                            
+                            node.getCloud().setProperty(org.mmbase.streams.createcaches.Processor.NOT, null);
+                            
+                            log.info("Saving: " + result);
+                            source.setStringValue("url", result); 
+                            source.commit();
                             
                         } catch (MalformedURLException ue) {
                             log.error(ue.getMessage(), ue);
@@ -159,7 +167,7 @@ public final class MediaDownload extends NodeFunction<String> {
                             MediaDownload.this.setDownloadStatus(node, "UNEXPECTED " + t.getMessage());
                         } finally {
                             MediaDownload.this.runningJobs.remove(node.getNumber());
-                            log.info("Running jobs " + MediaDownload.this.runningJobs);
+                            log.info("Running jobs: " + MediaDownload.this.runningJobs);
                         }
                     }
                 });
@@ -169,7 +177,7 @@ public final class MediaDownload extends NodeFunction<String> {
     public String getFunctionValue(final Node node, final Parameters parameters) {
         String status = getDownloadStatus(node);
         if (status == null) {
-            Action action = ActionRepository.getInstance().get("oip", "exportmedia");   // TODO: make downloadmedia ?!
+            Action action = ActionRepository.getInstance().get("oip", "downloadmedia");
             if (action == null) {
                 throw new IllegalStateException("Action could not be found");
             }
