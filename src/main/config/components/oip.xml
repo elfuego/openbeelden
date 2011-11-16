@@ -20,6 +20,9 @@
   <action name="exportmedia" rank="project manager">
     <description xml:lang="en">Allowed to upload to wikipedia</description>
   </action>
+  <action name="downloadmedia" rank="site user">
+    <description xml:lang="en">Allowed to use download API to put media into this application.</description>
+  </action>
 
   <block name="media"
          classification="mmbase.oip"
