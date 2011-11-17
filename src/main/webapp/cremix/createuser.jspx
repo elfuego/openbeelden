@@ -38,11 +38,15 @@
                 <password><mm:fieldinfo type="errors" escape="striptags" /></password>
               </mm:fieldlist>
               <mm:fieldlist fields="email">
-                <mm:fieldinfo type="input" write="false" />
                 <email>
                   <c:choose>
                     <c:when test="${empty _email}">## Een e-mail adres is verplicht. ##</c:when>
-                    <c:otherwise><mm:fieldinfo type="errors" escape="striptags" /></c:otherwise>
+                    <c:otherwise>
+                      <mm:fieldinfo type="input" write="false" />
+                      <mm:fieldinfo type="errors">
+                        <mm:write escape="striptags" />
+                      </mm:fieldinfo>
+                    </c:otherwise>
                   </c:choose>
                 </email>
               </mm:fieldlist>
@@ -50,25 +54,29 @@
             
           </mm:createnode>
           
+          
+          <c:set var="saved" value="false" />
+          
           <mm:valid inverse="true">
             <!-- mm:cancel / -->
             <c:set var="saved" value="false" />
           </mm:valid>
           
           <mm:valid>
-            <mm:commit />
-
-            <mm:node cloud="cloud" number="defaultusergroup" id="defaultusergroup" />
-            <mm:node number="${newuser}" cloud="cloud">
-              <mm:setfield name="rank">cloudcontextsecurity_rank_site_user</mm:setfield>
-              <mm:setfield name="groups">${defaultusergroup}</mm:setfield>
-            </mm:node>
-
-            <c:set var="saved" value="true" />
+            <c:if test="${empty err}">
+              <mm:commit />
+              <mm:node cloud="cloud" number="defaultusergroup" id="defaultusergroup" />
+              <mm:node number="${newuser}" cloud="cloud">
+                <mm:setfield name="rank">cloudcontextsecurity_rank_site_user</mm:setfield>
+                <mm:setfield name="groups">${defaultusergroup}</mm:setfield>
+              </mm:node>
+              <c:set var="saved" value="true" />
+            </c:if>
           </mm:valid>
             
         </mm:form>
 
+        <!-- the actual xml -->
         <response msg="${saved}">
           <c:choose>
             <c:when test="${saved}">
@@ -82,8 +90,7 @@
             </c:otherwise>
           </c:choose>          
         </response>
-
-
+      
       </mm:cloud>
 
   </mm:content>
