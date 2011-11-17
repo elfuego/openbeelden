@@ -1,0 +1,62 @@
+<jsp:root
+    version="2.0"
+    xmlns:c="http://java.sun.com/jsp/jstl/core"
+    xmlns:jsp="http://java.sun.com/JSP/Page"
+    xmlns:mm="http://www.mmbase.org/mmbase-taglib-2.0">
+    
+  <mm:content 
+      type="application/xml"
+      postprocessor="none"
+      expires="120">
+    <jsp:output omit-xml-declaration="true" />
+    
+      <!--  Check if a user with this username and password exists.
+            Returns API token when succesfull.
+            
+            version: '$Id$' -->
+      
+      
+      <mm:import externid="username" />
+      <mm:import externid="password" />
+
+      <c:choose>
+        <c:when test="${empty password or empty username}">
+          <c:set var="err" value="No username or password" />
+        </c:when>
+        <c:otherwise>
+          <c:catch var="error">
+            <mm:cloud username="${username}" password="${password}">
+              <mm:cloudinfo type="usernode" id="usernode" write="false" />
+            </mm:cloud>
+          </c:catch>
+          <c:if test="${!empty error}">
+            <c:set var="err" value="${err} ${error}" />
+          </c:if>
+        </c:otherwise>
+      </c:choose>
+      
+      <c:choose>
+        <c:when test="${!empty err}">
+          <response msg="false">
+            <reason>${err}</reason>
+          </response>
+        </c:when>
+        <c:otherwise>
+          <response msg="true">
+            <mm:node referid="usernode">
+              <mm:nodefunction name="translation">
+                <c:set var="fullname"><mm:field name="firstname" /></c:set>
+                <c:set var="fullname">${fullname}${!empty fullname ? ' ' : '' }<mm:field name="suffix" /></c:set>
+                <c:set var="fullname">${fullname}${!empty fullname ? ' ' : '' }<mm:field name="lastname" /></c:set>
+              </mm:nodefunction>
+              <username><mm:field name="username" id="name" /></username>
+              <fullname>${fullname eq '' ? name : fullname}</fullname>
+              <apikey><mm:function name="apitoken" /></apikey>
+            </mm:node>
+          </response>
+        </c:otherwise>
+      </c:choose>
+      
+      
+  </mm:content>
+</jsp:root>

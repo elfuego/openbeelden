@@ -1,0 +1,8 @@
+/**
+* @name     Stylesheet for the Celluloid Remix portal
+* @since    OIP v.1.1.1, November 2011
+* @version  '$Id:  $'
+*/
+
+body.iframe div.main-column { width: 688px; }
+

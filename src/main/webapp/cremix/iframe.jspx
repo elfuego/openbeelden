@@ -7,6 +7,7 @@
   
   <oip:html>
     <jsp:attribute name="head">
+      <link href="${mm:link('/style/css/cremix.css')}" rel="stylesheet" type="text/css" />
     </jsp:attribute>
     <jsp:attribute name="styleClass">iframe</jsp:attribute>
     <jsp:attribute name="body">
@@ -36,29 +37,31 @@
         </mm:present>
         
         
-        <mm:import id="teststr">${seed}:<mm:cloudinfo type="user" /></mm:import>
-        <mm:import id="hash" reset="true"><mm:write referid="teststr" escape="md5" /></mm:import>
-
         <mm:import id="iframe" reset="true"><mm:url absolute="true" page="${iframe}">
           <mm:param name="username"><mm:cloudinfo type="user" /></mm:param>
         </mm:url></mm:import>
         
         <p>
-          current iframe: ${iframe}<br />
-          seed: ${seed}<br /> 
-          hash: ${hash} (= MD5 of "seed:username")
+          current iframe: ${iframe}
         </p>
         
-        <mm:import id="mijncookie" reset="true">${hash}:<mm:cloudinfo type="user" /></mm:import>
-        <p>
-          cookie named 'remixer' written: ${mijncookie}<br />
-          cookie consists of "hash:username". username can be used as a parameter.
-        </p>
+        <mm:import id="username" reset="true"><mm:cloudinfo type="user" /></mm:import>
+        <mm:listnodescontainer type="mmbaseusers">
+          <mm:constraint field="username" value="$username" operator="EQUAL" />
+          <mm:listnodes>
+            
+            <mm:component name="oip" block="user-apitoken" />
+            
+            <mm:import id="mijncookie"><mm:function name="apitoken" /></mm:import>
+            
+            <!-- <mm:write cookie="remixer" cookiepath="/" cookiedomain=".openbeelden.nl" referid="mijncookie" /> -->
+            <mm:write cookie="remixer" cookiepath="/" referid="mijncookie" />
+            
+            <p>cookie: <code>${mijncookie}</code> </p>
+            
+          </mm:listnodes>
+        </mm:listnodescontainer>
 
-        <mm:write referid="mijncookie" cookie="remixer" />
-        <mm:link page="$iframe">
-          ${_}
-        </mm:link>
         <mm:link referid="iframe">
           <iframe src="${_}" frameborder="0" height="420" scrolling="auto" width="688">
             <jsp:text> <!-- empty --> </jsp:text>

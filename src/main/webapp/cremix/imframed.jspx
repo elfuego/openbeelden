@@ -23,32 +23,26 @@
   <p>
     <mm:import id="thecookie" externid="remixer" from="cookie" />
     cookie 'remixer' found: ${thecookie}
-    
-    <c:if test="${!empty thecookie}">
-      <mm:import id="hash" reset="true">${thecookie}</mm:import>
-    </c:if>
   </p>
 
-<mm:notpresent referid="hash">
-  <p class="msg">No hash.</p>
-</mm:notpresent>
 
-<mm:present referid="hash">
+<mm:present referid="thecookie">
 
-  <mm:import id="seed">testseed</mm:import>
-  <mm:import id="teststr">${seed}:<mm:cloudinfo type="user" /></mm:import>
-  <mm:import id="testhash" reset="true"><mm:write referid="teststr" escape="md5" />:<mm:cloudinfo type="user" /></mm:import>
-  <pre>
-    Received : ${hash}
-     My test : ${testhash}
-  </pre>
+  <c:set var="loggedin"><mm:cloudinfo type="user" /></c:set>
+  
+  <mm:write referid="thecookie" request="apikey" />
+ 
+
+  <mm:cloud method="delegate" authenticate="apikey">
+    <c:set var="loggedin"><mm:cloudinfo type="user" /></c:set>
+  </mm:cloud>
 
   <c:choose>
-    <c:when test="${testhash eq hash}">
-      <p class="msg">They are equal.</p>
+    <c:when test="${loggedin ne 'anonymous'}">
+      <p class="msg">Logged in. You are ${loggedin}.</p>
     </c:when>
     <c:otherwise>
-      <p class="err">They are <strong>not</strong> equal.</p>
+      <p class="err">Not logged in. You are ${loggedin}.</p>
     </c:otherwise>
   </c:choose>
 
