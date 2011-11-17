@@ -36,3 +36,6 @@ input.mm_datetime_year { text-align: right; }
 }
 
 .mm_validate.invalid { /* border: 1px solid #CE8A8A; */ }
+
+div.mm_check_error span.error { margin-right: 4px; }
+
