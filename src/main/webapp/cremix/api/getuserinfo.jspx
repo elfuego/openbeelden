@@ -2,101 +2,61 @@
     version="2.0"
     xmlns:c="http://java.sun.com/jsp/jstl/core"
     xmlns:jsp="http://java.sun.com/JSP/Page"
-    xmlns:fmt="http://java.sun.com/jsp/jstl/fmt"
     xmlns:mm="http://www.mmbase.org/mmbase-taglib-2.0">
     
   <mm:content 
       type="application/xml"
       postprocessor="none"
-      language="nl"
       expires="120">
     <jsp:output omit-xml-declaration="true" />
-    <fmt:setBundle basename="eu.openimages.messages"/>
     
-      <!--  Create a user with this username, password and e-mail address.
+      <!--  Check if a user with this username and password exists.
             Returns API token when succesfull.
             
             version: '$Id$' -->
-            
-
-      <mm:import externid="username" id="_username" />
-      <mm:import externid="password" id="_password" />
-      <mm:import externid="email" id="_email" />
-  
-      <mm:escaper type="tagstripper" id="striptags">
-        <mm:param name="tags">none</mm:param>
-      </mm:escaper>
-
-      <mm:cloud method="delegate" authenticate="class" id="cloud">
-        <mm:form mode="validate">
-          <mm:createnode id="newuser" type="mmbaseusers" commitonclose="false">
-            
-            <mm:import id="err">
-              <mm:fieldlist fields="username">
-                <mm:fieldinfo type="input" write="false" />
-                <username><mm:fieldinfo type="errors" escape="striptags" /></username>
-              </mm:fieldlist>
-              <mm:fieldlist fields="password">
-                <mm:fieldinfo type="input" write="false" />
-                <password><mm:fieldinfo type="errors" escape="striptags" /></password>
-              </mm:fieldlist>
-              <mm:fieldlist fields="email">
-                <email>
-                  <c:choose>
-                    <c:when test="${empty _email}">
-                      <fmt:message key="register.api.email_required" />
-                    </c:when>
-                    <c:otherwise>
-                      <mm:fieldinfo type="input" write="false" />
-                      <mm:fieldinfo type="errors">
-                        <mm:write escape="striptags" />
-                      </mm:fieldinfo>
-                    </c:otherwise>
-                  </c:choose>
-                </email>
-              </mm:fieldlist>
-            </mm:import>
-            
-          </mm:createnode>
-          
-          
-          <c:set var="saved" value="false" />
-          
-          <mm:valid inverse="true">
-            <!-- mm:cancel / -->
-            <c:set var="saved" value="false" />
-          </mm:valid>
-          
-          <mm:valid>
-            <c:if test="${empty err}">
-              <mm:commit />
-              <mm:node cloud="cloud" number="defaultusergroup" id="defaultusergroup" />
-              <mm:node number="${newuser}" cloud="cloud">
-                <mm:setfield name="rank">cloudcontextsecurity_rank_site_user</mm:setfield>
-                <mm:setfield name="groups">${defaultusergroup}</mm:setfield>
-              </mm:node>
-              <c:set var="saved" value="true" />
-            </c:if>
-          </mm:valid>
-            
-        </mm:form>
-
-        <!-- the actual xml -->
-        <response msg="${saved}">
-          <c:choose>
-            <c:when test="${saved}">
-              <mm:node referid="newuser">
-                <username><mm:field name="username" /></username>
-                <apikey><mm:function name="apitoken" /></apikey>
-              </mm:node>
-            </c:when>
-            <c:otherwise>
-              <mm:write referid="err" escape="none" />
-            </c:otherwise>
-          </c:choose>          
-        </response>
       
-      </mm:cloud>
+      
+      <mm:import externid="username" />
+      <mm:import externid="password" />
 
+      <c:choose>
+        <c:when test="${empty password or empty username}">
+          <c:set var="err" value="No username or password" />
+        </c:when>
+        <c:otherwise>
+          <c:catch var="error">
+            <mm:cloud username="${username}" password="${password}">
+              <mm:cloudinfo type="usernode" id="usernode" write="false" />
+            </mm:cloud>
+          </c:catch>
+          <c:if test="${!empty error}">
+            <c:set var="err" value="${err} ${error}" />
+          </c:if>
+        </c:otherwise>
+      </c:choose>
+      
+      <c:choose>
+        <c:when test="${!empty err}">
+          <response msg="false">
+            <reason>${err}</reason>
+          </response>
+        </c:when>
+        <c:otherwise>
+          <response msg="true">
+            <mm:node referid="usernode">
+              <mm:nodefunction name="translation">
+                <c:set var="fullname"><mm:field name="firstname" /></c:set>
+                <c:set var="fullname">${fullname}${!empty fullname ? ' ' : '' }<mm:field name="suffix" /></c:set>
+                <c:set var="fullname">${fullname}${!empty fullname ? ' ' : '' }<mm:field name="lastname" /></c:set>
+              </mm:nodefunction>
+              <username><mm:field name="username" id="name" /></username>
+              <fullname>${fullname eq '' ? name : fullname}</fullname>
+              <apikey><mm:function name="apitoken" /></apikey>
+            </mm:node>
+          </response>
+        </c:otherwise>
+      </c:choose>
+      
+      
   </mm:content>
 </jsp:root>
