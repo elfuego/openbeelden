@@ -2,13 +2,16 @@
     version="2.0"
     xmlns:c="http://java.sun.com/jsp/jstl/core"
     xmlns:jsp="http://java.sun.com/JSP/Page"
+    xmlns:fmt="http://java.sun.com/jsp/jstl/fmt"
     xmlns:mm="http://www.mmbase.org/mmbase-taglib-2.0">
     
   <mm:content 
       type="application/xml"
       postprocessor="none"
+      language="nl"
       expires="120">
     <jsp:output omit-xml-declaration="true" />
+    <fmt:setBundle basename="eu.openimages.messages"/>
     
       <!--  Create a user with this username, password and e-mail address.
             Returns API token when succesfull.
@@ -40,7 +43,9 @@
               <mm:fieldlist fields="email">
                 <email>
                   <c:choose>
-                    <c:when test="${empty _email}">## Een e-mail adres is verplicht. ##</c:when>
+                    <c:when test="${empty _email}">
+                      <fmt:message key="register.api.email_required" />
+                    </c:when>
                     <c:otherwise>
                       <mm:fieldinfo type="input" write="false" />
                       <mm:fieldinfo type="errors">
