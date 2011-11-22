@@ -20,25 +20,21 @@ along with The Open Images Platform.  If not, see <http://www.gnu.org/licenses/>
 
 package eu.openimages.api;
 
-import java.io.*;
-import java.net.*;
 import java.util.*;
-
 import javax.crypto.Cipher;
 import javax.crypto.spec.SecretKeySpec;
 
 import org.mmbase.util.transformers.Hex;
 import org.mmbase.util.transformers.Base64;
-
 import org.mmbase.util.logging.*;
 
 /**
  * Generates (encrypts) and decodes API tokens. 
- * An API key consists of a username and (encoded) password seperated by a token and 
+ * An API key consists of a username and (encoded) password, seperated by a token and 
  * encrypted with a secret key. The key is used to encrypt en decrypt the API token,
- * which enables the system to retreive a username and password from it when it 
- * receives a post using the API token for example. 
- * It uses Blowfish as its default algorithm, use {@link #setAlgorithm} to change it.
+ * which enables the system to retreive a username and password from it when for example it 
+ * receives a post using the API token. It is stored as a property on the mmbaseusers builder.
+ * This class uses Blowfish as its default algorithm, use {@link #setAlgorithm} to change it.
  * Default the API key is hex encoded, you can change that to base64 if you like with {@link #setFormat}.
  *
  * @author Andr&eacute; van Toly
@@ -49,7 +45,7 @@ public final class ApiToken {
     private Logger log = Logging.getLoggerInstance(ApiToken.class);
 
     private static String SEPERATOR = "=:=";
-    private String key = "pindakaasmetjam!";
+    private String key = "pindakaas";
     private String algorithm = "Blowfish";
     private String format = "hex";
 
@@ -73,11 +69,10 @@ public final class ApiToken {
      * @return      An encrypted string that can be used as an API token
      */
     public String encrypt(String user, String pw, String key) {
-        if (log.isDebugEnabled()) {
-            log.debug("user: " + user + ", pw: " + pw + ", key: " + key);
-        }
-        
         StringBuilder sb = new StringBuilder();
+        /* if (log.isDebugEnabled()) {
+            log.debug("user: " + user + "/" + pw + ", key: " + key);
+        } */
         sb.append(user).append(SEPERATOR).append(pw);
         
         try {
@@ -91,7 +86,9 @@ public final class ApiToken {
             byte encrypted[] = cipher.doFinal(input);
             
             String encoded = encode(encrypted, format);
-            log.debug("API token for user " + user + " is " + encoded + " (format: " + format + ")");
+            /* if (log.isDebugEnabled()) {
+               log.debug("API token for user " + user + " is " + encoded + " (format: " + format + ")");
+            } */
             return encoded;
             
         } catch (java.security.GeneralSecurityException gse) {
@@ -112,9 +109,6 @@ public final class ApiToken {
      * @return          A map with username and password extracted from the API token
      */
     public Map<String,String> decrypt(String apitoken, String key) throws IllegalArgumentException, java.security.GeneralSecurityException {
-        if (log.isDebugEnabled()) {
-            log.debug("apitoken: " + apitoken + ", key: " + key + " (format: " + format + ")");
-        }
         Map<String,String> map = new HashMap<String,String>();
         
         byte[] input = decode(apitoken, format);
@@ -126,14 +120,13 @@ public final class ApiToken {
         byte decrypted[] = cipher.doFinal(input);
         String output = new String(decrypted);
         
-        if (log.isDebugEnabled()) {
-            log.debug("output: " + output);
-        }
         java.util.StringTokenizer toz = new java.util.StringTokenizer(output, SEPERATOR);
         if (toz.countTokens() == 2) {
             String us = toz.nextToken();
             String pw = toz.nextToken();
-            log.debug("putting in map: " + us + "/" + pw);
+            if (log.isDebugEnabled()) {
+                log.debug("returning: " + us + "/" + pw);
+            }
             map.put("username", us);
             map.put("password", pw);
         }

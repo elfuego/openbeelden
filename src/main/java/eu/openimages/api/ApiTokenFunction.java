@@ -20,10 +20,9 @@ along with The Open Images Platform.  If not, see <http://www.gnu.org/licenses/>
 
 package eu.openimages.api;
 
-import java.util.*;
-
-import org.mmbase.bridge.*;
-import org.mmbase.util.functions.*;
+import org.mmbase.bridge.Node;
+import org.mmbase.util.functions.NodeFunction;
+import org.mmbase.util.functions.Parameters;
 import org.mmbase.util.logging.*;
 
 
@@ -37,6 +36,8 @@ import org.mmbase.util.logging.*;
 public final class ApiTokenFunction extends NodeFunction<String> {
     private static final long serialVersionUID = 0L;
     private static final Logger log = Logging.getLoggerInstance(ApiTokenFunction.class);
+    
+    private String key = "pindakaas";
 
     public ApiTokenFunction() {
         super("apitoken");
@@ -45,13 +46,12 @@ public final class ApiTokenFunction extends NodeFunction<String> {
     @Override
     public String getFunctionValue(final Node node, final Parameters parameters) {
         if (log.isDebugEnabled()) {
-            log.debug("node: " + node.getNumber());
+            log.debug("node #" + node.getNumber());
         }
         
         // get secret key
         String key = node.getNodeManager().getProperty("apitokenkey");
         if (key == null) {
-            key = "pindakaas";
             log.warn("No property 'apitokenkey' found, using default: " + key);
         }
         
@@ -67,9 +67,6 @@ public final class ApiTokenFunction extends NodeFunction<String> {
             log.error("IllegalArgumentException " + iae);
         }
 
-        if (log.isDebugEnabled()) {
-            log.debug("returning: " + result);
-        }
         return result;
     }
 }

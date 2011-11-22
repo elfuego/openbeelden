@@ -40,8 +40,11 @@ import eu.openimages.api.ApiToken;
  * Authentication of users in Open Images, only users with an activated
  * status {@link org.mmbase.security.implementation.cloudcontext.UserStatus.INUSE} have access.
  * The user node (own account) is the default context of nodes (see owner field) this user creates.
+ * Users get their own {@link eu.openimages.api.ApiToken} to authenticate them to write
+ * items from other locations.
  *
  * @author Michiel Meeuwissen
+ * @author Andr&eacute; van Toly
  * @version $Id$
  */
 public class Authentication extends Authenticate {
@@ -91,14 +94,13 @@ public class Authentication extends Authenticate {
         if (application.equals("apikey")) {
             allowEncodedPassword = org.mmbase.util.Casting.toBoolean(users.getUserBuilder().getInitParameter("allowencodedpassword"));
             String apitokenkey = (String) users.getUserBuilder().getInitParameter("apitokenkey");
-            log.debug("application " + application + ", allowEncodedPassword " + allowEncodedPassword + ", apitokenkey: " + apitokenkey);
+            //log.debug("application " + application + ", allowEncodedPassword " + allowEncodedPassword + ", apitokenkey: " + apitokenkey);
             
             String apikey = (String) loginInfo.get("apikey");
             if (apikey == null || "".equals(apikey)) {
                 HttpServletRequest req = (HttpServletRequest) loginInfo.get(Parameter.REQUEST.getName());
                 apikey = (String) req.getAttribute("apikey");
             }
-            log.debug("apikey: " + apikey);
             
             // Retrieve username and password from API key
             ApiToken apiToken = new ApiToken();
@@ -110,25 +112,29 @@ public class Authentication extends Authenticate {
                 user = userpass.get("username");
                 pass = userpass.get("password");
             } catch (javax.crypto.IllegalBlockSizeException ibe) {
-                log.error("IllegalBlockSizeException " + ibe);
-                throw new SecurityException("Incorrect API key.");
+                log.error("API key login failed - " + ibe);
+                throw new SecurityException("API key login failed.");
             } catch (java.security.GeneralSecurityException ge) {
-                log.error("General security exception " + ge);
-                throw new SecurityException("Incorrect API key.");
+                log.error("API key login failed - " + ge);
+                throw new SecurityException("API key login failed.");
             } catch (IllegalArgumentException iae) {
-                log.error("IllegalArgumentException " + iae);
-                throw new SecurityException("Incorrect API key.");
+                log.error("API key login failed - " + iae);
+                throw new SecurityException("API key login failed.");
             }
             
             /* Copied following part from org.mmbase.security.implementation.cloudcontext.Authenticate
                since it's not permitted to switch authentication type in mid-flight. */
             if (user == null || "".equals(user) || pass == null || "".equals(pass)) {
-                throw new SecurityException("Incorrect API key: expected to find 'username' and 'password' in it.");
+                log.warn("API key login failed, empty username '" + user + "' and/or password.");
+                throw new SecurityException("API key login failed, empty username and/or password.");
             }
             
             MMObjectNode node = users.getUser(user, pass, true);
             if (node != null && ! users.isValid(node)) {
                 throw new SecurityException("Logged in an invalid user");
+            }
+            if (log.isDebugEnabled()) {
+                log.debug("user node: " + node);
             }
             if (node == null) return null; 
             return new User(node, getKey(), application);
