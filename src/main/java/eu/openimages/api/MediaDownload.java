@@ -101,35 +101,40 @@ public final class MediaDownload extends NodeFunction<String> {
 
 
     private Node getMediaSource(Node mediafragment) {
-        Node n = null;
-        NodeList list = SearchUtil.findRelatedNodeList(mediafragment, "mediasources", "related");
         mediafragment.getCloud().setProperty(org.mmbase.streams.createcaches.Processor.NOT, "no implicit processing please");
+        mediafragment.getCloud().setProperty(org.mmbase.datatypes.processors.BinaryCommitProcessor.NOT, "no implicit processing please");
+        
+        Node src = null;
+        NodeList list = SearchUtil.findRelatedNodeList(mediafragment, "mediasources", "related");
         if (list.size() > 0) {
             if (list.size() > 1) {
                 log.warn("more then one node found");
             }
-            n = list.get(0);
-            n.setNodeValue("mediafragment", mediafragment);
+            src = list.get(0);
+            if (src.getNodeValue("mediafragment") != mediafragment) {
+                src.setNodeValue("mediafragment", mediafragment);
+            }
             if (log.isDebugEnabled()) {
-                log.debug("Existing source " + n.getNodeManager().getName() + " " + n.getNumber());
+                log.debug("Existing source " + src.getNodeManager().getName() + " #" + src.getNumber());
             }
         } else {
             // create node
-            n = mediafragment.getCloud().getNodeManager("streamsources").createNode();
-            n.setNodeValue("mediafragment", mediafragment);
+            src = mediafragment.getCloud().getNodeManager("streamsources").createNode();
+            src.setNodeValue("mediafragment", mediafragment);
             if (log.isDebugEnabled()) {
-                log.debug("Created source " + n.getNodeManager().getName() + " " + n.getNumber());
+                log.debug("Created source " + src.getNodeManager().getName() + " #" + src.getNumber());
             }
         }
-        return n;
+        return src;
     }
 
     
     protected Future<?> submit(final Node node, final Parameters parameters) {
         return ThreadPools.jobsExecutor.
-            submit(new Runnable() {
-                    @Override
-                    public void run() {
+            submit(new Callable() {
+                public String call() {
+                        String result = "";
+                        Node source = null;
                         try {
                             if (log.isDebugEnabled()) {
                                 log.debug("media : " + node);
@@ -138,24 +143,28 @@ public final class MediaDownload extends NodeFunction<String> {
                             URL url = new URL(parameters.get(URL));
                             
                             // create streamsource node 
-                            Node source = getMediaSource(node);
+                            source = getMediaSource(node);
                             
                             Downloader downloader = new Downloader();
                             downloader.setUrl(url);
                             downloader.setNode(source);
                             log.info("Now calling: " + downloader);
-                            String result = downloader.download();
+                            result = downloader.download();
                             
                             // download is ready
                             MediaDownload.this.setDownloadUrl(node, parameters.get(URL));
                             MediaDownload.this.setDownloadStatus(node, "ok");
                             
-                            node.getCloud().setProperty(org.mmbase.streams.createcaches.Processor.NOT, null);
+                            //node.getCloud().setProperty(org.mmbase.streams.createcaches.Processor.NOT, null);
                             
-                            log.info("Saving: " + result);
-                            source.setStringValue("url", result); 
-                            source.commit();
+                            log.info("Found: " + result);
+                            //source.setStringValue("url", result);
+                            //source.commit();
                             
+                            
+                        } catch (IllegalArgumentException iae) {
+                            log.error(iae.getMessage(), iae);
+                            MediaDownload.this.setDownloadStatus(node, "NON-HTTP " + iae.getMessage());
                         } catch (MalformedURLException ue) {
                             log.error(ue.getMessage(), ue);
                             MediaDownload.this.setDownloadStatus(node, "BADURL " + ue.getMessage());
@@ -169,13 +178,16 @@ public final class MediaDownload extends NodeFunction<String> {
                             MediaDownload.this.runningJobs.remove(node.getNumber());
                             log.info("Running jobs: " + MediaDownload.this.runningJobs);
                         }
-                    }
-                });
+                        return result;
+                } 
+            });
+            
     }
 
     @Override
     public String getFunctionValue(final Node node, final Parameters parameters) {
         String status = getDownloadStatus(node);
+        Node source = null;
         if (status == null) {
             Action action = ActionRepository.getInstance().get("oip", "downloadmedia");
             if (action == null) {
@@ -187,12 +199,36 @@ public final class MediaDownload extends NodeFunction<String> {
                     if (future == null) {
                         setDownloadStatus(node, "busy: " + System.currentTimeMillis());
                         future = submit(node, parameters);
+
+                        try {
+                            String result = (String) future.get();
+                            
+                            source = getMediaSource(node);
+                            source.setStringValue("url", result);
+                            source.commit();
+
+                        } catch (Exception e) {
+                            log.error(e);
+                        }
+
                     }
                 }
             } else {
                 throw new org.mmbase.security.SecurityException("Not allowed");
             }
+
+            String st = getDownloadStatus(node);
+            log.debug("dw status " + st);
+            
+            if (source != null && "ok".equals(st)) {
+                status = "Download succeeded";
+                log.service("Calling transcoders for #" + source.getNumber());
+                source.getFunctionValue("triggerCaches", 
+                    new Parameters(org.mmbase.streams.CreateCachesFunction.PARAMETERS).set("all", true));
+            }
+
         }
+        
         return status;
     }
 }

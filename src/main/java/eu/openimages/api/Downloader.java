@@ -33,7 +33,7 @@ import org.mmbase.util.transformers.*;
 
 /**
  * This is called by {@link MediaDownload} and does the actual downloading and saving 
- * of the downloaded stream on the filesystem. Returns filename of the file streams is
+ * of the downloaded stream on the filesystem. Returns filename of file it is
  * saved into. 
  *
  * @author Andr&eacute; van Toly
@@ -45,6 +45,7 @@ public class Downloader {
     private Logger log = Logging.getLoggerInstance(Downloader.class);
     private URL url;
     private Node node;
+    private static File directory = null;
     
     public void setLogger(Logger l) {
         log = l;
@@ -52,28 +53,24 @@ public class Downloader {
     public void setUrl(URL u) {
         url = u;
     }
-    private URL getUrl() {
-        return url;
-    }
     public void setNode(Node n) {
         node = n;
     }
-    private Node getNode() {
-        return node;
+    public void setDirectory(File f) {
+        directory = f;
     }
 
-    static File directory = null;
+    /* The following methods are copied org.mmbase.datatypes.processors.BinaryFile 
+        and should probably made accessibel (public?) there. */
     private static File getDirectory() {
         if (directory != null) return directory;
         File servletDir = FileServlet.getDirectory();
         if (servletDir == null) throw new IllegalArgumentException("No FileServlet directory found (FileServlet not (yet) active)?");
         return servletDir;
     }
-
     private static File getFile(final Node node, final Field field, String fileName) {
         return new File(getDirectory(), getFileName(node, field, fileName).replace("/", File.separator));
     }
-
     private static String getFileName(final Node node, final Field field, String fileName) {
         StringBuilder buf = new StringBuilder();
         org.mmbase.storage.implementation.database.DatabaseStorageManager.appendDirectory(buf, node.getNumber(), "/");
@@ -87,25 +84,19 @@ public class Downloader {
         fileNameTransformer.setReplacer("_");
         fileNameTransformer.setMoreDisallowed("[\\s!?:/,]");
     }
-    private String contenttypeField = "mimetype";
     
-    public String download() throws MalformedURLException, SocketException, IOException {
-
+    public String download() throws MalformedURLException, SocketException, IOException, IllegalArgumentException {
+        
         HttpURLConnection huc = getURLConnection(url);
-        int length = huc.getContentLength();
-        
         BufferedInputStream in = new BufferedInputStream(huc.getInputStream());
-        log.info("content length " + length);
-        //node.setInputStreamValue(String fieldName, InputStream value, long size);
-        //node.setInputStreamValue("url", in, length);
-        //org.mmbase.datatypes.processors.BinaryFile.Setter.process(node, node.getNodeManager().getField("url"), in);
         
-        //SerializableInputStream is = Casting.toSerializableInputStream(value);
         String urlStr = url.toString();
         String name = urlStr.substring(urlStr.lastIndexOf("/") + 1, urlStr.length());
         Field field = node.getNodeManager().getField("url");
         File dir = getDirectory();
-        log.debug("name " + name + ", dir: " + dir);
+        if (log.isDebugEnabled()) {
+            log.debug("filename " + name + ", directory: " + dir);
+        }
         
         String existing = (String) node.getValue(field.getName());
         if (existing != null && ! "".equals(existing)) {
@@ -119,13 +110,10 @@ public class Downloader {
         }
         
         File f = getFile(node, field, fileNameTransformer.transform(name));
-        log.debug("f: " + f.toString());
-        
         Map<String, String> meta = FileServlet.getInstance().getMetaHeaders(f);
         meta.put("Content-Disposition", "attachment; " + FileServlet.getMetaValue("filename", name));
         FileServlet.getInstance().setMetaHeaders(f, meta);
         
-        //in.moveTo(f);
         BufferedOutputStream out = new BufferedOutputStream(new FileOutputStream(f));
         byte[] buf = new byte[1024];
         int b = 0;
@@ -137,43 +125,27 @@ public class Downloader {
         out.close();
         
         String urlValue = f.toString().substring(dir.toString().length() + 1);
-        //node.setValue("url", urlValue);
+        node.setStringValue("url", urlValue);
+        if (huc.getContentLength() > -1)  node.setIntValue("filesize", huc.getContentLength());
+        if (huc.getContentType() != null) node.setValue("mimetype", huc.getContentType());
         
         if (log.isDebugEnabled()) {
             log.debug("Returning url field: " + urlValue);
-            log.debug("Set a file " + f.getName());
-        }
-        
-        if (node.getNodeManager().hasField(contenttypeField)) {
-            if (! node.isChanged(contenttypeField) || node.isNull(contenttypeField)) {
-                if (log.isDebugEnabled()) {
-                    log.debug("Found " + huc.getContentType());
-                }
-                node.setStringValue(contenttypeField, huc.getContentType());
-            } else {
-                if (log.isDebugEnabled()) {
-                    log.debug("Field " + contenttypeField + " is already changed " + node.getChanged() + " not setting to " + huc.getContentType());
-                }
-            }
-        } else {
-            if (log.isDebugEnabled()) {
-                log.debug("No field " + contenttypeField);
-            }
+            log.debug("File " + f.getName());
         }
 
-        //return getUrl().toString();
         return urlValue;
     }
 
     /**
-     * Opens and tests an URLConnection.
+     * Opens and tests an HttpURLConnection, throws SocketException, IOException or IllegalArgumentException
+     * when it failes to open the connection. Only accepts http connections.
      *
-     * @param  url
+     * @param  url  the url to open
      * @return a connection or null in case of a bad response (f.e. not a 200)
      */
-    private HttpURLConnection getURLConnection(URL url) throws SocketException, IOException {
+    private HttpURLConnection getURLConnection(URL url) throws SocketException, IOException, IllegalArgumentException {
         URLConnection uc = url.openConnection();
-        //HttpURLConnection huc
         if (url.getProtocol().equals("http") || url.getProtocol().equals("https")) {
             HttpURLConnection huc = (HttpURLConnection)uc;
             int res = huc.getResponseCode();
@@ -194,17 +166,8 @@ public class Downloader {
             return uc;
         */
         } else {
-            // return "(non-HTTP)";
-            return null;
+            throw new IllegalArgumentException("Not a HTTP connection: " + url.toString());
         }
     }
- 
-    /*
-    public static void main(String[] arg) throws Exception {
-        Downloader downloader = new Downloader();
-        String link = arg[0];
-        downloader.setUrl(new URL(link));
-        downloader.download();
-    } 
-    */
+
 }
