@@ -24,7 +24,6 @@
   <xi:include href="http://www.mmbase.org/builders/streams/streamsources.fields.xml" />
   <xi:include href="http://www.mmbase.org/builders/streams/streamsources.virtual.fields.xml" />
   
-  <!-- only difference with mmbase streams app is this language field -->
   <fieldlist>
     <xi:include href="http://www.mmbase.org/builders/oip/source.language.field.xml" />
   </fieldlist>

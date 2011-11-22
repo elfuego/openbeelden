@@ -28,7 +28,7 @@
   <!-- state, url, mimetype, objecttype, mediaprovider -->
   <xi:include href="http://www.mmbase.org/builders/streams/streamsources.fields.xml" />
 
-  <!-- only difference with mmbase streams app is this language field -->
+  <!-- differences with mmbase streams app: language, cd_creator -->
   <fieldlist>
     <xi:include href="http://www.mmbase.org/builders/oip/source.language.field.xml" />
 
