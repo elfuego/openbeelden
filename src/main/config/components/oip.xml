@@ -308,8 +308,7 @@
     <title xml:lang="en">API token</title>
     <title xml:lang="nl">API token</title>
     <body jsp="user-apitoken.jspx">
-      <param name="n"    type="org.mmbase.bridge.Node" />
-      <param name="seed" type="String">pindakaas</param><!-- change this to make guessing more difficult -->
+      <param name="n" type="org.mmbase.bridge.Node" />
     </body>
   </block>
   
