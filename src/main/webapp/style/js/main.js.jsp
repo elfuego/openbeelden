@@ -62,7 +62,16 @@ function initToolbar() {
         }
     }
     $('li.license a, li.download a, li.share a').click(function(ev) {
-        var link = ev.target.href;
+        ev.preventDefault();
+        var link = ev.target.href;          // includes #bla when clicked
+        var loc = document.location.href;   // will include #bla when changed below
+        var box = link.substring(link.indexOf("#"));
+        var stateObj = { fragment: "bar" };
+        if ($(box).is(':visible')) {
+            history.pushState(stateObj, "fragment", loc.substring(0, link.indexOf("#")));
+        } else {
+            history.pushState(stateObj, "fragment", link);
+        }
         $(link.substring(link.indexOf("#"))).slideToggle('fast');
     });
     $('li.favorite a').click(function(ev) {

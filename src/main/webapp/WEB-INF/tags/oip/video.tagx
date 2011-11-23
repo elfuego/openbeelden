@@ -121,9 +121,7 @@
       <span class="license">
         <fmt:message key="media.license.is_licensed_under">
           <fmt:param>
-            <mm:link page="attributionURL" absolute="true">
-              <mm:frameworkparam name="component">oip</mm:frameworkparam>
-              <mm:frameworkparam name="media">${_node}</mm:frameworkparam>
+            <mm:link page="/media/${_node.number}" absolute="true">
               <a property="dct:title"
                  rel="cc:attributionURL"
                  href="${_}">
