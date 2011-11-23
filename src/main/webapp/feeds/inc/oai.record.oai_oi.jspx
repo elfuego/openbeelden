@@ -243,7 +243,7 @@
       <!-- oi:license etc. -->
       <mm:url absolute="true" id="page_link" write="false">
         <mm:frameworkparam name="component">oip</mm:frameworkparam>
-        <mm:frameworkparam name="block">mediafragment</mm:frameworkparam>
+        <mm:frameworkparam name="block">attributionURL</mm:frameworkparam>
         <mm:frameworkparam name="media">${_node}</mm:frameworkparam>
       </mm:url>
       <mm:relatednodescontainer type="licenses" role="related" searchdirs="destination">
