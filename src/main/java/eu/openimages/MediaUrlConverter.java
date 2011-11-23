@@ -53,7 +53,10 @@ public class MediaUrlConverter extends DirectoryUrlConverter {
     public MediaUrlConverter(BasicFramework fw) {
         super(fw);
         setDirectory("/media/");
-        addBlock(ComponentRepository.getInstance().getComponent("oip").getBlock("mediafragment"));
+        Component oip = ComponentRepository.getInstance().getComponent("oip");
+        if (oip == null) throw new IllegalStateException("No such component oip");
+        addBlock(oip.getBlock("mediafragment"));
+        addBlock(oip.getBlock("attributionURL"));
     }
 
     public void setUseTitle(boolean t) {
@@ -74,7 +77,7 @@ public class MediaUrlConverter extends DirectoryUrlConverter {
     }
 
     /**
-     * Generates a nice url for 'media'.
+     * Generates a nice urls for 'media'.
      */
     @Override
     protected void getNiceDirectoryUrl(StringBuilder b,
@@ -97,6 +100,16 @@ public class MediaUrlConverter extends DirectoryUrlConverter {
             if (log.isDebugEnabled()) {
                 log.debug("b now: " + b.toString());
             }
+        } else if (block.getName().equals("attributionURL")) {
+            Node n = frameworkParameters.get(MEDIA);
+            if (n == null) throw new IllegalStateException("No media parameter used in " + frameworkParameters);
+            b.append(n.getNumber());
+            localeUtil.appendLanguage(b, frameworkParameters);
+
+            if (log.isDebugEnabled()) {
+                log.debug("b now: " + b.toString());
+            }
+            
         }
     }
 

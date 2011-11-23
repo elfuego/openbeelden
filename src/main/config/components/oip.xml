@@ -46,7 +46,19 @@
       <param name="n" type="org.mmbase.bridge.Node" />
     </body>
   </block>
-
+  
+  <block name="attributionURL"
+         classification="oip"
+         mimetype="text/html">
+    <title xml:lang="en">attributionURL</title>
+    <title xml:lang="nl">attributionURL</title>
+    <description xml:lang="en">Media: to create a cc:attributionURL</description>
+    <description xml:lang="nl">Media: om een cc:attributionURL te maken</description>
+    <body jsp="mediafragment.jspx">
+      <param name="n" type="org.mmbase.bridge.Node" />
+    </body>
+  </block>
+  
   <block name="users"
          classification="mmbase.oip"
          mimetype="text/html">
