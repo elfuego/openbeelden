@@ -241,11 +241,7 @@
       </mm:relatednodescontainer>
 
       <!-- oi:license etc. -->
-      <mm:url absolute="true" id="page_link" write="false">
-        <mm:frameworkparam name="component">oip</mm:frameworkparam>
-        <mm:frameworkparam name="block">attributionURL</mm:frameworkparam>
-        <mm:frameworkparam name="media">${_node}</mm:frameworkparam>
-      </mm:url>
+      <mm:url page="/media/${_node.number}" absolute="true" id="page_link" write="false" />
       <mm:relatednodescontainer type="licenses" role="related" searchdirs="destination">
         <mm:relatednodes>
           <oi:attributionName xml:lang="${_node.language}"><mm:write referid="dc_creator" /></oi:attributionName>
