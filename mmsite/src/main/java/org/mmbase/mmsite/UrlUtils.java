@@ -23,6 +23,7 @@ package org.mmbase.mmsite;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.poi.hssf.record.formula.functions.Search;
 import org.mmbase.bridge.Node;
 import org.mmbase.bridge.NodeManager;
 import org.mmbase.bridge.NodeList;
@@ -98,19 +99,22 @@ public final class UrlUtils {
      * @param   path    Value of field path, f.e. '/news/new'
      * @return  a 'pages' node or null if not found
      */
-    protected static Node getPagebyPath(Cloud cloud, String path) {
-        return getPagebyPath(cloud, cloud.getNodeManager("pages"), path);
+    protected static Node getPagebyPath(HttpServletRequest req, Cloud cloud, String path) {
+        return getPagebyPath(req, cloud, cloud.getNodeManager("pages"), path);
     }
 
     /**
-     * Retrieve a pages node with a certain path.
+     * Retrieve a pages node with a certain path. For Open Images specifically - but this can be used
+     * for other sites too see {@link eu.openimages.PortalFilter} - the request is searched for a
+     * 'portal' attribute including a pools node which is used as starting point.
      *
+     * @param   req     HttpServletRequest
      * @param   cloud   MMBase cloud
      * @param   nm      NodeManager with a field named 'path'
      * @param   path    Value of field path, f.e. '/news/new'
      * @return  a 'pages' node or null if not found
      */
-    protected static Node getPagebyPath(Cloud cloud, NodeManager nm, String path) {
+    protected static Node getPagebyPath(HttpServletRequest req, Cloud cloud, NodeManager nm, String path) {
         Node node = null;
         if (path == null || "".equals(path)) {
             if (log.isDebugEnabled()) {
@@ -118,14 +122,25 @@ public final class UrlUtils {
             }
             return node;
         }
-
         /* in builder path is 255, no use in trying beyond that and creating huge db queries */
         if (path.length() > 255) {
             path = path.substring(0, 255);
         }
-        
-        NodeList nl = SearchUtil.findNodeList(cloud, nm.getName(), "path", path, "number", "UP");
-        nl.addAll(SearchUtil.findNodeList(cloud, nm.getName(), "path", "/" + path, "number", "UP"));
+
+        NodeList nl = null;
+        if (req.getAttribute("portal") != null) {
+            Node poolsNode = req.getAttribute("portal");
+            nl = SearchUtil.findRelatedNodeList(poolsNode, nm.getName(), "posrel", "path", path, "number", "UP");
+            if (nl.size() == 0) {
+                nl.addAll(SearchUtil.findRelatedNodeList(poolsNode, nm.getName(), "posrel", "path", "/" + path, "number", "UP"));
+            }
+        } else {
+            nl = SearchUtil.findNodeList(cloud, nm.getName(), "path", path, "number", "UP");
+            if (nl.size() == 0) {
+                nl.addAll(SearchUtil.findNodeList(cloud, nm.getName(), "path", "/" + path, "number", "UP"));
+            }
+        }
+
         if (nl.size() > 0) {
             node = nl.getNode(0);
         }

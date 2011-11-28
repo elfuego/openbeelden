@@ -205,7 +205,7 @@ public class SiteUrlConverter extends DirectoryUrlConverter {
             path = path.substring(0, path.lastIndexOf(extension));
         }
 
-        Node node = UrlUtils.getPagebyPath(cloud, path);
+        Node node = UrlUtils.getPagebyPath(request, cloud, cloud.getNodeManager("pages"), path);
         if (node != null) {
             String template = node.getNodeValue("template").getStringValue("url");
             if (!template.startsWith("/")) {
