@@ -37,6 +37,20 @@
     
     <ul class="main">
       <mm:node number="$pool" id="portal">
+        <c:choose>
+          <c:when test="${!isdefaultportal}"><!-- check portal property 'login' -->
+            <c:set var="enablelogin">
+              <mm:functioncontainer>
+                <mm:param name="key">login</mm:param>
+                <mm:function referids="_node@node" nodemanager="properties" name="get" />
+              </mm:functioncontainer>
+            </c:set>
+          </c:when>
+          <c:otherwise>
+            <c:set var="enablelogin">true</c:set>
+          </c:otherwise>
+        </c:choose>
+      
         <mm:relatednodescontainer type="pages" role="posrel" searchdirs="destination">
           <mm:constraint field="posrel.pos" value="1" value2="10" operator="BETWEEN" />
           <mm:sortorder field="posrel.pos" direction="UP" />
@@ -143,7 +157,7 @@
       </mm:listcontainer>
     </ul>
 
-    <c:if test="${isdefaultportal}">
+    <c:if test="${enablelogin}">
       <c:set var="query_str" value="${requestScope['javax.servlet.forward.query_string']}" />
       <script type="text/javascript">
         <mm:link page="/action/you.jspx" escapeamps="false" referids="locale?">
@@ -154,13 +168,13 @@
     </c:if>
     
     <ul class="meta">
-      <li> 
-        <mm:listfunction set="mmsite" name="locales" varStatus="status">
+      <li>
+         <mm:listfunction set="mmsite" name="locales" varStatus="status">
           <a class="${_ eq locale ? 'active' : ''}" href="${current}.${_}">${_}</a>
           <c:if test="${! status.last}"><jsp:text> / </jsp:text></c:if>
         </mm:listfunction>
       </li>
-      <c:if test="${isdefaultportal}">
+      <c:if test="${enablelogin}">
         <mm:hasrank value="anonymous" inverse="true">
           <li>
             <mm:link page="/logout.jspx" referids="locale?">
@@ -171,18 +185,6 @@
         <li class="you">
           <jsp:text> </jsp:text>
         </li>
-        <!--
-        <mm:hasrank value="anonymous" inverse="true">
-          <li>
-            <mm:link>
-              <mm:frameworkparam name="component">oip</mm:frameworkparam>
-              <mm:frameworkparam name="block">user-mediaupload</mm:frameworkparam>
-              <mm:frameworkparam name="user"><mm:cloudinfo type="usernode" /></mm:frameworkparam>
-              <a class="upload" href="${_}"><fmt:message key="media.upload" /></a>
-            </mm:link>
-          </li>
-        </mm:hasrank>
-        -->
       </c:if>
     </ul>
   
