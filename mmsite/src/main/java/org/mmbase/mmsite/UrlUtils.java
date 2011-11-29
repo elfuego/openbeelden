@@ -23,11 +23,8 @@ package org.mmbase.mmsite;
 
 import javax.servlet.http.HttpServletRequest;
 
-import org.apache.poi.hssf.record.formula.functions.Search;
-import org.mmbase.bridge.Node;
-import org.mmbase.bridge.NodeManager;
-import org.mmbase.bridge.NodeList;
-import org.mmbase.bridge.Cloud;
+import org.mmbase.bridge.*;
+import org.mmbase.bridge.util.Queries;
 import org.mmbase.bridge.util.SearchUtil;
 import org.mmbase.util.logging.Logger;
 import org.mmbase.util.logging.Logging;
@@ -48,9 +45,9 @@ public final class UrlUtils {
      * @param  node	A node of some type with a field 'path'
      * @return list with all the nodes leading to the homepage including the present node
      */
-    public static NodeList listNodes2Root(Node node) {
+    public static NodeList listNodes2Root(HttpServletRequest req, Node node) {
         NodeManager nm = node.getNodeManager();
-        return listNodes2Root(node, nm);
+        return listNodes2Root(req, node, nm);
     }
 
     /**
@@ -61,8 +58,8 @@ public final class UrlUtils {
      * @param  node	A node of some type with a field 'path'
      * @return list with all the nodes from the home page or 'most root' node to the present node
      */
-    public static NodeList crumbs(Node node) {
-        NodeList l = listNodes2Root(node);
+    public static NodeList crumbs(HttpServletRequest req, Node node) {
+        NodeList l = listNodes2Root(req, node);
         return l;
     }
 
@@ -72,8 +69,8 @@ public final class UrlUtils {
      * @param  node	A node of some type with a field 'path'
      * @return parent node
      */
-    public static Node parent(Node node) {
-        NodeList l = listNodes2Root(node);
+    public static Node parent(HttpServletRequest req, Node node) {
+        NodeList l = listNodes2Root(req, node);
         if (l.size() > 1) {
             return l.get(l.size() - 2);
         } else {
@@ -87,8 +84,8 @@ public final class UrlUtils {
      * @param  node	A node of some type with a field 'path'
      * @return the node highest to the top, often the home page
      */
-    public static Node root(Node node) {
-        NodeList l = listNodes2Root(node);
+    public static Node root(HttpServletRequest req, Node node) {
+        NodeList l = listNodes2Root(req, node);
         return l.get(0);
     }
 
@@ -104,9 +101,9 @@ public final class UrlUtils {
     }
 
     /**
-     * Retrieve a pages node with a certain path. For Open Images specifically - but this can be used
-     * for other sites too see {@link eu.openimages.PortalFilter} - the request is searched for a
-     * 'portal' attribute including a pools node which is used as starting point.
+     * Retrieve a pages node with a certain path.
+     * When more pages with the exact same path are found, the request is search for the 'portal' attribute
+     * to see which of the pages belongs to that specific portal.
      *
      * @param   req     HttpServletRequest
      * @param   cloud   MMBase cloud
@@ -115,6 +112,9 @@ public final class UrlUtils {
      * @return  a 'pages' node or null if not found
      */
     protected static Node getPagebyPath(HttpServletRequest req, Cloud cloud, NodeManager nm, String path) {
+        if(log.isDebugEnabled()) {
+            log.debug("path: " + path);
+        }
         Node node = null;
         if (path == null || "".equals(path)) {
             if (log.isDebugEnabled()) {
@@ -127,27 +127,77 @@ public final class UrlUtils {
             path = path.substring(0, 255);
         }
 
-        NodeList nl = null;
-        if (req.getAttribute("portal") != null) {
-            Node poolsNode = req.getAttribute("portal");
-            nl = SearchUtil.findRelatedNodeList(poolsNode, nm.getName(), "posrel", "path", path, "number", "UP");
-            if (nl.size() == 0) {
-                nl.addAll(SearchUtil.findRelatedNodeList(poolsNode, nm.getName(), "posrel", "path", "/" + path, "number", "UP"));
-            }
-        } else {
-            nl = SearchUtil.findNodeList(cloud, nm.getName(), "path", path, "number", "UP");
-            if (nl.size() == 0) {
-                nl.addAll(SearchUtil.findNodeList(cloud, nm.getName(), "path", "/" + path, "number", "UP"));
-            }
+        NodeList nl = SearchUtil.findNodeList(cloud, nm.getName(), "path", path, "number", "UP");
+        if (nl.size() == 0) {
+            nl.addAll(SearchUtil.findNodeList(cloud, nm.getName(), "path", "/" + path, "number", "UP"));
         }
 
-        if (nl.size() > 0) {
-            node = nl.getNode(0);
+        if (nl.size() == 1) {
+            node = nl.get(0);
+
+        } else if (nl.size() > 1) { // found more with same path: check portal
+            Node portal = null;
+            if (req != null) {
+                portal = getPortal(req);
+                if (log.isDebugEnabled()) {
+                    log.debug("portal: " + portal);
+                }
+            }
+
+            if (portal == null) {
+                node = nl.get(0);
+
+            } else {
+                org.mmbase.bridge.NodeIterator ni = nl.nodeIterator();
+                while (ni.hasNext()) {
+                    Node n = ni.nextNode();
+                    Node section = getSectionByPosrel(n);   // main section of this page
+
+                    NodeList rnl = SearchUtil.findRelatedNodeList(portal, nm.getName(), "posrel", "number", section.getNumber());
+                    if (rnl.size() > 0) { // main section is related to portal
+                        if (log.isDebugEnabled()) {
+                            log.debug("main section of #" + n.getNumber() + " belongs to portal");
+                        }
+                        node = n;
+                    }
+                }
+
+            }
         }
-        
+        if(log.isDebugEnabled()) {
+            log.debug("returning #" + node.getNumber());
+        }
         return node;
     }
 
+    /* Parent of same type */
+    private static Node getParentByPosrel(Node node) {
+        Node parent = null;
+        NodeQuery query = Queries.createRelatedNodesQuery(node, node.getNodeManager(), "posrel", "source");
+        NodeList rl = node.getNodeManager().getList(query);
+        if (rl.size() > 0) {
+            parent= rl.get(0);
+        }
+        return parent;
+    }
+    /* Ultimate parent */
+    private static Node getSectionByPosrel(Node node) {
+        Node section = node;
+        for (int i = 0; i < 9; i++) {
+            Node parent = getParentByPosrel(section);
+            if (parent == null) {
+                break;
+            } else {
+                section = parent;
+            }
+        }
+        return section;
+    }
+    /* Gets portal node from request */
+    private static Node getPortal(HttpServletRequest req) {
+        Node portal = (Node) req.getAttribute("portal");
+        return portal;
+    }
 
     /**
      * Nodes from here to the root while examining the field 'path'.
@@ -158,7 +208,7 @@ public final class UrlUtils {
      * @param  node	A node of certain type with field path
      * @return nodes leading to homepage/root of the site including the present node
      */
-    protected static NodeList listNodes2Root(Node node, NodeManager nm) {
+    protected static NodeList listNodes2Root(HttpServletRequest req, Node node, NodeManager nm) {
         NodeList list = nm.createNodeList();
 
         String path = node.getStringValue("path");
@@ -178,7 +228,7 @@ public final class UrlUtils {
                 log.debug("testing: " + ppath);
             }
             
-            Node n = getPagebyPath(node.getCloud(), nm, ppath);
+            Node n = getPagebyPath(req, node.getCloud(), nm, ppath);
  
             list.add(n);
         }
