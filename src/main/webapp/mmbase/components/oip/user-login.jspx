@@ -30,15 +30,12 @@
                   <mm:frameworkparam name="block">user</mm:frameworkparam>
                   <mm:frameworkparam name="user"><mm:cloudinfo type="usernode" /></mm:frameworkparam>
                 </mm:url>
-                <script type="text/javascript">
-                  $(document).ready(function() {
-                     document.location = "${empty referrer ? userpage : referrer}";
-                  });
-                </script>
-                <!-- p class="msg">
-                  You are logged in as ${username} (rank <mm:cloudinfo type="rank" />)
-                  <a href="${referrer}">${referrer}</a>.
-                </p -->
+                <p class="msg stay">
+                  <fmt:message key="login.message">
+                    <fmt:param>${username}</fmt:param>
+                    <fmt:param><mm:cloudinfo type="rank" /></fmt:param>
+                  </fmt:message>
+                </p>
               </mm:cloud>
             </mm:present>
           </c:catch>
