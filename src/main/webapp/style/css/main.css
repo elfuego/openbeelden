@@ -252,12 +252,10 @@ input.submit,
 input.cancel, 
 input.info {
 	width: auto;
-	float: right;
 	cursor: pointer;
 	min-width: 72px;
 	padding: 5px 10px;
 	margin-top: 8px;
-	margin-left: 16px;
 	font-size: 1.1em;
 	color: #555;
 	border: 1px solid #dadada;
@@ -269,6 +267,15 @@ input.info {
 	background-image: -webkit-gradient(linear, left top, left bottom, from(#f9f9f9), to(#efefef));
 	background: -moz-linear-gradient(top, #f9f9f9, #efefef);
 }
+input.cancel { border-right: none; }
+form#search input.submit,
+form#loginform input.submit,
+input#submit_registration,
+input#submit_upload { float: right; }
+
+fieldset.buttons {
+	text-align: right;
+}
 
 /* remove ugly borders in Firefox */
 input[type="submit"]::-moz-focus-inner,
@@ -278,11 +285,7 @@ div.b_user-media input#delete,
 div.b_user-media input.submit,
 div.b_user-media input.info,
 div.b_user-mediadelete input#cancel,
-div.b_user-mediadelete input#delete
-{
-	float: left;
-	margin-left: 0;
-}
+div.b_user-mediadelete input#delete { margin-left: 0; }
 div.b_user-mediadelete input#cancel { margin-right: 12px; }
 
 div.b_user-media input.info

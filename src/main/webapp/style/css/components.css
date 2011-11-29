@@ -46,7 +46,7 @@ div.b_user-profile h4,
 div.b_user-profile p.description, 
 div.b_user-picture p.description,
 div.b_user-mediapreview p.description { margin-left: 90px; }
-
+div.b_user-login a { float: left; }
 div.b_user-profile a.editme, 
 div.b_user-picture a.editme { text-transform: lowercase; }
 
@@ -68,8 +68,8 @@ div.b_user-picture input.cancel
 	margin-left: 0;
 }
 
-div.b_user-picture input.cancel,
-div.b_user-mediapreview input.cancel { border-left: none; }
+div.b_user-picture fieldset.buttons > div,
+div.b_user-mediapreview fieldset.buttons > div { text-align: left; }
 div.b_user-mediapreview #edit-picture { margin-top: 32px; }
 
 div.b_user-mediapreview p img { margin: 1em 8px -6px 0; }
@@ -166,6 +166,7 @@ div.progressInfo span.speed
 
 /* form stuff, like larger sizes because of html-editor */
 div.b_user-media fieldset.first { margin-top: 2em; }
+div.b_user-media fieldset.buttons { text-align: left; }
 
 div.b_user-media textarea.small,
 div.b_user-translations textarea.small { height: 180px; }

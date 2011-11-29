@@ -156,7 +156,10 @@ form.searchform input[type=text] {
     background-position: right 50%;
     background-repeat: no-repeat;
 }
-form.searchform input.submit { margin: 0; }
+form.searchform input.submit {
+	margin: 0;
+	float: right;
+}
 
 div.searchresults ul
 {
