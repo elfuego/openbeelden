@@ -13,8 +13,8 @@
 
     <mm:maycreate type="mediafragments">
     
-      <mm:import id="default_license">licenses_attributionsharealike</mm:import>
-      <mm:import externid="license">${default_license}</mm:import>
+      <mm:import externid="portal" from="request">pool_oip</mm:import>
+      <mm:import externid="license">licenses_attributionsharealike</mm:import>
       
       <div
           class="mm_c c_oip b_upload ${requestScope.className}"
@@ -62,43 +62,51 @@
               <p><fmt:message key="users.upload.notstarted" /></p>
             </div>
 
-            <fieldset class="licenses">
-              <h4><fmt:message key="users.upload.licensetitle" /></h4>
-              <p><fmt:message key="users.upload.licensetext" /></p>
-              <ul>
-                <mm:node number="licenses_attributionsharealike">
-                  <li>
-                    <input name="license" id="lic_0" type="radio" value="${_node}" checked="checked" />
-                    <mm:nodefunction name="translation">
-                      <mm:import id="ya" reset="true"><mm:field name="you_allow" escape="tagstripper" /></mm:import>
-                      <label for="lic_0" title="${ya}">
-                        <mm:field name="name" />
-                        <a class="_blank" href="${_node.url}" title="More information">
-                          <img src="${mm:link('/style/css/icons/info.png')}" alt="i" width="12" height="12" />
-                        </a>
-                      </label>
-                    </mm:nodefunction>
-                  </li>
-                </mm:node>
-                <mm:listnodescontainer type="licenses">
-                  <mm:constraint field="number" value="licenses_attributionsharealike" operator="EQUAL" inverse="true" />
-                  <mm:listnodes varStatus="status">
-                    <li>
-                      <input name="license" id="lic_${status.index}" type="radio" value="${_node}" />
-                      <mm:nodefunction name="translation">
-                        <mm:import id="ya" reset="true"><mm:field name="you_allow" escape="tagstripper" /></mm:import>
-                        <label for="lic_${status.index}" title="${ya}">
-                          <mm:field name="name" />
-                          <a class="_blank" href="${_node.url}" title="More information">
-                            <img src="${mm:link('/style/css/icons/info.png')}" alt="i" width="12" height="12" />
-                          </a>
-                        </label>
-                      </mm:nodefunction>
-                    </li>
-                  </mm:listnodes>
-                </mm:listnodescontainer>
-              </ul>
-            </fieldset>
+            <mm:node number="$portal">
+              <mm:relatednodescontainer type="licenses" role="posrel" searchdirs="destination">
+                <mm:sortorder field="posrel.pos" direction="UP" />
+                <mm:size>
+                  <mm:isgreaterthan value="0">
+                    
+                    <fieldset class="licenses">
+                      
+                      <h4><fmt:message key="users.upload.licensetitle" /></h4>
+                      <p><fmt:message key="users.upload.licensetext" /></p>
+                      
+                      <ul>
+                        <mm:relatednodes varStatus="status">
+                          <li>
+                            
+                            <c:choose>
+                              <c:when test="${status.index eq 1}">
+                                <input name="license" id="lic_${status.index}" type="radio" value="${_node}" checked="checked" />
+                              </c:when>
+                              <c:otherwise>
+                                <input name="license" id="lic_${status.index}" type="radio" value="${_node}" />
+                              </c:otherwise>
+                            </c:choose>        
+                            
+                            <mm:nodefunction name="translation">
+                              <mm:import id="ya" reset="true"><mm:field name="you_allow" escape="tagstripper" /></mm:import>
+                              <label for="lic_${status.index}" title="${ya}">
+                                <mm:field name="name" />
+                                <a class="_blank" href="${_node.url}" title="More information">
+                                  <img src="${mm:link('/style/css/icons/info.png')}" alt="i" width="12" height="12" />
+                                </a>
+                              </label>
+                            </mm:nodefunction>
+                            
+                          </li>
+                        </mm:relatednodes>
+                      </ul>
+                      
+                    </fieldset>
+                    
+                  </mm:isgreaterthan>
+                </mm:size>
+              </mm:relatednodescontainer>
+            </mm:node>
+              
 
             <p class="required"><span>* </span> <fmt:message key="users.starsarerequired" /></p>
 
@@ -120,7 +128,7 @@
         </mm:import>
 
 
-        <!-- 2nd form -->
+        <!-- 2nd part -->
         <mm:present referid="committed">
           <mm:node referid="newsource">
 
@@ -134,8 +142,6 @@
             <p class="msg stay">
               <fmt:message key="users.upload.finished" /><br />
               <!-- Submitted ${_node} URL: ${_node.url} FS: ${_node.filesize} <oip:type /> -->
-              
-              Use this link if you're not being redirected:<br />
               <mm:link id="editlink" absolute="true">
                 <mm:frameworkparam name="component">oip</mm:frameworkparam>
                 <mm:frameworkparam name="block">user-media</mm:frameworkparam>
@@ -153,7 +159,7 @@
             <!-- finished: redirect -->
             <script type="text/javascript">
               $(document).ready(function() {
-                 document.location = "${empty referrer ? editlink : referrer}";
+                 document.location = "${editlink}";
               });
             </script>
 
