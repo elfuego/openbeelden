@@ -74,21 +74,21 @@
                       <p><fmt:message key="users.upload.licensetext" /></p>
                       
                       <ul>
-                        <mm:relatednodes varStatus="status">
+                        <mm:relatednodes varStatus="vst">
                           <li>
                             
                             <c:choose>
-                              <c:when test="${status.index eq 1}">
-                                <input name="license" id="lic_${status.index}" type="radio" value="${_node}" checked="checked" />
+                              <c:when test="${vst.index eq 1}">
+                                <input name="license" id="lic_${vst.index}" type="radio" value="${_node}" checked="checked" />
                               </c:when>
                               <c:otherwise>
-                                <input name="license" id="lic_${status.index}" type="radio" value="${_node}" />
+                                <input name="license" id="lic_${vst.index}" type="radio" value="${_node}" />
                               </c:otherwise>
                             </c:choose>        
                             
                             <mm:nodefunction name="translation">
                               <mm:import id="ya" reset="true"><mm:field name="you_allow" escape="tagstripper" /></mm:import>
-                              <label for="lic_${status.index}" title="${ya}">
+                              <label for="lic_${vst.index}" title="${ya}">
                                 <mm:field name="name" />
                                 <a class="_blank" href="${_node.url}" title="More information">
                                   <img src="${mm:link('/style/css/icons/info.png')}" alt="i" width="12" height="12" />

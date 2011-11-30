@@ -1,0 +1,219 @@
+<mm:content
+    type="application/xml"
+    xmlns:c="http://java.sun.com/jsp/jstl/core"
+    xmlns:jsp="http://java.sun.com/JSP/Page"
+    xmlns:fmt="http://java.sun.com/jsp/jstl/fmt"
+    xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+    xmlns:mm="http://www.mmbase.org/mmbase-taglib-2.0"
+    xmlns:oip="urn:jsptagdir:/WEB-INF/tags/oip">
+  <jsp:output omit-xml-declaration="true" />
+  
+  <mm:cloud method="asis">
+    
+    <mm:maycreate type="mediafragments">
+      
+      <mm:import externid="portal" from="request">pool_oip</mm:import>
+      <mm:import externid="license">licenses_attributionsharealike</mm:import>      
+      <mm:import externid="fields">title,language,intro,dc_creator</mm:import>
+      <mm:import externid="submit_download" />
+      <mm:import externid="url" />
+      <mm:import externid="status" />
+      
+      <div
+          class="mm_c c_oip b_user-mediadownload ${requestScope.className}"
+          id="${requestScope['org.mmbase.componentId']}">
+  
+        <mm:validation
+            nodemanagers="mediafragments"
+            submit="#submit_download,#submit" />
+            
+        <mm:notpresent referid="status">
+        
+            <c:if test="${!empty submit_download and empty url}">
+              <p class="err">An url is of course required.</p>
+            </c:if>
+
+            <!-- 1ste form -->
+            <mm:form>
+              <mm:import id="buffer">
+                <fieldset>
+                  <div>
+                    <label for="url">URL</label>
+                    <input type="text" name="url" size="80" value="${url}" id="url" />
+                  </div>
+                </fieldset>                
+                <mm:createnode id="newmedia" type="mediafragments" commitonclose="false">
+                  <fieldset>
+                    <mm:fieldlist fields="${fields}">
+                      <div>
+                        <mm:fieldinfo type="forid">
+                          <label for="${_}"><mm:fieldinfo type="guiname" /></label>
+                        </mm:fieldinfo>
+                        <p class="info"><fmt:message key="media.upload_file.information" /></p>
+                        <mm:fieldinfo type="input" /><mm:fieldinfo type="errors" />
+                      </div>
+                    </mm:fieldlist>
+                  </fieldset>
+                </mm:createnode>
+
+                <!-- licenses -->
+                <mm:node number="$portal">
+                  <mm:relatednodescontainer type="licenses" role="posrel" searchdirs="destination">
+                    <mm:sortorder field="posrel.pos" direction="UP" />
+                    <mm:size>
+                      <mm:isgreaterthan value="0">
+                        
+                        <fieldset class="licenses">
+                          
+                          <h4><fmt:message key="users.upload.licensetitle" /></h4>
+                          <p><fmt:message key="users.upload.licensetext" /></p>
+                          
+                          <ul>
+                            <mm:relatednodes varStatus="vst">
+                              <li>
+                                
+                                <c:choose>
+                                  <c:when test="${vst.index eq 1}">
+                                    <input name="license" id="lic_${vst.index}" type="radio" value="${_node}" checked="checked" />
+                                  </c:when>
+                                  <c:otherwise>
+                                    <input name="license" id="lic_${vst.index}" type="radio" value="${_node}" />
+                                  </c:otherwise>
+                                </c:choose>        
+                                
+                                <mm:nodefunction name="translation">
+                                  <mm:import id="ya" reset="true"><mm:field name="you_allow" escape="tagstripper" /></mm:import>
+                                  <label for="lic_${vst.index}" title="${ya}">
+                                    <mm:field name="name" />
+                                    <a class="_blank" href="${_node.url}" title="More information">
+                                      <img src="${mm:link('/style/css/icons/info.png')}" alt="i" width="12" height="12" />
+                                    </a>
+                                  </label>
+                                </mm:nodefunction>
+                                
+                              </li>
+                            </mm:relatednodes>
+                          </ul>
+                          
+                        </fieldset>
+                        
+                      </mm:isgreaterthan>
+                    </mm:size>
+                  </mm:relatednodescontainer>
+                </mm:node>
+                                
+                <p class="required"><span>* </span> <fmt:message key="users.starsarerequired" /></p>
+                
+                <fieldset class="buttons">
+                  <input type="submit" name="submit_download" id="submit_download" value="Download" class="submit" />
+                </fieldset>
+              </mm:import>
+              
+              <c:if test="${!empty submit_download and !empty url}">
+                <mm:valid>
+                  <mm:commit />
+                  <mm:import id="committed" />
+                </mm:valid>
+              </c:if>
+              
+              <mm:notpresent referid="committed">
+                <mm:write referid="buffer" escape="none" />
+                <mm:cancel />
+              </mm:notpresent>
+              
+            </mm:form>
+            
+            <!-- 2nd part -->
+            <mm:present referid="committed">
+              <!-- relate license -->
+              <mm:node number="$newmedia" id="mediafr" />
+              <mm:node number="$license" id="lic" />
+              <mm:createrelation source="mediafr" destination="lic" role="related" />
+              <!-- download stream -->
+              <mm:log level="info">Download media ${newmedia} with url: ${url}</mm:log>
+              <mm:node number="$newmedia">
+                <mm:functioncontainer>
+                  <mm:param name="url">${url}</mm:param>
+                  <p class="msg">Download result: <strong><mm:function name="downloadmedia" /></strong></p>
+                </mm:functioncontainer>
+                <p>
+                  <mm:link page="download" referids="_node@status">
+                    <a href="${_}">Check download status...</a><br />
+                  </mm:link>
+                  Allthough your media may still be downloading or transcoding, you can edit it's 
+                  metadata: 
+                  <mm:link>
+                    <mm:frameworkparam name="component">oip</mm:frameworkparam>
+                    <mm:frameworkparam name="block">user-media</mm:frameworkparam>
+                    <mm:frameworkparam name="user"><mm:cloudinfo type="usernode" /></mm:frameworkparam>
+                    <mm:param name="media">${_node}</mm:param>
+                    <a href="${_}">${_}</a>.
+                  </mm:link>
+                </p>
+              </mm:node>
+            </mm:present>
+        
+        </mm:notpresent><!-- /status -->
+        
+        <mm:present referid="status">
+          <mm:node number="$status">
+  
+            <mm:functioncontainer>
+              <mm:param name="key">org.mmbase.streams.download.DownloadFunction.status</mm:param>
+              <c:set var="downloadstatus"><mm:function referids="_node@node" nodemanager="properties" name="get" /></c:set>
+            </mm:functioncontainer>
+            
+            <mm:functioncontainer>
+              <mm:param name="key">org.mmbase.streams.download.DownloadFunction.url</mm:param>
+              <c:set var="downloadurl"><mm:function referids="_node@node" nodemanager="properties" name="get" /></c:set>
+            </mm:functioncontainer>
+            
+            <c:choose>
+              <c:when test="${downloadstatus eq 'ok'}">
+                <p class="msg stay">
+                  OK. Your download of '${downloadurl}' is ready. Allthough it may still be transcoding
+                  to different formats, you'll find it here:
+                  <mm:link>
+                    <mm:frameworkparam name="media">${status}</mm:frameworkparam>
+                    <mm:frameworkparam name="block">mediafragment</mm:frameworkparam>
+                    <mm:frameworkparam name="component">oip</mm:frameworkparam>
+                    <a href="${_}">${_}</a>
+                  </mm:link>
+                </p>
+              </c:when>
+              <c:when test="${fn:indexOf(downloadstatus, 'NONHTTP') gt -1 or fn:indexOf(downloadstatus, 'BADURL') gt -1}">
+                <p class="err">Url '${downloadurl}' incorrect: ${downloadstatus}.</p>
+              </c:when>
+              <c:when test="${fn:indexOf(downloadstatus, 'IOERROR') gt -1 or fn:indexOf(downloadstatus, 'UNEXPECTED') gt -1}">
+                <p class="err">Some error occured with '${downloadurl}' : ${downloadstatus}.</p>
+              </c:when>
+              <c:otherwise>
+                <p class="msg">Your download of ${downloadurl} is probably still busy. Check back again later.
+                  <br />Status: ${downloadstatus}.
+                </p>
+              </c:otherwise>
+            </c:choose>
+  
+            <p>
+            <mm:nodelistfunction nodemanager="properties" name="list" referids="_node@node">
+              <strong><mm:field name="key" /></strong> : <mm:field name="value" /><br />
+            </mm:nodelistfunction>
+            </p>  
+            <p>
+              <mm:link page="download" referids="_node@status">
+                <a href="${_}">Check status again...</a>
+              </mm:link>
+            </p>
+          </mm:node>
+        </mm:present>        
+        
+        
+      </div>
+    </mm:maycreate>
+    <mm:maycreate type="mediafragments" inverse="true">
+      <fmt:message key="maynot" />
+      <mm:cloudinfo type="rank" />
+    </mm:maycreate>
+    
+  </mm:cloud>
+</mm:content>

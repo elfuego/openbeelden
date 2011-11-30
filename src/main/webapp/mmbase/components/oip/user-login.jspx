@@ -36,6 +36,9 @@
                     <fmt:param><mm:cloudinfo type="rank" /></fmt:param>
                   </fmt:message>
                 </p>
+                <c:if test="${!empty referrer}">
+                  <p>Continue to <a href="${referrer}">${referrer}</a>.</p>
+                </c:if>
               </mm:cloud>
             </mm:present>
           </c:catch>
