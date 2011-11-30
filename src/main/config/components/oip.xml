@@ -20,9 +20,6 @@
   <action name="exportmedia" rank="project manager">
     <description xml:lang="en">Allowed to upload to wikipedia</description>
   </action>
-  <action name="downloadmedia" rank="site user">
-    <description xml:lang="en">Allowed to use download API to put media into this application.</description>
-  </action>
 
   <block name="media"
          classification="mmbase.oip"
@@ -42,6 +39,18 @@
     <title xml:lang="nl">Mediaitem</title>
     <description xml:lang="en">Media item: a video, audio or image</description>
     <description xml:lang="nl">Mediaitem: een video, audio of afbeelding</description>
+    <body jsp="mediafragment.jspx">
+      <param name="n" type="org.mmbase.bridge.Node" />
+    </body>
+  </block>
+  
+  <block name="attributionURL"
+         classification="oip"
+         mimetype="text/html">
+    <title xml:lang="en">attributionURL</title>
+    <title xml:lang="nl">attributionURL</title>
+    <description xml:lang="en">Media: to create a cc:attributionURL</description>
+    <description xml:lang="nl">Media: om een cc:attributionURL te maken</description>
     <body jsp="mediafragment.jspx">
       <param name="n" type="org.mmbase.bridge.Node" />
     </body>
@@ -210,6 +219,20 @@
     </head>
     <body jsp="user-mediaupload.jspx">
       <param name="n" type="org.mmbase.bridge.Node" />
+    </body>
+  </block>
+
+  <block name="user-mediadownload"
+         classification="oip"
+         mimetype="text/html">
+    <title xml:lang="en">Download media</title>
+    <title xml:lang="nl">Download media</title>
+    <xi:include href="http://www.mmbase.org/components/validation.head.xml" />
+    <description xml:lang="en">Download video, audio or an image from another site.</description>
+    <description xml:lang="nl">Download video, audio of een afbeelding van een andere site.</description>
+    <body jsp="user-mediadownload.jspx">
+      <param name="n" type="org.mmbase.bridge.Node" />
+      <param name="status" type="String" />
     </body>
   </block>
 
