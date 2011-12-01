@@ -189,7 +189,7 @@ public class PortalFilter implements Filter, SystemEventListener {
                 }
                 if (portal == null) {
                     if (cloud.hasNode("pool_oip")) {
-                        LOG.service("Assuming portal '" + serverName +  "' is default.");
+                        LOG.service("serverName '" + serverName + "' has no portal, handling as default.");
                         portal = cloud.getNode("pool_oip");
                     } else {
                         LOG.warn("There is no default pool with alias 'pool_oip'");
@@ -218,7 +218,7 @@ public class PortalFilter implements Filter, SystemEventListener {
      * @param cloud MMBase cloud
      * @return link defined for default portal with alias 'pool_oip'
      */
-    protected static String getPortalUrl(Cloud cloud) {
+    public static String getPortalUrl(Cloud cloud) {
         String url = null;
         if (cloud.hasNode("pool_oip")) {
             

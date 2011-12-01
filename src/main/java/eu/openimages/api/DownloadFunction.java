@@ -20,14 +20,17 @@ along with The Open Images Platform.  If not, see <http://www.gnu.org/licenses/>
 
 package eu.openimages.api;
 
+import java.io.File;
+
 import org.mmbase.bridge.*;
 import org.mmbase.bridge.util.SearchUtil;
+import org.mmbase.servlet.FileServlet;
 import org.mmbase.util.functions.*;
+
 import org.mmbase.util.logging.Logger;
 import org.mmbase.util.logging.Logging;
 
-import java.net.UnknownHostException;
-
+import eu.openimages.PortalFilter;
 
 /**
  * Nodefunction on mmbaseusers to generate an API token for a specific user,
@@ -42,7 +45,9 @@ public final class DownloadFunction extends NodeFunction<String> {
 
     private static final Parameter<String> URL = new Parameter<String>("url", String.class);
     private static final Parameter<String> EMAIL = new Parameter<String>("email", String.class);
-    private final static Parameter[] PARAMETERS = { URL, EMAIL, Parameter.LOCALE };
+    private static final Parameter<Integer> TIMEOUT = new Parameter<Integer>("timeout", Integer.class);
+    /* paramemeters reflect those of org.mmbase.streams.download.DownloadFunction */
+    private final static Parameter[] PARAMETERS = { URL, EMAIL, TIMEOUT, Parameter.LOCALE };
 
     public DownloadFunction() {
         super("downloadmedia", PARAMETERS);
@@ -56,9 +61,9 @@ public final class DownloadFunction extends NodeFunction<String> {
                 log.warn("More then one streamsources found for #" + mediafragment.getNumber());
             }
             src = list.get(0);
-            if (log.isDebugEnabled()) {
-                log.debug("Found streamsources #" + src.getNumber());
-            }
+        }
+        if (log.isDebugEnabled()) {
+            log.debug("Streamsources #" + src.getNumber());
         }
 
         return src;
@@ -82,26 +87,49 @@ public final class DownloadFunction extends NodeFunction<String> {
             log.debug("node #" + node.getNumber());
             log.debug("params: " + parameters);
         }
-        String result = "An error occurred";
 
-        parameters.set("email", getUserMail(node));
-        result = (String) node.getFunctionValue("download", parameters).get();
+        StringBuilder result = new StringBuilder("An error occurred");
+        String email = getUserMail(node);
 
-        log.info("Got result: " + result);
+        parameters.set("email", email);
+        result = new StringBuilder( (String) node.getFunctionValue("download", parameters).get() );
+        log.info("Download result: " + result.toString());
 
         Node source = getMediaSource(node);
-        if (node.getStringValue("language") != null) {
+
+        if (node.getStringValue("language") != null && source != null) {
             if (log.isDebugEnabled()) {
                 log.debug("Setting language of source to: " + node.getStringValue("language"));
             }
             source.setValueWithoutProcess("language", node.getStringValue("language"));
             source.commit();
         } else {
-            log.warn("language not set");
+            log.warn("language not set, source: " + source);
         }
 
-        result = "From OIP : " + result;
+        if (source != null && source.getStringValue("url").length() > 0) {
+            String portalurl = PortalFilter.getPortalUrl(node.getCloud());
+            String filesdir = FileServlet.getBasePath("files");
 
-        return result;
+            String filename  = source.getStringValue("url");
+            if (log.isDebugEnabled()) {
+                log.debug("portalurl: " + portalurl + ", filesdir: " + filesdir + ", fileName " + filename);
+            }
+
+            result = new StringBuilder(filename);
+
+            if (filesdir != null && !"".equals(filesdir)) {
+                result.insert(0, filesdir);
+            }
+
+            if (portalurl != null && !"".equals(portalurl)) {
+                result.insert(0, portalurl);
+            }
+        }
+
+        if (log.isDebugEnabled()) {
+            log.debug("returning: " + result.toString());
+        }
+        return result.toString();
     }
 }
