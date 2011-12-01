@@ -16,6 +16,9 @@
   <function name="download">
     <class>org.mmbase.streams.download.DownloadFunction</class>
   </function>
+  <function name="downloadmedia">
+    <class>eu.openimages.api.DownloadFunction</class>
+  </function>
 
 </functionlist>
 

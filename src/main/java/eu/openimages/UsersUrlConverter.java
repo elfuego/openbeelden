@@ -63,6 +63,7 @@ public class UsersUrlConverter extends DirectoryUrlConverter {
         addBlock(oip.getBlock("user-picture"));
         addBlock(oip.getBlock("user-media"));
         addBlock(oip.getBlock("user-mediaupload"));
+        addBlock(oip.getBlock("user-mediadownload"));
         addBlock(oip.getBlock("user-mediapreview"));
         addBlock(oip.getBlock("user-streams"));
         addBlock(oip.getBlock("user-delete"));
@@ -145,6 +146,9 @@ public class UsersUrlConverter extends DirectoryUrlConverter {
 
             } else if (blockName.equals("user-mediaupload")) {
                     b.append("/upload");
+
+            } else if (blockName.equals("user-mediadownload")) {
+                    b.append("/download");
 
             } else if (blockName.equals("user-picture")) {
                 b.append("/").append(editpath).append("/picture");
@@ -310,6 +314,10 @@ public class UsersUrlConverter extends DirectoryUrlConverter {
                     /* users/[username]/upload */
                     } else if (editing.equals("upload") && path.size() == 2) {
                         result.append("&block=user-mediaupload&cacheable=false");
+
+                    /* users/[username]/download */
+                    } else if (editing.equals("download") && path.size() == 2) {
+                        result.append("&block=user-mediadownload&cacheable=false");
 
                     /* users/[username]/dasboard/picture */
                     } else if (editing.equals(editpath) && path.size() > 2) {

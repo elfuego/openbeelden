@@ -56,18 +56,6 @@
     </body>
   </block>
   
-  <block name="attributionURL"
-         classification="oip"
-         mimetype="text/html">
-    <title xml:lang="en">attributionURL</title>
-    <title xml:lang="nl">attributionURL</title>
-    <description xml:lang="en">Media: to create a cc:attributionURL</description>
-    <description xml:lang="nl">Media: om een cc:attributionURL te maken</description>
-    <body jsp="mediafragment.jspx">
-      <param name="n" type="org.mmbase.bridge.Node" />
-    </body>
-  </block>
-  
   <block name="users"
          classification="mmbase.oip"
          mimetype="text/html">
@@ -227,9 +215,9 @@
          mimetype="text/html">
     <title xml:lang="en">Download media</title>
     <title xml:lang="nl">Download media</title>
-    <xi:include href="http://www.mmbase.org/components/validation.head.xml" />
     <description xml:lang="en">Download video, audio or an image from another site.</description>
     <description xml:lang="nl">Download video, audio of een afbeelding van een andere site.</description>
+    <xi:include href="http://www.mmbase.org/components/validation.head.xml" />
     <body jsp="user-mediadownload.jspx">
       <param name="n" type="org.mmbase.bridge.Node" />
       <param name="status" type="String" />
@@ -279,8 +267,6 @@
     <title xml:lang="nl">Informatie</title>
     <description xml:lang="en">Information about a media item</description>
     <description xml:lang="nl">Informatie over een mediaitem</description>
-    <head>
-    </head>
     <body jsp="user-mediainfo.jspx">
       <param name="n" type="org.mmbase.bridge.Node" />
       <param name="media" type="String" />
@@ -294,8 +280,6 @@
     <title xml:lang="nl">Verwijder media item</title>
     <description xml:lang="en">Remove a media item and all its related content</description>
     <description xml:lang="nl">Verwijder een mediaitem en alle gerelateerde content</description>
-    <head>
-    </head>
     <body jsp="user-mediadelete.jspx">
       <param name="n" type="org.mmbase.bridge.Node" />
       <param name="media"  type="String" />
@@ -310,8 +294,6 @@
     <title xml:lang="nl">Media files</title>
     <description xml:lang="en">Your media files and their status</description>
     <description xml:lang="nl">Je media files en de status ervan</description>
-    <head>
-    </head>
     <body jsp="user-streams.jspx">
       <param name="n" type="org.mmbase.bridge.Node" />
       <param name="media"     type="String" />
@@ -329,8 +311,6 @@
     <title xml:lang="nl">Stream jobs</title>
     <description xml:lang="en">Streams being transcoded</description>
     <description xml:lang="nl">Streams die getranscodeerd worden</description>
-    <head>
-    </head>
     <body jsp="user-streamjobs.jspx">
       <param name="n" type="org.mmbase.bridge.Node" />
       <param name="media" type="String" />
