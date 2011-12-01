@@ -43,14 +43,14 @@
         <mm:import id="extraconstraints">status:EQ:1</mm:import>
 
         <mm:function
-            write="false"
             id="total"
+            write="false"
             module="lucene"
             name="searchsize"
             referids="index,value,fields?,extraconstraints" />
 
         <!-- sorting -->
-        <mm:import externid="sf" />
+        <mm:import externid="sf">date</mm:import>
         <mm:import externid="d">down</mm:import>
         <mm:import externid="t">down</mm:import>
         <!-- sf: ${sf} d: ${d} t: ${t} -->
