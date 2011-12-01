@@ -55,7 +55,7 @@ public final class ApiTokenFunction extends NodeFunction<String> {
             log.warn("No property 'apitokenkey' found, using default: " + key);
         }
         
-        String result = "An error occured: no apikey!";
+        String result = "An error occurred: no apikey!";
         String username = node.getStringValue("username");
         String password = node.getStringValue("password");
 

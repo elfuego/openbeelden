@@ -144,12 +144,10 @@ public final class ApiToken {
     private static String encode(byte input[], String format) throws java.security.NoSuchAlgorithmException {
         if ("hex".equalsIgnoreCase(format)) {
             Hex h = new Hex();
-            String output = h.transform(input);
-            return output;
+            return h.transform(input);
         } else if ("base64".equalsIgnoreCase(format)) {
             Base64 b = new Base64();
-            String output = b.transform(input);
-            return output;
+            return b.transform(input);
         }
         return "";
     }
@@ -162,12 +160,10 @@ public final class ApiToken {
     private static byte[] decode(String input, String format) throws IllegalArgumentException {
         if ("hex".equalsIgnoreCase(format)) {
             Hex h = new Hex();
-            byte[] output = h.transformBack(input);
-            return output;
+            return h.transformBack(input);
         } else if ("base64".equalsIgnoreCase(format)) {
             Base64 b = new Base64();
-            byte[] output = b.transformBack(input);
-            return output;
+            return b.transformBack(input);
         }
         return new byte[0];
     }
