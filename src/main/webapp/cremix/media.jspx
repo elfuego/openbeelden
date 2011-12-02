@@ -32,7 +32,14 @@
       <c:if test="${offset lt 0}"><mm:import id="offset" reset="true">0</mm:import></c:if>
 
       <div class="main-column">
-        
+
+        <!-- property cremix.keyword on pages node, 
+             sets one keyword for search ('Celluloid Remix Inzending' or 'Celluloid Remix clip') -->
+        <c:set var="p_keywords">keywords:"<mm:functioncontainer>
+          <mm:param name="key">cremix.keyword</mm:param>
+          <mm:function referids="_node@node" nodemanager="properties" name="get" />
+        </mm:functioncontainer>"</c:set>
+
         <!-- not the default portal -->
         <mm:node number="$p" notfound="skip">
 
@@ -167,15 +174,9 @@
       </div><!-- /.main-column -->
 
       <div class="right-column">
-        <!-- <div class="related-grey-border">
-          <ul class="sortby">
-            <li class="thumbsonly">
-              <mm:link>
-                <a href="${_}#t_thumbs"><fmt:message key="media.thumbnails" /></a>
-              </mm:link>
-            </li>
-          </ul>
-        </div> -->
+        <div class="related">
+          <a href="#download">Download de complete set clips</a>
+        </div>
       </div>
 
     </jsp:attribute>
