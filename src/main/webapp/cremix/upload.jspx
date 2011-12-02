@@ -119,7 +119,7 @@
   
               <!-- set keywords and relate license -->
               <mm:node number="$media" id="mediafr">
-                <mm:setfield name="keywords">CR-inzending</mm:setfield>
+                <mm:setfield name="keywords">Celluloid Remix inzending</mm:setfield>
               </mm:node>
               <mm:node number="$license" id="lic" />
               <mm:createrelation source="mediafr" destination="lic" role="related" />
