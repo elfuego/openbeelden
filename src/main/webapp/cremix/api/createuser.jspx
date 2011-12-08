@@ -45,6 +45,7 @@
                   <c:choose>
                     <c:when test="${empty _email}">
                       <fmt:message key="register.api.email_required" />
+                      <c:set var="empty_email" value="true" />
                     </c:when>
                     <c:otherwise>
                       <mm:fieldinfo type="input" write="false" />
@@ -68,7 +69,7 @@
           </mm:valid>
           
           <mm:valid>
-            <c:if test="${empty err}">
+            <c:if test="${empty empty_email}">
               <mm:commit />
               <mm:node cloud="cloud" number="defaultusergroup" id="defaultusergroup" />
               <mm:node number="${newuser}" cloud="cloud">

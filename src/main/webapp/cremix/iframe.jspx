@@ -14,8 +14,7 @@
       <div class="main-column">
 
         <mm:import id="iframe">/cremix/imframed.jspx</mm:import>
-        <mm:import id="seed">testseed</mm:import>
-
+        <mm:import id="page" externid="n" />
         
         <mm:present referid="page">
           <mm:nodefunction name="translation">
@@ -23,23 +22,16 @@
             <mm:field name="description" escape="paragraph" />
           </mm:nodefunction>
 
-          <mm:import id="seedprop" reset="true">seed</mm:import>
-          <mm:import id="seedp" reset="true"><mm:function referids="_node@node,seedprop@key" nodemanager="properties" name="get" /></mm:import>
-          <c:if test="${!empty seedp}">
-            <mm:import id="seed" reset="true">${seedp}</mm:import>
-          </c:if>
-   
           <mm:import id="iframeprop" reset="true">iframe</mm:import>
           <mm:import id="iframep" reset="true"><mm:function referids="_node@node,iframeprop@key" nodemanager="properties" name="get" /></mm:import>
           <c:if test="${!empty iframep}">
             <mm:import id="iframe" reset="true">${iframep}</mm:import>
           </c:if>
+          
+          <mm:import id="iframe" reset="true"><mm:url absolute="true" page="${iframe}">
+            <mm:param name="username"><mm:cloudinfo type="user" /></mm:param>
+          </mm:url></mm:import>
         </mm:present>
-        
-        
-        <mm:import id="iframe" reset="true"><mm:url absolute="true" page="${iframe}">
-          <mm:param name="username"><mm:cloudinfo type="user" /></mm:param>
-        </mm:url></mm:import>
         
         <p>
           current iframe: ${iframe}
@@ -54,8 +46,8 @@
             
             <mm:import id="mijncookie"><mm:function name="apitoken" /></mm:import>
             
-            <!-- <mm:write cookie="remixer" cookiepath="/" cookiedomain=".openbeelden.nl" referid="mijncookie" /> -->
-            <mm:write cookie="remixer" cookiepath="/" referid="mijncookie" />
+            <mm:write cookie="remixer" cookiepath="/" cookiedomain=".openbeelden.nl" referid="mijncookie" />
+            <!-- <mm:write cookie="remixer" cookiepath="/" referid="mijncookie" /> -->
             
             <p>cookie: <code>${mijncookie}</code> </p>
             
@@ -63,7 +55,7 @@
         </mm:listnodescontainer>
 
         <mm:link referid="iframe">
-          <iframe src="${_}" frameborder="0" height="420" scrolling="auto" width="688">
+          <iframe src="${_}" frameborder="0" height="620" scrolling="auto" width="960">
             <jsp:text> <!-- empty --> </jsp:text>
           </iframe>
         </mm:link>
