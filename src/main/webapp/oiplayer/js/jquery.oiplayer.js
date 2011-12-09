@@ -38,7 +38,7 @@ jQuery.fn.oiplayer = function(settings) {
     var config = {
         server : 'http://www.openimages.eu',
         jar : '/oiplayer/plugins/cortado-ovt-stripped-0.6.0.jar',
-        flash : '/oiplayer/plugins/flowplayer-3.1.5.swf',
+        flash : '/oiplayer/plugins/flowplayer-3.2.7.swf',
         controls : true,
         log: 'error'
     };
@@ -373,7 +373,7 @@ jQuery.fn.oiplayer = function(settings) {
         if (player.myname == 'flowplayer') {
             player.create(fp_id, player.url, player.config);    // recreate fp with id
             setTimeout(function() { 
-                player.seek(pos) 
+                player.seek(pos); 
                 if (state == 'play') { player.play(); }
             }, 1000);  // give fp time to reload
         }
@@ -897,7 +897,10 @@ MediaPlayer.prototype.position = function() {
     return -1;
 }
 MediaPlayer.prototype.seek = function(pos) {
+    // TODO: investigate pause() and play() needed?
+    //this.player.pause();
     this.player.currentTime = pos;   // float
+    //this.player.play();
 }
 MediaPlayer.prototype.info = function() {
     /*  duration able in webkit, 

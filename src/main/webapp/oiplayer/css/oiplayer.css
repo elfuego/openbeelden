@@ -158,10 +158,12 @@ div.oipcontrols div.bar {
 div.oipcontrols div.back {
     width: 100%;
     background: url(images/slider11-long.png) right 0 no-repeat;
+    margin-right: 6px;
     pointer-events: auto;
 }
 div.oipcontrols div.loaded {
     background: url(images/slider11-long.png) right -25px no-repeat;
+    margin-right: 6px;
     pointer-events: auto;
 }
 div.oipcontrols div.played
