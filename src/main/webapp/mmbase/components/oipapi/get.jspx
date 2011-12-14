@@ -1,0 +1,40 @@
+<mm:cloud
+          xmlns:jsp="http://java.sun.com/JSP/Page"
+          xmlns:mm="http://www.mmbase.org/mmbase-taglib-2.0"
+          >
+  <jsp:output omit-xml-declaration="true" />
+
+    <mm:import externid="n" />
+    <mm:import externid="type" />
+    
+    <mm:notpresent referid="n">
+      <!-- does not happen? urlconverter should catch this -->
+      <dl>
+        <dt>No node found</dt>
+        <dd>Should have a node number.</dd>
+      </dl>
+    </mm:notpresent>
+    
+    <mm:present referid="n">
+      <mm:hasnode number="$n">
+        <mm:node number="$n">
+          <dl class="edit">
+            <dt>number</dt>
+            <dd><mm:field name="number" /></dd>
+            <mm:fieldlist type="edit">
+              <dt><mm:fieldinfo type="name" /></dt>
+              <dd><mm:fieldinfo type="value" /></dd>
+            </mm:fieldlist>
+          </dl>
+        </mm:node>
+      </mm:hasnode>
+      <mm:hasnode number="$n" inverse="true">
+        <!-- does not happen? urlconverter should catch this -->
+        <dl>
+          <dt>Node not found</dt>
+          <dd>No node with number: ${n}</dd>
+        </dl>
+      </mm:hasnode>
+    </mm:present>
+
+</mm:cloud>

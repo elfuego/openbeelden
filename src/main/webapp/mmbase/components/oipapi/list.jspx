@@ -1,0 +1,36 @@
+<mm:cloud
+          xmlns:jsp="http://java.sun.com/JSP/Page"
+          xmlns:mm="http://www.mmbase.org/mmbase-taglib-2.0"
+          >
+  <jsp:output omit-xml-declaration="true" />
+    
+    <mm:import externid="type" />
+    
+    <mm:notpresent referid="type">
+      <h4>No type found.</h4>
+    </mm:notpresent>
+    
+    <mm:present referid="type">
+      <mm:hasnodemanager name="$type">
+        <mm:listnodescontainer type="$type">
+          <mm:maxnumber value="99" />
+          <ol class="${type}">
+            <mm:listnodes>
+              <li>
+                <dl class="list">
+                  <mm:fieldlist type="list">
+                    <dt><mm:fieldinfo type="name" /></dt>
+                    <dd><mm:fieldinfo type="value" /></dd>
+                  </mm:fieldlist>
+                </dl>
+              </li>
+            </mm:listnodes>
+          </ol>
+        </mm:listnodescontainer>
+      </mm:hasnodemanager>
+      <mm:hasnodemanager name="$type" inverse="true">
+        <h4>No such nodemanager '${type}'</h4>
+      </mm:hasnodemanager>
+    </mm:present>
+
+</mm:cloud>

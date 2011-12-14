@@ -1,0 +1,90 @@
+<mm:content
+          xmlns:jsp="http://java.sun.com/JSP/Page"
+          xmlns:c="http://java.sun.com/jsp/jstl/core"
+          xmlns:mm="http://www.mmbase.org/mmbase-taglib-2.0"
+          >
+  <jsp:output omit-xml-declaration="true" />
+    
+    <!-- POST : creates node of type -->
+  
+    <mm:import externid="apikey" />
+    <mm:import externid="type" required="true" />
+
+    <mm:escaper type="tagstripper" id="striptags">
+      <mm:param name="tags">none</mm:param>
+    </mm:escaper>
+
+    <c:choose>
+      <c:when test="${empty apikey}">
+        <div>Error: no apikey.</div>
+      </c:when>
+      <c:otherwise>
+        <mm:write referid="apikey" request="apikey" />
+
+        <c:catch var="error">
+          <mm:cloud method="delegate" authenticate="apikey">
+
+            <mm:maycreate type="$type">
+              <mm:form mode="validate">
+                
+                <mm:import id="buffer">
+                  <mm:createnode type="$type" commitonclose="false" id="new_node">
+                    <mm:fieldlist type="edit" varStatus="field">
+                      <mm:fieldinfo type="name" id="name" write="false" />
+                      <mm:import externid="$name" />
+
+                      <c:if test="${field.current.state eq 2}">
+                        <mm:setfield name="$name"><mm:write referid="$name" /></mm:setfield>
+                        <mm:fieldinfo type="check" />
+                      </c:if>
+                    </mm:fieldlist>
+                  </mm:createnode>
+                
+                  <mm:valid>
+                    <!-- mm:commit / -->
+                    <dl>
+                      <dt>number</dt>
+                      <dd>${new_node}</dd>
+                    </dl>
+                  </mm:valid>
+                  <mm:valid inverse="true">
+                    <!-- jsp:scriptlet>response.setStatus(500); </jsp:scriptlet -->
+                    <dd>
+                      <dt>invalid (type: ${type})</dt>
+                      <dt>form is invalid</dt>
+                    </dd>
+                  </mm:valid>
+                
+                </mm:import>
+              </mm:form>
+            </mm:maycreate>
+            
+            <mm:maycreate type="$type" inverse="true">
+              <dl class="error">
+                <dt>Not allowed</dt>
+                <dd>You are not allowed to create this type of node.</dd>
+              </dl>
+            </mm:maycreate>
+            
+          </mm:cloud>
+        </c:catch>
+
+        <c:choose>
+          <c:when test="${!empty error}">
+            <!-- jsp:scriptlet>response.setStatus(500); </jsp:scriptlet -->
+            <content>Error 500 - Unknown apikey? ${error}</content>
+          </c:when>
+          <c:when test="${!empty buffer}">
+            <content class="buffer">'${buffer}'</content>
+          </c:when>
+          <c:otherwise>
+            <!-- jsp:scriptlet>response.setStatus(401); </jsp:scriptlet -->
+            <content>401 Unauthorized - Failed to login ${error}</content>
+          </c:otherwise>
+        </c:choose><!-- end checking for errors -->
+
+      </c:otherwise>
+    </c:choose>
+
+    
+</mm:content>
