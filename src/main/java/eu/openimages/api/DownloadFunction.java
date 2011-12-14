@@ -25,6 +25,7 @@ import java.io.File;
 import org.mmbase.bridge.*;
 import org.mmbase.bridge.util.SearchUtil;
 import org.mmbase.servlet.FileServlet;
+import org.mmbase.streams.CreateSourcesWithoutProcessFunction;
 import org.mmbase.util.functions.*;
 
 import org.mmbase.util.logging.Logger;
@@ -53,22 +54,6 @@ public final class DownloadFunction extends NodeFunction<String> {
         super("downloadmedia", PARAMETERS);
     }
 
-    private Node getMediaSource(Node mediafragment) {
-        Node src = null;
-        NodeList list = SearchUtil.findRelatedNodeList(mediafragment, "mediasources", "related");
-        if (list.size() > 0) {
-            if (list.size() > 1) {
-                log.warn("More then one streamsources found for #" + mediafragment.getNumber());
-            }
-            src = list.get(0);
-        }
-        if (log.isDebugEnabled()) {
-            log.debug("Streamsources #" + src.getNumber());
-        }
-
-        return src;
-    }
-
     private String getUserMail(Node mediafragment) {
         String email = "";
         Cloud cloud = mediafragment.getCloud();
@@ -95,7 +80,7 @@ public final class DownloadFunction extends NodeFunction<String> {
         result = new StringBuilder( (String) node.getFunctionValue("download", parameters).get() );
         log.info("Download result: " + result.toString());
 
-        Node source = getMediaSource(node);
+        Node source = CreateSourcesWithoutProcessFunction.getMediaSource(node);
 
         if (node.getStringValue("language") != null && source != null) {
             if (log.isDebugEnabled()) {
