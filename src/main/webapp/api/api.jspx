@@ -1,0 +1,103 @@
+<jsp:root 
+ xmlns:jsp="http://java.sun.com/JSP/Page"
+ xmlns:c="http://java.sun.com/jsp/jstl/core"
+ xmlns="http://www.w3.org/1999/xhtml"
+ xmlns:mm="http://www.mmbase.org/mmbase-taglib-2.0"
+ version="2.0">
+ 
+ <jsp:directive.page contentType="text/html" pageEncoding="UTF-8" />
+ <jsp:output omit-xml-declaration="true" />
+ <jsp:output doctype-root-element="HTML" 
+    doctype-system="about:legacy-compat" />
+<mm:cloud> 
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>API test</title>
+  <style type="text/css">
+  body {
+  	font-family: Helvetica, sans-serif;
+  	font-size: small;
+  }
+  label {
+  	display: block;
+  	font-weight: bold;
+  }
+  form p { margin: 2px 0; }
+  </style>
+</head>
+<body>
+<h2>POST media to Download API etc.</h2>
+<p>
+  Form to test Download API. It posts to <a href="${mm:link('/api/media/')}">/api/media/</a>.
+<mm:listnodescontainer type="mediafragments">
+  <mm:constraint field="show" value="true" operator="EQUAL" />
+  <mm:sortorder field="number" direction="DOWN" />
+  <mm:maxnumber value="1" />
+  <mm:listnodes>
+    Most recent media item: 
+    <mm:field name="number" id="recent" />
+  </mm:listnodes>
+</mm:listnodescontainer>
+
+</p>
+
+<code>
+<ul>
+  <li>
+    POST <a href="${mm:link('/api/media/')}">/api/media/</a> - create media
+  </li>
+  <li>
+    GET  <a href="${mm:link('/api/media/')}">/api/media/</a> - list media
+  </li>
+  <li>
+    GET  <a href="${mm:link('/api/media/')}${recent}">/api/media/${recent}</a> - get item with id
+  </li>
+  <li>
+    PUT (POST) /api/media/123 - update item with id
+  </li>
+  <li>
+    DELETE ? /api/media/123 - remove it
+  </li>
+</ul>
+</code>
+<form method="post" action="/api/media/">
+	<p>
+      <label for="title">Title</label>
+      <input type="text" value="Een testtitel" id="title" name="title" size="80" />
+	</p>
+	<p>
+      <label for="language">Language</label>
+      <select id="language" name="language">
+        <option value="en">English</option>
+        <option selected="selected" value="nl">Nederlands</option>
+      </select>      
+	</p>
+	<p>
+      <label for="intro">Intro</label>
+      <textarea id="intro" name="intro" cols="80" rows="5">Een testintro voor de upload API</textarea>
+	</p>
+	<!-- <p>
+      <label for="dc_creator">dc:creator</label>
+      <input type="text" name="dc_creator" value="" id="dc_creator" size="80">
+	</p> -->
+	<p>
+      <label for="url">URL</label>
+      <input type="text" name="url" value="http://www.openbeelden.nl/oip-test/files/16/17293.16819.squirrel_he__wattus_.mp4" id="url" size="80" />
+      http://www.openbeelden.nl/oip-test/files/18/18710.18695.Zi6_0271.mp4	</p>
+	<p>
+      <label for="apikey">API key</label>
+      <input type="text" name="apikey" value="" id="apikey" size="80" />
+	</p>
+	<p>
+      <label for="license">License</label>
+      <input type="text" name="license" value="cc-by-sa" id="license" size="80" />
+	</p>
+	<p>
+      <input type="submit" name="submit" value="Post" />
+	</p>
+</form>
+</body>
+</html>
+</mm:cloud>
+</jsp:root>
