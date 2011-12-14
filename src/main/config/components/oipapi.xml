@@ -1,0 +1,59 @@
+<?xml version="1.0"?>
+<component
+    name="oipapi"
+    defaultblock="list"
+    version="1"
+    xmlns="http://www.mmbase.org/xmlns/component"
+    xmlns:xi="http://www.w3.org/2001/XInclude"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.mmbase.org/xmlns/component
+                        http://www.mmbase.org/xmlns/component.xsd">
+
+  <description xml:lang="en">Open Images API: view, manage and upload media data via API.</description>
+  <description xml:lang="nl">Open Images API: bekijk, bewerk en upload media data via API</description>
+
+  <title xml:lang="nl">OIP API</title>
+  <title xml:lang="en">OIP API</title>
+
+  <bundle name="eu.openimages.messages" />
+
+  <block name="list"
+         classification="oipapi"
+         mimetype="text/html">
+    <title xml:lang="en">API list</title>
+    <title xml:lang="nl">API list</title>
+    <body jsp="list.jspx">
+      <param name="type" type="String" />
+    </body>
+  </block>
+  
+  <block name="create"
+         mimetype="text/html">
+    <title xml:lang="en">API create</title>
+    <title xml:lang="nl">API create</title>
+    <body jsp="create.jspx">
+      <param name="type" type="String" />
+    </body>
+  </block>
+
+  <block name="get"
+         mimetype="text/html">
+    <title xml:lang="en">API get</title>
+    <title xml:lang="nl">API get</title>
+    <body jsp="get.jspx">
+      <param name="n" type="org.mmbase.bridge.Node" />
+      <param name="type" type="String" />
+    </body>
+  </block>
+
+  <block name="update"
+         mimetype="text/html">
+    <title xml:lang="en">API update</title>
+    <title xml:lang="nl">API update</title>
+    <body jsp="update.jspx">
+      <param name="n" type="org.mmbase.bridge.Node" />
+      <param name="type" type="String" />
+    </body>
+  </block>
+
+</component>
