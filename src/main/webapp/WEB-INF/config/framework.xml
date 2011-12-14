@@ -36,6 +36,13 @@
     </description>
     <param name="directory">/tags/</param>
   </urlconverter>
+  
+  <urlconverter class="eu.openimages.api.ApiUrlConverter">
+    <description xml:lang="en">
+      The urlconverter for the API.
+    </description>
+    <param name="directory">/api/</param>
+  </urlconverter>
 
   <urlconverter class="org.mmbase.mmsite.SiteUrlConverter">
     <description xml:lang="en">
