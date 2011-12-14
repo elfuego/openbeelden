@@ -19,6 +19,9 @@
   <function name="downloadmedia">
     <class>eu.openimages.api.DownloadFunction</class>
   </function>
+  <function name="createsources">
+    <class>org.mmbase.streams.CreateSourcesWithoutProcessFunction</class>
+  </function>
 
 </functionlist>
 
