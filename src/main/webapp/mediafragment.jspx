@@ -349,8 +349,11 @@
           <dl id="more-info" class="media-info notshown">
             <dt><fmt:message key="media.type" />:</dt>
             <dd> <oip:type /> <mm:nodeinfo type="type" id="nodetype" write="false" /> </dd>
-            <dt><!-- <fmt:message key="media.hasformat" /> -->Oorspronkelijke drager:</dt>
-            <dd>oi:hasformat</dd>
+            <dt><fmt:message key="media.hasformat" />:</dt>
+            <dd>
+              <mm:fieldlist fields="hasformat"><mm:fieldinfo type="guivalue" /></mm:fieldlist>
+              <jsp:text> </jsp:text>
+            </dd>
             <dt><fmt:message key="media.user" />:</dt>
             <dd>
               <mm:field name="owner" id="owner" write="false" />
