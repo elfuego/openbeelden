@@ -280,25 +280,33 @@ ul.sortby li.thumbsonly a { padding-left: 0; }
 
 /* media item page */
 div.mediaimage { height: 288px; }
-h3.subtitle, h3.mediatitle
-{
-    color: #707070;
-    text-transform: none;
-    font-weight: bold;
-    font-size: 14px;
-    margin: 4px 0 0 0;
-    clear: none;
+h3.subtitle, h3.mediatitle {
+	color: #707070;
+	text-transform: none;
+	font-weight: bold;
+	font-size: 14px;
+	margin: 8px 0 0 0;
+	clear: both;
 	letter-spacing: normal;
 	max-width: 512px;
 	overflow: hidden;
 	text-overflow: ellipsis;
 	white-space: nowrap;
-	letter-spacing: normal;
+}
+body.media-item h3.mediatitle {
+	margin-top: 8px;
+}
+h4.subtitle {
+    color: #707070;
+    font-size: 14px;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
 }
 
 div.toolbar
 {
-	margin: 6px 0 12px 0;
+	margin: 12px 0 12px 0;
 	height: 32px;
 }
 
@@ -398,6 +406,53 @@ dl.media-info a:link { text-decoration: none; }
 dl.media-info a:visited { text-decoration: none; }
 dl.media-info span.user a:hover { text-decoration: underline; }
 dl.media-info span.user a:active { text-decoration: underline; }
+
+/* media item page */
+body.media-item dl.media-info {	
+    float: none;
+    display: block;
+    margin: 10px 0;
+}
+body.media-item dl.media-info.tags { display: block; }
+body.media-item dl.media-info dt {
+	width: 160px;
+	font-weight: bold;
+	color: #707070;
+}
+
+body.media-item div.notshown, 
+body.media-item dl.notshown { display: none; }
+
+body.media-item p.media-intro { margin-bottom: 8px; }
+
+body.media-item div.more { border-bottom: 1px dotted #707070; }
+body.media-item p.more {
+	text-transform: lowercase;
+	text-align: left;
+	margin: 0 0 8px 0;
+}
+body.media-item p.more a {
+	background-image: url(icons/triangle-down.png);
+	background-repeat: no-repeat;
+	background-position: right 4px;
+	padding-right: 15px;
+}
+
+body.media-item p.more a.open {
+	background-image: url(icons/triangle-up.png);
+	background-position: right 5px;
+}
+
+body.media-item p.more a:link,
+body.media-item p.more a:visited {
+	text-decoration: none;
+}
+body.media-item p.more a:hover,
+body.media-item p.more a:active {
+	text-decoration: underline;
+}
+
+
 
 dl.preview
 {
@@ -564,7 +619,7 @@ div#license h5
 div#license img
 {
 	float: left;
-	margin: 4px 8px 0 6px;
+	margin: 4px 6px 0 2px;
 }
 
 div#license img p { margin: 4px 8px 0 0; }
@@ -611,6 +666,7 @@ ul#tags
 	margin-bottom: 1em;
 	list-style: none;
 }
+body.media-item ul#tags { width: 346px; }
 
 ul#tags li
 {
@@ -637,6 +693,8 @@ ul#tags li.add a
 	padding-left: 0;
 } 
 
+ul#tags li a:link,
+ul#tags li a:visited { text-decoration: underline; }
 ul#tags li a:hover
 {
 	text-decoration: underline;

@@ -303,17 +303,74 @@
         </div>
 
         <mm:nodefunction name="translation">
-          <mm:field name="subtitle"><mm:isnotempty><h4>${_}</h4></mm:isnotempty></mm:field>
+          <mm:field name="subtitle"><mm:isnotempty><h4 class="subtitle">${_}</h4></mm:isnotempty></mm:field>
           <mm:field name="intro" escape="paragraph(media-intro)" />
+          
+          <mm:field name="body">
+            <mm:isnotempty>
+              <div class="more">
+                <p class="more"><a class="media-info" href="#more-text">Meer</a></p>
+                <div class="media-info notshown" id="more-text">
+                  <mm:write escape="paragraph" />
+                </div>
+              </div>
+            </mm:isnotempty>
+          </mm:field>
         </mm:nodefunction>
+        
+        <dl class="media-info">
+          <dt><fmt:message key="media.creator" />:</dt> 
+          <dd>
+            <mm:nodefunction name="translation"><mm:field name="dc_creator" /></mm:nodefunction>
+          </dd>
+          <dt><fmt:message key="media.date" />:</dt>
+          <dd>
+            <mm:field name="date"><mm:time format="d MMMM yyyy" /></mm:field>
+          </dd>
+          <c:if test="${nodetype ne 'imagefragments' and nodetype ne 'images'}">
+            <dt><fmt:message key="media.length" />:</dt>
+            <dd>
+              <mm:field name="length">
+                <c:choose>
+                  <c:when test="${_ lt 3600000}">
+                    <mm:time inputformat="S" format="mm:ss" />
+                  </c:when>
+                  <c:otherwise>
+                    <mm:time inputformat="S" format="hh:mm:ss" />
+                  </c:otherwise>
+                </c:choose>
+              </mm:field>
+            </dd>
+          </c:if>
+        </dl>
 
-        <oip:mediainfo />
+        <div class="more">
+          <p class="more"><a class="media-info" href="#more-info">Meer</a></p>
+          <dl id="more-info" class="media-info notshown">
+            <dt><fmt:message key="media.type" />:</dt>
+            <dd> <oip:type /> <mm:nodeinfo type="type" id="nodetype" write="false" /> </dd>
+            <dt><!-- <fmt:message key="media.hasformat" /> -->Oorspronkelijke drager:</dt>
+            <dd>oi:hasformat</dd>
+            <dt><fmt:message key="media.user" />:</dt>
+            <dd>
+              <mm:field name="owner" id="owner" write="false" />
+              <mm:hasnode number="$owner">
+                <mm:node number="$owner">
+                  <oip:user />
+                </mm:node>
+              </mm:hasnode>
+              <mm:hasnode number="$owner" inverse="true">
+                <jsp:text>unknown</jsp:text>
+                <mm:remove referid="owner" />
+              </mm:hasnode>
+            </dd>
+          </dl>
+        </div><!-- /.more -->
 
-        <oip:tag />
-
-        <mm:nodefunction name="translation">
-          <mm:field name="body" escape="paragraph" />
-        </mm:nodefunction>
+        <dl class="media-info tags">
+          <dt>Tags:</dt>
+          <dd><oip:tag /></dd>
+        </dl>
 
         <!-- testing ... -->
         <!-- <oip:thumbnails width="512" number="8" /> -->

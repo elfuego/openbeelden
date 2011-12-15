@@ -46,7 +46,7 @@ div.b_user-profile h4,
 div.b_user-profile p.description, 
 div.b_user-picture p.description,
 div.b_user-mediapreview p.description { margin-left: 90px; }
-div.b_user-login a { float: left; }
+div.b_user-login fieldset.buttons a { float: left; }
 div.b_user-profile a.editme, 
 div.b_user-picture a.editme { text-transform: lowercase; }
 

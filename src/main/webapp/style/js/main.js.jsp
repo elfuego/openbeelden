@@ -7,6 +7,8 @@
 <fmt:message key="search.any_language" var="any_lang" />
 <fmt:message key="media.list"       var="media_list" />
 <fmt:message key="media.thumbnails" var="media_thumbs" />
+<fmt:message key="media.more" var="media_more" />
+<fmt:message key="media.less" var="media_less" />
 
 /*
   Main javascript file for the Open Images Platform
@@ -94,6 +96,24 @@ function initClose() {
         ev.preventDefault();
         $(this).closest('div.popup').slideUp(400);
     });
+}
+
+/* Show / hide more media information on media-item page. */
+function initMoreinfo() {
+    if ($('.media-info').length) {
+        $('a.media-info').click(function(ev){
+            ev.preventDefault();
+            var url = ev.target.href;
+            var target = url.substring(url.indexOf("#"));
+            $(target).slideToggle('fast');
+            $(this).toggleClass('open');
+            if ( $(this).hasClass('open') ) {
+                $(this).text("${media_less}");
+            } else {
+                $(this).text("${media_more}");
+            }
+        });
+    }
 }
 
 /* Selects input type contents, makes it easier to copy */
@@ -323,6 +343,7 @@ $(document).ready(function() {
     initPortalSwitch();
     clearMsg();
     initToolbar();
+    initMoreinfo();
     initRemoveFav();
     initCopyInput();
     if ($('#tags').length) initTags();
