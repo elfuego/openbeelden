@@ -260,6 +260,10 @@
         </mm:relatednodes>
       </mm:relatednodescontainer>
 
+      <!-- oi:hasformat -->
+      <mm:field name="hasformat">
+        <mm:isnotempty><oi:hasformat><mm:write /></oi:hasformat></mm:isnotempty>
+      </mm:field>
 
     </oai_oi:oi>
   </metadata>
