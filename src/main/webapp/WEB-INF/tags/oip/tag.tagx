@@ -9,7 +9,6 @@
   
     <fmt:setBundle basename="eu.openimages.messages" scope="request" />
         
-    <div id="tagfeedback"><jsp:text> <!-- empty --> </jsp:text></div>
     <ul id="tags">
       <mm:listrelationscontainer type="tags" role="related" searchdir="destination">
         <mm:maxnumber value="99" />
@@ -35,8 +34,10 @@
         <li id="addtag" class="add"><a href="#tag"><fmt:message key="tag.add_tag" /></a></li>
       </mm:maycreate>
     </ul>
-
+    
+    
     <mm:maycreate type="tags">
+      <div id="tagfeedback"><jsp:text> <!-- empty --> </jsp:text></div>
       <div id="tag">
         <a class="close" href="#"><fmt:message key="users.close" /></a>
         <h4><fmt:message key="tag" /></h4>
