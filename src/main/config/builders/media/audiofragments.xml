@@ -1,6 +1,7 @@
 <?xml version="1.0" ?>
 <builder
     xmlns="http://www.mmbase.org/xmlns/builder"
+    xmlns:xi="http://www.w3.org/2001/XInclude"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="http://www.mmbase.org/xmlns/builder
                         http://www.mmbase.org/xmlns/builder.xsd"
@@ -22,5 +23,25 @@
     <property name="org.mmbase.media.containedtype">audiosources</property>
     <property name="translations.builder">mediafragments_translations</property>
   </properties>
+
+  <fieldlist>
+    <field name="hasformat">
+      <descriptions>
+        <description xml:lang="en">Original format (oi:hasformat).</description>
+        <description xml:lang="nl">Oorspronkelijke drager (oi:hasformat).</description>
+      </descriptions>
+      <gui>
+        <guiname xml:lang="en">Format</guiname>
+        <guiname xml:lang="nl">Drager</guiname>
+      </gui>
+      <editor>
+        <positions>
+          <input>30</input>
+          <search>30</search>
+        </positions>
+      </editor>
+      <datatype base="hasformat_audio" xmlns="http://www.mmbase.org/xmlns/datatypes" />
+    </field>
+  </fieldlist>
 
 </builder>

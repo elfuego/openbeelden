@@ -5,21 +5,21 @@
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="http://www.mmbase.org/xmlns/builder
                         http://www.mmbase.org/xmlns/builder.xsd"
-    name="videofragments" maintainer="mediaproject.mmbase.org" version="0" extends="mediafragments">
+    name="imagefragments" maintainer="mediaproject.mmbase.org" version="0" extends="mediafragments">
   <names>
-    <singular xml:lang="nl">Videofragment</singular>
-    <singular xml:lang="en">Video fragment</singular>
-    <plural xml:lang="nl">Videofragmenten</plural>
-    <plural xml:lang="en">Video fragments</plural>
+    <singular xml:lang="nl">Afbeeldingsfragment</singular>
+    <singular xml:lang="en">Image fragment</singular>
+    <plural xml:lang="nl">Afbeeldingsfragmenten</plural>
+    <plural xml:lang="en">Image fragments</plural>
   </names>
 
   <descriptions>
-    <description xml:lang="nl">Een video fragment beschrijft een stukje video.</description>
-    <description xml:lang="en">A video fragment describes a piece of video.</description>
+    <description xml:lang="nl">Een image fragment beschrijft een afbeelding.</description>
+    <description xml:lang="en">A image fragment describes an image.</description>
   </descriptions>
 
   <properties>
-    <property name="org.mmbase.media.containedtype">videosources</property>
+    <property name="org.mmbase.media.containedtype">imagesources</property>
     <property name="translations.builder">mediafragments_translations</property>
   </properties>
 
@@ -39,7 +39,7 @@
           <search>30</search>
         </positions>
       </editor>
-      <datatype base="hasformat_video" xmlns="http://www.mmbase.org/xmlns/datatypes" />
+      <datatype base="hasformat_image" xmlns="http://www.mmbase.org/xmlns/datatypes" />
     </field>
   </fieldlist>
   

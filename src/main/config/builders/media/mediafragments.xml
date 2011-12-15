@@ -29,6 +29,25 @@
 
   <fieldlist>
     <xi:include href="http://www.mmbase.org/builders/oip/language.field.xml" />
+
+    <field name="hasformat">
+      <descriptions>
+        <description xml:lang="en">Original format (oi:hasformat).</description>
+        <description xml:lang="nl">Oorspronkelijke drager (oi:hasformat).</description>
+      </descriptions>
+      <gui>
+        <guiname xml:lang="en">Format</guiname>
+        <guiname xml:lang="nl">Drager</guiname>
+      </gui>
+      <editor>
+        <positions>
+          <input>30</input>
+          <search>30</search>
+        </positions>
+      </editor>
+      <datatype base="hasformat" xmlns="http://www.mmbase.org/xmlns/datatypes" />
+    </field>
+  
   </fieldlist>
 
   <xi:include href="http://www.mmbase.org/builders/mmsite/content.meta.fields.xml" />
@@ -36,6 +55,7 @@
   <xi:include href="http://www.mmbase.org/builders/dublincore/dublincore.fields.xml" />
 
   <xi:include href="http://www.mmbase.org/builders/media/mediafragments.auxiliary.fields.xml" />
+
   <xi:include href="http://www.mmbase.org/builders/media/mediafragments.extra.functions.xml" />
   <functionlist>
     <xi:include href="http://www.mmbase.org/builders/oip/translation.function.xml" />
