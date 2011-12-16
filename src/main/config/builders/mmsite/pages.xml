@@ -14,8 +14,8 @@
     <plural xml:lang="nl">Pagina's</plural>
   </names>
   <descriptions>
-    <description xml:lang="en">A page in a website</description>
-    <description xml:lang="nl">Een pagina in een website</description>
+    <description xml:lang="en">A page in a website.</description>
+    <description xml:lang="nl">Een pagina in een website.</description>
   </descriptions>
   <properties>
     <property name="translations.builder">pages_translations</property>
@@ -25,8 +25,8 @@
   
     <field name="title">
       <descriptions>
-        <description xml:lang="en">The title, also pagetitle</description>
-        <description xml:lang="nl">De titel, tevens titel van de pagina</description>
+        <description xml:lang="en">The title, also pagetitle.</description>
+        <description xml:lang="nl">De titel, tevens titel van de pagina.</description>
       </descriptions>
       <gui>
         <guiname xml:lang="en">Title</guiname>
@@ -41,9 +41,13 @@
       </editor>
       <datatype base="line" xmlns="http://www.mmbase.org/xmlns/datatypes">
         <required value="true">
-          <description xml:lang="nl">Titel is een verplicht veld</description>
-          <description xml:lang="en">A title is required</description>
+          <description xml:lang="nl">Titel is een verplicht veld.</description>
+          <description xml:lang="en">A title is required.</description>
         </required>
+        <minLength value="2" enforce="onvalidate">
+          <description xml:lang="en">A title is required and should be at least 2 characters.</description>        
+          <description xml:lang="nl">Een titel is verplicht en moet tenminste 2 karakters lang zijn.</description>
+        </minLength>
         <maxLength value="255" />
       </datatype>
     </field>
@@ -52,8 +56,8 @@
 
     <field name="path">
       <descriptions>
-        <description xml:lang="en">Path from root of site, like '/en/about'</description>
-        <description xml:lang="nl">Pad vanaf de root van de site, bijvoorbeeld '/over/ons'</description>
+        <description xml:lang="en">Path from root of site, like '/en/about'.</description>
+        <description xml:lang="nl">Pad vanaf de root van de site, bijvoorbeeld '/over/ons'.</description>
       </descriptions>
       <gui>
         <guiname xml:lang="en">Path</guiname>
@@ -69,17 +73,21 @@
       <datatype base="line" xmlns="http://www.mmbase.org/xmlns/datatypes">
         <default value="/" />
         <required value="true">
-          <description xml:lang="nl">Pad is een verplicht veld</description>
-          <description xml:lang="en">A path is required field</description>
+          <description xml:lang="nl">Pad is een verplicht veld.</description>
+          <description xml:lang="en">A path is required field.</description>
         </required>
+        <minLength value="1" enforce="onvalidate">
+          <description xml:lang="en">Path is required and should be at least 1 character.</description>        
+          <description xml:lang="nl">Pad is verplicht en moet tenminste 1 karakter lang zijn.</description>
+        </minLength>
         <maxLength value="255" />
       </datatype>
     </field>
 
     <field name="template">
       <descriptions>
-        <description xml:lang="nl">Template voor de pagina</description>
-        <description xml:lang="en">Page template to use</description>
+        <description xml:lang="nl">Template voor de pagina.</description>
+        <description xml:lang="en">Page template to use.</description>
       </descriptions>
       <gui>
         <guiname xml:lang="en">Template</guiname>

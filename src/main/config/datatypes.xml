@@ -45,7 +45,7 @@
       <entry xml:lang="en" value="magnetictape" display="Magnetic tape" />
       <entry xml:lang="en" value="waxcylinder"  display="Wax cylinder" />
       <entry xml:lang="en" value="vinyl"        display="Vinyl" />
-      <entry xml:lang="en" value="opticaldisc"  display="Optical dis" />
+      <entry xml:lang="en" value="opticaldisc"  display="Optical disc" />
       <entry xml:lang="en" value="digitalfile"  display="Digital (source) file" />
       <entry xml:lang="en" value="picture"      display="Picture" />
       <entry xml:lang="en" value="negative"     display="Negative" />
