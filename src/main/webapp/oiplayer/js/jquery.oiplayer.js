@@ -170,7 +170,6 @@ jQuery.fn.oiplayer = function(settings) {
                 } else {
                     $.oiplayer.start(pl);
                 }
-                //console.log("player state: " + pl.state);
             });
 
             $(pl.ctrls).find('div.sound a').click(function(ev){
@@ -643,13 +642,7 @@ $.oiplayer = {
     },
     
     start: function (player) {
-        // hide preview
-        if (player.type == 'video') {
-            $(player.div).find('.preview').fadeOut('normal');
-        } else {
-            $(player.div).find('.preview').css("z-index", "1");
-        }
-
+        $.oiplayer.hidepreview(player);
         if (player.config.controls) {
             $(player.ctrls).find('div.play').addClass('pause');
             if (player.state == 'init') { $.oiplayer.follow(player); }
@@ -662,7 +655,14 @@ $.oiplayer = {
         }
     },
     
-    
+    hidepreview: function(player) {
+        if (player.type == 'video') {
+            $(player.div).find('.preview').fadeOut('normal');
+        } else {
+            $(player.div).find('.preview').css("z-index", "1");
+        }
+        console.log("hid preview");
+    },
     
     /* 
      * CSS position of slider / scrubber 
@@ -670,9 +670,10 @@ $.oiplayer = {
     position: function(player, pos) {
         if (!isNaN(pos) && pos > 0) {
             var perc = (pos / player.duration) * 100;
+            var plperc = (perc < 50 ? perc + 1 : perc) + "%";
             perc = perc + "%";
-            $(player.ctrls).find('div.played').width(perc);
             $(player.ctrls).find('div.oiprogress-push').css('left', perc);
+            $(player.ctrls).find('div.played').width(plperc);
             if (player.duration > 0) {
                 $(player.ctrls).find('div.timeleft').text("-" + $.oiplayer.totime(player.duration - pos));
             }
@@ -819,6 +820,7 @@ MediaPlayer.prototype.init = function(el, url, config) {
                           var perc = (buf / self.duration) * 100 + '%';
                           $(self.ctrls).find('div.loaded').width(perc);
                      }
+                     if (this.autoplay) { $.oiplayer.start(self); }
                 }
             }, false);
         this.player.addEventListener("loadeddata", 
@@ -1104,6 +1106,12 @@ FlowPlayer.prototype.create = function(el, url, config) {
                With 'autoBuffering: true' clip starts automatically and pauses at first frame. */
             var fd = self.player.getClip().fullDuration;
             if (fd > 0) { self.duration = fd; }
+            if (self.autoplay) {
+                $.oiplayer.follow(self);
+                $.oiplayer.hidepreview(self);
+                $(self.div).find('div.play').addClass('pause');
+                self.state = 'play';
+            }
         });
         clip.onPause(function() {
             $(self.div).find('div.play').removeClass('pause');
