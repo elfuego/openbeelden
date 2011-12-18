@@ -661,7 +661,6 @@ $.oiplayer = {
         } else {
             $(player.div).find('.preview').css("z-index", "1");
         }
-        console.log("hid preview");
     },
     
     /* 
