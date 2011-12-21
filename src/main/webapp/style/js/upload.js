@@ -1,42 +1,37 @@
 $(document).ready(
     function() {
-	var progressUrl = $("head meta[name=ContextRoot]").attr("content") + "action/progress.jspx";
+	var lang = $("html").attr("xml:lang");
+	var progressUrl = $("head meta[name=ContextRoot]").attr("content") + "action/progress.jspx?lang=" + lang;
 	$("form.mm_form").each(
 	    function() {
 		var pInfo = $(this).find(".progressInfo").first();
 		$(this).submit(
 		    function() {
 			var form = this;
-			var result = "<div>Uploading...</div>";
-			$(pInfo).html(result);
 			var i = 0;
 			var progress = null;
 			clearInterval(progress);
-			progress = setInterval(
+			var progressFunction =
 			    function() {
 				$.ajax(
 				    { url: progressUrl,
-				      async: false,
-				      cache: false,
+				      async: true,
 				      error: function(xhr, status, err) {
-					  result = '<div>Error: ' + status + " : " + err + '</div>';
-				      },
-				      complete: function(data) {
-					  result = data.responseText;
-					  //console.log('complete');
-					  if (result.indexOf('100%') > -1 && i == 0) {
-					      result = "<div>Uploading...</div>";
-					  }
-					  i++;
+					  var result = '<div>Error: ' + status + " : " + err + '</div>';
+					  $(pInfo).html(result);
+					  
 				      },
 				      success: function(data) {
-					  result = data.responseText;
+					  var result = data.responseText;
+					  $(pInfo).html(result);
+					  alert(result);
 					  //console.log('success');
 				      }
 				    });
-				$(pInfo).html(result);
 				//console.log('uploading: ' + i);
-			    }, 1000);
+			    };
+			progressFunction();
+			setInterval(progressFunction, 1000);
 		    });
 	    });
 
