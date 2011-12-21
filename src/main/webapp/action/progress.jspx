@@ -6,9 +6,10 @@
     xmlns:mm="http://www.mmbase.org/mmbase-taglib-2.0">
 
   <mm:content
-    type="application/xml"
-    postprocessor="none"
-    expires="0">
+      language="${param.lang}"
+      type="application/xml"
+      postprocessor="none"
+      expires="0">
     <jsp:output omit-xml-declaration="true" />
 
     <!--
