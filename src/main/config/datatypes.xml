@@ -4,9 +4,8 @@
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="http://www.mmbase.org/xmlns/datatypes http://www.mmbase.org/xmlns/datatypes.xsd">
 
-  <!--
-    @version $Id$
-  -->
+  <!--  @version $Id$  -->
+
 
   <!-- Override all node fields to use S&R -->
   <datatype id="node">
@@ -38,34 +37,7 @@
     <description xml:lang="en">Original publication formats of media.</description>
     <maxLength value="255" />
     <enumeration enforce="never">
-      <!-- BUG?: Can't get this to work, keep on getting exception: 
-           java.util.MissingResourceException: Can't find bundle for base name eu.openimages.resources.hasformat, locale nl
-         <entry basename="eu.openimages.resources.hasformat" /> -->
-      <entry xml:lang="en" value="film"         display="Film" />
-      <entry xml:lang="en" value="magnetictape" display="Magnetic tape" />
-      <entry xml:lang="en" value="waxcylinder"  display="Wax cylinder" />
-      <entry xml:lang="en" value="vinyl"        display="Vinyl" />
-      <entry xml:lang="en" value="opticaldisc"  display="Optical disc" />
-      <entry xml:lang="en" value="digitalfile"  display="Digital (source) file" />
-      <entry xml:lang="en" value="picture"      display="Picture" />
-      <entry xml:lang="en" value="negative"     display="Negative" />
-      <entry xml:lang="en" value="slide"        display="Slide" />
-      <entry xml:lang="en" value="glassnegative" display="Glass negative" />
-      <entry xml:lang="en" value="print"        display="Print" />
-      <entry xml:lang="en" value="scan"         display="Scan" />
-
-      <entry xml:lang="nl" value="film"         display="Film" />
-      <entry xml:lang="nl" value="magnetictape" display="Magneetband" />
-      <entry xml:lang="nl" value="waxcylinder"  display="Wasrol" />
-      <entry xml:lang="nl" value="vinyl"        display="Vinyl" />
-      <entry xml:lang="nl" value="opticaldisc"  display="CD/DVD" />
-      <entry xml:lang="nl" value="digitalfile"  display="Digitaal bestand" />
-      <entry xml:lang="nl" value="picture"      display="Foto" />
-      <entry xml:lang="nl" value="negative"     display="Negatief" />
-      <entry xml:lang="nl" value="slide"        display="Dia" />
-      <entry xml:lang="nl" value="glassnegative" display="Glasnegatief" />
-      <entry xml:lang="nl" value="print"        display="Afdruk" />
-      <entry xml:lang="nl" value="scan"         display="Scan" /> 
+      <entry basename="eu.openimages.hasformat" />
     </enumeration>
   </datatype>
 
@@ -73,13 +45,7 @@
     <description xml:lang="en">Original publication formats of video.</description>
     <maxLength value="255" />
     <enumeration enforce="never">
-      <entry xml:lang="en" value="film"         display="Film" />
-      <entry xml:lang="en" value="magnetictape" display="Magnetic tape" />
-      <entry xml:lang="en" value="digitalfile"  display="Digital (source) file" />
-
-      <entry xml:lang="nl" value="film"         display="Film" />
-      <entry xml:lang="nl" value="magnetictape" display="Magneetband" />
-      <entry xml:lang="nl" value="digitalfile"  display="Digitaal bestand" />
+      <entry basename="eu.openimages.hasformatvideo" />
     </enumeration>
   </datatype>
 
@@ -87,17 +53,7 @@
     <description xml:lang="en">Original publication formats of audio.</description>
     <maxLength value="255" />
     <enumeration enforce="never">
-      <entry xml:lang="en" value="magnetictape" display="Magnetic tape" />
-      <entry xml:lang="en" value="waxcylinder"  display="Wax cylinder" />
-      <entry xml:lang="en" value="vinyl"        display="Vinyl" />
-      <entry xml:lang="en" value="opticaldisc"  display="Optical disc" />
-      <entry xml:lang="en" value="digitalfile"  display="Digital (source) file" />
-
-      <entry xml:lang="nl" value="magnetictape" display="Magneetband" />
-      <entry xml:lang="nl" value="waxcylinder"  display="Wasrol" />
-      <entry xml:lang="nl" value="vinyl"        display="Vinyl" />
-      <entry xml:lang="nl" value="opticaldisc"  display="CD/DVD" />
-      <entry xml:lang="nl" value="digitalfile"  display="Digitaal bestand" />
+      <entry basename="eu.openimages.hasformataudio" />
     </enumeration>
   </datatype>
 
@@ -105,21 +61,7 @@
     <description xml:lang="en">Original publication formats of images.</description>
     <maxLength value="255" />
     <enumeration enforce="never">
-      <entry xml:lang="en" value="picture"      display="Picture" />
-      <entry xml:lang="en" value="negative"     display="Negative" />
-      <entry xml:lang="en" value="slide"        display="Slide" />
-      <entry xml:lang="en" value="glassnegative" display="Glass negative" />
-      <entry xml:lang="en" value="print"        display="Print" />
-      <entry xml:lang="en" value="scan"         display="Scan" />
-      <entry xml:lang="en" value="digitalfile"  display="Digital (source) file" />
-
-      <entry xml:lang="nl" value="picture"      display="Foto" />
-      <entry xml:lang="nl" value="negative"     display="Negatief" />
-      <entry xml:lang="nl" value="slide"        display="Dia" />
-      <entry xml:lang="nl" value="glassnegative" display="Glasnegatief" />
-      <entry xml:lang="nl" value="print"        display="Afdruk" />
-      <entry xml:lang="nl" value="scan"         display="Scan" /> 
-      <entry xml:lang="nl" value="digitalfile"  display="Digitaal bestand" />
+      <entry basename="eu.openimages.hasformatimage" />
     </enumeration>
   </datatype>
 
