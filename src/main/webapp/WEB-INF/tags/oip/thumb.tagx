@@ -27,7 +27,7 @@
       <mm:relatednodescontainer type="images" role="related" searchdirs="destination">
         <mm:maxnumber value="1" />
         <mm:relatednodes>
-          <mm:image mode="img" alt="${alt}" width="${w}" height="${h}" crop="end" />
+          <mm:image mode="img" alt="${alt}" width="${w}" height="${h}" crop="middle" />
           <mm:import id="img">found</mm:import>
         </mm:relatednodes>
       </mm:relatednodescontainer>
@@ -39,7 +39,7 @@
           <mm:sortorder field="posrel.pos" direction="UP" />
           <mm:maxnumber value="1" />
           <mm:relatednodes>
-            <mm:image mode="img" alt="${alt}" width="${w}" height="${h}" crop="end" />
+            <mm:image mode="img" alt="${alt}" width="${w}" height="${h}" crop="middle" />
             <mm:import id="img">found</mm:import>
           </mm:relatednodes>
         </mm:relatednodescontainer>
@@ -50,7 +50,7 @@
           <mm:sortorder field="posrel.pos" direction="UP" />
           <mm:maxnumber value="1" />
           <mm:relatednodes>
-            <mm:image mode="img" alt="${alt}" width="${w}" height="${h}" crop="end" />
+            <mm:image mode="img" alt="${alt}" width="${w}" height="${h}" crop="middle" />
             <mm:import id="img">found</mm:import>
           </mm:relatednodes>
         </mm:relatednodescontainer>
@@ -67,7 +67,7 @@
         </c:when>
         <c:when test="${nodetype eq 'imagefragments'}">
           <mm:relatednodes type="imagesources" max="1">
-            <c:set var="img"><mm:image mode="url" width="${w}" height="${h}" crop="end" /></c:set>
+            <c:set var="img"><mm:image mode="url" width="${w}" height="${h}" crop="middle" /></c:set>
             <img src="${img}" alt="${empty alt ? 'image' : alt}" width="${w}" height="${h}" />
           </mm:relatednodes>
           <c:if test="${empty img}">
@@ -76,12 +76,12 @@
         </c:when>
         <c:when test="${nodetype eq 'videofragments'}">
           <mm:nodefunction name="thumbnail">
-            <c:catch><mm:image mode="img" alt="${alt}" width="${w}" height="${h}" crop="end" /></c:catch>
+            <c:catch><mm:image mode="img" alt="${alt}" width="${w}" height="${h}" crop="middle" /></c:catch>
           </mm:nodefunction>
         </c:when>
         <c:when test="${nodetype eq 'images'}">
           <!-- <img src="${mm:link('/style/images/thumb_image.png')}" alt="${empty alt ? 'image' : alt}" width="${w}" height="${h}" /> -->
-          <mm:image mode="img" alt="${alt}" width="${w}" height="${h}" crop="end" />
+          <mm:image mode="img" alt="${alt}" width="${w}" height="${h}" crop="middle" />
         </c:when>
         <c:otherwise>
           <img src="${mm:link('/style/images/thumb_video.png')}" alt="${empty alt ? 'video' : alt}" width="${w}" height="${h}" />
