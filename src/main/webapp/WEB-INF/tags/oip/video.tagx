@@ -100,7 +100,7 @@
          xmlns:cc="http://creativecommons.org/ns#"
          xmlns:dct="http://purl.org/dc/terms/"
          class="oip_media">
-      <video controls="controls" poster="${poster}">
+      <video controls="controls" poster="${poster}" width="512" height="288">
         <mm:functioncontainer>
           <mm:param name="format">WEBM,OGV,MP4,OGG,M3U8</mm:param>
           <mm:listfunction name="filteredurls">
