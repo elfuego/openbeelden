@@ -118,6 +118,7 @@
       </mm:node>
         
       <!-- portals -->
+      <!--
       <mm:listcontainer path="pools,portalrel,urls" searchdirs="destination" fields="pools.number,urls.url">
         <mm:size>
           <mm:isgreaterthan value="1">
@@ -154,9 +155,9 @@
             
           </mm:isgreaterthan>
         </mm:size>
-      </mm:listcontainer>
+      </mm:listcontainer> -->
     </ul>
-
+<!--
     <c:if test="${enablelogin}">
       <c:set var="query_str" value="${requestScope['javax.servlet.forward.query_string']}" />
       <script type="text/javascript">
@@ -187,7 +188,7 @@
         </li>
       </c:if>
     </ul>
-  
+  -->
   </div>
 
 </jsp:root>

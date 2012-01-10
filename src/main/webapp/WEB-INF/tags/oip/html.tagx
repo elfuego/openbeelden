@@ -96,6 +96,9 @@
         </oip:head>
 
         <body class="${styleClass}">
+          
+          <oip:topbar />
+          
           <div id="main">
             <oip:header />
 

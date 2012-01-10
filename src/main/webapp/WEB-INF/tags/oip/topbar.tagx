@@ -1,0 +1,151 @@
+<jsp:root
+    version="2.0"
+    xmlns:jsp="http://java.sun.com/JSP/Page"
+    xmlns:c="http://java.sun.com/jsp/jstl/core"
+    xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+    xmlns:fmt="http://java.sun.com/jsp/jstl/fmt"
+    xmlns:oip="urn:jsptagdir:/WEB-INF/tags/oip"
+    xmlns:mm="http://www.mmbase.org/mmbase-taglib-2.0">
+  
+  <div id="topbar">
+
+    <mm:import externid="portal" id="pool" from="request">pool_oip</mm:import>
+    <mm:import externid="isdefaultportal" from="request">false</mm:import>
+    
+    <c:if test="${! empty requestScope['org.mmbase.mmsite.language']}">
+      <mm:import id="locale">${requestScope['org.mmbase.mmsite.language']}</mm:import>
+    </c:if>
+    
+    <!-- get current link without locale, f.e. .en etc. -->
+    <c:set var="current"><mm:url /></c:set>
+    <c:if test="${fn:indexOf(current, '.') gt -1}">
+      <c:set var="current">${fn:substringBefore(current, '.')} </c:set>
+    </c:if>
+    <!-- workaround for ${fn:endsWith(current, '/')} -->
+    <c:if test="${fn:substring(current, fn:length(current)-1, fn:length(current)) == '/'}">
+      <c:set var="current">${fn:substring(current, 0, fn:length(current)-1)}</c:set>
+    </c:if>
+
+    <c:choose>
+      <c:when test="${empty requestScope['javax.servlet.forward.context_path']}">
+         <c:set var="firstpart">/${fn:split(current, '/')[0]}</c:set>
+      </c:when>
+      <c:otherwise>
+         <c:set var="firstpart">/${fn:split(current, '/')[1]}</c:set>
+      </c:otherwise>
+    </c:choose>
+    
+
+    <mm:node number="$pool" id="portal">
+      <c:choose>
+        <c:when test="${!isdefaultportal}"><!-- check portal property 'login' -->
+          <c:set var="enablelogin">
+            <mm:functioncontainer>
+              <mm:param name="key">login</mm:param>
+              <mm:function referids="_node@node" nodemanager="properties" name="get" />
+            </mm:functioncontainer>
+          </c:set>
+        </c:when>
+        <c:otherwise>
+          <c:set var="enablelogin">true</c:set>
+        </c:otherwise>
+      </c:choose>
+    </mm:node>
+        
+    <ul class="meta">
+    
+      <c:if test="${enablelogin}">
+        <c:set var="query_str" value="${requestScope['javax.servlet.forward.query_string']}" />
+        <script type="text/javascript">
+          <mm:link page="/action/you.jspx" escapeamps="false" referids="locale?">
+            <mm:param name="referrer">${requestScope['javax.servlet.forward.request_uri']}<c:if test="{!empty query_string}">?${query_string}</c:if></mm:param>
+            <jsp:text>$(document).ready(function() { $("#topbar li.you").load("${_}"); });</jsp:text>
+          </mm:link>
+        </script>
+      </c:if>
+    
+      <c:if test="${enablelogin}">
+        <li class="you">
+          <jsp:text> </jsp:text>
+        </li>
+        <mm:hasrank value="anonymous" inverse="true">
+          <li>
+            <mm:link page="/logout.jspx" referids="locale?">
+              <a class="logout" href="${_}"><fmt:message key="login.logout" /></a>
+            </mm:link>
+          </li>
+        </mm:hasrank>
+      </c:if>
+
+      <!-- portals -->
+      <mm:listcontainer path="pools,portalrel,urls" searchdirs="destination" fields="pools.number,urls.url">
+        <mm:size>
+          <mm:isgreaterthan value="1">
+            <li class="portal">
+              <form method="post" action="${mm:link('/')}">
+                <fieldset>
+                  <label for="choose_portal">Choose portal</label>
+                  <select name="choose_portal" id="choose_portal">
+                    <mm:listnodescontainer type="pools">
+                      <mm:listnodes id="p">
+                        <mm:nodefunction name="translation">
+                          <c:set var="p_name"><mm:field name="name" /></c:set>
+                        </mm:nodefunction>
+                        <mm:relatednodescontainer type="urls" role="portalrel" searchdirs="destination">
+                          <mm:maxnumber value="1" />
+                          <mm:relatednodes>
+                            <c:choose>
+                              <c:when test="${portal.number eq p.number}">
+                                <option label="${p_name}" value="${_node.url}" selected="selected">${p_name}</option>
+                              </c:when>
+                              <c:otherwise>
+                                <option label="${p_name}" value="${_node.url}">${p_name}</option>
+                              </c:otherwise>
+                            </c:choose>
+                          </mm:relatednodes>
+                        </mm:relatednodescontainer>
+                      </mm:listnodes>
+                    </mm:listnodescontainer>
+                  </select>
+                  <input class="hidden" value="OK" type="submit" name="action" />
+                </fieldset>
+              </form>
+            </li>
+          </mm:isgreaterthan>
+        </mm:size>
+      </mm:listcontainer>
+
+      <!-- li>
+        <mm:listfunction set="mmsite" name="locales" varStatus="status">
+          <a class="${_ eq locale ? 'active' : ''}" href="${current}.${_}">${_}</a>
+          <c:if test="${! status.last}"><jsp:text> / </jsp:text></c:if>
+        </mm:listfunction>
+      </li -->
+      
+      <li class="language">
+        <mm:datatype base="oip_language" id="language_selector">
+          <required value="false" />
+        </mm:datatype>
+        <mm:virtualnode map="${requestScope}">
+          <mm:link>
+            <form method="post" action="${_}">
+              <fieldset>
+                <mm:field name="org.mmbase.mmsite.language">
+                  <mm:fieldinfo type="forid">
+                    <label for="${_}"><fmt:message key="service.choose_language" /></label>
+                  </mm:fieldinfo>
+                  <mm:fieldinfo datatype="language_selector" type="input" />
+                </mm:field>
+                <input name="action" type="submit" value="OK" class="hidden" />
+              </fieldset>
+            </form>
+          </mm:link>
+        </mm:virtualnode>
+
+      </li>
+      
+    </ul>
+  
+  </div>
+
+</jsp:root>
