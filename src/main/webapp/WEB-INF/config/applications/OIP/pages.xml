@@ -112,4 +112,13 @@
 		<expires>120</expires>
 	</node>
 
+	<node number="819" owner="default" alias="page_terms">
+		<title>Terms of Use</title>
+		<description>Page with an article containing the terms of use of this site.</description>
+		<template>346</template>
+		<path>/terms</path>
+		<expires>120</expires>
+	</node>
+
+
 </pages>
