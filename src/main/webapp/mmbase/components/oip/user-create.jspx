@@ -49,13 +49,28 @@
             </fieldset>
             <fieldset class="confirm-registration">
               <div class="legaltext"><mm:write referid="legaltext" escape="none" /></div>
-
               <div>
+                <mm:import id="termsofuse_link">
+                  <a href="${mm:link('/terms')}">Terms of Use</a>
+                </mm:import>
+                <!-- page 'Terms of Use' has alias page_terms -->
+                <mm:node number="page_terms" notfound="skip">
+                  <mm:import id="termsofuse_link" reset="true">
+                    <mm:link page="page" referids="_node@n">
+                      <mm:frameworkparam name="component">mmsite</mm:frameworkparam>
+                      <a href="${_}">
+                        <mm:nodefunction name="translation"><mm:field name="title" /></mm:nodefunction>
+                      </a>
+                    </mm:link>
+                  </mm:import>
+                </mm:node>
                 <input type="checkbox" name="confirm" id="confirm" value="yes" />
                 <label for="confirm" class="confirm">
-                  <fmt:message key="register.confirm" />
+                  <!-- should read something like: I hereby accept the <a href="/terms">Terms of Use</a>. -->
+                  <fmt:message key="register.i_accept_terms_of_use">
+                    <fmt:param><mm:write referid="termsofuse_link" escape="none" /></fmt:param>
+                  </fmt:message>
                 </label>
-                <!-- p class="info">By checking this button ... confirm your registration.</p -->
                 <c:if test="${!empty submit_registration and empty confirm}">
                   <div class="mm_check_error"><fmt:message key="register.confirm.error" /></div>
                 </c:if>
@@ -63,8 +78,8 @@
             </fieldset>
             <fieldset class="buttons">
               <div>
-                <fmt:message key="register" var="register_msg" />
-                <input id="submit_registration" type="submit" name="submit_registration" value="${register_msg}" class="submit" />
+                <fmt:message key="register.i_accept_create_account" var="register_button" />
+                <input id="submit_registration" type="submit" name="submit_registration" value="${register_button}" class="submit" />
               </div>
             </fieldset>
           </mm:createnode>
