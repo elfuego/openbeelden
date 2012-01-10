@@ -16,16 +16,33 @@
   @version  '$Id$'
 */
 
-/* Fills language pulldown with 'Any language' in appropiate language in some forms. */
+/* Multi-language pulldown and other language options */
 function initMultiLang() {
-    // change empty language options
+    // language selector in top bar
+    $("select[id='mm_org.mmbase.mmsite.language']").change(function() {
+        var form = $(this).parents('form');
+        var action = form.attr("action").split('/');
+        var last = action[action.length - 1].split('.');
+        if ($(this).val() == '') {
+            action[action.length - 1] = last[0];
+        } else {
+            action[action.length - 1] = last[0] + "." + $(this).val();
+        }
+        var newUrl = action.join("/");
+        document.location = newUrl;
+    });
+    // change empty language option in topbar
+    var choose_lang = $("#topbar label[for='mm_org.mmbase.mmsite.language']").text();
+    $("select[id='mm_org.mmbase.mmsite.language'] option[value='']").text(choose_lang);
+        
+    // change empty language option in advanced search
     $("select[id='mm_searchlang'] option[value='']").text("${any_lang}");
-    
     if ($('form#search').length) {  // change selected language in adv. search
         var la = $("#hiddensearchlang").val();
         $("select[id='mm_searchlang'] option[value='" + la + "']").attr("selected", "selected");
     }
     
+    // choose prefered language in upload form
     if ($('form#upload_form').length) {
         var loc = location.href;
         var langs = loc.split('.');
