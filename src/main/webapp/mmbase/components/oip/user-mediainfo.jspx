@@ -81,6 +81,11 @@
            </dl>
            
            <dl class="media-info">
+             <dt><fmt:message key="media.hasformat" />:</dt>
+             <dd>
+               <mm:fieldlist fields="hasformat"><mm:fieldinfo type="guivalue" /></mm:fieldlist>
+               <jsp:text> </jsp:text>
+             </dd>
              <mm:fieldlist fields="source,identifier,contributor,relation,coverage,created,lastmodified">
                <dt><mm:fieldinfo type="guiname" />:</dt>
                <dd><mm:fieldinfo type="guivalue" /><br /></dd>
