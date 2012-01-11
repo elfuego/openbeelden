@@ -17,8 +17,10 @@
       <mm:import id="page" externid="n">page_home</mm:import>
 
       <mm:node number="$portal" notfound="skip">
+        <!-- page/homepage = very first page in portal! -->
         <mm:relatednodescontainer type="pages" role="posrel" searchdirs="destination">
-          <mm:constraint field="posrel.pos" value="0" value2="1" operator="BETWEEN" />
+          <mm:sortorder field="posrel.pos" direction="UP" />
+          <mm:maxnumber value="1" />
           <mm:relatednodes>
             <mm:import id="page" reset="true"><mm:field name="number" /></mm:import>
           </mm:relatednodes>
@@ -41,7 +43,7 @@
                 <c:otherwise>
                   <!-- oiplayer stuff -->
                   <link href="${mm:link('/oiplayer/css/oiplayer.css')}" rel="stylesheet" type="text/css" />
-                  <script src="${mm:link('/oiplayer/plugins/flowplayer-3.1.4.min.js')}" type="text/javascript"><jsp:text><!-- help ie --></jsp:text></script>
+                  <script src="${mm:link('/oiplayer/plugins/flowplayer-3.2.6.min.js')}" type="text/javascript"><jsp:text><!-- help ie --></jsp:text></script>
                   <script src="${mm:link('/oiplayer/js/jquery.oiplayer.js')}" type="text/javascript"><jsp:text><!-- help ie --></jsp:text></script>
                 </c:otherwise>
               </c:choose>
@@ -93,7 +95,9 @@
 
           <mm:import id="analyzer" reset="true">org.apache.lucene.analysis.KeywordAnalyzer</mm:import>
           <mm:import id="value">
-            <c:if test="${!empty p_keywords or !empty p_tags or !empty p_users}"> +(${p_keywords} ${p_tags} ${p_users}) -excludedportal:${portal} </c:if>
+            <c:if test="${!empty p_keywords 
+                       or !empty p_tags 
+                       or !empty p_users}"> +(${p_keywords} ${p_tags} ${p_users}) -excludedportal:${portal} </c:if>
           </mm:import>
 
         </c:when>
