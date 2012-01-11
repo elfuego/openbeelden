@@ -127,7 +127,7 @@ jQuery.fn.oiplayer = function(settings) {
                         player.ctrlspos = 'bottom';
                     }
                 }
-                var ctrlsWidth = controlsWidth(player);
+                var ctrlsWidth = $.oiplayer.controlswidth(player);
                 if (player.type == 'video' || $(player.div).find('img').length > 0) {
                     $(player.ctrls).css('margin-left', Math.round( (player.width - ctrlsWidth) / 2) + 'px');
                 } else {
@@ -321,7 +321,7 @@ jQuery.fn.oiplayer = function(settings) {
             $(window).scrollTop(0).scrollLeft(0);
             
             // controls
-            var controls_width = controlsWidth(player);
+            var controls_width = $.oiplayer.controlswidth(player);
             $(player.ctrls).css('margin-left', Math.round( (player.width - controls_width) / 2) + 'px');
             // 'hide' other media players (display:hidden often disables them)
             $('div.oiplayer').not('.fullscreen').css('margin-left', '-9999px');
@@ -364,7 +364,7 @@ jQuery.fn.oiplayer = function(settings) {
             } else {
                 $(player.div).width(player.width).height(player.height + $(player.ctrls).height());
             }
-            $(player.ctrls).css('margin-left', Math.round( (player.width - controlsWidth(player)) / 2) + 'px');
+            $(player.ctrls).css('margin-left', Math.round( (player.width - $.oiplayer.controlswidth(player)) / 2) + 'px');
             
         }
 
@@ -568,18 +568,6 @@ jQuery.fn.oiplayer = function(settings) {
         return html;
     }
 
-    function controlsWidth(player) {
-        if (player.ctrlspos == 'top') {
-            var controls_width = player.width - 32;
-        } else {
-            var controls_width = player.width;        
-        }
-        if (controls_width > 620) { controls_width = 620; }
-        $(player.ctrls).width(controls_width);
-        $(player.ctrls).find('div.sliderwrap').width(controls_width - 190);
-        return controls_width;
-    }
-    
     /*
      * Returns attributes and values hidden in classes of an element, f.e. oip_ea_attr_value
      */
@@ -701,7 +689,19 @@ $.oiplayer = {
             return $(player.player).closest('div.oiplayer');
         }        
     },
-    
+
+    controlswidth: function(player) {
+        if (player.ctrlspos == 'top') {
+            var controls_width = player.width - 32;
+        } else {
+            var controls_width = player.width;        
+        }
+        if (controls_width > 620) { controls_width = 620; }
+        $(player.ctrls).width(controls_width);
+        $(player.ctrls).find('div.sliderwrap').width(controls_width - 190);
+        return controls_width;
+    },
+        
     /* 
      * Can come in handy in stead of using 'console.log("bla")' in some browsers,
      * f.e.: '$.oiplayer.msg(this.player, "Play: " + this.url)'.
@@ -821,6 +821,15 @@ MediaPlayer.prototype.init = function(el, url, config) {
                      }
                      if (this.autoplay) { $.oiplayer.start(self); }
                 }
+            }, false);
+        this.player.addEventListener("loadedmetadata", 
+            function(ev) {
+                if (self.type == 'video' && (self.width == 320 || self.height == 240)) {
+                    self.width = $(self.player).attr('width') > 0 ? parseInt($(self.player).attr('width')) : self.player.videoWidth;
+                    self.height = $(self.player).attr('height') > 0 ? parseInt($(self.player).attr('height')) : self.player.videoHeight;
+                    $.oiplayer.controlswidth(self);
+                    $(self.div).width(self.width).height(self.height);
+                } 
             }, false);
         this.player.addEventListener("loadeddata", 
             function(ev) {  /* FF will support this in v4 */
