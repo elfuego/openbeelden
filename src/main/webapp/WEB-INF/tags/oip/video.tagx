@@ -36,22 +36,13 @@
     <mm:functioncontainer>
       <mm:param name="format">WEBM,OGV,MP4,OGG,M3U8</mm:param>
       <mm:listfunction name="filteredurls" varStatus="status">
-        <!-- <c:choose>
-             <c:when test="${!empty _.acodec}">
-             <c:set var="codecs">${mm:escape('lowercase', _.codec)}, ${mm:escape('lowercase', _.acodec)}</c:set>
-             </c:when>
-             <c:otherwise>
-             <c:set var="codecs">${mm:escape('lowercase', _.codec)}</c:set>
-             </c:otherwise>
-             </c:choose> -->
         <c:choose>
           <c:when test="${!empty _.codec and _.codec ne 'UNKNOWN'}">
             <c:set var="codecs">; codecs=${mm:escape('lowercase', _.codec)}</c:set>
           </c:when>
           <c:otherwise><c:set var="codecs" value="" /></c:otherwise>
         </c:choose>
-        <source src="${mm:escape('text/xml', _.URL)}"
-                type="${_.mimeType}${codecs}" />
+        <source src="${mm:escape('text/xml', _.URL)}" type="${_.mimeType}${codecs}" />
         <c:if test="${status.index eq 1}">
           <c:set var="first_source">${mm:escape('text/xml', _.URL)}</c:set>
         </c:if>
@@ -101,11 +92,12 @@
          xmlns:dct="http://purl.org/dc/terms/"
          class="oip_media">
       <video controls="controls" poster="${poster}" width="512" height="288">
+        <!-- media links for video embed tag are a bit different (only lo and SOURCE) -->
         <mm:functioncontainer>
           <mm:param name="format">WEBM,OGV,MP4,OGG,M3U8</mm:param>
           <mm:listfunction name="filteredurls">
             <mm:node number="${_.source.number}">
-              <c:if test="${_.available and _node.label eq 'lo'}">
+              <c:if test="${_.available and (_node.label eq 'lo' or _.state eq 'SOURCE')}">
                 <c:choose>
                   <c:when test="${!empty _.codec and _.codec ne 'UNKNOWN'}">
                     <c:set var="codecs">; codecs=${mm:escape('lowercase', _.codec)}</c:set>
