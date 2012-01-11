@@ -27,20 +27,31 @@
 
 
       <mm:node number="$homepage" notfound="skip">
-        <mm:relatedcontainer path="posrel,images,urls" searchdirs="destination,destination"
-          fields="images.number,urls.url,posrel.pos">
+        <!-- partner logo's -->
+        <mm:relatednodescontainer type="images" role="posrel" searchdirs="destination">
           <mm:sortorder field="posrel.pos" direction="UP" />
           <p> 
-            <mm:related>
+            <mm:relatednodes>
               <mm:first><c:if test="${!empty prop_logos}">${prop_logos}<br /></c:if></mm:first>
-              <c:set var="partner_url"><mm:field name="urls.url" /></c:set>
-              <c:set var="partner_url_title"><mm:field name="urls.url" /></c:set>
-              <mm:node element="images">
-                <a title="${partner_url_title}" href="${partner_url}"><mm:image width="81" mode="img" /></a>
-              </mm:node>
-            </mm:related>
+              
+              <c:set var="partner_url" value="" />
+              <c:set var="partner_url_title" value="" />
+              <mm:relatednodescontainer type="urls" searchdirs="destination">
+                <mm:relatednodes>
+                  <c:set var="partner_url"><mm:field name="url" /></c:set>
+                  <c:set var="partner_url_title"><mm:field name="name" /></c:set>
+                </mm:relatednodes>
+              </mm:relatednodescontainer>
+              <c:choose>
+                <c:when test="${!empty partner_url}">
+                  <a title="${partner_url_title}" href="${partner_url}"><mm:image width="81" mode="img" /></a>
+                </c:when>
+                <c:otherwise><mm:image width="81" mode="img" /></c:otherwise>
+              </c:choose>              
+            
+            </mm:relatednodes>
           </p>
-        </mm:relatedcontainer>        
+        </mm:relatednodescontainer>        
       </mm:node>
       
       <c:if test="${empty partner_url}">
