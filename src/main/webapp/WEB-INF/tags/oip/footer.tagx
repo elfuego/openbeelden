@@ -12,8 +12,10 @@
       <mm:import id="homepage" reset="true">page_home</mm:import>
       <mm:node number="${requestScope.portal.number}" notfound="skip">
         
+        <!-- page/homepage = very first page in portal! -->
         <mm:relatednodescontainer type="pages" role="posrel" searchdirs="destination">
-          <mm:constraint field="posrel.pos" value="0" value2="1" operator="BETWEEN" />
+          <mm:sortorder field="posrel.pos" direction="UP" />
+          <mm:maxnumber value="1" />
           <mm:relatednodes>
             <mm:import id="homepage" reset="true"><mm:field name="number" /></mm:import>
           </mm:relatednodes>
