@@ -129,6 +129,11 @@
             <oip:h2><mm:field name="title" /></oip:h2>
             <mm:field name="description" escape="paragraph" />
           </mm:nodefunction>
+          <p class="thumbsonly">
+            <mm:link>
+              <a href="${_}#t_thumbs"><fmt:message key="media.thumbnails" /></a>
+            </mm:link>          
+          </p>
           <c:if test="${!empty q}">
             <p>
               <fmt:message key="search.searched_with">
@@ -138,11 +143,6 @@
               </fmt:message>
             </p>
           </c:if>
-          <p class="thumbsonly">
-            <mm:link>
-              <a href="${_}#t_thumbs"><fmt:message key="media.thumbnails" /></a>
-            </mm:link>          
-          </p>
         </div>
 
         <div id="tabs">
@@ -172,12 +172,6 @@
 
         </div><!-- /#tabs -->
       </div><!-- /.main-column -->
-
-      <div class="right-column">
-        <div class="related">
-          <a href="#download">Download de complete set clips</a>
-        </div>
-      </div>
 
     </jsp:attribute>
   </oip:html>
