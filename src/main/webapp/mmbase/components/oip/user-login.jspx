@@ -37,7 +37,14 @@
                   </fmt:message>
                 </p>
                 <c:if test="${!empty referrer}">
-                  <p>Continue to <a href="${referrer}">${referrer}</a>.</p>
+                  <script type="text/javascript">
+                    $(document).ready(function() {
+                       document.location = "${referrer}";
+                    });
+                  </script>                  
+                  <noscript>
+                    <p>Continue to <a href="${referrer}">${referrer}</a>.</p>
+                  </noscript>
                 </c:if>
               </mm:cloud>
             </mm:present>
