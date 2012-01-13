@@ -26,19 +26,21 @@
       <div class="right-column">
         <div class="related-grey">
           <mm:cloud method="asis">
-            <mm:hasrank minvalue="basic user">
+            <mm:hasrank minvalue="site user">
               <p>
                 <fmt:message key="login.you_are">
                   <fmt:param><mm:include page="/action/you.jspx" /></fmt:param>
                 </fmt:message>
               </p>
             </mm:hasrank>
-            <mm:node number="page_register">
-              <mm:link page="page" referids="_node@n">
-                <mm:frameworkparam name="component">mmsite</mm:frameworkparam>
-                <p><a href="${_}"><fmt:message key="users.register" /></a></p>
-              </mm:link>
-            </mm:node>
+            <mm:hasrank minvalue="site user" inverse="true">
+              <mm:node number="page_register">
+                <mm:link page="page" referids="_node@n">
+                  <mm:frameworkparam name="component">mmsite</mm:frameworkparam>
+                  <p><a href="${_}"><fmt:message key="users.register" /></a></p>
+                </mm:link>
+              </mm:node>
+            </mm:hasrank>
           </mm:cloud>
         </div>
       </div>

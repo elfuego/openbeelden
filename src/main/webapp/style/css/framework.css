@@ -139,9 +139,9 @@ div.left-column
 #topbar ul.meta
 {
 	position: absolute;
-	top: 4px;
-	right: 2px;
-	height: 16px;
+	top: 2px;
+	right: 12px;
+	height: 18px;
 	list-style: none;
 	width: auto;
 }
@@ -152,12 +152,24 @@ div.left-column
 	list-style: none;
 	float: left;
 	font-size: 0.9em;
-	padding-right: 20px;
+	padding-left: 20px;
 }
 
-#topbar ul.meta li.you { white-space: nowrap; }
-#topbar ul.meta li a.login, 
-#topbar ul.meta li a.logout { text-transform: lowercase; }
+#topbar ul.meta li.you {
+	white-space: nowrap;
+	padding-left: 10px;
+}
+#topbar ul.meta li.you span.user { 
+    background-image: url(icons/dot-white.png);
+    background-repeat: no-repeat;
+    background-position: right 6px;
+    padding-right: 10px;
+}
+#topbar ul.meta li.logout {
+	padding-left: 10px;
+}
+#topbar ul.meta li.logout,
+#topbar ul.meta li.you a.login { text-transform: lowercase; }
 #topbar ul.meta li a { color: #fff; }
 #topbar ul.meta li a:link,
 #topbar ul.meta li a:visited { 
@@ -176,7 +188,7 @@ div.left-column
 {
 	list-style: none;
 	height: 20px;
-	width: 512px;
+	width: 688px;
 	position: absolute;
 	top: 24px;
 	left: 0;
@@ -314,7 +326,7 @@ body.media > div#main div#header p { display: none; }
 body.media div.main-column div.text
 {
 	position: absolute;
-	top: 54px;
+	top: 79px;
 	left: 281px;
 }
 

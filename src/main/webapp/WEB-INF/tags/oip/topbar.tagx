@@ -16,26 +16,6 @@
       <mm:import id="locale">${requestScope['org.mmbase.mmsite.language']}</mm:import>
     </c:if>
     
-    <!-- get current link without locale, f.e. .en etc. -->
-    <c:set var="current"><mm:url /></c:set>
-    <c:if test="${fn:indexOf(current, '.') gt -1}">
-      <c:set var="current">${fn:substringBefore(current, '.')} </c:set>
-    </c:if>
-    <!-- workaround for ${fn:endsWith(current, '/')} -->
-    <c:if test="${fn:substring(current, fn:length(current)-1, fn:length(current)) == '/'}">
-      <c:set var="current">${fn:substring(current, 0, fn:length(current)-1)}</c:set>
-    </c:if>
-
-    <c:choose>
-      <c:when test="${empty requestScope['javax.servlet.forward.context_path']}">
-         <c:set var="firstpart">/${fn:split(current, '/')[0]}</c:set>
-      </c:when>
-      <c:otherwise>
-         <c:set var="firstpart">/${fn:split(current, '/')[1]}</c:set>
-      </c:otherwise>
-    </c:choose>
-    
-
     <mm:node number="$pool" id="portal">
       <c:choose>
         <c:when test="${!isdefaultportal}"><!-- check portal property 'login' -->
@@ -67,11 +47,15 @@
       <c:if test="${enablelogin}">
         <li class="you">
           <jsp:text> </jsp:text>
+          <mm:hasrank value="anonymous" inverse="true">
+            <mm:cloudinfo type="usernode" id="youare" write="false" />
+            <mm:node number="$youare"><oip:user /></mm:node>
+          </mm:hasrank>
         </li>
         <mm:hasrank value="anonymous" inverse="true">
-          <li>
+          <li class="logout">
             <mm:link page="/logout.jspx" referids="locale?">
-              <a class="logout" href="${_}"><fmt:message key="login.logout" /></a>
+              <a href="${_}"><fmt:message key="login.logout" /></a>
             </mm:link>
           </li>
         </mm:hasrank>
