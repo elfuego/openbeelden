@@ -24,6 +24,9 @@
     <div class="article">
       <mm:nodefunction name="translation">
         <oip:h2><mm:field name="title" /></oip:h2>
+        <mm:field name="subtitle">
+          <mm:isnotempty><h3 class="subtitle"><mm:write /></h3></mm:isnotempty>
+        </mm:field>
       </mm:nodefunction>
   
       <mm:relatednodescontainer type="images" role="posrel" searchdirs="destination">
@@ -36,7 +39,6 @@
       </mm:relatednodescontainer>
   
       <mm:nodefunction name="translation">
-        <mm:field name="subtitle"><mm:isnotempty><h3 class="subtitle"><mm:write /></h3></mm:isnotempty></mm:field>
 
         <c:if test="${showdate}">
           <p><mm:field name="online"><mm:time format=":LONG" /></mm:field></p>
