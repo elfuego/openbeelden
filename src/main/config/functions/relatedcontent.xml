@@ -18,7 +18,7 @@
     <param name="max"   type="String" description="Maximum number of result nodes to return" />
   </function>
 
-  <function name="hits">
+  <function name="hits"><!-- used in mediafragments.jspx -->
     <description>
       Returns a sorted Map with nodes that share the same tags and are thus related content.
 	  The returned nodes are sorted by number of hits. To get the number of hits per node use the function 'nodes'.
@@ -30,6 +30,22 @@
     <param name="type"  type="String" description="Type of content to look for, defaults to type of the source node" />
     <param name="max"   type="String" description="Maximum number of result nodes to return" />
   </function>
+
+  <function name="hitsbyportal"><!-- new -->
+    <description>
+      Returns a sorted Map with nodes that share the same tags and are thus related content.
+	  The returned nodes are sorted by number of hits. To get the number of hits per node use the function 'nodes'.
+	  And are checked against current portal: only media from this portal is returned as related material.
+    </description>
+    <type>class</type>
+    <class>eu.openimages.RelatedByTags</class>
+    <method>getHitsByPortal</method>
+    <param name="node"  type="Node" description="Node related to one or more tags" />
+    <param name="portal" type="Node" description="Show only media from this portal" />
+    <param name="type"  type="String" description="Type of content to look for, defaults to type of the source node" />
+    <param name="max"   type="String" description="Maximum number of result nodes to return" />
+  </function>
+
 
   <function name="tagcount">
     <description>
