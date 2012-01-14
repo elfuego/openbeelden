@@ -20,6 +20,7 @@ along with The Open Images Platform.  If not, see <http://www.gnu.org/licenses/>
 
 package eu.openimages;
 
+import java.lang.reflect.Array;
 import java.util.*;
 
 import org.mmbase.bridge.Cloud;
@@ -86,7 +87,25 @@ public class RelatedByTags {
         Map<Integer, Integer> nodesMap = getNodes(node, null, null);
         return hitsMap(nodesMap, -1);
     }
-    
+
+    /* only nodes belonging to portal are returned */
+    public Map<Integer,Integer> getHitsByPortal(Node node, Node portal, String type, String max) {
+        Map<Integer, Integer> nodesMap = getNodes(node, type, null);
+        Map<Integer, Integer> filteredMap = filterNodes(nodesMap, portal);
+        if (max != null) {
+            int imax = 0;
+            try {
+                imax = Integer.parseInt(max);
+            } catch (NumberFormatException nfe) {
+                log.error("Could not parse max value '" + max + "': " + nfe);
+            }
+            return hitsMap(filteredMap, imax);
+        } else {
+            return hitsMap(filteredMap, -1);
+        }
+
+    }
+
     /**
      * Most used tags, sorted by most popular if needed,
      * not included tags with no relations (unused tags).
@@ -96,7 +115,7 @@ public class RelatedByTags {
      * @param sort  Sort tags: up or down
      * @return tags with count attached (node/count)
      */
-    public Map<Integer, Integer> getTagsByCount(String type, String max, String sort) {
+    public static Map<Integer, Integer> getTagsByCount(String type, String max, String sort) {
         if (type == null || "".equals(type)) {
             type = "object";
         }
@@ -188,7 +207,7 @@ public class RelatedByTags {
      * @param max   Maximum nr of tags to return, defaults to 99
      * @return tags or null when no NodeList could be made with the specified parameters
      */
-    public static NodeList relatedTags(Node node, int max) {
+    private static NodeList relatedTags(Node node, int max) {
         //return node.getRelatedNodes(cloud.getNodeManager("tags"), "related", "destination");
         if (max == -1) max = 99;
         Cloud cloud = node.getCloud();
@@ -222,7 +241,7 @@ public class RelatedByTags {
      * @param max   Maxiumum number of nodes to return
      * @return content nodes
      */
-    public NodeList nodesWithSameTags(Node node, NodeList tags, String type, String max) {
+    private static NodeList nodesWithSameTags(Node node, NodeList tags, String type, String max) {
         Map<Integer,Integer> map = relatedContent(node, tags, type, max);
         
         Cloud cloud = node.getCloud();
@@ -231,12 +250,113 @@ public class RelatedByTags {
         Set<Integer> keySet = map.keySet();
         Iterator<Integer> i = keySet.iterator();
         while (i.hasNext()) {
-
             nl.add(cloud.getNode(i.next()));
         }
         return nl;
     }
-    
+
+    /* 
+     * Filter map with nodes and remove the ones that do not belong to portal.
+     * A portal consists of the nodes uploaded by the related portal manager, plus
+     * the ones that have a tag, keyword or username in the related filters node.
+     * TODO: exclude media with excluded relation.
+     * 
+     * @param map       nodes to filter
+     * @param portal    portal (pools) node
+     */
+    private static Map filterNodes(Map<Integer, Integer> map, Node portal) {
+        //Node portal = cloud.getNode("pool_oip");
+        Map<Integer,Integer> filteredMap = new HashMap<Integer, Integer>();
+        Node filterNode = SearchUtil.findRelatedNode(portal, "filters", "portalrel");
+        Cloud cloud = portal.getCloud();
+
+        // TODO: this has to be the related portal manager!
+        String ownerNr = portal.getStringValue("owner");
+
+        ArrayList<String> tgs = new ArrayList<String>();
+        ArrayList<String> kws = new ArrayList<String>();
+        ArrayList<String> urs = new ArrayList<String>();
+        if (filterNode != null) {
+            String tags = filterNode.getStringValue("tags");
+            String keywords = filterNode.getStringValue("keywords");
+            String users = filterNode.getStringValue("users");
+
+            kws = new ArrayList<String>(Arrays.asList(keywords.split(";")));
+            tgs = new ArrayList<String>(Arrays.asList(tags.split(";")));
+            urs = new ArrayList<String>(Arrays.asList(users.split(";")));
+        }
+        String ownername = null;
+        if (cloud.hasNode(ownerNr)) {
+            ownername = cloud.getNode(ownerNr).getStringValue("username");
+        }
+        if (ownername != null) urs.add(ownername);
+
+        Set<Integer> keySet = map.keySet();
+        Iterator<Integer> i = keySet.iterator();
+        while (i.hasNext()) { // iterate over current map with nodes that share tags
+            boolean hit = false;
+            Integer nodenr = i.next();         // node number
+            Integer hits = map.get(nodenr);    // hits for key (node)
+
+            Node n = cloud.getNode(nodenr);
+            
+            // TODO: check excluded from portal
+
+            // users
+            String owner = n.getStringValue("owner");
+            if (cloud.hasNode(owner)) {
+                String n_userName = cloud.getNode(owner).getStringValue("username");
+                log.debug("username " + n_userName + " : " + urs);
+                if (urs.contains(n_userName)) {
+                    filteredMap.put(nodenr, hits);
+                    log.debug("added u #" + nodenr + " [" + hits + "]");
+                    continue;
+                }
+            }
+            
+            // keywords
+            String keywords = n.getStringValue("keywords");
+            ArrayList<String> n_kws = new ArrayList<String>(Arrays.asList(keywords.split(";")) );
+            for (String it : kws){
+                log.debug("it: " + it);
+                for (String itt : n_kws) {
+                    log.debug("itt: " + itt);
+                    if (it.equals(itt)) {
+                        log.debug("hitt: " + itt);
+                        hit = true;
+                        break;
+                    }
+                }
+                if (hit) break;
+            }
+            if (hit) {
+                filteredMap.put(nodenr, hits);
+                log.debug("added kw #" + nodenr + " [" + hits + "]");
+                continue;
+            }
+
+            // tags
+            NodeList relatedTags = relatedTags(n, 99);
+            NodeIterator ni = relatedTags.nodeIterator();
+            while (ni.hasNext()) {
+                String tagName = ni.next().getStringValue("name");
+                log.debug("tagname " + tagName + " : " + tgs);
+                if (tgs.contains(tagName)) {
+                    hit = true;
+                    break;
+                }
+            }
+
+            if (hit) {
+                filteredMap.put(nodenr, hits);
+                log.debug("added t #" + nodenr + " [" + hits + "]");
+            }
+
+        }
+
+        return filteredMap;
+    }
+
     /**
      * Finds the nodes that share the same tags in the specified nodelist. For every tag shared
      * a hit is registered as its value. 
