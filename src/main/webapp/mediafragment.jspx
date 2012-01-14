@@ -385,15 +385,11 @@
         <div class="related">
           <oip:h3><fmt:message key="media.related" /></oip:h3>
           
-          <mm:import externid="portal" from="request" />
-          <c:if test="${!empty portal}">
-            <mm:node number="$portal">
-              <mm:hasalias name="pool_oip"><c:set var="isdefaultportal" value="true" /></mm:hasalias>
-            </mm:node>
-          </c:if>
-            
+          <mm:import externid="portal"          from="request" />
+          <mm:import externid="isdefaultportal" from="request" />
+
           <c:choose>
-            <c:when test="${!empty portal and !defaultportal}">
+            <c:when test="${!empty portal and !isdefaultportal}">
               <mm:functioncontainer>
                 <mm:param name="type">mediafragments</mm:param>
                 <mm:param name="max">4</mm:param>
@@ -404,7 +400,7 @@
               <mm:functioncontainer>
                 <mm:param name="type">mediafragments</mm:param>
                 <mm:param name="max">4</mm:param>
-                <mm:voidfunction set="relatedcontent" name="hits" referids="_node@node,portal" id="hits" />
+                <mm:voidfunction set="relatedcontent" name="hits" referids="_node@node" id="hits" />
               </mm:functioncontainer>
             </c:otherwise>
           </c:choose>
