@@ -40,7 +40,7 @@
         <required value="true" enforce="never" />
         <minLength value="1" />
         <maxLength value="32" />
-          <pattern
+        <pattern
             enforce="onvalidate"
             value="(?i)\A([A-Z0-9_\-\+\*\.])+\z">
           <description xml:lang="nl">'${VALUE}' is geen geldige gebruikersnaam</description>
@@ -162,7 +162,10 @@
       </gui>
       <datatype base="emailaddress" xmlns="http://www.mmbase.org/xmlns/datatypes" >
         <unique value="true" />
-        <required value="false" />
+        <minLength value="1">
+          <description xml:lang="nl">Een e-mail adres is verplicht.</description>
+          <description xml:lang="en">An email address is required.</description>
+        </minLength>
         <maxLength value="300" />
       </datatype>
     </field>
