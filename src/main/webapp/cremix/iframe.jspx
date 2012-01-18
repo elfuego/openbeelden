@@ -33,9 +33,9 @@
           </mm:url></mm:import>
         </mm:present>
         
-        <p>
+        <!-- <p>
           current iframe: ${iframe}
-        </p>
+        </p> -->
         
         <mm:import id="username" reset="true"><mm:cloudinfo type="user" /></mm:import>
         <mm:listnodescontainer type="mmbaseusers">
@@ -49,7 +49,7 @@
             <mm:write cookie="remixer" cookiepath="/" cookiedomain=".openbeelden.nl" referid="mijncookie" />
             <!-- <mm:write cookie="remixer" cookiepath="/" referid="mijncookie" /> -->
             
-            <p>cookie: <code>${mijncookie}</code> </p>
+            <!-- <p>cookie: <code>${mijncookie}</code> </p> -->
             
           </mm:listnodes>
         </mm:listnodescontainer>
