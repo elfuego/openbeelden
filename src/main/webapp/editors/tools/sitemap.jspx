@@ -69,6 +69,10 @@
 
          <h3>Footer</h3>
          <p>posrel between 11 and 100</p>
+
+          <!-- option to move/update sitemap to footerrel -->
+          <mm:import externid="move" />
+          
           <mm:relatedcontainer path="posrel,pages" searchdirs="destination"
             fields="posrel.pos,pages.title,pages.number">
             <mm:sortorder field="posrel.pos" direction="UP" />
@@ -78,18 +82,12 @@
               <mm:import id="pages" reset="true"><mm:field name="pages.number" /></mm:import>
               <mm:import id="posrel_nr" reset="true"><mm:field name="posrel.number" /></mm:import>
               <mm:import id="pos" reset="true"><mm:field name="posrel.pos" /></mm:import>
+              
               <li>
                 <mm:field name="pages.title" />
                 [${pages}, pos: ${pos}]
               </li>
               
-              <!-- option to move/update sitemap to footerrel -->
-              <li>
-                <mm:import externid="move" />
-                Move <mm:link referids="p">
-                  <mm:param name="move">footerrel</mm:param>
-                <a href="${_}">to footerrel</a></mm:link>
-              </li>
               <c:if test="${!empty move}">
                 <li>
                   Move:
@@ -106,6 +104,13 @@
                   </mm:node>
                 </li>
               </c:if>
+              <mm:last>
+                <li>
+                  Move <mm:link referids="p">
+                    <mm:param name="move">footerrel</mm:param>
+                  <a href="${_}">to footerrel</a></mm:link>
+                </li>
+              </mm:last>
               
             </mm:related>
             </ol>
