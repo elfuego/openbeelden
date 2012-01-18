@@ -16,15 +16,17 @@
 
 <mm:import externid="p" /><!-- portal -->
 <mm:import externid="nr" />
+<mm:import externid="relation" /><!-- node nr relation -->
 <mm:import externid="fields" />
 <mm:import externid="lang" />
+
+<mm:import externid="parent" />
+<mm:import externid="role" />
 
 <mm:import externid="delete" />
 <mm:import externid="cancel" />
 
-<mm:import externid="related" />
 <mm:import externid="editme">false</mm:import>
-<mm:import externid="target" />
 <mm:import externid="show">/editors/show-node.jspx</mm:import>
 <mm:import externid="editor">/editors/edit-node.jspx</mm:import>
 <mm:import externid="maydelete">true</mm:import>
@@ -41,15 +43,6 @@
   <mm:node number="$nr">
 
       <c:choose>
-        <c:when test="${!empty target}">
-          <c:set var="linktarget">#${target}</c:set>
-        </c:when>
-        <c:otherwise>
-          <c:set var="linktarget">#edit_${nr}</c:set>
-        </c:otherwise>
-      </c:choose>
-    
-      <c:choose>
         
         <c:when test="${!empty delete}">
           <mm:maydelete inverse="true">
@@ -64,38 +57,12 @@
         </c:when>
         
         <c:when test="${!empty cancel}">
-          <span class="links">
-          <mm:maywrite>
-            <div class="log"><jsp:text> <!-- empty --> </jsp:text></div>
-            <mm:link page="$editor" 
-              referids="p?,nr,fields?,lang?,related?,show,editor,maydelete,unpublish,target?">
-              <a class="editme" href="${_}${linktarget}"><fmt:message key="users.edit" /></a>
-            </mm:link>
-          </mm:maywrite>
-          <c:if test="${maydelete}">
-            <mm:maydelete>
-              <mm:link page="/editors/delete-node.jspx" 
-                referids="p?,nr,fields?,lang?,related?,show,editor,maydelete,unpublish,target?">
-                <a class="editme delete" href="${_}${linktarget}"><fmt:message key="users.delete" /></a>
-              </mm:link>
-            </mm:maydelete>
-          </c:if>
-          <c:if test="${!empty related and unpublish}">
-            <mm:relation to="${related}">
-              <mm:maydelete>
-                <mm:link page="/editors/delete-relation.jspx" 
-                  referids="p?,nr,fields?,lang?,_node@relation,related?,show,editor,maydelete,unpublish,target?">
-                  <a class="editme unrelate" href="${_}${linktarget}">unpublish</a>
-                </mm:link>
-              </mm:maydelete>
-            </mm:relation>
-          </c:if>
-          </span>
-
-          <span class="content">
+          <div class="log"><jsp:text> <!-- empty --> </jsp:text></div>
+          <jsp:directive.include file="actions.div.jspx" />
+          <div class="node content">
             <mm:include page="show-node.jspx" referids="nr,fields?,lang?" />
             <!-- <span>Cancelled deleting!</span> -->
-          </span>
+          </div>
         </c:when>
         
         <c:otherwise>
@@ -108,39 +75,46 @@
           <mm:maydelete>
             <mm:url id="formurl" write="false" />
             
-            <form id="form_${nr}" method="post" action="${formurl}">
+            <form id="form_${nr}" method="post" class="delete_form" action="${formurl}">
+              <a class="editme cancel" href="#close"><fmt:message key="users.cancel" /></a>
               
-              <strong>
+              <!-- strong>
                 <fmt:message key="users.delete" />
                 <jsp:text> </jsp:text>
                 <mm:nodeinfo type="guitype" escape="lowercase" />
                 <jsp:text> </jsp:text><br />
-              </strong>
+              </strong -->
               
-              <a class="editme cancel" href="#close"><fmt:message key="users.cancel" /></a>
-              
-              <mm:include page="show-node.jspx" referids="nr,fields?,lang?" />
+              <div class="node">
+                <mm:include page="show-node.jspx" referids="nr,fields?,lang?" />
+              </div>
 
               <p class="msg stay">
-                This node has <mm:countrelations /> relations with other nodes.
-                Are you sure you want to delete this node?
+                <fmt:message key="editors.delete_nodetype_sure">
+                  <fmt:param><mm:nodeinfo type="guitype" escape="lowercase" /></fmt:param>
+                  <fmt:param><mm:countrelations /></fmt:param>
+                </fmt:message>
+
+                <!-- This node has <mm:countrelations /> relations with other nodes.
+                Are you sure you want to delete this node? -->
               </p>
               
               <fieldset class="buttons">
                 <input name="p"  type="hidden" value="${p}" />
                 <input name="nr" type="hidden" value="${nr}" />
-                <input name="related" type="hidden" value="${related}" />
-                <input name="show"    type="hidden" value="${show}" />
-                <input name="editor"  type="hidden" value="${editor}" />
-                <input name="target"  type="hidden" value="${target}" />
+                <input name="parent"   type="hidden" value="${parent}" />
+                <input name="relation" type="hidden" value="${relation}" />
+                <input name="role"     type="hidden" value="${role}" />
+                <input name="show"     type="hidden" value="${show}" />
+                <input name="editor"   type="hidden" value="${editor}" />
                 <mm:write referid="fields">
                   <input name="fields" type="hidden" value="${_}" />
                 </mm:write>
                 <div>
                   <fmt:message key="users.cancel" var="button_cancel" />
                   <fmt:message key="users.delete" var="button_delete" />
-                  <input type="submit" name="delete" value="${button_delete}" class="submit" />
                   <input type="submit" name="cancel" value="${button_cancel}" class="cancel" /> 
+                  <input type="submit" name="delete" value="${button_delete}" class="submit" />
                 </div>
               </fieldset>
               

@@ -18,7 +18,7 @@
 <mm:import externid="p" /><!-- portal -->
 <mm:import externid="q" id="search" /><!-- search with ... -->
 <mm:import externid="nr" />
-<mm:import externid="fields" vartype="List" />
+<mm:import externid="fields" />
 <mm:import externid="lang" />
 
 <mm:import externid="type" />
@@ -29,8 +29,9 @@
 <mm:import externid="show">/editors/show-node.jspx</mm:import>
 <mm:import externid="editor">/editors/edit-node.jspx</mm:import>
 <mm:import externid="maydelete">true</mm:import>
-<mm:import externid="sortable">true</mm:import>
+<mm:import externid="unpublish">false</mm:import>
 
+<mm:import externid="sortable">true</mm:import>
 <mm:import externid="max">25</mm:import>
 <mm:import externid="offset">0</mm:import>
 
@@ -74,31 +75,26 @@
     ${sortdir}
   </strong>
 
-  <mm:import id="list_id" reset="true">found_${type}</mm:import>
-  <ul class="${sortable ? 'sortable' : ''} connected" id="found_${type}">
+  <mm:import id="list_id" reset="true">found_${role}_${type}</mm:import>
+  <ul class="${sortable ? 'sortable' : ''} connected foundnodes" id="${list_id}">
     
     <mm:listnodes varStatus="status" id="${list_id}">
       <c:choose>
         <c:when test="${status.index % 2 == 0}"><c:set var="oddeven" value="even" /></c:when>
         <c:otherwise><c:set var="oddeven" value="odd" /></c:otherwise>
       </c:choose>
-      <li class="${oddeven}" id="search_${_node.number}">
+      <li class="${oddeven} node_${_node}" id="search_${_node}">
 
-        <mm:maywrite>
-          <mm:link page="$editor" referids="p?,_node@nr,lang?,show?,editor?,maydelete?,target?">
-            <a class="editme edit" href="${_}#search_${_node.number}"><fmt:message key="users.edit" /></a>
-          </mm:link>
-        </mm:maywrite>
+        <jsp:directive.include file="actions.div.jspx" /><!-- hide div.actions on search, to be used when related -->
+        
+        <mm:link page="relate.jspx"
+          referids="p?,_node@nr,nr@parent,role?,fields?,lang,show,editor,maydelete,unpublish">
+          <div class="actionrelate">
+            <a class="relate" href="${_}#search_${_node.number}">voeg toe aan selectie</a>
+          </div>
+        </mm:link>
 
-        <c:if test="${maydelete}">
-          <mm:maydelete>
-            <mm:link page="/editors/delete-node.jspx" referids="p?,_node@nr,lang?,show,editor,maydelete,target?">
-              <a class="editme delete" href="${_}#search_${_node.number}"><fmt:message key="users.delete" /></a>
-            </mm:link>
-          </mm:maydelete>
-        </c:if>
-
-        <div>
+        <div class="node">
           <mm:include page="$show" referids="p?,_node@nr">
             <mm:param name="fields">${fields}</mm:param>
           </mm:include>

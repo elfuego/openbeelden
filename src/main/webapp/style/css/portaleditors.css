@@ -12,7 +12,7 @@ body.editor #topbar ul.meta li {
 body.editor #topbar ul.meta li.you { 
     background-image: url(icons/dot-white.png);
     background-repeat: no-repeat;
-    background-position: right 6px;
+    background-position: right 8px;
     padding-right: 18px;
 	margin-left: 8px;
 }
@@ -38,7 +38,10 @@ body.editor div#footer div
 	padding: 1em 0 0 0;
 }
 body.editor div#footer div ul { margin-left: 283px; }
-body.editor div.left-column { background-image: none; }
+body.editor div.left-column {
+	background-image: none;
+	top: 240px;
+}
 body.editor div.wrap
 {
 	background-image: url("images/dots2.png");
@@ -76,8 +79,6 @@ h3, h4 {
 	padding-top: 2em;
 	clear: both;
 }
-
-#edit-picture { margin-bottom: 2em; }
 
 a:link, a:hover, a:active { color: #3BA0D9; }
 a:visited { color: #069; }
@@ -128,13 +129,15 @@ ul.foundnodes li div.actions {
 ul.relatednodes li div.actions > div.actions { margin: 0; }
 
 ul.sortable li div.node
-/* , ul.foundnodes li > div.node */
-{
+/* , ul.foundnodes li > div.node */ {
 	background-image: url(icons/sort-handle.png);
 	background-repeat: no-repeat;
 	background-position: 0 3px;
 	padding-left: 24px;
 	margin: 4px 0 4px 6px;
+}
+ul.sortable li > form div.node {
+	margin: 0 0 6px 0;
 }
 
 ul.sortable li > div.log
@@ -169,11 +172,28 @@ p.add {
 
 span.removed, span.deleted { color: #C33; }
 
+#edit-picture { margin-bottom: 2em; }
+div#edit-picture p.add {
+	float: none;
+}
+
 /* search forms */
+div.searchme {
+/* 	background-image: url("images/dots2.png");
+	background-repeat: repeat-x; */
+	padding-top: 14px;
+	margin-top: 14px;
+}
+div.searchresults {
+/*  background-image: url("images/dots2.png");
+	background-repeat: repeat-x;
+	padding-top: 14px; */
+	padding-top: 0;
+}
 form.searchform
 {
 	clear: both;
-	margin-top: 2em;
+	margin-top: 0;
 }
 form.searchform input[type=text] {
     background-image: url("images/search-bg.png");
@@ -200,7 +220,7 @@ div.searchresults > a.cancel {
 }
 div.searchresults > strong
 {
-	margin: 6px 0;
+	margin: 0 0 6px 0;
 	font-size: 1.1em;
 	display: block;
 }
@@ -282,7 +302,9 @@ div.editmeform > div.editmeform { border: none; }
 .editmeform fieldset.buttons > div { width: 502px; }
 
 /* specifics editor-page.jspx */
-div.wrap.languages { margin-bottom: 1em; }
+div.wrap.languages {
+	margin: 0 0 1em 0;
+}
 div.wrap.languages li.add { text-transform: lowercase; }
 
 div.box {
@@ -292,6 +314,7 @@ div.box {
 	border: 1px solid #ccc;
 }
 div.box fieldset.buttons { margin-bottom: 4px; }
+div.box fieldset.buttons > div { width: 498px; }
 div.box input[type="text"] { width: 338px; }
 div.box textarea { width: 486px; }
 div.box p.info { width: 342px; }

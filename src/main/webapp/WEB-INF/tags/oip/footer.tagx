@@ -133,8 +133,7 @@
 
       <div>
         <strong>Service</strong>
-        <mm:relatednodescontainer type="pages" role="posrel" searchdirs="destination">
-          <mm:constraint field="posrel.pos" value="0" value2="10" operator="BETWEEN" inverse="true" />
+        <mm:relatednodescontainer type="pages" role="footerrel" searchdirs="destination">
           <mm:sortorder field="posrel.pos" direction="UP" />
           <ul>
             <mm:relatednodes>

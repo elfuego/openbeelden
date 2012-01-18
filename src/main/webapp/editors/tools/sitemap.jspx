@@ -1,0 +1,134 @@
+<?xml version="1.0"?>
+<jsp:root
+    version="2.0"
+    xmlns:jsp="http://java.sun.com/JSP/Page"
+    xmlns:c="http://java.sun.com/jsp/jstl/core"
+    xmlns:fmt="http://java.sun.com/jsp/jstl/fmt"
+    xmlns:mm="http://www.mmbase.org/mmbase-taglib-2.0"
+    xmlns:oip="urn:jsptagdir:/WEB-INF/tags/oip">
+
+  <oip:editor styleClass="portal">
+    <jsp:attribute name="head">
+      <mm:import externid="nr" />
+    </jsp:attribute>
+    <jsp:attribute name="left">
+      
+
+    </jsp:attribute>
+    <jsp:attribute name="body">
+      
+      
+      
+      <c:set var="isdefault" value="false" />
+      
+      <div class="main-column">
+        <h2>Portals</h2>
+        <mm:listnodescontainer type="pools">
+          <ul>
+          <mm:listnodes>
+            <li>
+              <mm:link referids="_node@p"><a href="${_}"><mm:field name="name" /></a></mm:link>
+            </li>
+          </mm:listnodes>
+          </ul>
+        </mm:listnodescontainer>        
+
+        <mm:node id="p" number="$_node.number">
+          <mm:hasalias name="pool_oip"><c:set var="isdefault" value="true" /></mm:hasalias>
+  
+          <h2>Sitemap '<mm:field name="name" />'</h2>
+          <p>
+            Update sitemap by clicking move. 
+          </p>
+          <h3>Header</h3>
+          <p>
+          posrel between 0 and 10, (0 = homepage not visible in header, 1 = homepage link in header)
+          </p> 
+          <mm:relatedcontainer path="posrel,pages" searchdirs="destination"
+            fields="posrel.pos,pages.title,pages.number">
+            <mm:sortorder field="posrel.pos" direction="UP" />
+            <mm:constraint field="posrel.pos" value="0" value2="10" operator="BETWEEN" />
+            <ol>
+            <mm:related>
+              <li>
+                <mm:import id="pos" reset="true"><mm:field name="posrel.pos" /></mm:import>
+                <c:choose>
+                  <c:when test="${pos == 0}"><strong>homepage not in header </strong> </c:when>
+                  <c:otherwise>
+                  <mm:first><strong>homepage </strong> </mm:first>
+                  </c:otherwise>
+                </c:choose>
+                
+                <mm:field name="pages.title" />
+                [<mm:field name="pages.number" />, pos: <mm:field name="posrel.pos" />]
+
+              </li>
+            </mm:related>
+            </ol>
+          </mm:relatedcontainer>
+
+         <h3>Footer</h3>
+         <p>posrel between 11 and 100</p>
+          <mm:relatedcontainer path="posrel,pages" searchdirs="destination"
+            fields="posrel.pos,pages.title,pages.number">
+            <mm:sortorder field="posrel.pos" direction="UP" />
+            <mm:constraint field="posrel.pos" value="11" value2="100" operator="BETWEEN" />
+            <ol>
+            <mm:related>
+              <mm:import id="pages" reset="true"><mm:field name="pages.number" /></mm:import>
+              <mm:import id="posrel_nr" reset="true"><mm:field name="posrel.number" /></mm:import>
+              <mm:import id="pos" reset="true"><mm:field name="posrel.pos" /></mm:import>
+              <li>
+                <mm:field name="pages.title" />
+                [${pages}, pos: ${pos}]
+              </li>
+              
+              <!-- option to move/update sitemap to footerrel -->
+              <li>
+                <mm:import externid="move" />
+                Move <mm:link referids="p">
+                  <mm:param name="move">footerrel</mm:param>
+                <a href="${_}">to footerrel</a></mm:link>
+              </li>
+              <c:if test="${!empty move}">
+                <li>
+                  Move:
+                  <mm:node number="$pages" id="pages_node" />
+                  <!-- create new relation with footerrel -->
+                  <mm:createrelation source="p" destination="pages_node" role="footerrel">
+                    <mm:setfield name="pos">${pos}</mm:setfield>
+                  </mm:createrelation>
+                  <!-- delete relation posrel -->
+                  <mm:node number="$posrel_nr">
+                    <mm:maydelete>
+                      <mm:deletenode number="$posrel_nr" />
+                    </mm:maydelete>
+                  </mm:node>
+                </li>
+              </c:if>
+              
+            </mm:related>
+            </ol>
+          </mm:relatedcontainer>
+
+          <h3>Footer</h3>
+          <p>With footerrel.</p>
+          <mm:relatedcontainer path="footerrel,pages" searchdirs="destination"
+            fields="footerrel.pos,pages.title,pages.number">
+            <mm:sortorder field="footerrel.pos" direction="UP" />
+            <ol>
+            <mm:related>
+              <li>
+                <mm:field name="pages.title" />
+                [<mm:field name="pages.number" />, pos: <mm:field name="footerrel.pos" />]
+              </li>
+            </mm:related>
+            </ol>
+          </mm:relatedcontainer>
+
+        
+        </mm:node>
+      </div><!-- /.main-column -->
+    </jsp:attribute>
+  </oip:editor>
+</jsp:root>

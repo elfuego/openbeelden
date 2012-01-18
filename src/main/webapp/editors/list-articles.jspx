@@ -1,0 +1,66 @@
+<?xml version="1.0"?>
+<jsp:root
+    version="2.0"
+    xmlns:jsp="http://java.sun.com/JSP/Page"
+    xmlns:c="http://java.sun.com/jsp/jstl/core"
+    xmlns:fmt="http://java.sun.com/jsp/jstl/fmt"
+    xmlns:mm="http://www.mmbase.org/mmbase-taglib-2.0"
+    xmlns:oip="urn:jsptagdir:/WEB-INF/tags/oip">
+
+  <oip:editor styleClass="portal">
+    <jsp:attribute name="head">
+      
+      <mm:import externid="p" />
+      <mm:import externid="nr" />
+      <mm:import externid="parent" />
+        
+    </jsp:attribute>
+    <jsp:attribute name="left" />
+    <jsp:attribute name="body">
+
+      <div class="main-column">
+
+        <h2>Articles</h2>
+        
+        <mm:node number="$parent"><!-- a pages node -->
+          <mm:include page="/editors/edit-list.jspx" referids="p?,_node@nr">
+            <mm:param name="editor">editor-articles.jspx</mm:param>
+            <mm:param name="type">articles</mm:param>
+            <mm:param name="role">posrel</mm:param>
+            <mm:param name="dir">destination</mm:param>
+            <mm:param name="maycreate">false</mm:param>
+            <mm:param name="unpublish">true</mm:param>
+          </mm:include>
+
+
+          <mm:import id="posrel_pos" reset="true">1</mm:import>
+          <mm:relatedcontainer path="posrel,articles" searchdirs="destination" 
+            fields="posrel.pos">
+            <mm:sortorder field="posrel.pos" direction="UP" />
+            <mm:related>
+              <mm:last>
+                <mm:import id="posrel_pos" reset="true"><mm:field name="posrel.pos" /></mm:import>
+              </mm:last>
+            </mm:related>
+          </mm:relatedcontainer>
+        
+        </mm:node>
+        
+        <mm:link page="editor-articles.jspx" referids="p?,parent,posrel_pos@pos">
+          <p class="add">
+            <a href="${_}">
+              <fmt:message key="editors.add_type">
+                <fmt:param><mm:nodeinfo type="guitype" nodetype="articles" escape="lowercase" /></fmt:param>
+              </fmt:message>
+            </a>
+          </p>
+        </mm:link>
+
+        
+      </div><!-- /.main-column -->
+    </jsp:attribute>
+    <jsp:attribute name="right">
+
+    </jsp:attribute>
+  </oip:editor>
+</jsp:root>

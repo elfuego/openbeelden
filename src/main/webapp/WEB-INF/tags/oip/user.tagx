@@ -8,8 +8,8 @@
   <jsp:directive.attribute name="html" type="java.lang.String" />
   <mm:nodefunction name="translation">
     <c:set var="user"><mm:field name="firstname" /></c:set>
-    <c:set var="user">${user}${!empty user ? ' ' : '' }<mm:field name="suffix" /></c:set>
-    <c:set var="user">${user}${!empty user ? ' ' : '' }<mm:field name="lastname" /></c:set>
+    <c:set var="user">${user}${!empty user and !empty _node.suffix ? ' ' : '' }<mm:field name="suffix" /></c:set>
+    <c:set var="user">${user}${!empty user and !empty _node.lastname ? ' ' : '' }<mm:field name="lastname" /></c:set>
   </mm:nodefunction>
   <c:if test="${fn:length(user) lt 4}"><mm:import id="user" reset="true" /></c:if>
   <c:choose>

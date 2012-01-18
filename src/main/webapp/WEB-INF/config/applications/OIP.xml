@@ -38,7 +38,8 @@
     <reldef source="ratingrel"  target="ratingrel" direction="bidirectional" guisourcename="Rating" guitargetname="Rating" builder="ratingrel" />
     <reldef source="portalrel"  target="portalrel" direction="bidirectional" guisourcename="Portal" guitargetname="PortalItem" builder="insrel" />
     <reldef source="excluded"   target="excluded"  direction="bidirectional" guisourcename="Excluded" guitargetname="Excluded from" builder="insrel" />
-    <reldef source="contains" target="containedBy"  direction="bidirectional" guisourcename="contains" guitargetname="contained by" builder="insrel" />
+    <reldef source="contains" target="containedBy" direction="bidirectional" guisourcename="contains" guitargetname="contained by" builder="insrel" />
+    <reldef source="footerrel"  target="footerrel" direction="bidirectional" guisourcename="Portal" guitargetname="Footer" builder="posrel" />
   </neededreldeflist>
 
   <allowedrelationlist>
@@ -48,7 +49,8 @@
     <relation from="pools"    to="urls"        type="portalrel" />
     <relation from="pools"    to="filters"     type="portalrel" />
     <relation from="pools"    to="templates"   type="related" />
-    <relation from="pools"    to="pages"       type="posrel" />
+    <relation from="pools"    to="pages"       type="posrel" /><!-- pages in header -->
+    <relation from="pools"    to="pages"       type="footerrel" /><!-- pages in footer -->
     <relation from="pools"    to="licenses"    type="posrel" />
     <relation from="pages"    to="pages"       type="posrel" />
     <relation from="pages"    to="articles"    type="posrel" />

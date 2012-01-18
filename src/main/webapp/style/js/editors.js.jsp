@@ -21,8 +21,6 @@ $(document).ready(function() {
     initPortalSwitch();
     initSortable();
     initSearchme();
-    //initTiny('#main');
-    //initMMBasevalidatorForTiny('body');
 
     /* field descriptions */
     if ($('form fieldset p.info').length) {
@@ -47,7 +45,8 @@ var tinyMceConfig = {
     </c:if>
     setup : function(ed) { 
         
-        var saveTiny = function (ed) {
+        var followTiny = null;
+        var saveTiny = function(ed) {
             ed.save();
             $("#" + ed.id).trigger("paste"); // triggers mmbase
         }
@@ -59,27 +58,30 @@ var tinyMceConfig = {
         });
         /* onChange: Fires when a new undo level is added to the editor */
         //ed.onChange.add(function(ed) {    
+        /* onActivate: when textarea gets focus (and at init of tinyMCE) */
         ed.onActivate.add(function(ed) {
-            var followTinyMCE = null;
-            clearInterval(followTinyMCE);
+            clearInterval(followTiny);
             var count = 0;
-            var followTinyMCE = setInterval(function(){
-                if (ed.isDirty() || ed.getContent() == 0) {
+            followTiny = setInterval(function(){
+                if (ed.isDirty()) { // || ed.getContent() == 0
                     saveTiny(ed);
                 } else {    /* editors get activated at init then deactivated, make them stop following */
                     saveTiny(ed);
-                    clearInterval(followTinyMCE);
+                    clearInterval(followTiny);
                 }
-                if (count > 999) {  // seems reasonable to stop after some time
-                     clearInterval(followTinyMCE);
+                if (count > 999) {  /* seems reasonable to stop after some time to avoid some browsers from crashing */
+                     clearInterval(followTiny);
                 }
                 count++;
-            }, 1500);   /* 1.5 sec interval seems needed to give other threads (mmbase validator) time to check */
+            }, 1500);   /* 1.5 sec interval needed (?) to give other threads (mmbase validator) time to check */
         });
         ed.onDeactivate.add(function(ed) {  // check if we need to validate
             if (ed.isDirty() || ed.getContent() == 0) {
                 saveTiny(ed);
             }
+        });
+        ed.onRemove.add(function(ed) {
+            if (followTiny != null) clearInterval(followTiny);
         });
     },
     
@@ -147,8 +149,9 @@ jQuery.fn.editme = function(settings) {
     });
 }
 
+/* Search functions for editme (search, paging) */
 function initSearchme() {
-    $('.searchme').submit(function(ev) {
+    $('form.searchme').submit(function(ev) {
         ev.preventDefault();
         searchMe(this, ev);
     });
@@ -169,7 +172,10 @@ function searchMe(self, ev) {
         initSortable(list);
         $(this).find('a.cancel').click(function(ev){
             ev.preventDefault();
-            $(list).empty().addClass('empty').append('<li class="empty">Drop here...</li>');
+            $(results_target).find('strong').remove();
+            $(results_target).find('a.cancel').remove();
+            $(list).empty().addClass('empty');
+            //$(list).empty().addClass('empty').append('<li class="empty notsortable">Drop here...</li>');
         });
         $(this).find('li.pager a').click(function(ev) {
             ev.preventDefault();
@@ -207,7 +213,7 @@ function editMe(ev) {
     
     //var formId = (params.type != null ? 'form_' + params.type : 'form_' + params.nr);
     params['editme'] = 'true';  /* inform form about being editme ajax editor */
-    params['target'] = id;
+    //params['target'] = id;
     $('#' + id).load(link, params, function() {
            $('#' + id).addClass('editmeform');
 		   
@@ -215,17 +221,17 @@ function editMe(ev) {
 		   $('#' + id + ' .cancel').click(function(ev) {
                ev.preventDefault();
                params['cancel'] = 'Cancel';
-               params['target'] = id;
+               //params['target'] = id;
+               $('#' + id).find("${textarea_classes}").each(function() {
+                   $(this).tinymce().remove();
+               });
                $('#' + id).load(link, params, function() {
                    $('#' + id).removeClass('editmeform');
                    initEditme(this);
                    clearMsg('#' + id);
                });
-               $('#' + id).find("${textarea_classes}").each(function() {
-                   $(this).tinymce().remove();
-               });
 
-               $(tag).show();
+               //$(tag).show();
            });
            
            var formId = $('#' + id + ' form').attr('id');
@@ -247,12 +253,13 @@ function editMe(ev) {
 		       target: '#' + id,
 		       beforeSubmit: beforeSubmit,
 		       success: afterSubmit,
+		       error: function(res, st){ 
+		          $('#' + id).prepend('<p class="err">' + st + ' ' + res.status + ' : ' + res.statusText + '</p>'); 
+		       },
 		       data: { editme: 'true', target: id }
 		   };
 		   $('#' + formId).ajaxForm(options);
-		   
 		   initTiny('#' + id);
-
            /* field descriptions */
            if ($('#' + formId + ' fieldset p.info').length) {
                $('#' + formId + ' fieldset label').hover(function(ev) {
@@ -263,7 +270,7 @@ function editMe(ev) {
            }
 		   
 	}).hide().fadeIn("fast");
-    $(tag).hide();
+    //$(tag).hide();
 }
 
 /*
@@ -303,7 +310,9 @@ function afterSubmit(response, status, xhr) {
         var newItem = $(this).clone().empty();
         var newId = 'newId';
         for (var i = 0; i < classes.length; i++) {
-            if (classes[i].indexOf('edit_') > -1) {
+            if (classes[i].indexOf('relation_') > -1) {
+                var newId = classes[i];
+            } else if (classes[i].indexOf('edit_') > -1) {
                 var newId = classes[i];
             }
         }
@@ -334,6 +343,7 @@ function afterSubmit(response, status, xhr) {
         initEditme(this);
         
         var self = this;
+        //console.log('thisId ' + thisId);
         $(this).find('a.close').click(function(ev){
             ev.preventDefault();
             $(self).remove();
@@ -357,16 +367,73 @@ function initSortable(listEl) {
     }
 
     if ($(listEl).length > 0) {
+        
+        /* relate function by clicking a.relate link */
+        $('a.relate').click(function(ev){   /* link to click to add li elements to list */
+            ev.preventDefault();
+            var link = ev.target.href;
+            var query = link.substring(link.indexOf("?") + 1, link.indexOf('#'));
+            var params = getParams(query);
+            //console.log(params);
+            
+            var listItem = $(this).parents('li');
+            var thisListId = $(listItem).parent('ul').attr('id');
+            //var destListId = "related" + thisListId.substr(thisListId.indexOf('_'), thisListId.length);
+            var destListId = "related_" + $('#' + thisListId).closest('div.searchme').find("input:hidden[name=destinationlist]").val();
+            
+            var nodenr = params['nr'];
+            
+            $("#" + destListId + " > li.new").before(listItem);
+            $(listItem).attr('id', 'edit_' + nodenr);   // give it a new id
+            
+            var relParams = { 
+                id: destListId, 
+                related: '' + nodenr, 
+                unrelated: ''
+            };
+            $.ajax({
+                url: "${mm:link('/editors/relate.jspx')}",
+                type: "GET",
+                datatype: "xml",
+                data: relParams,
+                complete: function(data) {
+                    var response = data.responseText;
+                    $('#' + destListId + ' li.log').html(response);
+                    
+                    if (response.indexOf('number') > -1) {
+                        var result = response.match(/\s+number='(\d+)'/);
+                        var newrel = result[1];
+                        $(listItem).attr('id', "relation_" + newrel);   // give it new id
+                    }
+
+                    params['relation'] = newrel;
+                    $(listItem).find('div.actions').load("${mm:link('/editors/actions.div.params.jspx')}", 
+                        params, 
+                        function(){ 
+                            initEditme(this); 
+                            $('#' + destListId).sortable("refresh");
+                        }
+                    );
+
+                    clearMsg('#' + destListId + ' li.log');
+                },
+                error: function(data) {
+                    $('#' + destListId + ' li.log').html(data.responseText);
+                }
+            }); 
+        }); /* end relate function by clicking a.relate */
+        
+        /* jquery.sortable functions */
         $(listEl).sortable({
             distance: 30,
             connectWith: ".connected",
-            start: function(ev, ui) {    /* check for tinyMCE (sigh..) */
+            start: function(ev, ui) {   /* check for tinyMCE and remove it */
                var listId = $(this).attr('id');
                $('#' + listId).find("${textarea_classes}").each(function() {
                    $(this).tinymce().remove();
                });                
             },
-            stop: function(ev, ui) {    /* check for tinyMCE (sigh..) */
+            stop: function(ev, ui) {
                var listId = $(this).attr('id');
                $('#' + listId).find("${textarea_classes}").each(function() {
                    $(this).tinymce(tinyMceConfig);
@@ -374,22 +441,18 @@ function initSortable(listEl) {
             },
             cancel: ".notsortable",
             remove: function(ev, ui) {
-                var edit_id = $(ui.item).attr('id');
-                var nodenr = edit_id.match(/\d+/);
+                var editId = $(ui.item).attr('id');    // list item id
+                var relnr = editId.match(/\d+/);
+                
+                var editclasses = $("#" + editId).attr("class");
+                var n_result = editclasses.match(/node_(\d+)/);
+                if (n_result != null) var nodenr = n_result[1];
+
                 var listId = $(this).attr('id');
-                
-                
-                var senderId = $(ui.sender).attr('id');
-
-                if (listId.indexOf('found_') < 0 
-                        && listId.indexOf('_footer') < 0 && listId.indexOf('_header') < 0) {
-
-                    var editclasses = $("#" + edit_id).attr("class");
-                    if (editclasses.indexOf('relation_') > -1) {
-                        var relnr = editclasses.match(/\d+/);
-                        //console.log("relnr '" + relnr + "'");
-                    }
-    
+                var senderId = $(ui.sender).attr('id'); //  (can be undefined)
+                //console.log('editid ' + editId + ' , senderId ' + senderId);
+                if (listId.indexOf('found_') < 0) {
+                    
                     if (relnr != undefined) {
                         var params = { 
                             id: listId, 
@@ -406,7 +469,7 @@ function initSortable(listEl) {
                         };
                     }
                     $.ajax({
-                            url: "${mm:link('/mmbase/searchrelate/relate.jspx')}",
+                            url: "${mm:link('/editors/relate.jspx')}",
                             type: "GET",
                             datatype: "xml",
                             data: params,
@@ -422,15 +485,24 @@ function initSortable(listEl) {
                 }
             },
             receive: function(ev, ui) { 
-                var edit_id = $(ui.item).attr('id');
-                var nodenr = edit_id.match(/\d+/);
+                var editId = $(ui.item).attr('id');
+                var nodenr = editId.match(/\d+/);
+                
+                var editclasses = $("#" + editId).attr("class");
+                /* if (editclasses.indexOf('relation_') > -1) {    // relation_posrel_126
+                    var result = editclasses.match(/relation_\w+_(\d+)/);
+                    var relnr = result[1]; 
+                } */
+                if (editclasses.indexOf('node_') > -1) {    // relation_posrel_126
+                    var result = editclasses.match(/node_(\d+)/);
+                    var nodenr = result[1];
+                }
                 
                 var listId = $(this).attr('id');
                 var senderId = $(ui.sender).attr('id');
                 
                 // add to list (and remove from?)
-                if (listId.indexOf('found_') < 0
-                        && listId.indexOf('_footer') < 0 && listId.indexOf('_header') < 0) {
+                if (listId.indexOf('found_') < 0) {
                     //console.log('receive - listId ' + listId + ', senderId ' + senderId + ', nr ' + nodenr);
                     if ( $('#' + listId).hasClass("sortcancel") && senderId.indexOf('found_') >= 0) {
                         //console.log("receive - cancel sorting? " + listId);
@@ -442,11 +514,47 @@ function initSortable(listEl) {
                         unrelated: ''
                     };
                     $.ajax({
-                            url: "${mm:link('/mmbase/searchrelate/relate.jspx')}",
+                            url: "${mm:link('/editors/relate.jspx')}",
                             type: "GET",
                             datatype: "xml",
                             data: params,
                             complete: function(data) {
+
+                                var response = data.responseText;
+                                //$('#' + destListId + ' li.log').html(response);
+                                
+                                if (response.indexOf('number') > -1) {
+                                    var result = response.match(/\s+number='(\d+)'/);
+                                    var newrel = result[1];
+                                    $(ui.item).attr('id', "relation_" + newrel);   // give it new id
+                                    
+                                    // update action links
+                                    // nr, parent, role, relation
+                                    var listclasses = $('#' + listId).attr('class');
+                                    var newparams = new Object();
+                                    newparams['nr'] = nodenr;
+                                    newparams['relation'] = newrel;
+                                    
+                                    var p_result = listclasses.match(/parent_(\d+)/);
+                                    if (p_result != null) newparams['parent'] = p_result[1];
+                                    
+                                    var r_result = listclasses.match(/role_(\w+)/);
+                                    if (r_result != null) newparams['role'] = r_result[1];
+
+                                    if ($('#' + listId).hasClass("unpublish")) newparams['unpublish'] = "true";
+                                    if ($('#' + listId).hasClass("maydelete")) newparams['maydelete'] = "true";
+
+                                    $(ui.item).find('div.actions').load("${mm:link('/editors/actions.div.params.jspx')}", 
+                                        newparams, 
+                                        function(){ 
+                                            initEditme(this); 
+                                        }
+                                    );
+
+
+                                }
+
+
                                 $('#' + listEl.id + ' li.log').html(data.responseText);
                                 clearMsg('#' + listEl.id + ' li.log');
                                 //console.log('received ' + nodenr + ' from ' + senderId);
@@ -460,21 +568,21 @@ function initSortable(listEl) {
 
             },
             update: function(ev, ui) { 
-                var edit_id = $(ui.item).attr('id');
+                var editId = $(ui.item).attr('id');
                 var listId = $(this).attr('id');
                 var senderId = $(ui.sender).attr('id');
-                
+                //console.log('edit: ' + editId + ' list: ' + listId + ' sender: ' + senderId)
                 // are we updating related?
                 // and its the sender
-                if (listId.indexOf('related_') > -1 && senderId != undefined && senderId.indexOf('related_') > -1) {
-                    
+                /* if (listId.indexOf('related_') > -1 
+                    && senderId != undefined && senderId.indexOf('related_') > -1) { */
+                if (senderId != undefined) {
                     if ( $('#' + listId).hasClass("sortcancel") ) {
                         $('#' + listId).sortable("cancel");
                     } else {
-                        sortSortable(this);
+                        sortSortable(this, true);
                     }
                 } else {
-                    
                     if ( $('#' + listId).hasClass("sortcancel") ) {
                         //console.log('not sorting because of class');
                         //$('#' + listId).sortable("cancel");
@@ -490,33 +598,51 @@ function initSortable(listEl) {
     }
 }
 
-function sortSortable(list) {
+/* 
+ * Sorts the sortable list based on ajax query checking mmbase.
+ * @param list      list element to sort
+ * @param updated   if something has been removed from or added to list, to wait a sec. while db commits are made
+ */
+function sortSortable(list, updated) {
     var items = $(list).sortable("toArray");
     var total = 0;
     for (i = 0; i < items.length; i++) {
-        var result = items[i].match(/\d+/);
-        if (result != null) {
-            if (order == undefined) {
-                var order = result;
-            } else {
-                order = order + "," + result;
+        var liId = items[i];
+        if (liId != null) {
+            var editclasses = $("#" + liId).attr("class");
+            if (editclasses != null && editclasses.indexOf('node_') > -1) {    // relation_posrel_126
+                var results = editclasses.match(/node_(\d+)/);
+                var result = results[1];
+                if (result != null) {
+                    if (order == undefined) {
+                        var order = result;
+                    } else {
+                        order = order + "," + result;
+                    }
+                    total += 1;
+                }
             }
-            total += 1;
         }
     }
+    
     if (total > 1) {
-        var params = new Object();
-        params['id'] = list.id;
-        params['order'] = order;
-        $.ajax({
-            url: "${mm:link('/editors/order.jspx')}",
-            data: params,
-            dataType: "xml",
-            complete: function(data) {
-                $('#' + list.id + ' li.log').html(data.responseText);
-                clearMsg('#' + list.id + ' li.log');
-            }
-        });
+        var ms = 10;
+        if (updated) ms = 1250; 
+        var t = null;
+        t = setTimeout(function() {
+            var params = new Object();
+            params['id'] = list.id;
+            params['order'] = order;
+            $.ajax({
+                url: "${mm:link('/editors/order.jspx')}",
+                data: params,
+                dataType: "xml",
+                complete: function(data) {
+                    $('#' + list.id + ' li.log').html(data.responseText);
+                    clearMsg('#' + list.id + ' li.log');
+                }
+            });
+        }, ms);
     }
     if (total == 0) {
         $(list).addClass('empty');

@@ -18,14 +18,14 @@
 
 <mm:import externid="p" /><!-- portal -->
 <mm:import externid="nr" />
-<mm:import externid="fields" vartype="List" />
+<mm:import externid="fields" />
   
   <mm:node number="$nr">
     <mm:nodeinfo type="type" write="false">
       <c:choose>
         
         <c:when test="${_ eq 'images'}">
-          <span><mm:image template="s(216)" mode="img" /></span>
+          <span><mm:image template="s(157)" mode="img" /></span>
         </c:when>
 
         <c:otherwise>

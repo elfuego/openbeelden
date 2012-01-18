@@ -17,17 +17,17 @@
   <fmt:setBundle basename="eu.openimages.messages" scope="request" />
   
   <mm:import externid="p" /><!-- portal -->
-  <mm:import externid="nr" required="true" />
+  <mm:import externid="nr" required="true" /><!-- 'parent' node with relations -->
   <mm:import externid="fields" />
-  <mm:import externid="lang" />
+  <mm:import externid="lang">${requestScope['javax.servlet.jsp.jstl.fmt.locale.request']}</mm:import>
  
   <mm:import externid="type" required="true" />
   <mm:import externid="role">related</mm:import>
   <mm:import externid="dir">destination</mm:import>
 
   <mm:import externid="show">/editors/show-node.jspx</mm:import>
-  <mm:import externid="editor">/editors/edit-node.jspx</mm:import>
-  <mm:import externid="unpublish">false</mm:import>
+  <mm:import externid="editor">/editors/edit-node.jspx</mm:import><!-- editors/editor does not start editme -->
+  <mm:import externid="unpublish">true</mm:import>
   
   <!-- following apply to edit-list.jspx -->
   <mm:import externid="maycreate">true</mm:import>
@@ -43,10 +43,17 @@
   <mm:import externid="startpos">0</mm:import>
   <mm:import externid="endpos" />
   
-  
+  <mm:import from="session" externid="useid" />
+  <mm:import id="idseed" reset="true">${role}_${type}</mm:import>
+  <mm:import from="request" id="seq" externid="${idseed}_sequence" vartype="integer">0</mm:import>
+  <mm:write session="${idseed}_sequence" value="${seq + 1}" />
+  <mm:write request="${idseed}_sequence" value="${seq + 1}" />
+  <mm:import id="myid" reset="true">${idseed}_${seq}</mm:import>
+
   <mm:node number="$nr">
+    <mm:import id="parent" reset="true">${nr}</mm:import><!-- parent: relation may be other way round but just for further reference -->
     <mm:nodeinfo type="type" id="type_of_nr" write="false" />
-    <mm:relatednodescontainer type="$type" role="$role" searchdirs="$dir" id="related_$type">
+    <mm:relatednodescontainer type="$type" role="$role" searchdirs="$dir" id="related_$myid">
       
       <mm:size id="total" write="false" />
       <c:if test="${role eq 'posrel'}">
@@ -55,112 +62,90 @@
         </c:if>
         <mm:sortorder field="posrel.pos" direction="UP" />
       </c:if>
+      <c:if test="${role eq 'footerrel'}">
+        <mm:sortorder field="footerrel.pos" direction="UP" />
+      </c:if>
+
       <mm:size id="sizeinbetween" write="false" />
       <mm:maxnumber value="99" />
       <mm:offset value="$offset" />
       <mm:size id="size" write="false" />
       
-      <ul class="${sortable ? 'sortable connected' : ''} ${role eq 'related' ? 'sortcancel' : role} ${size == 0 ? 'empty' : size}" id="related_${type}">
+      <ul id="related_${myid}"
+          class="relatednodes ${sortable ? 'sortable connected' : ''} ${role eq 'related' ? 'sortcancel' : role} ${size == 0 ? 'empty' : size} parent_${_node} role_${role} ${maydelete ? 'maydelete' : ''} ${unpublish ? 'unpublish' : ''}">
         <li class="log notsortable"><jsp:text> <!-- empty --> </jsp:text></li>
-        <c:if test="${size == 0 and sortable}">
-          <li class="notsortable empty">Search <mm:nodeinfo nodetype="$type" type="type" /> and drop them here to add them to the list (e.g. create relation).</li>
-        </c:if>
         
-        <mm:relatednodes id="this_node">
-          <mm:relation to="${nr}" role="${role}">
+        <mm:relatednodes>
+          <mm:relation to="${parent}" role="${role}" from="${_node}">
             <c:set var="relation_class">relation_${role}_${_node}</c:set>
+            <mm:import id="relation" reset="true">${_node}</mm:import>
           </mm:relation>
-          <li id="edit_${_node.number}" class="${relation_class}">
+          <li id="relation_${relation}" class="relation_${relation} node_${_node}">
             
-            <mm:link page="$editor" 
-              referids="p?,_node@nr,fields?,lang?,show,editor,maydelete,target?">
-              <a class="${editor ne '/editors/editor.jspx' ? 'editme' : 'edit'}" 
-                 href="${_}#edit_${_node.number}"><fmt:message key="users.edit" /></a>
-            </mm:link>
+            <jsp:directive.include file="actions.div.jspx" />
             
-            <c:if test="${maydelete}">
-              <mm:maydelete>
-                <mm:link page="/editors/delete-node.jspx" 
-                  referids="p?,_node@nr,fields?,lang?,show,editor,maydelete,target?">
-                  <a class="editme delete" href="${_}#edit_${_node.number}"><fmt:message key="users.delete" /></a>
-                </mm:link>
-              </mm:maydelete>
-            </c:if>
-            
-              <mm:relation to="${nr}" role="${role}">
-                <c:if test="${! sortable and unpublish}">
-                  <mm:maydelete>
-                    <mm:link page="/editors/delete-relation.jspx" 
-                      referids="p?,this_node@nr,_node@relation,nr@related,fields?,lang?,show,editor,maydelete,target?">
-                      <a class="editme unrelate" href="${_}#edit_${this_node}">unpublish</a>
-                    </mm:link>
-                  </mm:maydelete>
-                </c:if>
-              </mm:relation>
-
-            <div>
-              <mm:include page="$show" referids="p?,_node@nr,fields?">
-              </mm:include>
+            <div class="node">
+              <mm:include page="$show" referids="p?,_node@nr,fields?" />
             </div>
             
           </li>
         </mm:relatednodes>
-        <c:if test="${maycreate}">
-          <li id="new_${type}" class="notsortable">
-            <jsp:text> <!-- empty --> </jsp:text>
-          </li>
-          <li class="notsortable">
-            <mm:link escapeamps="true" page="/editors/add-node.jspx" 
-              referids="p?,nr,type,fields?,role,dir,show,editor,maydelete,target?">
-              <a class="editme add" href="${_}#new_${type}">
-                <fmt:message key="users.add_something">
-                  <fmt:param><mm:nodeinfo type="guitype" nodetype="$type" escape="lowercase" /></fmt:param>
-                </fmt:message>
-              </a>
-            </mm:link>
-          </li>
-        </c:if>
-
-        <!-- url : ${baseurl} t : ${total} m : ${max} o : ${offset} -->
-        <!-- c:if test="${endpos gt max}">
-          <li class="pager notsortable">
-            <mm:link referids="type?,p?,nr?,editor?,lang?" id="baseurl" absolute="true" escapeamps="false">
-              <mm:param name="fields">${fields}</mm:param>
-            </mm:link>
-            <oip:pager total="${total}" offset="${offset}" max="${max}" baseurl="${baseurl}" />
-          </li>
-        </c:if -->
-      
+        <!-- <c:if test="${maycreate}"> -->
+          <li id="new_${type}" class="notsortable new last"><jsp:text> <!-- empty --> </jsp:text></li>
+        <!-- </c:if> -->
       </ul>
     </mm:relatednodescontainer>
+    
+    <c:if test="${maycreate}">
+      <p class="add">
+        <mm:link escapeamps="true" page="/editors/add-node.jspx" 
+          referids="p?,nr,type,fields?,role,dir,show,editor,maydelete,maycreate,unpublish">
+          <a class="editme add" href="${_}#new_${type}">
+            <fmt:message key="editors.add_type">
+              <fmt:param><mm:nodeinfo type="guitype" nodetype="$type" escape="lowercase" /></fmt:param>
+            </fmt:message>
+          </a>
+        </mm:link>
+      </p>
+    </c:if>
+   
     <c:if test="${sortable}">
-      <mm:write session="related_${type}_current" referid="related_$type" />
+      <mm:write session="related_${myid}_current" referid="related_$myid" />
     </c:if>
     
+    
     <c:if test="${search}">
-
-      <mm:link page="/editors/search-node.jspx" id="searchlink" escapeamps="false" 
-        referids="p?,nr,type,editor,sortable?">
-        <mm:param name="lang">${requestScope['javax.servlet.jsp.jstl.fmt.locale.request']}</mm:param>
-        <mm:param name="max">10</mm:param>
-      </mm:link>
-      <form class="searchme searchform" method="post" action="${searchlink}">
-        <fieldset class="first">
-          <div>
-            <label for="search">Search ${type}</label>
-            <input type="text" name="q" id="search" size="42" />
-          </div>
-          <input type="submit" name="submit" value="Search" class="submit" />
-        </fieldset>
-      </form>
-      <div class="searchresults"><jsp:text> <!-- empty --> </jsp:text>
-        <c:if test="${size gt 0 and sortable}">
-          <ul id="found_${type}" class="sortable connected empty">
-            <li class="empty notsortable">Drop items here to remove them from the list (e.g. sever relation).</li>
-          </ul>
-        </c:if>
+      <div class="searchme">
+        <mm:link page="/editors/search-node.jspx" id="searchlink" escapeamps="false" 
+          referids="p?,nr,type,role,unpublish,editor,sortable?,lang?">
+          <mm:param name="max">10</mm:param>
+          <mm:param name="editme">true</mm:param>
+        </mm:link>
+        <form class="searchme searchform" method="post" action="${searchlink}">
+          <fieldset class="first">
+            <div>
+              <label for="search">
+                <fmt:message key="editors.search_type">
+                  <fmt:param><mm:nodeinfo type="guitype" nodetype="$type" escape="lowercase" /></fmt:param>
+                </fmt:message>
+              </label>
+              <input type="text" name="q" id="search" size="42" autocomplete="off" placeholder="Enter search term" />
+            </div>
+            <fmt:message key="editors.search" var="search_button" />
+            <input type="submit" name="submit" value="${search_button}" class="submit searchsubmit" />
+            <input type="hidden" name="destinationlist" value="${myid}" />
+          </fieldset>
+        </form>
+        <div class="searchresults"><jsp:text> <!-- empty --> </jsp:text>
+          <c:if test="${size gt 0 and sortable}">
+            <ul id="found_${type}" class="connected empty">
+              <!-- li class="empty notsortable">
+                Drop items here to remove them from the list (e.g. sever relation).
+              </li -->
+            </ul>
+          </c:if>
+        </div>
       </div>
-             
     </c:if>
     
   </mm:node>

@@ -36,15 +36,19 @@
                        <mm:maxnumber value="1" />
                        <mm:relatednodes>
                          <mm:node id="img" />
+                         <mm:relation to="${media}" from="${_node}" role="related">
+                           <c:set var="relation_class">relation_${role}_${_node}</c:set>
+                           <mm:import id="relation">${_node}</mm:import>
+                         </mm:relation>
                        </mm:relatednodes>
                      </mm:relatednodescontainer>
-      
+                     
                      <c:choose>
                        <c:when test="${empty img}">
                          
                          <oip:thumb />
                          <p class="description">
-                           <mm:link page="/editors/add-thumb.jspx" referids="_node@nr,_node@related">
+                           <mm:link page="/editors/add-thumb.jspx" referids="_node@nr,media@parent">
                              <mm:param name="lang">${requestScope['javax.servlet.jsp.jstl.fmt.locale.request']}</mm:param>
                              <mm:param name="type">images</mm:param>
                              <mm:param name="fields">handle</mm:param>
@@ -58,23 +62,23 @@
                        </c:when>
                        <c:otherwise>
                          
-                         <div id="edit_${img}">
+                         <div id="relation_${relation}">
                            <oip:thumb />
                            <p class="description">
-                             <mm:link page="/editors/delete-thumb.jspx" referids="img@nr,_node@related">
+                             <mm:link page="/editors/delete-thumb.jspx" referids="img@nr,relation,media@parent">
                                <mm:param name="lang">${requestScope['javax.servlet.jsp.jstl.fmt.locale.request']}</mm:param>
                                <mm:param name="fields">handle</mm:param>
                                <mm:param name="show">/editors/show-thumb.jspx</mm:param>
                                <mm:param name="editor">/editors/edit-thumb.jspx</mm:param>
-                               <a class="editme delete" href="${_}#edit_${img}"><fmt:message key="users.delete_image" /></a>
+                               <a class="editme delete" href="${_}#relation_${relation}"><fmt:message key="users.delete_image" /></a>
                              </mm:link>
                              <jsp:text> / </jsp:text>
-                             <mm:link page="/editors/edit-thumb.jspx" referids="img@nr,_node@related">
+                             <mm:link page="/editors/edit-thumb.jspx" referids="img@nr,relation,media@parent">
                                <mm:param name="lang">${requestScope['javax.servlet.jsp.jstl.fmt.locale.request']}</mm:param>
                                <mm:param name="fields">handle</mm:param>
                                <mm:param name="show">/editors/show-thumb.jspx</mm:param>
                                <mm:param name="editor">/editors/edit-thumb.jspx</mm:param>
-                               <a class="editme" href="${_}#edit_${img}"><fmt:message key="users.edit_image" /></a>
+                               <a class="editme" href="${_}#relation_${relation}"><fmt:message key="users.edit_image" /></a>
                              </mm:link>
                            </p>
                          </div>

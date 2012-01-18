@@ -39,20 +39,21 @@
       <mm:nodelistfunction nodemanager="properties" name="list" referids="_node@node">
         <mm:import id="propnr" reset="true"><mm:field name="number" /></mm:import>
         <li id="edit_${propnr}">
-          <mm:maywrite>
-            <mm:link page="/editors/edit-node.jspx" referids="p?,propnr@nr">
-              <mm:param name="fields">key,value</mm:param>
-              <a class="editme" title="edit property" href="${_}#edit_${propnr}"><fmt:message key="users.edit" /></a>
-            </mm:link>
-          </mm:maywrite>
-          <mm:maydelete>
-            <mm:link page="/editors/delete-node.jspx" referids="p?,propnr@nr">
-              <mm:param name="fields">key,value</mm:param>
-              <a class="editme delete" href="${_}#edit_${propnr}" title="delete property"><fmt:message key="users.delete" /></a>
-            </mm:link>
-          </mm:maydelete>
-          
-          <div>
+          <div class="actions">
+            <mm:maydelete>
+              <mm:link page="/editors/delete-node.jspx" referids="p?,propnr@nr">
+                <mm:param name="fields">key,value</mm:param>
+                <a class="editme delete" href="${_}#edit_${propnr}" title="delete property"><fmt:message key="users.delete" /></a>
+              </mm:link>
+            </mm:maydelete>
+            <mm:maywrite>
+              <mm:link page="/editors/edit-node.jspx" referids="p?,propnr@nr">
+                <mm:param name="fields">key,value</mm:param>
+                <a class="editme" title="edit property" href="${_}#edit_${propnr}"><fmt:message key="users.edit" /></a>
+              </mm:link>
+            </mm:maywrite>
+          </div>
+          <div class="node">
             <strong><mm:field name="key" /> : </strong> <mm:field name="value" />
           </div>
           

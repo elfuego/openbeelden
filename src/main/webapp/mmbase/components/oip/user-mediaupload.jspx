@@ -136,7 +136,7 @@
 
 
             <!-- Make sure the mediafragment is created outside transactions and so on -->
-            <mm:log level="debug">Mediafragment title: <mm:field name="title" /></mm:log>
+            <mm:log level="info">Mediafragment title: <mm:field name="title" /></mm:log>
 
             
             <p class="msg stay">

@@ -1,0 +1,304 @@
+<jsp:root
+    version="2.0"
+    xmlns:jsp="http://java.sun.com/JSP/Page"
+    xmlns:c="http://java.sun.com/jsp/jstl/core"
+    xmlns:fmt="http://java.sun.com/jsp/jstl/fmt"
+    xmlns:mm="http://www.mmbase.org/mmbase-taglib-2.0"
+    xmlns:oip="urn:jsptagdir:/WEB-INF/tags/oip">
+
+  <oip:editor styleClass="editor-articles">
+    <jsp:attribute name="head">
+      
+      <mm:import externid="nr" />
+      <mm:import externid="portal" />
+      <mm:import externid="parent" />
+      <mm:import externid="pos">1</mm:import>
+      <mm:import externid="type">articles</mm:import>
+      
+      <mm:import externid="submit$type" />
+      <mm:import externid="submit$nr" />
+      
+      <mm:present referid="nr">
+        <mm:node number="$nr">
+          <mm:field name="title" id="articletitle" write="false" />
+        </mm:node>
+      </mm:present>
+
+      <script type="text/javascript">
+        $(document).ready(function() {
+            var validator = new MMBaseValidator();
+            var to_validate_id = "form_${type}";
+            <c:if test="${!empty type}">validator.prefetchNodeManager('${type}');</c:if>
+            validator.lang = "${requestScope['javax.servlet.jsp.jstl.fmt.locale.request']}";
+            validator.addValidationForElements($('#' + to_validate_id + " .mm_validate"));
+            validator.validateHook = function(valid, entry) {
+               var button = $("#" + to_validate_id + " input[type=submit][class=submit]");
+               if (button.length) {
+                   button[0].disabled = validator.invalidElements != 0;
+                   if (button.length == 2) button[1].disabled = validator.invalidElements != 0;
+               }
+               console.log(validator.elements);
+            }
+            validator.validateHook();
+        });
+      </script>
+    </jsp:attribute>
+    <jsp:attribute name="body">
+
+      <c:set var="isdefault" value="false" />
+      <mm:node id="p" number="$_node.number">
+        <mm:hasalias name="pool_oip"><c:set var="isdefault" value="true" /></mm:hasalias>
+      </mm:node>
+      
+      <div class="main-column">
+        <h2>Editor articles<c:if test="${!empty articletitle}"> : ${articletitle}</c:if></h2>
+        <p>
+          Wijzig de instellingen van het artikel
+          <c:if test="${!empty articletitle}">'${articletitle}'</c:if> 
+          en voeg eventueel de versie van het artikel in een andere taal toe.
+        </p>
+
+        <mm:notpresent referid="nr">
+          <!-- no node yet, create article -->  
+
+          <mm:form id="form_$type">
+            <mm:import id="buffer">
+              <mm:createnode type="$type" id="new_node" commitonclose="false">
+                <fieldset>
+                  <mm:fieldlist fields="title">
+                    <c:set var="fld_name"><mm:fieldinfo type="name" /></c:set>
+                    <div class="${fld_name}">
+                      <mm:fieldinfo type="forid">
+                        <label for="${_}" class="${fld_name}"><mm:fieldinfo type="guiname" /></label>
+                      </mm:fieldinfo>
+                      <p class="info"><mm:fieldinfo type="description" escape="inline" /></p>
+                      <mm:maywrite><mm:fieldinfo type="input" /><mm:fieldinfo type="errors" /></mm:maywrite>
+                    </div>
+                  </mm:fieldlist>
+                </fieldset>
+                <fieldset class="buttons">
+                  <input name="p"      type="hidden" value="${p}" />
+                  <input name="parent" type="hidden" value="${parent}" />
+                  <input name="pos"    type="hidden" value="${pos}" />
+                  <input name="submit${type}" type="hidden" value="submit" />
+                  <fmt:message key="users.form.save" var="button_save" />
+                  <input type="submit" name="action" value="${button_save}" class="submit" id="submit" />
+                </fieldset>
+                
+                <div class="wrap languages">
+                  <h3>Taalversies</h3>
+                  <ul>
+                    <li>
+                      <mm:link referids="p,parent,pos">
+                        <a href="${_}">
+                          <mm:field name="language"><mm:fieldinfo type="guivalue" /></mm:field>
+                        </a>
+                      </mm:link>
+                    </li>
+                  </ul>
+                </div>
+                
+                <div class="box">
+                  <fieldset class="description">
+                    <p>Vul de gegevens van het artikel in.</p>
+                    <mm:fieldlist fields="subtitle,language,intro,body,author">
+                      <c:set var="fld_name"><mm:fieldinfo type="name" /></c:set>
+                      <div class="${fld_name}">
+                        <mm:fieldinfo type="forid">
+                          <label for="${_}" class="${fld_name}"><mm:fieldinfo type="guiname" /></label>
+                        </mm:fieldinfo>
+                        <p class="info"><mm:fieldinfo type="description" escape="inline" /></p>
+                        <mm:maywrite><mm:fieldinfo type="input" /><mm:fieldinfo type="errors" /></mm:maywrite>
+                      </div>
+                    </mm:fieldlist>
+                  </fieldset>
+                  <fieldset class="buttons">
+                    <fmt:message key="users.form.save" var="button_save" />
+                    <input type="submit" name="action" value="${button_save}" class="submit" id="submit2" />
+                  </fieldset>
+                </div>
+                
+              </mm:createnode>
+            </mm:import>
+            
+            <mm:present referid="submit$type">
+              <mm:valid>
+                <mm:import id="saved">
+                  <mm:node number="$parent" id="source" />
+                  <mm:createrelation source="source" destination="new_node" role="posrel">
+                    <mm:setfield name="pos">${pos}</mm:setfield>
+                  </mm:createrelation>
+                  <p class="msg">Het nieuwe artikel is bewaard.</p>
+                </mm:import>
+                <mm:commit />
+              </mm:valid>
+              <mm:valid inverse="true">
+                <p class="err">Het formulier bevat een fout.</p>
+                <mm:write referid="buffer" escape="none" />
+                <mm:cancel />
+              </mm:valid>
+            </mm:present>
+            <mm:notpresent referid="submit$type">
+              <mm:write referid="buffer" escape="none" />
+              <mm:cancel />
+            </mm:notpresent>
+          </mm:form>
+          
+          <mm:present referid="saved">
+            <mm:write referid="saved" escape="none" />
+            <mm:node referid="new_node">
+              <mm:import id="nr" reset="true"><mm:field name="number" /></mm:import>
+            </mm:node>
+          </mm:present>
+        </mm:notpresent><!-- /nr -->
+        
+        <!-- ### here starts editing current/new node ### -->
+        <mm:present referid="nr">
+
+          <mm:url referids="p?,nr,lang?" write="false" absolute="true" escapeamps="false" id="submit_link"></mm:url>
+
+          <mm:form id="form_$type" page="$submit_link">
+            <mm:node number="$nr" commitonclose="false">
+              <mm:import id="editbuffer">
+                <fieldset>
+                  <mm:fieldlist fields="title">
+                    <c:set var="fld_name"><mm:fieldinfo type="name" /></c:set>
+                    <div class="${fld_name}">
+                      <mm:fieldinfo type="forid">
+                        <label for="${_}" class="${fld_name}"><mm:fieldinfo type="guiname" /></label>
+                      </mm:fieldinfo>
+                      <p class="info"><mm:fieldinfo type="description" escape="inline" /></p>
+                      <mm:maywrite><mm:fieldinfo type="input" /><mm:fieldinfo type="errors" /></mm:maywrite>
+                    </div>
+                  </mm:fieldlist>
+                </fieldset>
+                <fieldset class="buttons">
+                  <input name="p" type="hidden" value="${p}" />
+                  <input name="nr" type="hidden" value="${nr}" />
+                  <input name="submit${nr}" type="hidden" value="submit" />
+                  <fmt:message key="users.form.save" var="button_save" />
+                  <input type="submit" name="action" value="${button_save}" class="submit" id="submit" />
+                </fieldset>
+                <div class="wrap languages">
+                  <h3>Taalversies</h3>
+                  <ul>
+                    <li>
+                      <mm:link referids="p?,nr"><a href="${_}"><mm:field name="language"><mm:fieldinfo type="guivalue" /></mm:field></a></mm:link>
+                      : <mm:field name="title" />
+                    </li>
+                    
+                    <mm:relatednodescontainer type="articles_translations" role="langrel" searchdirs="destination">
+                      <mm:relatednodes>
+                        <li>
+                          <mm:link page="/editors/edit-node.jspx" referids="p?,_node@nr">
+                            <mm:param name="fields">title,language,subtitle,intro,body,author</mm:param>
+                            <mm:param name="show">/editors/show-articles.jspx</mm:param>
+                            <a class="editme" href="${_}#totranslate">
+                              <mm:field name="language"><mm:fieldinfo type="guivalue" /></mm:field>
+                            </a> : <mm:field name="title" />
+                          </mm:link>
+                        </li>
+                      </mm:relatednodes>
+                    </mm:relatednodescontainer>
+                    
+                    
+                    <li>
+                      <mm:link page="/editors/add-node.jspx" referids="p?,_node@nr">
+                        <mm:param name="type">articles_translations</mm:param>
+                        <mm:param name="fields">title,language,subtitle,intro,body,author</mm:param>
+                        <mm:param name="role">langrel</mm:param>
+                        <mm:param name="show">/editors/show-page.jspx</mm:param>
+                        <a class="add editme" href="${_}#totranslate">Voeg vertaling toe</a>
+                      </mm:link>
+                    </li>
+                      
+                  </ul>
+                </div>
+                <div class="box" id="totranslate">
+                  <fieldset class="description">
+                    <p>Vul de gegevens van het artikel in.</p>
+                    <mm:fieldlist fields="subtitle,language,intro,body,author">
+                      <c:set var="fld_name"><mm:fieldinfo type="name" /></c:set>
+                      <div class="${fld_name}">
+                        <mm:fieldinfo type="forid">
+                          <label for="${_}" class="${fld_name}"><mm:fieldinfo type="guiname" /></label>
+                        </mm:fieldinfo>
+                        <p class="info"><mm:fieldinfo type="description" escape="inline" /></p>
+                        <mm:maywrite><mm:fieldinfo type="input" /><mm:fieldinfo type="errors" /></mm:maywrite>
+                      </div>
+                    </mm:fieldlist>
+                  </fieldset>
+                  <fieldset class="buttons">
+                    <fmt:message key="users.form.save" var="button_save" />
+                    <input type="submit" name="action" value="${button_save}" class="submit" id="submit2" />
+                  </fieldset>
+                </div>
+              </mm:import>
+
+              <mm:present referid="submit$nr">
+                <mm:valid inverse="true">
+                  <mm:cancel />
+                  <p class="err">Het formulier bevat een fout.</p>
+                </mm:valid>
+                <mm:valid>
+                  <mm:commit />
+                  <p class="msg">Je veranderingen aan '<mm:function name="gui" escape="none" />' zijn bewaard.</p>
+                </mm:valid>
+                <mm:write referid="editbuffer" escape="none" />
+              </mm:present>
+              <mm:notpresent referid="submit$nr">
+                <mm:write referid="editbuffer" escape="none" />
+              </mm:notpresent>
+            </mm:node>
+
+          </mm:form>
+
+          <mm:node number="$nr">
+            <div class="wrap">
+              <mm:hasrelationmanager sourcemanager="$type" destinationmanager="images" role="posrel">
+                  <h3><mm:nodeinfo type="plural_guitype" nodetype="images" /></h3>
+                  <mm:include page="/editors/edit-list.jspx" referids="p?,_node@nr">
+                    <mm:param name="type">images</mm:param>
+                    <mm:param name="role">posrel</mm:param>
+                    <mm:param name="dir">destination</mm:param>
+                    <mm:param name="fields">handle,title,description</mm:param>
+                    <mm:param name="editor">/editors/edit-node.jspx</mm:param>
+                    <mm:param name="unpublish">true</mm:param>
+                  </mm:include>
+              </mm:hasrelationmanager>
+            </div>
+            <div class="wrap">
+              <mm:hasrelationmanager sourcemanager="$type" destinationmanager="urls" role="posrel">
+                  <h3><mm:nodeinfo type="plural_guitype" nodetype="urls" /></h3>
+                  <mm:include page="/editors/edit-list.jspx" referids="p?,_node@nr">
+                    <mm:param name="type">urls</mm:param>
+                    <mm:param name="role">posrel</mm:param>
+                    <mm:param name="dir">destination</mm:param>
+                    <mm:param name="fields">url,name,description</mm:param>
+                    <mm:param name="editor">/editors/edit-node.jspx</mm:param>
+                    <mm:param name="unpublish">true</mm:param>
+                  </mm:include>
+              </mm:hasrelationmanager>
+            </div>
+            <div class="wrap">
+              <mm:hasrelationmanager sourcemanager="$type" destinationmanager="attachments" role="posrel">
+                  <h3><mm:nodeinfo type="plural_guitype" nodetype="attachments" /></h3>
+                  <mm:include page="/editors/edit-list.jspx" referids="p?,_node@nr">
+                    <mm:param name="type">attachments</mm:param>
+                    <mm:param name="role">posrel</mm:param>
+                    <mm:param name="dir">destination</mm:param>
+                    <mm:param name="fields">handle,title,filename</mm:param>
+                    <mm:param name="editor">/editors/edit-node.jspx</mm:param>
+                    <mm:param name="unpublish">true</mm:param>
+                  </mm:include>
+              </mm:hasrelationmanager>
+            </div>
+          </mm:node>
+        </mm:present><!-- /nr -->
+        
+        
+
+      </div><!-- /.main-column -->
+    </jsp:attribute>
+  </oip:editor>
+</jsp:root>

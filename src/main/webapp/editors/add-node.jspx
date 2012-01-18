@@ -15,11 +15,11 @@
 
     <mm:import externid="p" /><!-- portal -->
     <mm:import externid="type" required="true" /><!-- type of new node to create -->
-    <mm:import externid="fields" vartype="List" />
+    <mm:import externid="fields" />
     <mm:import externid="lang" />
 
     <!-- if we have nr and role, a relation will be made with nr -->
-    <mm:import externid="nr" />
+    <mm:import externid="nr" /><!-- node to create relation with -->
     <mm:import externid="role">related</mm:import>
     <mm:import externid="dir">destination</mm:import>
     <mm:import externid="pos" />
@@ -37,7 +37,6 @@
     <mm:import externid="cancel" />
 
     <mm:import externid="editme">false</mm:import>
-    <mm:import externid="target" />
     <mm:import externid="show">/editors/show-node.jspx</mm:import>
     <mm:import externid="editor">/editors/edit-node.jspx</mm:import>
     <mm:import externid="maydelete">true</mm:import>
@@ -59,7 +58,8 @@
           </mm:notpresent>
         </c:if>
 
-        <mm:form id="form_$type">
+        <mm:url referids="p?,nr,lang?,relation?" write="false" absolute="true" escapeamps="false" id="submit_link"></mm:url>
+        <mm:form id="form_$type" page="$submit_link">
           <mm:import id="buffer">
 
             <mm:createnode type="$type" id="new_node" commitonclose="false">
@@ -90,25 +90,23 @@
 
 
               <fieldset class="buttons">
-                <input name="p"        type="hidden" value="${p}" />
-                <input name="nr"       type="hidden" value="${nr}" />
-                <input name="fields"   type="hidden" value="${fields}" />
-                <input name="lang"     type="hidden" value="${lang}" />
                 <input name="submit${type}" type="hidden" value="submit" />
                 <input name="type" type="hidden" value="${type}" />
                 <input name="role" type="hidden" value="${role}" />
-                <input name="pos"  type="hidden" value="${pos}" />
                 <input name="dir"  type="hidden" value="${dir}" />
+                <input name="pos"  type="hidden" value="${pos}" />
+                <input name="fields"   type="hidden" value="${fields}" />
                 <input name="show" type="hidden" value="${show}" />
                 <input name="maydelete" type="hidden" value="${maydelete}" />
+                <input name="unpublish" type="hidden" value="${unpublish}" />
                 <input name="editor" type="hidden" value="${editor}" />
                 <input name="defaultstr"  type="hidden" value="${defaultstr}" />
                 <fmt:message key="users.cancel" var="button_cancel" />
                 <fmt:message key="users.form.save" var="button_save" />
-                <input type="submit" name="action" value="${button_save}" class="submit" />
                 <c:if test="${editme eq 'true'}">
                   <input type="button" name="cancel" value="${button_cancel}" class="cancel" />
                 </c:if>
+                <input type="submit" name="action" value="${button_save}" class="submit" />
               </fieldset>
             </mm:createnode>
           </mm:import>
@@ -128,7 +126,7 @@
                     <c:when test="${dir eq 'destination'}">
                       <c:choose>
                         <c:when test="${role eq 'posrel' and !empty pos}">
-                          <mm:createrelation source="rel_node" destination="new_node" role="$role">
+                          <mm:createrelation source="rel_node" destination="new_node" role="$role" >
                             <mm:setfield name="pos">${pos}</mm:setfield>
                           </mm:createrelation>
                         </c:when>
@@ -140,7 +138,7 @@
                     <c:otherwise>
                       <c:choose>
                         <c:when test="${role eq 'posrel' and !empty pos}">
-                          <mm:createrelation source="new_node" destination="rel_node" role="$role">
+                          <mm:createrelation source="new_node" destination="rel_node" role="$role" >
                             <mm:setfield name="pos">${pos}</mm:setfield>
                           </mm:createrelation>
                         </c:when>
@@ -176,39 +174,26 @@
 
         <c:if test="${!empty saved and editme eq 'true'}">
           <p class="msg"><mm:write referid="saved" escape="none" /></p>
-
           <!-- show new node -->
-          <div class="node_created edit_${new_node}">
-            <span class="links">
-            <mm:link page="$editor" 
-              referids="p?,new_node@nr,lang?,related?,show,editor,maydelete,unpublish,target?">
-              <mm:param name="fields">${fields}</mm:param>
-              <a class="editme new" href="${_}#edit_${new_node}"><fmt:message key="users.edit" /></a>
-            </mm:link>
-            <mm:link page="/editors/delete-node.jspx" 
-              referids="p?,new_node@nr,lang?,related?,show,editor,maydelete,unpublish,target?">
-              <mm:param name="fields">${fields}</mm:param>
-              <a class="editme delete new" href="${_}#edit_${new_node}"><fmt:message key="users.delete" /></a>
-            </mm:link>
-          
-            <c:if test="${unpublish}">
-              <mm:node referid="new_node">
-                <mm:relation to="${related}">
-                  <mm:link page="/editors/delete-relation.jspx" 
-                    referids="p?,new_node@nr,nr@related,_node@relation,lang?,show,editor,maydelete,target?">
-                    <a class="editme unrelate" href="${_}#edit_${new_node}">unpublish</a>
-                  </mm:link>
-                </mm:relation>
-              </mm:node>
+          <mm:node number="$new_node">
+            
+            <c:if test="${!empty nr and !empty role}">
+              <mm:relation to="${nr}" role="${role}">
+                <mm:import id="relation" reset="true">${_node}</mm:import>
+              </mm:relation>
+              <mm:import id="parent" reset="true">${nr}</mm:import>
             </c:if>
-            </span>
-
-            <span class="content">
-              <mm:include page="$show" referids="new_node@nr">
-                <mm:param name="fields">${fields}</mm:param>
-              </mm:include>
-            </span>
-          </div>
+            
+            <div class="node_created edit_${_node} relation_${relation}">
+              <jsp:directive.include file="actions.div.jspx" />
+              <div class="node">
+                <mm:include page="$show" referids="_node@nr">
+                  <mm:param name="fields">${fields}</mm:param>
+                </mm:include>
+              </div>
+            </div>
+          
+          </mm:node>
         </c:if>
 
       </c:otherwise>

@@ -50,7 +50,7 @@
 
         <mm:node number="$portal">
           <mm:relatednodes role="portalrel" type="images" max="1">
-            <c:set var="img"><mm:image mode="img" template="s(216)" /></c:set>
+            <c:set var="img"><mm:image mode="img" template="s(157)" /></c:set>
           </mm:relatednodes>
 
           <mm:hasalias name="pool_oip">

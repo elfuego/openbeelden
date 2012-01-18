@@ -17,15 +17,18 @@
   
   <mm:import externid="p" /><!-- portal -->
   <mm:import externid="nr" />
-  <mm:import externid="fields" vartype="List" />
+  <mm:import externid="relation" /><!-- node nr relation -->
+  <mm:import externid="fields" />
   <mm:import externid="lang" />
 
+  <mm:import externid="parent" />
+  <mm:import externid="role">related</mm:import>
+  
   <mm:import externid="submit$nr" />
   <mm:import externid="cancel" />
   
-  <mm:import externid="related" />
+  <!-- mm:import externid="related" / -->
   <mm:import externid="editme">false</mm:import>
-  <mm:import externid="target" />
   <mm:import externid="show">/editors/show-node.jspx</mm:import>
   <mm:import externid="editor">/editors/edit-node.jspx</mm:import>
   <mm:import externid="maydelete">true</mm:import>
@@ -42,36 +45,9 @@
       <c:when test="${cancel eq 'Cancel'}">
         
         <mm:node number="$nr">
-          <mm:maywrite>
-            <mm:link page="$editor" 
-              referids="p?,nr,lang?,related?,show,editor,maydelete,target?">
-              <mm:param name="fields">${fields}</mm:param>
-              <a class="editme" href="${_}#edit_${nr}"><fmt:message key="users.edit" /></a>
-            </mm:link>
-          </mm:maywrite>
-          <c:if test="${maydelete}">
-            <mm:maydelete>
-              <mm:link page="/editors/delete-node.jspx" 
-                referids="p?,nr,lang?,related?,show,editor,maydelete,target?">
-                <mm:param name="fields">${fields}</mm:param>
-                <a class="editme delete" href="${_}#edit_${nr}"><fmt:message key="users.delete" /></a>
-              </mm:link>
-            </mm:maydelete>
-          </c:if>
-          <!-- remove relation -->
-          <c:if test="${!empty related and unpublish}">
-            <mm:relation to="${related}">
-              <mm:maydelete>
-                <mm:link page="/editors/delete-relation.jspx" 
-                  referids="p?,nr,lang?,related?,_node@relation,show,editor,maydelete,target?">
-                  <a class="editme unrelate" href="${_}#edit_${nr}">unpublish</a>
-                </mm:link>
-              </mm:maydelete>
-            </mm:relation>
-          </c:if>
+          <jsp:directive.include file="actions.div.jspx" />
         </mm:node>
-        
-        <div>
+        <div class="node">
           <mm:include page="$show" referids="nr">
             <mm:param name="fields">${fields}</mm:param>
           </mm:include>
@@ -80,7 +56,7 @@
       </c:when>
       <c:otherwise>
   
-        <mm:url referids="p?,nr,lang?" write="false" absolute="true" escapeamps="false" id="submit_link"></mm:url>
+        <mm:url referids="p?,nr,lang?,relation?" write="false" absolute="true" escapeamps="false" id="submit_link"></mm:url>
         <mm:form id="form_$nr" page="$submit_link">
         
           <mm:node number="$nr" commitonclose="false">
@@ -109,15 +85,23 @@
               <mm:maywrite>
                 <fieldset class="buttons">
                   <input name="fields"       type="hidden" value="${fields}" />
-                  <input name="related"      type="hidden" value="${related}" />
+                  <input name="parent"       type="hidden" value="${parent}" />
+                  <input name="role"         type="hidden" value="${role}" />
+                  
+                  <!-- input name="related"      type="hidden" value="${related}" / -->
+                  <input name="show"         type="hidden" value="${show}" />
+                  <input name="editor"       type="hidden" value="${editor}" />
+                  <input name="maydelete"    type="hidden" value="${maydelete}" />
+                  <input name="unpublish"    type="hidden" value="${unpublish}" />
                   <input name="submit${nr}"  type="hidden" value="ok" />
+                  
                   <div>
                     <fmt:message key="users.form.save" var="button_save" />
                     <fmt:message key="users.cancel" var="button_cancel" />
-                    <input type="submit" name="action" value="${button_save}" class="submit" />
                     <c:if test="${editme eq 'true'}">
                       <input type="button" name="cancel" value="${button_cancel}" class="cancel" /> 
                     </c:if>
+                    <input type="submit" name="action" value="${button_save}" class="submit" />
                   </div>
                 </fieldset>
               </mm:maywrite>
@@ -132,41 +116,13 @@
                 <c:choose>
                   <c:when test="${editme eq 'true'}">
 
-                    <span class="links">
-                    <mm:maywrite>
-                      <mm:link page="$editor" 
-                        referids="p?,nr,lang?,related?,show,editor,maydelete,target?">
-                        <mm:param name="fields">${fields}</mm:param>
-                        <a class="editme" href="${_}#edit_${nr}"><fmt:message key="users.edit" /></a>
-                      </mm:link>
-                    </mm:maywrite>
-                    <c:if test="${maydelete}">
-                      <mm:maydelete>
-                        <mm:link page="/editors/delete-node.jspx" 
-                          referids="p?,nr,lang?,related?,show,editor,maydelete,target?">
-                          <mm:param name="fields">${fields}</mm:param>
-                          <a class="editme delete" href="${_}#edit_${nr}"><fmt:message key="users.delete" /></a>
-                        </mm:link>
-                      </mm:maydelete>
-                    </c:if>
-                    <!-- remove relation -->
-                    <c:if test="${!empty related and unpublish}">
-                      <mm:relation to="${related}">
-                        <mm:maydelete>
-                          <mm:link page="/editors/delete-relation.jspx" 
-                            referids="p?,nr,lang?,related?,show,editor,maydelete,_node@relation,target?">
-                            <a class="editme unrelate" href="${_}#edit_${nr}">unpublish</a>
-                          </mm:link>
-                        </mm:maydelete>
-                      </mm:relation>
-                    </c:if>
-                    </span>
+                    <jsp:directive.include file="actions.div.jspx" />
                     
-                    <span class="links">
+                    <div class="node">
                       <mm:include page="$show" referids="nr">
                         <mm:param name="fields">${fields}</mm:param>
                       </mm:include>
-                    </span>
+                    </div>
                     
                   </c:when>
                   <c:otherwise>

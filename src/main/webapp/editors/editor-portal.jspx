@@ -1,0 +1,178 @@
+<?xml version="1.0"?>
+<jsp:root
+    version="2.0"
+    xmlns:jsp="http://java.sun.com/JSP/Page"
+    xmlns:c="http://java.sun.com/jsp/jstl/core"
+    xmlns:fmt="http://java.sun.com/jsp/jstl/fmt"
+    xmlns:mm="http://www.mmbase.org/mmbase-taglib-2.0"
+    xmlns:oip="urn:jsptagdir:/WEB-INF/tags/oip">
+
+  <oip:editor styleClass="portal">
+    <jsp:attribute name="head">
+    
+    </jsp:attribute>
+    <jsp:attribute name="left">
+
+
+      <c:set var="isdefault" value="false" />
+      <mm:node id="p" number="$_node.number">
+        <mm:hasalias name="pool_oip"><c:set var="isdefault" value="true" /></mm:hasalias>
+      </mm:node>
+
+    </jsp:attribute>
+    <jsp:attribute name="body">
+
+      <div class="main-column">
+        <h2>Portal editor : <mm:field name="name" id="portalName" /></h2>
+        <h3>${requestScope['javax.servlet.jsp.jstl.fmt.locale.request']}</h3>
+
+        <c:if test="${! isdefault}">
+          <!-- ##### van hier -->
+          <mm:relatednodescontainer type="images" role="portalrel" searchdirs="destination">
+            <mm:maxnumber value="1" />
+            <mm:relatednodes>
+              <mm:node id="portalimg" />
+            </mm:relatednodes>
+          </mm:relatednodescontainer>
+  
+          <div class="targetme edit-pic" id="edit-picture">
+  
+            <c:choose>
+              <c:when test="${empty portalimg}">
+                <mm:link page="/editors/add-thumb.jspx" referids="p,_node@nr,_node@related">
+                  <mm:param name="lang">${requestScope['javax.servlet.jsp.jstl.fmt.locale.request']}</mm:param>
+                  <mm:param name="type">images</mm:param>
+                  <mm:param name="fields">handle</mm:param>
+                  <mm:param name="role">portalrel</mm:param>
+                  <mm:param name="defaultstr">title=Portal logo ${portalName}</mm:param>
+                  <mm:param name="show">/editors/show-portallogo.jspx</mm:param>
+                  <mm:param name="maydelete">false</mm:param>
+                  <p class="add">
+                    <a class="editme add" href="${_}#edit-picture"><fmt:message key="users.add_image" /></a>
+                  </p>
+                </mm:link>
+              </c:when>
+              <c:otherwise>
+                <div id="edit_${portalimg}">
+                  <mm:include page="/editors/show-portallogo.jspx" referids="p,portalimg@nr" />
+                  <mm:link page="/editors/edit-thumb.jspx" referids="p,portalimg@nr,p@related">
+                    <mm:param name="lang">${requestScope['javax.servlet.jsp.jstl.fmt.locale.request']}</mm:param>
+                    <mm:param name="fields">handle</mm:param>
+                    <mm:param name="show">/editors/show-portallogo.jspx</mm:param>
+                    <mm:param name="maydelete">false</mm:param>
+                    <p class="add">
+                      <a class="editme" href="${_}#edit_${portalimg}"><fmt:message key="users.edit_image" /></a>
+                    </p>
+                  </mm:link>
+                </div>
+              </c:otherwise>
+            </c:choose>
+            
+          </div>
+          <!-- ##### tot hier -->
+        </c:if>
+
+        
+
+        <!-- main pools node: the portal -->
+        <mm:include page="edit-node.jspx" referids="p?,_node@nr">
+          <mm:param name="fields">name,language,description</mm:param>
+          <mm:param name="lang">${requestScope['javax.servlet.jsp.jstl.fmt.locale.request']}</mm:param>
+        </mm:include>
+
+        <h4>Translations</h4>
+        <mm:include page="/mmbase/components/oip/user-translations.jspx" referids="_node@n">
+          <mm:param name="lang">${requestScope['javax.servlet.jsp.jstl.fmt.locale.request']}</mm:param>
+        </mm:include>
+        
+
+        <!-- homeppage is very first one -->
+        <mm:relatednodescontainer type="pages" role="posrel" searchdirs="destination">
+          <mm:sortorder field="posrel.pos" direction="UP" />
+          <mm:maxnumber value="1" />
+          <mm:relatednodes>
+            <mm:import id="homepage" reset="true"><mm:field name="number" /></mm:import>
+
+            <div class="wrap">
+              <h3>Logo's partners</h3>
+              <mm:include page="/editors/edit-list.jspx" referids="p,_node@nr">
+                <mm:param name="type">images</mm:param>
+                <mm:param name="role">posrel</mm:param>
+                <mm:param name="dir">destination</mm:param>
+                <mm:param name="fields">handle,title</mm:param>
+                <mm:param name="editor">/editors/editor.jspx</mm:param>
+              </mm:include>
+            </div>
+
+          </mm:relatednodes>
+        </mm:relatednodescontainer> 
+
+        <!-- <div class="wrap">
+          <h2>Properties</h2>
+          <p>Settings or properties of this portal. Possible are:<br />
+          <strong>oai-set</strong> name of the OAI-PMH set, f.e. 'subcollection' (portal only),<br />
+          <strong>rss</strong> url of a feed (rss!) with news to show on your the homepage,<br />
+          <strong>css</strong> link, f.e. '/style/css/subcollection.css' of a stylesheet (portal only), or<br />
+          <strong>partnertext</strong> text above the partner logos.
+          
+          </p>
+          <mm:include page="edit-properties.jspx" referids="p?,_node@nr,lang?" />
+        </div> -->
+
+        <!-- the default portal has no specific url nor a content filter -->
+        <c:if test="${!isdefault}">
+          <div class="wrap">
+            <h2>Filter</h2>
+            <p>Portal filter with tags, keywords and users. Some more explanation needed here...</p>
+            <mm:relatednodescontainer type="filters" role="portalrel" searchdirs="destination">
+              <mm:maxnumber value="1" />
+              <mm:size id="filter" write="false" />
+              <mm:relatednodes>
+                <mm:include page="edit-node.jspx" referids="p?,_node@nr">
+                  <mm:param name="fields">users,tags,keywords</mm:param>
+                </mm:include>
+              </mm:relatednodes>
+            </mm:relatednodescontainer>
+            <c:if test="${filter lt 1}">
+              <div id="add_filter"> <jsp:text> <!-- empty --> </jsp:text> </div>
+              <p class="add">
+                <mm:link page="/editors/add-node.jspx" referids="p?,_node@nr">
+                  <mm:param name="type">filters</mm:param>
+                  <mm:param name="role">portalrel</mm:param>
+                  <mm:param name="fields">users,tags,keywords</mm:param>
+                  <mm:param name="defaultstr">name=Portal filter ${portalName}</mm:param>
+                  <a class="editme" href="${_}#add_filter">add filter</a>
+                </mm:link>
+              </p>
+            </c:if>
+            
+<!--            <h3>Url</h3>
+            <p>Portal url: the specific location on which this portal can be found.</p>
+            <mm:relatednodescontainer type="urls" role="portalrel" searchdirs="destination">
+              <mm:relatednodes>
+                <mm:include page="edit-node.jspx" referids="p?,_node@nr">
+                  <mm:param name="fields">name,url</mm:param>
+                </mm:include>
+                <mm:node id="url_node" />
+              </mm:relatednodes>
+            </mm:relatednodescontainer>
+            
+            <c:if test="${empty url_node}">
+              <div id="add_url"> <jsp:text>  </jsp:text> </div>
+              <p class="add">
+                <mm:link page="/editors/add-node.jspx" referids="p?,_node@nr">
+                  <mm:param name="type">urls</mm:param>
+                  <mm:param name="fields">name,url,description</mm:param>
+                  <mm:param name="role">portalrel</mm:param>
+                  <a class="editme" href="${_}#add_url">add url</a>
+                </mm:link>
+              </p>
+            </c:if> -->
+              
+          </div>
+        </c:if>
+
+      </div><!-- /.main-column -->
+    </jsp:attribute>
+  </oip:editor>
+</jsp:root>

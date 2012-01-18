@@ -29,7 +29,7 @@
   <!-- html5 -->
   <mm:content
       expires="-1"
-      varies="${empty requestScope['org.mmbase.mmsite.language'] ? 'Accept-Language' : ''}"
+      language="client"
       type="text/html" 
       encoding="UTF-8"
       postprocessor="none">
@@ -37,11 +37,27 @@
     <jsp:output doctype-root-element="HTML" 
                 doctype-system="about:legacy-compat" />
 
-
     <mm:url id="editor" write="false" />
     <fmt:setBundle basename="eu.openimages.messages" scope="request" />
-    
     <mm:cloud loginpage="/editors/login.jspx?referrer=$editor" rank="portal manager">
+
+      <!-- get node number portal one way or another -->
+      <mm:import externid="p">pool_oip</mm:import>
+      <mm:node number="$p">
+        <mm:import id="p" reset="true"><mm:field name="number" /></mm:import>
+        <mm:import id="portalname" reset="true"><mm:field name="name" /></mm:import>
+      </mm:node>
+      <mm:cloudinfo type="user">
+        <mm:listnodescontainer type="mmbaseusers">
+          <mm:constraint field="username" value="${_}" operator="EQUAL" />
+          <mm:listnodes>
+            <mm:relatednodes type="pools" role="portalrel" max="1">
+              <mm:import id="p" reset="true"><mm:field name="number" /></mm:import>
+              <mm:import id="portalname" reset="true"><mm:field name="name" /></mm:import>
+            </mm:relatednodes>
+          </mm:listnodes>
+        </mm:listnodescontainer>
+      </mm:cloudinfo>
 
       <html
           lang="${requestScope['javax.servlet.jsp.jstl.fmt.locale.request']}"
@@ -49,23 +65,9 @@
           xmlns="http://www.w3.org/1999/xhtml">
         <head>
             
-          <!-- get node number portal one way or another -->
-          <mm:import externid="p">pool_oip</mm:import>
-          <mm:node number="$p">
-            <mm:import id="p" reset="true"><mm:field name="number" /></mm:import>
-            <mm:import id="portalname" reset="true"><mm:field name="name" /></mm:import>
-          </mm:node>
-          <mm:cloudinfo type="user">
-            <mm:listnodescontainer type="mmbaseusers">
-              <mm:constraint field="username" value="${_}" operator="EQUAL" />
-              <mm:listnodes>
-                <mm:relatednodes type="pools" role="portalrel" max="1">
-                  <mm:import id="p" reset="true"><mm:field name="number" /></mm:import>
-                </mm:relatednodes>
-              </mm:listnodes>
-            </mm:listnodescontainer>
-          </mm:cloudinfo>
 
+
+          <mm:node number="$p">
           <title>${editor} : ${portalname}</title>
           
           <link href="${mm:link('/favicon.ico')}" rel="shortcut icon" />
@@ -90,32 +92,84 @@
           </script>
           
           <jsp:invoke fragment="head" />
-
+          </mm:node>
         </head>
         <body class="editor ${styleClass}">
         <mm:node number="$p">
+          
+          <div id="topbar">
+            <ul class="meta">
+              <mm:hasrank minvalue="project manager">
+                <li><a href="${mm:link('/mmbase/edit/my_editors/')}">my_editors</a></li>
+              </mm:hasrank>
+              <li class="you">you are: <mm:cloudinfo type="user" />, <mm:cloudinfo type="rank" /></li>
+              <li><a href="${mm:link('/logout.jspx')}">logout</a></li>
+
+              <!-- portals -->
+              <mm:listcontainer path="pools,portalrel,urls" searchdirs="destination" fields="pools.number,urls.url">
+                <mm:size>
+                  <mm:isgreaterthan value="0">
+                    
+                    <li class="form">
+                      <form method="post" action="${mm:link('/editors/')}">
+                        <fieldset>
+                          <select name="p" id="edit_portal">
+                            <mm:listnodescontainer type="pools">
+                              <mm:listnodes>
+                                    
+                                <c:choose>
+                                  <c:when test="${p eq _node.number}">
+                                    <option label="${_node.name}" value="${_node.number}" selected="selected">${_node.name}</option>
+                                  </c:when>
+                                  <c:otherwise>
+                                    <option label="${_node.name}" value="${_node.number}">${_node.name}</option>
+                                  </c:otherwise>
+                                </c:choose>
+        
+                              </mm:listnodes>
+                            </mm:listnodescontainer>
+                          </select>
+                          <input class="hidden" value="OK" type="submit" name="action" />
+                        </fieldset>
+                      </form>
+                    </li>
+                    
+                  </mm:isgreaterthan>
+                </mm:size>
+              </mm:listcontainer>
+
+            </ul>
+          </div>
+          
           <div id="main">
             <div id="header">
               <mm:relatednodes role="portalrel" type="images" max="1">
-                <c:set var="img"><mm:image mode="img" template="s(216)" /></c:set>
+                <c:set var="img"><mm:image mode="img" template="s(157)" /></c:set>
               </mm:relatednodes>
               <c:if test="${empty img}">
                 <c:set var="img"><img src="${mm:link('/style/images/oip-logo_en.png')}" width="157" height="157" alt="Open Images" /></c:set>
               </c:if>
               <a href="${mm:link('/editors/')}">${img}</a>
+              <mm:field name="description" escape="paragraph" />
             </div>
   
             <div id="menu">
               <ul class="main">
 
                 <li>
-                  <mm:link page="/editors/" referids="p?"><a href="${_}">Home</a></mm:link>
+                  <mm:link page="/editors/" referids="p?"><a href="${_}">Uitgelicht</a></mm:link>
                 </li>
                 <li>
-                  <mm:link page="/editors/pages.jspx" referids="p"><a href="${_}">Pages</a></mm:link>
+                  <mm:link page="/editors/pages.jspx" referids="p"><a href="${_}">Pagina's</a></mm:link>
+                </li>
+                <li>
+                  <mm:link page="/editors/editor-portal.jspx" referids="p"><a href="${_}">Portal</a></mm:link>
                 </li>
                 
                 <mm:hasrank minvalue="project manager">
+                  <li>
+                    <mm:link page="/editors/list.jspx" referids="p?"><a href="${_}">Instellingen</a></mm:link>
+                  </li>
                   <li>
                     <mm:link page="/editors/list.jspx" referids="p?"><a href="${_}">Media</a></mm:link>
                   </li>
@@ -130,55 +184,28 @@
                       <a href="${_}">Stats</a>
                     </mm:link>
                   </li>
-                  
-                  <!-- portals -->
-                  <mm:listcontainer path="pools,portalrel,urls" searchdirs="destination" fields="pools.number,urls.url">
-                    <mm:size>
-                      <mm:isgreaterthan value="0">
-                        
-                        <li class="form">
-                          <form method="post" action="${mm:link('/editors/')}">
-                            <fieldset>
-                              <select name="p" id="edit_portal">
-                                <mm:listnodescontainer type="pools">
-                                  <mm:listnodes>
-                                        
-                                    <c:choose>
-                                      <c:when test="${p eq _node.number}">
-                                        <option label="${_node.name}" value="${_node.number}" selected="selected">${_node.name}</option>
-                                      </c:when>
-                                      <c:otherwise>
-                                        <option label="${_node.name}" value="${_node.number}">${_node.name}</option>
-                                      </c:otherwise>
-                                    </c:choose>
-            
-                                  </mm:listnodes>
-                                </mm:listnodescontainer>
-                              </select>
-                              <input class="hidden" value="OK" type="submit" name="action" />
-                            </fieldset>
-                          </form>
-                        </li>
-                        
-                      </mm:isgreaterthan>
-                    </mm:size>
-                  </mm:listcontainer>
                 </mm:hasrank>
       
-
-              </ul>
-              <ul class="meta">
-                <mm:hasrank minvalue="project manager">
-                  <li><a href="${mm:link('/mmbase/edit/my_editors/')}">my_editors</a></li>
-                </mm:hasrank>
-                <li><a href="${mm:link('/logout.jspx')}">logout</a></li>
-                <li>you are: <mm:cloudinfo type="user" />, <mm:cloudinfo type="rank" /></li>
               </ul>
             </div>
   
             <div class="left-column">
 
               <mm:hasrank minvalue="project manager">
+              <h2>Tools</h2>
+              <ul>
+                <li>
+                  <a href="${mm:link('/editors/tools/tools.jspx')}">Tools</a>
+                </li>
+                <li>
+                  <mm:link page="/editors/tools/sitemap.jspx" referids="p?">
+                    <a href="${_}">Portals</a>
+                  </mm:link>
+                </li>
+              </ul>
+              </mm:hasrank>
+
+              <!-- <mm:hasrank minvalue="project manager">
                 <mm:listcontainer path="pools,portalrel,urls" searchdirs="destination" fields="pools.number,urls.url">
                   <h2>Portals</h2>
                   <ul class="portals">
@@ -193,8 +220,8 @@
                     </mm:listnodescontainer>
                   </ul>
                 </mm:listcontainer>
-              </mm:hasrank>
-              <mm:hasrank minvalue="project manager" inverse="true">
+              </mm:hasrank> -->
+              <!-- <mm:hasrank minvalue="project manager" inverse="true">
                 <ul class="portals">
                   <li>
                     <mm:link page="/editors/index.jspx" referids="_node@p">
@@ -202,10 +229,10 @@
                     </mm:link>
                   </li>
                 </ul>
-              </mm:hasrank>
+              </mm:hasrank> -->
 
               <!-- news page related to template 'template_news' -->
-              <mm:relatednodescontainer type="pages" role="posrel" searchdirs="destination">
+              <!-- <mm:relatednodescontainer type="pages" role="posrel" searchdirs="destination">
                 <mm:constraint field="template" value="template_news" operator="EQUAL" />
                 <mm:relatednodes>
                   <h3>News</h3>
@@ -229,7 +256,7 @@
                     </mm:link>
                   </mm:relatednodes>
                 </ul>
-              </mm:relatednodescontainer>
+              </mm:relatednodescontainer> -->
                 
               <jsp:invoke fragment="left" />
               
@@ -239,7 +266,7 @@
             <jsp:invoke fragment="body"  />
 
             <div class="right-column">
-              <mm:hasrank minvalue="project manager">
+              <!-- mm:hasrank minvalue="project manager">
                 <ul>
                   <li>
                     <mm:link page="/editors/pages.jspx" referids="p">
@@ -295,7 +322,7 @@
                   </li>
 
                 </ul>
-              </mm:hasrank>
+              </mm:hasrank -->
 
               <jsp:invoke fragment="right" />
             </div>

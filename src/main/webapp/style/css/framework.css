@@ -80,6 +80,7 @@ div.main-column
 	padding-top: 10px;
 	margin-bottom: 8px;
 	width: 512px;
+	min-height: 500px;
 }
 
 div.right-column
@@ -280,6 +281,7 @@ body.home > div#main > div.main-column
 	margin-left: 277px;
 	top: 30px;
 	margin-bottom: 4px;
+	min-height: 200px;
 }
 
 div.right-column,
@@ -295,7 +297,7 @@ body.home > div#main > div.wrap
 	width: 789px;
 	position: absolute;
 	left: 5px;
-	top: 414px;
+	top: 439px; /*414*/
 }
 
 div.wrap > div.left-column
