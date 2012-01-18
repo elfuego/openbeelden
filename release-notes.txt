@@ -7,14 +7,17 @@ UPGRADING 1.1.1 -> 1.2
 Version 1.2 of Open Images includes a Download API which enables users to download media from other
 sources. 
 
-Change owner of 'properties' builder in typedef to 'siteusers'. (TODO: make script?) 
-Porperties is used by the Download API to keep track of the status of a download.
+The relation between pages in the footer of the main portal have changed from posrel to footerrel.
+This is doen to make pages easier sortable in the editors. In the tools sections is an editor to
+replace all posrel relations in the footer by footerrel relations.
 
-A new field 'hasformat' has been added to media items (builder: mediafragments). 
-It describes the original format the media was published in.
-This means you have to update your database. Stop you applicationserver and run the following
-commands before installing the new version of Open Images (for MySQL with views - 
-the default setup of OIP): 
+Change owner of 'properties' builder in typedef to 'siteusers'. (TODO: make script?) 
+Properties is used by the Download API to keep track of the status of a download.
+
+A new field 'hasformat' has been added to media items (builder: mediafragments). It describes 
+the original format the media was published in. This means you have to update your database. 
+Stop you applicationserver and run the following commands before installing the new version of 
+Open Images for MySQL with views (the default setup of OIP) the commands are: 
 
   ALTER TABLE oi_mediafragments_table ADD hasformat VARCHAR(255);
   
@@ -23,6 +26,17 @@ the default setup of OIP):
   DROP VIEW oi_audiofragments;
   DROP VIEW oi_imagefragments;
 
+May less important but also database related: we decided to convert our MySQL tables to InnoDB 
+to fully support transaction. If you have a previous installation of Open Images and are using a 
+MySQL version lower then 5.5 you probably have ISAM tables. Since MySQL 5.5 InnoDB is default. 
+You can convert your tables with f.fe. 'ALTER TABLE oi_mediafragments_table ENGINE=InnoDB;'.
+To have MMBase know it is running on MySQL with transaction support you need the following
+settings for 'mmbaseroot' (see '/WEB-INF/config/mmbaseroot.xml' or your 'context.xml').
+
+  <Environment name="mmbase/mmbaseroot/database" value="mysql-transactions_with_views" 
+    type="java.lang.String" />
+
+MMBase runs on various other databases that may already have transaction support.
 
 
 UPGRADING 1.1 -> 1.1.1

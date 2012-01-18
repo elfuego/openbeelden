@@ -127,7 +127,10 @@ public class ApiUrlConverter extends DirectoryUrlConverter {
      */
     @Override
     public Url getFilteredInternalDirectoryUrl(List<String> pa, Map<String, ?> params, Parameters frameworkParameters) throws FrameworkException {
-        if (log.isDebugEnabled()) log.debug("path pieces: " + pa + ", path size: " + pa.size());
+        if (log.isDebugEnabled()) {
+            log.debug("path pieces: " + pa + ", path size: " + pa.size());
+            log.debug("params " + params);
+        }
 
         HttpServletRequest request = frameworkParameters.get(Parameter.REQUEST);
         String reqMethod = request.getMethod().toUpperCase();
@@ -148,6 +151,7 @@ public class ApiUrlConverter extends DirectoryUrlConverter {
             } else if ("audio".equals(type)) {
                 type = "audiofragments";
             }
+            frameworkParameters.set(TYPE, type);
 
             final Cloud cloud = frameworkParameters.get(Parameter.CLOUD);
             if (!cloud.hasNodeManager(type)) {
@@ -158,7 +162,15 @@ public class ApiUrlConverter extends DirectoryUrlConverter {
 
             if (pa.size() == 1) {
                 if (reqMethod.equals("POST")) {
-                    result.append("&block=create");
+                    if (type.equals("mediafragments")
+                            || type.equals("videofragments")
+                            || type.equals("audiofragments")
+                            || type.equals("imagefragments")) {
+                        log.debug("url: " + params.get("url"));
+                        result.append("&block=media-create");
+                    } else {
+                        result.append("&block=create");
+                    }
                 } else {
                     result.append("&block=list");
                 }
@@ -168,11 +180,12 @@ public class ApiUrlConverter extends DirectoryUrlConverter {
                 if (!cloud.hasNode(nr)) {
                     log.warn("Node not found: " + nr);
                     return Url.NOT;
-                /*  // TODO: should include parent nodemanagers (nm.getParent())!!
+                }
+                /*  TODO: check if node belongs to type, should include parent nodemanagers (nm.getParent())
                 } else if (!cloud.getNode(nr).getNodeManager().equals(cloud.getNodeManager(type))) {
                     log.warn("Node #" + nr + " not of type: " + type);
-                    return Url.NOT; */
-                }
+                    return Url.NOT; } */
+
 
                 if (reqMethod.equals("POST")) {
                     result.append("&block=update");
