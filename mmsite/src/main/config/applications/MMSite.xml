@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE application PUBLIC "-//MMBase//DTD application config 1.1//EN" "http://www.mmbase.org/dtd/application_1_1.dtd">
-<application name="MMSite" maintainer="mmbase.org" version="2" auto-deploy="true">
+<application name="MMSite" maintainer="mmbase.org" version="3" auto-deploy="true">
 
   <requirements>
     <requires name="Resources" maintainer="mmbase.org"  />
@@ -33,11 +33,13 @@
   <neededreldeflist>
     <reldef source="related" target="related" direction="bidirectional" guisourcename="Related" guitargetname="Related" builder="insrel" />
     <reldef source="posrel"  target="posrel" direction="bidirectional" guisourcename="Posrel" guitargetname="Posrel" builder="posrel" />
+    <reldef source="footerrel" target="footerrel" direction="bidirectional" guisourcename="Portal" guitargetname="Footer" builder="posrel" />
  </neededreldeflist>
 
   <allowedrelationlist>
     <relation from="pools"   to="templates" type="related" /><!-- for export -->
     <relation from="pools"   to="pages"     type="posrel" /><!-- export and site structure -->
+    <relation from="pools"   to="pages"     type="footterrel" /><!-- site structure: pages in footer -->
     <!-- <relation from="pools"   to="properties" type="related" /> -->
 
     <relation from="pages"    to="pages"     type="posrel" />

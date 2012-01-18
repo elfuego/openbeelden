@@ -135,7 +135,7 @@ public final class UrlUtils {
         if (nl.size() == 1) {
             node = nl.get(0);
 
-        } else if (nl.size() > 1) { // found more with same path: check portal
+        } else if (nl.size() > 1) { // found more pages with same path: check portal
             Node portal = null;
             if (req != null) {
                 portal = getPortal(req);
@@ -154,6 +154,12 @@ public final class UrlUtils {
                     Node section = getSectionByPosrel(n);   // main section of this page
 
                     NodeList rnl = SearchUtil.findRelatedNodeList(portal, nm.getName(), "posrel", "number", section.getNumber());
+                    if (cloud.hasRelationManager("pools", "pages", "footerrel")) {
+                        // add pages in footer with footerrel
+                        if (log.isDebugEnabled()) log.debug("trying footerrel");
+                        rnl.addAll(SearchUtil.findRelatedNodeList(portal, nm.getName(), "footerrel", "number", section.getNumber()));
+                    }
+
                     if (rnl.size() > 0) { // main section is related to portal
                         if (log.isDebugEnabled()) {
                             log.debug("main section of #" + n.getNumber() + " belongs to portal");
