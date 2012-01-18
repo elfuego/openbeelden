@@ -39,7 +39,7 @@
   <allowedrelationlist>
     <relation from="pools"   to="templates" type="related" /><!-- for export -->
     <relation from="pools"   to="pages"     type="posrel" /><!-- export and site structure -->
-    <relation from="pools"   to="pages"     type="footterrel" /><!-- site structure: pages in footer -->
+    <relation from="pools"   to="pages"     type="footerrel" /><!-- site structure: pages in footer -->
     <!-- <relation from="pools"   to="properties" type="related" /> -->
 
     <relation from="pages"    to="pages"     type="posrel" />
