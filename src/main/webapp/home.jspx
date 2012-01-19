@@ -11,9 +11,6 @@
     <jsp:attribute name="head">
 
       <mm:import externid="portal" from="request">pool_oip</mm:import>
-      <mm:node number="$portal">
-        <mm:hasalias name="pool_oip"><c:set var="isdefaultportal" value="true" /></mm:hasalias>
-      </mm:node>
       <mm:import id="page" externid="n">page_home</mm:import>
 
       <mm:node number="$portal" notfound="skip">
