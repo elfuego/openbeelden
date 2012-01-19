@@ -1,0 +1,327 @@
+<?xml version="1.0"?>
+<jsp:root
+    version="2.0"
+    xmlns:jsp="http://java.sun.com/JSP/Page"
+    xmlns:c="http://java.sun.com/jsp/jstl/core"
+    xmlns:fmt="http://java.sun.com/jsp/jstl/fmt"
+    xmlns:os="http://www.opensymphony.com/oscache"
+    xmlns:mm="http://www.mmbase.org/mmbase-taglib-2.0"
+    xmlns:oip="urn:jsptagdir:/WEB-INF/tags/oip">
+
+  <oip:editor styleClass="portal">
+    <jsp:attribute name="head">
+      
+        
+    </jsp:attribute>
+    <jsp:attribute name="left">
+
+
+    </jsp:attribute>
+    <jsp:attribute name="body">
+
+      <div class="main-column">
+
+        <mm:import externid="type">stats</mm:import>
+        <mm:import externid="nr" />
+        <mm:import externid="msg" />
+
+      
+        <h2>Stats</h2>
+
+
+<mm:import externid="offset">0</mm:import>
+<mm:import id="max">50</mm:import>
+
+<mm:time time="now this month"    write="false" id="from" />
+<mm:time time="${from} + 1 month" write="false" id="to" />
+
+<mm:import externid="w" />
+<mm:import externid="m" />
+<mm:import externid="y" />
+
+<mm:present referid="y">
+  <mm:import id="from" reset="true"><mm:time inputformat="yyyy" time="${y}" /></mm:import>
+  <mm:import id="to"   reset="true"><mm:time time="${from} + 1 year" /></mm:import>
+</mm:present>
+
+<mm:present referid="w">
+  <mm:import id="from" reset="true"><mm:time inputformat="yyyy-w" time="${y}-${w}" /></mm:import>
+  <mm:import id="to"   reset="true"><mm:time time="${from} + 1 week" /></mm:import>
+</mm:present>
+
+<mm:present referid="m">
+  <mm:import id="from" reset="true"><mm:time time="${y}-${m}-1" /></mm:import>
+  <mm:import id="to"   reset="true"><mm:time time="${from} + 1 month" /></mm:import>
+</mm:present>
+
+<!-- sortorder and field to sort on -->
+<mm:import externid="sf">total</mm:import>
+<mm:import externid="so">down</mm:import>
+<c:choose>
+  <c:when test="${so eq 'up'}"><c:set var="sortorder" value="UP" /></c:when>
+  <c:otherwise><c:set var="sortorder" value="DOWN" /></c:otherwise>
+</c:choose>
+
+
+<!-- the table -->
+<mm:url id="baseurl" absolute="true" escapeamps="false" referids="w?,m?,y?,sf?,so?" write="false" />
+
+<mm:listnodescontainer type="stats">
+  
+  <mm:sortorder field="$sf" direction="$so" />
+  <mm:constraint field="created" value="$from" operator="BETWEEN" value2="$to" />
+  
+  <h2>
+    <mm:size /> media items played in
+    <c:choose>
+      <c:when test="${!empty w}">
+        week <mm:time format="w yyyy" time="$from" />
+      </c:when>
+      <c:when test="${!empty m}">
+      <mm:time format="MMMM yyyy" time="$from" />
+      </c:when>
+      <c:otherwise>
+        <mm:time format="yyyy" time="$from" />
+      </c:otherwise>
+    </c:choose>
+  </h2>
+  
+  <mm:size id="total" write="false" />
+  <mm:offset value="$offset" />
+  <mm:maxnumber value="$max" />
+
+  <table summary="Play statistics" border="0" cellspacing="0" cellpadding="3" class="stats">
+    <thead>
+      <tr>
+        <th class="number">#</th>
+        <th>node</th>
+        <th>
+          <mm:link referids="w?,m?,y?">
+            <mm:param name="so">${so eq 'up' ? 'down' : 'up'}</mm:param>
+            <mm:param name="sf">created</mm:param>
+            <a href="${_}">date</a>
+          </mm:link>
+        </th>
+        <th>
+          <mm:link referids="w?,m?,y?">
+            <mm:param name="sf">total</mm:param>
+            <mm:param name="so">${so eq 'down' ? 'up' : 'down'}</mm:param>
+            <a href="${_}">plays</a>
+          </mm:link>
+        </th>
+      </tr>
+    </thead>
+    <tfoot>
+      <tr>
+        <th colspan="4">
+          <oip:pager total="${total}" offset="${offset}" max="${max}" baseurl="${baseurl}" />
+        </th>
+      </tr>
+    </tfoot>
+
+    <mm:listnodes>
+      
+      <mm:index write="false">
+        <c:choose>
+          <c:when test="${(_ mod 2) eq 0}"><c:set var="oddeven" value="even" /></c:when>
+          <c:otherwise><c:set var="oddeven" value="odd" /></c:otherwise>
+        </c:choose>
+      </mm:index>
+      
+      <tr class="${oddeven}">
+        <td class="number"><mm:index offset="${offset + 1}" /></td>
+        <td class="node"> 
+          <mm:import id="node_nr" reset="true"><mm:field name="node" /></mm:import>
+          <mm:hasnode number="$node_nr">
+            <mm:node element="node" notfound="skip">
+              <mm:link page="edit.jspx" referids="node_nr@nr">
+                <a href="${_}">
+                  <mm:hasfield name="title"><mm:field name="title" /></mm:hasfield>
+                  <mm:hasfield name="title" inverse="true"><mm:field name="number" /></mm:hasfield>
+                </a>
+              </mm:link>
+            </mm:node>
+          </mm:hasnode>
+          <mm:hasnode number="$node_nr" inverse="true">
+            ${node_nr} (deleted)
+          </mm:hasnode>
+        </td>
+        <td class="created">
+          <mm:field name="created">
+            <mm:time format="dd-MM-yyyy kk:mm" />
+          </mm:field>
+        </td>
+        <td class="total">
+          <mm:field name="total" />
+        </td>
+      </tr>
+      
+    </mm:listnodes>
+  </table>
+</mm:listnodescontainer>
+
+
+
+
+      </div><!-- /.main-column -->
+    </jsp:attribute>
+
+    <jsp:attribute name="right">
+      <h3>Periods</h3>
+      <os:cache key="total_plays" time="0">
+        <!-- navigation with months -->
+        <mm:listnodescontainer type="stats">
+          <mm:sortorder field="created" direction="UP" />
+          <p>
+            <mm:listnodes>
+              
+              <mm:import id="year" reset="true"><mm:field name="created"><mm:time format="yyyy" /></mm:field></mm:import>
+              <mm:import id="month" reset="true"><mm:field name="created"><mm:time format="M" /></mm:field></mm:import>
+              <mm:import id="week" reset="true"><mm:field name="created"><mm:time format="w" /></mm:field></mm:import>
+        
+              <c:choose>
+                <c:when test="${(year eq '2015') and (yearisset ne '2015')}">
+                  <c:if test="${(!empty yearisset)}"><br /></c:if>
+                  <mm:link>
+                    <mm:param name="y">2015</mm:param>
+                    <br /><a href="${_}">2015</a> :
+                  </mm:link>
+                  <c:set var="yearisset">2014</c:set>
+                </c:when>
+                <c:when test="${(year eq '2014') and (yearisset ne '2014')}">
+                  <c:if test="${(!empty yearisset)}"><br /></c:if>
+                  <mm:link>
+                    <mm:param name="y">2014</mm:param>
+                    <br /><a href="${_}">2014</a> :
+                  </mm:link>
+                  <c:set var="yearisset">2014</c:set>
+                </c:when>
+                <c:when test="${(year eq '2013') and (yearisset ne '2013')}">
+                  <c:if test="${(!empty yearisset)}"><br /></c:if>
+                  <mm:link>
+                    <mm:param name="y">2013</mm:param>
+                    <br /><a href="${_}">2013</a> :
+                  </mm:link>
+                  <c:set var="yearisset">2013</c:set>
+                </c:when>
+                <c:when test="${(year eq '2012') and (yearisset ne '2012')}">
+                  <c:if test="${(!empty yearisset)}"><br /></c:if>
+                  <mm:link>
+                    <mm:param name="y">2012</mm:param>
+                    <br /><a href="${_}">2012</a> :
+                  </mm:link>
+                  <c:set var="yearisset">2012</c:set>
+                </c:when>
+                <c:when test="${(year eq '2011') and (yearisset ne '2011')}">
+                  <c:if test="${(!empty yearisset)}"><br /></c:if>
+                  <mm:link>
+                    <mm:param name="y">2011</mm:param>
+                    <br /><a href="${_}">2011</a> :
+                  </mm:link>
+                  <c:set var="yearisset">2011</c:set>
+                </c:when>
+                <c:when test="${(year eq '2010') and (yearisset ne '2010')}">
+                  <c:if test="${(!empty yearisset)}"><br /></c:if>
+                  <mm:link>
+                    <mm:param name="y">2010</mm:param>
+                    <a href="${_}">2010</a> :
+                  </mm:link>
+                  <c:set var="yearisset">2010</c:set>
+                </c:when>
+              </c:choose>
+        
+              <c:choose>
+                <c:when test="${(month eq '1') and (monthisset ne '1')}">
+                  <mm:link referids="month@m,year@y">
+                    <a href="${_}"><mm:time format="MMMM" inputformat="M" time="$month" /></a>
+                  </mm:link>
+                  <c:set var="monthisset">1</c:set> 
+                </c:when>
+                <c:when test="${(month eq '2') and (monthisset ne '2')}">
+                  <c:if test="${(!empty monthisset)}"> - </c:if>
+                  <mm:link referids="month@m,year@y">
+                    <a href="${_}"><mm:time format="MMMM" inputformat="M" time="$month" /></a>
+                  </mm:link>
+                  <c:set var="monthisset">2</c:set> 
+                </c:when>
+                <c:when test="${(month eq '3') and (monthisset ne '3')}">
+                  <c:if test="${(!empty monthisset)}"> - </c:if>
+                  <mm:link referids="month@m,year@y">
+                    <a href="${_}"><mm:time format="MMMM" inputformat="M" time="$month" /></a>
+                  </mm:link>
+                  <c:set var="monthisset">3</c:set> 
+                </c:when>
+                <c:when test="${(month eq '4') and (monthisset ne '4')}">
+                  <c:if test="${(!empty monthisset)}"> - </c:if>
+                  <mm:link referids="month@m,year@y">
+                    <a href="${_}"><mm:time format="MMMM" inputformat="M" time="$month" /></a>
+                  </mm:link>
+                  <c:set var="monthisset">4</c:set> 
+                </c:when>
+                <c:when test="${(month eq '5') and (monthisset ne '5')}">
+                  <c:if test="${(!empty monthisset)}"> - </c:if>
+                  <mm:link referids="month@m,year@y">
+                    <a href="${_}"><mm:time format="MMMM" inputformat="M" time="$month" /></a>
+                  </mm:link>
+                  <c:set var="monthisset">5</c:set> 
+                </c:when>
+                <c:when test="${(month eq '6') and (monthisset ne '6')}">
+                  <c:if test="${(!empty monthisset)}"> - </c:if>
+                  <mm:link referids="month@m,year@y">
+                    <a href="${_}"><mm:time format="MMMM" inputformat="M" time="$month" /></a>
+                  </mm:link>
+                  <c:set var="monthisset">6</c:set> 
+                </c:when>
+                <c:when test="${(month eq '7') and (monthisset ne '7')}">
+                  <c:if test="${(!empty monthisset)}"> - </c:if>
+                  <mm:link referids="month@m,year@y">
+                    <a href="${_}"><mm:time format="MMMM" inputformat="M" time="$month" /></a>
+                  </mm:link>
+                  <c:set var="monthisset">7</c:set> 
+                </c:when>
+                <c:when test="${(month eq '8') and (monthisset ne '8')}">
+                  <c:if test="${(!empty monthisset)}"> - </c:if>
+                  <mm:link referids="month@m,year@y">
+                    <a href="${_}"><mm:time format="MMMM" inputformat="M" time="$month" /></a>
+                  </mm:link>
+                  <c:set var="monthisset">8</c:set> 
+                </c:when>
+                <c:when test="${(month eq '9') and (monthisset ne '9')}">
+                  <c:if test="${(!empty monthisset)}"> - </c:if>
+                  <mm:link referids="month@m,year@y">
+                    <a href="${_}"><mm:time format="MMMM" inputformat="M" time="$month" /></a>
+                  </mm:link>
+                  <c:set var="monthisset">9</c:set> 
+                </c:when>
+                <c:when test="${(month eq '10') and (monthisset ne '10')}">
+                  <c:if test="${(!empty monthisset)}"> - </c:if>
+                  <mm:link referids="month@m,year@y">
+                    <a href="${_}"><mm:time format="MMMM" inputformat="M" time="$month" /></a>
+                  </mm:link>
+                  <c:set var="monthisset">10</c:set> 
+                </c:when>
+                <c:when test="${(month eq '11') and (monthisset ne '11')}">
+                  <c:if test="${(!empty monthisset)}"> - </c:if>
+                  <mm:link referids="month@m,year@y">
+                    <a href="${_}"><mm:time format="MMMM" inputformat="M" time="$month" /></a>
+                  </mm:link>
+                  <c:set var="monthisset">11</c:set> 
+                </c:when>
+                <c:when test="${(month eq '12') and (monthisset ne '12')}">
+                  <c:if test="${(!empty monthisset)}"> - </c:if>
+                  <mm:link referids="month@m,year@y">
+                    <a href="${_}"><mm:time format="MMMM" inputformat="M" time="$month" /></a>
+                  </mm:link>
+                  <c:set var="monthisset">12</c:set> 
+                </c:when>
+              </c:choose>
+        
+            </mm:listnodes>
+          </p>
+        </mm:listnodescontainer>  
+      </os:cache>
+      
+    </jsp:attribute>
+
+  </oip:editor>
+</jsp:root>

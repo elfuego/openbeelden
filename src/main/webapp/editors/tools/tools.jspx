@@ -21,10 +21,25 @@
         <h2>Tools</h2>
         
         <ul>
-          <li><a href="${mm:link('/editors/tools/sitemap.jspx')}">Sitemap</a></li>
+          <li>
+            <a href="${mm:link('/editors/tools/sitemap.jspx')}">Sitemap</a><br />
+            pages in header and footer
+          </li>
+          <li>
+            <a href="${mm:link('/editors/tools/portalcontent.jspx')}">Portal content</a><br />
+            from portal filter resulting Lucene query
+          </li>
+          <li>
+            <a href="${mm:link('/editors/tools/stats.jspx')}">Stats</a><br />
+            tabel met aantal maal media items zijn afgespeeld
+          </li>
+          <li>
+            <a href="${mm:link('/editors/tools/email.jspx')}">Email addresses</a><br />
+            all user info in a spreadsheet
+          </li>
           <li>
             <a href="keywords.jspx">Convert keywords</a><br />
-            Convert , in keywords to ;
+            convert , in keywords to ;
           </li>
         </ul>
 

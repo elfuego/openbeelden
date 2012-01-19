@@ -180,9 +180,7 @@
                     </mm:link>
                   </li>
                   <li>
-                    <mm:link page="/editors/list-stats.jspx" referids="p?">
-                      <a href="${_}">Stats</a>
-                    </mm:link>
+                    <a href="${mm:link('/editors/tools/tools.jspx')}">Tools</a>
                   </li>
                 </mm:hasrank>
       
@@ -190,20 +188,6 @@
             </div>
   
             <div class="left-column">
-
-              <mm:hasrank minvalue="project manager">
-              <h2>Tools</h2>
-              <ul>
-                <li>
-                  <a href="${mm:link('/editors/tools/tools.jspx')}">Tools</a>
-                </li>
-                <li>
-                  <mm:link page="/editors/tools/sitemap.jspx" referids="p?">
-                    <a href="${_}">Portals</a>
-                  </mm:link>
-                </li>
-              </ul>
-              </mm:hasrank>
 
               <!-- <mm:hasrank minvalue="project manager">
                 <mm:listcontainer path="pools,portalrel,urls" searchdirs="destination" fields="pools.number,urls.url">

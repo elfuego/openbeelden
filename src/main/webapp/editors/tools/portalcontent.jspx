@@ -1,0 +1,149 @@
+<?xml version="1.0"?>
+<jsp:root
+    version="2.0"
+    xmlns:jsp="http://java.sun.com/JSP/Page"
+    xmlns:c="http://java.sun.com/jsp/jstl/core"
+    xmlns:fmt="http://java.sun.com/jsp/jstl/fmt"
+    xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+    xmlns:mm="http://www.mmbase.org/mmbase-taglib-2.0"
+    xmlns:oip="urn:jsptagdir:/WEB-INF/tags/oip">
+
+  <oip:editor styleClass="portal">
+    <jsp:attribute name="head">
+      <mm:import externid="nr" />
+    </jsp:attribute>
+    <jsp:attribute name="left">
+
+
+    </jsp:attribute>
+    <jsp:attribute name="body">
+
+
+      <c:set var="isdefault" value="false" />
+      
+      <div class="main-column">
+        
+        <h2>Portals</h2>
+        <mm:listnodescontainer type="pools">
+          <ul>
+          <mm:listnodes>
+            <li>
+              <mm:link referids="_node@p"><a href="${_}"><mm:field name="name" /></a></mm:link>
+            </li>
+          </mm:listnodes>
+          </ul>
+        </mm:listnodescontainer>
+
+        <mm:node id="p" number="$_node.number">
+          <mm:hasalias name="pool_oip"><c:set var="isdefault" value="true" /></mm:hasalias>
+  
+        
+          <h2>Content '<mm:field name="name" />'</h2>
+
+<!-- ### portalfilter ### -->
+<!-- set portal manager as default user -->
+<mm:relatednodescontainer type="mmbaseusers" role="portalrel" searchdirs="source">
+  <mm:maxnumber value="1" />
+  <mm:relatednodes>
+    <c:set var="portalmanager"><mm:field name="username" /></c:set>
+    <c:set var="p_users">user:"<mm:field name="username" />"<jsp:text> </jsp:text></c:set>
+  </mm:relatednodes>
+</mm:relatednodescontainer>
+
+<!-- portal filter: users, tags, keywords -->
+<mm:relatednodescontainer type="filters" role="portalrel" searchdirs="destination">
+  <mm:relatednodes>
+    <mm:field name="users" escape="none">
+      <mm:isnotempty>
+        <c:forTokens items="${_}" delims=";" var="usr">
+          <c:set var="p_users">${p_users}<jsp:text> </jsp:text>user:"<c:out value="${fn:trim(usr)}" />"</c:set>
+        </c:forTokens>
+      </mm:isnotempty>
+    </mm:field>
+    <mm:field name="keywords" escape="none">
+      <mm:isnotempty>
+        <c:forTokens items="${_}" delims=";" var="kw">
+          <c:set var="p_keywords">${p_keywords}<jsp:text> </jsp:text>keywords:"<c:out value="${fn:trim(kw)}" />"</c:set>
+        </c:forTokens>
+      </mm:isnotempty>
+    </mm:field>
+    <mm:field name="tags" escape="none">
+      <mm:isnotempty>
+        <c:forTokens items="${_}" delims=";" var="tag">
+          <c:set var="p_tags">${p_tags}<jsp:text> </jsp:text>tags:"<c:out value="${fn:trim(tag)}" />"</c:set>
+        </c:forTokens>
+      </mm:isnotempty>
+    </mm:field>
+
+  </mm:relatednodes>
+</mm:relatednodescontainer>
+
+<!--
+define portal queries for Lucene
+pseudo code: lucene.Find((someField == "bar" || someField == "baz") && anotherField == "foo");
+translates to: +(someField:bar someField:baz) +anotherField:foo
+-->
+<mm:import id="index">media</mm:import>
+<mm:import id="offset">0</mm:import>
+<mm:import id="max">100</mm:import>
+<mm:import id="analyzer" reset="true">org.apache.lucene.analysis.KeywordAnalyzer</mm:import>
+<c:if test="${empty q}"><mm:import id="fields" reset="true">indexId</mm:import></c:if>
+<mm:import id="value">
+  <c:choose>
+    <c:when test="${empty q}">${index}* </c:when>
+    <c:otherwise><mm:write referid="q" escape="lowercase" /><jsp:text> </jsp:text></c:otherwise>
+  </c:choose>
+  <c:if test="${!empty user}">AND user:"${user}" </c:if>
+  <c:if test="${!empty source}">AND source:"${source}" </c:if>
+  <c:if test="${!empty p_keywords 
+             or !empty p_tags 
+             or !empty p_users}">AND +(${p_keywords} ${p_tags} ${p_users}) -excludedportal:${p}</c:if>
+</mm:import>          
+
+<!-- second list with suggestions from complete repository -->
+<c:if test="${!empty value}">
+  <mm:function
+      id="total"
+      write="false"
+      module="lucene"
+      name="searchsize"
+      referids="index,value@value,fields?,filter?,analyzer?,extraconstraints?" />
+  
+  <mm:nodelistfunction
+      module="lucene" name="search" id="results"
+      referids="index,value@value,offset,max,fields?,sortfields?,filter?,extraconstraints?,analyzer?" />
+</c:if>
+
+          <h3>total ${total}</h3>
+          <p>
+            A sample of max ${max} nodes. portal: ${p} portalmanager: ${portalmanager}
+            <br />Lucene query:
+          </p>
+
+<pre>value:  <mm:write referid="value" escape="none" />
+extraconstraints: ${extraconstraints} filter: ${filter} 
+
+</pre>
+
+          <ol>
+          <mm:listnodes referid="results" varStatus="status" id="mediafragment">
+            <li>
+              <mm:field name="number" /> - <strong><mm:field name="title" /></strong><br />
+              user: <mm:field name="owner" /><br /> 
+              keywords: <mm:field name="keywords" /><br />
+              tags: 
+              <mm:relatednodescontainer type="tags" role="related" searchdirs="destination">
+                <mm:relatednodes>
+                  <mm:field name="name" /><mm:last inverse="true">, </mm:last>
+                </mm:relatednodes>
+              </mm:relatednodescontainer> 
+            </li>
+          </mm:listnodes>
+          </ol>         
+
+        
+        </mm:node>
+      </div><!-- /.main-column -->
+    </jsp:attribute>
+  </oip:editor>
+</jsp:root>

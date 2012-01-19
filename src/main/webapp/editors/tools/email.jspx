@@ -1,32 +1,43 @@
-<mm:content 
+<?xml version="1.0"?>
+<jsp:root
+    version="2.0"
     xmlns:jsp="http://java.sun.com/JSP/Page"
     xmlns:c="http://java.sun.com/jsp/jstl/core"
-    xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+    xmlns:fmt="http://java.sun.com/jsp/jstl/fmt"
     xmlns:mm="http://www.mmbase.org/mmbase-taglib-2.0"
-    expires="120" type="text/html">
-<jsp:output doctype-root-element="html"
-      doctype-public="-//W3C//DTD XHTML 1.1//EN"
-      doctype-system="http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd" />
-<mm:cloud loginpage="../login.jspx" rank="project manager">
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="nl">
-<head>
-  <meta http-equiv="content-type" content="text/html; charset=utf-8" />
-  <title>E-mail adresses</title>
-</head>
-<body>
+    xmlns:oip="urn:jsptagdir:/WEB-INF/tags/oip">
 
+  <oip:editor styleClass="portal">
+    <jsp:attribute name="head">
+
+    </jsp:attribute>
+    <jsp:attribute name="left">
+      
+
+    </jsp:attribute>
+    <jsp:attribute name="body">
+    
+     <div class="main-column">      
+
+<mm:import externid="offset">0</mm:import>
+<mm:import externid="max">1000</mm:import>
+<h2>Email addresses</h2>
+<p>
+  Max ${max} offset ${0} columns: username;email;firstname;suffix;lastname;organisation.<br />
+  Like: "beeldengeluid;info@beeldengeluid.nl;Beeld;en;Geluid;true".
+</p>
 <mm:listnodescontainer type="mmbaseusers">
-<h1><mm:size /> e-mail adresses</h1>
-  <mm:maxnumber value="999" />
+<h3><mm:size /> users</h3>
+<mm:offset value="$offset" />
+<mm:maxnumber value="$max" />
 <textarea rows="40" cols="92">username;email;firstname;suffix;lastname;organisation
 <mm:listnodes><mm:field name="username" />;<mm:field name="email" />;<mm:field name="firstname" />;<mm:field name="suffix" />;<mm:field name="lastname" />;<mm:field name="organisation" /><jsp:text>
 </jsp:text>
 </mm:listnodes>
 </textarea>
 </mm:listnodescontainer>
-
-
-</body>
-</html>
-</mm:cloud>
-</mm:content>
+          
+      </div><!-- /.main-column -->
+    </jsp:attribute>
+  </oip:editor>
+</jsp:root>

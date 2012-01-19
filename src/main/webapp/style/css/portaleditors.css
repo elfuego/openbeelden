@@ -319,3 +319,39 @@ div.box input[type="text"] { width: 338px; }
 div.box textarea { width: 486px; }
 div.box p.info { width: 342px; }
 div.box div.description p.info { width: 490px; }
+
+/* table statistics */
+table.stats td,
+table.stats th { padding: 1px 4px; }
+table.stats {
+	border-left: 1px #ccc solid;
+	border-right: 1px #ccc solid;
+	border-bottom: 1px #ccc solid;
+	font-size: 0.9em;
+	width: 100%;
+	margin-bottom: 1em;
+}
+table.stats caption
+{
+	border-left: 1px #CCC solid;
+	border-right: 1px #CCC solid;
+	padding: 1px 3px;
+	background-color:#E6E9DD;
+}
+table.stats th, table.stats td { border-top: 1px solid #ccc; }
+table.stats th { background-color: #E8E8E8; }
+table.stats tr.even { background-color:#E6E9DD; }
+
+table.stats td {
+	vertical-align: top;
+}
+table.stats th.number,
+table.stats td.number {
+	text-align: right;
+}
+table.stats td.created {
+	text-align: center;
+	white-space: nowrap;
+}
+table.stats td.total { text-align: center; }
+
