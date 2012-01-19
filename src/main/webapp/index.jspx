@@ -26,7 +26,7 @@
       
       <mm:log>template: ${template}</mm:log>
       <c:choose>
-        <c:when test="${!empty template}">
+        <c:when test="${!empty template and template ne 'index.jspx'}">
           <jsp:forward page="${template}">
             <jsp:param name="portal" value="${p}" />
             <jsp:param name="n" value="${pagenr}" />
