@@ -33,22 +33,13 @@
           </mm:url></mm:import>
         </mm:present>
         
-        <!-- <p>
-          current iframe: ${iframe}
-        </p> -->
-        
         <mm:import id="username" reset="true"><mm:cloudinfo type="user" /></mm:import>
         <mm:listnodescontainer type="mmbaseusers">
           <mm:constraint field="username" value="$username" operator="EQUAL" />
           <mm:listnodes>
             
-            <mm:component name="oip" block="user-apitoken" />
-            
             <mm:import id="mijncookie"><mm:function name="apitoken" /></mm:import>
-            
             <mm:write cookie="remixer" cookiepath="/" cookiedomain=".openbeelden.nl" referid="mijncookie" />
-            <!-- <mm:write cookie="remixer" cookiepath="/" referid="mijncookie" /> -->
-            
             <!-- <p>cookie: <code>${mijncookie}</code> </p> -->
             
           </mm:listnodes>
