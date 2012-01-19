@@ -3,7 +3,7 @@
 	<node number="324" owner="default">
 		<title>Homepage</title>
 		<description>Template for the homepage</description>
-		<url>index.jspx</url>
+		<url>home.jspx</url>
 		<mimetype>text/html</mimetype>
 	</node>
 	
