@@ -46,7 +46,7 @@
         </mm:listnodescontainer>
 
         <mm:link referid="iframe">
-          <iframe src="${_}" frameborder="0" height="620" scrolling="auto" width="960">
+          <iframe src="${_}" frameborder="0" height="620" scrolling="auto" width="960" allowTransparency="true">
             <jsp:text> <!-- empty --> </jsp:text>
           </iframe>
         </mm:link>
