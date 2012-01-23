@@ -24,11 +24,10 @@ $(document).ready(
 				      success: function(data) {
 					  var result = data.responseText;
 					  $(pInfo).html(result);
-					  alert(result);
-					  //console.log('success');
+					  //console.log('success ' + result);
 				      }
 				    });
-				//console.log('uploading: ' + i);
+    				//console.log('uploading: ' + i);
 			    };
 			progressFunction();
 			setInterval(progressFunction, 1000);
