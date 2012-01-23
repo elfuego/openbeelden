@@ -168,7 +168,7 @@
                 
                 <mm:hasrank minvalue="project manager">
                   <li>
-                    <mm:link page="/editors/list.jspx" referids="p?"><a href="${_}">Instellingen</a></mm:link>
+                    <mm:link page="/editors/portal-config.jspx" referids="p?"><a href="${_}">Instellingen</a></mm:link>
                   </li>
                   <li>
                     <mm:link page="/editors/list.jspx" referids="p?"><a href="${_}">Media</a></mm:link>

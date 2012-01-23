@@ -71,12 +71,19 @@
           </mm:relatednodescontainer>
         </p> -->
 
+
         <!-- toolbar -->
+        <mm:import id="orderkey" reset="true">media.order</mm:import>
+        <mm:import id="mediaorder"><mm:function referids="_node@node,orderkey@key" nodemanager="properties" name="get" /></mm:import>
+
         <div class="toolbar">
           <ul class="toolbar">
             <li class="license"><a href="#license"><fmt:message key="media.license" /></a></li>
             <li class="download"><a href="#download"><fmt:message key="media.download" /></a></li>
             <li class="share"><a href="#share"><fmt:message key="media.share" /></a></li>
+            <c:if test="${!empty mediaorder}">
+              <li class="order _blank"><a title="Order this media item..." href="${mediaorder}">Order</a></li>
+            </c:if>
             <mm:maycreate type="ratingrel">
               <li class="favorite">
                 <mm:listrelationscontainer type="mmbaseusers" role="ratingrel" searchdir="source">
