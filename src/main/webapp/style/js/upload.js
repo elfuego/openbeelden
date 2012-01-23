@@ -2,39 +2,17 @@ $(document).ready(
     function() {
 	var lang = $("html").attr("xml:lang");
 	var progressUrl = $("head meta[name=ContextRoot]").attr("content") + "action/progress.jspx?lang=" + lang;
-	$("form.mm_form").each(
-	    function() {
+	$("form.mm_form").each(function() {
 		var pInfo = $(this).find(".progressInfo").first();
-		$(this).submit(
-		    function() {
+		$(this).submit(function() {
 			var form = this;
 			var i = 0;
 			var progress = null;
 			clearInterval(progress);
-			var progressFunction =
-			    function() {
-				$.ajax(
-				    { url: progressUrl,
-				      async: true,
-				      error: function(xhr, status, err) {
-					  var result = '<div>Error: ' + status + " : " + err + '</div>';
-					  $(pInfo).html(result);
-					  
-				      },
-				      success: function(data) {
-					  var result = data.responseText;
-					  $(pInfo).html(result);
-					  //console.log('success ' + result);
-				      }
-				    });
-    				//console.log('uploading: ' + i);
-			    };
-			progressFunction();
-			setInterval(progressFunction, 1000);
-		    });
+			var progress = setInterval(function(){ $(pInfo).load(progressUrl); }, 1000);
 	    });
-
-	// Just some stuff to guess a nicer title
+	});
+	/* Just some stuff to guess a nicer title */
 	$("input[type=file]").change(
 	    function(ev) {
 		var file = ev.target.value;
@@ -52,5 +30,5 @@ $(document).ready(
 			$(title).val(file);
 		    }
 		}
-	    });
     });
+});
