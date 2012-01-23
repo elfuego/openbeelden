@@ -21,7 +21,8 @@
       <mmsq:field name="intro" />
       <mmsq:field name="body" />
       <mmsq:field name="source" />
-      <mmsq:field name="source"  alias="source" keyword="true" escape="lowercase" />
+      <mmsq:field name="source"     alias="source"    keyword="true" escape="lowercase" />
+      <mmsq:field name="hasformat"  alias="hasformat" keyword="true" escape="lowercase" />
       <mmsq:field name="dc_creator" />
       <mmsq:field name="publisher" />
       <mmsq:field name="show"    alias="show"   keyword="true" store="true" />
@@ -41,9 +42,20 @@
       <mmsq:field name="coverage" keyword="true" split=";" boost="4" />
       <mmsq:field name="contributor" />
       <mmsq:field name="contributor" keyword="true" split=";" boost="4" />
+      <!-- node may be excluded from this portal -->
       <mmsq:related path="excluded,pools" element="pools">
         <mmsq:field name="number" alias="excludedportal" keyword="true" />
       </mmsq:related>
+      <!-- srclanguage contains language of media (stream)source file -->
+      <mmsq:relatednodes type="audiostreamsources">
+        <mmsq:field name="language" alias="srclanguage" keyword="true" />
+      </mmsq:relatednodes>
+      <mmsq:relatednodes type="imagesources">
+        <mmsq:field name="language" alias="srclanguage" keyword="true" />
+      </mmsq:relatednodes>
+      <mmsq:relatednodes type="videostreamsources">
+        <mmsq:field name="language" alias="srclanguage" keyword="true" />
+      </mmsq:relatednodes>
       <mmsq:relatednodes type="tags">
         <mmsq:field name="name" />
         <mmsq:field name="name" alias="tags" keyword="true" boost="4" />

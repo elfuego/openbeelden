@@ -93,9 +93,8 @@
             <mm:option value="month" compare="${uploaded}"><fmt:message key="search.notmorethanamonth" /></mm:option>
             <mm:option value="year" compare="${uploaded}"><fmt:message key="search.notmorethanayear" /></mm:option>
           </select>
-
           <label class="mm_searchlang" for="mm_searchlang"><fmt:message key="media.language" /></label>
-          <mm:datatype nodemanager="articles" field="language" id="searchlang">
+          <mm:datatype nodemanager="streamsources" field="language" id="searchlang">
             <default value="" />
             <required value="false" />
           </mm:datatype>
