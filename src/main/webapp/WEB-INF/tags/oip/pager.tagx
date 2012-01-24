@@ -22,7 +22,7 @@
       <mm:link referid="baseurl">
         <mm:param name="offset">0</mm:param>
         <mm:param name="max">${max}</mm:param>
-        <a href="${_}" class="first">«« first</a>
+        <a href="${_}${empty fragment ? '' : fragment}" class="first">«« first</a>
       </mm:link>
       <jsp:text> </jsp:text>
       <mm:link referid="baseurl">
@@ -92,7 +92,7 @@
       <mm:link referid="baseurl">
         <mm:param name="offset">${total - (total mod max)}</mm:param>
         <mm:param name="max">${max}</mm:param>
-        <a href="${_}" class="last">last »»</a>
+        <a href="${_}${empty fragment ? '' : fragment}" class="last">last »»</a>
       </mm:link>
     </c:if>
   </c:if>
