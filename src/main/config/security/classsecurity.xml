@@ -4,4 +4,12 @@
   <authenticate class="eu\.openimages\.AssetImporter\..*">
     <property name="username" value="beeldengeluid" />
   </authenticate>
+  
+  <!-- do these work? -->
+  <authenticate class="org\.mmbase\.streams\.download\.DownloadFunction">
+    <property name="username" value="admin" />
+  </authenticate>
+  <authenticate class="org\.mmbase\.module\.builders\.Properties\..*">
+    <property name="username" value="admin" />
+  </authenticate>
 </security>

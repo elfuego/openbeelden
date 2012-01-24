@@ -26,6 +26,11 @@ Open Images for MySQL with views (the default setup of OIP) the commands are:
   DROP VIEW oi_audiofragments;
   DROP VIEW oi_imagefragments;
 
+And to be able to add keys like 'cc-by-sa' a new field used by the download API:
+
+  ALTER TABLE oi_licenses_table ADD licensekey VARCHAR(24);
+  DROP VIEW oi_licenses;
+ 
 May less important but also database related: we decided to convert our MySQL tables to InnoDB 
 to fully support transaction. If you have a previous installation of Open Images and are using a 
 MySQL version lower then 5.5 you probably have ISAM tables. Since MySQL 5.5 InnoDB is default. 

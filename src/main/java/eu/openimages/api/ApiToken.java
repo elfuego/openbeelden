@@ -125,7 +125,7 @@ public final class ApiToken {
             String us = toz.nextToken();
             String pw = toz.nextToken();
             if (log.isDebugEnabled()) {
-                log.debug("returning: " + us + "/" + pw);
+                log.debug("returning: " + us);
             }
             map.put("username", us);
             map.put("password", pw);

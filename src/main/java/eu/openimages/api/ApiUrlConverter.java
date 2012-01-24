@@ -69,10 +69,11 @@ public class ApiUrlConverter extends DirectoryUrlConverter {
     }
 
     public static final Parameter<String> TYPE = new Parameter<String>("type", String.class);
+    public static final Parameter<Node> ID = new Parameter<Node>("id", Node.class);
 
     @Override
     public Parameter[] getParameterDefinition() {
-        return new Parameter[] { Parameter.REQUEST, Framework.COMPONENT, Framework.BLOCK, Parameter.CLOUD, TYPE };
+        return new Parameter[] { Parameter.REQUEST, Framework.COMPONENT, Framework.BLOCK, Parameter.CLOUD, TYPE, ID};
     }
 
     /**
@@ -106,7 +107,7 @@ public class ApiUrlConverter extends DirectoryUrlConverter {
             }
         // url: /api/media/123
         } else if (block.getName().equals("get") || block.getName().equals("update") ) {
-            Node node = frameworkParameters.get(Parameter.NODE);
+            Node node = frameworkParameters.get(ID);
             if (node == null) throw new IllegalStateException("No type parameter used in " + frameworkParameters);
             String type = node.getNodeManager().getName();
             if (type.equals("mediafragments") || type.equals("videofragments")) {

@@ -100,6 +100,27 @@
       </datatype>
     </field>
 
+    <field name="licensekey">
+      <descriptions>
+        <description xml:lang="en">Short key representing license, like for example cc-by-sa. Is used in api among others.</description>
+        <description xml:lang="nl">Korte key voor de licentie, bijvoorbeeld cc-by-sa. Wordt gebruikt door o.a. de api.</description>
+      </descriptions>
+      <gui>
+        <guiname xml:lang="en">Key</guiname>
+        <guiname xml:lang="nl">Key</guiname>
+      </gui>
+      <editor>
+        <positions>
+          <input>7</input>
+          <list>7</list>
+          <search>7</search>
+        </positions>
+      </editor>
+      <datatype base="line" xmlns="http://www.mmbase.org/xmlns/datatypes">
+        <maxLength value="24" />
+      </datatype>
+    </field>
+    
     <field name="description">
       <descriptions>
         <description xml:lang="en">The license description or text</description>
@@ -111,8 +132,8 @@
       </gui>
       <editor>
         <positions>
-          <input>7</input>
-          <search>7</search>
+          <input>8</input>
+          <search>8</search>
         </positions>
       </editor>
       <datatype base="field" xmlns="http://www.mmbase.org/xmlns/datatypes">
@@ -131,8 +152,8 @@
       </gui>
       <editor>
         <positions>
-          <input>8</input>
-          <search>8</search>
+          <input>9</input>
+          <search>9</search>
         </positions>
       </editor>
       <datatype base="field" xmlns="http://www.mmbase.org/xmlns/datatypes">
