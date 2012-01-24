@@ -42,7 +42,7 @@
               <mm:setfield name="intro">${intro}</mm:setfield>
               <mm:setfield name="language">${language}</mm:setfield>
               <!-- <mm:setfield name="dc_creator">${dc_creator}</mm:setfield> -->
-              <mm:setfield name="keywords">Celluloid Remix clip</mm:setfield>
+              <mm:setfield name="keywords">Celluloid Remix inzending</mm:setfield>
             </mm:createnode>
             
             <mm:node number="licenses_attributionsharealike" id="licensenode" /><!-- default: cc-by-sa -->
