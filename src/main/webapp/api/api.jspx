@@ -36,11 +36,47 @@
   <mm:maxnumber value="1" />
   <mm:listnodes>
     Most recent media item: 
-    <mm:field name="number" id="recent" />
+    <mm:field name="number" id="recent" /> -
+    <mm:link>
+      <mm:frameworkparam name="component">oip</mm:frameworkparam>
+      <mm:frameworkparam name="block">mediafragment</mm:frameworkparam>
+      <mm:frameworkparam name="media">${_node}</mm:frameworkparam>
+      <a href="${_}">${_}</a>
+    </mm:link>
   </mm:listnodes>
 </mm:listnodescontainer>
 
 </p>
+
+<pre>
+<mm:link>
+  <mm:frameworkparam name="component">oipapi</mm:frameworkparam>
+  <mm:frameworkparam name="block">list</mm:frameworkparam>
+  <mm:frameworkparam name="type">mediafragments</mm:frameworkparam>
+  list media GET : <a href="${_}">${_}</a>
+</mm:link>
+<mm:link>
+  <mm:frameworkparam name="component">oipapi</mm:frameworkparam>
+  <mm:frameworkparam name="block">create</mm:frameworkparam>
+  <mm:frameworkparam name="type">mediafragments</mm:frameworkparam>
+  create media POST : <a href="${_}">${_}</a>
+</mm:link>
+<mm:node number="$recent">
+<mm:link>
+  <mm:frameworkparam name="component">oipapi</mm:frameworkparam>
+  <mm:frameworkparam name="block">get</mm:frameworkparam>
+  <mm:frameworkparam name="type">mediafragments</mm:frameworkparam>
+  <mm:frameworkparam name="id">${_node}</mm:frameworkparam>
+  get media GET : <a href="${_}">${_}</a>
+</mm:link>
+<mm:link>
+  <mm:frameworkparam name="component">oipapi</mm:frameworkparam>
+  <mm:frameworkparam name="block">update</mm:frameworkparam>
+  <mm:frameworkparam name="id">${_node}</mm:frameworkparam>
+  update PUT (POST) : <a href="${_}">${_}</a>
+</mm:link>
+</mm:node>
+</pre>
 
 <code>
 <ul>

@@ -18,9 +18,11 @@
     <mm:present referid="n">
       <mm:hasnode number="$n">
         <mm:node number="$n">
-          <dl class="edit">
+          <dl class="number">
             <dt>number</dt>
             <dd><mm:field name="number" /></dd>
+          </dl>
+          <dl class="edit">
             <mm:fieldlist type="edit">
               <dt><mm:fieldinfo type="name" /></dt>
               <dd><mm:fieldinfo type="value" /></dd>
@@ -30,7 +32,7 @@
       </mm:hasnode>
       <mm:hasnode number="$n" inverse="true">
         <!-- does not happen? urlconverter should catch this -->
-        <dl>
+        <dl class="err">
           <dt>Node not found</dt>
           <dd>No node with number: ${n}</dd>
         </dl>
