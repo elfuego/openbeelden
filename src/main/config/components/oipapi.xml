@@ -41,7 +41,7 @@
     <title xml:lang="en">API get</title>
     <title xml:lang="nl">API get</title>
     <body jsp="get.jspx">
-      <param name="n" type="org.mmbase.bridge.Node" />
+      <param name="id"   type="org.mmbase.bridge.Node" />
       <param name="type" type="String" />
     </body>
   </block>
@@ -51,7 +51,16 @@
     <title xml:lang="en">API update</title>
     <title xml:lang="nl">API update</title>
     <body jsp="update.jspx">
-      <param name="n" type="org.mmbase.bridge.Node" />
+      <param name="id"   type="org.mmbase.bridge.Node" />
+      <param name="type" type="String" />
+    </body>
+  </block>
+
+  <block name="media-create"
+         mimetype="text/html">
+    <title xml:lang="en">API create media</title>
+    <title xml:lang="nl">API create media</title>
+    <body jsp="create-media.jspx">
       <param name="type" type="String" />
     </body>
   </block>
