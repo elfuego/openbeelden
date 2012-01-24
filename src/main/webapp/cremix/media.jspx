@@ -100,6 +100,7 @@
 
         <mm:import id="extraconstraints"></mm:import>
         <mm:import id="video">${extraconstraints} otype:EQ:<mm:nodeinfo type="number" nodetype="videofragments" /></mm:import>
+        <mm:import id="sortfields">REVERSE:created</mm:import>
         
         <!-- total -->
         <mm:function
