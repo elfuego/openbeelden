@@ -141,10 +141,16 @@
         </mm:maycreate>
         
         <mm:maycreate type="mediafragments" inverse="true">
-          <p>Om te kunnen uploaden moet je je aanmelden.</p>    
-          <mm:include page="/mmbase/components/oip/user-login.jspx">
-            <mm:param name="lang">${requestScope['javax.servlet.jsp.jstl.fmt.locale.request']}</mm:param>
-          </mm:include>
+          <p>Om te kunnen uploaden moet je je aanmelden.</p>
+          <mm:url id="thispage" write="false" />
+
+          <mm:node number="page_login">
+            <mm:link page="page" referids="_node@n">
+              <mm:frameworkparam name="component">mmsite</mm:frameworkparam>
+              <a href="${_}?referrer=${thispage}"><fmt:message key="login.sign_in" /></a>
+            </mm:link>
+          </mm:node>
+        
         </mm:maycreate>
         </mm:cloud>
 
