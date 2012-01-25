@@ -38,6 +38,10 @@
             all user info in a spreadsheet
           </li>
           <li>
+            <a href="${mm:link('/editors/tools/sourcesurls.jspx')}">Edit urls of streams</a><br />
+            change stream url to match it with (new) location on filesystem
+          </li>
+          <li>
             <a href="keywords.jspx">Convert keywords</a><br />
             convert , in keywords to ;
           </li>
