@@ -92,19 +92,18 @@ div.image p
 }
 
 div.oiplayer { background-color: #000; }
-div.inavailable
-{
+div.inavailable {
 	width: 512px;
 	height: 288px;
 	text-align: center;
 	font-weight: bold;
-	background-image: url(../images/preview_video.png);
+	background-image: url(../images/preview_video_512x288.png);
 	background-repeat: no-repeat;
 	background-position: 0 0;
 }
 
-div.inavailable.audio { background-image: url(../images/preview_audio.png); }
-div.inavailable.image { background-image: url(../images/preview_image.png); }
+div.inavailable.audio { background-image: url(../images/preview_audio_512x288.png); }
+div.inavailable.image { background-image: url(../images/preview_image_512x288.png); }
 div.inavailable p
 {
 	padding-top: 120px;
@@ -339,6 +338,7 @@ ul.toolbar li a
 
 ul.toolbar li.license a { border-left: 1px #CCC solid; }
 ul.toolbar li.favorite a,
+ul.toolbar li.order a,
 ul.toolbar li.edit a
 {
 	background-position: left 50%;
