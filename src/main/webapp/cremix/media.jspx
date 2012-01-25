@@ -54,13 +54,10 @@
             <c:when test="${empty q}">${index}* </c:when>
             <c:otherwise><mm:write referid="q" escape="lowercase" /><jsp:text> </jsp:text></c:otherwise>
           </c:choose>
-          <c:if test="${!empty p_keywords 
-                     or !empty p_tags 
-                     or !empty p_users}">AND +(${p_keywords} ${p_tags} ${p_users}) -excludedportal:${p}</c:if>
+          <c:if test="${!empty p_keywords}">AND ${p_keywords} </c:if>
         </mm:import>
 
         <mm:import id="extraconstraints"></mm:import>
-        <mm:import id="video">${extraconstraints} otype:EQ:<mm:nodeinfo type="number" nodetype="videofragments" /></mm:import>
         <mm:import id="sortfields">REVERSE:created</mm:import>
         
         <!-- total -->
@@ -125,7 +122,7 @@
           </div>
 
           <div id="t_thumbs">
-            <oip:medialist list="${results}" type="thumbs" />
+            <oip:medialist list="${results_thumbs}" type="thumbs" />
             <p class="pager">
               <oip:pager total="${total}" offset="${offset}" max="${thumbsmax}"
                 baseurl="${pageurl}" fragment="#thumbs" />
