@@ -24,10 +24,13 @@
 <mm:import externid="nr" />
 <mm:import externid="submit" />
 
+<mm:import externid="max">10</mm:import>
+<mm:import externid="offset">0</mm:import>
+
 <mm:import externid="form_url" />
 <mm:import externid="form_title" />
 
-<mm:url referids="nr" id="formlink" write="false" />
+<mm:url referids="nr,max?,offset?" id="formlink" write="false" escapeamps="false" />
 
 
 <mm:present referid="nr">
@@ -119,8 +122,7 @@
     
 </mm:present>
 
-<mm:import externid="max">10</mm:import>
-<mm:import externid="offset">0</mm:import>
+
 <mm:listnodescontainer type="mediafragments">
 <mm:sortorder field="number" direction="DOWN" />
 <mm:size id="total" write="false" />
@@ -138,7 +140,7 @@
           <mm:nodeinfo type="type" /> -
           <mm:link page="/mmbase/edit/my_editors/edit_object.jsp?nr=${_node}"><a href="${_}">in my_editors</a> </mm:link> 
           <br />
-          <mm:link>
+          <mm:link referids="max?,offset?">
             <mm:param name="nr"><mm:field name="number" /></mm:param>
             <a href="${_}">edit url</a> : <strong><mm:field name="url" /></strong>
           </mm:link>
