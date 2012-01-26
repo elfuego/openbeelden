@@ -48,7 +48,7 @@ public final class DownloadFunction extends NodeFunction<String> {
     private static final Parameter<String> EMAIL = new Parameter<String>("email", String.class);
     private static final Parameter<Integer> TIMEOUT = new Parameter<Integer>("timeout", Integer.class);
     /* paramemeters reflect those of org.mmbase.streams.download.DownloadFunction */
-    private final static Parameter[] PARAMETERS = { URL, EMAIL, TIMEOUT, Parameter.LOCALE };
+    private final static Parameter[] PARAMETERS = { URL, EMAIL, TIMEOUT, Parameter.LOCALE, Parameter.REQUEST };
 
     public DownloadFunction() {
         super("downloadmedia", PARAMETERS);
@@ -82,17 +82,17 @@ public final class DownloadFunction extends NodeFunction<String> {
 
         Node source = CreateSourcesWithoutProcessFunction.getMediaSource(node);
 
-        if (node.getStringValue("language") != null && source != null) {
-            if (log.isDebugEnabled()) {
-                log.debug("Setting language of source to: " + node.getStringValue("language"));
+        if (source != null) {
+            if (source.getNodeManager().hasField("language") && node.getStringValue("language") != null ) {
+                if (log.isDebugEnabled()) {
+                    log.debug("Setting language of source to: " + node.getStringValue("language"));
+                }
+                source.setValueWithoutProcess("language", node.getStringValue("language"));
+                source.commit();
+            } else {
+                log.warn("language not set, source: " + source);
             }
-            source.setValueWithoutProcess("language", node.getStringValue("language"));
-            source.commit();
-        } else {
-            log.warn("language not set, source: " + source);
-        }
 
-        if (source != null && source.getStringValue("url").length() > 0) {
             String portalurl = PortalFilter.getPortalUrl(node.getCloud());
             String filesdir = FileServlet.getBasePath("files");
 
