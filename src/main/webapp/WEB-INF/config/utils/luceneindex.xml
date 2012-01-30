@@ -13,7 +13,7 @@
       <mmsq:constraint field="show"  value="true" />
       <mmsq:constraint field="owner" value="deleted%" inverse="true" operator="like" />
       <mmsq:field name="otype" alias="otype" />
-      <mmsq:field name="owner" alias="owner" />
+      <mmsq:field name="owner" alias="powner" /><!-- portal q -->
       <mmsq:field name="title" boost="3" />
       <mmsq:field name="title" keyword="true" escape="lowercase" alias="sorttitle" store="true" />
       <mmsq:field name="language" alias="language" keyword="true" store="true" />
@@ -36,8 +36,8 @@
       <mmsq:field name="lastmodified" alias="lastmodified" />
       <mmsq:field name="identifier" />
       <mmsq:field name="relation" />
-      <mmsq:field name="keywords" />
-      <mmsq:field name="keywords" alias="keywords" keyword="true" split=";" boost="4" />
+      <mmsq:field name="keywords" boost="4" />
+      <mmsq:field name="keywords" alias="pkeywords" keyword="true" split=";" /><!-- portal q -->
       <mmsq:field name="coverage" />
       <mmsq:field name="coverage" keyword="true" split=";" boost="4" />
       <mmsq:field name="contributor" />
@@ -46,6 +46,10 @@
       <mmsq:related path="excluded,pools" element="pools">
         <mmsq:field name="number" alias="excludedportal" keyword="true" />
       </mmsq:related>
+      <mmsq:relatednodes type="tags">
+        <mmsq:field name="name" boost="4" />
+        <mmsq:field name="name" alias="ptags" /><!-- portal q -->
+      </mmsq:relatednodes>
       <!-- srclanguage contains language of media (stream)source file -->
       <mmsq:relatednodes type="audiostreamsources">
         <mmsq:field name="language" alias="srclanguage" keyword="true" />
@@ -55,10 +59,6 @@
       </mmsq:relatednodes>
       <mmsq:relatednodes type="videostreamsources">
         <mmsq:field name="language" alias="srclanguage" keyword="true" />
-      </mmsq:relatednodes>
-      <mmsq:relatednodes type="tags">
-        <mmsq:field name="name" />
-        <mmsq:field name="name" alias="tags" keyword="true" boost="4" />
       </mmsq:relatednodes>
       <mmsq:relatednodes type="licenses">
         <mmsq:field name="number" alias="licensenr" store="true" />
