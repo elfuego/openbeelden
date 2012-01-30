@@ -22,61 +22,41 @@
       <c:set var="isdefault" value="false" />
       
       <div class="main-column">
-        
-        <h2>Portals</h2>
-        <mm:listnodescontainer type="pools">
-          <ul>
-          <mm:listnodes>
-            <li>
-              <mm:link referids="_node@p"><a href="${_}"><mm:field name="name" /></a></mm:link>
-            </li>
-          </mm:listnodes>
-          </ul>
-        </mm:listnodescontainer>
 
         <mm:node id="p" number="$_node.number">
+          <c:set var="isdefault" value="false" />
           <mm:hasalias name="pool_oip"><c:set var="isdefault" value="true" /></mm:hasalias>
-  
-        
+
+          <!-- the default portal has no specific url nor a content filter -->
+          <c:if test="${!isdefault}">
+            <div class="">
+              <h2>Filter</h2>
+              <p>Portal filter with tags, keywords and users.</p>
+              <mm:relatednodescontainer type="filters" role="portalrel" searchdirs="destination">
+                <mm:maxnumber value="1" />
+                <mm:relatednodes>
+                  <c:set var="hasfilter" value="yes" />
+                  <mm:include page="/editors/edit-node.jspx" referids="p?,_node@nr">
+                    <mm:param name="fields">users,tags,keywords</mm:param>
+                  </mm:include>
+                </mm:relatednodes>
+              </mm:relatednodescontainer>
+              <c:if test="${empty hasfilter}">
+                <div id="add_filter"> <jsp:text> <!-- empty --> </jsp:text> </div>
+                <p class="add">
+                  <mm:link page="/editors/add-node.jspx" referids="p?,_node@nr">
+                    <mm:param name="type">filters</mm:param>
+                    <mm:param name="role">portalrel</mm:param>
+                    <mm:param name="fields">users,tags,keywords</mm:param>
+                    <mm:param name="defaultstr">name=Portal filter ${portalName}</mm:param>
+                    <a class="editme" href="${_}#add_filter">add filter</a>
+                  </mm:link>
+                </p>
+              </c:if>
+            </div>
+          </c:if>
+
           <h2>Content '<mm:field name="name" />'</h2>
-
-<!-- ### portalfilter ### -->
-<!-- set portal manager as default user -->
-<mm:relatednodescontainer type="mmbaseusers" role="portalrel" searchdirs="source">
-  <mm:maxnumber value="1" />
-  <mm:relatednodes>
-    <c:set var="portalmanager"><mm:field name="username" /></c:set>
-    <c:set var="p_users">user:"<mm:field name="username" />"<jsp:text> </jsp:text></c:set>
-  </mm:relatednodes>
-</mm:relatednodescontainer>
-
-<!-- portal filter: users, tags, keywords -->
-<mm:relatednodescontainer type="filters" role="portalrel" searchdirs="destination">
-  <mm:relatednodes>
-    <mm:field name="users" escape="none">
-      <mm:isnotempty>
-        <c:forTokens items="${_}" delims=";" var="usr">
-          <c:set var="p_users">${p_users}<jsp:text> </jsp:text>user:"<c:out value="${fn:trim(usr)}" />"</c:set>
-        </c:forTokens>
-      </mm:isnotempty>
-    </mm:field>
-    <mm:field name="keywords" escape="none">
-      <mm:isnotempty>
-        <c:forTokens items="${_}" delims=";" var="kw">
-          <c:set var="p_keywords">${p_keywords}<jsp:text> </jsp:text>keywords:"<c:out value="${fn:trim(kw)}" />"</c:set>
-        </c:forTokens>
-      </mm:isnotempty>
-    </mm:field>
-    <mm:field name="tags" escape="none">
-      <mm:isnotempty>
-        <c:forTokens items="${_}" delims=";" var="tag">
-          <c:set var="p_tags">${p_tags}<jsp:text> </jsp:text>tags:"<c:out value="${fn:trim(tag)}" />"</c:set>
-        </c:forTokens>
-      </mm:isnotempty>
-    </mm:field>
-
-  </mm:relatednodes>
-</mm:relatednodescontainer>
 
 <!--
 define portal queries for Lucene
@@ -94,10 +74,8 @@ translates to: +(someField:bar someField:baz) +anotherField:foo
     <c:otherwise><mm:write referid="q" escape="lowercase" /><jsp:text> </jsp:text></c:otherwise>
   </c:choose>
   <c:if test="${!empty user}">AND user:"${user}" </c:if>
-  <c:if test="${!empty source}">AND source:"${source}" </c:if>
-  <c:if test="${!empty p_keywords 
-             or !empty p_tags 
-             or !empty p_users}">AND +(${p_keywords} ${p_tags} ${p_users}) -excludedportal:${p}</c:if>
+  <c:if test="${!empty source}">AND source:"${source}" </c:if> 
+  <oip:portalquery portal="${p}" />
 </mm:import>          
 
 <!-- second list with suggestions from complete repository -->
@@ -113,30 +91,30 @@ translates to: +(someField:bar someField:baz) +anotherField:foo
       module="lucene" name="search" id="results"
       referids="index,value@value,offset,max,fields?,sortfields?,filter?,extraconstraints?,analyzer?" />
 </c:if>
-
+<pre>value:  <mm:write referid="value" escape="none" />
+extraconstraints: ${extraconstraints} filter: ${filter} </pre>
           <h3>total ${total}</h3>
           <p>
             A sample of max ${max} nodes. portal: ${p} portalmanager: ${portalmanager}
             <br />Lucene query:
           </p>
 
-<pre>value:  <mm:write referid="value" escape="none" />
-extraconstraints: ${extraconstraints} filter: ${filter} 
-
-</pre>
 
           <ol>
           <mm:listnodes referid="results" varStatus="status" id="mediafragment">
             <li>
-              <mm:field name="number" /> - <strong><mm:field name="title" /></strong><br />
-              user: <mm:field name="owner" /><br /> 
-              keywords: <mm:field name="keywords" /><br />
+              <mm:field name="number" /> - <em><mm:field name="title" /></em><br />
+              user: <mm:import id="user" reset="true"><mm:field name="owner" /></mm:import> ${user} -
+              <mm:node number="$user" notfound="skip"><strong><mm:field name="username" /></strong></mm:node>
+              
+              <br /> 
+              keywords: <strong><mm:field name="keywords" /></strong><br />
               tags: 
-              <mm:relatednodescontainer type="tags" role="related" searchdirs="destination">
+              <strong><mm:relatednodescontainer type="tags" role="related" searchdirs="destination">
                 <mm:relatednodes>
                   <mm:field name="name" /><mm:last inverse="true">, </mm:last>
                 </mm:relatednodes>
-              </mm:relatednodescontainer> 
+              </mm:relatednodescontainer></strong>
             </li>
           </mm:listnodes>
           </ol>         
@@ -144,6 +122,20 @@ extraconstraints: ${extraconstraints} filter: ${filter}
         
         </mm:node>
       </div><!-- /.main-column -->
+      <div class="right-column">
+        
+        <h2>Portals</h2>
+        <mm:listnodescontainer type="pools">
+          <ul>
+          <mm:listnodes>
+            <li>
+              <mm:link referids="_node@p"><a href="${_}"><mm:field name="name" /></a></mm:link>
+            </li>
+          </mm:listnodes>
+          </ul>
+        </mm:listnodescontainer>
+      
+      </div>
     </jsp:attribute>
   </oip:editor>
 </jsp:root>
