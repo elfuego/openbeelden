@@ -1,0 +1,96 @@
+<jsp:root
+    version="2.0"
+    xmlns:c="http://java.sun.com/jsp/jstl/core"
+    xmlns:jsp="http://java.sun.com/JSP/Page"
+    xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+    xmlns:mm="http://www.mmbase.org/mmbase-taglib-2.0"
+    xmlns:oip="urn:jsptagdir:/WEB-INF/tags/oip"
+    >
+  <jsp:directive.tag
+      display-name="Portalquery"
+      description="Defines part of Lucene query to list portal content based on its manager and portal filter (users, keywords, tags)."
+      /> 
+  
+  <jsp:directive.attribute name="portal" 
+                           description="Portal node number" />
+  
+  <jsp:directive.attribute name="inverse" type="java.lang.Boolean"
+                           description="Inverse query to exclude content from certain portal" />
+  
+  
+  <c:if test="${empty portal}">
+    <mm:import externid="portal">pool_oip</mm:import>
+  </c:if>
+
+
+<!--
+define portal queries for Lucene
+pseudo code: lucene.Find((someField == "bar" || someField == "baz") && anotherField == "foo");
+translates to: +(someField:bar someField:baz) +anotherField:foo
+-->
+  
+  <mm:node number="$portal">
+    <c:set var="isdefault" value="false" />
+    <mm:hasalias name="pool_oip"><c:set var="isdefault" value="true" /></mm:hasalias>
+    
+    <!-- set portal manager as default user -->
+    <mm:relatednodescontainer type="mmbaseusers" role="portalrel" searchdirs="source">
+      <mm:maxnumber value="1" />
+      <mm:relatednodes>
+        <c:set var="managernr"><mm:field name="number" /></c:set>
+        <c:set var="p_users">powner:"<mm:field name="number" />"<jsp:text> </jsp:text></c:set>
+      </mm:relatednodes>
+    </mm:relatednodescontainer>
+    
+    <!-- portal filter: users, tags, keywords -->
+    <mm:relatednodescontainer type="filters" role="portalrel" searchdirs="destination">
+      <mm:relatednodes>
+        <mm:field name="users" escape="none">
+          <mm:isnotempty>
+            <c:forTokens items="${_}" delims=";" var="usr">
+              <mm:listnodescontainer type="mmbaseusers">
+                <mm:constraint field="number"   value="${managernr}"    operator="EQUAL" inverse="true" />
+                <mm:constraint field="username" value="${fn:trim(usr)}" operator="EQUAL" />
+                <mm:maxnumber value="1" />
+                <mm:listnodes>
+                  <c:set var="p_users">${p_users}<jsp:text> </jsp:text>powner:"<mm:field name="number" />"</c:set>
+                </mm:listnodes>
+              </mm:listnodescontainer>              
+            </c:forTokens>
+          </mm:isnotempty>
+        </mm:field>
+        <mm:field name="keywords" escape="none">
+          <mm:isnotempty>
+            <c:forTokens items="${_}" delims=";" var="kw">
+              <c:set var="p_keywords">${p_keywords}<jsp:text> </jsp:text>pkeywords:"<c:out value="${fn:trim(kw)}" />"</c:set>
+            </c:forTokens>
+          </mm:isnotempty>
+        </mm:field>
+        <mm:field name="tags" escape="none">
+          <mm:isnotempty>
+            <c:forTokens items="${_}" delims=";" var="tag">
+              <c:set var="p_tags">${p_tags}<jsp:text> </jsp:text>ptags:"<c:out value="${fn:trim(tag)}" />"</c:set>
+            </c:forTokens>
+          </mm:isnotempty>
+        </mm:field>
+    
+      </mm:relatednodes>
+    </mm:relatednodescontainer>    
+
+    <c:choose>
+      <c:when test="${inverse}">
+        <c:if test="${!empty p_keywords 
+                     or !empty p_tags 
+                     or !empty p_users}">-(${p_keywords} ${p_tags} ${p_users} -excludedportal:${portal})</c:if>
+      </c:when>
+      <c:otherwise>
+        <c:if test="${!empty p_keywords 
+                     or !empty p_tags 
+                     or !empty p_users}">+(${p_keywords} ${p_tags} ${p_users}) -excludedportal:${portal}</c:if>
+      </c:otherwise>
+    </c:choose>
+  
+  
+  </mm:node>
+  
+</jsp:root>
