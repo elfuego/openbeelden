@@ -34,6 +34,10 @@
             tabel met aantal maal media items zijn afgespeeld
           </li>
           <li>
+            <a href="${mm:link('/editors/tools/createportal.jspx')}">Make a new portal</a><br />
+            add and configure a new portal
+          </li>
+          <li>
             <a href="${mm:link('/editors/tools/email.jspx')}">Email addresses</a><br />
             all user info in a spreadsheet
           </li>

@@ -30,8 +30,8 @@
           <!-- the default portal has no specific url nor a content filter -->
           <c:if test="${!isdefault}">
             <div class="">
-              <h2>Filter</h2>
-              <p>Portal filter with tags, keywords and users.</p>
+              <h2>Filter : <mm:field name="name" id="portalName" /></h2>
+              <p>Portal filter with tags, keywords and users. Separate values with ;</p>
               <mm:relatednodescontainer type="filters" role="portalrel" searchdirs="destination">
                 <mm:maxnumber value="1" />
                 <mm:relatednodes>
@@ -56,7 +56,7 @@
             </div>
           </c:if>
 
-          <h2>Content '<mm:field name="name" />'</h2>
+          <h2>Content : <mm:field name="name" /></h2>
 
 <!--
 define portal queries for Lucene
@@ -73,8 +73,8 @@ translates to: +(someField:bar someField:baz) +anotherField:foo
     <c:when test="${empty q}">${index}* </c:when>
     <c:otherwise><mm:write referid="q" escape="lowercase" /><jsp:text> </jsp:text></c:otherwise>
   </c:choose>
-  <c:if test="${!empty user}">AND user:"${user}" </c:if>
-  <c:if test="${!empty source}">AND source:"${source}" </c:if> 
+  <c:if test="${!empty user}"> +user:"${user}" </c:if>
+  <c:if test="${!empty source}"> +source:"${source}" </c:if> 
   <oip:portalquery portal="${p}" />
 </mm:import>          
 
@@ -124,7 +124,7 @@ extraconstraints: ${extraconstraints} filter: ${filter} </pre>
       </div><!-- /.main-column -->
       <div class="right-column">
         
-        <h2>Portals</h2>
+        <h3>Portals</h3>
         <mm:listnodescontainer type="pools">
           <ul>
           <mm:listnodes>

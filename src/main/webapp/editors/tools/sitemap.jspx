@@ -22,16 +22,6 @@
       <c:set var="isdefault" value="false" />
       
       <div class="main-column">
-        <h2>Portals</h2>
-        <mm:listnodescontainer type="pools">
-          <ul>
-          <mm:listnodes>
-            <li>
-              <mm:link referids="_node@p"><a href="${_}"><mm:field name="name" /></a></mm:link>
-            </li>
-          </mm:listnodes>
-          </ul>
-        </mm:listnodescontainer>        
 
         <mm:node id="p" number="$_node.number">
           <mm:hasalias name="pool_oip"><c:set var="isdefault" value="true" /></mm:hasalias>
@@ -134,6 +124,20 @@
         
         </mm:node>
       </div><!-- /.main-column -->
+      <div class="right-column">
+        <mm:hasrank minvalue="project manager">
+          <h3>Portals</h3>
+          <mm:listnodescontainer type="pools">
+            <ul>
+            <mm:listnodes>
+              <li>
+                <mm:link referids="_node@p"><a href="${_}"><mm:field name="name" /></a></mm:link>
+              </li>
+            </mm:listnodes>
+            </ul>
+          </mm:listnodescontainer>     
+        </mm:hasrank>
+      </div>
     </jsp:attribute>
   </oip:editor>
 </jsp:root>
