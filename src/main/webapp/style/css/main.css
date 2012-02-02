@@ -102,8 +102,8 @@ p { margin-bottom: 1em; }
 
 
 /* generic messages */
-.msg, .err
-{
+.msg, 
+.err {
 	font-family: Helvetica, sans-serif;
 	width: auto;
 	text-align: center;
@@ -111,36 +111,39 @@ p { margin-bottom: 1em; }
 	clear: both;
 }
 
-.err em, .msg em
-{
+.err em, 
+.msg em {
 	font-size: 0.8em;
 	display: block;
 }
 
-.msg
-{
+.msg {
 	border: 2px solid #679911;
 	background-color: #CEFFCD;
 }
 
-.err
-{
+.err {
 	border: 2px #F93537 solid;
 	background-color: #FDD3C7;
 }
+.msg.grey {
+	background-color: #efefef;
+	border-color: #ccc;
+	text-align: left;
+}
 
-p.msg, div.msg, p.err, div.err
-{
+p.msg, 
+div.msg, 
+p.err, 
+div.err {
 	margin: 4px 0 4px 0;
 	padding: 0.5em;
 }
 
-div#error.err
-{
+div#error.err {
 	text-align: left;
 }
-div#error.err p
-{
+div#error.err p {
 	font-family: Monaco, Courier, monospaced;
 	font-size: 0.9em;
 }
@@ -321,6 +324,7 @@ span.text, span.text span {
 
 /* search form */
 form#search { width: 190px; }
+form#search h2 { margin-top: 16px; }
 form#search fieldset { width: 190px; }
 form#search label
 {
@@ -347,10 +351,15 @@ form#search select#mm_searchlang,
 form#search select#license { margin-top: 10px; }
 form#search select#license { margin-bottom: 16px; }
 
+form#search fieldset.button {
+	margin: 0;
+	padding-bottom: 0;
+}
 form#search input.submit
 {
 	width: auto;
 	margin-right: 0;
+	margin-bottom: 0;
 	padding-left: 6px;
 	padding-right: 6px;
 }

@@ -855,3 +855,91 @@ div.addthis_toolbox a
 }
 
 div.wikipedia a { color: #666; }
+
+
+/* styles for search info boxes */
+div#searchwrap {
+	position: absolute;
+	top: 8px;
+}
+div#searchwrap.broad {
+	width: 472px;
+	z-index: 8;
+}
+div#searchwrap div.greyslab { display: none; }
+div#searchwrap.broad div.greyslab {
+	display: block;
+	height: 100%;
+	width: 250px;
+	background-color: #f0f0f0;
+	font-size: 1em;
+	font-weight: bold;
+	text-align: right;
+	z-index: 8;
+	position: absolute;
+	right: 0;
+	top: 0;
+}
+
+/* close link */
+div#searchwrap.broad div.greyslab a {
+	margin: 4px 8px;
+	display: block;
+}
+div#searchwrap.broad div.greyslab a:link,
+div#searchwrap.broad div.greyslab a:visited {
+	text-decoration: none;
+	color: #000;
+}
+div#searchwrap.broad div.greyslab a:hover,
+div#searchwrap.broad div.greyslab a:active {
+	text-decoration: underline;
+	color: #333;
+}
+
+div#searchwrap form#search.broad {
+	width: 480px;
+	z-index: 8;
+}
+form#search fieldset > div {
+	position: relative;
+	margin: 0;
+	padding: 0;
+}
+form#search a.infos {
+	position: absolute;
+	z-index: 10;
+	top: 24px;
+	right: -18px;
+}
+form#search div.languages a.infos,
+form#search div.licenses a.infos { top: 11px; }
+form#search div p.infos { display: none; }
+
+form#search div p.infos {
+	display: none;
+	position: absolute;
+	border: 0;
+	z-index: 9;
+	width: 226px;
+	background: #f0f0f0;
+	color: #777;
+	margin-left: 0;
+	margin-top: 0;
+	left: 238px;
+	top: 22px;
+	padding: 0px !important;
+	font-size: 0.9em;
+	text-align: left;
+	text-transform: none;
+}
+form#search div.languages p.infos,
+form#search div.licenses p.infos { top: 11px; }
+form#search div p.infos.shown { display: block; }
+
+form#search div p.infos strong {
+	display: block;
+	font-size: 1em;
+	text-transform: uppercase;
+	margin-bottom: 4px;
+}

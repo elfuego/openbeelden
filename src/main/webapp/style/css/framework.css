@@ -64,7 +64,7 @@ div.left-column
 {
 	padding-left: 43px;
 	padding-right: 22px;
-    padding-top: 16px;
+    padding-top: 8px; /* 16 */
 	background-image: url(images/dots2-bg-grey.png);
 	background-repeat: repeat-x;
 	background-position: 0 0px;
@@ -74,7 +74,6 @@ div.left-column
 	voice-family: inherit;
 	width: 190px;
 }
-
 div.main-column
 {
 	padding-top: 10px;
@@ -305,7 +304,7 @@ div.wrap > div.left-column
 	position: static;
 	display: block;
 	float: left;
-	padding-top: 16px;
+	padding-top: 8px;
 	margin-top: 0;
 	border: 0;
 }

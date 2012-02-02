@@ -289,6 +289,27 @@ function initFieldInfos() {
     }
 }
 
+/* When i (a.infos) is clicked shows grey slab with information about specific search option */
+function initSearchInfos() {
+    if ($('form#search p.infos').length) {
+        $('form#search a.infos').click(function(ev) {
+            ev.preventDefault();
+            if ($('div#searchwrap.broad').length) { 
+                $('form#search').find('p.infos').removeClass('shown');
+                $('div#searchwrap').removeClass('broad');
+            } else {
+                $(this).parent('div').find('p.infos').addClass('shown');
+                $('div#searchwrap').addClass('broad');
+            }
+        });
+        $('div#searchwrap > div.greyslab > a').click(function(ev) {
+            ev.preventDefault();
+            $('form#search').find('p.infos').removeClass('shown');
+            $('div#searchwrap').removeClass('broad');
+        });
+    }
+}
+
 /* Hides username input value when it matches user0 in registration form */
 function hideUser0() {
     if ($('#mm_username').length) {
@@ -370,6 +391,7 @@ $(document).ready(function() {
     initBlank();
     initPlusfields();
     initFieldInfos();
+    initSearchInfos();
     hideUser0();
     if ($('a.lightbox').length) initLightBox();
     
