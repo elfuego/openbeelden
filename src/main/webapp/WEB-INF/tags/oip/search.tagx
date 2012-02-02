@@ -32,6 +32,8 @@
     <c:set var="classhidden" value="hidden" />
     <c:set var="searchlink">${mm:link('/media')}${langpostfix}</c:set>
 
+  <div id="searchwrap">
+    <div class="greyslab"> <a href="#close">close X</a> </div>
     <form action="${searchlink}" method="post" id="search">
       <oip:h2><fmt:message key="search.media" /></oip:h2>
       <fieldset>
@@ -50,84 +52,122 @@
               <mm:distinct />
               <mm:size>
                 <mm:isgreaterthan value="1">
-                  <label for="search_portal">Portal</label>
-                  <select name="p" id="search_portal">
-                    <mm:list>
-                      <mm:node element="pools">
-                        <mm:nodefunction name="translation">
-                          <c:set var="p_name"><mm:field name="name" /></c:set>
-                        </mm:nodefunction>
-                        <mm:option label="${p_name}" value="${_node.number}" compare="${p}">${p_name}</mm:option>
-                      </mm:node>
-                    </mm:list>
-                  </select>
+                  <div>
+                    <a class="infos" href="#info_portal"><img height="12" width="12" alt="i" src="${mm:link('/style/css/icons/info.png')}" /></a>
+                    <p id="info_portal" class="infos">
+                      <strong>Portal</strong>
+                      Search only in the  selected portal. 
+                    </p>
+                    <label for="search_portal">Portal</label>
+                    <select name="p" id="search_portal">
+                      <mm:list>
+                        <mm:node element="pools">
+                          <mm:nodefunction name="translation">
+                            <c:set var="p_name"><mm:field name="name" /></c:set>
+                          </mm:nodefunction>
+                          <mm:option label="${p_name}" value="${_node.number}" compare="${p}">${p_name}</mm:option>
+                        </mm:node>
+                      </mm:list>
+                    </select>
+                  </div>
                 </mm:isgreaterthan>
               </mm:size>
             </mm:listcontainer>
           </c:if>
 
           <!-- date published -->
-          <c:set var="label_date"><fmt:message key="search.any_period" /></c:set>
-          <label for="date"><fmt:message key="media.date" /></label>
-          <select id="date" name="date">
-            <option label="${label_date}" value="">${label_date}</option>
-            <mm:option value="2010" compare="${date}">
-              <fmt:message key="search.from">
-                <fmt:param>2010</fmt:param>
-              </fmt:message>
-            </mm:option>
-            <mm:option label="1990-2009" value="1990" compare="${date}">1990-2009</mm:option>
-            <mm:option label="1970-1989" value="1970" compare="${date}">1970-1989</mm:option>
-            <mm:option label="1950-1969" value="1950" compare="${date}">1950-1969</mm:option>
-            <mm:option label="1930-1949" value="1930" compare="${date}">1930-1949</mm:option>
-            <mm:option label="1910-1929" value="1910" compare="${date}">1910-1929</mm:option>
-          </select>
+          <div>
+            <a class="infos" href="#info_date">
+              <img height="12" width="12" alt="i" src="${mm:link('/style/css/icons/info.png')}" />
+            </a>
+            <p id="info_date" class="infos">
+              <strong><fmt:message key="media.date" /></strong>
+              Search with a publication date within the selected period.
+            </p>
+            <c:set var="label_date"><fmt:message key="search.any_period" /></c:set>
+            <label for="date"><fmt:message key="media.date" /></label>
+            <select id="date" name="date">
+              <option label="${label_date}" value="">${label_date}</option>
+              <mm:option value="2010" compare="${date}">
+                <fmt:message key="search.from">
+                  <fmt:param>2010</fmt:param>
+                </fmt:message>
+              </mm:option>
+              <mm:option label="1990-2009" value="1990" compare="${date}">1990-2009</mm:option>
+              <mm:option label="1970-1989" value="1970" compare="${date}">1970-1989</mm:option>
+              <mm:option label="1950-1969" value="1950" compare="${date}">1950-1969</mm:option>
+              <mm:option label="1930-1949" value="1930" compare="${date}">1930-1949</mm:option>
+              <mm:option label="1910-1929" value="1910" compare="${date}">1910-1929</mm:option>
+            </select>
+          </div>
 
           <!-- uploaded / created -->
-          <c:set var="label_uploaded"><fmt:message key="search.any_period" /></c:set>
-          <label for="uploaded"><fmt:message key="media.uploaded" /></label>
-          <select id="uploaded" name="uploaded">
-            <option label="${label_uploaded}" value="">${label_uploaded}</option>
-            <mm:option value="today" compare="${uploaded}"><fmt:message key="search.notmorethanaday" /></mm:option>
-            <mm:option value="week" compare="${uploaded}"><fmt:message key="search.notmorethanaweek" /></mm:option>
-            <mm:option value="month" compare="${uploaded}"><fmt:message key="search.notmorethanamonth" /></mm:option>
-            <mm:option value="year" compare="${uploaded}"><fmt:message key="search.notmorethanayear" /></mm:option>
-          </select>
-          <label class="mm_searchlang" for="mm_searchlang"><fmt:message key="media.language" /></label>
-          <mm:datatype nodemanager="streamsources" field="language" id="searchlang">
-            <default value="" />
-            <required value="false" />
-          </mm:datatype>
-          <mm:fieldinfo datatype="searchlang" node="" type="input" />
-          <input name="hiddensearchlang" id="hiddensearchlang" type="hidden" value="${_searchlang}" />
-
-          <fmt:message key="search.any_license" var="label_license" />
-          <label class="license" for="license"><fmt:message key="media.license" /></label>
-          <mm:listnodescontainer type="licenses">
-            <select id="license" name="license">
-              <option value="" label="${label_license}">${label_license}</option>
-              <mm:listnodes>
-                <mm:option value="${_node.number}" compare="${license}">
-                  <mm:nodefunction name="translation"><mm:field name="name" /></mm:nodefunction>
-                </mm:option>
-              </mm:listnodes>
+          <div>
+            <a class="infos" href="#info_uploaded"><img height="12" width="12" alt="i" src="${mm:link('/style/css/icons/info.png')}" /></a>
+            <p id="info_uploaded" class="infos">
+              <strong><fmt:message key="media.uploaded" /></strong>
+              Search with an uploaded date within the selected period.
+            </p>
+            <c:set var="label_uploaded"><fmt:message key="search.any_period" /></c:set>
+            <label for="uploaded"><fmt:message key="media.uploaded" /></label>
+            <select id="uploaded" name="uploaded">
+              <option label="${label_uploaded}" value="">${label_uploaded}</option>
+              <mm:option value="today" compare="${uploaded}"><fmt:message key="search.notmorethanaday" /></mm:option>
+              <mm:option value="week" compare="${uploaded}"><fmt:message key="search.notmorethanaweek" /></mm:option>
+              <mm:option value="month" compare="${uploaded}"><fmt:message key="search.notmorethanamonth" /></mm:option>
+              <mm:option value="year" compare="${uploaded}"><fmt:message key="search.notmorethanayear" /></mm:option>
             </select>
-          </mm:listnodescontainer>
+          </div>
+          
+          <div class="languages">
+            <a class="infos" href="#info_language"><img height="12" width="12" alt="i" src="${mm:link('/style/css/icons/info.png')}" /></a>
+            <p id="info_language" class="infos">
+              <strong><fmt:message key="media.language" /></strong>
+              Search a media item with a source file - actual video, audio or picture file - in the selected language. 
+            </p>
+            <label class="mm_searchlang" for="mm_searchlang"><fmt:message key="media.language" /></label>
+            <mm:datatype nodemanager="streamsources" field="language" id="searchlang">
+              <default value="" />
+              <required value="false" />
+            </mm:datatype>
+            <mm:fieldinfo datatype="searchlang" node="" type="input" />
+            <input name="hiddensearchlang" id="hiddensearchlang" type="hidden" value="${_searchlang}" />
+          </div>
 
-          <label for="user"><fmt:message key="media.user" /></label>
+          <div class="licenses">
+            <a class="infos" href="#info_license"><img height="12" width="12" alt="i" src="${mm:link('/style/css/icons/info.png')}" /></a>
+            <p id="info_license" class="infos">
+              <strong><fmt:message key="media.license" /></strong>
+              Search for media with the selected license.
+            </p>
+            <fmt:message key="search.any_license" var="label_license" />
+            <label class="license" for="license"><fmt:message key="media.license" /></label>
+            <mm:listnodescontainer type="licenses">
+              <select id="license" name="license">
+                <option value="" label="${label_license}">${label_license}</option>
+                <mm:listnodes>
+                  <mm:option value="${_node.number}" compare="${license}">
+                    <mm:nodefunction name="translation"><mm:field name="name" /></mm:nodefunction>
+                  </mm:option>
+                </mm:listnodes>
+              </select>
+            </mm:listnodescontainer>
+          </div>
+
+          <!-- <label for="user"><fmt:message key="media.user" /></label>
           <input name="user" id="user" value="${user}" type="text" />
 
           <label for="source"><fmt:message key="media.source" /></label>
-          <input name="source" id="source" value="${source}" type="text" />
+          <input name="source" id="source" value="${source}" type="text" /> -->
 
         </fieldset>
         <c:set var="classhidden" value="" />
       </c:if>
 
-      <fieldset class="${classhidden}">
+      <fieldset class="${classhidden} button">
         <fmt:message key="search.button" var="button" />
         <input type="submit" name="action" value="${button}" class="submit" />
       </fieldset>
     </form>
-
+  </div><!-- /.searchwrap -->
 </jsp:root>
