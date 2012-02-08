@@ -26,7 +26,7 @@
   <allowedrelationlist>
     <relation from="pools"  to="templates" type="related" />
     <relation from="pools"  to="pages"     type="posrel" />
-    <relation from="pools"  to="pages"     type="footterrel" />
+    <relation from="pools"  to="pages"     type="footerrel" />
     <relation from="pages"  to="pages"     type="posrel" />
     <relation from="pages"  to="articles"  type="posrel" />
   </allowedrelationlist>
