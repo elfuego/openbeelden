@@ -298,17 +298,6 @@
       <param name="media" type="String" />
     </body>
   </block>
-
-  <block name="user-apitoken"
-         classification="oip"
-         mimetype="text/html">
-    <title xml:lang="en">API token</title>
-    <title xml:lang="nl">API token</title>
-    <body jsp="user-apitoken.jspx">
-      <param name="n"    type="org.mmbase.bridge.Node" />
-      <param name="seed" type="String">pindakaas</param><!-- change this to make guessing more difficult -->
-    </body>
-  </block>
   
   <block name="user-delete"
          classification="oip"
