@@ -56,7 +56,7 @@
                     <a class="infos" href="#info_portal"><img height="12" width="12" alt="i" src="${mm:link('/style/css/icons/info.png')}" /></a>
                     <p id="info_portal" class="infos">
                       <strong>Portal</strong>
-                      Search only in the  selected portal. 
+                      <fmt:message key="media.searchinfo.portal" />
                     </p>
                     <label for="search_portal">Portal</label>
                     <select name="p" id="search_portal">
@@ -82,7 +82,7 @@
             </a>
             <p id="info_date" class="infos">
               <strong><fmt:message key="media.date" /></strong>
-              Search with a publication date within the selected period.
+              <fmt:message key="media.searchinfo.published" />
             </p>
             <c:set var="label_date"><fmt:message key="search.any_period" /></c:set>
             <label for="date"><fmt:message key="media.date" /></label>
@@ -106,7 +106,7 @@
             <a class="infos" href="#info_uploaded"><img height="12" width="12" alt="i" src="${mm:link('/style/css/icons/info.png')}" /></a>
             <p id="info_uploaded" class="infos">
               <strong><fmt:message key="media.uploaded" /></strong>
-              Search with an uploaded date within the selected period.
+              <fmt:message key="media.searchinfo.uploaded" />
             </p>
             <c:set var="label_uploaded"><fmt:message key="search.any_period" /></c:set>
             <label for="uploaded"><fmt:message key="media.uploaded" /></label>
@@ -123,7 +123,7 @@
             <a class="infos" href="#info_language"><img height="12" width="12" alt="i" src="${mm:link('/style/css/icons/info.png')}" /></a>
             <p id="info_language" class="infos">
               <strong><fmt:message key="media.language" /></strong>
-              Search a media item with a source file - actual video, audio or picture file - in the selected language. 
+              <fmt:message key="media.searchinfo.language" />
             </p>
             <label class="mm_searchlang" for="mm_searchlang"><fmt:message key="media.language" /></label>
             <mm:datatype nodemanager="streamsources" field="language" id="searchlang">
@@ -138,7 +138,7 @@
             <a class="infos" href="#info_license"><img height="12" width="12" alt="i" src="${mm:link('/style/css/icons/info.png')}" /></a>
             <p id="info_license" class="infos">
               <strong><fmt:message key="media.license" /></strong>
-              Search for media with the selected license.
+              <fmt:message key="media.searchinfo.license" />
             </p>
             <fmt:message key="search.any_license" var="label_license" />
             <label class="license" for="license"><fmt:message key="media.license" /></label>
@@ -153,12 +153,6 @@
               </select>
             </mm:listnodescontainer>
           </div>
-
-          <!-- <label for="user"><fmt:message key="media.user" /></label>
-          <input name="user" id="user" value="${user}" type="text" />
-
-          <label for="source"><fmt:message key="media.source" /></label>
-          <input name="source" id="source" value="${source}" type="text" /> -->
 
         </fieldset>
         <c:set var="classhidden" value="" />

@@ -27,8 +27,6 @@
         <mm:hasalias name="pool_oip"><c:set var="isdefault" value="true" /></mm:hasalias>
       </mm:node>
 
-      <mm:import externid="user" />
-      <mm:import externid="source" />
       <mm:import externid="date" />
       <mm:import externid="uploaded" />
       <mm:import externid="_searchlang" />
@@ -46,7 +44,7 @@
           <c:when test="${isdefault}">
             <!-- default search -->
             <c:choose>
-              <c:when test="${empty q and empty user and empty source}">
+              <c:when test="${empty q}">
                 <!-- not searched nor a portal, display latest -->
                 <mm:import id="value">${index}*</mm:import>
                 <mm:import id="fields" reset="true">indexId</mm:import>
@@ -54,8 +52,6 @@
               <c:otherwise>
                 <mm:import id="value">
                   <c:if test="${!empty q}">${q} </c:if>
-                  <c:if test="${!empty user}"><c:if test="${!empty q}">AND </c:if>username:"${user}" </c:if>
-                  <c:if test="${!empty source}"><c:if test="${!empty q or !empty user}">AND </c:if>source:"${source}" </c:if>
                 </mm:import>
               </c:otherwise>
             </c:choose>
@@ -75,8 +71,6 @@
                 <c:when test="${empty q}">${index}* </c:when>
                 <c:otherwise><mm:write referid="q" escape="lowercase" /><jsp:text> </jsp:text></c:otherwise>
               </c:choose>
-              <c:if test="${!empty user}"> +user:"${user}" </c:if>
-              <c:if test="${!empty source}"> +source:"${source}" </c:if>
               <oip:portalquery portal="${p}" />
             </mm:import>
 
@@ -86,8 +80,6 @@
                 <c:when test="${empty q}">${index}* </c:when>
                 <c:otherwise><mm:write referid="q" escape="lowercase" /><jsp:text> </jsp:text></c:otherwise>
               </c:choose>
-              <c:if test="${!empty user}"> +user:"${user}" </c:if>
-              <c:if test="${!empty source}"> +source:"${source}" </c:if>
               <oip:portalquery portal="${p}" inverse="true" />
             </mm:import>
 
@@ -214,7 +206,7 @@
           </ul>
 
           <mm:url id="pageurl" write="false" absolute="true" escapeamps="false"
-            referids="q,p?,user?,source?,date?,uploaded?,_searchlang?,license?,sf?,so?" />
+            referids="q,p?,date?,uploaded?,_searchlang?,license?,sf?,so?" />
 
           <div id="t_video">
             <oip:medialist list="${results_video}" />
@@ -282,7 +274,7 @@
           <oip:h3><fmt:message key="media.sortby" /></oip:h3>
 
           <mm:url id="sorturl" write="false" absolute="true"
-            referids="q,p?,user?,source?,date?,uploaded?,_searchlang?,license?" />
+            referids="q,p?,date?,uploaded?,_searchlang?,license?" />
 
           <ul class="sortby">
             <li>
@@ -319,24 +311,7 @@
                 </a>
               </mm:link>
             </li>
-            <li>
-              <mm:link referid="sorturl">
-                <mm:param name="sf">user</mm:param>
-                <mm:param name="so">${so eq 'up' ? 'down' : 'up'}</mm:param>
-                <a class="${sf eq 'user' ? so : ''}" href="${_}">
-                <fmt:message key="media.sortby.user" />
-                </a>
-              </mm:link>
-            </li>
-            <li>
-              <mm:link referid="sorturl">
-                <mm:param name="sf">source</mm:param>
-                <mm:param name="so">${so eq 'up' ? 'down' : 'up'}</mm:param>
-                <a class="${sf eq 'source' ? so : ''}" href="${_}">
-                  <fmt:message key="media.sortby.source" />
-                </a>
-              </mm:link>
-            </li>
+
             <li class="thumbsonly">
               <mm:link>
                 <a href="${_}#t_thumbs"><fmt:message key="media.thumbnails" /></a>
