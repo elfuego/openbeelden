@@ -11,8 +11,8 @@
     <plural xml:lang="nl">Statistieken</plural>
   </names>
   <descriptions>
-    <description xml:lang="en">Number of times an item has been viewed</description>
-    <description xml:lang="nl">Aantal maal dat een item bekeken is</description>
+    <description xml:lang="en">Number of times an item has been viewed since creation date of statistic.</description>
+    <description xml:lang="nl">Aantal maal dat een item bekeken is sinds de aanmaakdatum van deze statistiek.</description>
   </descriptions>
 
   <fieldlist>
@@ -28,9 +28,9 @@
       </gui>
       <editor>
         <positions>
-          <list>2</list>
-          <input>2</input>
-          <search>2</search>
+          <list>5</list>
+          <input>5</input>
+          <search>5</search>
         </positions>
       </editor>
       <datatype base="node" xmlns="http://www.mmbase.org/xmlns/datatypes" >
@@ -40,8 +40,8 @@
 
     <field name="total">
       <descriptions>
-        <description xml:lang="en">Total number of times viewed</description>
-        <description xml:lang="nl">Totaal aantal keer bekeken</description>
+        <description xml:lang="en">Total number of times viewed since created</description>
+        <description xml:lang="nl">Totaal aantal keer bekeken sinds datum aangemaakt</description>
       </descriptions>
       <gui>
         <guiname xml:lang="en">Total</guiname>
@@ -83,9 +83,9 @@
       </gui>
       <editor>
         <positions>
-          <list>9</list>
-          <input>9</input>
-          <search>9</search>
+          <list>2</list>
+          <input>2</input>
+          <search>2</search>
         </positions>
       </editor>
       <datatype base="created" xmlns="http://www.mmbase.org/xmlns/datatypes">
