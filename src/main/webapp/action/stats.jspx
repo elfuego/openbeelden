@@ -7,7 +7,7 @@
   <mm:content 
       type="application/xml"
       postprocessor="none"
-      expires="120">
+      expires="10">
     <jsp:output omit-xml-declaration="true" />
     
     <!-- counts media views -->
