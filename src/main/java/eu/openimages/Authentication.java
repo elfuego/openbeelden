@@ -83,25 +83,25 @@ public class Authentication extends Authenticate {
         return super.getDefaultMethod(protocol);
         //return METHOD_SESSIONDELEGATE; // redirect to /login
     }
-    
+
     @Override
     public org.mmbase.security.UserContext login(String application, java.util.Map<String, ?> loginInfo, Object[] parameters) throws SecurityException {
         UserProvider users = getUserProvider();
-        if (users == null) {    
+        if (users == null) {
             throw new SecurityException("builders for security not installed, if you are trying to install the application belonging to this security, please restart the application after all data has been imported");
         }
 
         if (application.equals("apikey")) {
             allowEncodedPassword = org.mmbase.util.Casting.toBoolean(users.getUserBuilder().getInitParameter("allowencodedpassword"));
-            String apitokenkey = (String) users.getUserBuilder().getInitParameter("apitokenkey");
+            String apitokenkey = users.getUserBuilder().getInitParameter("apitokenkey");
             //log.debug("application " + application + ", allowEncodedPassword " + allowEncodedPassword + ", apitokenkey: " + apitokenkey);
-            
+
             String apikey = (String) loginInfo.get("apikey");
             if (apikey == null || "".equals(apikey)) {
                 HttpServletRequest req = (HttpServletRequest) loginInfo.get(Parameter.REQUEST.getName());
                 apikey = (String) req.getAttribute("apikey");
             }
-            
+
             // Retrieve username and password from API key
             ApiToken apiToken = new ApiToken();
             //apiToken.setFormat("base64");
@@ -121,14 +121,14 @@ public class Authentication extends Authenticate {
                 log.error("API key login failed - " + iae);
                 throw new SecurityException("API key login failed.");
             }
-            
+
             /* Copied following part from org.mmbase.security.implementation.cloudcontext.Authenticate
                since it's not permitted to switch authentication type in mid-flight. */
             if (user == null || "".equals(user) || pass == null || "".equals(pass)) {
                 log.warn("API key login failed, empty username '" + user + "' and/or password.");
                 throw new SecurityException("API key login failed, empty username and/or password.");
             }
-            
+
             MMObjectNode node = users.getUser(user, pass, true);
             if (node != null && ! users.isValid(node)) {
                 throw new SecurityException("Logged in an invalid user");
@@ -136,9 +136,9 @@ public class Authentication extends Authenticate {
             if (log.isDebugEnabled()) {
                 log.debug("user node: " + node);
             }
-            if (node == null) return null; 
+            if (node == null) return null;
             return new User(node, getKey(), application);
-            
+
             // switch application to name/encodedpassword
             /* application = "name/encodedpassword";
             java.util.HashMap newInfo = new java.util.HashMap();
@@ -152,13 +152,13 @@ public class Authentication extends Authenticate {
     private static final Parameter PARAMETER_APIKEY = new Parameter("apikey", String.class, false);
     private static final Parameter PARAMETER_USERNAME = new Parameter("username", String.class, false);
     private static final Parameter PARAMETER_ENCODEDPASSWORD = new Parameter("encodedpassword", String.class, false);
-    private static final Parameter[] PARAMETERS_NAME_ENCODEDPASSWORD_APIKEY = 
+    private static final Parameter[] PARAMETERS_NAME_ENCODEDPASSWORD_APIKEY =
         new Parameter[] {
             Parameter.REQUEST,
             PARAMETER_APIKEY,
             PARAMETER_USERNAME,
             PARAMETER_ENCODEDPASSWORD,
-            new Parameter.Wrapper(PARAMETERS_USERS) 
+            new Parameter.Wrapper(PARAMETERS_USERS)
         };
 
 

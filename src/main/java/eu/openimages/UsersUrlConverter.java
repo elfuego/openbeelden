@@ -123,14 +123,14 @@ public class UsersUrlConverter extends DirectoryUrlConverter {
         }
 
         String blockName = block.getName();
-        if (blockName.indexOf("user") > -1) {
+        if (blockName.contains("user")) {
 
             Node n = frameworkParameters.get(USER);
             if (n == null) throw new IllegalStateException("No node found in " + frameworkParameters + " (pars: " + parameters + ")");
             Cloud cloud = n.getCloud();
 
             if (blockName.equals("user")) {
-                
+
                 /* append url default portal to user page */
                 String portalurl = PortalFilter.getPortalUrl(cloud);
                 if (portalurl != null && !"".equals(portalurl)) {
@@ -338,7 +338,7 @@ public class UsersUrlConverter extends DirectoryUrlConverter {
                         } else if (type.equals("favorites")) {
                             if (log.isDebugEnabled()) log.debug("Favorites of " + username);
                             result.append("&block=user-favorites&cacheable=false");
-                        
+
                         /* /users/[username]/dashboard/media/[234]/my_title */
                         } else if (type.equals("media") && path.size() > 3) {
                             String medianr = path.get(3);
@@ -347,7 +347,7 @@ public class UsersUrlConverter extends DirectoryUrlConverter {
                                 log.debug("type: " + type);
                                 log.debug("medianr: " + medianr);
                             }
-                            
+
                             if (cloud.hasNode(medianr)) {
                                 result.append("&media=").append(medianr);
                             } else {
@@ -362,11 +362,11 @@ public class UsersUrlConverter extends DirectoryUrlConverter {
                                     if (log.isDebugEnabled()) log.debug("edit: " + edit);
                                     result.append("&edit=").append(edit);
                                 }
-                            
+
                             /* /user/[username]/dashboard/media/[234]/my_title/delete */
                             } else if (path.size() > 5 && path.get(5).equals("delete")) {
                                 result.append("&block=user-mediadelete");
-                            
+
                             /* /users/[username]/dashboard/media/[234]/my_title/streams */
                             } else if (path.size() > 5 && path.get(5).equals("streams")) {
                                 result.append("&block=user-streams");
