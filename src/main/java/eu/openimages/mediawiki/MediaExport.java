@@ -128,7 +128,7 @@ public final class MediaExport extends NodeFunction<String> {
             translations_builder = nm.getName() + "_translations";
         }
         NodeManager translationsNM = cloud.getNodeManager(translations_builder);
-        // TODO: check if there are multiple for just one lang (f.e. > 1 for en)
+        // TODO: check if there are multiple for just one lang (e.g. > 1 for en)
         // TODO: Is there not function somewhere to calculate the transactions?
         NodeList translations = SearchUtil.findRelatedNodeList(node, translationsNM.getName(), "langrel");
         exporter.setProperty("title", node.getStringValue("title"));
