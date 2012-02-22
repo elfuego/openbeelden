@@ -123,7 +123,7 @@ public class RelatedByTags {
         }
 
         Cloud cloud = CloudThreadLocal.currentCloud();
-        HashMap<Integer,Integer> map = new HashMap<Integer,Integer>();
+        Map<Integer,Integer> map = new HashMap<Integer,Integer>();
         NodeList list = SearchUtil.findNodeList(cloud, "tags");
         NodeManager sourceNodeManager = cloud.getNodeManager(type);
 
@@ -159,7 +159,7 @@ public class RelatedByTags {
             return map;
 
         } else {
-            List<Integer> keyMap = new ArrayList<Integer>(map.keySet());
+            Collection<Integer> keyMap = map.keySet();
             List<Integer> valMap = new ArrayList<Integer>(map.values());
 
             Collections.sort(valMap);
@@ -198,13 +198,13 @@ public class RelatedByTags {
         Cloud cloud = node.getCloud();
         NodeList tags = cloud.createNodeList();
         try {
-            Query query = Queries.createRelatedNodesQuery(node, cloud.getNodeManager("tags"), "related", "destination");
+            NodeManager tagsManager = cloud.getNodeManager("tags");
+            NodeQuery query = Queries.createRelatedNodesQuery(node, tagsManager, "related", "destination");
             query.setMaxNumber(max);
-
-            NodeList nl = cloud.getList(query);
-            NodeIterator ni = nl.nodeIterator();
-            while (ni.hasNext()) {
-                Node n = ni.next(); //clusternode
+            // TODO: follows code that only converts cluster nodes into normal nodes. That should be possible easier than that.
+            // E.g. I think tagsManager.getList(query) is exactly the same
+            for (Node n : cloud.getList(query)) {
+                //clusternode
                 Node tag = cloud.getNode(n.getIntValue("tags.number"));
                 if (log.isDebugEnabled()) log.debug("Found node: " + tag);
                 tags.add(tag);
@@ -231,11 +231,8 @@ public class RelatedByTags {
 
         Cloud cloud = node.getCloud();
         NodeList nl = cloud.createNodeList();
-
-        Set<Integer> keySet = map.keySet();
-        Iterator<Integer> i = keySet.iterator();
-        while (i.hasNext()) {
-            nl.add(cloud.getNode(i.next()));
+        for (Integer key : map.keySet()) {
+            nl.add(cloud.getNode(key));
         }
         return nl;
     }
@@ -251,24 +248,24 @@ public class RelatedByTags {
      */
     private static Map<Integer, Integer> filterNodes(Map<Integer, Integer> map, Node portal) {
         //Node portal = cloud.getNode("pool_oip");
-        Map<Integer,Integer> filteredMap = new HashMap<Integer, Integer>();
-        Node filterNode = SearchUtil.findRelatedNode(portal, "filters", "portalrel");
-        Cloud cloud = portal.getCloud();
+        final Map<Integer,Integer> filteredMap = new HashMap<Integer, Integer>();
+        final Node filterNode = SearchUtil.findRelatedNode(portal, "filters", "portalrel");
+        final Cloud cloud = portal.getCloud();
 
         // TODO: this has to be the related portal manager!
         String ownerNr = portal.getStringValue("owner");
 
-        ArrayList<String> tgs = new ArrayList<String>();
-        ArrayList<String> kws = new ArrayList<String>();
-        ArrayList<String> urs = new ArrayList<String>();
+        Collection<String> tgs = Collections.emptyList();
+        Iterable<String> kws   = Collections.emptyList();
+        final Collection<String> urs = new ArrayList<String>();
         if (filterNode != null) {
             String tags = filterNode.getStringValue("tags");
             String keywords = filterNode.getStringValue("keywords");
             String users = filterNode.getStringValue("users");
 
-            kws = new ArrayList<String>(Arrays.asList(keywords.split(";")));
-            tgs = new ArrayList<String>(Arrays.asList(tags.split(";")));
-            urs = new ArrayList<String>(Arrays.asList(users.split(";")));
+            kws = Arrays.asList(keywords.split(";"));
+            tgs = Arrays.asList(tags.split(";"));
+            urs.addAll(Arrays.asList(users.split(";")));
         }
         String ownername = null;
         if (cloud.hasNode(ownerNr)) {
@@ -300,7 +297,7 @@ public class RelatedByTags {
 
             // keywords
             String keywords = n.getStringValue("keywords");
-            ArrayList<String> n_kws = new ArrayList<String>(Arrays.asList(keywords.split(";")) );
+            String[] n_kws = keywords.split(";");
             for (String it : kws){
                 log.debug("it: " + it);
                 for (String itt : n_kws) {
@@ -320,10 +317,8 @@ public class RelatedByTags {
             }
 
             // tags
-            NodeList relatedTags = relatedTags(n, 99);
-            NodeIterator ni = relatedTags.nodeIterator();
-            while (ni.hasNext()) {
-                String tagName = ni.next().getStringValue("name");
+            for (Node relatedTag : relatedTags(n, 99)) {
+                String tagName = relatedTag.getStringValue("name");
                 log.debug("tagname " + tagName + " : " + tgs);
                 if (tgs.contains(tagName)) {
                     hit = true;
@@ -352,7 +347,7 @@ public class RelatedByTags {
      * @return content nodes
      */
     private static Map<Integer,Integer> relatedContent(Node node, NodeList tags, String type, String max) {
-        Map<Integer,Integer> map = new HashMap<Integer,Integer>();
+        Map<Integer, Integer> map = new HashMap<Integer,Integer>();
         NodeManager targetNodeManager = null;
         Cloud cloud = node.getCloud();
         int origNr = node.getNumber();
@@ -381,7 +376,7 @@ public class RelatedByTags {
 
         for (Node tagNode : tags) {
             try {
-                Query query = Queries.createRelatedNodesQuery(tagNode, targetNodeManager, "related", "source");
+                NodeQuery query = Queries.createRelatedNodesQuery(tagNode, targetNodeManager, "related", "source");
 
                 if (targetNodeManager.hasField("show")) {
                     Constraint extraConstraint = Queries.createConstraint(query, type + ".show", FieldValueConstraint.EQUAL, 1);
@@ -389,10 +384,8 @@ public class RelatedByTags {
                 }
                 if (imax > 0) query.setMaxNumber(imax);
 
-                NodeList nl = cloud.getList(query);
-                NodeIterator ni = nl.nodeIterator();
-                while (ni.hasNext()) {
-                    Node n = ni.next(); //clusternode
+                for (Node n : cloud.getList(query)) { // TODO: why not call targetNodeManager.getList(query) in stead and avoid the cluster node conversion?
+                    //clusternode
                     int nr = cloud.getNode(n.getIntValue(type + ".number")).getNumber();
                     if (nr == origNr) continue; // skip the original node
                     if (log.isDebugEnabled()) log.debug("Found node: " + nr);
@@ -439,11 +432,9 @@ public class RelatedByTags {
         );
 
         // swap the key/value and save to a checkMap to check how many nodes have same nr of hits
-        Set<Integer> keySet = map.keySet();
-        Iterator<Integer> i = keySet.iterator();
-        while (i.hasNext()) {
-            Integer nodenr = i.next();         // node number
-            Integer hits = map.get(nodenr);    // hits for key (node)
+        for(Map.Entry<Integer, Integer> entry : map.entrySet()) {
+            Integer nodenr = entry.getKey();         // node number
+            Integer hits   = entry.getValue();    // hits for key (node)
             int timeshit = 0;               // nr of items that has this nr of hits
 
             if (checkMap.containsKey(hits)) {
