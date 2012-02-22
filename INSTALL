@@ -2,7 +2,7 @@ Installation of OIP
 ===================
 version $Id$
 
-The Open Images Platform (OIP) is a Java web application to manage and publish open media. 
+The Open Images Platform (OIP) is a Java web application to manage and publish open media.
 
 
 CONTENTS OF THIS FILE
@@ -22,7 +22,7 @@ REQUIREMENTS
 OIP requires several components:
 - Java runtime environment (minimal 1.5)
 - Java web application server like Apache Tomcat (preferably > 5.5.27)
-- MySQL database (5.1) or other database supported by MMBase like PostgreSQL, including the 
+- MySQL database (5.1) or other database supported by MMBase like PostgreSQL, including the
   appropriate JDBC driver.
 - FFmpeg (0.5 or preferably a recent build from its repository) for audio and video transcoding
 - FFmpeg2Theora (*)
@@ -38,13 +38,13 @@ OIP requires several components:
 
 INSTALLATION
 ------------
-OIP is a Java web application that is based upon MMBase, for more detailed information about 
+OIP is a Java web application that is based upon MMBase, for more detailed information about
 installing web applications refer to your server's documentation or the MMBase installation
 documentation: http://www.mmbase.org/mmdocs/releases/installation.txt
 
 OIP's war is configured to be able to run right away using a HSQL database:
 
-1. Copy the downloaded oip-1.1.war file to you Java web application servers (f.e. Tomcat) webapps 
+1. Copy the downloaded oip-1.1.war file to you Java web application servers (f.e. Tomcat) webapps
    directory.
 2. Start your web application server, wait a minute for the server to complete deploying OIP.
 3. Point your web browser to http://localhost:8080/oip-1.1.
@@ -53,41 +53,41 @@ OIP's war is configured to be able to run right away using a HSQL database:
 For a full installation with mail and a more persistant database like MySQL, follow these steps:
 
 1. Install Java.
-2. Install the Java web application server, for example Apache Tomcat. 
+2. Install the Java web application server, for example Apache Tomcat.
    Run the server and make sure it works by pointing your browser to http://localhost:8080 -
    depending on your configuration.
 3. Install a database server and the appropriate jdbc driver.
-   Other types of databases are possible, but OIP was developed using MySQL. For MySQL: 
-   a. Create a database 'oip': 
+   Other types of databases are possible, but OIP was developed using MySQL. For MySQL:
+   a. Create a database 'oip':
       CREATE DATABASE oip;
    b. Give the application the appropriate login credentials:
       GRANT ALL PRIVILEGES ON oip.* TO mmbase@localhost IDENTIFIED BY "admin2k";
-   c. Install a MySQL jdbc driver/connector in your application server. 
+   c. Install a MySQL jdbc driver/connector in your application server.
       For Apache Tomcat 5 it should be in '[catalina-home]/common/lib' and for Apache Tomcat 6 in
       '[catalina-home]/lib'.
-4. Install JavaMail: 'mail.jar' (and 'activation.jar' for Java < 1.5). These should typically be 
-   in the same directory as the jdbc driver. 
+4. Install JavaMail: 'mail.jar' (and 'activation.jar' for Java < 1.5). These should typically be
+   in the same directory as the jdbc driver.
 5. Place the 'oip-1.1.war' in your servers webapps directory and start the server.
-   Wait a minute or two while the war deploys. Needed tables and some example content are 
+   Wait a minute or two while the war deploys. Needed tables and some example content are
    automatically created in the 'oip' database.
-   A configuration file with the most important settings can now be found in servers configuration 
+   A configuration file with the most important settings can now be found in servers configuration
    directory, in Tomcat that will probably be '[catalina-home]/conf/Catalina/localhost/oip-1.1.xml'
-   for database settings, logging etc. Other configuration options are found in the 'WEB-INF/config' 
+   for database settings, logging etc. Other configuration options are found in the 'WEB-INF/config'
    directory of oip-1.1.
-6. Visit http://127.0.0.1:8080/oip-1.1 to make sure it runs. 
+6. Visit http://127.0.0.1:8080/oip-1.1 to make sure it runs.
 7. Login with 'admin' and 'openimages2009'. Or 'foofoo' and 'barbar' as a project manager.
 
-When OIP is running allright, you may need to configure some other applications to enable the 
+When OIP is running allright, you may need to configure some other applications to enable the
 conversion of media, sending of mail etc.
 
-8. Install FFmpeg. 
+8. Install FFmpeg.
 9. Install ImageMagick.
 
 Note about the Lucene search index:
-You may have to run the Lucene search index for the first time by hand or the pages 'Media' 
+You may have to run the Lucene search index for the first time by hand or the pages 'Media'
 and 'Users' may remain empty. Go to http://127.0.0.1:8080/mmbase/admin/lucene/admin - or the
-equivalent url on your application server - and click "Full index on all indices" at the bottom of 
-the page. This will create (new) search indexes based of all media and user data in your database. 
+equivalent url on your application server - and click "Full index on all indices" at the bottom of
+the page. This will create (new) search indexes based of all media and user data in your database.
 
 
 CONFIGURATION
@@ -97,7 +97,7 @@ configurable.
 
 What do you really need to configure?
 -------------------------------------
-* Security: visit '/mmbase/security/index.jsp' to change the admin password. 
+* Security: visit '/mmbase/security/index.jsp' to change the admin password.
 
 * Media: creation of streams is configured in '/WEB-INF/config/createcaches.xml'.
 
@@ -107,21 +107,21 @@ Edit the application context xml (f.e. '[catalina-home]/conf/Catalina/localhost/
 What can be configured?
 -----------------------
 * Remote server transcodings, see '/WEB-INF/config/createcaches.xml'.
-* Database. To use a different table, database etc. edit the context xml (f.e. 
+* Database. To use a different table, database etc. edit the context xml (f.e.
   '[catalina-home]/conf/Catalina/localhost/oip-1.1.xml').
 * User management, enable a user as project manager.
 
 
 OIP ADMINISTRATION
 ------------------
-* Security 
-Users have different ranks. An administartor can alter all settings and access, edit and remove all
-content. A normal account, an account that subscribes itself via the frontend - has rank 'site user'. 
-These users have only access to content they create themselves. A user with rank 'project manager' 
+* Security
+Users have different ranks. An administrator can alter all settings and access, edit and remove all
+content. A normal account, an account that subscribes itself via the frontend - has rank 'site user'.
+These users have only access to content they create themselves. A user with rank 'project manager'
 - like the example user foofoo - can manage everything created by sites users.
 
 * Editors
-Managing media and site content 
+Managing media and site content
 http://localhost:8080/oip-1.1/editors
 
 * MMBase
@@ -131,13 +131,13 @@ http://localhost:8080/oip-1.1/mmbase
 * Streams and media
 http://127.0.0.1:8080/oip-1.1/mmbase/streams/streams/admin
 
-* Lucene search indexes: 
+* Lucene search indexes:
 http://127.0.0.1:8080/oip-1.1/mmbase/lucene/lucene/admin
 
 
 MORE INFORMATION
 ----------------
-More information can be found in the MMBase documentation or on our website 
+More information can be found in the MMBase documentation or on our website
 www.openimages.org.
 
 
