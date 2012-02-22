@@ -139,7 +139,7 @@ public class PortalFilter implements Filter, SystemEventListener {
     }
 
 
-    protected boolean decorateRequest(HttpServletRequest req, HttpServletResponse res, boolean cache) throws IOException {
+    protected boolean decorateRequest(HttpServletRequest req, HttpServletResponse res, boolean cache)  {
 
         String serverName = req.getServerName();
         if (LOG.isDebugEnabled()) {
@@ -211,7 +211,7 @@ public class PortalFilter implements Filter, SystemEventListener {
 
     }
 
-    /** 
+    /**
      * Default portal url when that is defined, e.g. via portalrel related urls node.
      * Default portal is a pools node with alias 'pool_oip'.
      *
@@ -221,7 +221,7 @@ public class PortalFilter implements Filter, SystemEventListener {
     public static String getPortalUrl(Cloud cloud) {
         String url = null;
         if (cloud.hasNode("pool_oip")) {
-            
+
             Node portal = cloud.getNode("pool_oip");
             Node portalurlNode = SearchUtil.findRelatedNode(portal, "urls", "portalrel");
             if (portalurlNode != null) {
@@ -230,14 +230,14 @@ public class PortalFilter implements Filter, SystemEventListener {
                     LOG.debug("portal url " + url);
                 }
             }
-            
+
         } else {
             LOG.warn("There is no default pool with alias 'pool_oip'");
-        } 
+        }
 
-        return url;        
+        return url;
     }
-    
+
 
     private static Cloud getCloud(HttpServletRequest req) {
         return ContextProvider.getDefaultCloudContext().getCloud("mmbase");
