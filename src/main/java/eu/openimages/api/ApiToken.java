@@ -29,10 +29,10 @@ import org.mmbase.util.transformers.Base64;
 import org.mmbase.util.logging.*;
 
 /**
- * Generates (encrypts) and decodes API tokens. 
- * An API key consists of a username and (encoded) password, seperated by a token and 
+ * Generates (encrypts) and decodes API tokens.
+ * An API key consists of a username and (encoded) password, seperated by a token and
  * encrypted with a secret key. The key is used to encrypt en decrypt the API token,
- * which enables the system to retreive a username and password from it when for example it 
+ * which enables the system to retreive a username and password from it when for example it
  * receives a post using the API token. It is stored as a property on the mmbaseusers builder.
  * This class uses Blowfish as its default algorithm, use {@link #setAlgorithm} to change it.
  * Default the API key is hex encoded, you can change that to base64 if you like with {@link #setFormat}.
@@ -41,10 +41,10 @@ import org.mmbase.util.logging.*;
  * @version $Id$
  */
 public final class ApiToken {
-    
+
     private Logger log = Logging.getLoggerInstance(ApiToken.class);
 
-    private static String SEPERATOR = "=:=";
+    private static final String SEPERATOR = "=:=";
     private String key = "pindakaas";
     private String algorithm = "Blowfish";
     private String format = "hex";
@@ -63,7 +63,7 @@ public final class ApiToken {
     /**
      * Makes cq. encrypts apikey and puts username and password in it.
      *
-     * @param user  Username that enables a user to login 
+     * @param user  Username that enables a user to login
      * @param pw    The encoded version of password
      * @param key   Secret key which encrypts it all
      * @return      An encrypted string that can be used as an API token
@@ -74,23 +74,23 @@ public final class ApiToken {
             log.debug("user: " + user + "/" + pw + ", key: " + key);
         } */
         sb.append(user).append(SEPERATOR).append(pw);
-        
+
         try {
-            byte input[] = sb.toString().getBytes(); 
-            
+            byte input[] = sb.toString().getBytes();
+
             byte[] secretKey = key.getBytes();
             SecretKeySpec skeySpec = new SecretKeySpec(secretKey, algorithm);
-            
+
             Cipher cipher = Cipher.getInstance(algorithm);
             cipher.init(Cipher.ENCRYPT_MODE, skeySpec);
             byte encrypted[] = cipher.doFinal(input);
-            
+
             String encoded = encode(encrypted, format);
             /* if (log.isDebugEnabled()) {
                log.debug("API token for user " + user + " is " + encoded + " (format: " + format + ")");
             } */
             return encoded;
-            
+
         } catch (java.security.GeneralSecurityException gse) {
             log.error("GeneralSecurityException " + gse.getMessage());
         }
@@ -110,16 +110,16 @@ public final class ApiToken {
      */
     public Map<String,String> decrypt(String apitoken, String key) throws IllegalArgumentException, java.security.GeneralSecurityException {
         Map<String,String> map = new HashMap<String,String>();
-        
+
         byte[] input = decode(apitoken, format);
         byte[] secretKey = key.getBytes();
         SecretKeySpec skeySpec = new SecretKeySpec(secretKey, algorithm);
-        
+
         Cipher cipher = Cipher.getInstance(algorithm);
         cipher.init(Cipher.DECRYPT_MODE, skeySpec);
         byte decrypted[] = cipher.doFinal(input);
         String output = new String(decrypted);
-        
+
         java.util.StringTokenizer toz = new java.util.StringTokenizer(output, SEPERATOR);
         if (toz.countTokens() == 2) {
             String us = toz.nextToken();
@@ -167,5 +167,5 @@ public final class ApiToken {
         }
         return new byte[0];
     }
-    
+
 }
