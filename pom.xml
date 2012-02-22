@@ -230,20 +230,6 @@
       </plugin>
 
       <plugin>
-        <groupId>org.mmbase.maven</groupId>
-        <artifactId>maven-mmbase-plugin</artifactId>
-        <version>${mmbase.version}</version>
-        <executions>
-          <execution>
-            <id>create-index-files</id>
-            <goals>
-              <goal>create-index-files</goal>
-            </goals>
-          </execution>
-        </executions>
-      </plugin>
-
-      <plugin>
         <groupId>org.mortbay.jetty</groupId>
         <artifactId>jetty-maven-plugin</artifactId>
         <version>7.0.0.pre5</version>
