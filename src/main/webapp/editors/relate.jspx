@@ -16,13 +16,22 @@
       <!-- relate and unrelate nodes -->
       <p class="msg"> 
         <mm:import externid="id"  />
-        Your node has been added to the list (id: ${id}).
+        
         <mm:log level="info">id: ${id}</mm:log>
         <mm:import from="session" externid="${id}_current" id="current" jspvar="current" vartype="org.mmbase.bridge.NodeQuery" />
   
         <mm:import externid="related"   vartype="List" />
         <mm:import externid="unrelated" vartype="List" />
         <mm:import externid="deleted"   vartype="List" />
+
+        <c:choose>
+          <c:when test="${!empty related}">
+            Your node has been added to the list (id: ${id}).
+          </c:when>
+          <c:otherwise>
+            Your node has been remove from the list (id: ${id}).
+          </c:otherwise>
+        </c:choose>
   
         <span class="hidden">
           <mm:listnodes referid="related" jspvar="n">

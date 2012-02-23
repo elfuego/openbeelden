@@ -46,7 +46,7 @@
     </c:if>
 
     <c:if test="${empty thumb}">
-      <oip:thumb />
+      <oip:thumb /> portal?
     </c:if>
   
   </mm:node>

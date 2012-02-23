@@ -16,7 +16,8 @@
     <mm:import externid="p" /><!-- portal -->
     <mm:import externid="type" required="true" /><!-- type of new node to create -->
     <mm:import externid="fields" />
-    <mm:import externid="lang" />
+    <mm:import externid="lang">${requestScope['javax.servlet.jsp.jstl.fmt.locale.request']}</mm:import>
+
 
     <!-- if we have nr and role, a relation will be made with nr -->
     <mm:import externid="nr" /><!-- node to create relation with -->
@@ -36,11 +37,13 @@
     <mm:import externid="submit$type" />
     <mm:import externid="cancel" />
 
-    <mm:import externid="editme">false</mm:import>
+    <mm:import externid="editme" />
+    <mm:import externid="showform" /><!-- show form (true) again after save (default false) -->
     <mm:import externid="show">/editors/show-node.jspx</mm:import>
     <mm:import externid="editor">/editors/edit-node.jspx</mm:import>
     <mm:import externid="maydelete">true</mm:import>
-    <mm:import externid="unpublish">false</mm:import>
+    <mm:import externid="unpublish" />
+    <mm:import externid="maycancel">true</mm:import>
 
     <c:choose>
       <c:when test="${cancel eq 'Cancel'}">
@@ -49,26 +52,44 @@
             <mm:param name="fields">${fields}</mm:param>
           </mm:include>
         </c:if -->
+        <c:if test="${!showme}">
+          <mm:include page="$show" 
+            referids="nr">
+            <mm:param name="cancel">false</mm:param><!-- prevents recursive inclusion of form submitting to itself -->
+            <mm:param name="fields">${fields}</mm:param>
+          </mm:include>
+        </c:if>
+        
       </c:when>
       <c:otherwise>
 
-        <c:if test="${editme eq 'true'}">
+        <c:if test="${editme and maycancel}">
           <mm:notpresent referid="submit$type">
             <div class="log"><jsp:text> <!-- empty --> </jsp:text></div>
           </mm:notpresent>
         </c:if>
 
-        <mm:url referids="p?,nr,lang?,relation?" write="false" absolute="true" escapeamps="false" id="submit_link"></mm:url>
+        <mm:url write="false" absolute="true" escapeamps="false" id="submit_link"
+          referids="nr,type,defaultstr?,p?,relation?,fields?,lang?,parent?,role?,dir?,pos?,editme?,showform?,show?,editor?,maydelete?,unpublish?" />
+        
         <mm:form id="form_$type" page="$submit_link">
           <mm:import id="buffer">
 
             <mm:createnode type="$type" id="new_node" commitonclose="false">
-              <strong>
-                <fmt:message key="users.new" />
-                <jsp:text> </jsp:text>
-                <mm:nodeinfo type="guitype" nodetype="$type" escape="lowercase" />
-              </strong>
-              <a class="editme cancel" href="#close"><fmt:message key="users.cancel" /></a>
+              <mm:hasfield name="language"><!-- set language to preferred one -->
+                <mm:setfield name="language">${lang}</mm:setfield>
+              </mm:hasfield>
+              
+              <c:if test="${editme}">
+                <strong>
+                  <fmt:message key="users.new" />
+                  <jsp:text> </jsp:text>
+                  <mm:nodeinfo type="guitype" nodetype="$type" escape="lowercase" />
+                </strong>
+                <c:if test="${maycancel}">
+                  <a class="editme cancel" href="#close"><fmt:message key="users.cancel" /></a>
+                </c:if>
+              </c:if>
 
               <fieldset>
                 <mm:fieldlist type="${empty fields ? 'edit' : ''}" fields="${fields}">
@@ -91,25 +112,15 @@
 
               <fieldset class="buttons">
                 <input name="submit${type}" type="hidden" value="submit" />
-                <input name="type" type="hidden" value="${type}" />
-                <input name="role" type="hidden" value="${role}" />
-                <input name="dir"  type="hidden" value="${dir}" />
-                <input name="pos"  type="hidden" value="${pos}" />
-                <input name="fields"   type="hidden" value="${fields}" />
-                <input name="show" type="hidden" value="${show}" />
-                <input name="maydelete" type="hidden" value="${maydelete}" />
-                <input name="unpublish" type="hidden" value="${unpublish}" />
-                <input name="editor" type="hidden" value="${editor}" />
-                <input name="defaultstr"  type="hidden" value="${defaultstr}" />
                 <fmt:message key="users.cancel" var="button_cancel" />
                 <fmt:message key="users.form.save" var="button_save" />
-                <c:if test="${editme eq 'true'}">
+                <c:if test="${editme and maycancel}">
                   <input type="button" name="cancel" value="${button_cancel}" class="cancel" />
                 </c:if>
                 <input type="submit" name="action" value="${button_save}" class="submit" />
               </fieldset>
             </mm:createnode>
-          </mm:import>
+          </mm:import><!-- /buffer -->
 
           <mm:present referid="submit$type">
 
@@ -172,29 +183,39 @@
         </mm:form>
 
 
-        <c:if test="${!empty saved and editme eq 'true'}">
+        <c:if test="${!empty saved}">
           <p class="msg"><mm:write referid="saved" escape="none" /></p>
-          <!-- show new node -->
-          <mm:node number="$new_node">
-            
-            <c:if test="${!empty nr and !empty role}">
-              <mm:relation to="${nr}" role="${role}">
-                <mm:import id="relation" reset="true">${_node}</mm:import>
-              </mm:relation>
-              <mm:import id="parent" reset="true">${nr}</mm:import>
-            </c:if>
-            
-            <div class="node_created edit_${_node} relation_${relation}">
-              <jsp:directive.include file="actions.div.jspx" />
-              <div class="node">
-                <mm:include page="$show" referids="_node@nr">
-                  <mm:param name="fields">${fields}</mm:param>
-                </mm:include>
-              </div>
-            </div>
-          
-          </mm:node>
-        </c:if>
+
+          <c:choose>
+            <c:when test="${showme}">
+              <!-- show new node -->
+              <mm:node number="$new_node">
+                
+                <c:if test="${!empty nr and !empty role}">
+                  <mm:relation to="${nr}" role="${role}">
+                    <mm:import id="relation" reset="true">${_node}</mm:import>
+                  </mm:relation>
+                  <mm:import id="parent" reset="true">${nr}</mm:import>
+                </c:if>
+                
+                <div class="node_created edit_${_node} relation_${relation}">
+                  <jsp:directive.include file="actions.div.jspx" />
+                  <div class="node">
+                    <mm:include page="$show" referids="_node@nr">
+                      <mm:param name="fields">${fields}</mm:param>
+                    </mm:include>
+                  </div>
+                </div>
+              
+              </mm:node>
+            </c:when>
+            <c:otherwise> 
+              <!-- redirect to editor -->
+              <mm:redirect page="$editor" referids="p?,new_node@nr" />
+            </c:otherwise>
+          </c:choose>
+
+        </c:if><!-- /saved -->
 
       </c:otherwise>
     </c:choose>

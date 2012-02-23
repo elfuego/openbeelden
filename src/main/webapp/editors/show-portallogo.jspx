@@ -12,28 +12,24 @@
 <jsp:output omit-xml-declaration="false" />
 
 
-<mm:cloud  method="asis">
+<mm:cloud method="asis">
 
 <fmt:setBundle basename="eu.openimages.messages" scope="request" />
 
-<mm:import externid="p" /><!-- portal -->
-<mm:import externid="nr" />
-<mm:import externid="fields" />
+  <mm:import externid="p" /><!-- portal -->
+  <mm:import externid="nr" />
+  <mm:import externid="fields" />
   
   <mm:node number="$nr">
     <mm:nodeinfo type="type" write="false">
       <c:choose>
         
         <c:when test="${_ eq 'images'}">
-          <span><mm:image template="s(157)" mode="img" /></span>
+          <div class="node"><mm:image template="s(157)" mode="img" /></div>
         </c:when>
 
         <c:otherwise>
-          <!-- span> 
-            <mm:fieldlist type="${empty fields ? 'list' : ''}" fields="${fields}">
-              <mm:fieldinfo type="value" /><jsp:text> </jsp:text>
-            </mm:fieldlist>
-          </span -->
+          <div class="emptyimage"> <!-- empty --> </div>
         </c:otherwise>
       
       </c:choose>

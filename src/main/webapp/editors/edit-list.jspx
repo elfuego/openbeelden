@@ -25,6 +25,7 @@
   <mm:import externid="role">related</mm:import>
   <mm:import externid="dir">destination</mm:import>
 
+  <mm:import externid="showform" />
   <mm:import externid="show">/editors/show-node.jspx</mm:import>
   <mm:import externid="editor">/editors/edit-node.jspx</mm:import><!-- editors/editor does not start editme -->
   <mm:import externid="unpublish">true</mm:import>
@@ -34,9 +35,9 @@
   <mm:import externid="maydelete">true</mm:import>
   <mm:import externid="search">true</mm:import>
   <mm:import externid="sortable">true</mm:import>
-  <!-- c:if test="${role ne 'posrel'}">
+  <c:if test="${role eq 'related'}">
     <mm:import id="sortable" reset="true">false</mm:import>
-  </c:if -->
+  </c:if>
   <mm:import externid="offset">0</mm:import>
   <mm:import externid="max">10</mm:import>
   
@@ -49,7 +50,7 @@
   <mm:write session="${idseed}_sequence" value="${seq + 1}" />
   <mm:write request="${idseed}_sequence" value="${seq + 1}" />
   <mm:import id="myid" reset="true">${idseed}_${seq}</mm:import>
-
+  
   <mm:node number="$nr">
     <mm:import id="parent" reset="true">${nr}</mm:import><!-- parent: relation may be other way round but just for further reference -->
     <mm:nodeinfo type="type" id="type_of_nr" write="false" />
@@ -71,35 +72,39 @@
       <mm:offset value="$offset" />
       <mm:size id="size" write="false" />
       
+      <div id="related_${myid}_log" class="log"><jsp:text> <!-- empty --> </jsp:text></div>
       <ul id="related_${myid}"
-          class="relatednodes ${sortable ? 'sortable connected' : ''} ${role eq 'related' ? 'sortcancel' : role} ${size == 0 ? 'empty' : size} parent_${_node} role_${role} ${maydelete ? 'maydelete' : ''} ${unpublish ? 'unpublish' : ''}">
-        <li class="log notsortable"><jsp:text> <!-- empty --> </jsp:text></li>
+          class="relatednodes ${type} ${sortable ? 'sortable connected' : ''} ${role eq 'related' ? 'sortcancel' : role} ${size == 0 ? 'empty' : size} parent_${_node} role_${role} ${maydelete ? 'maydelete' : ''} ${unpublish ? 'unpublish' : ''}">
+        
+        <!-- c:if test="${total eq 0}">
+          <li class="empty notsortable"> <mm:include page="show-node.empty.jspx" referids="type" /> </li>
+        </c:if -->
         
         <mm:relatednodes>
+          <c:set var="nodeid">node_${_node.number}</c:set>
+          <c:set var="relationid" value="" />
+          <mm:import id="relation" reset="true" />
           <mm:relation to="${parent}" role="${role}" from="${_node}">
-            <c:set var="relation_class">relation_${role}_${_node}</c:set>
             <mm:import id="relation" reset="true">${_node}</mm:import>
+            <c:set var="relationid">relation_${_node}</c:set>
           </mm:relation>
-          <li id="relation_${relation}" class="relation_${relation} node_${_node}">
-            
+          <li id="${empty relationid ? nodeid : relationid}" class="${relationid} ${nodeid}">
             <jsp:directive.include file="actions.div.jspx" />
-            
             <div class="node">
               <mm:include page="$show" referids="p?,_node@nr,fields?" />
             </div>
-            
           </li>
         </mm:relatednodes>
-        <!-- <c:if test="${maycreate}"> -->
-          <li id="new_${type}" class="notsortable new last"><jsp:text> <!-- empty --> </jsp:text></li>
-        <!-- </c:if> -->
+        <li id="new_${type}" class="notsortable new last">
+          <c:if test="${total eq 0}"><mm:include page="show-node.empty.jspx" referids="type" /></c:if>
+          <jsp:text><!-- empty list item as target for a.relate or other functions --></jsp:text> </li>
       </ul>
     </mm:relatednodescontainer>
     
     <c:if test="${maycreate}">
       <p class="add">
         <mm:link escapeamps="true" page="/editors/add-node.jspx" 
-          referids="p?,nr,type,fields?,role,dir,show,editor,maydelete,maycreate,unpublish">
+          referids="nr,p?,type,fields?,role,dir,show,showme?,editor,maydelete,maycreate,unpublish">
           <a class="editme add" href="${_}#new_${type}">
             <fmt:message key="editors.add_type">
               <fmt:param><mm:nodeinfo type="guitype" nodetype="$type" escape="lowercase" /></fmt:param>
@@ -123,27 +128,23 @@
         </mm:link>
         <form class="searchme searchform" method="post" action="${searchlink}">
           <fieldset class="first">
-            <div>
-              <label for="search">
+              <label for="search${type}">
                 <fmt:message key="editors.search_type">
                   <fmt:param><mm:nodeinfo type="guitype" nodetype="$type" escape="lowercase" /></fmt:param>
                 </fmt:message>
               </label>
-              <input type="text" name="q" id="search" size="42" autocomplete="off" placeholder="Enter search term" />
-            </div>
-            <fmt:message key="editors.search" var="search_button" />
-            <input type="submit" name="submit" value="${search_button}" class="submit searchsubmit" />
-            <input type="hidden" name="destinationlist" value="${myid}" />
+              <input type="text" class="searchme" name="q" id="search${type}" size="12" autocomplete="off" placeholder="Enter search term" />
+              <fmt:message key="editors.search" var="search_button" />
+              <input type="submit" name="submit" value="${search_button}" class="submit searchsubmit" />
+              <input type="hidden" name="destinationlist" value="${myid}" />
           </fieldset>
         </form>
-        <div class="searchresults"><jsp:text> <!-- empty --> </jsp:text>
-          <c:if test="${size gt 0 and sortable}">
-            <ul id="found_${type}" class="connected empty">
-              <!-- li class="empty notsortable">
-                Drop items here to remove them from the list (e.g. sever relation).
-              </li -->
-            </ul>
-          </c:if>
+        <div class="searchresults">
+          <ul id="found_${type}" class="foundnodes connected empty sortable ${type}">
+            <!-- li class="empty notsortable" style="border:1px solid #ccc">
+              Drop here...
+            </li -->
+          </ul>
         </div>
       </div>
     </c:if>

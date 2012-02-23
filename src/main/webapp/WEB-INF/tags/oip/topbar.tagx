@@ -59,6 +59,9 @@
             </mm:link>
           </li>
         </mm:hasrank>
+        <mm:hasrank minvalue="project manager">
+          <li>rank: <mm:cloudinfo type="rank" /></li>
+        </mm:hasrank>
       </c:if>
 
       <!-- portals -->

@@ -76,21 +76,37 @@
   </strong>
 
   <mm:import id="list_id" reset="true">found_${role}_${type}</mm:import>
-  <ul class="${sortable ? 'sortable' : ''} connected foundnodes" id="${list_id}">
+  <ul class="${sortable ? 'sortable' : 'notsortable'} connected foundnodes ${type}" id="${list_id}">
     
     <mm:listnodes varStatus="status" id="${list_id}">
       <c:choose>
         <c:when test="${status.index % 2 == 0}"><c:set var="oddeven" value="even" /></c:when>
         <c:otherwise><c:set var="oddeven" value="odd" /></c:otherwise>
       </c:choose>
-      <li class="${oddeven} node_${_node}" id="search_${_node}">
+      <li class="${oddeven} node_${_node}" id="node_${_node}">
 
-        <jsp:directive.include file="actions.div.jspx" /><!-- hide div.actions on search, to be used when related -->
+        <!-- <jsp:directive.include file="actions.div.jspx" /> --> <!-- hide div.actions on search, to be used when related -->
+
+        <div class="actions">
+          <c:if test="${maydelete}">
+            <mm:maydelete>
+              <mm:link page="/editors/delete-node.jspx" 
+                referids="p?,_node@nr,relation?,fields?,parent?,role?,lang?,show?,editor?,maydelete?,unpublish?">
+                <a class="editme delete" href="${_}#node_${_node}"><fmt:message key="editors.delete" /></a>
+              </mm:link>
+            </mm:maydelete>
+          </c:if>
+          <mm:link page="$editor" 
+            referids="p?,_node@nr,relation?,fields?,parent?,role?,lang?,show?,editor?,maydelete?,unpublish?">
+            <a class="${fn:indexOf(editor,'editor-') lt 0 ? 'editme' : 'edit'}" 
+               href="${_}#node_${_node}"><fmt:message key="editors.edit" /></a>
+          </mm:link>
+        </div>
         
         <mm:link page="relate.jspx"
           referids="p?,_node@nr,nr@parent,role?,fields?,lang,show,editor,maydelete,unpublish">
           <div class="actionrelate">
-            <a class="relate" href="${_}#search_${_node.number}">voeg toe aan selectie</a>
+            <a class="relate" href="${_}#node_${_node.number}">voeg toe aan selectie</a>
           </div>
         </mm:link>
 

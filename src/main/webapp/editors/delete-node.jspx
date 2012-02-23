@@ -23,14 +23,16 @@
 <mm:import externid="parent" />
 <mm:import externid="role" />
 
-<mm:import externid="delete" />
-<mm:import externid="cancel" />
-
 <mm:import externid="editme">false</mm:import>
 <mm:import externid="show">/editors/show-node.jspx</mm:import>
+<mm:import externid="showform" />
 <mm:import externid="editor">/editors/edit-node.jspx</mm:import>
 <mm:import externid="maydelete">true</mm:import>
 <mm:import externid="unpublish">false</mm:import>
+
+<!-- form interaction -->
+<mm:import externid="delete" />
+<mm:import externid="cancel" />
 
   
 <mm:hasnode number="$nr" inverse="true">
@@ -60,7 +62,7 @@
           <div class="log"><jsp:text> <!-- empty --> </jsp:text></div>
           <jsp:directive.include file="actions.div.jspx" />
           <div class="node content">
-            <mm:include page="show-node.jspx" referids="nr,fields?,lang?" />
+            <mm:include page="$show" referids="nr,fields?,lang?" />
             <!-- <span>Cancelled deleting!</span> -->
           </div>
         </c:when>
@@ -73,7 +75,8 @@
           </mm:maydelete>
           
           <mm:maydelete>
-            <mm:url id="formurl" write="false" />
+            <mm:url id="formurl" write="false" 
+              referids="nr,p?,relation?,fields?,lang?,parent?,role?,editme?,showform?,show?,editor?,maydelete?,unpublish?" />
             
             <form id="form_${nr}" method="post" class="delete_form" action="${formurl}">
               <a class="editme cancel" href="#close"><fmt:message key="users.cancel" /></a>
@@ -86,7 +89,7 @@
               </strong -->
               
               <div class="node">
-                <mm:include page="show-node.jspx" referids="nr,fields?,lang?" />
+                <mm:include page="$show" referids="nr,fields?,lang?" />
               </div>
 
               <p class="msg stay">
@@ -100,16 +103,6 @@
               </p>
               
               <fieldset class="buttons">
-                <input name="p"  type="hidden" value="${p}" />
-                <input name="nr" type="hidden" value="${nr}" />
-                <input name="parent"   type="hidden" value="${parent}" />
-                <input name="relation" type="hidden" value="${relation}" />
-                <input name="role"     type="hidden" value="${role}" />
-                <input name="show"     type="hidden" value="${show}" />
-                <input name="editor"   type="hidden" value="${editor}" />
-                <mm:write referid="fields">
-                  <input name="fields" type="hidden" value="${_}" />
-                </mm:write>
                 <div>
                   <fmt:message key="users.cancel" var="button_cancel" />
                   <fmt:message key="users.delete" var="button_delete" />

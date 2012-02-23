@@ -27,12 +27,14 @@
   <mm:import externid="submit$nr" />
   <mm:import externid="cancel" />
   
-  <!-- mm:import externid="related" / -->
   <mm:import externid="editme">false</mm:import>
+  <c:if test="${!editme}"><mm:import id="showform" reset="true">true</mm:import></c:if>
+  <mm:import externid="list">true</mm:import>
   <mm:import externid="show">/editors/show-node.jspx</mm:import>
   <mm:import externid="editor">/editors/edit-node.jspx</mm:import>
   <mm:import externid="maydelete">true</mm:import>
   <mm:import externid="unpublish">false</mm:import>
+  <mm:import externid="maycancel">true</mm:import>
 
   
   <mm:hasnode number="$nr" inverse="true">
@@ -55,16 +57,19 @@
         
       </c:when>
       <c:otherwise>
-  
-        <mm:url referids="p?,nr,lang?,relation?" write="false" absolute="true" escapeamps="false" id="submit_link"></mm:url>
+        
+        <!-- contains all paramaters to be picked up again in javascript -->
+        <mm:url absolute="true" escapeamps="false" id="submit_link" write="false"
+          referids="nr,p?,relation?,fields?,lang?,parent?,role?,editme?,showform?,show?,editor?,maydelete?,unpublish?,maycancel?" />
         <mm:form id="form_$nr" page="$submit_link">
         
           <mm:node number="$nr" commitonclose="false">
             
             <mm:import id="buffer">
-              <c:if test="${editme eq 'true'}">
-                <a class="cancel" href="#close"><fmt:message key="users.cancel" /></a>
-                <div class="log"><jsp:text> <!-- empty --> </jsp:text></div>
+              <c:if test="${editme}">
+                <c:if test="${maycancel}">
+                  <a class="cancel" href="#close"><fmt:message key="users.cancel" /></a>
+                </c:if>
                 <strong>Edit <mm:nodeinfo type="guitype" escape="lowercase" /></strong>
               </c:if>
               
@@ -84,21 +89,11 @@
               
               <mm:maywrite>
                 <fieldset class="buttons">
-                  <input name="fields"       type="hidden" value="${fields}" />
-                  <input name="parent"       type="hidden" value="${parent}" />
-                  <input name="role"         type="hidden" value="${role}" />
-                  
-                  <!-- input name="related"      type="hidden" value="${related}" / -->
-                  <input name="show"         type="hidden" value="${show}" />
-                  <input name="editor"       type="hidden" value="${editor}" />
-                  <input name="maydelete"    type="hidden" value="${maydelete}" />
-                  <input name="unpublish"    type="hidden" value="${unpublish}" />
                   <input name="submit${nr}"  type="hidden" value="ok" />
-                  
                   <div>
                     <fmt:message key="users.form.save" var="button_save" />
                     <fmt:message key="users.cancel" var="button_cancel" />
-                    <c:if test="${editme eq 'true'}">
+                    <c:if test="${editme and maycancel}">
                       <input type="button" name="cancel" value="${button_cancel}" class="cancel" /> 
                     </c:if>
                     <input type="submit" name="action" value="${button_save}" class="submit" />
@@ -110,25 +105,24 @@
             <mm:present referid="submit$nr">
               
               <mm:valid>
-                <p class="msg">Your changes to '<mm:function name="gui" escape="none" />' are saved.</p>
-
                 <mm:commit />
-                <c:choose>
-                  <c:when test="${editme eq 'true'}">
-
-                    <jsp:directive.include file="actions.div.jspx" />
-                    
-                    <div class="node">
-                      <mm:include page="$show" referids="nr">
-                        <mm:param name="fields">${fields}</mm:param>
-                      </mm:include>
-                    </div>
-                    
-                  </c:when>
-                  <c:otherwise>
-                    <mm:write referid="buffer" escape="none" />
-                  </c:otherwise>
-                </c:choose>
+                
+                  <p class="msg">Your changes to '<mm:function name="gui" escape="none" />' are saved.</p>
+                  <c:choose>
+                    <c:when test="${showform}">
+                      <mm:write referid="buffer" escape="none" />
+                    </c:when>
+                    <c:otherwise>
+                      <mm:import id="saved">
+                        <jsp:directive.include file="actions.div.jspx" />
+                        <div class="node">
+                          <mm:include page="$show" referids="nr">
+                            <mm:param name="fields">${fields}</mm:param>
+                          </mm:include>
+                        </div>
+                      </mm:import>
+                    </c:otherwise>
+                  </c:choose>
               </mm:valid>
               
               <mm:valid inverse="true">
@@ -146,6 +140,10 @@
           </mm:notpresent>
           
         </mm:form>
+        
+        <c:if test="${!empty saved}">
+          <mm:write referid="saved" escape="none" />
+        </c:if>
 
       </c:otherwise>
     </c:choose>

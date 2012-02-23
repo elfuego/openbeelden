@@ -1,0 +1,98 @@
+<?xml version="1.0"?>
+<jsp:root
+    version="2.0"
+    xmlns:jsp="http://java.sun.com/JSP/Page"
+    xmlns:c="http://java.sun.com/jsp/jstl/core"
+    xmlns:fmt="http://java.sun.com/jsp/jstl/fmt"
+    xmlns:mm="http://www.mmbase.org/mmbase-taglib-2.0"
+    xmlns:oip="urn:jsptagdir:/WEB-INF/tags/oip">
+
+  <oip:editor styleClass="portal">
+    <jsp:attribute name="head">
+
+    </jsp:attribute>
+    <jsp:attribute name="left">
+      
+
+    </jsp:attribute>
+    <jsp:attribute name="body">
+    
+      <div class="main-column">      
+
+        <mm:node id="p" number="$_node.number">
+          <h2>Instellingen : <mm:field name="name" /></h2>
+          <mm:hasalias name="pool_oip"><c:set var="isdefault" value="true" /></mm:hasalias>
+          
+          <c:if test="${!isdefault}">
+            <h3>Url</h3>
+            <p>Portal url: the specific location on which this portal can be found.</p>
+            <mm:relatednodescontainer type="urls" role="portalrel" searchdirs="destination">
+              <mm:relatednodes>
+                <mm:include page="edit-node.jspx" referids="p?,_node@nr">
+                  <mm:param name="fields">name,url</mm:param>
+                </mm:include>
+                <mm:node id="url_node" />
+              </mm:relatednodes>
+            </mm:relatednodescontainer>
+            
+            <c:if test="${empty url_node}">
+              <div id="add_url"> <jsp:text>  </jsp:text> </div>
+              <p class="add">
+                <mm:link page="/editors/add-node.jspx" referids="p?,_node@nr">
+                  <mm:param name="type">urls</mm:param>
+                  <mm:param name="fields">name,url,description</mm:param>
+                  <mm:param name="role">portalrel</mm:param>
+                  <a class="editme" href="${_}#add_url">add url</a>
+                </mm:link>
+              </p>
+            </c:if>
+          </c:if>
+
+          <div class="">
+            <h3>Properties</h3>
+            <p>Settings or properties of this portal. Possible are:<br />
+            <strong>oai-set</strong> name of the OAI-PMH set, f.e. 'subcollection' (portal only),<br />
+            <strong>rss</strong> url of a feed (rss!) with news to show on your the homepage,<br />
+            <strong>css</strong> link, f.e. '/style/css/subcollection.css' of a stylesheet (portal only),<br />
+            <strong>partnertext</strong> text above the partner logos, or<br />
+            <strong>login</strong> if you want to login on the portal frontend.
+            </p>
+            <mm:include page="edit-properties.jspx" referids="p?,_node@nr,lang?">
+              <mm:param name="property_keys">oai-set;rss;css;partnertext;login</mm:param>
+            </mm:include>
+
+          </div>
+          
+          <div class="wrap">
+            <h3>Licenses</h3>
+            <mm:include page="/editors/edit-list.jspx" referids="p?,_node@nr">
+              <mm:param name="editor">edit-node.jspx</mm:param>
+              <mm:param name="type">licenses</mm:param>
+              <mm:param name="role">posrel</mm:param>
+              <mm:param name="dir">destination</mm:param>
+              <mm:param name="maydelete">false</mm:param>
+              <mm:param name="maycreate">true</mm:param>
+              <mm:param name="unpublish">true</mm:param>
+            </mm:include>
+          </div>
+          
+          
+        </mm:node>
+      </div><!-- /.main-column -->
+      <div class="right-column">
+        <mm:hasrank minvalue="project manager">
+          <h3>Portals</h3>
+          <mm:listnodescontainer type="pools">
+            <ul>
+            <mm:listnodes>
+              <li>
+                <mm:link referids="_node@p"><a href="${_}"><mm:field name="name" /></a></mm:link>
+              </li>
+            </mm:listnodes>
+            </ul>
+          </mm:listnodescontainer>     
+        </mm:hasrank>
+      </div>
+    </jsp:attribute>
+  </oip:editor>
+</jsp:root>

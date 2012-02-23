@@ -32,9 +32,6 @@
           <mm:param name="fields">name,language,description</mm:param>
         </mm:include> -->
         
-      <c:choose>
-        <c:when test="${empty nr}">
-      
           <h3>Pages in header</h3>
           <mm:hasrelationmanager sourcemanager="pools" destinationmanager="pages" role="posrel">
             <mm:include page="/editors/edit-list.jspx" referids="p?,_node@nr">
@@ -79,7 +76,7 @@
           <!-- only default portal can add pages to footer -->
           <c:if test="${isdefault}">
             <div class="wrap">
-              <h3>Page in footer</h3>
+              <h3>Pages in footer</h3>
               <p>Pages in footer, drag and drop to reorder them.</p>
    
               <mm:hasrelationmanager sourcemanager="pools" destinationmanager="pages" role="footerrel">
@@ -97,51 +94,14 @@
                   <mm:param name="dir">destination</mm:param>
 
                   <mm:param name="unpublish">true</mm:param>
-                  <mm:param name="maycreate">true</mm:param>
-                  <mm:param name="maydelete">true</mm:param>
+                  <mm:param name="maycreate">false</mm:param>
+                  <mm:param name="maydelete">false</mm:param>
 
                 </mm:include>
               </mm:hasrelationmanager>           
               
-              
             </div>
           </c:if>
-        
-        </c:when>
-        <c:otherwise>
- 
-         
-          <mm:node number="$nr">
-            <!-- edit page -->
-            <h2>Pages : <mm:field name="title" /></h2>
-  
-            <mm:include page="edit-node.jspx" referids="p?,_node@nr,lang?" />
-            <mm:include page="/mmbase/components/oip/user-translations.jspx" referids="_node@n,lang?" />
- 
- 
-            <!-- article list-->
-            <div class="wrap">
-              <h2>Articles</h2>
-              <p>Articles published on this page.</p>
- 
-              <mm:nodeinfo type="type" id="type" write="false" />
-              
-              <mm:hasrelationmanager sourcemanager="$type" destinationmanager="articles" role="posrel">
-                <mm:include page="/editors/edit-list.jspx" referids="p?,_node@nr">
-                  <mm:param name="editor">/editors/editor.jspx</mm:param>
-                  <mm:param name="type">articles</mm:param>
-                  <mm:param name="role">posrel</mm:param>
-                  <mm:param name="dir">destination</mm:param>
-                </mm:include>
-              </mm:hasrelationmanager>
-              
-            </div>
- 
- 
-          </mm:node><!-- /pages node -->
- 
-        </c:otherwise>
-       </c:choose>
 
       </div><!-- /.main-column -->
     </jsp:attribute>

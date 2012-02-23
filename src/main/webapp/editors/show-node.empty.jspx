@@ -1,0 +1,141 @@
+<mm:content 
+    xmlns:jsp="http://java.sun.com/JSP/Page"
+    xmlns:c="http://java.sun.com/jsp/jstl/core"
+    xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+    xmlns:fmt="http://java.sun.com/jsp/jstl/fmt"
+    xmlns:mm="http://www.mmbase.org/mmbase-taglib-2.0"
+    xmlns:oip="urn:jsptagdir:/WEB-INF/tags/oip"
+    expires="120" type="text/html" 
+    language="${empty param.lang ? 'client' : param.lang}" 
+    postprocessor="none">
+
+<jsp:output omit-xml-declaration="false" />
+
+
+<mm:cloud method="asis">
+
+<fmt:setBundle basename="eu.openimages.messages" scope="request" />
+
+<mm:import externid="type" />
+<mm:import externid="fields"  />
+  
+  <c:choose>
+    
+    
+    <c:when test="${type eq 'articles'}">
+      <span>
+        Artikel titel<br />
+        dd MMM yyyy by auteur
+      </span>
+    </c:when>
+    
+    <c:when test="${type eq 'articles_translations'}">
+      <span>
+        Titel artikel vertaling
+      </span>
+    </c:when>
+
+    <c:when test="${type eq 'attachments'}">
+      <span>
+        Titel - filename
+      </span>
+    </c:when>
+    
+    <c:when test="${type eq 'images'}">
+      <span>
+        Titel 
+        [afb]
+      </span>
+    </c:when>
+    
+    <c:when test="${type eq 'licenses'}">
+      <span>
+        Licentie titel versie 
+      </span>
+    </c:when>
+    
+    <c:when test="${type eq 'licenses_translations'}">
+      <span>
+        Licentie vertaling
+      </span>
+    </c:when>
+
+    <c:when test="${type eq 'pages'}">
+      <span>
+        Titel pagina
+      </span>
+    </c:when>
+
+    <c:when test="${type eq 'pages_translations'}">
+      <span>
+        Vert
+      </span>
+    </c:when>
+
+    <c:when test="${type eq 'pools_translations'}">
+      <span>
+        Vertaling site
+      </span>
+    </c:when>
+
+    <c:when test="${type eq 'mediafragments' or type eq 'imagefragments' or type eq 'audiofragments' or type eq 'videofragments'}">
+      <div class="show-media">
+        <c:set var="title">Titel van media item</c:set>
+        <img src="${mm:link('/style/images/thumb_empty.png')}" height="60" width="81" alt="Titel van media item" title="Titel van media item" /> 
+        ${title} <br />
+        <em>media</em>
+      </div>
+    </c:when>
+    
+    <c:when test="${type eq 'mediafragments_translations'}">
+      <span>
+        Titel vert
+      </span>
+    </c:when>
+
+    <c:when test="${type eq 'properties'}">
+      <span>
+        <strong>key : </strong> value
+      </span>
+    </c:when>
+
+    <c:when test="${type eq 'tags'}">
+      <span>
+        tag : 0
+      </span>
+    </c:when>
+    
+    <c:when test="${type eq 'urls'}">
+      <span>
+        name http://
+      </span>
+    </c:when>
+
+    <c:when test="${type eq 'mmbaseusers'}">
+      <span>
+        username
+      </span>
+    </c:when>
+    
+    <c:when test="${type eq 'users_translations'}">
+      <span>
+       Vert
+      </span>
+    </c:when>
+    
+    <c:when test="${type eq 'videostreamsourcescaches'}">
+      <span>
+        url : mimetype (format, codec)
+      </span>
+    </c:when>
+   
+    <c:otherwise>
+      <span> 
+        Lege node ${type}
+      </span>
+    </c:otherwise>
+  </c:choose>
+
+
+</mm:cloud>
+</mm:content>

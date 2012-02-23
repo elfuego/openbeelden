@@ -20,17 +20,18 @@
 <mm:import externid="fields" />
 <mm:import externid="lang" />
 
-<mm:import externid="delete" />
-<mm:import externid="cancel" />
-
 <mm:import externid="role" />
 <mm:import externid="parent" /><!-- (parent or destination) node containing the list  -->
 
 <mm:import externid="show">/editors/show-node.jspx</mm:import>
+<mm:import externid="showform" />
 <mm:import externid="editor">/editors/edit-node.jspx</mm:import>
 <mm:import externid="maydelete">true</mm:import>
 <mm:import externid="unpublish">true</mm:import>
 
+<!-- form interaction -->
+<mm:import externid="delete" />
+<mm:import externid="cancel" />
 
 <mm:hasnode number="$nr" inverse="true">
   <p class="err">Node ${nr} not found.</p>
@@ -59,23 +60,18 @@
       </c:when>
       
       <c:when test="${!empty cancel}">
-        <div class="log"><jsp:text> <!-- empty --> </jsp:text></div>
-        
         <mm:node number="$nr" id="this_node">
           <jsp:directive.include file="actions.div.jspx" />
         </mm:node>
-
         <div class="node">
           <mm:node number="$nr">
-            <mm:include page="show-node.jspx" referids="p?,nr,fields?,lang?" />
+            <mm:include page="$show" referids="p?,nr,fields?,lang?" />
           </mm:node>
           <span class="hidden">Canceled!</span>
         </div>
       </c:when>
       
       <c:otherwise>
-        <div class="log"><jsp:text> <!-- empty --> </jsp:text></div>
-
         <mm:maydelete inverse="true">
           <p class="msg">
             Not enough privileges to remove 
@@ -85,11 +81,13 @@
         </mm:maydelete>
         
         <mm:maydelete>
-          <mm:url id="formurl" write="false" />
+          <mm:url id="formurl" write="false" 
+            referids="nr,p?,relation?,fields?,lang?,parent?,role?,editme?,showform?,show?,editor?,maydelete?,unpublish?" />
+
           <form id="form_${nr}" method="post" action="${formurl}">
             <mm:node number="$nr">
               <div class="node">
-                <mm:include page="show-node.jspx" referids="_node@nr,fields?,lang?" />
+                <mm:include page="$show" referids="_node@nr,fields?,lang?" />
               </div>
               <p class="msg stay">
                 <fmt:message key="editors.remove_this_type_from_list">

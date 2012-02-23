@@ -24,15 +24,18 @@
 <mm:import externid="parent" />
 <mm:import externid="role">related</mm:import>
 
-<mm:import externid="delete" />
-<mm:import externid="cancel" />
-
 <mm:import externid="editme">false</mm:import>
 <mm:import externid="show">/editors/show-thumb.jspx</mm:import>
+<mm:import externid="showme">false</mm:import><!-- show node (true) or form again after save -->
 <mm:import externid="editor">/editors/edit-thumb.jspx</mm:import>
 <mm:import externid="maydelete">true</mm:import>
 <mm:import externid="unpublish">false</mm:import>
   
+<!-- form interaction -->
+<mm:import externid="delete" />
+<mm:import externid="cancel" />
+
+
 <mm:hasnode number="$nr" inverse="true">
   <p class="msg">Node not found. Deleted already?</p>
 </mm:hasnode>
@@ -106,8 +109,9 @@
         <c:otherwise>
           <div class="log"><jsp:text> <!-- empty --> </jsp:text></div>
 
+            <mm:url id="formurl" write="false" 
+              referids="nr,p?,relation?,fields?,lang?,parent?,role?,editme?,showme?,show?,editor?,maydelete?,unpublish?" />
           
-            <mm:url id="formurl" write="false" referids="p?,nr" />
             <form id="form_${nr}" method="post" action="${formurl}">
 
               <mm:include page="$show" referids="nr,fields?" />
@@ -120,16 +124,6 @@
               </mm:maydelete>
               
               <fieldset class="buttons">
-                <input name="parent"   type="hidden" value="${parent}" />
-                <input name="relation" type="hidden" value="${relation}" />
-                <input name="role"     type="hidden" value="${role}" />
-                <input name="show"     type="hidden" value="${show}" />
-                <input name="editor"   type="hidden" value="${editor}" />
-                <input name="maydelete"   type="hidden" value="${maydelete}" />
-                <input name="unpublish"   type="hidden" value="${unpublish}" />
-                <mm:write referid="fields">
-                  <input name="fields" type="hidden" value="${_}" />
-                </mm:write>
                 <div>
                   <fmt:message key="users.cancel" var="button_cancel" />
                   <fmt:message key="users.delete" var="button_delete" />

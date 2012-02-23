@@ -30,8 +30,8 @@
 		       if (button.length) {
     		       button[0].disabled = validator.invalidElements != 0;
     		   }
-		       console.log("invalid: "  + validator.invalidElements);
-		       console.log(validator.elements);
+		       //console.log("invalid: "  + validator.invalidElements);
+		       //console.log(validator.elements);
             }
             validator.validateHook();
             
@@ -73,6 +73,7 @@
                     <mm:param name="type">articles</mm:param>
                     <mm:param name="role">posrel</mm:param>
                     <mm:param name="dir">destination</mm:param>
+                    <mm:param name="unpublish">true</mm:param>
                   </mm:include>
                 </div>
               </mm:hasrelationmanager>
@@ -96,6 +97,8 @@
                     <mm:param name="role">related</mm:param>
                     <mm:param name="dir">destination</mm:param>
                     <mm:param name="fields">handle,title,description</mm:param>
+                    <mm:param name="editor">/editors/edit-node.jspx</mm:param>
+                    <mm:param name="unpublish">true</mm:param>
                   </mm:include>
               </mm:hasrelationmanager>
               
@@ -106,6 +109,8 @@
                     <mm:param name="role">posrel</mm:param>
                     <mm:param name="dir">destination</mm:param>
                     <mm:param name="fields">handle,title,description</mm:param>
+                    <mm:param name="editor">/editors/edit-node.jspx</mm:param>
+                    <mm:param name="unpublish">true</mm:param>
                   </mm:include>
               </mm:hasrelationmanager>
 
@@ -140,6 +145,8 @@
                     <mm:param name="role">posrel</mm:param>
                     <mm:param name="dir">destination</mm:param>
                     <mm:param name="fields">handle,title,filename</mm:param>
+                    <mm:param name="editor">/editors/edit-node.jspx</mm:param>
+                    <mm:param name="unpublish">true</mm:param>
                   </mm:include>
               </mm:hasrelationmanager>
 
@@ -150,7 +157,7 @@
                   <mm:param name="role">related</mm:param>
                   <mm:param name="dir">source</mm:param>
                   <mm:param name="editor">/editors/editor.jspx</mm:param>
-                  <mm:param name="maydelete">true</mm:param>
+                  <mm:param name="unpublish">true</mm:param>
                 </mm:include>
               </mm:hasrelationmanager>
             </div><!-- /.wrap -->
@@ -167,7 +174,7 @@
                 <mm:param name="maycreate">false</mm:param>
                 <mm:param name="unpublish">false</mm:param>
                 <mm:param name="search">false</mm:param>
-                <mm:param name="sortable">false</mm:param>
+                <!-- <mm:param name="sortable">false</mm:param> -->
               </mm:include>
               </div>
             </mm:hasrelationmanager>
@@ -184,6 +191,7 @@
       <c:if test="${!empty nr and (type eq 'videofragments' or type eq 'audiofragments' or type eq 'imagefragments') }">
         <mm:cloudinfo type="usernode" id="iam" write="false" />
         <h3>Info</h3>
+        <mm:node number="$nr"><oip:thumb /></mm:node>
         <mm:include page="/mmbase/components/oip/user-mediainfo.jspx" referids="iam@n,nr@media" />
       </c:if>
     </jsp:attribute>

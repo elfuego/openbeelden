@@ -3,7 +3,7 @@
 %><%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"
 %><%@ taglib uri="http://www.opensymphony.com/oscache" prefix="os"
 %><jsp:directive.page session="false" />
-*///<mm:content type="text/javascript" expires="3600" postprocessor="none"><os:cache time="3600"><mm:escape escape="javascript-compress">
+*///<mm:content type="text/javascript" expires="3600" postprocessor="none"><os:cache time="0"><mm:escape escape="none">
 <fmt:setBundle basename="eu.openimages.messages" scope="request" />
 <mm:import id="any_lang"><fmt:message key="search.any_language" /></mm:import>
 <mm:import id="textarea_classes">textarea.mm_f_body, textarea.mm_f_intro, textarea.mm_nm_mmbaseusers, textarea.mm_nm_users_translations, textarea.mm_nm_pages, textarea.mm_nm_pages_translations, textarea.mm_nm_pools, textarea.mm_nm_pools_translations, textarea.mm_nm_licenses, textarea.mm_nm_licenses_translations</mm:import>
@@ -128,18 +128,33 @@ function initMMBasevalidatorForTiny(el) {
     });
 }
 
-
-/* TODO: make this a jquery plugin? */
+/* Inits an inline editor editMe targeted at div#elementwithid
+   to add, edit and delete nodes (include afterSubmit).
+   The link f.e. '/editor.jspx?nr=123#htmlelement' is the editor to use, 
+   which will be loaded in f.e. 'div#htmlelement' in the page.
+   - add: region .targetme receives new node, else node is is insterted before it 
+   - edit:
+   - delete (response.indexOf('node_deleted') > -1): item is removed from id
+*/
 function initEditme(el) {
     $(el).find('a.editme').click(function(ev){
         var link = ev.target.href.substring(0, ev.target.href.indexOf("?"));
         if (link.indexOf('editors/editor.jspx') < 0) {
             ev.preventDefault();
-            editMe(ev);
+            //editMe(ev);
+            
+            var link = ev.target.href;
+            var id = link.substring(link.indexOf("#") + 1);
+            var query = link.substring(link.indexOf("?") + 1, link.indexOf('#'));
+            link = link.substring(0, link.indexOf("?"));
+            var params = getParams(query);
+            params['editme'] = 'true';  /* inform form about being editme ajax editor */
+            $('#' + id).load(link, params, function(){ bindMe(id, link, params); }).hide().fadeIn("fast");
         }
     });
 }
 
+/* TODO: finish this and make editme into a jquery plugin? */
 jQuery.fn.editme = function(settings) {
     var config = {};
     if (settings) $.extend(config, settings);
@@ -201,82 +216,64 @@ function pageMe(target, ev) {
     });
 }
 
-/* Forms to add, edit and delete nodes */
-function editMe(ev) {
-    var tag = ev.target;
-    var link = ev.target.href;
-    
-    var id = link.substring(link.indexOf("#") + 1);
-    var query = link.substring(link.indexOf("?") + 1, link.indexOf('#'));
-    link = link.substring(0, link.indexOf("?"));
-    var params = getParams(query);
-    
-    //var formId = (params.type != null ? 'form_' + params.type : 'form_' + params.nr);
-    params['editme'] = 'true';  /* inform form about being editme ajax editor */
-    //params['target'] = id;
-    $('#' + id).load(link, params, function() {
-           $('#' + id).addClass('editmeform');
-		   
-		   // what to do while cancelling
-		   $('#' + id + ' .cancel').click(function(ev) {
-               ev.preventDefault();
-               params['cancel'] = 'Cancel';
-               //params['target'] = id;
-               $('#' + id).find("${textarea_classes}").each(function() {
-                   $(this).tinymce().remove();
-               });
-               $('#' + id).load(link, params, function() {
-                   $('#' + id).removeClass('editmeform');
-                   initEditme(this);
-                   clearMsg('#' + id);
-               });
+function bindMe(id, link, params) {   
+   // first what to do while cancelling
+   $('#' + id + ' .cancel').click(function(ev) {
+       ev.preventDefault();
+       params['cancel'] = 'Cancel';
+       $('#' + id).find("${textarea_classes}").each(function() {
+           $(this).tinymce().remove();
+       });
+       //console.log('cancelling: ' + link + ' show form ' + params['showform']);
+       $('#' + id).load(link, params, function() {
+           //$('#' + id).removeClass('editmeform');
+           initEditme(this);
+           clearMsg('#' + id);
+       });
+   });
+   
+   var formId = $('#' + id + ' form').attr('id');
 
-               //$(tag).show();
-           });
-           
-           var formId = $('#' + id + ' form').attr('id');
-
-		   // fields validator
-		   var validator = new MMBaseValidator();
-		   validator.prefetchNodeManager(params.type);  // XXX: params.type not always present
-           validator.addValidationForElements($('#' + formId + " .mm_validate"));
-		   validator.validateHook = function(valid, entry) {
-		       var button = $('#' + formId + " input[type=submit][class=submit]");
-		       if (button.length) {
-    		       button[0].disabled = validator.invalidElements != 0;
-    		   }
-		   };
-		   validator.validateHook();
-		   
-		   // ajax form options
-		   var options = {
-		       target: '#' + id,
-		       beforeSubmit: beforeSubmit,
-		       success: afterSubmit,
-		       error: function(res, st){ 
-		          $('#' + id).prepend('<p class="err">' + st + ' ' + res.status + ' : ' + res.statusText + '</p>'); 
-		       },
-		       data: { editme: 'true', target: id }
-		   };
-		   $('#' + formId).ajaxForm(options);
-		   initTiny('#' + id);
-           /* field descriptions */
-           if ($('#' + formId + ' fieldset p.info').length) {
-               $('#' + formId + ' fieldset label').hover(function(ev) {
-                   $(this).parent('div').find('p.info').show();
-               }, function(ev) {
-                   $(this).parent('div').find('p.info').hide();
-               });
-           }
-		   
-	}).hide().fadeIn("fast");
-    //$(tag).hide();
+   // fields validator
+   var validator = new MMBaseValidator();
+   validator.prefetchNodeManager(params.type);  // XXX: params.type not always present
+   validator.addValidationForElements($('#' + formId + " .mm_validate"));
+   validator.validateHook = function(valid, entry) {
+       var button = $('#' + formId + " input[type=submit][class=submit]");
+       if (button.length) {
+           button[0].disabled = validator.invalidElements != 0;
+       }
+   };
+   validator.validateHook();
+   
+   // ajax form options
+   var options = {
+       target: '#' + id,
+       beforeSubmit: beforeSubmit,
+       success: afterSubmit,
+       error: function(res, st){ 
+          $('#' + id).prepend('<p class="err">' + st + ' ' + res.status + ' : ' + res.statusText + '</p>'); 
+       },
+       data: { editme: 'true', target: id } // TODO: these still needed here? 
+   };
+   $('#' + formId).ajaxForm(options);
+   initTiny('#' + id);
+   /* field descriptions */
+   if ($('#' + formId + ' fieldset p.info').length) {
+       $('#' + formId + ' fieldset label').hover(function(ev) {
+           $(this).parent('div').find('p.info').show();
+       }, function(ev) {
+           $(this).parent('div').find('p.info').hide();
+       });
+   }
+   
 }
+
 
 /*
  * Integrates tinyMCE with jquery.ajaxForm. 
  * Puts tinyMCE's content in the array submitted by ajaxForm
- * and removes tinyMCE which otherwise would still be bound.
+ * and removes tinyMCE editor which otherwise would still be bound.
  */
 function beforeSubmit(arr, $form, options) {
     $($form).find("${textarea_classes}").each(function() {
@@ -297,11 +294,12 @@ function beforeSubmit(arr, $form, options) {
 }
 
 /* ajaxFrom success after submit */
-function afterSubmit(response, status, xhr) {
+function afterSubmit(response, status, xhr, $form) {
     var parent = $(this).parent();
-    
     var thisId = $(this).attr('id');
+    
     if (response.indexOf('node_created') > -1) {        /* node created */
+        var link = xhr.responseXML.URL;
         /* make sure tag 'new' is shown again */
         $(this).next().find('a.editme').show();
         
@@ -312,7 +310,7 @@ function afterSubmit(response, status, xhr) {
         for (var i = 0; i < classes.length; i++) {
             if (classes[i].indexOf('relation_') > -1) {
                 var newId = classes[i];
-            } else if (classes[i].indexOf('edit_') > -1) {
+            } else if (classes[i].indexOf('node_') > -1) {
                 var newId = classes[i];
             }
         }
@@ -324,7 +322,6 @@ function afterSubmit(response, status, xhr) {
         /*
         if ($(parent).find('form').length) {
             console.log('still found a form ' + $(parent).find('form').length);
-            console.log(parent);
             //$(parent).find('form').remove();
         } */
         
@@ -333,32 +330,48 @@ function afterSubmit(response, status, xhr) {
             $(this).html(newItem);
             initEditme('#' + newId);
         } else {
-            $(this).removeClass('editmeform');
             newItem.insertBefore(this);
             initEditme('#' + newId);
         }
-        $('#' + newId).removeClass('editmeform');
         
     } else if (response.indexOf('node_deleted') > -1) { /* node deleted */
         initEditme(this);
         
         var self = this;
+        var listLength = $(this).parent('ul').find('li:not(.notsortable)').length;
+        var uList = $(this).parent('ul');
         //console.log('thisId ' + thisId);
-        $(this).find('a.close').click(function(ev){
+        $(this).find('a.close').click(function(ev){     // TODO: change this to something automatic
             ev.preventDefault();
             $(self).remove();
+            if (listLength == 1) {  // was 1, now empty
+                //console.log('list le ' + listLength + ' p ' + $(this).parent('ul').attr('id'));
+                $(uList).prepend('<li id="iamempty" class="notsortable empty">Drop here...</li>');
+                var params = new Object();
+                params['type'] = 'mediafragments';  // TODO: find and use nodetype
+                $('#iamempty').load("${mm:link('/editors/show-node.empty.jspx')}", params);
+            }
         });
     
     } else {                                            /* node edited (or action cancelled) */
-        initEditme(this);
-        
+        var link = xhr.responseXML.URL;
+        var query = link.substring(link.indexOf("?") + 1, link.length);
+        var params = getParams(query);
+        //console.log(" show form " + params['showform']);
+        if (params['showform'] == 'true') {
+            console.log('bindme');
+            bindMe(thisId, link, params);   // bind form again
+        } else {
+            console.log('editme');
+            initEditme(this);
+        }
     }
     clearMsg(this);
 }
 
 /* 
  * ul.sortable has to have same id as NodeQuery, which is written to session.
- * All li's must have a prefix and node number as an id, f.e. 'edit_234'
+ * All li's must have a prefix and node number as an id, f.e. 'node_234'
  * TODO (?): make transfers to and from 'connected' lists work
  */
 function initSortable(listEl) {
@@ -380,11 +393,10 @@ function initSortable(listEl) {
             var thisListId = $(listItem).parent('ul').attr('id');
             //var destListId = "related" + thisListId.substr(thisListId.indexOf('_'), thisListId.length);
             var destListId = "related_" + $('#' + thisListId).closest('div.searchme').find("input:hidden[name=destinationlist]").val();
-            
             var nodenr = params['nr'];
             
             $("#" + destListId + " > li.new").before(listItem);
-            $(listItem).attr('id', 'edit_' + nodenr);   // give it a new id
+            $(listItem).attr('id', 'node_' + nodenr);   // give it a new id
             
             var relParams = { 
                 id: destListId, 
@@ -398,7 +410,7 @@ function initSortable(listEl) {
                 data: relParams,
                 complete: function(data) {
                     var response = data.responseText;
-                    $('#' + destListId + ' li.log').html(response);
+                    $('#' + destListId + '_log').html(response);
                     
                     if (response.indexOf('number') > -1) {
                         var result = response.match(/\s+number='(\d+)'/);
@@ -412,13 +424,15 @@ function initSortable(listEl) {
                         function(){ 
                             initEditme(this); 
                             $('#' + destListId).sortable("refresh");
+                            //console.log('refresh ' + destListId);
+                            $('#' + destListId).find('li.empty').remove();
                         }
                     );
 
-                    clearMsg('#' + destListId + ' li.log');
+                    clearMsg('#' + destListId + '_log');
                 },
                 error: function(data) {
-                    $('#' + destListId + ' li.log').html(data.responseText);
+                    $('#' + destListId + '_log').html(data.responseText);
                 }
             }); 
         }); /* end relate function by clicking a.relate */
@@ -429,28 +443,42 @@ function initSortable(listEl) {
             connectWith: ".connected",
             start: function(ev, ui) {   /* check for tinyMCE and remove it */
                var listId = $(this).attr('id');
+               $(this).addClass('activated');
                $('#' + listId).find("${textarea_classes}").each(function() {
                    $(this).tinymce().remove();
                });                
             },
             stop: function(ev, ui) {
                var listId = $(this).attr('id');
+               $(this).removeClass('activated');
                $('#' + listId).find("${textarea_classes}").each(function() {
                    $(this).tinymce(tinyMceConfig);
                });                
             },
             cancel: ".notsortable",
+            placeholder: "ui-state-highlight",
             remove: function(ev, ui) {
                 var editId = $(ui.item).attr('id');    // list item id
-                var relnr = editId.match(/\d+/);
+                //var relnr = editId.match(/relation_\d+/);
+                var relation_result = editId.match(/relation_(\d+)/);
+                if (relation_result != null) {
+                    var relnr = relation_result[1];
+                } else {
+                    var nodenr = editId.match(/\d+/);
+                }
                 
-                var editclasses = $("#" + editId).attr("class");
-                var n_result = editclasses.match(/node_(\d+)/);
-                if (n_result != null) var nodenr = n_result[1];
+                if (nodenr == null) {
+                    var editclasses = $("#" + editId).attr("class");
+                    var n_result = editclasses.match(/node_(\d+)/);
+                    if (n_result != null) {
+                        var nodenr = n_result[1];
+                        //console.log('n ' + nodenr);
+                    }
+                }
 
                 var listId = $(this).attr('id');
                 var senderId = $(ui.sender).attr('id'); //  (can be undefined)
-                //console.log('editid ' + editId + ' , senderId ' + senderId);
+                //console.log('r ' + relnr + ' n ' + nodenr + ' editid ' + editId + ' senderId ' + senderId);
                 if (listId.indexOf('found_') < 0) {
                     
                     if (relnr != undefined) {
@@ -474,11 +502,11 @@ function initSortable(listEl) {
                             datatype: "xml",
                             data: params,
                             complete: function(data) {
-                                $('#' + listEl.id + ' li.log').html(data.responseText);
-                                clearMsg('#' + listEl.id + ' li.log');
+                                $('#' + listId + '_log').html(data.responseText);
+                                clearMsg('#' + listId + '_log');
                             },
                             error: function(data) {
-                                $('#' + listEl.id + ' li.log').html(data.responseText);
+                                $('#' + listId + '_log').html(data.responseText);
                             }
                             
                         });
@@ -521,7 +549,7 @@ function initSortable(listEl) {
                             complete: function(data) {
 
                                 var response = data.responseText;
-                                //$('#' + destListId + ' li.log').html(response);
+                                //$('#' + destListId + '_log').html(response);
                                 
                                 if (response.indexOf('number') > -1) {
                                     var result = response.match(/\s+number='(\d+)'/);
@@ -555,12 +583,11 @@ function initSortable(listEl) {
                                 }
 
 
-                                $('#' + listEl.id + ' li.log').html(data.responseText);
-                                clearMsg('#' + listEl.id + ' li.log');
-                                //console.log('received ' + nodenr + ' from ' + senderId);
+                                $('#' + listId + '_log').html(data.responseText);
+                                clearMsg('#' + listId + '_log');
                             },
                             error: function(data) {
-                                $('#' + listEl.id + ' li.log').html(data.responseText);
+                                $('#' + listId + '_log').html(data.responseText);
                             }
 
                         });
@@ -638,17 +665,23 @@ function sortSortable(list, updated) {
                 data: params,
                 dataType: "xml",
                 complete: function(data) {
-                    $('#' + list.id + ' li.log').html(data.responseText);
-                    clearMsg('#' + list.id + ' li.log');
+                    $('#' + list.id + '_log').html(data.responseText);
+                    clearMsg('#' + list.id + '_log');
                 }
             });
         }, ms);
     }
     if (total == 0) {
         $(list).addClass('empty');
-        $(list).append('<li class="notsortable empty">Drop here...</li>');
+        //console.log('empty');
+        $(list).prepend('<li id="iamempty" class="notsortable empty">Drop here...</li>');
+        var params = new Object();
+        params['type'] = 'mediafragments';  // TODO: find and use nodetype
+        $('#iamempty').load("${mm:link('/editors/show-node.empty.jspx')}", params);
+        
     } else {
         $(list).find('li.empty').remove();
+        //console.log('no longer empty, remove empty li !');
         if ($(list).is('.empty')) {
             $(list).removeClass('empty');
         }

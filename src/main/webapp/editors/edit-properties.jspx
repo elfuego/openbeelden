@@ -17,6 +17,9 @@
   <mm:import externid="p" />
   <mm:import externid="nr" />
   <mm:import externid="submit_property" />
+
+  <mm:import externid="property_keys" /><!-- a ; seperated list of possible keys -->
+
   
   <mm:import externid="property_key" />
   <mm:import externid="property_value" />
@@ -38,18 +41,20 @@
     <ul>
       <mm:nodelistfunction nodemanager="properties" name="list" referids="_node@node">
         <mm:import id="propnr" reset="true"><mm:field name="number" /></mm:import>
-        <li id="edit_${propnr}">
+        <li id="node_${propnr}">
           <div class="actions">
             <mm:maydelete>
               <mm:link page="/editors/delete-node.jspx" referids="p?,propnr@nr">
-                <mm:param name="fields">key,value</mm:param>
-                <a class="editme delete" href="${_}#edit_${propnr}" title="delete property"><fmt:message key="users.delete" /></a>
+                <mm:param name="fields">value</mm:param>
+                <mm:param name="showme">true</mm:param>
+                <a class="editme delete" href="${_}#node_${propnr}" title="delete property"><fmt:message key="editors.delete" /></a>
               </mm:link>
             </mm:maydelete>
             <mm:maywrite>
               <mm:link page="/editors/edit-node.jspx" referids="p?,propnr@nr">
-                <mm:param name="fields">key,value</mm:param>
-                <a class="editme" title="edit property" href="${_}#edit_${propnr}"><fmt:message key="users.edit" /></a>
+                <mm:param name="fields">value</mm:param>
+                <mm:param name="showme">true</mm:param>
+                <a class="editme" title="edit property" href="${_}#node_${propnr}"><fmt:message key="editors.edit" /></a>
               </mm:link>
             </mm:maywrite>
           </div>
@@ -62,14 +67,29 @@
     </ul>
       
 
-    <div class="log"><jsp:text> <!-- empty --> </jsp:text></div>
-    <mm:url id="formurl" write="false" />
-    <form method="post" action="${formurl}">
+
+    <mm:url id="formurl" write="false" referids="p?,nr" />
+    <form method="post" action="${formurl}" class="properties">
       <fieldset>
         <div>
           <label for="property_key">Key</label>
+
           <p class="info">A property key is unique.</p>
-          <input type="text" id="property_key" name="property_key" size="80" maxlength="255" class="small" />
+
+          <c:choose>
+            <c:when test="${empty property_keys}">
+              <input type="text" id="property_key" name="property_key" size="80" maxlength="255" class="small" />
+            </c:when>
+            <c:otherwise>
+              <!-- pulldown with possible keys -->
+              <select id="property_key" name="property_key">
+                <c:forTokens items="${property_keys}" delims=";" var="kw">
+                  <mm:option value="${kw}" compare="${property_key}">${kw}</mm:option>
+                </c:forTokens>
+              </select>
+            </c:otherwise>
+          </c:choose>
+        
         </div>
         <div>
           <label for="property_value">Value</label>

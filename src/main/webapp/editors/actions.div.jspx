@@ -14,22 +14,30 @@
       <c:set var="relation">${_node}</c:set>
     </mm:relation>
   </c:if -->
+<c:choose>
+  <c:when test="${!empty relation}">
+    <c:set var="hash">#relation_${relation}</c:set>
+  </c:when>
+  <c:otherwise>
+    <c:set var="hash">#node_${_node}</c:set>
+  </c:otherwise>
+</c:choose>
   
   <c:if test="${maydelete}">
     <mm:maydelete>
       <mm:link page="/editors/delete-node.jspx" 
-        referids="p?,_node@nr,relation?,fields?,parent?,role?,lang?,show?,editor?,maydelete?,unpublish?">
-        <a class="editme delete" href="${_}#relation_${relation}"><fmt:message key="editors.delete" /></a>
+        referids="p?,_node@nr,relation?,fields?,parent?,role?,lang?,showform?,show?,editor?,maydelete?,unpublish?">
+        <a class="editme delete" href="${_}${hash}"><fmt:message key="editors.delete" /></a>
       </mm:link>
     </mm:maydelete>
   </c:if>
   
-  <c:if test="${unpublish}">
+  <c:if test="${unpublish and !empty relation}">
     <!-- <mm:relation to="${parent}" role="${role}">
       <mm:maydelete> -->
         <mm:link page="/editors/delete-relation.jspx" 
-          referids="p?,_node@nr,relation?,fields?,parent?,role?,lang?,show?,editor?,maydelete?,unpublish?">
-          <a class="editme unrelate" href="${_}#relation_${relation}">
+          referids="p?,_node@nr,relation?,fields?,parent?,role?,lang?,showform?,show?,editor?,maydelete?,unpublish?">
+          <a class="editme unrelate" href="${_}${hash}">
             <fmt:message key="editors.remove_from_list" />
           </a>
         </mm:link>
@@ -37,10 +45,13 @@
     </mm:relation> -->
   </c:if>
   
-  <mm:link page="$editor" 
-    referids="p?,_node@nr,relation?,fields?,parent?,role?,lang?,show?,editor?,maydelete?,unpublish?">
-    <a class="${fn:indexOf(editor,'editor-') lt 0 ? 'editme' : 'edit'}" 
-       href="${_}#relation_${relation}"><fmt:message key="editors.edit" /></a>
-  </mm:link>
-
+  <mm:maywrite>
+    <mm:link page="$editor" 
+      referids="p?,_node@nr,relation?,fields?,parent?,role?,lang?,showform?,show?,editor?,maydelete?,unpublish?">
+      <a class="${fn:indexOf(editor,'editor-') lt 0 ? 'editme' : 'edit'}" href="${_}${hash}">
+        <fmt:message key="editors.edit" />
+      </a>
+    </mm:link>
+  </mm:maywrite>
+  
 </div>

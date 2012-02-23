@@ -23,70 +23,121 @@
     <jsp:attribute name="body">
 
       <div class="main-column">
-        <h2>Portal editor : <mm:field name="name" id="portalName" /></h2>
-        <h3>${requestScope['javax.servlet.jsp.jstl.fmt.locale.request']}</h3>
+        <h2>Editor portal : <mm:field name="name" id="portalName" /></h2>
 
         <c:if test="${! isdefault}">
-          <!-- ##### van hier -->
           <mm:relatednodescontainer type="images" role="portalrel" searchdirs="destination">
             <mm:maxnumber value="1" />
             <mm:relatednodes>
               <mm:node id="portalimg" />
+              <mm:relation to="${p}" role="portalrel">
+                <mm:import id="relation">${_node}</mm:import>
+              </mm:relation>
             </mm:relatednodes>
           </mm:relatednodescontainer>
-  
-          <div class="targetme edit-pic" id="edit-picture">
-  
+
+          <div class="targetme" id="edit-picture">
             <c:choose>
               <c:when test="${empty portalimg}">
-                <mm:link page="/editors/add-thumb.jspx" referids="p,_node@nr,_node@related">
+                <div class="emptyimage"> <!-- empty --> </div>
+                <mm:link page="/editors/add-thumb.jspx" referids="p,_node@nr,relation?">
                   <mm:param name="lang">${requestScope['javax.servlet.jsp.jstl.fmt.locale.request']}</mm:param>
+                  <mm:param name="role">portalrel</mm:param>
                   <mm:param name="type">images</mm:param>
                   <mm:param name="fields">handle</mm:param>
-                  <mm:param name="role">portalrel</mm:param>
-                  <mm:param name="defaultstr">title=Portal logo ${portalName}</mm:param>
                   <mm:param name="show">/editors/show-portallogo.jspx</mm:param>
+                  <mm:param name="editor">/editors/edit-thumb.jspx</mm:param>
+                  <mm:param name="defaultstr">title=Portal logo ${portalName}</mm:param>
                   <mm:param name="maydelete">false</mm:param>
-                  <p class="add">
+                  <span class="links">
                     <a class="editme add" href="${_}#edit-picture"><fmt:message key="users.add_image" /></a>
-                  </p>
+                  </span>
                 </mm:link>
               </c:when>
               <c:otherwise>
-                <div id="edit_${portalimg}">
+                <div id="relation_${relation}">
                   <mm:include page="/editors/show-portallogo.jspx" referids="p,portalimg@nr" />
-                  <mm:link page="/editors/edit-thumb.jspx" referids="p,portalimg@nr,p@related">
-                    <mm:param name="lang">${requestScope['javax.servlet.jsp.jstl.fmt.locale.request']}</mm:param>
-                    <mm:param name="fields">handle</mm:param>
-                    <mm:param name="show">/editors/show-portallogo.jspx</mm:param>
-                    <mm:param name="maydelete">false</mm:param>
-                    <p class="add">
-                      <a class="editme" href="${_}#edit_${portalimg}"><fmt:message key="users.edit_image" /></a>
-                    </p>
-                  </mm:link>
+                  
+                  <mm:node number="$portalimg">
+                    <mm:maywrite>
+                      <mm:link page="/editors/edit-thumb.jspx" referids="p,_node@nr,relation?">
+                        <mm:param name="lang">${requestScope['javax.servlet.jsp.jstl.fmt.locale.request']}</mm:param>
+                        <mm:param name="fields">handle</mm:param>
+                        <mm:param name="show">/editors/show-portallogo.jspx</mm:param>
+                        <mm:param name="editor">/editors/edit-thumb.jspx</mm:param>
+                        <mm:param name="maydelete">false</mm:param>
+                        <span class="links">
+                          <a class="editme" href="${_}#relation_${relation}"><fmt:message key="users.edit_image" /></a>
+                        </span>
+                      </mm:link>
+                    </mm:maywrite>
+                    <mm:maywrite inverse="true">
+                      <span class="links">Not allowed to edit image #${portalimg}.</span>
+                    </mm:maywrite>
+                  </mm:node>
                 </div>
               </c:otherwise>
             </c:choose>
             
           </div>
-          <!-- ##### tot hier -->
         </c:if>
 
-        
+        <!-- translations or languages -->
+        <div class="wrap languages">
+          <h3>Taalversies</h3>
+          <ul>
+            <li>
+              <mm:link referids="p">
+                <a href="${_}"><mm:field name="language"><mm:fieldinfo type="guivalue" /></mm:field></a>
+                : <mm:field name="name" />
+              </mm:link>
+            </li>
+            <mm:relatednodescontainer type="pools_translations" role="langrel" searchdirs="destination">
+              <mm:relatednodes>
+                <li>
+                  <mm:link page="/editors/edit-node.jspx" referids="p?,_node@nr">
+                    <mm:param name="fields">name,language,description</mm:param>
+                    <mm:param name="maycancel">false</mm:param>
+                    <a class="editme" href="${_}#totranslate">
+                      <mm:field name="language"><mm:fieldinfo type="guivalue" /></mm:field>
+                    </a> : <mm:field name="name" />
+                  </mm:link>
+                </li>
+              </mm:relatednodes>
+            </mm:relatednodescontainer>
+            <li>
+              <mm:link page="/editors/add-node.jspx" referids="p?,_node@nr">
+                <mm:param name="type">pools_translations</mm:param>
+                <mm:param name="fields">name,language,description</mm:param>
+                <mm:param name="role">langrel</mm:param>
+                <mm:param name="show">/editors/edit-node.jspx</mm:param>
+                <mm:param name="showme">true</mm:param>
+                <mm:param name="maycancel">false</mm:param>
+                <a class="add editme" href="${_}#totranslate">Voeg vertaling toe</a>
+              </mm:link>
+            </li>
+          </ul>
+        </div>        
+        <div id="totranslate" class="box">
+          <mm:include page="edit-node.jspx" referids="p?,_node@nr">
+            <mm:param name="fields">name,language,description</mm:param>
+            <mm:param name="lang">${requestScope['javax.servlet.jsp.jstl.fmt.locale.request']}</mm:param>
+          </mm:include>
+        </div>
 
         <!-- main pools node: the portal -->
-        <mm:include page="edit-node.jspx" referids="p?,_node@nr">
+        <!--<mm:include page="edit-node.jspx" referids="p?,_node@nr">
           <mm:param name="fields">name,language,description</mm:param>
           <mm:param name="lang">${requestScope['javax.servlet.jsp.jstl.fmt.locale.request']}</mm:param>
-        </mm:include>
+        </mm:include>-->
 
-        <h4>Translations</h4>
+        <!-- <h4>Translations</h4>
         <mm:include page="/mmbase/components/oip/user-translations.jspx" referids="_node@n">
           <mm:param name="lang">${requestScope['javax.servlet.jsp.jstl.fmt.locale.request']}</mm:param>
-        </mm:include>
+        </mm:include> -->
         
 
-        <!-- homeppage is very first one -->
+        <!-- homepage is very first one -->
         <mm:relatednodescontainer type="pages" role="posrel" searchdirs="destination">
           <mm:sortorder field="posrel.pos" direction="UP" />
           <mm:maxnumber value="1" />
@@ -100,40 +151,59 @@
                 <mm:param name="role">posrel</mm:param>
                 <mm:param name="dir">destination</mm:param>
                 <mm:param name="fields">handle,title</mm:param>
-                <mm:param name="editor">/editors/editor.jspx</mm:param>
+                <mm:param name="maydelete">true</mm:param>
+                <mm:param name="unpublish">false</mm:param>
+                <mm:param name="maycreate">false</mm:param>
+                <mm:param name="search">false</mm:param>
+                <mm:param name="editor">/editors/edit-partnerlogo.jspx</mm:param>
+                <mm:param name="show">/editors/show-partnerlogo.jspx</mm:param>
               </mm:include>
+              <p class="add">
+                <mm:link page="/editors/edit-partnerlogo.jspx" referids="p">
+                  <mm:param name="pos">1</mm:param>
+                  <mm:param name="editor">/editors/edit-partnerlogo.jspx</mm:param>
+                  <mm:param name="show">/editors/show-partnerlogo.jspx</mm:param>
+                  <mm:param name="defaultstr">title=Portal logo ${portalName}</mm:param>
+                  <mm:param name="maydelete">true</mm:param>
+                  <a class="editme add" href="${_}#new_images">Add partnerlogo</a>
+                </mm:link>
+              </p>
+
+              <!--  <mm:link page="/editors/add-thumb.jspx" referids="p,_node@nr,relation?">
+                  <mm:param name="lang">${requestScope['javax.servlet.jsp.jstl.fmt.locale.request']}</mm:param>
+                  <mm:param name="role">portalrel</mm:param>
+                  <mm:param name="type">images</mm:param>
+                  <mm:param name="fields">handle</mm:param>
+                  <mm:param name="show">/editors/show-portallogo.jspx</mm:param>
+                  <mm:param name="editor">/editors/edit-thumb.jspx</mm:param>
+                  <mm:param name="defaultstr">title=Portal logo ${portalName}</mm:param>
+                  <mm:param name="maydelete">false</mm:param>
+                  <span class="links">
+                    <a class="editme add" href="${_}#edit-picture"><fmt:message key="users.add_image" /></a>
+                  </span>
+                </mm:link> -->
+
             </div>
 
           </mm:relatednodes>
         </mm:relatednodescontainer> 
 
-        <!-- <div class="wrap">
-          <h2>Properties</h2>
-          <p>Settings or properties of this portal. Possible are:<br />
-          <strong>oai-set</strong> name of the OAI-PMH set, f.e. 'subcollection' (portal only),<br />
-          <strong>rss</strong> url of a feed (rss!) with news to show on your the homepage,<br />
-          <strong>css</strong> link, f.e. '/style/css/subcollection.css' of a stylesheet (portal only), or<br />
-          <strong>partnertext</strong> text above the partner logos.
-          
-          </p>
-          <mm:include page="edit-properties.jspx" referids="p?,_node@nr,lang?" />
-        </div> -->
-
+        
         <!-- the default portal has no specific url nor a content filter -->
         <c:if test="${!isdefault}">
           <div class="wrap">
-            <h2>Filter</h2>
-            <p>Portal filter with tags, keywords and users. Some more explanation needed here...</p>
+            <h2>Filter : ${portalName}</h2>
+            <p>Portal filter with tags, keywords and users. Separate values with ;</p>
             <mm:relatednodescontainer type="filters" role="portalrel" searchdirs="destination">
               <mm:maxnumber value="1" />
-              <mm:size id="filter" write="false" />
               <mm:relatednodes>
+                <c:set var="hasfilter" value="yes" />
                 <mm:include page="edit-node.jspx" referids="p?,_node@nr">
                   <mm:param name="fields">users,tags,keywords</mm:param>
                 </mm:include>
               </mm:relatednodes>
             </mm:relatednodescontainer>
-            <c:if test="${filter lt 1}">
+            <c:if test="${empty hasfilter}">
               <div id="add_filter"> <jsp:text> <!-- empty --> </jsp:text> </div>
               <p class="add">
                 <mm:link page="/editors/add-node.jspx" referids="p?,_node@nr">
@@ -145,34 +215,25 @@
                 </mm:link>
               </p>
             </c:if>
-            
-<!--            <h3>Url</h3>
-            <p>Portal url: the specific location on which this portal can be found.</p>
-            <mm:relatednodescontainer type="urls" role="portalrel" searchdirs="destination">
-              <mm:relatednodes>
-                <mm:include page="edit-node.jspx" referids="p?,_node@nr">
-                  <mm:param name="fields">name,url</mm:param>
-                </mm:include>
-                <mm:node id="url_node" />
-              </mm:relatednodes>
-            </mm:relatednodescontainer>
-            
-            <c:if test="${empty url_node}">
-              <div id="add_url"> <jsp:text>  </jsp:text> </div>
-              <p class="add">
-                <mm:link page="/editors/add-node.jspx" referids="p?,_node@nr">
-                  <mm:param name="type">urls</mm:param>
-                  <mm:param name="fields">name,url,description</mm:param>
-                  <mm:param name="role">portalrel</mm:param>
-                  <a class="editme" href="${_}#add_url">add url</a>
-                </mm:link>
-              </p>
-            </c:if> -->
-              
           </div>
         </c:if>
+        
 
       </div><!-- /.main-column -->
+      <div class="right-column">
+        <mm:hasrank minvalue="project manager">
+          <h3>Portals</h3>
+          <mm:listnodescontainer type="pools">
+            <ul>
+            <mm:listnodes>
+              <li>
+                <mm:link referids="_node@p"><a href="${_}"><mm:field name="name" /></a></mm:link>
+              </li>
+            </mm:listnodes>
+            </ul>
+          </mm:listnodescontainer>     
+        </mm:hasrank>
+      </div>
     </jsp:attribute>
   </oip:editor>
 </jsp:root>

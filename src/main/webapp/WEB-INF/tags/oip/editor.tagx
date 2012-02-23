@@ -39,7 +39,7 @@
 
     <mm:url id="editor" write="false" />
     <fmt:setBundle basename="eu.openimages.messages" scope="request" />
-    <mm:cloud loginpage="/editors/login.jspx?referrer=$editor" rank="portal manager">
+    <mm:cloud loginpage="/editors/login.jspx?referrer=$editor" rank="portal manager" jspvar="cloud">
 
       <!-- get node number portal one way or another -->
       <mm:import externid="p">pool_oip</mm:import>

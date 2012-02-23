@@ -50,9 +50,38 @@
             convert , in keywords to ;
           </li>
         </ul>
+      </div>
 
-
-          
+      <div class="right-column">
+        <mm:hasrank minvalue="project manager">
+          <h3>Content</h3>
+          <ul>
+            <li>
+              <mm:link page="/editors/list.jspx">
+                <mm:param name="type">articles</mm:param>
+                <a href="${_}">Articles</a>
+              </mm:link>
+            </li>
+            <li>
+              <mm:link page="/editors/list.jspx">
+                <mm:param name="type">licenses</mm:param>
+                <a href="${_}">Licenses</a>
+              </mm:link>
+            </li>
+            <li>
+              <mm:link page="/editors/list.jspx">
+                <mm:param name="type">images</mm:param>
+                <a href="${_}">Images</a>
+              </mm:link>
+            </li>
+            <li>
+              <mm:link page="/editors/list.jspx">
+                <mm:param name="type">urls</mm:param>
+                <a href="${_}">Urls</a>
+              </mm:link>
+            </li>
+          </ul>
+        </mm:hasrank>
           
       </div><!-- /.main-column -->
     </jsp:attribute>

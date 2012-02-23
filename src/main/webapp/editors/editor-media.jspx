@@ -1,0 +1,145 @@
+<?xml version="1.0"?>
+<jsp:root
+    version="2.0"
+    xmlns:jsp="http://java.sun.com/JSP/Page"
+    xmlns:c="http://java.sun.com/jsp/jstl/core"
+    xmlns:fmt="http://java.sun.com/jsp/jstl/fmt"
+    xmlns:mm="http://www.mmbase.org/mmbase-taglib-2.0"
+    xmlns:sr="http://www.mmbase.org/tags/mm/searchrelate"
+    xmlns:oip="urn:jsptagdir:/WEB-INF/tags/oip">
+<jsp:directive.page buffer="64kb" /> 
+
+  <oip:editor styleClass="portal">
+    <jsp:attribute name="head">
+      
+      <mm:import externid="nr" />
+      <mm:hasnode number="$nr">
+        <mm:node number="$nr"><mm:nodeinfo type="type" id="builder" write="false" /></mm:node>
+      </mm:hasnode>
+
+      <script type="text/javascript">
+        /* this is in editor.jspx */
+        $(document).ready(function() {
+            var validator = new MMBaseValidator();
+            var to_validate_id = "form_${nr}";
+            <c:if test="${!empty builder}">validator.prefetchNodeManager('${builder}');</c:if>
+            validator.lang = "${requestScope['javax.servlet.jsp.jstl.fmt.locale.request']}";
+            validator.addValidationForElements($('#' + to_validate_id + " .mm_validate"));
+            validator.validateHook = function(valid, entry) {
+               var button = $("#" + to_validate_id + " input[type=submit][class=submit]");
+		       if (button.length) {
+    		       button[0].disabled = validator.invalidElements != 0;
+    		   }
+		       //console.log("invalid: "  + validator.invalidElements);
+		       //console.log(validator.elements);
+            }
+            validator.validateHook();
+            
+        });
+      </script>
+        
+    </jsp:attribute>
+    <jsp:attribute name="left">
+
+    </jsp:attribute>
+    <jsp:attribute name="body">
+
+      <div class="main-column">
+        <c:choose>
+          <c:when test="${empty nr}">
+            <h2>Not found</h2>
+            <p class="err">Node not found</p>
+          </c:when>
+          <c:otherwise>
+            <mm:node number="$nr">
+
+              <h2>Edit : <mm:nodeinfo type="type" id="type" /></h2>
+
+              
+              <p>De belangrijkste content velden van het media item.</p>
+
+              <mm:include page="edit-node.jspx" referids="p?,_node@nr" >
+                <mm:param name="fields">title,language,show,subtitle,intro,body,hasformat,date,dc_creator,publisher</mm:param>
+              </mm:include>
+              <mm:include page="/mmbase/components/oip/user-translations.jspx" referids="_node@n" />
+
+              <div class="wrap">
+                <h2>Media properties</h2>
+                <p>
+                  Geef hier onder met het property 'media.order' 
+                  de url - bijvoorbeeld http://www.beeldengeluid.nl - op waar het media item besteld kan worden.
+                </p>
+                <mm:include page="edit-properties.jspx" referids="p?,_node@nr,lang?">
+                  <mm:param name="property_keys">media.order</mm:param>
+                </mm:include>
+              </div>
+
+              <mm:hasrelationmanager sourcemanager="$type" destinationmanager="licenses" role="related">
+                <div class="wrap">
+                  <h3>Licenses</h3>
+                  <mm:include page="/editors/edit-list.jspx" referids="p?,_node@nr">
+                    <mm:param name="type">licenses</mm:param>
+                    <mm:param name="role">related</mm:param>
+                    <mm:param name="dir">destination</mm:param>
+                    <mm:param name="editor">/editors/edit-node.jspx</mm:param>
+                    <mm:param name="maydelete">false</mm:param>
+                    <mm:param name="maycreate">false</mm:param>
+                    <mm:param name="unpublish">true</mm:param>
+                  </mm:include>
+                </div>
+              </mm:hasrelationmanager>
+  
+              <div class="wrap">
+                <mm:hasrelationmanager sourcemanager="$type" destinationmanager="images" role="related">
+                    <h3>Images</h3>
+                    <p>
+                      Ter vervanging van de default media thumbnail.
+                    </p>
+                    <mm:include page="/editors/edit-list.jspx" referids="p?,_node@nr">
+                      <mm:param name="type">images</mm:param>
+                      <mm:param name="role">related</mm:param>
+                      <mm:param name="dir">destination</mm:param>
+                      <mm:param name="editor">/editors/edit-node.jspx</mm:param>
+                      <mm:param name="fields">handle,title,description</mm:param>
+                      <mm:param name="unpublish">true</mm:param>
+                    </mm:include>
+                </mm:hasrelationmanager>
+  
+              </div><!-- /.wrap -->
+  
+              <mm:hasrelationmanager sourcemanager="$type" destinationmanager="videostreamsourcescaches" role="related">
+                <div class="wrap">
+                <h3>Video streams</h3>
+                <mm:include page="/editors/edit-list.jspx" referids="p?,_node@nr">
+                  <mm:param name="type">videostreamsourcescaches</mm:param>
+                  <mm:param name="role">related</mm:param>
+                  <mm:param name="dir">destination</mm:param>
+                  <mm:param name="editor">/editors/editor.jspx</mm:param>
+                  <mm:param name="maydelete">true</mm:param>
+                  <mm:param name="maycreate">false</mm:param>
+                  <mm:param name="unpublish">false</mm:param>
+                  <mm:param name="search">false</mm:param>
+                  <!-- <mm:param name="sortable">false</mm:param> -->
+                </mm:include>
+                </div>
+              </mm:hasrelationmanager>
+            
+            </mm:node>
+      
+         </c:otherwise>
+        </c:choose>
+
+      </div><!-- /.main-column -->
+    </jsp:attribute>
+    <jsp:attribute name="right">
+      <c:if test="${!empty nr and (type eq 'videofragments' or type eq 'audiofragments' or type eq 'imagefragments') }">
+        <mm:node number="$nr">
+          <oip:thumb />
+        </mm:node>
+        <mm:cloudinfo type="usernode" id="iam" write="false" />
+        <h3>Info</h3>
+        <mm:include page="/mmbase/components/oip/user-mediainfo.jspx" referids="iam@n,nr@media" />
+      </c:if>
+    </jsp:attribute>
+  </oip:editor>
+</jsp:root>

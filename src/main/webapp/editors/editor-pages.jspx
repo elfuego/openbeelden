@@ -8,6 +8,8 @@
 
   <oip:editor styleClass="editor-pages">
     <jsp:attribute name="head">
+      
+      <mm:import externid="lang">${requestScope['javax.servlet.jsp.jstl.fmt.locale.request']}</mm:import>
       <mm:import externid="nr" />
       <mm:import externid="type">pages</mm:import>
       <mm:import externid="submit$type" />
@@ -52,7 +54,7 @@
                        button[0].disabled = validator.invalidElements != 0;
                        if (button.length == 2) button[1].disabled = validator.invalidElements != 0;
                    }
-                   console.log(validator.elements);
+                   //console.log(validator.elements);
                 }
                 validator.validateHook();
             });
@@ -61,6 +63,9 @@
           <mm:form id="form_$type">
             <mm:import id="buffer">
               <mm:createnode type="$type" id="new_node" commitonclose="false">
+                <mm:hasfield name="language">
+                  <mm:setfield name="language">${lang}</mm:setfield>
+                </mm:hasfield>
                 <fieldset>
                   <mm:fieldlist fields="path,template">
                     <c:set var="fld_name"><mm:fieldinfo type="name" /></c:set>
@@ -84,7 +89,7 @@
                   <h3>Taalversies</h3>
                   <ul>
                     <li>
-                      <mm:link referids="p?,pos?">
+                      <mm:link referids="p?">
                         <a href="${_}">
                           <mm:field name="language"><mm:fieldinfo type="guivalue" /></mm:field>
                         </a>
@@ -107,6 +112,14 @@
                         <mm:maywrite><mm:fieldinfo type="input" /><mm:fieldinfo type="errors" /></mm:maywrite>
                       </div>
                     </mm:fieldlist>
+
+            <!-- <mm:datatype nodemanager="streamsources" field="language" id="searchlang">
+              <default value="" />
+              <required value="false" />
+            </mm:datatype>
+            <mm:fieldinfo datatype="searchlang" node="" type="input" /> -->
+
+
                   </fieldset>
                   <fieldset class="buttons">
                     <fmt:message key="users.form.save" var="button_save" />
@@ -163,7 +176,7 @@
                        button[0].disabled = validator.invalidElements != 0;
                        if (button.length == 2) button[1].disabled = validator.invalidElements != 0;
                    }
-                   console.log(validator.elements);
+                   //console.log(validator.elements);
                 }
                 validator.validateHook();
             });
@@ -206,7 +219,7 @@
                         <li>
                           <mm:link page="/editors/edit-node.jspx" referids="p?,_node@nr">
                             <mm:param name="fields">title,language,description</mm:param>
-                            <mm:param name="show">/editors/show-pages.jspx</mm:param>
+                            <mm:param name="maycancel">false</mm:param>
                             <a class="editme" href="${_}#totranslate">
                               <mm:field name="language"><mm:fieldinfo type="guivalue" /></mm:field>
                             </a> : <mm:field name="title" />
@@ -221,7 +234,7 @@
                         <mm:param name="type">pages_translations</mm:param>
                         <mm:param name="fields">title,language,description</mm:param>
                         <mm:param name="role">langrel</mm:param>
-                        <mm:param name="show">/editors/show-pages.jspx</mm:param>
+                        <mm:param name="maycancel">false</mm:param>
                         <a class="add editme" href="${_}#totranslate">Voeg vertaling toe</a>
                       </mm:link>
                     </li>
@@ -266,13 +279,15 @@
             </mm:node>
 
           </mm:form>
+
+          <div class="wrap noborder">
+            <mm:link page="/editors/list-articles.jspx" referids="nr@parent,p?">
+              <p><a href="${_}">Toon artikelen</a></p>
+            </mm:link>
+          </div>
+        
         </mm:present><!-- /nr -->
         
-        <div class="wrap noborder">
-          <mm:link page="/editors/list-articles.jspx" referids="nr@parent,p?">
-            <p><a href="${_}">Toon artikelen</a></p>
-          </mm:link>
-        </div>
         
 
       </div><!-- /.main-column -->

@@ -24,6 +24,8 @@
     <jsp:attribute name="body">
 
       <div class="main-column">
+        
+        <c:set var="editor">/editors/editor.jspx</c:set>
       
         <h2><mm:nodeinfo type="plural_guitype" nodetype="$type" /></h2>
 
@@ -38,6 +40,9 @@
                        or type eq 'videofragments' 
                        or type eq 'audiofragments' 
                        or type eq 'imagefragments'}">
+              
+              <c:set var="editor">/editors/editor-media.jspx</c:set>
+              
               <div>
                 <label for="mediatype">Kind of media</label>
                 <select name="mediatype">
@@ -61,9 +66,10 @@
         </c:if>
 
         <mm:include page="search-node.jspx" referids="type,q">
-          <mm:param name="editor">/editors/editor.jspx</mm:param>
+          <mm:param name="editor">${editor}</mm:param>
           <mm:param name="lang">${requestScope['javax.servlet.jsp.jstl.fmt.locale.request']}</mm:param>
           <mm:param name="sortable">false</mm:param>
+          <mm:param name="maydelete">true</mm:param>
         </mm:include>
 
       </div><!-- /.main-column -->
