@@ -112,7 +112,6 @@
 
     <field name="title">
       <descriptions>
-
         <description xml:lang="en">Title of the image</description>
         <description xml:lang="nl">Titel van de afbeelding</description>
       </descriptions>

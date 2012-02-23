@@ -41,9 +41,13 @@
       </editor>
       <datatype base="line" xmlns="http://www.mmbase.org/xmlns/datatypes">
         <required value="true">
-          <description xml:lang="nl">Dit is een verplicht veld</description>
-          <description xml:lang="en">This is a required field</description>
+          <description xml:lang="nl">Dit is een verplicht veld.</description>
+          <description xml:lang="en">This is a required field.</description>
         </required>
+        <minLength value="1" enforce="onvalidate">
+          <description xml:lang="en">This is a required field.</description>        
+          <description xml:lang="nl">Dit is een verplicht veld.</description>
+        </minLength>
         <maxLength value="255" />
       </datatype>
     </field>

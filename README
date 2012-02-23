@@ -11,9 +11,9 @@ Installation instructions can be found in INSTALL in this same directory.
 
 CHECKOUT SOURCES WITH SVN
 -------------------------
-Check out OIP-1.1 with: 
+Check out a release, for example OIP-1.1.1 with: 
 
-$ svn co http://scm.mmbase.org/view/openimages/tags/1.1/
+$ svn co https://scm.mmbase.org/view/openimages/tags/1.1.1/
 
 Or OIP HEAD with: 
 
