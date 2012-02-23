@@ -124,12 +124,9 @@ public class RelatedByTags {
 
         Cloud cloud = CloudThreadLocal.currentCloud();
         Map<Integer,Integer> map = new HashMap<Integer,Integer>();
-        NodeList list = SearchUtil.findNodeList(cloud, "tags");
         NodeManager sourceNodeManager = cloud.getNodeManager(type);
-
         int c = 0;
-        NodeIterator ni = list.nodeIterator();
-
+        Iterator<Node> ni =  SearchUtil.findNodeList(cloud, "tags").iterator();
         while (ni.hasNext() && c < imax) {
             Node node = ni.next();
             //int count = 0;
@@ -141,10 +138,11 @@ public class RelatedByTags {
                     query.setConstraint(extraConstraint);
                 }
 
-                int count = cloud.getList(query).size();
+                int count = Queries.count(query);
                 if (count > 0) {
-                    log.debug("tag #" + node.getStringValue("name") + " : size " + count);
-
+                    if (log.isDebugEnabled()) {
+                        log.debug("tag #" + node.getStringValue("name") + " : size " + count);
+                    }
                     map.put(node.getNumber(), count);
                     c++;
                 }
@@ -160,7 +158,7 @@ public class RelatedByTags {
 
         } else {
             Collection<Integer> keyMap = map.keySet();
-            List<Integer> valMap = new ArrayList<Integer>(map.values());
+            List<Integer>       valMap = new ArrayList<Integer>(map.values());
 
             Collections.sort(valMap);
             if ("up".equals(sort)) {
@@ -195,26 +193,16 @@ public class RelatedByTags {
     private static NodeList relatedTags(Node node, int max) {
         //return node.getRelatedNodes(cloud.getNodeManager("tags"), "related", "destination");
         if (max == -1) max = 99;
-        Cloud cloud = node.getCloud();
-        NodeList tags = cloud.createNodeList();
         try {
-            NodeManager tagsManager = cloud.getNodeManager("tags");
+            NodeManager tagsManager = node.getCloud().getNodeManager("tags");
             NodeQuery query = Queries.createRelatedNodesQuery(node, tagsManager, "related", "destination");
             query.setMaxNumber(max);
-            // TODO: follows code that only converts cluster nodes into normal nodes. That should be possible easier than that.
-            // E.g. I think tagsManager.getList(query) is exactly the same
-            for (Node n : cloud.getList(query)) {
-                //clusternode
-                Node tag = cloud.getNode(n.getIntValue("tags.number"));
-                if (log.isDebugEnabled()) log.debug("Found node: " + tag);
-                tags.add(tag);
-            }
-
+            return tagsManager.getList(query);
         } catch (Exception e) {
             log.error("Exception while building query: " + e);
+            return node.getCloud().createNodeList();
         }
 
-        return tags;
     }
 
     /**
@@ -384,9 +372,8 @@ public class RelatedByTags {
                 }
                 if (imax > 0) query.setMaxNumber(imax);
 
-                for (Node n : cloud.getList(query)) { // TODO: why not call targetNodeManager.getList(query) in stead and avoid the cluster node conversion?
-                    //clusternode
-                    int nr = cloud.getNode(n.getIntValue(type + ".number")).getNumber();
+                for (Node n : targetNodeManager.getList(query)) {
+                    int nr = n.getNumber();
                     if (nr == origNr) continue; // skip the original node
                     if (log.isDebugEnabled()) log.debug("Found node: " + nr);
 
