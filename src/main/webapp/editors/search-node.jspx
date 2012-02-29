@@ -18,6 +18,7 @@
 <mm:import externid="p" /><!-- portal -->
 <mm:import externid="q" id="search" /><!-- search with ... -->
 <mm:import externid="nr" />
+<mm:import externid="parent" />
 <mm:import externid="fields" />
 <mm:import externid="lang" />
 
@@ -25,11 +26,13 @@
 <mm:import externid="role">related</mm:import>
 <mm:import externid="dir">destination</mm:import>
 
+<mm:import externid="showform" />
 <mm:import externid="editme">false</mm:import>
 <mm:import externid="show">/editors/show-node.jspx</mm:import>
 <mm:import externid="editor">/editors/edit-node.jspx</mm:import>
 <mm:import externid="maydelete">true</mm:import>
-<mm:import externid="unpublish">false</mm:import>
+<mm:import externid="unpublish">true</mm:import>
+<mm:import externid="maycreate">true</mm:import>
 
 <mm:import externid="sortable">true</mm:import>
 <mm:import externid="max">25</mm:import>
@@ -91,20 +94,20 @@
           <c:if test="${maydelete}">
             <mm:maydelete>
               <mm:link page="/editors/delete-node.jspx" 
-                referids="p?,_node@nr,relation?,fields?,parent?,role?,lang?,show?,editor?,maydelete?,unpublish?">
+                referids="p?,_node@nr,relation?,fields?,parent?,role?,lang?,show?,showform?,editor?,maydelete?,unpublish?">
                 <a class="editme delete" href="${_}#node_${_node}"><fmt:message key="editors.delete" /></a>
               </mm:link>
             </mm:maydelete>
           </c:if>
-          <mm:link page="$editor" 
-            referids="p?,_node@nr,relation?,fields?,parent?,role?,lang?,show?,editor?,maydelete?,unpublish?">
+          <mm:link page="$editor"
+            referids="p?,_node@nr,relation?,fields?,parent?,role?,lang?,showform?,show?,editor?,maydelete?,unpublish?">
             <a class="${fn:indexOf(editor,'editor-') lt 0 ? 'editme' : 'edit'}" 
                href="${_}#node_${_node}"><fmt:message key="editors.edit" /></a>
           </mm:link>
         </div>
         
         <mm:link page="relate.jspx"
-          referids="p?,_node@nr,nr@parent,role?,fields?,lang,show,editor,maydelete,unpublish">
+          referids="p?,_node@nr,relation?,fields?,parent?,role?,lang?,showform?,show?,editor?,maydelete?,unpublish?">
           <div class="actionrelate">
             <a class="relate" href="${_}#node_${_node.number}">voeg toe aan selectie</a>
           </div>
@@ -120,9 +123,8 @@
     </mm:listnodes>
     
     <li class="pager notsortable">
-      <mm:link referids="type,search@q,p?,nr?,lang?" id="baseurl" absolute="true" escapeamps="false">
-        <mm:param name="fields">${fields}</mm:param>
-      </mm:link>
+      <mm:url id="baseurl" absolute="true" escapeamps="false" write="false"
+        referids="type,search@q,p?,nr?,relation?,fields?,parent?,role?,lang?,showform?,show?,editor?,maydelete?,unpublish?" />
       <oip:pager total="${total}" offset="${offset}" max="${max}" baseurl="${baseurl}" />
     </li>
   

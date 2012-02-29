@@ -114,16 +114,14 @@ a.editme:active { color: #FF6600; }
 div.actions,
 div.actionrelate {
 	float: right;
-	/* margin-right: 4px; */
-}
-div.actions,
-div.actionrelate {
-	float: right;
-	/* margin-right: 4px; */
+	margin: 4px 6px 4px 0;
 }
 div.actions > div.actions { margin: 0; }
-div.actions a { margin-left: 6px; }
+div.actions a, 
+div.actionsrelate a { margin-left: 6px; }
 div.actions a.editme { text-transform: lowercase; }
+div.node_created div.actions { margin-top: 0; }
+
 
 /* forms */
 fieldset { clear: both; }
@@ -132,12 +130,11 @@ form.properties {
 }
 
 /* ### sortable lists ### */
+/* 
 ul.relatednodes li > div.actions,
 ul.foundnodes li > div.actions,
 ul.foundnodes li > div.actionrelate { margin: 4px 6px 4px 0; }
-
-ul.relatednodes li > div.actions a,
-ul.relatednodes li > div.actionrelate a { margin-left: 8px;  }
+ */
 
 ul.sortable {
 	min-height: 32px;
@@ -287,67 +284,58 @@ div.mm_check_error { margin-left: 148px; }
 
 /* some specials styles */
 form.mm_form > a.cancel,
-form.delete_form > a.cancel {
+form.mm_form_editme > a.cancel {
 	float: right;
 	text-transform: lowercase;
 }
 
-/* ### editme form ### */
-.editmeform,
-ul li.notsortable.editmeform {
-	border: 1px solid #d4d4d4;
+/* ### mm_form_editme form ### */
+form.mm_form_editme {
+	/* border: 1px solid #d4d4d4; */
 	background-color: #f9f9f9;  /* #e3e2de;   f9f9f9 */
 	padding: 4px 6px;
-	margin-bottom: 4px;
 }
 
-div.editmeform > div.editmeform { border: none; }
-
-.editmeform strong
+form.mm_form_editme > strong
 {
 	font-size: 1.2em;
 	color: #555;
 	font-weight: 400;
 }
-/*.editmeform strong.type { text-transform: lowercase; }*/
-.editmeform label { color: #666; }
 
-.editmeform p.info { width: 342px; }
-
-.editmeform div.intro p.info,
-.editmeform div.body p.info,
-.editmeform div.description p.info,
-.editmeform div.you_allow p.info,
-.editmeform div.relation p.info { width: 494px; }
-
-
-.editmeform fieldset { width: auto; }
-.editmeform input[type="text"] { width: 338px; /* 432 */ }
-.editmeform textarea { width: 486px; /* 490 */ }
+form.mm_form_editme label { color: #666; }
+form.mm_form_editme fieldset { 
+    width: auto; 
+	padding-top: 4px;
+	margin-bottom: 0;
+}
+form.mm_form_editme input[type="text"] { width: 338px; /* 432 */ }
+form.mm_form_editme textarea { width: 486px; /* 490 */ }
 
 @media screen and (-webkit-min-device-pixel-ratio:0) { 
-    .editmeform input[type="text"] { padding: 2px; width: 344px; } 
+    form.mm_form_editme input[type="text"] { padding: 2px; width: 344px; } 
     div.b_user-media textarea.big, div.b_user-media textarea.small { padding: 2px; width: 496px; } 
 }
 
-.editmeform input.mm_datetime_year,
-.editmeform input[type="submit"],
-.editmeform input[type="button"]
+form.mm_form_editme p.info { width: 342px; }
+form.mm_form_editme div.intro p.info,
+form.mm_form_editme div.body p.info,
+form.mm_form_editme div.description p.info,
+form.mm_form_editme div.you_allow p.info,
+form.mm_form_editme div.relation p.info 
+{ width: 490px; }
+
+form.mm_form_editme input.mm_datetime_year,
+form.mm_form_editme input[type="submit"],
+form.mm_form_editme input[type="button"] 
 {
 	width: auto;
 	margin-right: 1px;
 }
-.editmeform input[type="file"] { margin-left: 150px; }
+form.mm_form_editme input[type="file"] { margin-left: 150px; }
+form.mm_form_editme fieldset.buttons > div { width: 502px; }
 
-.editmeform fieldset
-{
-	padding-top: 4px;
-	margin-bottom: 0;
-}
-.editmeform fieldset.buttons > div { width: 502px; }
-
-/* ### end editme form ### */
-
+/* ### end mm_form_editme form ### */
 
 
 /* specifics editor-page.jspx */
@@ -356,6 +344,7 @@ div.wrap.languages {
 }
 div.wrap.languages li.add { text-transform: lowercase; }
 
+div.box form.mm_form { padding: 0; }
 div.box {
 	width: 498px;
 	background-color: #f9f9f9;
@@ -366,8 +355,17 @@ div.box fieldset.buttons { margin-bottom: 4px; }
 div.box fieldset.buttons > div { width: 498px; }
 div.box input[type="text"] { width: 338px; }
 div.box textarea { width: 486px; }
+
+@media screen and (-webkit-min-device-pixel-ratio:0) { 
+    div.box input[type="text"] { padding: 2px; width: 344px; } 
+}
+
+
 div.box p.info { width: 342px; }
-div.box div.description p.info { width: 490px; }
+div.box div.description p.info,
+div.box div.intro p.info, 
+div.box div.body p.info 
+{ width: 490px; }
 
 /* table statistics */
 table.stats td,

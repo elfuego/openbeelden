@@ -38,7 +38,7 @@
     <mm:import externid="cancel" />
 
     <mm:import externid="editme" />
-    <mm:import externid="showform" /><!-- show form (true) again after save (default false) -->
+    <mm:import externid="showform">${editme ? '' : 'true'}</mm:import><!-- show form (true) again after save (default false) -->
     <mm:import externid="show">/editors/show-node.jspx</mm:import>
     <mm:import externid="editor">/editors/edit-node.jspx</mm:import>
     <mm:import externid="maydelete">true</mm:import>
@@ -52,7 +52,7 @@
             <mm:param name="fields">${fields}</mm:param>
           </mm:include>
         </c:if -->
-        <c:if test="${!showme}">
+        <c:if test="${showform}">
           <mm:include page="$show" 
             referids="nr">
             <mm:param name="cancel">false</mm:param><!-- prevents recursive inclusion of form submitting to itself -->
@@ -72,7 +72,7 @@
         <mm:url write="false" absolute="true" escapeamps="false" id="submit_link"
           referids="nr,type,defaultstr?,p?,relation?,fields?,lang?,parent?,role?,dir?,pos?,editme?,showform?,show?,editor?,maydelete?,unpublish?" />
         
-        <mm:form id="form_$type" page="$submit_link">
+        <mm:form styleClass="mm_form_editme" id="form_$type" page="$submit_link">
           <mm:import id="buffer">
 
             <mm:createnode type="$type" id="new_node" commitonclose="false">
@@ -187,7 +187,7 @@
           <p class="msg"><mm:write referid="saved" escape="none" /></p>
 
           <c:choose>
-            <c:when test="${showme}">
+            <c:when test="${!showform}">
               <!-- show new node -->
               <mm:node number="$new_node">
                 
@@ -208,6 +208,9 @@
                 </div>
               
               </mm:node>
+            </c:when>
+            <c:when test="${showform and editme}">
+              <mm:include page="$editor" referids="new_node@nr,parent?" />
             </c:when>
             <c:otherwise> 
               <!-- redirect to editor -->

@@ -78,7 +78,8 @@
             <mm:url id="formurl" write="false" 
               referids="nr,p?,relation?,fields?,lang?,parent?,role?,editme?,showform?,show?,editor?,maydelete?,unpublish?" />
             
-            <form id="form_${nr}" method="post" class="delete_form" action="${formurl}">
+            <c:set var="formclass">${editme ? 'mm_form_editme' : 'mm_form'}</c:set>
+            <form id="form_${nr}" method="post" class="${formclass}" action="${formurl}">
               <a class="editme cancel" href="#close"><fmt:message key="users.cancel" /></a>
               
               <!-- strong>
@@ -103,12 +104,10 @@
               </p>
               
               <fieldset class="buttons">
-                <div>
-                  <fmt:message key="users.cancel" var="button_cancel" />
-                  <fmt:message key="users.delete" var="button_delete" />
-                  <input type="submit" name="cancel" value="${button_cancel}" class="cancel" /> 
-                  <input type="submit" name="delete" value="${button_delete}" class="submit" />
-                </div>
+                <fmt:message key="users.cancel" var="button_cancel" />
+                <fmt:message key="users.delete" var="button_delete" />
+                <input type="submit" name="cancel" value="${button_cancel}" class="cancel" /> 
+                <input type="submit" name="delete" value="${button_delete}" class="submit" />
               </fieldset>
               
             </form>

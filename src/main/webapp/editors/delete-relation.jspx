@@ -25,6 +25,7 @@
 
 <mm:import externid="show">/editors/show-node.jspx</mm:import>
 <mm:import externid="showform" />
+<mm:import externid="editme" />
 <mm:import externid="editor">/editors/edit-node.jspx</mm:import>
 <mm:import externid="maydelete">true</mm:import>
 <mm:import externid="unpublish">true</mm:import>
@@ -33,17 +34,20 @@
 <mm:import externid="delete" />
 <mm:import externid="cancel" />
 
-<mm:hasnode number="$nr" inverse="true">
-  <p class="err">Node ${nr} not found.</p>
-</mm:hasnode>
-<mm:hasnode number="$parent" inverse="true">
-  <p class="err">Related node ${parent} not found.</p>
-</mm:hasnode>
-
-<mm:node number="$nr">
-  <mm:relation to="${parent}" role="${role}">
-    <mm:import id="relation" reset="true"><mm:field name="number" /></mm:import>
-
+  <mm:hasnode number="$nr" inverse="true">
+    <p class="err">Node ${nr} not found.</p>
+  </mm:hasnode>
+  <mm:hasnode number="$parent" inverse="true">
+    <p class="err">Related node ${parent} not found.</p>
+  </mm:hasnode>
+    
+  <mm:relation to="${parent}" from="${nr}" role="${role}">
+    <c:if test="${empty relation}">
+      <mm:import id="relation" reset="true"><mm:field name="number" /></mm:import>
+    </c:if>
+  </mm:relation>
+  
+  <mm:node number="$relation">
     <c:choose>
       <c:when test="${!empty delete}">
         <a class="editme close" href="#close">close</a>
@@ -84,7 +88,8 @@
           <mm:url id="formurl" write="false" 
             referids="nr,p?,relation?,fields?,lang?,parent?,role?,editme?,showform?,show?,editor?,maydelete?,unpublish?" />
 
-          <form id="form_${nr}" method="post" action="${formurl}">
+          <c:set var="formclass">${editme ? 'mm_form_editme' : 'mm_form'}</c:set>
+          <form id="form_${nr}" method="post" class="${formclass}" action="${formurl}">
             <mm:node number="$nr">
               <div class="node">
                 <mm:include page="$show" referids="_node@nr,fields?,lang?" />
@@ -98,18 +103,6 @@
             </mm:node>
             
             <fieldset class="buttons">
-              <input name="p"    type="hidden" value="${p}" />
-              <input name="nr"   type="hidden" value="${nr}" />
-              <input name="lang" type="hidden" value="${lang}" />
-
-              <input name="role"   type="hidden" value="${role}" />
-              <input name="parent" type="hidden" value="${parent}" />
-              
-              <input name="fields" type="hidden" value="${fields}" />
-              <input name="unpublish" type="hidden" value="${unpublish}" />
-              <input name="show" type="hidden" value="${show}" />
-              <input name="editor" type="hidden" value="${editor}" />
-              
               <fmt:message key="editors.delete" var="delete" />
               <fmt:message key="users.cancel" var="cancel" />
               <input type="submit" name="cancel" value="${cancel}" class="cancel" /> 
@@ -122,8 +115,7 @@
       </c:otherwise>
     </c:choose>
  
-  </mm:relation>
-</mm:node>
+  </mm:node>
 
 </mm:cloud>
 </mm:content>

@@ -220,6 +220,7 @@
                           <mm:link page="/editors/edit-node.jspx" referids="p?,_node@nr">
                             <mm:param name="fields">title,language,description</mm:param>
                             <mm:param name="maycancel">false</mm:param>
+                            <mm:param name="showform">true</mm:param>
                             <a class="editme" href="${_}#totranslate">
                               <mm:field name="language"><mm:fieldinfo type="guivalue" /></mm:field>
                             </a> : <mm:field name="title" />

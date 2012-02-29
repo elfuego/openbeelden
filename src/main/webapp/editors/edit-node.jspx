@@ -28,7 +28,8 @@
   <mm:import externid="cancel" />
   
   <mm:import externid="editme">false</mm:import>
-  <c:if test="${!editme}"><mm:import id="showform" reset="true">true</mm:import></c:if>
+  <!-- show form after succesfull submit. default false while inline editing -->
+  <mm:import externid="showform">${editme ? 'false' : 'true'}</mm:import>
   <mm:import externid="list">true</mm:import>
   <mm:import externid="show">/editors/show-node.jspx</mm:import>
   <mm:import externid="editor">/editors/edit-node.jspx</mm:import>
@@ -61,7 +62,8 @@
         <!-- contains all paramaters to be picked up again in javascript -->
         <mm:url absolute="true" escapeamps="false" id="submit_link" write="false"
           referids="nr,p?,relation?,fields?,lang?,parent?,role?,editme?,showform?,show?,editor?,maydelete?,unpublish?,maycancel?" />
-        <mm:form id="form_$nr" page="$submit_link">
+        <c:set var="formclass">${editme ? 'mm_form_editme' : ''}</c:set>
+        <mm:form id="form_$nr" styleClass="$formclass" page="$submit_link">
         
           <mm:node number="$nr" commitonclose="false">
             
@@ -90,14 +92,12 @@
               <mm:maywrite>
                 <fieldset class="buttons">
                   <input name="submit${nr}"  type="hidden" value="ok" />
-                  <div>
-                    <fmt:message key="users.form.save" var="button_save" />
-                    <fmt:message key="users.cancel" var="button_cancel" />
-                    <c:if test="${editme and maycancel}">
-                      <input type="button" name="cancel" value="${button_cancel}" class="cancel" /> 
-                    </c:if>
-                    <input type="submit" name="action" value="${button_save}" class="submit" />
-                  </div>
+                  <fmt:message key="users.form.save" var="button_save" />
+                  <fmt:message key="users.cancel" var="button_cancel" />
+                  <c:if test="${editme and maycancel}">
+                    <input type="button" name="cancel" value="${button_cancel}" class="cancel" /> 
+                  </c:if>
+                  <input type="submit" name="action" value="${button_save}" class="submit" />
                 </fieldset>
               </mm:maywrite>
             </mm:import>
@@ -106,23 +106,23 @@
               
               <mm:valid>
                 <mm:commit />
-                
-                  <p class="msg">Your changes to '<mm:function name="gui" escape="none" />' are saved.</p>
-                  <c:choose>
-                    <c:when test="${showform}">
-                      <mm:write referid="buffer" escape="none" />
-                    </c:when>
-                    <c:otherwise>
-                      <mm:import id="saved">
-                        <jsp:directive.include file="actions.div.jspx" />
-                        <div class="node">
-                          <mm:include page="$show" referids="nr">
-                            <mm:param name="fields">${fields}</mm:param>
-                          </mm:include>
-                        </div>
-                      </mm:import>
-                    </c:otherwise>
-                  </c:choose>
+                <c:choose>
+                  <c:when test="${showform}">
+                    <p class="msg">Your changes to '<mm:function name="gui" escape="none" />' are saved.</p>
+                    <mm:write referid="buffer" escape="none" />
+                  </c:when>
+                  <c:otherwise>
+                    <mm:import id="saved">
+                      <p class="msg">Your changes to '<mm:function name="gui" escape="none" />' are saved.</p>
+                      <jsp:directive.include file="actions.div.jspx" />
+                      <div class="node">
+                        <mm:include page="$show" referids="nr">
+                          <mm:param name="fields">${fields}</mm:param>
+                        </mm:include>
+                      </div>
+                    </mm:import>
+                  </c:otherwise>
+                </c:choose>
               </mm:valid>
               
               <mm:valid inverse="true">

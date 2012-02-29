@@ -122,7 +122,7 @@
     <c:if test="${search}">
       <div class="searchme">
         <mm:link page="/editors/search-node.jspx" id="searchlink" escapeamps="false" 
-          referids="p?,nr,type,role,unpublish,editor,sortable?,lang?">
+          referids="p?,nr,type,role?,dir?,parent,fields?,unpublish?,maydelete?,maycreate?,editor?,sortable?,lang?,show?,showform?">
           <mm:param name="max">10</mm:param>
           <mm:param name="editme">true</mm:param>
         </mm:link>

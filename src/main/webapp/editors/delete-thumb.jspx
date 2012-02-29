@@ -112,7 +112,8 @@
             <mm:url id="formurl" write="false" 
               referids="nr,p?,relation?,fields?,lang?,parent?,role?,editme?,showme?,show?,editor?,maydelete?,unpublish?" />
           
-            <form id="form_${nr}" method="post" action="${formurl}">
+            <c:set var="formclass">${editme ? 'mm_form_editme' : 'mm_form'}</c:set>
+            <form id="form_${nr}" class="${formclass}" method="post" action="${formurl}">
 
               <mm:include page="$show" referids="nr,fields?" />
 
@@ -124,17 +125,15 @@
               </mm:maydelete>
               
               <fieldset class="buttons">
-                <div>
-                  <fmt:message key="users.cancel" var="button_cancel" />
-                  <fmt:message key="users.delete" var="button_delete" />
-                  <mm:maydelete inverse="true">
-                    <input type="submit" name="cancel" value="${button_cancel}" class="submit" /> 
-                  </mm:maydelete>
-                  <mm:maydelete>
-                    <input type="submit" name="cancel" value="${button_cancel}" class="cancel" /> 
-                    <input type="submit" name="delete" value="${button_delete}" class="submit" />
-                  </mm:maydelete>
-                </div>
+                <fmt:message key="users.cancel" var="button_cancel" />
+                <fmt:message key="users.delete" var="button_delete" />
+                <mm:maydelete inverse="true">
+                  <input type="submit" name="cancel" value="${button_cancel}" class="submit" /> 
+                </mm:maydelete>
+                <mm:maydelete>
+                  <input type="submit" name="cancel" value="${button_cancel}" class="cancel" /> 
+                  <input type="submit" name="delete" value="${button_delete}" class="submit" />
+                </mm:maydelete>
               </fieldset>
               
             </form>

@@ -33,6 +33,7 @@
           </c:otherwise>
         </c:choose>
   
+        <!-- information about action results in hidden span -->
         <span class="hidden">
           <mm:listnodes referid="related" jspvar="n">
             <jsp:expression>Queries.addToResult(current, n)</jsp:expression>

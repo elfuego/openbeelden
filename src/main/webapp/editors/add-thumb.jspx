@@ -69,7 +69,7 @@
 
         <mm:url write="false" absolute="true" escapeamps="false" id="submit_link"
           referids="nr,type,p?,lang?,relation?,role?,dir?,pos?,fields?,show?,showform?,maydelete?,unpublish?,editor?,defaulstr?"></mm:url>
-        <mm:form id="form_$type" page="$submit_link">
+        <mm:form id="form_$type" styleClass="mm_form_editme" page="$submit_link">
           <mm:import id="buffer">
 
             <mm:createnode type="$type" id="new_node" commitonclose="false">

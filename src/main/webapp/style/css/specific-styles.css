@@ -914,8 +914,8 @@ form#search a.infos {
 }
 form#search div.languages a.infos,
 form#search div.licenses a.infos { top: 11px; }
-form#search div p.infos { display: none; }
 
+form#search div p.infos { display: none; }
 form#search div p.infos {
 	display: none;
 	position: absolute;

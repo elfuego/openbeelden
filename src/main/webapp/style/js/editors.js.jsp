@@ -319,11 +319,10 @@ function afterSubmit(response, status, xhr, $form) {
         newItem.removeClass('notsortable');
         
         /* after saving new node, form is kept around for some reason ?! */
-        /*
-        if ($(parent).find('form').length) {
-            console.log('still found a form ' + $(parent).find('form').length);
-            //$(parent).find('form').remove();
-        } */
+        if ($(this).find('form').length) {
+            //console.log('still found a form ' + $(this).find('form').length);
+            $(this).find('form').remove();
+        }
         
         /* if this (div) contains .targetme : append new content to it */
         if ($(this).hasClass('targetme')) {
@@ -357,12 +356,11 @@ function afterSubmit(response, status, xhr, $form) {
         var link = xhr.responseXML.URL;
         var query = link.substring(link.indexOf("?") + 1, link.length);
         var params = getParams(query);
-        //console.log(" show form " + params['showform']);
+        //console.log("show form " + params['showform']);
         if (params['showform'] == 'true') {
-            console.log('bindme');
             bindMe(thisId, link, params);   // bind form again
         } else {
-            console.log('editme');
+            if ($(this).find('form').length) $(this).find('form').remove(); // clean up
             initEditme(this);
         }
     }
@@ -414,9 +412,13 @@ function initSortable(listEl) {
                     
                     if (response.indexOf('number') > -1) {
                         var result = response.match(/\s+number='(\d+)'/);
+                        console.log('found: ' + result);
+                        
                         var newrel = result[1];
                         $(listItem).attr('id', "relation_" + newrel);   // give it new id
                     }
+                    
+                    console.log('newrel: ' + newrel);
 
                     params['relation'] = newrel;
                     $(listItem).find('div.actions').load("${mm:link('/editors/actions.div.params.jspx')}", 

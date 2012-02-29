@@ -128,12 +128,13 @@
 
               <mm:hasrelationmanager sourcemanager="$type" destinationmanager="urls" role="posrel">
                   <h3>Links</h3>
-                  <mm:include page="/editors/edit-list.jspx" referids="p?,_node@nr">
+                  <mm:include page="/editors/edit-list.jspx" referids="p?,_node@nr" debug="xml">
                     <mm:param name="type">urls</mm:param>
                     <mm:param name="role">posrel</mm:param>
                     <mm:param name="dir">destination</mm:param>
                     <mm:param name="fields">url,name,description</mm:param>
                     <mm:param name="editor">/editors/edit-node.jspx</mm:param>
+                    <mm:param name="showform">false</mm:param>
                     <mm:param name="unpublish">true</mm:param>
                   </mm:include>
               </mm:hasrelationmanager>
