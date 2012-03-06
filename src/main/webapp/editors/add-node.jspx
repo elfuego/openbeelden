@@ -209,12 +209,25 @@
               
               </mm:node>
             </c:when>
-            <c:when test="${showform and editme}">
-              <mm:include page="$editor" referids="new_node@nr,parent?" />
+            <c:when test="${showform and editme and fn:indexOf(editor, 'edit-') gt -1}">
+              <div class="node_created edit_${_node} relation_${relation}">
+                <mm:include page="$editor" referids="new_node@nr,parent?" />
+              </div>
             </c:when>
             <c:otherwise> 
               <!-- redirect to editor -->
-              <mm:redirect page="$editor" referids="p?,new_node@nr" />
+
+              <mm:url page="$editor" referids="p?,nr" id="editor_link" escapeamps="false" />
+              
+              <script type="text/javascript">
+                $(document).ready(function() {
+                   document.location = "${editor_link}";
+                });
+              </script>                  
+              <noscript>
+                <p>Continue to <a href="${editor_link}">${editor_link}</a>.</p>
+              </noscript>
+              
             </c:otherwise>
           </c:choose>
 

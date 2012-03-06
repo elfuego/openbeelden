@@ -32,8 +32,8 @@
 <mm:import externid="offset">0</mm:import>
 <mm:import id="max">50</mm:import>
 
-<mm:time time="now this month"    write="false" id="from" />
-<mm:time time="${from} + 1 month" write="false" id="to" />
+<!-- <mm:time time="now this month"    write="false" id="from" />
+<mm:time time="${from} + 1 month" write="false" id="to" /> -->
 
 <mm:import externid="w" />
 <mm:import externid="m" />
@@ -69,8 +69,9 @@
 <mm:listnodescontainer type="stats">
   
   <mm:sortorder field="$sf" direction="$so" />
-  <mm:constraint field="created" value="$from" operator="BETWEEN" value2="$to" />
-  
+  <c:if test="${!empty from}">
+    <mm:constraint field="created" value="$from" operator="BETWEEN" value2="$to" />
+  </c:if>
   <h2>
     <mm:size /> media items played in
     <c:choose>
@@ -78,10 +79,13 @@
         week <mm:time format="w yyyy" time="$from" />
       </c:when>
       <c:when test="${!empty m}">
-      <mm:time format="MMMM yyyy" time="$from" />
+        <mm:time format="MMMM yyyy" time="$from" />
+      </c:when>
+      <c:when test="${!empty y}">
+        <mm:time format="yyyy" time="$from" />
       </c:when>
       <c:otherwise>
-        <mm:time format="yyyy" time="$from" />
+        all periods
       </c:otherwise>
     </c:choose>
   </h2>
@@ -134,7 +138,7 @@
           <mm:import id="node_nr" reset="true"><mm:field name="node" /></mm:import>
           <mm:hasnode number="$node_nr">
             <mm:node element="node" notfound="skip">
-              <mm:link page="edit.jspx" referids="node_nr@nr">
+              <mm:link page="/editors/editor-media.jspx" referids="node_nr@nr">
                 <a href="${_}">
                   <mm:hasfield name="title"><mm:field name="title" /></mm:hasfield>
                   <mm:hasfield name="title" inverse="true"><mm:field name="number" /></mm:hasfield>
@@ -168,6 +172,7 @@
 
     <jsp:attribute name="right">
       <h3>Periods</h3>
+      <p><mm:link page="stats.jspx"><a href="${_}">All periods</a></mm:link></p>
       <os:cache key="total_plays" time="0">
         <!-- navigation with months -->
         <mm:listnodescontainer type="stats">

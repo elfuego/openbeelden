@@ -54,7 +54,11 @@
               </div>
             </c:if>
             <div>
-              <label for="search"><fmt:message key="users.search" /> ${type}</label>
+              <label for="search">
+                <fmt:message key="editors.search_type">
+                  <fmt:param>${type}</fmt:param>
+                </fmt:message>
+              </label>
               <input type="text" name="q" value="${q}" id="search" size="42" />
             </div>
             <input type="submit" name="submit" value="Search" class="submit" />

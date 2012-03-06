@@ -52,7 +52,7 @@
         </c:choose>
       
         <mm:relatednodescontainer type="pages" role="posrel" searchdirs="destination">
-          <mm:constraint field="posrel.pos" value="1" value2="10" operator="BETWEEN" />
+          <mm:constraint field="posrel.pos" value="0" operator="GREATER" />
           <mm:sortorder field="posrel.pos" direction="UP" />
           <mm:import externid="n" vartype="integer" />
             <mm:relatednodes>
@@ -117,78 +117,8 @@
         </mm:relatednodescontainer>
       </mm:node>
         
-      <!-- portals -->
-      <!--
-      <mm:listcontainer path="pools,portalrel,urls" searchdirs="destination" fields="pools.number,urls.url">
-        <mm:size>
-          <mm:isgreaterthan value="1">
-            
-            <li class="form">
-              <form method="post" action="${mm:link('/')}">
-                <fieldset>
-                  <select name="choose_portal" id="choose_portal">
-                    <mm:listnodescontainer type="pools">
-                      <mm:listnodes id="p">
-                        <mm:nodefunction name="translation">
-                          <c:set var="p_name"><mm:field name="name" /></c:set>
-                        </mm:nodefunction>
-                        <mm:relatednodescontainer type="urls" role="portalrel" searchdirs="destination">
-                          <mm:maxnumber value="1" />
-                          <mm:relatednodes>
-                            <c:choose>
-                              <c:when test="${portal.number eq p.number}">
-                                <option label="${p_name}" value="${_node.url}" selected="selected">${p_name}</option>
-                              </c:when>
-                              <c:otherwise>
-                                <option label="${p_name}" value="${_node.url}">${p_name}</option>
-                              </c:otherwise>
-                            </c:choose>
-                          </mm:relatednodes>
-                        </mm:relatednodescontainer>
-                      </mm:listnodes>
-                    </mm:listnodescontainer>
-                  </select>
-                  <input class="hidden" value="OK" type="submit" name="action" />
-                </fieldset>
-              </form>
-            </li>
-            
-          </mm:isgreaterthan>
-        </mm:size>
-      </mm:listcontainer> -->
     </ul>
-<!--
-    <c:if test="${enablelogin}">
-      <c:set var="query_str" value="${requestScope['javax.servlet.forward.query_string']}" />
-      <script type="text/javascript">
-        <mm:link page="/action/you.jspx" escapeamps="false" referids="locale?">
-          <mm:param name="referrer">${requestScope['javax.servlet.forward.request_uri']}<c:if test="{!empty query_string}">?${query_string}</c:if></mm:param>
-          <jsp:text>$(document).ready(function() { $("#menu li.you").load("${_}"); });</jsp:text>
-        </mm:link>
-      </script>
-    </c:if>
-    
-    <ul class="meta">
-      <li>
-         <mm:listfunction set="mmsite" name="locales" varStatus="status">
-          <a class="${_ eq locale ? 'active' : ''}" href="${current}.${_}">${_}</a>
-          <c:if test="${! status.last}"><jsp:text> / </jsp:text></c:if>
-        </mm:listfunction>
-      </li>
-      <c:if test="${enablelogin}">
-        <mm:hasrank value="anonymous" inverse="true">
-          <li>
-            <mm:link page="/logout.jspx" referids="locale?">
-              <a class="logout" href="${_}"><fmt:message key="login.logout" /></a>
-            </mm:link>
-          </li>
-        </mm:hasrank>
-        <li class="you">
-          <jsp:text> </jsp:text>
-        </li>
-      </c:if>
-    </ul>
-  -->
+
   </div>
 
 </jsp:root>

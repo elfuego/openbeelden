@@ -25,8 +25,8 @@
 <mm:import externid="role">related</mm:import>
 
 <mm:import externid="editme">false</mm:import>
+<mm:import externid="showform">${editme ? '' : 'true'}</mm:import><!-- show form (true) again after save (default false) -->
 <mm:import externid="show">/editors/show-thumb.jspx</mm:import>
-<mm:import externid="showme">false</mm:import><!-- show node (true) or form again after save -->
 <mm:import externid="editor">/editors/edit-thumb.jspx</mm:import>
 <mm:import externid="maydelete">true</mm:import>
 <mm:import externid="unpublish">false</mm:import>
@@ -110,7 +110,7 @@
           <div class="log"><jsp:text> <!-- empty --> </jsp:text></div>
 
             <mm:url id="formurl" write="false" 
-              referids="nr,p?,relation?,fields?,lang?,parent?,role?,editme?,showme?,show?,editor?,maydelete?,unpublish?" />
+              referids="nr,p?,relation?,fields?,lang?,parent?,role?,editme?,showform?,show?,editor?,maydelete?,unpublish?" />
           
             <c:set var="formclass">${editme ? 'mm_form_editme' : 'mm_form'}</c:set>
             <form id="form_${nr}" class="${formclass}" method="post" action="${formurl}">

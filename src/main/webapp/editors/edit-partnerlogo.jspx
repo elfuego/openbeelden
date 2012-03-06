@@ -21,9 +21,10 @@
   <mm:import externid="submitlogo" />
   <mm:import externid="submit$nr" />
   <mm:import externid="cancel" />
+  <mm:import externid="editme" />
 
   <mm:import externid="editor" />
-  <mm:import externid="showme">false</mm:import><!-- want to show node or form again after save -->
+  <mm:import externid="showform" />
   <mm:import externid="show" />
   <mm:import externid="maydelete" />
 
@@ -47,13 +48,12 @@
 
     <c:choose>
       <c:when test="${cancel eq 'Cancel'}">
-        <em>empty</em>
+        <!-- empty -->
       </c:when>
       <c:otherwise>
       
 
-        <c:set var="formclass">${editme ? 'mm_form_editme' : ''}</c:set>
-        <mm:form id="form_logo" styleClass="$formclass" page="$submit_link">
+        <mm:form id="form_logo" styleClass="${editme ? 'mm_form_editme' : ''}" page="$submit_link">
           <mm:import id="buffer">
     
             <a class="editme cancel" href="#close"><fmt:message key="users.cancel" /></a>
@@ -159,7 +159,7 @@
       </c:when>
       <c:otherwise>
     
-        <mm:form id="form_$nr" page="$submit_link">
+        <mm:form id="form_$nr" styleClass="${editme ? 'mm_form_editme' : ''}" page="$submit_link">
           <mm:node number="$nr" commitonclose="false">
             <mm:import id="editbuffer">
               <a class="cancel" href="#close"><fmt:message key="users.cancel" /></a>

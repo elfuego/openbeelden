@@ -33,7 +33,7 @@
           <mm:hasrelationmanager sourcemanager="$type" destinationmanager="$ttype" role="langrel">
             <mm:relatednodescontainer type="$ttype" role="langrel" searchdirs="destination">
               <mm:size id="total" write="false" />
-              <ul>
+              <ul id="relatednodes">
                 <mm:relatednodes>
                   <mm:relation to="${nr}" from="${_node}" role="langrel">
                     <c:set var="relation_class">relation_${role}_${_node}</c:set>
@@ -54,17 +54,23 @@
                     <li id="new_${ttype}">
                       <jsp:text> <!-- empty, cause nothing exists here yet. this will be cloned to represent new nodes --> </jsp:text>
                     </li>
-                    <li>
-                      <mm:link page="/editors/add-node.jspx"
-                        referids="p?,_node@nr,ttype@type,fields?,dir?,show?,editor?,maydelete?,maycreate?,unpublish?">
-                        <mm:param name="lang">${requestScope['javax.servlet.jsp.jstl.fmt.locale.request']}</mm:param>
-                        <mm:param name="role">langrel</mm:param>
-                        <a class="editme" href="${_}#new_${ttype}">${new_translation}</a>
-                      </mm:link>
-                    </li>
                   </c:if>
                 </mm:maycreate>
               </ul>
+              <mm:maycreate type="$type">
+                <c:if test="${total lt maxtranslations}">
+                  <p class="add">
+                    <mm:link page="/editors/add-node.jspx"
+                      referids="p?,_node@nr,ttype@type,fields?,dir?,show?,editor?,maydelete?,maycreate?,unpublish?">
+                      <mm:param name="lang">${requestScope['javax.servlet.jsp.jstl.fmt.locale.request']}</mm:param>
+                      <mm:param name="role">langrel</mm:param>
+                      <a class="editme add" href="${_}#new_${ttype}">${new_translation}</a>
+                    </mm:link>
+                  </p>
+                </c:if>
+              </mm:maycreate>
+
+
             </mm:relatednodescontainer>
           </mm:hasrelationmanager>
         </mm:hasnodemanager>

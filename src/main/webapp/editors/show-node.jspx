@@ -11,7 +11,6 @@
 
 <jsp:output omit-xml-declaration="false" />
 
-
 <mm:cloud method="asis">
 
 <fmt:setBundle basename="eu.openimages.messages" scope="request" />
@@ -120,7 +119,7 @@
 
         <c:when test="${_ eq 'mmbaseusers'}">
           <span>
-            <mm:field name="username" /><jsp:text> </jsp:text>
+            <strong><mm:field name="username" /></strong> <jsp:text> </jsp:text>
             <mm:field name="firstname" /><jsp:text> </jsp:text><mm:field name="suffix" /><jsp:text> </jsp:text><mm:field name="lastname" /> (<mm:field name="language" />)
           </span>
         </c:when>

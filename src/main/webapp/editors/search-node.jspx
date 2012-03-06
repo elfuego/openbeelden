@@ -34,7 +34,6 @@
 <mm:import externid="unpublish">true</mm:import>
 <mm:import externid="maycreate">true</mm:import>
 
-<mm:import externid="sortable">true</mm:import>
 <mm:import externid="max">25</mm:import>
 <mm:import externid="offset">0</mm:import>
 
@@ -65,7 +64,7 @@
   <mm:import id="neworder" reset="true">${so eq 'up' ? 'down' : 'up'}</mm:import>
   
   <mm:size id="total" write="false" />
-  <mm:sortorder field="$sortby" direction="$so" />
+  <!-- <mm:sortorder field="$sortby" direction="$so" /> --> <!-- TODO: error with field 'handle' -->
   <mm:maxnumber value="$max" />
   <mm:offset value="$offset" />
 
@@ -79,7 +78,7 @@
   </strong>
 
   <mm:import id="list_id" reset="true">found_${role}_${type}</mm:import>
-  <ul class="${sortable ? 'sortable' : 'notsortable'} connected foundnodes ${type}" id="${list_id}">
+  <ul class="sortable connected foundnodes ${type} ${empty parent ? 'sortcancel' : ''}" id="${list_id}">
     
     <mm:listnodes varStatus="status" id="${list_id}">
       <c:choose>
@@ -114,9 +113,7 @@
         </mm:link>
 
         <div class="node">
-          <mm:include page="$show" referids="p?,_node@nr">
-            <mm:param name="fields">${fields}</mm:param>
-          </mm:include>
+          <mm:include page="$show" referids="p?,_node@nr,fields?" />
         </div>
         
       </li>

@@ -300,6 +300,8 @@ function afterSubmit(response, status, xhr, $form) {
     
     if (response.indexOf('node_created') > -1) {        /* node created */
         var link = xhr.responseXML.URL;
+        var query = link.substring(link.indexOf("?") + 1, link.length);
+        var params = getParams(query);
         /* make sure tag 'new' is shown again */
         $(this).next().find('a.editme').show();
         
@@ -320,17 +322,22 @@ function afterSubmit(response, status, xhr, $form) {
         
         /* after saving new node, form is kept around for some reason ?! */
         if ($(this).find('form').length) {
-            //console.log('still found a form ' + $(this).find('form').length);
-            $(this).find('form').remove();
+            console.log('still found a form ' + $(this).find('form').length);
+            //$(this).find('form').remove();
         }
         
         /* if this (div) contains .targetme : append new content to it */
+        console.log('show : ' + params['showform'] )
         if ($(this).hasClass('targetme')) {
             $(this).html(newItem);
             initEditme('#' + newId);
         } else {
             newItem.insertBefore(this);
-            initEditme('#' + newId);
+            if (params['showform'] == 'true') {
+                bindMe(thisId, link, params); 
+            } else {
+                initEditme('#' + newId);
+            }
         }
         
     } else if (response.indexOf('node_deleted') > -1) { /* node deleted */
@@ -348,7 +355,7 @@ function afterSubmit(response, status, xhr, $form) {
                 $(uList).prepend('<li id="iamempty" class="notsortable empty">Drop here...</li>');
                 var params = new Object();
                 params['type'] = 'mediafragments';  // TODO: find and use nodetype
-                $('#iamempty').load("${mm:link('/editors/show-node.empty.jspx')}", params);
+                $('#iamempty').load("${mm:link('/editors/show-node.empty.jspx')}", params); // hackery!
             }
         });
     
@@ -443,6 +450,8 @@ function initSortable(listEl) {
         $(listEl).sortable({
             distance: 30,
             connectWith: ".connected",
+            cancel: ".notsortable, form",
+            placeholder: "ui-state-highlight",
             start: function(ev, ui) {   /* check for tinyMCE and remove it */
                var listId = $(this).attr('id');
                $(this).addClass('activated');
@@ -457,8 +466,6 @@ function initSortable(listEl) {
                    $(this).tinymce(tinyMceConfig);
                });                
             },
-            cancel: ".notsortable",
-            placeholder: "ui-state-highlight",
             remove: function(ev, ui) {
                 var editId = $(ui.item).attr('id');    // list item id
                 //var relnr = editId.match(/relation_\d+/);
@@ -534,10 +541,9 @@ function initSortable(listEl) {
                 // add to list (and remove from?)
                 if (listId.indexOf('found_') < 0) {
                     //console.log('receive - listId ' + listId + ', senderId ' + senderId + ', nr ' + nodenr);
-                    if ( $('#' + listId).hasClass("sortcancel") && senderId.indexOf('found_') >= 0) {
-                        //console.log("receive - cancel sorting? " + listId);
-                        //$( "#" + listId ).sortable("cancel");
-                    }
+                    /* if ( $('#' + listId).hasClass("sortcancel") && senderId.indexOf('found_') >= 0) {
+                        $( "#" + listId ).sortable("cancel");
+                    } */
                     var params = { 
                         id: listId, 
                         related: '' + nodenr, 
@@ -571,8 +577,8 @@ function initSortable(listEl) {
                                     var r_result = listclasses.match(/role_(\w+)/);
                                     if (r_result != null) newparams['role'] = r_result[1];
 
-                                    if ($('#' + listId).hasClass("unpublish")) newparams['unpublish'] = "true";
-                                    if ($('#' + listId).hasClass("maydelete")) newparams['maydelete'] = "true";
+                                    newparams['maydelete'] = $('#' + listId).hasClass("maydelete") ? "true" : "false";
+                                    newparams['unpublish'] = $('#' + listId).hasClass("unpublish") ? "true" : "false";
 
                                     $(ui.item).find('div.actions').load("${mm:link('/editors/actions.div.params.jspx')}", 
                                         newparams, 
@@ -623,7 +629,11 @@ function initSortable(listEl) {
 
             }
             
-        }).disableSelection();
+        });
+        
+        /* undocumented(?) jquery feature: https://groups.google.com/forum/?fromgroups#!topic/jquery-ui/B2h_Ea4jo5I 
+           disables text selection within surrounding element */
+        $(listEl).parent().disableSelection(); 
     }
 }
 

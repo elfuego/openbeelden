@@ -173,12 +173,12 @@
                   <li>
                     <mm:link page="/editors/list.jspx" referids="p?"><a href="${_}">Media</a></mm:link>
                   </li>
-                  <li>
+                  <!-- <li>
                     <mm:link page="/editors/list.jspx" referids="p?">
                       <mm:param name="type">mmbaseusers</mm:param>
                       <a href="${_}">Users</a>
                     </mm:link>
-                  </li>
+                  </li> -->
                   <li>
                     <a href="${mm:link('/editors/tools/tools.jspx')}">Tools</a>
                   </li>

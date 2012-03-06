@@ -66,7 +66,7 @@
             <mm:import id="buffer">
               <mm:createnode type="$type" id="new_node" commitonclose="false">
                 <mm:hasfield name="language">
-                  <mm:setfield name="language">${lang}</mm:setfield>
+                  <mm:setfield name="language">${fn:indexOf(lang, '_') > -1 ? fn:substringBefore(lang, '_') : lang}</mm:setfield>
                 </mm:hasfield>
                 <fieldset>
                   <mm:fieldlist fields="title">

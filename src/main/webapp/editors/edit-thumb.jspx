@@ -139,7 +139,7 @@
                         <c:if test="${maydelete}">
                           <mm:maydelete>
                             <mm:link page="/editors/delete-thumb.jspx" 
-                              referids="nr,p?,relation?,fields?,lang?,parent?,role?,editme?,showme?,show?,editor?,maydelete?,unpublish?,maycancel?">
+                              referids="nr,p?,relation?,fields?,lang?,parent?,role?,editme?,showform?,show?,editor?,maydelete?,unpublish?,maycancel?">
                               <a class="editme delete" href="${_}#relation_${relation}"><fmt:message key="users.delete_image" /></a>
                             </mm:link>
                             <jsp:text> / </jsp:text>
@@ -148,7 +148,7 @@
                         
                         <mm:maywrite>
                           <mm:link page="$editor" 
-                            referids="nr,p?,relation?,fields?,lang?,parent?,role?,editme?,showme?,show?,editor?,maydelete?,unpublish?,maycancel?">
+                            referids="nr,p?,relation?,fields?,lang?,parent?,role?,editme?,showform?,show?,editor?,maydelete?,unpublish?,maycancel?">
                             <a class="editme" href="${_}#relation_${relation}"><fmt:message key="users.edit_image" /></a>
                           </mm:link>
                         </mm:maywrite>

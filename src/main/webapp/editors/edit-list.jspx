@@ -34,10 +34,7 @@
   <mm:import externid="maycreate">true</mm:import>
   <mm:import externid="maydelete">true</mm:import>
   <mm:import externid="search">true</mm:import>
-  <mm:import externid="sortable">true</mm:import>
-  <c:if test="${role eq 'related'}">
-    <mm:import id="sortable" reset="true">false</mm:import>
-  </c:if>
+  
   <mm:import externid="offset">0</mm:import>
   <mm:import externid="max">10</mm:import>
   
@@ -74,7 +71,7 @@
       
       <div id="related_${myid}_log" class="log"><jsp:text> <!-- empty --> </jsp:text></div>
       <ul id="related_${myid}"
-          class="relatednodes ${type} ${sortable ? 'sortable connected' : ''} ${role eq 'related' ? 'sortcancel' : role} ${size == 0 ? 'empty' : size} parent_${_node} role_${role} ${maydelete ? 'maydelete' : ''} ${unpublish ? 'unpublish' : ''}">
+          class="relatednodes ${type} sortable connected ${role eq 'related' ? 'sortcancel' : role} ${size == 0 ? 'empty' : size} parent_${_node} role_${role} ${maydelete ? 'maydelete' : ''} ${unpublish ? 'unpublish' : ''}">
         
         <!-- c:if test="${total eq 0}">
           <li class="empty notsortable"> <mm:include page="show-node.empty.jspx" referids="type" /> </li>
@@ -88,7 +85,7 @@
             <mm:import id="relation" reset="true">${_node}</mm:import>
             <c:set var="relationid">relation_${_node}</c:set>
           </mm:relation>
-          <li id="${empty relationid ? nodeid : relationid}" class="${relationid} ${nodeid}">
+          <li id="${empty relationid ? nodeid : relationid}" class="${relationid} ${nodeid} ">
             <jsp:directive.include file="actions.div.jspx" />
             <div class="node">
               <mm:include page="$show" referids="p?,_node@nr,fields?" />
@@ -104,7 +101,7 @@
     <c:if test="${maycreate}">
       <p class="add">
         <mm:link escapeamps="true" page="/editors/add-node.jspx" 
-          referids="nr,p?,type,fields?,role,dir,show,showme?,editor,maydelete,maycreate,unpublish">
+          referids="nr,p?,type,fields?,role,dir,show,showform?,editor,maydelete,maycreate,unpublish">
           <a class="editme add" href="${_}#new_${type}">
             <fmt:message key="editors.add_type">
               <fmt:param><mm:nodeinfo type="guitype" nodetype="$type" escape="lowercase" /></fmt:param>
@@ -114,9 +111,9 @@
       </p>
     </c:if>
    
-    <c:if test="${sortable}">
-      <mm:write session="related_${myid}_current" referid="related_$myid" />
-    </c:if>
+    
+    <!-- writes query related_$myid to session to be used in order.jspx -->
+    <mm:write session="related_${myid}_current" referid="related_$myid" />
     
     
     <c:if test="${search}">
@@ -133,7 +130,7 @@
                   <fmt:param><mm:nodeinfo type="guitype" nodetype="$type" escape="lowercase" /></fmt:param>
                 </fmt:message>
               </label>
-              <input type="text" class="searchme" name="q" id="search${type}" size="12" autocomplete="off" placeholder="Enter search term" />
+              <input type="text" class="searchme" name="q" id="search${type}" size="12" autocomplete="off" placeholder="Enter search term or node number" />
               <fmt:message key="editors.search" var="search_button" />
               <input type="submit" name="submit" value="${search_button}" class="submit searchsubmit" />
               <input type="hidden" name="destinationlist" value="${myid}" />

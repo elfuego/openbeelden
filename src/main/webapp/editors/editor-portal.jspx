@@ -98,6 +98,7 @@
                   <mm:link page="/editors/edit-node.jspx" referids="p?,_node@nr">
                     <mm:param name="fields">name,language,description</mm:param>
                     <mm:param name="maycancel">false</mm:param>
+                    <mm:param name="showform">true</mm:param>
                     <a class="editme" href="${_}#totranslate">
                       <mm:field name="language"><mm:fieldinfo type="guivalue" /></mm:field>
                     </a> : <mm:field name="name" />
@@ -107,12 +108,12 @@
             </mm:relatednodescontainer>
             <li>
               <mm:link page="/editors/add-node.jspx" referids="p?,_node@nr">
+                <mm:param name="editor">/editors/editor-portal.jspx</mm:param>
                 <mm:param name="type">pools_translations</mm:param>
                 <mm:param name="fields">name,language,description</mm:param>
                 <mm:param name="role">langrel</mm:param>
-                <mm:param name="show">/editors/edit-node.jspx</mm:param>
-                <mm:param name="showme">true</mm:param>
                 <mm:param name="maycancel">false</mm:param>
+                <mm:param name="showform">true</mm:param>
                 <a class="add editme" href="${_}#totranslate">Voeg vertaling toe</a>
               </mm:link>
             </li>
@@ -137,7 +138,7 @@
         </mm:include> -->
         
 
-        <!-- homepage is very first one -->
+        <!-- homepage is very first one : contains partner logo's for footer -->
         <mm:relatednodescontainer type="pages" role="posrel" searchdirs="destination">
           <mm:sortorder field="posrel.pos" direction="UP" />
           <mm:maxnumber value="1" />
@@ -168,21 +169,6 @@
                   <a class="editme add" href="${_}#new_images">Add partnerlogo</a>
                 </mm:link>
               </p>
-
-              <!--  <mm:link page="/editors/add-thumb.jspx" referids="p,_node@nr,relation?">
-                  <mm:param name="lang">${requestScope['javax.servlet.jsp.jstl.fmt.locale.request']}</mm:param>
-                  <mm:param name="role">portalrel</mm:param>
-                  <mm:param name="type">images</mm:param>
-                  <mm:param name="fields">handle</mm:param>
-                  <mm:param name="show">/editors/show-portallogo.jspx</mm:param>
-                  <mm:param name="editor">/editors/edit-thumb.jspx</mm:param>
-                  <mm:param name="defaultstr">title=Portal logo ${portalName}</mm:param>
-                  <mm:param name="maydelete">false</mm:param>
-                  <span class="links">
-                    <a class="editme add" href="${_}#edit-picture"><fmt:message key="users.add_image" /></a>
-                  </span>
-                </mm:link> -->
-
             </div>
 
           </mm:relatednodes>

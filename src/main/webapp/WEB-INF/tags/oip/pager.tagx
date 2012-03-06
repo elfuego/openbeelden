@@ -24,12 +24,11 @@
         <mm:param name="max">${max}</mm:param>
         <a href="${_}${empty fragment ? '' : fragment}" class="first">«« first</a>
       </mm:link>
-      <jsp:text> </jsp:text>
       <mm:link referid="baseurl">
         <mm:param name="offset">${offset - max}</mm:param>
         <mm:param name="max">${max}</mm:param>
         <a href="${_}${empty fragment ? '' : fragment}" class="previous">« previous</a>
-      </mm:link> <jsp:text> </jsp:text>
+      </mm:link>
     </c:if>
     
 
@@ -66,14 +65,14 @@
       <c:choose>
         <c:when test="${(index * max) == offset}">
           <c:if test="${pages gt 1}">
-            ${(index + 1)} <jsp:text> </jsp:text>
+            <strong>${(index + 1)}</strong>
           </c:if>
         </c:when>
         <c:otherwise>
           <mm:link referid="baseurl">
             <mm:param name="offset">${(index * max)}</mm:param>
             <mm:param name="max">${max}</mm:param>
-            <a href="${_}${empty fragment ? '' : fragment}">${(index + 1)}</a> <jsp:text> </jsp:text>
+            <a href="${_}${empty fragment ? '' : fragment}">${(index + 1)}</a>
           </mm:link>
         </c:otherwise>
       </c:choose>
@@ -82,13 +81,11 @@
 
     
     <c:if test="${(total - offset) > max}">
-      <jsp:text> </jsp:text> 
       <mm:link referid="baseurl">
         <mm:param name="offset">${offset + max}</mm:param>
         <mm:param name="max">${max}</mm:param>
         <a href="${_}${empty fragment ? '' : fragment}" class="next">next »</a>
       </mm:link>
-      <jsp:text> </jsp:text> 
       <mm:link referid="baseurl">
         <mm:param name="offset">${total - (total mod max)}</mm:param>
         <mm:param name="max">${max}</mm:param>

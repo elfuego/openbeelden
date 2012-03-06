@@ -2,6 +2,7 @@
     version="2.0"
     xmlns:jsp="http://java.sun.com/JSP/Page"
     xmlns:c="http://java.sun.com/jsp/jstl/core"
+    xmlns:fn="http://java.sun.com/jsp/jstl/functions"
     xmlns:fmt="http://java.sun.com/jsp/jstl/fmt"
     xmlns:mm="http://www.mmbase.org/mmbase-taglib-2.0"
     xmlns:oip="urn:jsptagdir:/WEB-INF/tags/oip">
@@ -59,12 +60,12 @@
                 validator.validateHook();
             });
           </script>
-  
+
           <mm:form id="form_$type">
             <mm:import id="buffer">
               <mm:createnode type="$type" id="new_node" commitonclose="false">
                 <mm:hasfield name="language">
-                  <mm:setfield name="language">${lang}</mm:setfield>
+                  <mm:setfield name="language">${fn:indexOf(lang, '_') > -1 ? fn:substringBefore(lang, '_') : lang}</mm:setfield>
                 </mm:hasfield>
                 <fieldset>
                   <mm:fieldlist fields="path,template">
@@ -113,12 +114,11 @@
                       </div>
                     </mm:fieldlist>
 
-            <!-- <mm:datatype nodemanager="streamsources" field="language" id="searchlang">
-              <default value="" />
-              <required value="false" />
-            </mm:datatype>
-            <mm:fieldinfo datatype="searchlang" node="" type="input" /> -->
-
+                    <!-- <mm:datatype nodemanager="streamsources" field="language" id="searchlang">
+                      <default value="" />
+                      <required value="false" />
+                    </mm:datatype>
+                    <mm:fieldinfo datatype="searchlang" node="" type="input" /> -->
 
                   </fieldset>
                   <fieldset class="buttons">
@@ -232,10 +232,12 @@
                     
                     <li>
                       <mm:link page="/editors/add-node.jspx" referids="p?,_node@nr">
+                        <mm:param name="editor">/editors/editor-pages.jspx</mm:param>
                         <mm:param name="type">pages_translations</mm:param>
                         <mm:param name="fields">title,language,description</mm:param>
                         <mm:param name="role">langrel</mm:param>
                         <mm:param name="maycancel">false</mm:param>
+                        <mm:param name="showform">true</mm:param>
                         <a class="add editme" href="${_}#totranslate">Voeg vertaling toe</a>
                       </mm:link>
                     </li>

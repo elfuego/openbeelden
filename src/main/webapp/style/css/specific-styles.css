@@ -234,6 +234,12 @@ p.pager
     padding-top: 1em;
     clear: both;
 }
+p.pager a,
+p.pager strong {
+	margin: 0 2px;
+	font-weight: normal;
+}
+
 
 ul.sortby a { padding-left: 18px; }
 ul.sortby a.up

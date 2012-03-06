@@ -96,7 +96,7 @@
                     <mm:param name="type">images</mm:param>
                     <mm:param name="role">related</mm:param>
                     <mm:param name="dir">destination</mm:param>
-                    <mm:param name="fields">handle,title,description</mm:param>
+                    <mm:param name="fields">title,handle,description</mm:param>
                     <mm:param name="editor">/editors/edit-node.jspx</mm:param>
                     <mm:param name="unpublish">true</mm:param>
                   </mm:include>
@@ -145,7 +145,7 @@
                     <mm:param name="type">attachments</mm:param>
                     <mm:param name="role">posrel</mm:param>
                     <mm:param name="dir">destination</mm:param>
-                    <mm:param name="fields">handle,title,filename</mm:param>
+                    <mm:param name="fields">title,filename,size</mm:param>
                     <mm:param name="editor">/editors/edit-node.jspx</mm:param>
                     <mm:param name="unpublish">true</mm:param>
                   </mm:include>

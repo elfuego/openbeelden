@@ -97,32 +97,20 @@ div.b_user-translations
 	margin-bottom: 12px;
 	min-height: 8px;
 }
+div.b_user-translations div.actions { float: right; }
+div.b_user-translations p.add { text-align: right; }
 div.b_user-translations a.editme,
 div.b_user-translations a.cancel,
+div.b_user-mediapreview a.editme,
 div.b_user-mediapreview a.cancel,
 div.b_user-picture a.cancel
 {
-	float: right;
 	margin-left: 8px;
 	text-transform: lowercase;
 }
-div.b_user-mediapreview a.editme { text-transform: lowercase; }
+div.b_user-translations a.cancel,
+div.b_user-mediapreview a.cancel { float: right; }
 
-/*
-div.b_user-translations form
-{
-	background-image: url(images/dots2.png);
-	background-repeat: repeat-x;
-	background-position: 0 0;
-	padding-top: 2px;
-}
-
-div.b_user-translations form fieldset.buttons { 
-	background-image: url(images/dots2.png);
-	background-repeat: repeat-x;
-	background-position: 0 100%;
-}
-*/
 
 div.progressInfo
 {

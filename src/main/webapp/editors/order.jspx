@@ -17,7 +17,8 @@
       
       <mm:import externid="order" jspvar="order" vartype="List" />
       <mm:import externid="id" from="request,parameters" />
-      <mm:import from="session" externid="${id}_current" id="q" jspvar="q" vartype="org.mmbase.bridge.NodeQuery" />
+      <mm:import externid="${id}_current" from="session" 
+                 id="q" jspvar="q" vartype="org.mmbase.bridge.NodeQuery" />
       
       <c:choose>
         <c:when test="${!empty q and fn:length(order) gt 1}">
@@ -34,7 +35,7 @@
           
         </c:when>
         <c:otherwise>
-          <p class="err">Too bad. Some error occured (id: ${id}, order: ${order} l: ${fn:length(order)} ).</p>
+          <p class="err">Too bad. Some error occured (q: ${q} id: ${id} order: ${order} l: ${fn:length(order)}).</p>
         </c:otherwise>
       </c:choose>
 
