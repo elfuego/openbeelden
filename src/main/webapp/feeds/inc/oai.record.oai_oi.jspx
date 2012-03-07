@@ -8,9 +8,11 @@
   <jsp:output omit-xml-declaration="true" />
   <!-- version: '$Id$' -->
 
-  <mm:escaper type="tagstripper" id="tagstripper" /><!-- to strip html -->
   <mm:import externid="set" />
-
+  
+  <mm:escaper type="tagstripper" id="tagstripper" /><!-- to strip html -->
+  <mm:nodeinfo type="type" id="type" write="false" />
+  
   <jsp:include page="/feeds/inc/oai.record.header.jspx">
     <jsp:param name="set" value="${set}" />
   </jsp:include>
@@ -123,13 +125,11 @@
       <oi:date><mm:field name="date"><mm:time format="yyyy-MM-dd" /></mm:field></oi:date>
 
       <oi:type>
-        <mm:nodeinfo type="type">
-          <c:choose>
-            <c:when test="${fn:startsWith(_,'image')}">Still Image</c:when>
-            <c:when test="${fn:startsWith(_,'audio')}">Sound Recording</c:when>
-            <c:otherwise>Moving Image</c:otherwise>
-          </c:choose>
-        </mm:nodeinfo>
+        <c:choose>
+          <c:when test="${fn:startsWith(type,'image')}">Still Image</c:when>
+          <c:when test="${fn:startsWith(type,'audio')}">Sound Recording</c:when>
+          <c:otherwise>Moving Image</c:otherwise>
+        </c:choose>
       </oi:type>
 
       <!-- P[n]Y[n]M[n]DT[n]H[n]M[n]S or P[n]W f.e. P3Y6M4DT12H30M5S -->
@@ -157,26 +157,35 @@
         <mm:param name="format">WEBM,OGV,MP4,OGG,TS,M3U8,MP3,OGG,OGA,PNG,JPG,JPEG,MPG,MPEG</mm:param>
         <mm:listfunction name="filteredurls">
           <c:if test="${_.available}">
-            <oi:medium><mm:url page="${_.URL}" absolute="true" /></oi:medium>
+            <mm:node number="${_.source.number}">
+              <c:set var="format"><mm:field name="label" /></c:set>
+              <c:choose>
+                <c:when test="${!empty format}">
+                  <oi:medium format="${format}"><mm:url page="${_.URL}" absolute="true" /></oi:medium>
+                </c:when>
+                <c:otherwise>
+                  <oi:medium format="unknown"><mm:url page="${_.URL}" absolute="true" /></oi:medium>
+                </c:otherwise>
+              </c:choose>
+            </mm:node>
           </c:if>
         </mm:listfunction>
       </mm:functioncontainer>
+      
       <!-- oi:medium thumbnail -->
-      <mm:nodeinfo type="type">
-        <c:if test="${fn:startsWith(_,'video')}">
-          <mm:nodefunction name="thumbnail">
-            <oi:medium><mm:image template="s(512x288)+size(512x288&gt;)" absolute="true" /></oi:medium>
-          </mm:nodefunction>
-        </c:if>
-        <c:if test="${fn:startsWith(_,'audio')}">
-          <mm:relatednodescontainer type="images" role="related" searchdirs="destination">
-            <mm:maxnumber value="1" />
-            <mm:relatednodes>
-              <oi:medium><mm:image template="s(512x288)+size(512x288&gt;)" absolute="true" /></oi:medium>
-            </mm:relatednodes>
-          </mm:relatednodescontainer>
-        </c:if>
-      </mm:nodeinfo>
+      <c:if test="${fn:startsWith(type,'video')}">
+        <mm:nodefunction name="thumbnail">
+          <oi:medium format="thumbnail"><mm:image template="s(512x288)+size(512x288&gt;)" absolute="true" /></oi:medium>
+        </mm:nodefunction>
+      </c:if>
+      <c:if test="${fn:startsWith(type,'audio')}">
+        <mm:relatednodescontainer type="images" role="related" searchdirs="destination">
+          <mm:maxnumber value="1" />
+          <mm:relatednodes>
+            <oi:medium format="thumbnail"><mm:image template="s(512x288)+size(512x288&gt;)" absolute="true" /></oi:medium>
+          </mm:relatednodes>
+        </mm:relatednodescontainer>
+      </c:if>
 
       <mm:field name="identifier">
         <mm:isnotempty><oi:identifier xml:lang="${_node.language}"><mm:write /></oi:identifier></mm:isnotempty>
