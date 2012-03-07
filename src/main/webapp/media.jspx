@@ -104,6 +104,8 @@
           <c:if test="${!empty date and date eq '1950'}">date:GTE:<mm:time format="yyyyMMddHHmm" time="1950" inputformat="yyyy" precision="days" />00 date:LT:<mm:time format="yyyyMMddHHmm" time="1970" inputformat="yyyy" precision="days" />00 </c:if>
           <c:if test="${!empty date and date eq '1930'}">date:GTE:<mm:time format="yyyyMMddHHmm" time="1930" inputformat="yyyy" precision="days" />00 date:LT:<mm:time format="yyyyMMddHHmm" time="1950" inputformat="yyyy" precision="days" />00 </c:if>
           <c:if test="${!empty date and date eq '1910'}">date:GTE:<mm:time format="yyyyMMddHHmm" time="1910" inputformat="yyyy" precision="days" />00 date:LT:<mm:time format="yyyyMMddHHmm" time="1930" inputformat="yyyy" precision="days" />00 </c:if>
+          <c:if test="${!empty date and date eq '1890'}">date:GTE:<mm:time format="yyyyMMddHHmm" time="1890" inputformat="yyyy" precision="days" />00 date:LT:<mm:time format="yyyyMMddHHmm" time="1910" inputformat="yyyy" precision="days" />00 </c:if>
+          <c:if test="${!empty date and date eq '1826'}">date:GTE:<mm:time format="yyyyMMddHHmm" time="1826" inputformat="yyyy" precision="days" />00 date:LT:<mm:time format="yyyyMMddHHmm" time="1890" inputformat="yyyy" precision="days" />00 </c:if>
           <c:if test="${!empty uploaded and uploaded eq 'today'}">created:GTE:<mm:time format="yyyyMMddHHmm" time="now - 24 hour" precision="minutes" />00 </c:if>
           <c:if test="${!empty uploaded and uploaded eq 'week'}">created:GTE:<mm:time format="yyyyMMddHHmm" time="now - 7 day"  precision="minutes" />00 </c:if>
           <c:if test="${!empty uploaded and uploaded eq 'month'}">created:GTE:<mm:time format="yyyyMMddHHmm" time="now - 31 day" precision="minutes" />00 </c:if>

@@ -98,6 +98,8 @@
               <mm:option label="1950-1969" value="1950" compare="${date}">1950-1969</mm:option>
               <mm:option label="1930-1949" value="1930" compare="${date}">1930-1949</mm:option>
               <mm:option label="1910-1929" value="1910" compare="${date}">1910-1929</mm:option>
+              <mm:option label="1890-1909" value="1890" compare="${date}">1890-1909</mm:option>
+              <mm:option label="1826-1889" value="1826" compare="${date}">1826-1889</mm:option>
             </select>
           </div>
 
