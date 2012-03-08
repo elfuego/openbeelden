@@ -11,16 +11,16 @@
       Some more setting are also present in web.xml.
   -->
   <!-- configuration of how to mail -->
-  <Environment name="mmbase/sendmail/host" type="java.lang.String" value="smtp.gmail.com"/>
-  <Environment name="mmbase/sendmail/user" type="java.lang.String" value="mihxiltest"/>
-  <Environment name="mmbase/sendmail/password" type="java.lang.String" value="mmbase"/>
+  <Environment name="mmbase/sendmail/host" type="java.lang.String" value="smtp.gmail.com" />
+  <Environment name="mmbase/sendmail/user" type="java.lang.String" value="mihxiltest" />
+  <Environment name="mmbase/sendmail/password" type="java.lang.String" value="mmbase" />
   <!--
       Configuration of the database
   -->
-  <Environment name="mmbase/mmbaseroot/database" type="java.lang.String" value="hsqldb_csv"/>
-  <Resource auth="Container" driverClassName="org.hsqldb.jdbcDriver" logAbandoned="true" maxActive="10" maxIdle="3" maxWait="10000" name="jdbc/MMBase" removeAbandoned="true" removeAbandonedTimeout="30" type="javax.sql.DataSource" url="jdbc:hsqldb:file:${catalina.base}/data/oip_test;shutdown=true" username="sa"/>
+  <Environment name="mmbase/mmbaseroot/database" type="java.lang.String" value="hsqldb_csv" />
+  <Resource auth="Container" driverClassName="org.hsqldb.jdbcDriver" logAbandoned="true" maxActive="10" maxIdle="3" maxWait="10000" name="jdbc/MMBase" removeAbandoned="true" removeAbandonedTimeout="30" type="javax.sql.DataSource" url="jdbc:hsqldb:file:${catalina.base}/data/oip_test;shutdown=true" username="sa" />
   <!--
-  <Environment name="mmbase/mmbaseroot/database" type="java.lang.String" value="mysql_with_views"/>
+  <Environment name="mmbase/mmbaseroot/database" value="mysql-transactions_with_views" type="java.lang.String" />
   <Resource name="jdbc/MMBase"
             auth="Container" type="javax.sql.DataSource"
             maxActive="5" maxIdle="2" maxWait="10000"
