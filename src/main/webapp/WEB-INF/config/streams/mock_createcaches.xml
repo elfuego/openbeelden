@@ -7,7 +7,7 @@
   <localhost max_simultaneous_transcoders="1" stage="transcoder" />
 
 
-  <recognizer label="source hi"
+  <recognizer label="source"
               id="recognizer">
     <class name="org.mmbase.streams.transcoders.FFMpegRecognizer">
     </class>
@@ -17,7 +17,7 @@
   </recognizer>
 
 
-  <transcoder label="intermediate hi"
+  <transcoder label="intermediate"
               mimetype="video/*" id="v1" in="recognizer">
     <class name="org.mmbase.streams.transcoders.MockTranscoder">
       <param name="format">mpeg</param>
@@ -28,7 +28,7 @@
 
 
   <transcoder
-      label="lo"
+      label="sd"
       mimetype="video/*" in="v1" id="v2">
     <class name="org.mmbase.streams.transcoders.MockTranscoder">
       <param name="setting">lo</param>
@@ -38,7 +38,7 @@
   </transcoder>
 
   <transcoder
-      label="hi"
+      label="hd"
       mimetype="video/*" in="v1" id="v3">
     <class name="org.mmbase.streams.transcoders.MockTranscoder">
       <param name="setting">lo</param>
@@ -48,7 +48,7 @@
   </transcoder>
 
   <transcoder
-      label="lo"
+      label="sd"
       mimetype="video/*" in="v1" id="v4">
     <class name="org.mmbase.streams.transcoders.MockTranscoder">
       <param name="format">mp4</param>

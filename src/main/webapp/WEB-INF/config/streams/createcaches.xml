@@ -21,7 +21,7 @@
   -->
 
   <!-- recognizer: uses ffmpeg -i to recognize uploaded video, audio or image -->
-  <recognizer label="source hi"
+  <recognizer label="source"
               id="recognizer" >
     <class name="org.mmbase.streams.transcoders.FFMpegRecognizer">
     </class>
@@ -31,7 +31,7 @@
   </recognizer>
 
   <!-- intermediate mpeg2: input for all other video files -->
-  <transcoder label="intermediate hi"
+  <transcoder label="intermediate"
               mimetype="video/*" id="v1" in="recognizer">
     <class name="org.mmbase.streams.transcoders.FFMpegTranscoder">
       <param name="format">mpeg</param>
@@ -47,8 +47,7 @@
   </transcoder>
 
   <!-- ogv low -->
-  <transcoder
-      label="lo"
+  <transcoder label="sd"
       mimetype="video/*" in="v1" id="v2">
     <class name="org.mmbase.streams.transcoders.FFMpeg2TheoraTranscoder">
       <param name="videoQuality">5</param>
@@ -58,8 +57,7 @@
   </transcoder>
 
   <!-- ogv high -->
-  <transcoder
-      label="hi"
+  <transcoder label="hd"
       mimetype="video/*" in="v1" id="v3">
     <class name="org.mmbase.streams.transcoders.FFMpeg2TheoraTranscoder">
       <param name="videoQuality">8</param>
@@ -68,8 +66,7 @@
   </transcoder>
 
   <!-- mp4 low -->
-  <transcoder
-      label="lo"
+  <transcoder label="sd"
       mimetype="video/*" in="v1" id="v4">
     <class name="org.mmbase.streams.transcoders.FFMpegTranscoder">
       <param name="format">mp4</param>
@@ -92,7 +89,8 @@
        -acodec libvorbis -ab 128k -ar 44100 -threads 0 video.webm
   -->
   <!--
-  <transcoder label="lo" mimetype="video/*" in="v1" id="v8">
+  <transcoder label="sd" 
+      mimetype="video/*" in="v1" id="v8">
     <class name="org.mmbase.streams.transcoders.FFMpegTranscoder">
       <param name="format">webm</param>
       <param name="vcodec">libvpx</param>
@@ -111,8 +109,7 @@
   
   <!-- config for ts streams over cellular networks (for iPhone etc.) -->
   <!--
-  <transcoder
-      label="lo"
+  <transcoder label="mobile-sd"
       mimetype="video/*" in="v1" id="v5">
     <class name="org.mmbase.streams.transcoders.FFMpegTranscoder">
       
@@ -155,8 +152,7 @@
     <loganalyzer name="org.mmbase.streams.transcoders.FFMpegAnalyzer" />
   </transcoder>
   
-  <transcoder
-      label="lo"
+  <transcoder label="playlist-sd"
       mimetype="video/*" in="v5" id="v6">
     <class name="org.mmbase.streams.transcoders.SegmenterTranscoder">
       <param name="format">m3u8</param>
@@ -169,8 +165,7 @@
 
   <!-- mp4 iPad configuration -->
   <!--
-  <transcoder
-      label="lo"
+  <transcoder label="sd"
       mimetype="video/*" in="v1" id="v7">
     <class name="org.mmbase.streams.transcoders.FFMpegTranscoder">
       <param name="format">mp4</param>
@@ -207,7 +202,8 @@
  -->
  
   <!-- audio ogg: ffmpeg -i audio.wav -acodec libvorbis -aq 32 -ab 192k audio.ogg -->
-  <transcoder mimetype="audio/*" id="a1" in="recognizer">
+  <transcoder label="sd"
+      mimetype="audio/*" id="a1" in="recognizer">
     <class name="org.mmbase.streams.transcoders.FFMpegTranscoder">
       <param name="format">ogg</param>
       <param name="acodec">libvorbis</param>
@@ -218,7 +214,8 @@
   </transcoder>
 
   <!-- audio mp3: ffmpeg -i audio.wav -acodec libmp3lame -aq 32 -ab 192k audio.mp3 -->
-  <transcoder mimetype="audio/*" id="a2" in="recognizer">
+  <transcoder label="sd"
+      mimetype="audio/*" id="a2" in="recognizer">
     <class name="org.mmbase.streams.transcoders.FFMpegTranscoder">
       <param name="format">mp3</param>
       <param name="acodec">libmp3lame</param>
@@ -229,7 +226,8 @@
   </transcoder>
 
   <!-- audio flac: ffmpeg -i Goo.mp3 -f flac -aq 60 -ab 192k goo.flac -->
-  <transcoder mimetype="audio/*" id="a3" in="recognizer">
+  <transcoder label="sd"
+      mimetype="audio/*" id="a3" in="recognizer">
     <class name="org.mmbase.streams.transcoders.FFMpegTranscoder">
       <param name="format">flac</param>
       <param name="aq">60</param>

@@ -99,7 +99,13 @@
           <mm:param name="format">WEBM,OGV,MP4,OGG,M3U8</mm:param>
           <mm:listfunction name="filteredurls">
             <mm:node number="${_.source.number}">
-              <c:if test="${_.available and (_node.label eq 'lo' or _.state eq 'SOURCE')}">
+              <!-- TODO: remove 'lo' after conversion completes -->
+              <c:if test="${_.available
+                                and (_node.label eq 'sd' 
+                                        or _node.label eq 'playlist-sd' 
+                                        or _node.label eq 'lo' 
+                                        or _.state eq 'SOURCE')
+                                }">
                 <c:choose>
                   <c:when test="${!empty _.codec and _.codec ne 'UNKNOWN'}">
                     <c:set var="codecs">; codecs=${mm:escape('lowercase', _.codec)}</c:set>

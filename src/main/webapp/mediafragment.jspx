@@ -148,7 +148,7 @@
                         <c:if test="${_.filesize > 0}">${mm:escape('myfilesize',_.filesize)}</c:if>
                         <jsp:text>): </jsp:text>
                         <mm:import id="filename" reset="true">${_.filename}</mm:import>
-                        <a title="${_.state eq 'SOURCE' ? 'source' : ''} ${_.dimension} ${fn:toLowerCase(_.format)}"
+                        <a title="${_.state eq 'SOURCE' ? 'source' : _node.label} ${_.dimension} ${_.mimeType}"
                            href="${mm:escape('text/xml', _.URL)}">
                            <oip:filesubstr filename="${filename}" length="44" />
                         </a>
@@ -171,7 +171,7 @@
                             <c:if test="${_.filesize > 0}">${mm:escape('myfilesize',_.filesize)}</c:if>
                             <jsp:text>): </jsp:text>
                             <mm:import id="filename" reset="true">${_.filename}</mm:import>
-                            <a title="${_.state eq 'SOURCE' ? 'source' : ''} ${_.dimension} ${fn:toLowerCase(_.format)}"
+                            <a title="${_node.label} ${_node.bitrate} ${_.mimeType}"
                                href="${mm:escape('text/xml', _.URL)}">
                                <oip:filesubstr filename="${filename}" length="44" />
                             </a>
@@ -192,7 +192,7 @@
                          <c:if test="${_.filesize > 0}">${mm:escape('myfilesize',_.filesize)}</c:if>
                          <jsp:text>): </jsp:text>
                          <mm:import id="filename" reset="true">${_.filename}</mm:import>
-                         <a title="SOURCE ${_.dimension} ${fn:toLowerCase(_.format)}"
+                         <a title="source ${_node.bitrate} ${_.mimeType}"
                             href="${mm:escape('text/xml', _.URL)}">
                             <oip:filesubstr filename="${filename}" length="44" />
                          </a>
@@ -214,13 +214,13 @@
                             <strong>${_.format}</strong>
                             <jsp:text> (</jsp:text>
                             <c:if test="${!empty _.dimension}">${_.dimension}, </c:if>
-                            <jsp:text>${_.info.label} </jsp:text>
+                            <jsp:text>${_node.label} </jsp:text>
                             <c:if test="${_.filesize > 0}">${mm:escape('myfilesize',_.filesize)}</c:if>
                             <jsp:text>): </jsp:text>
                             <mm:import id="filename" reset="true">${_.filename}</mm:import>
                             <c:choose>
                               <c:when test="${_.available}">
-                                <a title="${_.state eq 'SOURCE' ? 'source' : ''} ${_.dimension} ${fn:toLowerCase(_.format)}"
+                                <a title="${_node.label} ${_.dimension} ${_.mimeType}"
                                    href="${mm:escape('text/xml', _.URL)}">
                                    <oip:filesubstr filename="${filename}" length="44" />
                                 </a>
@@ -241,12 +241,13 @@
                     <c:if test="${_.state eq 'SOURCE'}">
                       <li class="${_.state}" title="${fn:toLowerCase(_.state)}: ${_.mimeType}">
                          <strong>${_.format}</strong>
-                         <jsp:text> (source </jsp:text>
+                         <jsp:text> (</jsp:text>
                          <c:if test="${!empty _.dimension}">${_.dimension}, </c:if>
+                         <jsp:text>source </jsp:text>
                          <c:if test="${_.filesize > 0}">${mm:escape('myfilesize',_.filesize)}</c:if>
                          <jsp:text>): </jsp:text>
                          <mm:import id="filename" reset="true">${_.filename}</mm:import>
-                         <a title="SOURCE ${_.dimension} ${fn:toLowerCase(_.format)}"
+                         <a title="source ${_.dimension} ${_.mimeType}"
                             href="${mm:escape('text/xml', _.URL)}">
                             <oip:filesubstr filename="${filename}" length="44" />
                          </a>

@@ -7,7 +7,10 @@
     xmlns:oip="urn:jsptagdir:/WEB-INF/tags/oip"
     xmlns:mm="http://www.mmbase.org/mmbase-taglib-2.0"
     >
-
+  <jsp:directive.tag
+      display-name="Media"
+      description="The media tag displays a video, audio or image."
+      />
   <jsp:directive.attribute name="width"
           description="Width of player" />
   <jsp:directive.attribute name="height"
