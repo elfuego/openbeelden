@@ -29,7 +29,7 @@
             <mm:hasrank minvalue="site user">
               <p>
                 <fmt:message key="login.you_are">
-                  <fmt:param><mm:include page="/action/you.jspx" /></fmt:param>
+                  <fmt:param><mm:cloudinfo type="user" /></fmt:param>
                 </fmt:message>
               </p>
             </mm:hasrank>

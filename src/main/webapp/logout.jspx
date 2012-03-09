@@ -12,7 +12,10 @@
       title="Logout"
       styleClass="login">
     <jsp:attribute name="body">
-
+      
+      <mm:import id="mijncookie"></mm:import>
+      <mm:write cookie="eu.openimages.rememberme" referid="mijncookie" />
+      
       <mm:import externid="referrer">
         <mm:url page="/login${locale ne 'client' ? '.' : ''}${locale ne 'client' ? locale : ''}">
         </mm:url>
@@ -22,6 +25,9 @@
             document.location = "${referrer}";
         });
       </script>
+      <noscript>
+        <p>Continue to <a href="${referrer}">${referrer}</a>.</p>
+      </noscript>
     </jsp:attribute>
 
   </oip:html>

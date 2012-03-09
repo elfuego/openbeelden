@@ -2,6 +2,7 @@
     version="2.0"
     xmlns:c="http://java.sun.com/jsp/jstl/core"
     xmlns:jsp="http://java.sun.com/JSP/Page"
+    xmlns:fn="http://java.sun.com/jsp/jstl/functions"
     xmlns:fmt="http://java.sun.com/jsp/jstl/fmt"
     xmlns:mm="http://www.mmbase.org/mmbase-taglib-2.0"
     xmlns:oip="urn:jsptagdir:/WEB-INF/tags/oip">
@@ -29,7 +30,12 @@
             <mm:frameworkparam name="userlocale">${locale}</mm:frameworkparam>
           </c:if>
           <mm:cloudinfo type="usernode" id="youare" write="false" />
-          <mm:node number="$youare"><oip:user /></mm:node>
+          <mm:node number="$youare">
+            <oip:user />
+            <mm:link page="/logout.jspx" referids="locale?">
+              <a class="logout" href="${_}"><fmt:message key="login.logout" /></a>
+            </mm:link>
+          </mm:node>
         </mm:link>
       </mm:hasrank>
       

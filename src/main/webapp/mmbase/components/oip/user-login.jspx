@@ -15,6 +15,7 @@
       <mm:import externid="username" />
       <mm:import externid="password" />
       <mm:import externid="submit_login" />
+      <mm:import externid="keepme" />
       <mm:import externid="referrer" />
       
       <c:choose>
@@ -25,11 +26,24 @@
           <c:catch var="error">
             <mm:present referid="submit_login">
               <mm:cloud username="${username}" password="${password}">
+                
                 <mm:url id="userpage" write="false">
                   <mm:frameworkparam name="component">oip</mm:frameworkparam>
                   <mm:frameworkparam name="block">user</mm:frameworkparam>
                   <mm:frameworkparam name="user"><mm:cloudinfo type="usernode" /></mm:frameworkparam>
                 </mm:url>
+                
+                <c:if test="${keepme eq 'please'}">
+                  <!-- put username and password in cookie eu.openimages.rememberme -->
+                  <mm:listnodescontainer type="mmbaseusers">
+                    <mm:constraint field="username" value="$username" operator="EQUAL" />
+                    <mm:listnodes>
+                      <mm:import id="mijncookie">${username}:<mm:function name="apitoken" /></mm:import>
+                      <mm:write cookie="eu.openimages.rememberme" referid="mijncookie" />
+                    </mm:listnodes>
+                  </mm:listnodescontainer>
+                </c:if>
+                
                 <p class="msg stay">
                   <fmt:message key="login.message">
                     <fmt:param>${username}</fmt:param>
@@ -46,6 +60,7 @@
                     <p>Continue to <a href="${referrer}">${referrer}</a>.</p>
                   </noscript>
                 </c:if>
+                
               </mm:cloud>
             </mm:present>
           </c:catch>
@@ -71,6 +86,10 @@
                 <span><fmt:message key="login.password" /></span>
               </label>
               <input id="password" name="password" value="${password}" type="password" />
+            </div>
+            <div class="keepme">
+              <label for="keepme">Remember me</label>
+              <input type="checkbox" name="keepme" value="please" id="keepme" />
             </div>
           </fieldset>
           <fieldset class="buttons">

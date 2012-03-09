@@ -81,6 +81,7 @@ div.main-column
 	width: 512px;
 	min-height: 500px;
 }
+div.main-column.wide { width: 688px; }
 
 div.right-column
 {
@@ -158,18 +159,21 @@ div.left-column
 #topbar ul.meta li.you {
 	white-space: nowrap;
 	padding-left: 10px;
+	padding-left: 10px;
 }
 #topbar ul.meta li.you span.user { 
     background-image: url(icons/dot-white.png);
     background-repeat: no-repeat;
     background-position: right 6px;
     padding-right: 10px;
+    margin-right: 10px;
 }
 #topbar ul.meta li.logout {
 	padding-left: 10px;
 }
 #topbar ul.meta li.logout,
-#topbar ul.meta li.you a.login { text-transform: lowercase; }
+#topbar ul.meta li.you a.login,
+#topbar ul.meta li.you a.logout { text-transform: lowercase; }
 #topbar ul.meta li a { color: #fff; }
 #topbar ul.meta li a:link,
 #topbar ul.meta li a:visited { 
