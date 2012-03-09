@@ -64,7 +64,11 @@
     </c:if>
     
     <c:if test="${empty tagrelated}">
-      <mm:createrelation source="media" destination="tagnode" role="related" />
+      
+      <!-- include with different settings in classauthentication.xml 
+           for creation of relations between media and tags -->
+      <mm:include page="tagsubmit.relate.jspx" referids="nr@media,tagnode@tag" />
+      
       <p class="msg">
         <fmt:message key="tag.added">
           <fmt:param><strong>${tag}</strong></fmt:param>

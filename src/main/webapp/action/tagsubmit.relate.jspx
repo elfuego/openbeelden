@@ -1,0 +1,25 @@
+<jsp:root
+    version="2.0"
+    xmlns:c="http://java.sun.com/jsp/jstl/core"
+    xmlns:jsp="http://java.sun.com/JSP/Page"
+    xmlns:mm="http://www.mmbase.org/mmbase-taglib-2.0">
+  <mm:content 
+      type="application/xml"
+      postprocessor="none"
+      expires="10">
+      
+    <jsp:output omit-xml-declaration="true" />
+  
+    <mm:cloud method="delegate" authenticate="class">
+  
+      <mm:import externid="media" /><!-- number of (media) node to tag -->
+      <mm:import externid="tag" /><!-- tag node number -->
+  
+      <mm:node number="$media" id="medianode" />
+      <mm:node number="$tag" id="tagnode" />
+      
+      <mm:createrelation source="medianode" destination="tagnode" role="related" />
+  
+    </mm:cloud>
+  </mm:content>
+</jsp:root>
