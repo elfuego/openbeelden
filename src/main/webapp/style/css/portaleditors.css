@@ -267,9 +267,9 @@ ul.notsortable li.pager
 	text-align: center;
 }
 li.pager a,
-li.pager strong {
-	margin: 0 2px;
-}
+li.pager strong,
+th.pager a,
+th.pager strong { margin: 0 2px; }
 
 div#edit-picture div.emptyimage {
 	border: 1px solid #ccc;

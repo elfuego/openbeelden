@@ -49,6 +49,10 @@
             <a href="keywords.jspx">Convert keywords</a><br />
             convert , in keywords to ;
           </li>
+          <li>
+            <a href="labels.jspx">Convert labels</a><br />
+            convert labels in mediasources from 'lo' to 'sd' etc.
+          </li>
         </ul>
       </div>
 
