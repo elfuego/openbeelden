@@ -21,14 +21,15 @@
 
 
     <mm:nodeinfo type="type" write="false" id="nodetype" />
-    <c:set var="img" value="" />
 
+    <!-- thumbs (images) choosen by user -->
     <mm:hasrelationmanager sourcemanager="$nodetype" destinationmanager="images" role="related">
       <mm:relatednodescontainer type="images" role="related" searchdirs="destination">
         <mm:maxnumber value="1" />
         <mm:relatednodes>
-          <mm:image mode="img" alt="${alt}" width="${w}" height="${h}" crop="middle" />
-          <mm:import id="img">found</mm:import>
+          <mm:field name="handle">
+            <mm:isnotempty><mm:node id="img" /></mm:isnotempty>
+          </mm:field>
         </mm:relatednodes>
       </mm:relatednodescontainer>
     </mm:hasrelationmanager>
@@ -39,8 +40,9 @@
           <mm:sortorder field="posrel.pos" direction="UP" />
           <mm:maxnumber value="1" />
           <mm:relatednodes>
-            <mm:image mode="img" alt="${alt}" width="${w}" height="${h}" crop="middle" />
-            <mm:import id="img">found</mm:import>
+            <mm:field name="handle">
+              <mm:isnotempty><mm:node id="img" /></mm:isnotempty>
+            </mm:field>
           </mm:relatednodes>
         </mm:relatednodescontainer>
       </mm:hasrelationmanager>
@@ -50,43 +52,54 @@
           <mm:sortorder field="posrel.pos" direction="UP" />
           <mm:maxnumber value="1" />
           <mm:relatednodes>
-            <mm:image mode="img" alt="${alt}" width="${w}" height="${h}" crop="middle" />
-            <mm:import id="img">found</mm:import>
+            <mm:field name="handle">
+              <mm:isnotempty><mm:node id="img" /></mm:isnotempty>
+            </mm:field>
           </mm:relatednodes>
         </mm:relatednodescontainer>
       </mm:hasrelationmanager>
     </c:if>
 
-    <c:if test="${empty img}">
-      <c:choose>
-        <c:when test="${nodetype eq 'mmbaseusers'}">
-          <img src="${mm:link('/style/images/user.png')}" alt="${empty alt ? 'user' : alt}" width="${w}" height="${h}" />
-        </c:when>
-        <c:when test="${nodetype eq 'audiofragments'}">
-          <img src="${mm:link('/style/images/thumb_audio.png')}" alt="${empty alt ? 'audio' : alt}" width="${w}" height="${h}" />
-        </c:when>
-        <c:when test="${nodetype eq 'imagefragments'}">
-          <mm:relatednodes type="imagesources" max="1">
-            <c:set var="img"><mm:image mode="url" width="${w}" height="${h}" crop="middle" /></c:set>
-            <img src="${img}" alt="${empty alt ? 'image' : alt}" width="${w}" height="${h}" />
-          </mm:relatednodes>
-          <c:if test="${empty img}">
-            <img src="${mm:link('/style/images/thumb_image.png')}" alt="${empty alt ? 'image' : alt}" width="${w}" height="${h}" />
-          </c:if>
-        </c:when>
-        <c:when test="${nodetype eq 'videofragments'}">
-          <mm:nodefunction name="thumbnail">
-            <c:catch><mm:image mode="img" alt="${alt}" width="${w}" height="${h}" crop="middle" /></c:catch>
-          </mm:nodefunction>
-        </c:when>
-        <c:when test="${nodetype eq 'images'}">
-          <!-- <img src="${mm:link('/style/images/thumb_image.png')}" alt="${empty alt ? 'image' : alt}" width="${w}" height="${h}" /> -->
-          <mm:image mode="img" alt="${alt}" width="${w}" height="${h}" crop="middle" />
-        </c:when>
-        <c:otherwise>
-          <img src="${mm:link('/style/images/thumb_video.png')}" alt="${empty alt ? 'video' : alt}" width="${w}" height="${h}" />
-        </c:otherwise>
-      </c:choose>
-    </c:if>
+    <c:choose>
+      <c:when test="${!empty img}">
+        <mm:node referid="img">
+          <mm:image mode="img" alt="${empty alt ? 'image' : alt}" width="${w}" height="${h}" crop="middle" />
+        </mm:node>
+      </c:when>
+      <c:otherwise>
+        
+        <!-- thumbs made from media or default ones -->
+        <c:choose>
+          <c:when test="${nodetype eq 'mmbaseusers'}">
+            <img src="${mm:link('/style/images/user.png')}" alt="${empty alt ? 'user' : alt}" width="${w}" height="${h}" />
+          </c:when>
+          <c:when test="${nodetype eq 'audiofragments'}">
+            <img src="${mm:link('/style/images/thumb_audio.png')}" alt="${empty alt ? 'audio' : alt}" width="${w}" height="${h}" />
+          </c:when>
+          <c:when test="${nodetype eq 'imagefragments'}">
+            <mm:relatednodes type="imagesources" max="1">
+              <c:set var="img"><mm:image mode="url" width="${w}" height="${h}" crop="middle" /></c:set>
+              <img src="${img}" alt="${empty alt ? 'image' : alt}" width="${w}" height="${h}" />
+            </mm:relatednodes>
+            <c:if test="${empty img}">
+              <img src="${mm:link('/style/images/thumb_image.png')}" alt="${empty alt ? 'image' : alt}" width="${w}" height="${h}" />
+            </c:if>
+          </c:when>
+          <c:when test="${nodetype eq 'videofragments'}">
+            <mm:nodefunction name="thumbnail">
+              <c:catch><mm:image mode="img" alt="${empty alt ? 'video' : alt}" width="${w}" height="${h}" crop="middle" /></c:catch>
+            </mm:nodefunction>
+          </c:when>
+          <c:when test="${nodetype eq 'images'}">
+            <mm:image mode="img" alt="${empty alt ? 'image' : alt}" width="${w}" height="${h}" crop="middle" />
+          </c:when>
+          <c:otherwise>
+            <img src="${mm:link('/style/images/thumb_video.png')}" alt="${empty alt ? 'video' : alt}" width="${w}" height="${h}" />
+          </c:otherwise>
+        </c:choose>
+        
+      </c:otherwise>
+    </c:choose>
+
 
 </jsp:root>
