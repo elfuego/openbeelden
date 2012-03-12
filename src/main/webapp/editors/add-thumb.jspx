@@ -68,7 +68,7 @@
         </c:if>
 
         <mm:url write="false" absolute="true" escapeamps="false" id="submit_link"
-          referids="nr,type,p?,lang?,relation?,role?,dir?,pos?,fields?,show?,showform?,maydelete?,unpublish?,editor?,defaulstr?"></mm:url>
+          referids="nr,type,p?,lang?,relation?,role?,dir?,pos?,fields?,show?,showform?,maydelete?,unpublish?,editor?"></mm:url>
         <mm:form id="form_$type" styleClass="mm_form_editme" page="$submit_link">
           <mm:import id="buffer">
 
@@ -96,6 +96,7 @@
 
 
               <fieldset class="buttons">
+                <input name="defaultstr" type="hidden" value="${defaultstr}" />
                 <input name="submit${type}" type="hidden" value="submit" />
                 <fmt:message key="users.cancel" var="button_cancel" />
                 <fmt:message key="users.form.save" var="button_save" />
