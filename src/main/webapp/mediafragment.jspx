@@ -82,7 +82,10 @@
             <li class="download"><a href="#download"><fmt:message key="media.download" /></a></li>
             <li class="share"><a href="#share"><fmt:message key="media.share" /></a></li>
             <c:if test="${!empty mediaorder}">
-              <li class="order _blank"><a title="Order this media item..." href="${mediaorder}">Order</a></li>
+              <li class="order _blank">
+                <fmt:message key="media.order_text" var="mediaordertext" />
+                <a title="${mediaordertext}" href="${mediaorder}"><fmt:message key="media.order" /></a>
+              </li>
             </c:if>
             <mm:maycreate type="ratingrel">
               <li class="favorite">
