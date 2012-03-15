@@ -6,6 +6,7 @@
     xmlns:fmt="http://java.sun.com/jsp/jstl/fmt"
     xmlns:mm="http://www.mmbase.org/mmbase-taglib-2.0"
     xmlns:oip="urn:jsptagdir:/WEB-INF/tags/oip">
+<jsp:scriptlet> pageContext.setAttribute("enumStates", org.mmbase.applications.media.State.values()); </jsp:scriptlet>
 
   <oip:editor styleClass="portal">
     <jsp:attribute name="head">
@@ -17,7 +18,7 @@
     </jsp:attribute>
     <jsp:attribute name="body">
 <mm:cloud loginpage="/editors/login.jspx?referrer=$editor" rank="project manager">
-     <div class="main-column">      
+     <div class="main-column wide">      
         <h2>Edit urls of streams</h2>
         <p>Change stream url to match it with (new) location on filesystem.</p>
         
@@ -28,10 +29,10 @@
 <mm:import externid="offset">0</mm:import>
 
 <mm:import externid="form_url" />
+<mm:import externid="form_state" />
 <mm:import externid="form_title" />
 
 <mm:url referids="nr,max?,offset?" id="formlink" write="false" escapeamps="false" />
-
 
 <mm:present referid="nr">
   <mm:notpresent referid="submit">
@@ -49,7 +50,7 @@
           For example: http://localhost:8080/files/ + 12/123.Movie-720p.mpeg = http://localhost:8080/12/123.Movie-720p.mpeg
         </p>
         <fieldset>
-
+          
           <mm:fieldlist fields="url">
             <div class="url">
               <label for="my_url">Edit url</label>
@@ -61,6 +62,21 @@
               <input type="text" id="mm_form_url" name="form_url" value="${my_url}" />
             </div>
           </mm:fieldlist>
+          
+          <div class="state">
+            <label for="my_state">
+              State (<mm:field name="state" id="mediastate" />)
+            </label>
+            <p class="info">
+              State of a media item, like original (uploaded) media is source, 
+              media being transcoded is busy etc.
+            </p>
+            <select name="form_state" id="my_state">
+              <c:forEach var="st" items="${enumStates}">
+                <mm:option value="${st.value}" compare="${mediastate}">${st}</mm:option>
+              </c:forEach>
+            </select>
+          </div>
           
           <mm:hasfield name="mediaprovider">
             <mm:fieldlist fields="mediaprovider">
@@ -75,7 +91,7 @@
             </mm:fieldlist>          
           </mm:hasfield>
 
-          <mm:fieldlist type="list">
+          <mm:fieldlist fields="title,format,language,url,filesize">
             <c:set var="fld_name"><mm:fieldinfo type="name" /></c:set>
             <div class="${fld_name}">
               <mm:fieldinfo type="forid">
@@ -104,16 +120,17 @@
   <mm:present referid="submit">
     <mm:node number="$nr">
       <h3><mm:field name="number" /> : <mm:nodeinfo type="guitype" /> </h3>
+      
+      <mm:setfield name="state">${form_state}</mm:setfield>
 
       <mm:hasfunction name="changeUrl" inverse="true">
-      <!-- <mm:setfield name="title">${form_title}</mm:setfield> -->
         <mm:setfield name="url">${form_url}</mm:setfield>
-        <p class="msg stay">Updated url field '${form_url}'.</p>
+        <p class="msg stay">Updated url field '${form_url}' and state '${form_state}'.</p>
       </mm:hasfunction>
       
       <mm:hasfunction name="changeUrl">
         <mm:booleanfunction name="changeUrl" referids="form_url@url">
-          <p class="msg stay">Updated url with changeUrl '${form_url}'.</p>
+          <p class="msg stay">Updated url with changeUrl '${form_url}' and state '${form_state}'.</p>
         </mm:booleanfunction>
       </mm:hasfunction>
         
