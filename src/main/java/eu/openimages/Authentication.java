@@ -104,7 +104,6 @@ public class Authentication extends Authenticate {
 
             // Retrieve username and password from API key
             ApiToken apiToken = new ApiToken();
-            //apiToken.setFormat("base64");
             String user = "";
             String pass = "";
             try {
@@ -112,21 +111,18 @@ public class Authentication extends Authenticate {
                 user = userpass.get("username");
                 pass = userpass.get("password");
             } catch (javax.crypto.IllegalBlockSizeException ibe) {
-                log.error("API key login failed - " + ibe);
-                throw new SecurityException("API key login failed.");
+                log.warn("API key login failed - " + ibe);
             } catch (java.security.GeneralSecurityException ge) {
-                log.error("API key login failed - " + ge);
-                throw new SecurityException("API key login failed.");
+                log.warn("API key login failed - " + ge);
             } catch (IllegalArgumentException iae) {
-                log.error("API key login failed - " + iae);
-                throw new SecurityException("API key login failed.");
+                log.warn("API key login failed - " + iae);
             }
 
             /* Copied following part from org.mmbase.security.implementation.cloudcontext.Authenticate
                since it's not permitted to switch authentication type in mid-flight. */
             if (user == null || "".equals(user) || pass == null || "".equals(pass)) {
                 log.warn("API key login failed, empty username '" + user + "' and/or password.");
-                throw new SecurityException("API key login failed, empty username and/or password.");
+                return null;
             }
 
             MMObjectNode node = users.getUser(user, pass, true);
