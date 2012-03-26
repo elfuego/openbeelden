@@ -14,32 +14,28 @@
     <mm:cloud method="delegate" authenticate="class">
       
       <mm:import externid="id" />
-      <!-- this is to test: change hours to months -->
       <mm:time time="now" id="current_month" precision="months" write="false" />
       
-      <mm:node number="$id" id="the_node" notfound="skip">
-        <mm:nodeinfo type="type" id="type" write="false" />
-        <mm:hasrelationmanager sourcemanager="$type" destinationmanager="stats" role="related">
-          
-          <mm:relatednodescontainer type="stats" role="related" searchdirs="destination">
-            <mm:constraint field="created" value="$current_month" operator="GREATER_EQUAL" />
-            <mm:size id="stats" write="false" />
-            <mm:relatednodes>
-              <mm:setfield name="total">${_node.total + 1}</mm:setfield>
-              <mm:last><span>${_node.total} plays</span></mm:last>
-            </mm:relatednodes>
-          </mm:relatednodescontainer>
-          
-          <c:if test="${empty stats or stats lt 1}">
-            <mm:createnode type="stats" id="new_stat">
-              <mm:setfield name="node">${the_node}</mm:setfield>
-              <mm:setfield name="total">1</mm:setfield>
-            </mm:createnode>
-            <mm:createrelation source="the_node" destination="new_stat" role="related" />
-            <span>1 play</span>
-          </c:if>
+      <mm:node number="$id" id="media_node" notfound="skip">
         
-        </mm:hasrelationmanager>
+        <mm:listnodescontainer type="stats">
+          <mm:constraint field="node" value="$media_node" operator="EQUAL" />
+          <mm:constraint field="created" value="$current_month" operator="GREATER_EQUAL" />
+          <mm:size id="stats" write="false" />
+          <mm:listnodes>
+            <mm:setfield name="total">${_node.total + 1}</mm:setfield>
+            <mm:last><span>${_node.total} plays</span></mm:last>
+          </mm:listnodes>
+        </mm:listnodescontainer>          
+        
+        <c:if test="${empty stats or stats lt 1}">
+          <mm:createnode type="stats" id="new_stat">
+            <mm:setfield name="node">${media_node}</mm:setfield>
+            <mm:setfield name="total">1</mm:setfield>
+          </mm:createnode>
+          <span>1 play</span>
+        </c:if>
+      
       </mm:node>
     
     </mm:cloud>
