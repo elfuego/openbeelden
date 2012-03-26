@@ -41,6 +41,10 @@
           <description xml:lang="nl">Dit is een verplicht veld</description>
           <description xml:lang="en">This is a required field</description>
         </required>
+        <minLength value="2" enforce="onvalidate">
+          <description xml:lang="en">This required field should be at least 2 characters.</description>        
+          <description xml:lang="nl">Dit veld is verplicht en moet tenminste 2 karakters lang zijn.</description>
+        </minLength>
         <maxLength value="255" />
       </datatype>
     </field>
