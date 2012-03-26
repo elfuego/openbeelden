@@ -50,6 +50,7 @@ public class AfterDeployment implements Runnable {
         "tags",
         "mediafragments", "mediafragments_translations",
         "users_translations",
+        "properties", "email",  // download api function
         "langrel", "ratingrel", "insrel", "posrel"
     };
 
