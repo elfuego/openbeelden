@@ -1,4 +1,5 @@
-body, td
+body#tinymce.mceContentBody,
+body#tinymce.mceContentBody td
 {
 	background-color: #fff;
 	font-family: Helvetica, sans-serif;
@@ -7,10 +8,10 @@ body, td
 	color: #555;
 }
 
-a:link { color: #c00; }
-a:visited { color: #333; }
-a:hover { color: #c00; }
-a:active
+body#tinymce.mceContentBody a:link { color: #c00; }
+body#tinymce.mceContentBody a:visited { color: #333; }
+body#tinymce.mceContentBody a:hover { color: #c00; }
+body#tinymce.mceContentBody a:active
 {
 	color: #c00;
 	text-decoration: underline;
@@ -27,15 +28,15 @@ h1, h2, h3
 	clear: both;
 }
 
-h2 { font-size: 1.6em; }
-h3 { font-size: 1.4em; }
-h4
+body#tinymce.mceContentBody h2 { font-size: 1.6em; }
+body#tinymce.mceContentBody h3 { font-size: 1.4em; }
+body#tinymce.mceContentBody h4
 {
 	font-size: 1.05em;
 	color: #777;
 }
 
-h5
+body#tinymce.mceContentBody h5
 {
 	font-size: 1em;
 	color: #777;
@@ -43,27 +44,19 @@ h5
 
 h4, h5, h6 { margin-bottom: 0; }
 
-pre
+body#tinymce.mceContentBody pre
 {
 	font-family: Monaco, Courier, monospaced;
 	font-size: small;
 }
 
 img { border: 0; }
-
 p { margin: 0 0 1em 0; }
-	
-ul, dl, ol, code, pre
-{
-	margin-bottom: 15px;
-}
+ul, dl, ol, code, pre {	margin-bottom: 15px; }
+ul, ol { padding-left: 25px; }
 
-ul, ol
-{
-	padding-left: 25px;
-}
-
-code, pre
+body#tinymce.mceContentBody code, 
+body#tinymce.mceContentBody pre
 {
 	font-family: Monaco, "Courier New", monospaced;
 	font-weight: bold;
@@ -99,3 +92,4 @@ dd
 	}
 
 .mceVisualAid { border: 1px dashed #BBBBBB; }
+
