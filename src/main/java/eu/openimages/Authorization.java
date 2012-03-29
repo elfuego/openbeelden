@@ -88,6 +88,7 @@ public class Authorization extends Verify {
                     } else {    // not user builder but some other node
 
                         String owner = node.getContext(user);
+                        if (owner == null || "".equals(owner)) return super.mayDo(user, node, operation);
 
                         Pattern p = Pattern.compile("[0-9]*");
                         Matcher m = p.matcher(owner);
