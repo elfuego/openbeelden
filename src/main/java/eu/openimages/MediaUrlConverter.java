@@ -150,7 +150,8 @@ public class MediaUrlConverter extends DirectoryUrlConverter {
                         !nmName.equals("videofragments") &&
                         !nmName.equals("imagefragments") &&
                         !nmName.equals("audiofragments")) {
-                    throw new FrameworkException("not a mediafragment");
+                    log.warn("not a mediafragment #" + nr);
+                    return Url.NOT;
                 }
 
                 Date today = new Date();
