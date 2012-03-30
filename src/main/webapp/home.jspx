@@ -231,10 +231,10 @@
             </c:when>
             <c:otherwise>
               <os:cache time="3600" key="oip.rss.${portal}.${requestScope['javax.servlet.jsp.jstl.fmt.locale.request']}">
-                <mm:import id="rss"><mm:include page="${rsslink}" timeout="10000" /></mm:import>
                 <c:catch var="ex2">
+                  <mm:import id="rss"><mm:include page="${rsslink}" timeout="10000" /></mm:import>
+                  <!-- just displaying the rss items with some xsl and java magic -->
                   <mm:content escaper="none">
-                    <!-- just displaying the rss items with some xsl and java magic -->
                     <mm:formatter escape="tagstripper(xss, false, false)">
                       <mm:write referid="rss" />
                       <mm:xslt>
