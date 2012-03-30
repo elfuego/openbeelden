@@ -1,3 +1,9 @@
+/**
+* @author   Andre van Toly
+* @name     Stylesheet to style text etc. that is edited in tinyMCE
+* @version  '$Id$'
+*/
+
 body#tinymce.mceContentBody,
 body#tinymce.mceContentBody td
 {

@@ -32,36 +32,15 @@
       </c:choose>
     </mm:node>
         
-    <c:if test="${enablelogin}">
-      
-      <mm:hasrank value="anonymous">
-        <!-- get and check cookie -->
-        <mm:import externid="eu.openimages.rememberme" id="mycookie" from="cookie" />
-        
-        <mm:url id="currentpage" write="false" />
-        <c:if test="${!empty mycookie and fn:indexOf(currentpage, 'logout.jspx') lt 0}">
-          <mm:import id="apikey" reset="true">${fn:substringAfter(mycookie, ':')}</mm:import>
-          <mm:import id="user" reset="true">${fn:substringBefore(mycookie, ':')}</mm:import>
-          
-          <c:if test="${!empty apikey}">
-            <!-- write apikey to request and log in with it -->
-            <mm:write referid="apikey" request="apikey" />  
-            <mm:cloud method="sessiondelegate" authenticate="apikey">
-              <mm:log level="info">logged in with cookie: <mm:cloudinfo type="user" /></mm:log>
-            </mm:cloud>
-          </c:if>
-        </c:if>
-      </mm:hasrank>
-
+    <!-- c:if test="${enablelogin}">
       <c:set var="query_str" value="${requestScope['javax.servlet.forward.query_string']}" />
       <script type="text/javascript">
         <mm:link page="/action/you.jspx" escapeamps="false" referids="locale?">
           <mm:param name="referrer">${requestScope['javax.servlet.forward.request_uri']}<c:if test="{!empty query_string}">?${query_string}</c:if></mm:param>
-          <jsp:text>$(document).ready(function() { $("#topbar li.you").load("${_}"); });</jsp:text>
+          <jsp:text>//$(document).ready(function() { $("#topbar li.you").load("${_}"); });</jsp:text>
         </mm:link>
       </script>
-
-    </c:if>
+    </c:if -->
 
     <ul class="meta">
     
@@ -74,17 +53,26 @@
               <a href="${_}" class="logout"><fmt:message key="login.logout" /></a>
             </mm:link>
           </mm:hasrank>
+          <mm:hasrank value="anonymous">
+            <mm:node number="page_login">
+              <mm:link page="${_node.path}" referids="referrer">
+                <a class="login" href="${_}"><mm:field name="title" /></a>
+              </mm:link>
+            </mm:node>
+          </mm:hasrank>
         </li>
-        <!-- <mm:hasrank value="anonymous" inverse="true">
-          <li class="logout">
-            <mm:link page="/logout.jspx" referids="locale?">
-              <a href="${_}"><fmt:message key="login.logout" /></a>
+        
+        <mm:hasrank value="anonymous">
+          <!-- if not logged in: replace li.you with contents of you.jspx which checks cookie -->
+          <c:set var="query_str" value="${requestScope['javax.servlet.forward.query_string']}" />
+          <script type="text/javascript">
+            <mm:link page="/action/you.jspx" escapeamps="false" referids="locale?">
+              <mm:param name="referrer">${requestScope['javax.servlet.forward.request_uri']}<c:if test="{!empty query_str}">?${query_str}</c:if></mm:param>
+              <jsp:text>$(document).ready(function(){$("#topbar li.you").load("${_}");});</jsp:text>
             </mm:link>
-          </li>
-        </mm:hasrank> -->
-        <!-- mm:hasrank minvalue="project manager">
-          <li>rank: <mm:cloudinfo type="rank" /></li>
-        </mm:hasrank -->
+          </script>
+        </mm:hasrank>
+        
       </c:if>
 
       <!-- portals -->

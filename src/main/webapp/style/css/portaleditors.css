@@ -281,6 +281,19 @@ div#edit-picture div.emptyimage {
 	background-repeat: no-repeat;
 	background-position: 50% 50%;
 }
+li div.emptyimage {
+	margin-right: 8px;
+	border: 1px solid #ccc;
+	height: 48px;
+	width: 84px;
+	float: left;
+	margin-bottom: 1em;
+	background-image: url(images/cross512x288.png);
+	background-repeat: no-repeat;
+	background-position: 50% 50%;
+}
+
+
 div#edit-picture div.node {
 	float: left;
 	margin-bottom: 1em;
