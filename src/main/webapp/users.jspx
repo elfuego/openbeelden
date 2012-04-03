@@ -101,7 +101,7 @@
             </c:choose>
             <dl class="${gridclass}">
               <dt> <a href="${_}"><oip:thumb /></a> </dt>
-              <dd> <mm:field name="username" /> </dd>
+              <dd> <oip:user /> </dd>
             </dl>
           </mm:link>
         </mm:listnodes>

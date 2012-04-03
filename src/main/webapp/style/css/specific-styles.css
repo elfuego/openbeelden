@@ -512,7 +512,12 @@ dl.grid dd, dl.grid3 dd
 	padding-top: 6px;
 	padding-left: 1px;
 }
-
+dl.grid dd span.user a:link, 
+dl.grid dd span.user a:visited,
+dl.grid dd span.user a:active {
+	text-decoration: none;
+	color: #666;
+}
 a.edit
 {
 	float: right;
