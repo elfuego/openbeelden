@@ -29,7 +29,10 @@
     <description xml:lang="us">Pools, containers for objects</description>
   </descriptions>
   
-  <properties></properties>
+  <properties>
+    <property name="translations.builder">pools_translations</property>
+  </properties>
+
   <fieldlist>
     <field name="name">
       <descriptions>
@@ -75,9 +78,9 @@
       </gui>
       <editor>
         <positions>
-          <input>2</input>
-          <list>2</list>
-          <search>2</search>
+          <input>3</input>
+          <list>3</list>
+          <search>3</search>
         </positions>
       </editor>
       <datatype base="field" xmlns="http://www.mmbase.org/xmlns/datatypes">
