@@ -30,6 +30,7 @@
                 <mm:nodeinfo type="type" id="nodetype" write="false" />
                 <c:if test="${nodetype ne 'images' and nodetype ne 'imagefragments'}">
                   
+                  <div id="edit-picture_log" class="log"><jsp:text> <!-- empty --> </jsp:text></div>
                   <div id="edit-picture" class="targetme">
                     
                     <mm:relatednodescontainer type="images" role="related" searchdirs="destination">
@@ -45,20 +46,20 @@
                      
                      <c:choose>
                        <c:when test="${empty img}">
-                         
-                         <oip:thumb />
-                         <p class="description">
-                           <mm:link page="/editors/add-thumb.jspx" referids="_node@nr,media@parent">
-                             <mm:param name="lang">${requestScope['javax.servlet.jsp.jstl.fmt.locale.request']}</mm:param>
-                             <mm:param name="type">images</mm:param>
-                             <mm:param name="fields">handle</mm:param>
-                             <mm:param name="show">/editors/show-thumb.jspx</mm:param>
-                             <mm:param name="editor">/editors/edit-thumb.jspx</mm:param>
-                             <mm:param name="defaultstr">title=Thumbnail <mm:field name="title" /></mm:param>
-                             <a class="editme add" href="${_}#edit-picture"><fmt:message key="users.add_image" /></a>
-                           </mm:link>
-                         </p>
-                         
+                         <div id="new-picture">
+                           <oip:thumb />
+                           <p class="description">
+                             <mm:link page="/editors/add-thumb.jspx" referids="_node@nr,media@parent">
+                               <mm:param name="lang">${requestScope['javax.servlet.jsp.jstl.fmt.locale.request']}</mm:param>
+                               <mm:param name="type">images</mm:param>
+                               <mm:param name="fields">handle</mm:param>
+                               <mm:param name="show">/editors/show-thumb.jspx</mm:param>
+                               <mm:param name="editor">/editors/edit-thumb.jspx</mm:param>
+                               <mm:param name="defaultstr">title=Thumbnail <mm:field name="title" /></mm:param>
+                               <a class="editme add" href="${_}#new-picture"><fmt:message key="users.add_image" /></a>
+                             </mm:link>
+                           </p>
+                         </div>
                        </c:when>
                        <c:otherwise>
                          
@@ -70,6 +71,7 @@
                                <mm:param name="fields">handle</mm:param>
                                <mm:param name="show">/editors/show-thumb.jspx</mm:param>
                                <mm:param name="editor">/editors/edit-thumb.jspx</mm:param>
+                               <mm:param name="defaultstr">title=Thumbnail <mm:field name="title" /></mm:param>
                                <a class="editme delete" href="${_}#relation_${relation}"><fmt:message key="users.delete_image" /></a>
                              </mm:link>
                              <jsp:text> / </jsp:text>

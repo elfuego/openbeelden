@@ -21,8 +21,9 @@
 
       <mm:node number="$node">
 
-        <mm:import id="maxtranslations">9</mm:import><!-- TODO: check with config -->
-
+        <!-- the configured locales (displayLocales) for this site -->
+        <mm:function set="mmsite" name="locales" id="locales" write="false" />
+        
         <mm:nodeinfo type="type" id="type" write="false" />
         <mm:import id="ttype"><mm:property nodemanager="$type" name="translations.builder" /></mm:import>
         <mm:isempty referid="ttype"><mm:import id="ttype" reset="true">${type}_translations</mm:import></mm:isempty>
@@ -33,7 +34,12 @@
           <mm:hasrelationmanager sourcemanager="$type" destinationmanager="$ttype" role="langrel">
             <mm:relatednodescontainer type="$ttype" role="langrel" searchdirs="destination">
               <mm:size id="total" write="false" />
-              <ul id="relatednodes">
+              
+              <div id="related_${ttype}_log" class="log"><jsp:text> <!-- empty --> </jsp:text></div>
+              
+              <ul id="related_${ttype}" 
+                  class="relatednodes max_${fn:length(locales) - 1} size_${size} ${size == 0 ? 'empty' : ''}">
+                
                 <mm:relatednodes>
                   <mm:relation to="${nr}" from="${_node}" role="langrel">
                     <c:set var="relation_class">relation_${role}_${_node}</c:set>
@@ -48,30 +54,37 @@
                     </div>
                   </li>
                 </mm:relatednodes>
+                
                 <mm:maycreate type="$type">
-                  <c:if test="${total lt maxtranslations}">
-                    <c:set var="new_translation"><fmt:message key="users.create_new_translation" /></c:set>
-                    <li id="new_${ttype}">
-                      <jsp:text> <!-- empty, cause nothing exists here yet. this will be cloned to represent new nodes --> </jsp:text>
+                  <!-- c:if test="${fn:length(locales) - 1 gt total}" -->
+                    <li id="new_${ttype}" class="new notsortable">
+                      <jsp:text> <!-- empty, cause nothing exists here yet, this will be cloned to represent new nodes --> </jsp:text>
                     </li>
-                  </c:if>
+                  <!-- /c:if -->
                 </mm:maycreate>
+                
               </ul>
-              <mm:maycreate type="$type">
-                <c:if test="${total lt maxtranslations}">
-                  <p class="add">
-                    <mm:link page="/editors/add-node.jspx"
-                      referids="p?,_node@nr,ttype@type,fields?,dir?,show?,editor?,maydelete?,maycreate?,unpublish?">
-                      <mm:param name="lang">${requestScope['javax.servlet.jsp.jstl.fmt.locale.request']}</mm:param>
-                      <mm:param name="role">langrel</mm:param>
-                      <a class="editme add" href="${_}#new_${ttype}">${new_translation}</a>
-                    </mm:link>
-                  </p>
-                </c:if>
-              </mm:maycreate>
-
 
             </mm:relatednodescontainer>
+
+            <mm:maycreate type="$type">
+              <!-- c:if test="${fn:length(locales) - 1 gt total}" -->
+                
+                <p class="add" id="related_${ttype}_add">
+                  <mm:link page="/editors/add-node.jspx"
+                    referids="p?,_node@nr,ttype@type,fields?,dir?,show?,editor?,maydelete?,maycreate?,unpublish?">
+                    <mm:param name="lang">${requestScope['javax.servlet.jsp.jstl.fmt.locale.request']}</mm:param>
+                    <mm:param name="language">${locales[0] eq _node.language ? locales[1] : locales[0]}</mm:param>
+                    <mm:param name="role">langrel</mm:param>
+                    <a class="editme add" href="${_}#new_${ttype}">
+                      <fmt:message key="users.create_new_translation" />
+                    </a>
+                  </mm:link>
+                </p>
+                
+              <!-- /c:if -->
+            </mm:maycreate>
+
           </mm:hasrelationmanager>
         </mm:hasnodemanager>
 

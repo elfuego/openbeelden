@@ -30,31 +30,32 @@
           </mm:relatednodes>
         </mm:relatednodescontainer>
 
+        <div id="edit-picture_log" class="log"><jsp:text> <!-- empty --> </jsp:text></div>
         <div id="edit-picture" class="targetme">
           
           <c:choose>
             <c:when test="${empty img}">
               
-              <oip:thumb />
-              <h3 class="subtitle"><oip:user /></h3>
-              
-              <p class="description">
-                <mm:link page="/editors/add-thumb.jspx" referids="_node@nr,user@parent">
-                  <mm:param name="lang">${requestScope['javax.servlet.jsp.jstl.fmt.locale.request']}</mm:param>
-                  <mm:param name="type">images</mm:param>
-                  <mm:param name="role">posrel</mm:param>
-                  <mm:param name="fields">handle</mm:param>
-                  <mm:param name="show">/editors/show-thumb.jspx</mm:param>
-                  <mm:param name="editor">/editors/edit-thumb.jspx</mm:param>
-                  <mm:param name="defaultstr">title=User picture ${user_name}</mm:param>
-                  <a class="editme add" href="${_}#edit-picture"><fmt:message key="users.add_image" /></a>
-                </mm:link>
-              </p>
+              <div id="new-picture">
+                <oip:thumb />
+                <h3 class="subtitle"><oip:user /></h3>
+                <p class="description">
+                  <mm:link page="/editors/add-thumb.jspx" referids="_node@nr,user@parent">
+                    <mm:param name="lang">${requestScope['javax.servlet.jsp.jstl.fmt.locale.request']}</mm:param>
+                    <mm:param name="type">images</mm:param>
+                    <mm:param name="role">posrel</mm:param>
+                    <mm:param name="fields">handle</mm:param>
+                    <mm:param name="show">/editors/show-thumb.jspx</mm:param>
+                    <mm:param name="editor">/editors/edit-thumb.jspx</mm:param>
+                    <mm:param name="defaultstr">title=User picture ${user_name}</mm:param>
+                    <a class="editme add" href="${_}#new-picture"><fmt:message key="users.add_image" /></a>
+                  </mm:link>
+                </p>
+              </div>
               
             </c:when>
             <c:otherwise>
               <div id="relation_${relation}">
-                
                 <oip:thumb />
                 <h3 class="subtitle"><oip:user /></h3>
                 
@@ -70,6 +71,7 @@
                         <mm:param name="role">posrel</mm:param>
                         <mm:param name="show">/editors/show-thumb.jspx</mm:param>
                         <mm:param name="editor">/editors/edit-thumb.jspx</mm:param>
+                        <mm:param name="defaultstr">title=User picture ${user_name}</mm:param>
                         <a class="editme delete" href="${_}#relation_${relation}"><fmt:message key="users.delete_image" /></a>
                       </mm:link>
                       <jsp:text> / </jsp:text>

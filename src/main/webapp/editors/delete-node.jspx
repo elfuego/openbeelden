@@ -52,8 +52,10 @@
             <p class="err">Not enough privileges.</p>
           </mm:maydelete>
           <mm:maydelete>
-            <a class="close" href="#close"><fmt:message key="users.close" /></a>
-            <span class="node_deleted_${nr} deleted"> Node is deleted!</span>
+            <p class="msg node_deleted_${nr} deleted"> 
+              <!-- <a class="close" style="float:right;" href="#close"><fmt:message key="users.close" /></a> -->
+              Node deleted!
+            </p>
             <mm:deletenode number="$nr" deleterelations="true" />
           </mm:maydelete>
         </c:when>

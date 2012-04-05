@@ -50,12 +50,13 @@
   <mm:node number="$relation">
     <c:choose>
       <c:when test="${!empty delete}">
-        <a class="editme close" href="#close">close</a>
         <mm:maydelete inverse="true">
+          <a class="editme close" href="#close">close</a>
           <p class="err">Not enough privileges.</p>
         </mm:maydelete>
         <mm:maydelete>
           <p class="msg node_deleted_${relation} removed">
+            <!-- <a style="float:right;" class="editme close" href="#close">close</a> -->
             '<mm:node number="$nr"><mm:function name="gui" escape="none" /></mm:node>'
             is removed from the list. (relation (${relation} with ${nr}) is removed)
           </p>

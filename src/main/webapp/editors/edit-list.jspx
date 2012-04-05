@@ -37,6 +37,7 @@
   
   <mm:import externid="offset">0</mm:import>
   <mm:import externid="max">10</mm:import>
+  <mm:import externid="maxnumber" /><!-- max number of allowed nodes in list -->
   
   <mm:import externid="startpos">0</mm:import>
   <mm:import externid="endpos" />
@@ -65,13 +66,13 @@
       </c:if>
 
       <mm:size id="sizeinbetween" write="false" />
-      <mm:maxnumber value="99" />
+      <c:if test="${!empty maxnumber}"><mm:maxnumber value="$maxnumber" /></c:if>
       <mm:offset value="$offset" />
       <mm:size id="size" write="false" />
       
       <div id="related_${myid}_log" class="log"><jsp:text> <!-- empty --> </jsp:text></div>
       <ul id="related_${myid}"
-          class="relatednodes ${type} sortable connected ${role eq 'related' ? 'sortcancel' : role} ${size == 0 ? 'empty' : size} parent_${_node} role_${role} ${maydelete ? 'maydelete' : ''} ${unpublish ? 'unpublish' : ''}">
+          class="relatednodes ${type} sortable connected ${role eq 'related' ? 'sortcancel' : role} size_${size} ${size == 0 ? 'empty' : ''} max_${maxnumber} parent_${_node} role_${role} ${maydelete ? 'maydelete' : ''} ${unpublish ? 'unpublish' : ''} ">
         
         <!-- c:if test="${total eq 0}">
           <li class="empty notsortable"> <mm:include page="show-node.empty.jspx" referids="type" /> </li>
@@ -92,14 +93,17 @@
             </div>
           </li>
         </mm:relatednodes>
-        <li id="new_${type}" class="notsortable new last">
-          <c:if test="${total eq 0}"><mm:include page="show-node.empty.jspx" referids="type" /></c:if>
-          <jsp:text><!-- empty list item as target for a.relate or other functions --></jsp:text> </li>
+        <li id="new_${type}" class="new notsortable">
+          <jsp:text><!-- empty list item as target for a.relate or other functions --></jsp:text> 
+        </li>
+        <li class="notsortable empty last">
+          <mm:include page="show-node.empty.jspx" referids="type" />
+        </li>
       </ul>
     </mm:relatednodescontainer>
     
     <c:if test="${maycreate}">
-      <p class="add">
+      <p class="add" id="related_${myid}_add">
         <mm:link escapeamps="true" page="/editors/add-node.jspx" 
           referids="nr,p?,type,fields?,role,dir,show,showform?,editor,maydelete,maycreate,unpublish">
           <a class="editme add" href="${_}#new_${type}">

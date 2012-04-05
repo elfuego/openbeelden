@@ -16,28 +16,12 @@
       <mm:hasnode number="$nr">
         <mm:node number="$nr"><mm:nodeinfo type="type" id="builder" write="false" /></mm:node>
       </mm:hasnode>
+      
+      <mm:validation
+          nodemanagers="${builder}"
+          elements="#form_${nr}" 
+          submit="#submit${nr}" />
 
-      <script type="text/javascript">
-        /* this is in editor.jspx */
-        $(document).ready(function() {
-            var validator = new MMBaseValidator();
-            var to_validate_id = "form_${nr}";
-            <c:if test="${!empty builder}">validator.prefetchNodeManager('${builder}');</c:if>
-            validator.lang = "${requestScope['javax.servlet.jsp.jstl.fmt.locale.request']}";
-            validator.addValidationForElements($('#' + to_validate_id + " .mm_validate"));
-            validator.validateHook = function(valid, entry) {
-               var button = $("#" + to_validate_id + " input[type=submit][class=submit]");
-		       if (button.length) {
-    		       button[0].disabled = validator.invalidElements != 0;
-    		   }
-		       //console.log("invalid: "  + validator.invalidElements);
-		       //console.log(validator.elements);
-            }
-            validator.validateHook();
-            
-        });
-      </script>
-        
     </jsp:attribute>
     <jsp:attribute name="left">
 
@@ -48,23 +32,27 @@
         <c:choose>
           <c:when test="${empty nr}">
             <h2>Not found</h2>
-            <p class="err">Node not found</p>
+            <p class="err">
+              Node not found:
+              <mm:link page="/editors/list.jspx"><a href="${_}">media list</a></mm:link>
+            </p>
           </c:when>
           <c:otherwise>
             <mm:node number="$nr">
 
               <h2>Edit : <mm:nodeinfo type="type" id="type" /></h2>
-
               
               <p>De belangrijkste content velden van het media item.</p>
 
               <mm:include page="edit-node.jspx" referids="p?,_node@nr" >
                 <mm:param name="fields">title,language,show,subtitle,intro,body,hasformat,date,dc_creator,publisher</mm:param>
               </mm:include>
+              
+              <h3>Taalversies</h3>
               <mm:include page="/mmbase/components/oip/user-translations.jspx" referids="_node@n" />
 
-              <div class="wrap">
-                <h2>Media properties</h2>
+              <div class="wrap noborder">
+                <h3>Media properties</h3>
                 <p>
                   Geef hier onder met het property 'media.order' 
                   de url - bijvoorbeeld http://www.beeldengeluid.nl - op waar het media item besteld kan worden.

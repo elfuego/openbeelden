@@ -3,7 +3,7 @@
 %><%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"
 %><%@ taglib uri="http://www.opensymphony.com/oscache" prefix="os"
 %><jsp:directive.page session="false" />
-*///<mm:content type="text/javascript" expires="3600" postprocessor="none"><os:cache time="0"><mm:escape escape="none">
+*///<mm:content type="text/javascript" expires="0" postprocessor="none"><os:cache time="0"><mm:escape escape="none">
 <fmt:setBundle basename="eu.openimages.messages" scope="request" />
 <mm:import id="any_lang"><fmt:message key="search.any_language" /></mm:import>
 <mm:import id="textarea_classes">textarea.mm_f_body, textarea.mm_f_intro, textarea.mm_nm_mmbaseusers, textarea.mm_nm_users_translations, textarea.mm_nm_pages, textarea.mm_nm_pages_translations, textarea.mm_nm_pools, textarea.mm_nm_pools_translations, textarea.mm_nm_licenses, textarea.mm_nm_licenses_translations</mm:import>
@@ -152,6 +152,13 @@ function initEditme(el) {
             $('#' + id).load(link, params, function(){ bindMe(id, link, params); }).hide().fadeIn("fast");
         }
     });
+    
+    // for each .relatednodes list found check showing/hiding add
+    if ($(el).find('ul.relatednodes').length > 0) {
+        $(el).find('ul.relatednodes').each(function(index) {
+            showAddme(this);
+        });
+    }
 }
 
 /* TODO: finish this and make editme into a jquery plugin? */
@@ -295,19 +302,28 @@ function beforeSubmit(arr, $form, options) {
 
 /* ajaxFrom success after submit */
 function afterSubmit(response, status, xhr, $form) {
-    var parent = $(this).parent();
+    
     var thisId = $(this).attr('id');
+    var parentId = $(this).parent('ul').attr('id');
+    if (parentId == undefined) {
+        var parentId = $(this).parent().attr('id');
+    }
+    //console.log('thisId ' + thisId  + ', parentId ' + parentId);
+    var self = this;
     
     if (response.indexOf('node_created') > -1) {        /* node created */
         var link = xhr.responseXML.URL;
         var query = link.substring(link.indexOf("?") + 1, link.length);
         var params = getParams(query);
+        
         /* make sure tag 'new' is shown again */
-        $(this).next().find('a.editme').show();
+        //$(this).next().find('a.editme').show();
         
         var newContent = $(this).find('div.node_created');
         var classes = $(newContent).attr('class').split(' ');
         var newItem = $(this).clone().empty();
+        $(newItem).removeClass('targetme');
+        $(newItem).removeClass('empty');
         var newId = 'newId';
         for (var i = 0; i < classes.length; i++) {
             if (classes[i].indexOf('relation_') > -1) {
@@ -322,12 +338,11 @@ function afterSubmit(response, status, xhr, $form) {
         
         /* after saving new node, form is kept around for some reason ?! */
         if ($(this).find('form').length) {
-            console.log('still found a form ' + $(this).find('form').length);
-            //$(this).find('form').remove();
+            //console.log('WARN: still found a form ' + $(this).find('form').length);
+            $(this).find('form').remove();
         }
         
         /* if this (div) contains .targetme : append new content to it */
-        console.log('show : ' + params['showform'] )
         if ($(this).hasClass('targetme')) {
             $(this).html(newItem);
             initEditme('#' + newId);
@@ -340,26 +355,32 @@ function afterSubmit(response, status, xhr, $form) {
             }
         }
         
-    } else if (response.indexOf('node_deleted') > -1) { /* node deleted */
-        initEditme(this);
+        var msg = $(this).find('.msg');
+        $('#' + parentId + '_log').html(msg);
+        clearMsg('#' + parentId + '_log');
         
-        var self = this;
-        var listLength = $(this).parent('ul').find('li:not(.notsortable)').length;
-        var uList = $(this).parent('ul');
-        //console.log('thisId ' + thisId);
-        $(this).find('a.close').click(function(ev){     // TODO: change this to something automatic
-            ev.preventDefault();
-            $(self).remove();
-            if (listLength == 1) {  // was 1, now empty
-                //console.log('list le ' + listLength + ' p ' + $(this).parent('ul').attr('id'));
-                $(uList).prepend('<li id="iamempty" class="notsortable empty">Drop here...</li>');
-                var params = new Object();
-                params['type'] = 'mediafragments';  // TODO: find and use nodetype
-                $('#iamempty').load("${mm:link('/editors/show-node.empty.jspx')}", params); // hackery!
-            }
-        });
-    
-    } else {                                            /* node edited (or action cancelled) */
+    } else if (response.indexOf('node_deleted') > -1) { /* node deleted or relation removed */
+        
+        //$(this).remove();
+        if ($('#' + parentId).hasClass('targetme')) {
+            $('#' + parentId).html(response);
+            initEditme('#' + parentId);
+            clearMsg('#' + parentId);
+        } else {
+            $(this).remove();
+            $('#' + parentId + '_log').html(response);
+            clearMsg('#' + parentId + '_log');
+            
+            /* in case of editme links */
+            initEditme('#' + parentId);
+        }
+        
+        
+
+    } else {                                            /* node edited (or action cancelled?) */
+
+        var msg = $(this).find('.msg');
+        
         var link = xhr.responseXML.URL;
         var query = link.substring(link.indexOf("?") + 1, link.length);
         var params = getParams(query);
@@ -370,7 +391,20 @@ function afterSubmit(response, status, xhr, $form) {
             if ($(this).find('form').length) $(this).find('form').remove(); // clean up
             initEditme(this);
         }
+
+        $('#' + parentId + '_log').html(msg);
+        clearMsg('#' + parentId + '_log');
+
     }
+    
+    var len = $('#' + parentId).find('li:not(.notsortable)').length;
+    showAddme($('#' + parentId));
+    if (len < 1) {
+        $('#' + parentId).addClass('empty');
+    } else if ($('#' + parentId).hasClass('empty')) {
+        $('#' + parentId).removeClass('empty');
+    }
+
     clearMsg(this);
 }
 
@@ -419,22 +453,19 @@ function initSortable(listEl) {
                     
                     if (response.indexOf('number') > -1) {
                         var result = response.match(/\s+number='(\d+)'/);
-                        console.log('found: ' + result);
+                        //console.log('found: ' + result);
                         
                         var newrel = result[1];
                         $(listItem).attr('id', "relation_" + newrel);   // give it new id
                     }
                     
-                    console.log('newrel: ' + newrel);
-
                     params['relation'] = newrel;
                     $(listItem).find('div.actions').load("${mm:link('/editors/actions.div.params.jspx')}", 
                         params, 
                         function(){ 
                             initEditme(this); 
                             $('#' + destListId).sortable("refresh");
-                            //console.log('refresh ' + destListId);
-                            $('#' + destListId).find('li.empty').remove();
+                            $('#' + destListId).removeClass('empty');
                         }
                     );
 
@@ -590,7 +621,6 @@ function initSortable(listEl) {
 
                                 }
 
-
                                 $('#' + listId + '_log').html(data.responseText);
                                 clearMsg('#' + listId + '_log');
                             },
@@ -683,22 +713,43 @@ function sortSortable(list, updated) {
             });
         }, ms);
     }
+    
     if (total == 0) {
         $(list).addClass('empty');
-        //console.log('empty');
-        $(list).prepend('<li id="iamempty" class="notsortable empty">Drop here...</li>');
-        var params = new Object();
-        params['type'] = 'mediafragments';  // TODO: find and use nodetype
-        $('#iamempty').load("${mm:link('/editors/show-node.empty.jspx')}", params);
-        
     } else {
-        $(list).find('li.empty').remove();
-        //console.log('no longer empty, remove empty li !');
         if ($(list).is('.empty')) {
             $(list).removeClass('empty');
         }
     }
     
+}
+
+/*
+ * Hides element to add/create items if maximum number of items in list is exceded. 
+ */
+function showAddme(list) {
+    var len = $(list).find('li:not(.notsortable)').length;
+    //console.log('# len: ' + len);
+    var classes = $(list).attr('class');
+    //console.log('# classes: ' + classes);
+    if (classes == null) return; 
+    if (classes.indexOf('max_') > -1) {
+        var max = 999;
+        var mresult = classes.match(/max_(\d+)/);
+        if (mresult != null) {
+            max = mresult[1];
+        }
+        
+        var id = $(list).attr('id');
+        //console.log('# max: ' + max + ', len: ' + len + ' for id ' + id );
+        if (max > len) {
+            if ( $('#' + id + '_add').is(":hidden") ) {
+                $('#' + id + '_add').show();
+            }
+        } else if ( $('#' + id + '_add').is(":visible") ) {
+            $('#' + id + '_add').hide();
+        }
+    }    
 }
 
 /*

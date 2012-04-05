@@ -61,21 +61,21 @@
           </mm:maydelete>
           
           <mm:hasnode number="$parent">
-            <span class="content">
-              <mm:node number="$parent">
-                <mm:include page="$show" referids="parent@nr,fields?" />
-              </mm:node>
-            </span>
-            <span class="links">
-              <mm:link page="/editors/add-thumb.jspx" 
-                referids="p?,parent@nr,role?,show?,editor?,maydelete?,unpublish?">
-                <mm:param name="lang">${requestScope['javax.servlet.jsp.jstl.fmt.locale.request']}</mm:param>
-                <mm:param name="type">images</mm:param>
-                <mm:param name="fields">handle</mm:param>
-                <mm:param name="defaultstr">title=Thumbnail <mm:field name="title" /></mm:param>
-                <a class="editme" href="${_}#edit-picture"><fmt:message key="users.add_image" /></a>
-              </mm:link>
-            </span>
+            <div id="new-picture">
+              <mm:node number="$parent"><oip:thumb /></mm:node>
+              <p class="description">
+                <mm:link page="/editors/add-thumb.jspx" 
+                  referids="p?,parent@nr,role?,show?,editor?,maydelete?,unpublish?">
+                  <mm:param name="lang">${requestScope['javax.servlet.jsp.jstl.fmt.locale.request']}</mm:param>
+                  <mm:param name="type">images</mm:param>
+                  <mm:param name="fields">handle</mm:param>
+                  <mm:param name="show">/editors/show-thumb.jspx</mm:param>
+                  <mm:param name="editor">/editors/edit-thumb.jspx</mm:param>
+                  <mm:param name="defaultstr">title=Thumbnail <mm:field name="title" /></mm:param>
+                  <a class="editme" href="${_}#new-picture"><fmt:message key="users.add_image" /></a>
+                </mm:link>
+              </p>
+            </div>
           </mm:hasnode>
           
         </c:when>

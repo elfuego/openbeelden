@@ -133,6 +133,14 @@ form.properties {
 
 ul.sortable { min-height: 32px; }
 
+/* hide empty list item */
+ul.relatednodes li.empty { display: none; }
+
+/* show empty list item when list is empty */
+ul.relatednodes.empty li.empty {
+	display: block;
+}
+
 ul.relatednodes div.actionrelate { display: none; }
 ul.foundnodes div.actions { display: none; }
 ul.foundnodes.sortcancel div.actionrelate { display: none; }
@@ -271,7 +279,8 @@ li.pager strong,
 th.pager a,
 th.pager strong { margin: 0 2px; }
 
-div#edit-picture div.emptyimage {
+
+li.empty div#edit-picture div.emptyimage {
 	border: 1px solid #ccc;
 	height: 89px;
 	width: 157px;
@@ -281,18 +290,32 @@ div#edit-picture div.emptyimage {
 	background-repeat: no-repeat;
 	background-position: 50% 50%;
 }
-li div.emptyimage {
+li.empty div.emptyimage {
 	margin-right: 8px;
 	border: 1px solid #ccc;
-	height: 48px;
-	width: 84px;
+	height: 60px;
+	width: 81px;
 	float: left;
-	margin-bottom: 1em;
-	background-image: url(images/cross512x288.png);
+	margin-top: 2px;
+	margin-bottom: 2px;
+	background-image: url(images/cross4x3.png);
 	background-repeat: no-repeat;
 	background-position: 50% 50%;
 }
 
+li.empty div.show-media div.emptyimage
+{
+	background-image: url(images/cross4x3.png);
+	margin: 4px 8px 0 0;
+	height: 60px;
+	width: 81px; 
+}
+
+div.show-media { height: 68px; }
+div.show-media > img {
+	float: left;
+	margin: 2px 6px 0 0;
+}
 
 div#edit-picture div.node {
 	float: left;
@@ -308,13 +331,6 @@ div.node span > img {
 	float: left;
 	margin-right: 8px;
 	margin-bottom: 4px;
-}
-
-div.show-media { height: 68px; }
-div.show-media img
-{
-	float: left;
-	margin: 4px 8px 0 0;
 }
 
 div.mm_check_error { margin-left: 148px; }
@@ -385,6 +401,7 @@ div.wrap.languages {
 	margin: 0 0 1em 0;
 }
 div.wrap.languages li.add { text-transform: lowercase; }
+div.wrap.languages li.selected a { font-weight: bold; }
 
 div.box form.mm_form { padding: 0; }
 div.box {

@@ -20,10 +20,15 @@
       <mm:import id="max">10</mm:import>
       <mm:import externid="offset">0</mm:import>
       <c:if test="${offset lt 0}"><mm:import id="offset" reset="true">0</mm:import></c:if>
+      <mm:cloudinfo type="usernode" id="youare" write="false" />
 
       
-      <mm:listnodescontainer type="videofragments">
-        <mm:constraint field="show" value="true" operator="EQUAL" />
+      <mm:listnodescontainer type="videofragments">        
+        <mm:hasrank maxvalue="project manager">
+          <c:if test="${n ne youare}">
+            <mm:constraint field="show" value="true" operator="EQUAL" />
+          </c:if>
+        </mm:hasrank>
 <!-- 
         <mm:constraint field="online" value="$today" operator="LESS" />
         <mm:constraint field="offline" value="$today" operator="GREATER" />
@@ -37,7 +42,11 @@
       </mm:listnodescontainer>
 
       <mm:listnodescontainer type="audiofragments">
-        <mm:constraint field="show" value="true" operator="EQUAL" />
+        <mm:hasrank maxvalue="project manager">
+          <c:if test="${n ne youare}">
+            <mm:constraint field="show" value="true" operator="EQUAL" />
+          </c:if>
+        </mm:hasrank>
 <!-- 
         <mm:constraint field="online" value="$today" operator="LESS" />
         <mm:constraint field="offline" value="$today" operator="GREATER" />
@@ -51,7 +60,11 @@
       </mm:listnodescontainer>
 
       <mm:listnodescontainer type="imagefragments">
-        <mm:constraint field="show" value="true" operator="EQUAL" />
+        <mm:hasrank maxvalue="project manager">
+          <c:if test="${n ne youare}">
+            <mm:constraint field="show" value="true" operator="EQUAL" />
+          </c:if>
+        </mm:hasrank>
 <!-- 
         <mm:constraint field="online" value="$today" operator="LESS" />
         <mm:constraint field="offline" value="$today" operator="GREATER" />

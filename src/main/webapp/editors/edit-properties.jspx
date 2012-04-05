@@ -38,22 +38,22 @@
       </c:if>
     </mm:present>
         
-    <ul class="relatednodes">
+    <div class="log" id="properties_${nr}_log"><!-- is empty --></div>
+    <ul id="properties_${nr}" class="relatednodes">
       <mm:nodelistfunction nodemanager="properties" name="list" referids="_node@node">
+        
         <mm:import id="propnr" reset="true"><mm:field name="number" /></mm:import>
         <li id="node_${propnr}">
           <div class="actions">
             <mm:maydelete>
               <mm:link page="/editors/delete-node.jspx" referids="p?,propnr@nr">
                 <mm:param name="fields">value</mm:param>
-                <!-- <mm:param name="showme">true</mm:param> -->
                 <a class="editme delete" href="${_}#node_${propnr}" title="delete property"><fmt:message key="editors.delete" /></a>
               </mm:link>
             </mm:maydelete>
             <mm:maywrite>
               <mm:link page="/editors/edit-node.jspx" referids="p?,propnr@nr">
                 <mm:param name="fields">value</mm:param>
-                <!-- <mm:param name="showme">true</mm:param> -->
                 <a class="editme" title="edit property" href="${_}#node_${propnr}"><fmt:message key="editors.edit" /></a>
               </mm:link>
             </mm:maywrite>
@@ -61,8 +61,8 @@
           <div class="node">
             <strong><mm:field name="key" /> : </strong> <mm:field name="value" />
           </div>
-          
         </li>
+        
       </mm:nodelistfunction>
     </ul>
       

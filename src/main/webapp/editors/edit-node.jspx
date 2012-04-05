@@ -91,13 +91,12 @@
               
               <mm:maywrite>
                 <fieldset class="buttons">
-                  <input name="submit${nr}"  type="hidden" value="ok" />
                   <fmt:message key="users.form.save" var="button_save" />
                   <fmt:message key="users.cancel" var="button_cancel" />
                   <c:if test="${editme and maycancel}">
                     <input type="button" name="cancel" value="${button_cancel}" class="cancel" /> 
                   </c:if>
-                  <input type="submit" name="action" value="${button_save}" class="submit" />
+                  <input type="submit" name="submit${nr}" value="${button_save}" class="submit" id="submit${nr}" />
                 </fieldset>
               </mm:maywrite>
             </mm:import>

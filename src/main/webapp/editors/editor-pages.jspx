@@ -12,17 +12,26 @@
       
       <mm:import externid="lang">${requestScope['javax.servlet.jsp.jstl.fmt.locale.request']}</mm:import>
       <mm:import externid="nr" />
+      <mm:import externid="parent" />
+      <mm:import externid="translation" /><!-- node number of translation or new for new translation -->
       <mm:import externid="type">pages</mm:import>
+      <mm:import externid="pos">1</mm:import>
+ 
       <mm:import externid="submit$type" />
       <mm:import externid="submit$nr" />
-      <mm:import externid="pos">1</mm:import>
-      
+      <mm:import externid="submit_translation" />
+     
       <mm:present referid="nr">
         <mm:node number="$nr">
           <mm:field name="title" id="pagetitle" write="false" />
         </mm:node>
       </mm:present>
 
+      <mm:validation
+          nodemanagers="pages"
+          elements="#form_page" 
+          submit="#submit,#submit2" />
+      
     </jsp:attribute>
     <jsp:attribute name="body">
 
@@ -40,28 +49,9 @@
         </p>
 
         <mm:notpresent referid="nr">  
-          <!-- node node yet, create a page -->
+          <!-- no node yet, create a page -->
           
-          <script type="text/javascript">
-            $(document).ready(function() {
-                var validator = new MMBaseValidator();
-                var to_validate_id = "form_${type}";
-                <c:if test="${!empty type}">validator.prefetchNodeManager('${type}');</c:if>
-                validator.lang = "${requestScope['javax.servlet.jsp.jstl.fmt.locale.request']}";
-                validator.addValidationForElements($('#' + to_validate_id + " .mm_validate"));
-                validator.validateHook = function(valid, entry) {
-                   var button = $("#" + to_validate_id + " input[type=submit][class=submit]");
-                   if (button.length) {
-                       button[0].disabled = validator.invalidElements != 0;
-                       if (button.length == 2) button[1].disabled = validator.invalidElements != 0;
-                   }
-                   //console.log(validator.elements);
-                }
-                validator.validateHook();
-            });
-          </script>
-
-          <mm:form id="form_$type">
+          <mm:form id="form_page">
             <mm:import id="buffer">
               <mm:createnode type="$type" id="new_node" commitonclose="false">
                 <mm:hasfield name="language">
@@ -80,7 +70,9 @@
                   </mm:fieldlist>
                 </fieldset>
                 <fieldset class="buttons">
-                  <input name="p" type="hidden" value="${p}" />
+                  <input name="p"      type="hidden" value="${p}" />
+                  <input name="parent" type="hidden" value="${parent}" />
+                  <input name="pos"    type="hidden" value="${pos}" />
                   <input name="submit${type}" type="hidden" value="submit" />
                   <fmt:message key="users.form.save" var="button_save" />
                   <input type="submit" name="action" value="${button_save}" class="submit" id="submit" />
@@ -96,7 +88,6 @@
                         </a>
                       </mm:link>
                     </li>
-                    <!-- <li><a href="#">Voeg vertaling toe</a></li> -->
                   </ul>
                 </div>
                 
@@ -113,13 +104,6 @@
                         <mm:maywrite><mm:fieldinfo type="input" /><mm:fieldinfo type="errors" /></mm:maywrite>
                       </div>
                     </mm:fieldlist>
-
-                    <!-- <mm:datatype nodemanager="streamsources" field="language" id="searchlang">
-                      <default value="" />
-                      <required value="false" />
-                    </mm:datatype>
-                    <mm:fieldinfo datatype="searchlang" node="" type="input" /> -->
-
                   </fieldset>
                   <fieldset class="buttons">
                     <fmt:message key="users.form.save" var="button_save" />
@@ -161,30 +145,14 @@
           </mm:present>
         </mm:notpresent><!-- /nr -->
         
+        
+        
         <!-- ### here starts editing current/new node ### -->
         <mm:present referid="nr">
-          <script type="text/javascript">
-            $(document).ready(function() {
-                var validator = new MMBaseValidator();
-                var to_validate_id = "form_${nr}";
-                <c:if test="${!empty type}">validator.prefetchNodeManager('${type}');</c:if>
-                validator.lang = "${requestScope['javax.servlet.jsp.jstl.fmt.locale.request']}";
-                validator.addValidationForElements($('#' + to_validate_id + " .mm_validate"));
-                validator.validateHook = function(valid, entry) {
-                   var button = $("#" + to_validate_id + " input[type=submit][class=submit]");
-                   if (button.length) {
-                       button[0].disabled = validator.invalidElements != 0;
-                       if (button.length == 2) button[1].disabled = validator.invalidElements != 0;
-                   }
-                   //console.log(validator.elements);
-                }
-                validator.validateHook();
-            });
-          </script>
-
+          
           <mm:url referids="p?,nr,lang?" write="false" absolute="true" escapeamps="false" id="submit_link"></mm:url>
 
-          <mm:form id="form_$nr" page="$submit_link">
+          <mm:form id="form_page" page="$submit_link">
             <mm:node number="$nr" commitonclose="false">
               <mm:import id="editbuffer">
                 <fieldset>
@@ -206,22 +174,26 @@
                   <fmt:message key="users.form.save" var="button_save" />
                   <input type="submit" name="action" value="${button_save}" class="submit" id="submit" />
                 </fieldset>
+                
                 <div class="wrap languages">
+                  
                   <h3>Taalversies</h3>
-                  <ul>
-                    <li>
+                  
+                  <!-- the configured locales (displayLocales) for this site -->
+                  <mm:function set="mmsite" name="locales" id="locales" write="false" />
+
+                  <ul class="relatednodes max_${fn:length(locales) - 1} ${size == 0 ? 'empty' : ''}">
+                    <li class="notsortable ${empty translation ? 'selected' : 'not'}">
                       <mm:link referids="p?,nr"><a href="${_}"><mm:field name="language"><mm:fieldinfo type="guivalue" /></mm:field></a></mm:link>
                       : <mm:field name="title" />
                     </li>
                     
                     <mm:relatednodescontainer type="pages_translations" role="langrel" searchdirs="destination">
+                      <mm:size id="related_langs" write="false" />
                       <mm:relatednodes>
-                        <li>
-                          <mm:link page="/editors/edit-node.jspx" referids="p?,_node@nr">
-                            <mm:param name="fields">title,language,description</mm:param>
-                            <mm:param name="maycancel">false</mm:param>
-                            <mm:param name="showform">true</mm:param>
-                            <a class="editme" href="${_}#totranslate">
+                        <li class="${translation eq _node ? 'selected' : 'not'}">
+                          <mm:link referids="p?,nr,_node@translation">
+                            <a href="${_}">
                               <mm:field name="language"><mm:fieldinfo type="guivalue" /></mm:field>
                             </a> : <mm:field name="title" />
                           </mm:link>
@@ -229,40 +201,38 @@
                       </mm:relatednodes>
                     </mm:relatednodescontainer>
                     
+                    <c:if test="${fn:length(locales) -1 gt related_langs}">
+                      <li>
+                        <mm:link referids="p?,nr">
+                          <mm:param name="translation">${locales[0] eq _node.language ? locales[1] : locales[0]}</mm:param>
+                          <a href="${_}#totranslate">Voeg vertaling toe</a>
+                        </mm:link>
+                      </li>
+                    </c:if>
                     
-                    <li>
-                      <mm:link page="/editors/add-node.jspx" referids="p?,_node@nr">
-                        <mm:param name="editor">/editors/editor-pages.jspx</mm:param>
-                        <mm:param name="type">pages_translations</mm:param>
-                        <mm:param name="fields">title,language,description</mm:param>
-                        <mm:param name="role">langrel</mm:param>
-                        <mm:param name="maycancel">false</mm:param>
-                        <mm:param name="showform">true</mm:param>
-                        <a class="add editme" href="${_}#totranslate">Voeg vertaling toe</a>
-                      </mm:link>
-                    </li>
-                      
                   </ul>
                 </div>
-                <div class="box" id="totranslate">
-                  <fieldset class="description">
-                    <p>Vul de gegevens van de pagina in.</p>
-                    <mm:fieldlist fields="title,language,description">
-                      <c:set var="fld_name"><mm:fieldinfo type="name" /></c:set>
-                      <div class="${fld_name}">
-                        <mm:fieldinfo type="forid">
-                          <label for="${_}" class="${fld_name}"><mm:fieldinfo type="guiname" /></label>
-                        </mm:fieldinfo>
-                        <p class="info"><mm:fieldinfo type="description" escape="inline" /></p>
-                        <mm:maywrite><mm:fieldinfo type="input" /><mm:fieldinfo type="errors" /></mm:maywrite>
-                      </div>
-                    </mm:fieldlist>
-                  </fieldset>
-                  <fieldset class="buttons">
-                    <fmt:message key="users.form.save" var="button_save" />
-                    <input type="submit" name="action" value="${button_save}" class="submit" id="submit2" />
-                  </fieldset>
-                </div>
+                <c:if test="${empty translation}">
+                  <div class="box" id="totranslate">
+                    <fieldset class="description">
+                      <p>Vul de gegevens van de pagina in.</p>
+                      <mm:fieldlist fields="title,language,description">
+                        <c:set var="fld_name"><mm:fieldinfo type="name" /></c:set>
+                        <div class="${fld_name}">
+                          <mm:fieldinfo type="forid">
+                            <label for="${_}" class="${fld_name}"><mm:fieldinfo type="guiname" /></label>
+                          </mm:fieldinfo>
+                          <p class="info"><mm:fieldinfo type="description" escape="inline" /></p>
+                          <mm:maywrite><mm:fieldinfo type="input" /><mm:fieldinfo type="errors" /></mm:maywrite>
+                        </div>
+                      </mm:fieldlist>
+                    </fieldset>
+                    <fieldset class="buttons">
+                      <fmt:message key="users.form.save" var="button_save" />
+                      <input type="submit" name="action" value="${button_save}" class="submit" id="submit2" />
+                    </fieldset>
+                  </div>
+                </c:if>
               </mm:import>
 
               <mm:present referid="submit$nr">
@@ -282,6 +252,11 @@
             </mm:node>
 
           </mm:form>
+         
+          <mm:present referid="translation">
+            <mm:include page="translations.box.jspx" referids="p,nr,translation" />
+          </mm:present>
+
 
           <div class="wrap noborder">
             <mm:link page="/editors/list-articles.jspx" referids="nr@parent,p?">
@@ -290,8 +265,6 @@
           </div>
         
         </mm:present><!-- /nr -->
-        
-        
 
       </div><!-- /.main-column -->
     </jsp:attribute>

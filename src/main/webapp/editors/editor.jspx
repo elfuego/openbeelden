@@ -17,26 +17,10 @@
         <mm:node number="$nr"><mm:nodeinfo type="type" id="builder" write="false" /></mm:node>
       </mm:hasnode>
 
-      <script type="text/javascript">
-        /* this is in editor.jspx */
-        $(document).ready(function() {
-            var validator = new MMBaseValidator();
-            var to_validate_id = "form_${nr}";
-            <c:if test="${!empty builder}">validator.prefetchNodeManager('${builder}');</c:if>
-            validator.lang = "${requestScope['javax.servlet.jsp.jstl.fmt.locale.request']}";
-            validator.addValidationForElements($('#' + to_validate_id + " .mm_validate"));
-            validator.validateHook = function(valid, entry) {
-               var button = $("#" + to_validate_id + " input[type=submit][class=submit]");
-		       if (button.length) {
-    		       button[0].disabled = validator.invalidElements != 0;
-    		   }
-		       //console.log("invalid: "  + validator.invalidElements);
-		       //console.log(validator.elements);
-            }
-            validator.validateHook();
-            
-        });
-      </script>
+      <mm:validation
+          nodemanagers="${builder}"
+          elements="#form_${nr}" 
+          submit="#submit${nr}" />   
         
     </jsp:attribute>
     <jsp:attribute name="left">
@@ -61,8 +45,9 @@
 
               <h2>Edit : <mm:nodeinfo type="type" id="type" /></h2>
 
-
               <mm:include page="edit-node.jspx" referids="p?,_node@nr" />
+              
+              <h3>Taalversies</h3>
               <mm:include page="/mmbase/components/oip/user-translations.jspx" referids="_node@n" />
 
                 

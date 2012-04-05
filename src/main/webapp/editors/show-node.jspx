@@ -32,8 +32,9 @@
         </c:when>
         
         <c:when test="${_ eq 'articles_translations'}">
+          <strong><mm:field name="language"><mm:fieldinfo type="guivalue" /></mm:field> : </strong> 
           <span>
-            <mm:field name="title" /> (<mm:field name="language" />)
+            <mm:field name="title" /> 
           </span>
         </c:when>
 
@@ -59,9 +60,9 @@
         </c:when>
         
         <c:when test="${_ eq 'licenses_translations'}">
+          <strong><mm:field name="language"><mm:fieldinfo type="guivalue" /></mm:field> : </strong> 
           <span>
             <mm:field name="name" /> <jsp:text> </jsp:text>
-            (<mm:field name="language" />)
           </span>
         </c:when>
 
@@ -72,9 +73,8 @@
         </c:when>
 
         <c:when test="${_ eq 'pages_translations'}">
-          <span>
-            <mm:field name="title" /> (<mm:field name="language" />)
-          </span>
+          <strong><mm:field name="language"><mm:fieldinfo type="guivalue" /></mm:field> : </strong> 
+          <span> <mm:field name="title" /> </span>
         </c:when>
 
         <c:when test="${_ eq 'pools_translations'}">
@@ -92,9 +92,8 @@
         </c:when>
         
         <c:when test="${_ eq 'mediafragments_translations'}">
-          <span>
-            <mm:field name="title" /> (<mm:field name="language" />)
-          </span>
+          <strong><mm:field name="language"><mm:fieldinfo type="guivalue" /></mm:field> : </strong> 
+          <span><mm:field name="title" /></span>
         </c:when>
 
         <c:when test="${_ eq 'properties'}">
@@ -125,8 +124,9 @@
         </c:when>
         
         <c:when test="${_ eq 'users_translations'}">
+          <strong><mm:field name="language"><mm:fieldinfo type="guivalue" /></mm:field> : </strong> 
           <span>
-            <mm:field name="firstname" /><jsp:text> </jsp:text><mm:field name="suffix" /><jsp:text> </jsp:text><mm:field name="lastname" /> (<mm:field name="language" />)
+            <mm:field name="firstname" /><jsp:text> </jsp:text><mm:field name="suffix" /><jsp:text> </jsp:text><mm:field name="lastname" /> 
           </span>
         </c:when>
         

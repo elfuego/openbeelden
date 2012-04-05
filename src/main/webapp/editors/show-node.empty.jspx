@@ -42,10 +42,10 @@
     </c:when>
     
     <c:when test="${type eq 'images'}">
-      <span>
-        Titel 
-        [afb]
-      </span>
+      <div>
+        <div class="emptyimage"><!-- empty --></div> 
+        <span>Titel</span> 
+      </div>
     </c:when>
     
     <c:when test="${type eq 'licenses'}">
@@ -81,7 +81,8 @@
     <c:when test="${type eq 'mediafragments' or type eq 'imagefragments' or type eq 'audiofragments' or type eq 'videofragments'}">
       <div class="show-media">
         <c:set var="title">Titel van media item</c:set>
-        <img src="${mm:link('/style/images/thumb_empty.png')}" height="60" width="81" alt="Titel van media item" title="Titel van media item" /> 
+        <!-- <img src="${mm:link('/style/images/thumb_empty.png')}" height="60" width="81" alt="Titel van media item" title="Titel van media item" /> -->
+        <div class="emptyimage"><!-- empty --></div> 
         ${title} <br />
         <em>media</em>
       </div>

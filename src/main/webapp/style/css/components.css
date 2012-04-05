@@ -70,7 +70,8 @@ div.b_user-picture input.cancel
 
 div.b_user-picture fieldset.buttons > div,
 div.b_user-mediapreview fieldset.buttons > div { text-align: left; }
-div.b_user-mediapreview #edit-picture { margin-top: 32px; }
+div.b_user-mediapreview #edit-picture_log { margin-top: 32px; }
+div.b_user-mediapreview #edit-picture { /* margin-top: 32px; */ }
 
 div.b_user-mediapreview p img { margin: 1em 8px -6px 0; }
 

@@ -55,16 +55,24 @@
     </mm:composite>
   </c:if>
 
-  <mm:fieldlist nodetype="$type" type="${empty fields ? 'edit' : ''}" fields="${fields}">
+  <mm:import externid="so">down</mm:import>
+  <mm:import externid="sortby">number</mm:import>
+  <!-- mm:fieldlist nodetype="$type" type="${empty fields ? 'edit' : ''}" fields="${fields}">
     <mm:first>
       <mm:notpresent referid="sortby"><mm:import externid="sortby"><mm:fieldinfo type="name" /></mm:import></mm:notpresent>
-      <mm:import externid="so">up</mm:import>
     </mm:first>
-  </mm:fieldlist>
-  <mm:import id="neworder" reset="true">${so eq 'up' ? 'down' : 'up'}</mm:import>
+  </mm:fieldlist -->
   
   <mm:size id="total" write="false" />
-  <!-- <mm:sortorder field="$sortby" direction="$so" /> --> <!-- TODO: error with field 'handle' -->
+
+  <c:choose>
+    <c:when test="${!empty sortby and sortby ne 'handle'}">
+      <mm:sortorder field="$sortby" direction="$so" /> <!-- TODO: error with field 'handle' -->
+    </c:when>
+    <c:otherwise>
+      <mm:sortorder field="number" direction="$so" /> <!-- TODO: error with field 'handle' -->
+    </c:otherwise>
+  </c:choose>
   <mm:maxnumber value="$max" />
   <mm:offset value="$offset" />
 

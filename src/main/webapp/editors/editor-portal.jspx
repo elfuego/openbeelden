@@ -3,13 +3,18 @@
     version="2.0"
     xmlns:jsp="http://java.sun.com/JSP/Page"
     xmlns:c="http://java.sun.com/jsp/jstl/core"
+    xmlns:fn="http://java.sun.com/jsp/jstl/functions"
     xmlns:fmt="http://java.sun.com/jsp/jstl/fmt"
     xmlns:mm="http://www.mmbase.org/mmbase-taglib-2.0"
     xmlns:oip="urn:jsptagdir:/WEB-INF/tags/oip">
 
   <oip:editor styleClass="portal">
     <jsp:attribute name="head">
-    
+
+      <mm:validation
+          nodemanagers="pools"
+          elements="#form_portal" 
+          submit="#submit_portal,#submit2_portal" />    
     </jsp:attribute>
     <jsp:attribute name="left">
 
@@ -21,6 +26,10 @@
 
     </jsp:attribute>
     <jsp:attribute name="body">
+
+      <!-- the configured locales (displayLocales) for this site -->
+      <mm:function set="mmsite" name="locales" id="locales" write="false" />
+      <mm:import externid="translation" />
 
       <div class="main-column">
         <h2>Editor portal : <mm:field name="name" id="portalName" /></h2>
@@ -81,61 +90,109 @@
             
           </div>
         </c:if>
+        
+        <mm:import externid="submit_portal" />
+        <mm:url referids="p,lang?" write="false" absolute="true" escapeamps="false" id="submit_link" />
 
-        <!-- translations or languages -->
-        <div class="wrap languages">
-          <h3>Taalversies</h3>
-          <ul>
-            <li>
-              <mm:link referids="p">
-                <a href="${_}"><mm:field name="language"><mm:fieldinfo type="guivalue" /></mm:field></a>
-                : <mm:field name="name" />
-              </mm:link>
-            </li>
-            <mm:relatednodescontainer type="pools_translations" role="langrel" searchdirs="destination">
-              <mm:relatednodes>
-                <li>
-                  <mm:link page="/editors/edit-node.jspx" referids="p?,_node@nr">
-                    <mm:param name="fields">name,language,description</mm:param>
-                    <mm:param name="maycancel">false</mm:param>
-                    <mm:param name="showform">true</mm:param>
-                    <a class="editme" href="${_}#totranslate">
-                      <mm:field name="language"><mm:fieldinfo type="guivalue" /></mm:field>
-                    </a> : <mm:field name="name" />
-                  </mm:link>
-                </li>
-              </mm:relatednodes>
-            </mm:relatednodescontainer>
-            <li>
-              <mm:link page="/editors/add-node.jspx" referids="p?,_node@nr">
-                <mm:param name="editor">/editors/editor-portal.jspx</mm:param>
-                <mm:param name="type">pools_translations</mm:param>
-                <mm:param name="fields">name,language,description</mm:param>
-                <mm:param name="role">langrel</mm:param>
-                <mm:param name="maycancel">false</mm:param>
-                <mm:param name="showform">true</mm:param>
-                <a class="add editme" href="${_}#totranslate">Voeg vertaling toe</a>
-              </mm:link>
-            </li>
-          </ul>
-        </div>        
-        <div id="totranslate" class="box">
-          <mm:include page="edit-node.jspx" referids="p?,_node@nr">
-            <mm:param name="fields">name,language,description</mm:param>
-            <mm:param name="lang">${requestScope['javax.servlet.jsp.jstl.fmt.locale.request']}</mm:param>
-          </mm:include>
-        </div>
+        <mm:form id="form_portal" page="$submit_link">
+          <mm:node number="$p" commitonclose="false">
+            <mm:import id="editbuffer">
+              <fieldset>
+                <mm:fieldlist fields="name">
+                  <c:set var="fld_name"><mm:fieldinfo type="name" /></c:set>
+                  <div class="${fld_name}">
+                    <mm:fieldinfo type="forid">
+                      <label for="${_}" class="${fld_name}"><mm:fieldinfo type="guiname" /></label>
+                    </mm:fieldinfo>
+                    <p class="info">
+                      Naam of titel van dit portal. 
+                      <!-- <mm:fieldinfo type="description" escape="inline" /> -->
+                    </p>
+                    <mm:maywrite><mm:fieldinfo type="input" /><mm:fieldinfo type="errors" /></mm:maywrite>
+                  </div>
+                </mm:fieldlist>
+              </fieldset>
+              <fieldset class="buttons">
+                <fmt:message key="users.form.save" var="button_save" />
+                <input type="submit" name="submit_portal" value="${button_save}" class="submit" id="submit_portal" />
+              </fieldset>
+              
+              <div class="wrap languages">
+                <h3>Taalversies</h3>
+                <ul id="related_translations" class="relatednodes max_${fn:length(locales) - 1}">
+                  <li class="notsortable ${empty translation ? 'selected' : 'not'}">
+                    <mm:link referids="p">
+                      <a href="${_}"><mm:field name="language"><mm:fieldinfo type="guivalue" /></mm:field></a>
+                      : <mm:field name="name" />
+                    </mm:link>
+                  </li>
+                  <mm:relatednodescontainer type="pools_translations" role="langrel" searchdirs="destination">
+                    <mm:size id="total_trans" write="false" />
+                    <mm:relatednodes>
+                      <li class="${translation eq _node ? 'selected' : 'not'}">
+                        <mm:link referids="p,_node@translation">
+                          <a href="${_}">
+                            <mm:field name="language"><mm:fieldinfo type="guivalue" /></mm:field>
+                          </a> : <mm:field name="name" />
+                        </mm:link>
+                      </li>
+                    </mm:relatednodes>
+                  </mm:relatednodescontainer>
+                  <c:if test="${fn:length(locales) - 1 gt total_trans}">
+                    <li>
+                      <mm:link referids="p">
+                        <mm:param name="translation">${locales[0] eq _node.language ? locales[1] : locales[0]}</mm:param>
+                        <a href="${_}">Voeg vertaling toe</a>
+                      </mm:link>
+                    </li>
+                  </c:if>
+                </ul>
+              </div>        
+              <c:if test="${empty translation}">
+                <div class="box">
+                  <fieldset class="description">
+                    <p>Vul de gegevens van het portal in.</p>
+                    <mm:fieldlist fields="language,description">
+                      <c:set var="fld_name"><mm:fieldinfo type="name" /></c:set>
+                      <div class="${fld_name}">
+                        <mm:fieldinfo type="forid">
+                          <label for="${_}" class="${fld_name}"><mm:fieldinfo type="guiname" /></label>
+                        </mm:fieldinfo>
+                        <p class="info"><mm:fieldinfo type="description" escape="inline" /></p>
+                        <mm:maywrite><mm:fieldinfo type="input" /><mm:fieldinfo type="errors" /></mm:maywrite>
+                      </div>
+                    </mm:fieldlist>
+                  </fieldset>
+                  <fieldset class="buttons">
+                    <fmt:message key="users.form.save" var="button_save" />
+                    <input type="submit" name="submit_portal" value="${button_save}" class="submit" id="submit2_portal" />
+                  </fieldset>
+                </div><!-- /.box-->
+              </c:if>              
+            </mm:import>
 
-        <!-- main pools node: the portal -->
-        <!--<mm:include page="edit-node.jspx" referids="p?,_node@nr">
-          <mm:param name="fields">name,language,description</mm:param>
-          <mm:param name="lang">${requestScope['javax.servlet.jsp.jstl.fmt.locale.request']}</mm:param>
-        </mm:include>-->
+            <mm:present referid="submit_portal">
+              <mm:valid inverse="true">
+                <mm:cancel />
+                <p class="err">Er zit een fout in het formulier.</p>
+              </mm:valid>
+              <mm:valid>
+                <mm:commit />
+                <p class="msg">Je veranderingen aan '<mm:function name="gui" escape="none" />' zijn bewaard.</p>
+              </mm:valid>
+              <mm:write referid="editbuffer" escape="none" />
+            </mm:present>
+            <mm:notpresent referid="submit_portal">
+              <mm:write referid="editbuffer" escape="none" />
+            </mm:notpresent>  
+            
+          </mm:node>
+        </mm:form>
 
-        <!-- <h4>Translations</h4>
-        <mm:include page="/mmbase/components/oip/user-translations.jspx" referids="_node@n">
-          <mm:param name="lang">${requestScope['javax.servlet.jsp.jstl.fmt.locale.request']}</mm:param>
-        </mm:include> -->
+        <mm:present referid="translation">
+          <mm:include page="translations.box.jspx" referids="p@nr,translation" />
+        </mm:present>
+
         
 
         <!-- homepage is very first one : contains partner logo's for footer -->
