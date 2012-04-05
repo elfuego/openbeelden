@@ -286,7 +286,7 @@ li.empty div#edit-picture div.emptyimage {
 	width: 157px;
 	float: left;
 	margin-bottom: 1em;
-	background-image: url(images/cross512x288.png);
+	background-image: url(images/cross16x9.png);
 	background-repeat: no-repeat;
 	background-position: 50% 50%;
 }
