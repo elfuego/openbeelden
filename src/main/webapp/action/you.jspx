@@ -43,66 +43,27 @@
       </mm:hasrank>
       
       <mm:hasrank value="anonymous">
-        
-        <!-- get and check cookie 'eu.openimages.rememberme' -->
-        <mm:import externid="eu.openimages.rememberme" id="mycookie" from="cookie" />
-        <mm:import externid="referrer" />
-        <c:if test="${!empty mycookie and fn:indexOf(referrer, 'logout.jspx') lt 0}">
-          
-          <mm:import id="apikey" reset="true">${fn:substringAfter(mycookie, ':')}</mm:import>
-          <mm:import id="user" reset="true">${fn:substringBefore(mycookie, ':')}</mm:import>
-          <c:if test="${!empty apikey}">
-            
-            <!-- write apikey to request and log in with it -->
-            <mm:write referid="apikey" request="apikey" />  
-            
-            <c:catch var="exc">
-
-              <mm:cloud method="sessiondelegate" authenticate="apikey">
-                <mm:cloudinfo type="usernode" id="youareloggedin" write="false" />
-                <mm:log level="info"> logged in with cookie for ${user} : ${youareloggedin} </mm:log>
-              </mm:cloud>
-              
-              <c:choose>
-                <c:when test="${!empty youareloggedin}">
-                  <mm:node number="$youareloggedin">
-                    <div>
-                      <oip:user />
-                      <mm:link page="/logout.jspx" referids="locale?">
-                        <a class="logout" href="${_}"><fmt:message key="login.logout" /></a>
-                      </mm:link>
-                    </div>
-                  </mm:node>
-                </c:when>
-                <c:otherwise>
-                  <mm:log level="info">1. no luck logging in with cookie [${mycookie}], remove it?</mm:log>
-                  <mm:import id="emptycookie" reset="true" />
-                  <mm:write cookie="eu.openimages.rememberme" referid="emptycookie" />
-                </c:otherwise>
-              </c:choose>
-              
-            </c:catch>
-            
-            <c:if test="${!empty exc}">
-              <mm:log level="info">2. not logged in with cookie [${mycookie}], remove it?</mm:log>
-              <mm:import id="emptycookie" reset="true" />
-              <mm:write cookie="eu.openimages.rememberme" referid="emptycookie" />
-              <div class="err"> <!-- empty --> ${exc.message} ${nopassword}</div>
-            </c:if>
-            
-          </c:if><!-- not empty apikey -->
-        </c:if><!-- not empty cookie -->
-        
-        <c:if test="${empty youareloggedin}">
-          <mm:node number="page_login">
-            <mm:link page="${_node.path}" referids="referrer">
-              <a class="login" href="${_}"><mm:field name="title" /></a>
-            </mm:link>
-          </mm:node>
-        </c:if>
-        
+        <oip:usercookie /><!-- gives us youareloggedin -->
+        <c:choose>
+          <c:when test="${!empty youareloggedin}">
+            <mm:node number="$youareloggedin">
+              <div>
+                <oip:user />
+                <mm:link page="/logout.jspx" referids="locale?">
+                  <a class="logout" href="${_}"><fmt:message key="login.logout" /></a>
+                </mm:link>
+              </div>
+            </mm:node>
+          </c:when>
+          <c:otherwise>
+            <mm:node number="page_login">
+              <mm:link page="${_node.path}" referids="referrer">
+                <a class="login" href="${_}"><mm:field name="title" /></a>
+              </mm:link>
+            </mm:node>
+          </c:otherwise>
+        </c:choose>
       </mm:hasrank>
-
       
     </mm:cloud>
   </mm:content>

@@ -1,0 +1,63 @@
+<jsp:root
+    version="2.0"
+    xmlns:c="http://java.sun.com/jsp/jstl/core"
+    xmlns:jsp="http://java.sun.com/JSP/Page"
+    xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+    xmlns:fmt="http://java.sun.com/jsp/jstl/fmt"
+    xmlns:mm="http://www.mmbase.org/mmbase-taglib-2.0"
+    xmlns:oip="urn:jsptagdir:/WEB-INF/tags/oip">
+
+    <jsp:directive.tag
+      display-name="User cookie"
+      description="Enables a user to login with cookie, return user node number in variable 'youareloggedin'."
+      />
+    <jsp:directive.variable name-given="youareloggedin" scope="AT_END" />
+    
+    
+    <fmt:setBundle basename="eu.openimages.messages"/>
+
+    <mm:hasrank value="anonymous">
+      
+      <!-- get and check cookie 'eu.openimages.rememberme' -->
+      <mm:import externid="eu.openimages.rememberme" id="mycookie" from="cookie" />
+      <mm:import externid="referrer" />
+      
+      <c:if test="${!empty mycookie and fn:indexOf(referrer, 'logout.jspx') lt 0}">
+        
+        <mm:import id="apikey" reset="true">${fn:substringAfter(mycookie, ':')}</mm:import>
+        <mm:import id="user" reset="true">${fn:substringBefore(mycookie, ':')}</mm:import>
+        
+        <c:if test="${!empty apikey}">
+          
+          <!-- write apikey to request and try to log in with it -->
+          <mm:write referid="apikey" request="apikey" />  
+          
+          <c:catch var="exc">
+
+            <mm:cloud method="sessiondelegate" authenticate="apikey">
+              <mm:import id="youareloggedin" reset="true"><mm:cloudinfo type="usernode" /></mm:import>
+              <mm:log level="info"> logged in with cookie for ${user} : ${youareloggedin} </mm:log>
+            </mm:cloud>
+            
+            <c:if test="${empty youareloggedin}">
+              <mm:log level="info">1. no luck logging in with cookie [${mycookie}], remove it?</mm:log>
+              <mm:import id="emptycookie" reset="true" />
+              <mm:write cookie="eu.openimages.rememberme" referid="emptycookie" />
+            </c:if>
+            
+          </c:catch>
+          
+          <c:if test="${!empty exc}">
+            <mm:log level="info">2. not logged in with cookie [${mycookie}], remove it?</mm:log>
+            <mm:import id="emptycookie" reset="true" />
+            <mm:write cookie="eu.openimages.rememberme" referid="emptycookie" />
+            <div class="err"> <!-- empty --> ${exc.message} ${nopassword}</div>
+          </c:if>
+          
+        </c:if>
+      </c:if>
+      
+    </mm:hasrank>
+
+
+</jsp:root>

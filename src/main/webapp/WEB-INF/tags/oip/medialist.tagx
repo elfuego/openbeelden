@@ -133,6 +133,9 @@
                   <mm:field name="date">
                     <mm:isnotempty><mm:time format="dd MMM yyyy" /></mm:isnotempty>
                   </mm:field>
+                  <mm:field name="show" write="false">
+                    <c:if test="${_ ne 'true'}"><strong> show : <mm:write /> </strong></c:if>
+                  </mm:field>
                 </mm:nodefunction>
                 
                 <!--
