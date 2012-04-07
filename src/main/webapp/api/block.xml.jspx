@@ -1,5 +1,5 @@
 <mm:content
-    type="text/html"
+    type="text/xml"
     postprocessor="none"
     expires="120"
     xmlns:c="http://java.sun.com/jsp/jstl/core"
@@ -11,9 +11,9 @@
   <mm:import externid="block" required="true" />
   
 
-    <content>
+    <oip-api>
       <mm:component name="${component}" block="${block}" />
-    </content>
+    </oip-api>
 
 
 </mm:content>

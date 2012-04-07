@@ -10,13 +10,15 @@
     <mm:import externid="apikey" />
     <mm:import externid="type" required="true" />
 
-    <mm:escaper type="tagstripper" id="striptags">
-      <mm:param name="tags">none</mm:param>
-    </mm:escaper>
 
+<oip-api>
     <c:choose>
       <c:when test="${empty apikey}">
-        <div>Error: no apikey.</div>
+        
+        <meta status="error">
+          Error: no apikey.
+        </meta>
+        
       </c:when>
       <c:otherwise>
         <mm:write referid="apikey" request="apikey" />
@@ -30,29 +32,31 @@
                 <mm:import id="buffer">
                   <mm:createnode type="$type" commitonclose="false" id="new_node">
                     <mm:fieldlist type="edit" varStatus="field">
-                      <mm:fieldinfo type="name" id="name" write="false" />
-                      <mm:import externid="$name" />
+                      <mm:fieldinfo type="name" id="fldname" write="false" />
+                      <mm:import externid="$fldname" />
 
                       <c:if test="${field.current.state eq 2}">
-                        <mm:setfield name="$name"><mm:write referid="$name" /></mm:setfield>
+                        <mm:setfield name="$fldname"><mm:write referid="$fldname" /></mm:setfield>
                         <mm:fieldinfo type="check" />
                       </c:if>
                     </mm:fieldlist>
                   </mm:createnode>
                 
                   <mm:valid>
-                    <!-- mm:commit / -->
-                    <dl>
-                      <dt>number</dt>
-                      <dd>${new_node}</dd>
-                    </dl>
+                    <mm:commit />
+                    <meta status="OK"> 200?
+                      Node created
+                    </meta>
+                    <response>
+                      <div class="name">number</div>
+                      <div class="value">${new_node}</div>
+                    </response>>
                   </mm:valid>
                   <mm:valid inverse="true">
                     <!-- jsp:scriptlet>response.setStatus(500); </jsp:scriptlet -->
-                    <dd>
-                      <dt>invalid (type: ${type})</dt>
-                      <dt>form is invalid</dt>
-                    </dd>
+                    <meta status="error">
+                      Error: form is invalid for type ${type}
+                    </meta>
                   </mm:valid>
                 
                 </mm:import>
@@ -60,10 +64,9 @@
             </mm:maycreate>
             
             <mm:maycreate type="$type" inverse="true">
-              <dl class="error">
-                <dt>Not allowed</dt>
-                <dd>You are not allowed to create this type of node.</dd>
-              </dl>
+              <meta status="error">
+                Not allowed: You are not allowed to create this type (${type}) of node.
+              </meta>
             </mm:maycreate>
             
           </mm:cloud>
@@ -72,19 +75,19 @@
         <c:choose>
           <c:when test="${!empty error}">
             <!-- jsp:scriptlet>response.setStatus(500); </jsp:scriptlet -->
-            <content>Error 500 - Unknown apikey? ${error}</content>
+            <meta status="error">Error 500 - Unknown apikey? ${error}</meta>
           </c:when>
           <c:when test="${!empty buffer}">
-            <content class="buffer">'${buffer}'</content>
+            <meta status="error">'${buffer}'</meta>
           </c:when>
           <c:otherwise>
             <!-- jsp:scriptlet>response.setStatus(401); </jsp:scriptlet -->
-            <content>401 Unauthorized - Failed to login ${error}</content>
+            <meta status="error">401 Unauthorized - Failed to login ${error}</meta>
           </c:otherwise>
         </c:choose><!-- end checking for errors -->
 
       </c:otherwise>
     </c:choose>
-
+</oip-api>
     
 </mm:content>

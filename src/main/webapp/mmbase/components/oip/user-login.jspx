@@ -72,6 +72,9 @@
       </c:if>
       
       <c:if test="${empty submit_login or ! empty error or ! empty nopassword}">
+
+        <oip:usercookie />
+        
         <mm:url id="link" write="false" />
         <form method="post" action="${link}" id="loginform">
           <fieldset class="labelininput">

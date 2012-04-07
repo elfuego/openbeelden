@@ -24,9 +24,17 @@
   	font-weight: bold;
   }
   form p { margin: 2px 0; }
+  fieldset {
+  	border: none;
+  	margin: 4px 0;
+  	padding: 0;
+  }
   </style>
 </head>
 <body>
+<p>
+  <a href="api2.jspx">api2</a>
+</p>
 <h2>POST media to Download API etc.</h2>
 <p>
   Form to test Download API. It posts to <a href="${mm:link('/api/media/')}">/api/media/</a>.
@@ -133,6 +141,10 @@
       <input type="submit" name="submit" value="Post" />
 	</p>
 </form>
+
+
+
+
 </body>
 </html>
 </mm:cloud>
