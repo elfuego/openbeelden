@@ -58,7 +58,7 @@
             <strong>login</strong> if you want to login on the portal frontend.
             </p>
             <mm:include page="edit-properties.jspx" referids="p?,_node@nr,lang?">
-              <mm:param name="property_keys">oai-set;rss;css;partnertext;login</mm:param>
+              <mm:param name="property_keys">oai-set;rss;css;partnertext;login;gacode</mm:param>
             </mm:include>
 
           </div>
