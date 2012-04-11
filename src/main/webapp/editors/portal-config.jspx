@@ -49,13 +49,15 @@
           </c:if>
 
           <div class="">
-            <h3>Properties</h3>
-            <p>Settings or properties of this portal. Possible are:<br />
-            <strong>oai-set</strong> name of the OAI-PMH set, f.e. 'subcollection' (portal only),<br />
-            <strong>rss</strong> url of a feed (rss!) with news to show on your the homepage,<br />
-            <strong>css</strong> link, f.e. '/style/css/subcollection.css' of a stylesheet (portal only),<br />
-            <strong>partnertext</strong> text above the partner logos, or<br />
-            <strong>login</strong> if you want to login on the portal frontend.
+            <h3>Portal properties</h3>
+            <p>
+              Settings or properties of this portal. Possible are:<br />
+              <strong>oai-set</strong> name of the OAI-PMH set, f.e. 'subcollection' (portal only),<br />
+              <strong>rss</strong> url of a feed (rss!) with news to show on your the homepage,<br />
+              <strong>css</strong> link, f.e. '/style/css/subcollection.css' of a stylesheet (portal only),<br />
+              <strong>partnertext</strong> text above the partner logos, or<br />
+              <strong>gacode</strong> Google Analytics code, f.e. 'UA-830296-1'<br />
+              <strong>login</strong> if you want to login on the portal frontend.
             </p>
             <mm:include page="edit-properties.jspx" referids="p?,_node@nr,lang?">
               <mm:param name="property_keys">oai-set;rss;css;partnertext;login;gacode</mm:param>
@@ -65,8 +67,8 @@
           
           <div class="wrap">
             <h3>Licenses</h3>
+            <p>Licenses being used in this portal.</p>
             <mm:include page="/editors/edit-list.jspx" referids="p?,_node@nr">
-              <mm:param name="editor">edit-node.jspx</mm:param>
               <mm:param name="type">licenses</mm:param>
               <mm:param name="role">posrel</mm:param>
               <mm:param name="dir">destination</mm:param>

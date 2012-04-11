@@ -55,7 +55,7 @@
           </mm:hasrank>
           <mm:hasrank value="anonymous">
             <mm:node number="page_login">
-              <mm:link page="${_node.path}" referids="referrer">
+              <mm:link page="${_node.path}" referids="referrer?">
                 <a class="login" href="${_}"><mm:field name="title" /></a>
               </mm:link>
             </mm:node>

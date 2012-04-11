@@ -73,42 +73,58 @@
       
       <c:if test="${empty submit_login or ! empty error or ! empty nopassword}">
 
-        <oip:usercookie />
+        <oip:usercookie /><!-- gives us youareloggedin -->
         
-        <mm:url id="link" write="false" />
-        <form method="post" action="${link}" id="loginform">
-          <fieldset class="labelininput">
-            <div>
-              <label for="username">
-                <span><fmt:message key="login.account_name" /></span>
-              </label>
-              <input id="username" name="username" value="${username}" type="text" />
-            </div>
-            <div>
-              <label for="password">
-                <span><fmt:message key="login.password" /></span>
-              </label>
-              <input id="password" name="password" value="${password}" type="password" />
-            </div>
-            <div class="keepme">
-              <label for="keepme">Remember me</label>
-              <input type="checkbox" name="keepme" value="please" id="keepme" />
-            </div>
-          </fieldset>
-          <fieldset class="buttons">
-            <div>
-              <input type="hidden" name="referrer" value="${referrer}" />
-              <fmt:message key="login.login" var="login" />
-              <input name="submit_login" type="submit" value="${login}" class="submit" />
-              <mm:node number="page_resetpassword">
-                <mm:link page="page" referids="_node@n">
-                  <mm:frameworkparam name="component">mmsite</mm:frameworkparam>
-                  <a href="${_}"><fmt:message key="login.forgot_password" /></a>
-                </mm:link>
-              </mm:node>
-            </div>
-          </fieldset>
-        </form>
+        <c:choose>
+          <c:when test="${!empty youareloggedin}">
+            <c:if test="${!empty referrer}">
+              <script type="text/javascript">
+                $(document).ready(function() {
+                   document.location = "${referrer}";
+                });
+              </script>                  
+              <noscript>
+                <p>Continue to <a href="${referrer}">${referrer}</a>.</p>
+              </noscript>
+            </c:if>
+          </c:when>          
+          <c:otherwise>
+            <mm:url id="link" write="false" />
+            <form method="post" action="${link}" id="loginform">
+              <fieldset class="labelininput">
+                <div>
+                  <label for="username">
+                    <span><fmt:message key="login.account_name" /></span>
+                  </label>
+                  <input id="username" name="username" value="${username}" type="text" />
+                </div>
+                <div>
+                  <label for="password">
+                    <span><fmt:message key="login.password" /></span>
+                  </label>
+                  <input id="password" name="password" value="${password}" type="password" />
+                </div>
+                <div class="keepme">
+                  <label for="keepme">Remember me</label>
+                  <input type="checkbox" name="keepme" value="please" id="keepme" />
+                </div>
+              </fieldset>
+              <fieldset class="buttons">
+                <div>
+                  <input type="hidden" name="referrer" value="${referrer}" />
+                  <fmt:message key="login.login" var="login" />
+                  <input name="submit_login" type="submit" value="${login}" class="submit" />
+                  <mm:node number="page_resetpassword">
+                    <mm:link page="page" referids="_node@n">
+                      <mm:frameworkparam name="component">mmsite</mm:frameworkparam>
+                      <a href="${_}"><fmt:message key="login.forgot_password" /></a>
+                    </mm:link>
+                  </mm:node>
+                </div>
+              </fieldset>
+            </form>
+          </c:otherwise>
+        </c:choose>
       </c:if>
 
   </div>
