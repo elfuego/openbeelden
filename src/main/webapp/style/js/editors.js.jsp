@@ -481,7 +481,7 @@ function initSortable(listEl) {
         $(listEl).sortable({
             distance: 30,
             connectWith: ".connected",
-            cancel: ".notsortable, form",
+            cancel: ".sortcancel, form",
             placeholder: "ui-state-highlight",
             start: function(ev, ui) {   /* check for tinyMCE and remove it */
                var listId = $(this).attr('id');
@@ -572,9 +572,6 @@ function initSortable(listEl) {
                 // add to list (and remove from?)
                 if (listId.indexOf('found_') < 0) {
                     //console.log('receive - listId ' + listId + ', senderId ' + senderId + ', nr ' + nodenr);
-                    /* if ( $('#' + listId).hasClass("sortcancel") && senderId.indexOf('found_') >= 0) {
-                        $( "#" + listId ).sortable("cancel");
-                    } */
                     var params = { 
                         id: listId, 
                         related: '' + nodenr, 
@@ -650,7 +647,7 @@ function initSortable(listEl) {
                 } else {
                     if ( $('#' + listId).hasClass("sortcancel") ) {
                         //console.log('not sorting because of class');
-                        //$('#' + listId).sortable("cancel");
+                        $('#' + senderId).sortable("cancel");
                     } else {
                         sortSortable(this);
                     }

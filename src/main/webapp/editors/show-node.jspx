@@ -13,11 +13,11 @@
 
 <mm:cloud method="asis">
 
-<fmt:setBundle basename="eu.openimages.messages" scope="request" />
-
-<mm:import externid="nr" />
-<mm:import externid="fields"  />
+  <fmt:setBundle basename="eu.openimages.messages" scope="request" />
   
+  <mm:import externid="nr" />
+  <mm:import externid="fields"  />
+
   <mm:node number="$nr">
     <mm:nodeinfo type="type">
       <c:choose>
@@ -96,6 +96,18 @@
           <span><mm:field name="title" /></span>
         </c:when>
 
+        <c:when test="${_ eq 'videostreamsources'
+                     or _ eq 'videostreamsourcescaches' 
+                     or _ eq 'audiostreamsources' 
+                     or _ eq 'audiostreamsourcescaches'}">
+          <div class="show-media">
+            <mm:function name="gui" escape="none" />
+            <mm:function name="mimetype" />
+            <br /><strong><mm:field name="state"><mm:fieldinfo type="guivalue" escape="lowercase" /></mm:field> </strong>
+            <br /><oip:filesubstr filename="${_node.url}" length="48" />
+          </div>
+        </c:when>
+        
         <c:when test="${_ eq 'properties'}">
           <span>
             <strong><mm:field name="key" /> : </strong> <mm:field name="value" />
@@ -127,13 +139,6 @@
           <strong><mm:field name="language"><mm:fieldinfo type="guivalue" /></mm:field> : </strong> 
           <span>
             <mm:field name="firstname" /><jsp:text> </jsp:text><mm:field name="suffix" /><jsp:text> </jsp:text><mm:field name="lastname" /> 
-          </span>
-        </c:when>
-        
-        <c:when test="${_ eq 'videostreamsourcescaches'}">
-          <span>
-            <mm:field name="url" /> : <mm:field name="mimetype" />
-            (<mm:field name="format" />, <mm:field name="codec" />)
           </span>
         </c:when>
        

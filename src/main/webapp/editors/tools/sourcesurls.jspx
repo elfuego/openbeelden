@@ -19,8 +19,8 @@
     <jsp:attribute name="body">
 <mm:cloud loginpage="/editors/login.jspx?referrer=$editor" rank="project manager">
      <div class="main-column wide">      
-        <h2>Edit urls of streams</h2>
-        <p>Change stream url to match it with (new) location on filesystem.</p>
+        <h2>Edit streams</h2>
+        <p>Edit streams, like changing stream url to match it with (new) location on filesystem.</p>
         
 <mm:import externid="nr" />
 <mm:import externid="submit" />
@@ -40,7 +40,7 @@
 
       <mm:form id="form" page="$formlink">
     
-        <h3><mm:field name="number" /> : <mm:nodeinfo type="guitype" /></h3>
+        <h3>[<mm:field name="number" />] <mm:nodeinfo type="guitype" /></h3>
         <p>
           When you change the url of a media (stream) source, 
           make sure it matches correctly with the exact same name as on its file on your filesystem. 
@@ -50,6 +50,21 @@
           For example: http://localhost:8080/files/ + 12/123.Movie-720p.mpeg = http://localhost:8080/12/123.Movie-720p.mpeg
         </p>
         <fieldset>
+
+
+          <mm:hasfield name="title">
+            <mm:fieldlist fields="title,language">
+              <c:set var="fld_name"><mm:fieldinfo type="name" /></c:set>
+              <div class="${fld_name}">
+                <mm:fieldinfo type="forid">
+                  <label for="${_}" class="${fld_name}"><mm:fieldinfo type="guiname" /></label>
+                </mm:fieldinfo>
+                <p class="info"><mm:fieldinfo type="description" escape="inline" /></p>
+                <mm:fieldinfo type="guivalue" escape="none" />
+              </div>
+            </mm:fieldlist>
+          </mm:hasfield>
+
           
           <mm:fieldlist fields="url">
             <div class="url">
@@ -91,7 +106,7 @@
             </mm:fieldlist>          
           </mm:hasfield>
 
-          <mm:fieldlist fields="title,format,language,url,filesize">
+          <mm:fieldlist fields="format,url,filesize">
             <c:set var="fld_name"><mm:fieldinfo type="name" /></c:set>
             <div class="${fld_name}">
               <mm:fieldinfo type="forid">
@@ -148,18 +163,20 @@
 <ol start="${offset + 1}">
   <mm:listnodes>
     <li>
-      <p><strong><mm:field name="title" /></strong><br />
+      <p><strong><mm:field name="title" /> </strong>
+      <mm:link page="/mmbase/edit/my_editors/edit_object.jsp?nr=${_node}"> <a href="${_}">my_editors</a></mm:link>
+      <br />
       <mm:relatednodescontainer type="mediasources" role="related" searchdirs="destination">
         <ul>
         <mm:relatednodes>
           <li>
           
-          <mm:nodeinfo type="type" /> -
-          <mm:link page="/mmbase/edit/my_editors/edit_object.jsp?nr=${_node}"><a href="${_}">in my_editors</a> </mm:link> 
-          <br />
           <mm:link referids="max?,offset?">
             <mm:param name="nr"><mm:field name="number" /></mm:param>
-            <a href="${_}">edit url</a> : <strong><mm:field name="url" /></strong>
+            <strong><mm:field name="state"><mm:fieldinfo type="guivalue" escape="lowercase" /></mm:field> </strong>
+            <mm:field name="url" />
+            (<mm:nodeinfo type="type" />)
+            <a href="${_}">edit</a> 
           </mm:link>
 
 

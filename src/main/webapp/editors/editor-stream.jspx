@@ -1,0 +1,431 @@
+<?xml version="1.0"?>
+<jsp:root
+    version="2.0"
+    xmlns:jsp="http://java.sun.com/JSP/Page"
+    xmlns:c="http://java.sun.com/jsp/jstl/core"
+    xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+    xmlns:fmt="http://java.sun.com/jsp/jstl/fmt"
+    xmlns:mm="http://www.mmbase.org/mmbase-taglib-2.0"
+    xmlns:oip="urn:jsptagdir:/WEB-INF/tags/oip">
+
+  <jsp:directive.page buffer="64kb" /> 
+  <jsp:scriptlet> pageContext.setAttribute("enumStates", org.mmbase.applications.media.State.values()); </jsp:scriptlet>
+
+  <oip:editor styleClass="portal">
+    <jsp:attribute name="head">
+      
+      <mm:import externid="nr" />
+      <mm:hasnode number="$nr">
+        <mm:node number="$nr"><mm:nodeinfo type="type" id="builder" write="false" /></mm:node>
+      </mm:hasnode>
+      <mm:import externid="submit" />
+      
+      <mm:validation
+          nodemanagers="${builder}"
+          elements="#form_${nr}" 
+          submit="#submit" />
+
+    </jsp:attribute>
+    <jsp:attribute name="left">
+
+    </jsp:attribute>
+    <jsp:attribute name="body">
+      <div class="main-column">
+
+        <c:choose>
+          <c:when test="${empty nr}">
+             <h2>Not found</h2>
+             <p class="err">
+               Node not found:
+               <mm:link page="/editors/list.jspx"><a href="${_}">media list</a></mm:link>
+             </p>
+          </c:when>
+          <c:otherwise>
+            <mm:node number="$nr">
+    
+              <h2>Edit : <mm:nodeinfo type="type" id="type" /></h2>                       
+              <p>
+                The ${fn:endsWith(type, 'caches') ? 'transcoded' : 'source' } 
+                (<mm:function name="mimetype" />, 
+                <mm:field name="state" id="mediastate"><mm:fieldinfo type="guivalue" /></mm:field>) 
+                media file of media item
+                <mm:field name="mediafragment" id="mediafragment" write="false" />
+                <mm:node number="$mediafragment">
+                  <mm:link page="editor-media.jspx" referids="p?,mediafragment@nr">
+                    <a href="${_}"><mm:field name="title" /></a>.
+                  </mm:link>
+                </mm:node>
+              </p>
+            
+              <c:choose>
+                <c:when test="${fn:endsWith(type, 'caches')}">
+                  <mm:import id="source"><mm:field name="id" /></mm:import>
+                </c:when>
+                <c:otherwise>
+                  <mm:import id="source"><mm:field name="number" /></mm:import>
+                </c:otherwise>
+              </c:choose>
+
+              <!-- check if this source is the ultimate (parent) source node -->
+              <mm:node number="$source">
+                <mm:hasfield name="id">
+                  <mm:import id="source" reset="true"><mm:field name="id" /></mm:import>
+                  <!-- do it twice (maybe more?) -->
+                  <mm:node number="$source">
+                    <mm:hasfield name="id">
+                      <mm:import id="source" reset="true"><mm:field name="id" /></mm:import>
+                    </mm:hasfield>
+                  </mm:node>
+                </mm:hasfield>
+              </mm:node>
+              
+            </mm:node>
+
+            <!-- streams functions are all on source -->
+            <mm:node number="$source" notfound="skip">
+              
+              <!-- update info for cache nodes -->
+              <mm:import externid="streaminfo" />
+              <c:if test="${streaminfo eq 'update'}">
+                <mm:hasfunction name="updateSources">
+                  <c:choose>
+                    <c:when test="${fn:endsWith(type, 'caches')}">
+                      <mm:booleanfunction name="updateSources" referids="nr@cache">
+                        <p class="msg">Updated info of ${_node.url} #${nr} (of source #${source}).</p>
+                      </mm:booleanfunction> 
+                    </c:when>
+                    <c:otherwise>
+                      <mm:booleanfunction name="updateSources">
+                        <p class="msg">Updated info of ${_node.url} #${nr}.</p>
+                      </mm:booleanfunction> 
+                    </c:otherwise>
+                  </c:choose>
+                </mm:hasfunction>
+              </c:if>
+
+              <!-- recaching etc. -->    
+              <mm:hasfunction name="triggerCaches">
+                
+                <mm:import externid="triggercaches" />
+                
+                <mm:compare referid="triggercaches" value="all">
+                  <mm:import id="all" vartype="boolean">true</mm:import> 
+                  <mm:voidfunction name="triggerCaches" referids="all" />
+                </mm:compare>
+                
+                <mm:compare referid="triggercaches" regexp="\d+">
+                  <mm:voidfunction name="triggerCaches" referids="triggercaches@cache" />
+                </mm:compare>
+                
+                <mm:listfunction set="streams" name="runningJobs" id="job">
+                  
+                  <mm:first>
+                    <div class="msg" style="text-align:left;">
+                      <h4><mm:size /> jobs running</h4>
+                    </div>
+                  </mm:first>
+      
+                  <c:if test="${_.node.number eq nr or _.node.number eq source}">
+                    <p>
+                      <strong>Transcoding</strong><br />
+                      <strong>progress:</strong> ${_.progress} <br />
+                      <strong>stage:</strong> ${_.stage} <br /> 
+                      <strong>in:</strong> ${_.current.in} <br /> 
+                      <strong>out:</strong> ${_.current.out} 
+                    </p>
+                    <div class="log">
+                      <pre>
+                        <jsp:text>${mm:escape('text/xml', _.logger.debugList)}</jsp:text>
+                      </pre>
+                    </div>
+                  </c:if>
+                  
+                </mm:listfunction>              
+              
+              </mm:hasfunction>
+            </mm:node>
+
+
+
+            <!-- ### form ### -->
+            <mm:url referids="p?,nr,lang?" write="false" absolute="true" escapeamps="false" id="submit_link" />
+            <mm:form id="form_$nr" page="$submit_link">
+              <mm:node number="$nr" commitonclose="false">
+                <mm:import id="buffer">
+                  
+                  <fieldset class="values">
+                    <mm:fieldlist fields="mediafragment">
+                      <c:set var="fld_name"><mm:fieldinfo type="name" /></c:set>
+                      <div class="${fld_name}">
+                        <mm:fieldinfo type="forid">
+                          <label for="${_}" class="${fld_name}">Media item </label>
+                        </mm:fieldinfo>
+                        <p class="info"><mm:fieldinfo type="description" escape="inline" /></p>
+                        <!-- <mm:maywrite><mm:fieldinfo type="input" /><mm:fieldinfo type="errors" /></mm:maywrite> -->
+                        <mm:import id="mediafragment" reset="true"><mm:fieldinfo type="value" /></mm:import>
+                        <mm:node number="$mediafragment">
+                          <mm:link page="editor-media.jspx" referids="p?,mediafragment@nr">
+                            <a href="${_}"><mm:field name="title" /></a>
+                          </mm:link>
+                        </mm:node>
+                      </div>
+                    </mm:fieldlist>
+                  
+                    <!-- source: subtitle -->
+                    <c:if test="${fn:endsWith(type, 'streamsources')}">
+                      <mm:fieldlist fields="subtitle">
+                        <c:set var="fld_name"><mm:fieldinfo type="name" /></c:set>
+                        <div class="${fld_name}">
+                          <mm:fieldinfo type="forid">
+                            <label for="${_}" class="${fld_name}"><mm:fieldinfo type="guiname" /></label>
+                          </mm:fieldinfo>
+                          <p class="info"><mm:fieldinfo type="description" escape="inline" /></p>
+                          <!-- <mm:maywrite><mm:fieldinfo type="input" /><mm:fieldinfo type="errors" /></mm:maywrite> -->
+                          <mm:fieldinfo type="guivalue" />
+                        </div>
+                      </mm:fieldlist>
+                    </c:if>
+                  </fieldset>
+
+                  <!-- cache: id, key -->
+                  <c:if test="${fn:endsWith(type, 'caches')}">
+                    <fieldset class="values">
+
+                      <mm:fieldlist fields="id">
+                        <c:set var="fld_name"><mm:fieldinfo type="name" /></c:set>
+                        <div class="${fld_name}">
+                          <mm:fieldinfo type="forid">
+                            <label for="${_}" class="${fld_name}">
+                              <mm:fieldinfo type="guiname" /> source node
+                            </label>
+                          </mm:fieldinfo>
+                          <p class="info"><mm:fieldinfo type="description" escape="inline" /></p>
+                          <!-- <mm:maywrite><mm:fieldinfo type="input" /><mm:fieldinfo type="errors" /></mm:maywrite> -->
+                          <mm:link referids="p?">
+                            <mm:param name="nr"><mm:fieldinfo type="value" /></mm:param>
+                            <a href="${_}"><mm:fieldinfo type="guivalue" /></a>
+                          </mm:link>
+                        </div>
+                      </mm:fieldlist>
+                      <mm:fieldlist fields="key">
+                        <c:set var="fld_name"><mm:fieldinfo type="name" /></c:set>
+                        <div class="${fld_name}">
+                          <mm:fieldinfo type="forid">
+                            <label for="${_}" class="${fld_name}"><mm:fieldinfo type="guiname" /></label>
+                          </mm:fieldinfo>
+                          <p class="info"><mm:fieldinfo type="description" escape="inline" /></p>
+                          <mm:maywrite><mm:fieldinfo type="input" /><mm:fieldinfo type="errors" /></mm:maywrite>
+                        </div>
+                      </mm:fieldlist>
+                    </fieldset>
+                  </c:if>
+
+                  <!-- url:  kan dat bij caches ook? Waarom? -->
+                  <fieldset>
+                    <mm:fieldlist fields="url">
+                      <div class="url">
+                        <label for="my_url">Edit url</label>
+                        <p class="info">
+                          The url has to be exactly the same as on your filesystem. 
+                          Excluding the media provider (that is without http://server etc.).
+                        </p>
+                        <mm:import id="my_url" reset="true"><mm:field name="url" /></mm:import>
+                        <input type="text" id="mm_form_url" name="form_url" value="${my_url}" />
+                      </div>
+                    </mm:fieldlist>
+
+                    <div class="state">
+                      <label for="my_state">
+                        State
+                      </label>
+                      <p class="info">
+                        State of a media item, like original (uploaded) media is source, 
+                        media being transcoded is busy etc.
+                      </p>
+                      <select name="form_state" id="my_state">
+                        <c:forEach var="st" items="${enumStates}">
+                          <mm:option value="${st.value}" compare="${mediastate}">${st}</mm:option>
+                        </c:forEach>
+                      </select>
+                    </div>
+
+                    <mm:fieldlist fields="label,mediaprovider">
+                      <c:set var="fld_name"><mm:fieldinfo type="name" /></c:set>
+                      <div class="${fld_name}">
+                        <mm:fieldinfo type="forid">
+                          <label for="${_}" class="${fld_name}"><mm:fieldinfo type="guiname" /></label>
+                        </mm:fieldinfo>
+                        <p class="info"><mm:fieldinfo type="description" escape="inline" /></p>
+                        <mm:maywrite> <mm:fieldinfo type="input" /><mm:fieldinfo type="errors" /></mm:maywrite>
+                      </div>
+                    </mm:fieldlist>
+                  </fieldset>
+
+
+
+                  <!-- mimetype,format,codec,bitrate,length,filesize,filelastmodified,label,channels -->
+                  <fieldset class="values">
+                    <mm:fieldlist fields="mimetype,format,codec,bitrate,length,filesize,channels">
+                      <c:set var="fld_name"><mm:fieldinfo type="name" /></c:set>
+                      <div class="${fld_name}">
+                        <mm:fieldinfo type="forid">
+                          <label for="${_}" class="${fld_name}"><mm:fieldinfo type="guiname" /></label>
+                        </mm:fieldinfo>
+                        <p class="info"><mm:fieldinfo type="description" escape="inline" /></p>
+                        <c:choose>
+                          <c:when test="${fld_name eq 'mimetype'}"><mm:function name="mimetype" /></c:when>
+                          <c:when test="${fld_name eq 'mediaprovider'}"> 
+                            <mm:fieldinfo type="input" />
+                          </c:when>
+                          <c:otherwise><mm:fieldinfo type="guivalue" /></c:otherwise>
+                        </c:choose>                        
+                        
+                        
+
+                        <!-- <mm:maywrite> <mm:fieldinfo type="input" /><mm:fieldinfo type="errors" /></mm:maywrite> -->
+                      </div>
+                    </mm:fieldlist>
+                    
+                    <!-- video: acodec,fps,height,width -->
+                    <c:if test="${fn:indexOf(type, 'video') gt -1}">
+                      <mm:fieldlist fields="acodec,fps,height,width">
+                        <c:set var="fld_name"><mm:fieldinfo type="name" /></c:set>
+                        <div class="${fld_name}">
+                          <mm:fieldinfo type="forid">
+                            <label for="${_}" class="${fld_name}"><mm:fieldinfo type="guiname" /></label>
+                          </mm:fieldinfo>
+                          <p class="info"><mm:fieldinfo type="description" escape="inline" /></p>
+                          <mm:fieldinfo type="guivalue" />
+                          <!-- <mm:maywrite><mm:fieldinfo type="input" /><mm:fieldinfo type="errors" /></mm:maywrite> -->
+                        </div>
+                      </mm:fieldlist>
+                    </c:if>
+                    
+                  </fieldset>
+                  
+                  
+                  
+                  <fieldset class="buttons">
+                    <fmt:message key="users.form.save" var="button_save" />
+                    <input type="submit" name="submit" value="${button_save}" class="submit" id="submit" />
+                  </fieldset>
+                  
+                </mm:import>
+                
+                <mm:present referid="submit">
+                  <mm:valid inverse="true">
+                    <mm:cancel />
+                    <p class="err">Het formulier bevat een fout.</p>
+                  </mm:valid>
+                  <mm:valid>
+                    <p class="msg">Je veranderingen aan '<mm:function name="gui" escape="none" />' zijn bewaard.</p>
+                  </mm:valid>
+                  <mm:write referid="buffer" escape="none" />
+                </mm:present>
+                <mm:notpresent referid="submit">
+                  <mm:write referid="buffer" escape="none" />
+                </mm:notpresent>
+                
+              </mm:node>
+            </mm:form>
+
+  
+            <c:if test="${! fn:endsWith(type, 'caches')}">
+              <mm:node number="$mediafragment">
+                <div class="wrap">
+                  <h3>Media files</h3>
+                  <p> 
+                    Resulting (transcoded) streams, files made from this media item.
+                  </p>
+                  <mm:include page="/editors/edit-list.jspx" referids="p?,_node@nr">
+                    <mm:param name="type">${fn:startsWith(type, 'audio') ? 'audiostreamsourcescaches' : 'videostreamsourcescaches' }</mm:param>
+                    <mm:param name="role">related</mm:param>
+                    <mm:param name="dir">destination</mm:param>
+                    <mm:param name="editor">/editors/editor-stream.jspx</mm:param>
+                    <mm:param name="maydelete">true</mm:param>
+                    <mm:param name="maycreate">false</mm:param>
+                    <mm:param name="unpublish">false</mm:param>
+                    <mm:param name="search">false</mm:param>
+                  </mm:include>
+                </div>
+              </mm:node>
+            </c:if>
+
+            
+
+    
+          </c:otherwise>
+        </c:choose>
+  
+
+      </div><!-- /.main-column -->
+
+    </jsp:attribute>
+    <jsp:attribute name="right">
+      <mm:node number="$nr" notfound="skip">
+        <mm:function name="gui" escape="none" />
+<!-- pre>
+nr ${nr}
+source ${source}
+mediafragment ${mediafragment}
+</pre -->
+
+        <h3>Actions</h3>
+        <ul>
+          <li>
+            <mm:link referids="p?,nr">
+              <a href="${_}">Reload</a> this page
+            </mm:link>
+          </li>
+          <li>
+            <mm:link referids="p?,nr,source?">
+              <mm:param name="streaminfo">update</mm:param>
+              <a href="${_}">Update</a> stream info
+            </mm:link>
+          </li>
+          <c:choose>
+            <c:when test="${fn:endsWith(type, 'caches')}">
+              <mm:link referids="p?,nr,_node@triggercaches">
+                <li><a href="${_}">Retrigger</a> this cache</li>
+              </mm:link>
+            </c:when>
+            <c:otherwise>
+              <mm:link referids="p?,nr">
+                <mm:param name="triggercaches">all</mm:param>
+                <li><a href="${_}">Retrigger</a> all caches</li>
+              </mm:link>
+            </c:otherwise>
+          </c:choose>
+          <li><mm:link page="list.jspx" referids="type"><a href="${_}">List</a></mm:link></li>
+        </ul>
+        
+
+        <c:if test="${!empty mediafragment and nr eq source}">
+          <h3>Streams</h3>
+          <mm:node number="$mediafragment">
+            <mm:relatednodescontainer type="mediasources" role="related" searchdirs="destination">
+              <ul>
+              <mm:relatednodes>
+                <mm:hasfield name="title" inverse="true">
+                  <li>
+                     <strong><mm:field name="state"><mm:fieldinfo type="guivalue" escape="lowercase" /></mm:field> </strong>
+                     <mm:link referids="p?,nr,_node@triggercaches"><a href="${_}">[recache]</a></mm:link> 
+                     <mm:link referids="p?,_node@nr">
+                       <a href="${_}">
+                       <mm:function name="mimetype" />
+                       <!-- <mm:field name="mimetype" /> -->
+                       (<mm:field name="format"><mm:fieldinfo type="guivalue" /></mm:field>)</a>
+                     </mm:link>
+                  </li>
+                </mm:hasfield>
+              </mm:relatednodes>
+              </ul>
+            </mm:relatednodescontainer>
+          </mm:node>
+        </c:if>
+                
+      
+      </mm:node>
+    </jsp:attribute>
+  </oip:editor>
+</jsp:root>
