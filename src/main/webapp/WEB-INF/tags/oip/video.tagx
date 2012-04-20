@@ -46,10 +46,10 @@
           </c:when>
           <c:otherwise><c:set var="codecs" value="" /></c:otherwise>
         </c:choose>
-        <c:if test="${_.available}">
+        <c:if test="${!empty _.URL and _.available}">
           <source src="${mm:escape('text/xml', _.URL)}" type="${_.mimeType}${codecs}" />
         </c:if>
-        <c:if test="${status.index eq 1}">
+        <c:if test="${!empty _.URL and status.index eq 1}">
           <c:set var="first_source">${mm:escape('text/xml', _.URL)}</c:set>
         </c:if>
       </mm:listfunction>
@@ -104,7 +104,8 @@
           <mm:listfunction name="filteredurls">
             <mm:node number="${_.source.number}">
               <!-- TODO: remove 'lo' after conversion completes -->
-              <c:if test="${_.available
+              <c:if test="${!empty _.URL 
+                                and _.available
                                 and (_node.label eq 'sd' 
                                         or _node.label eq 'playlist-sd' 
                                         or _node.label eq 'lo' 
