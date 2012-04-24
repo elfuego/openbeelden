@@ -35,10 +35,10 @@ import org.mmbase.util.logging.Logging;
 /**
  * This commit-processor is used on deleting relations a media node can have, for example (and in this case) with tags created
  * by other users. You do not want to delete the tags, but relations with it, which can be of another security context.
- * It uses a cloud from class security
+ * It uses a cloud from class security to do so.
  *
  * @author André van Toly
- * @version $Id: $
+ * @version $Id$
  */
 
 public class DeleteMediarelationsProcessor implements CommitProcessor {
