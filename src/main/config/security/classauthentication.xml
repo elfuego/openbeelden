@@ -41,6 +41,11 @@
     <property name="username" value="foo" />
   </authenticate>
 
+  <authenticate class="eu\.openimages\.processors\.DeleteMediarelationsProcessor">
+    <property name="username" value="admin" />
+  </authenticate>
+
+
 
   <!-- make sure stats are saved in context default so every rank can delete them -->
   <authenticate class=".*\.action\.stats_jspx">

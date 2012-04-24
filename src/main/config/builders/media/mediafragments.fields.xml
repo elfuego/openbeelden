@@ -33,6 +33,7 @@
       <deleteprocessor>
         <class name="org.mmbase.applications.media.DeleteSourcesProcessor">  </class>
         <class name="eu.openimages.processors.DeleteMediapreviewsProcessor">  </class>
+        <class name="eu.openimages.processors.DeleteMediarelationsProcessor">  </class>
       </deleteprocessor>
     </datatype>
   </field>
