@@ -31,7 +31,7 @@
   <c:if test="${!empty tag and taglen gt 2}">
     
     <!-- check if already related -->
-    <mm:node number="$nr" id="media">
+    <mm:node number="$nr" id="medianode">
       <mm:relatednodescontainer type="tags" role="related" searchdirs="destination">
         <mm:constraint field="name" value="$tag" operator="EQUAL" />
         <mm:relatednodes>
@@ -45,7 +45,7 @@
       </mm:relatednodescontainer>
     </mm:node>
     
-    <!-- check if exists -->
+    <!-- check if exists and get tag node -->
     <c:if test="${empty tagrelated}">
       <mm:listnodescontainer type="tags">
         <mm:constraint field="name" value="$tag" operator="EQUAL" />
@@ -56,7 +56,7 @@
       </mm:listnodescontainer>
     </c:if>
     
-    <!-- create new tag -->
+    <!-- does not exist yet: create new tag node -->
     <c:if test="${empty tagrelated and empty tagnode}">
       <mm:createnode type="tags" id="tagnode">
         <mm:setfield name="name">${tag}</mm:setfield>
@@ -64,11 +64,7 @@
     </c:if>
     
     <c:if test="${empty tagrelated}">
-      
-      <!-- include with different settings in classauthentication.xml 
-           for creation of relations between media and tags -->
-      <mm:include page="tagsubmit.relate.jspx" referids="nr@media,tagnode@tag" />
-      
+      <mm:createrelation source="medianode" destination="tagnode" role="related" />      
       <p class="msg">
         <fmt:message key="tag.added">
           <fmt:param><strong>${tag}</strong></fmt:param>
