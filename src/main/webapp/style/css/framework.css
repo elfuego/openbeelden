@@ -100,7 +100,7 @@ div.right-column a { color: #666; }
 div.left-column
 {
 	position: absolute;
-	top: 414px;
+	top: 438px;
 	left: 5px;
 }
 
@@ -137,22 +137,26 @@ div.left-column
 	line-height: 2em;
 }
 
+#topbar > div {
+	width: 970px;
+	position: relative;
+}
 #topbar ul.meta
 {
 	position: absolute;
-	top: 2px;
-	right: 12px;
+	top: 0;
+	right: 0;
 	height: 18px;
 	list-style: none;
 	width: auto;
 }
-
 #topbar ul.meta li
 {
 	display: inline;
 	list-style: none;
 	float: left;
 	font-size: 0.9em;
+	line-height: 20pt;
 	padding-left: 20px;
 }
 
@@ -337,8 +341,8 @@ body.media div.main-column div.text
 
 body.media div#tabs
 {
-	position: relative;
-	top: 126px;
+    position: relative;
+	top: 108px;
 	left: 0;
 	margin-bottom: 140px;
 }
