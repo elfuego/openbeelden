@@ -36,18 +36,30 @@
           <c:when test="${empty nr}">
              <h2>Not found</h2>
              <p class="err">
-               Node not found:
-               <mm:link page="/editors/list.jspx"><a href="${_}">media list</a></mm:link>
+               Node not found: 
+               <mm:link page="/editors/list.jspx" referids="type?">
+                 <a href="${_}">go to list</a>
+               </mm:link>
              </p>
           </c:when>
           <c:otherwise>
             <mm:node number="$nr">
-    
-              <h2>Edit : <mm:nodeinfo type="type" id="type" /></h2>                       
+
+              <!-- change url -->
+              <mm:import externid="form_url" />
+              <mm:import id="current_url"><mm:field name="url" /></mm:import>
+              <!-- change state -->
+              <mm:import externid="form_state" />
+              <mm:import id="current_state"><mm:field name="state" /></mm:import>
+
+
+              <mm:nodeinfo type="type" id="type" write="false" />   
+              <h2>Edit ${fn:endsWith(type, 'cache') ? 'transcoded' : 'source' }</h2>
               <p>
                 The ${fn:endsWith(type, 'caches') ? 'transcoded' : 'source' } 
                 (<mm:function name="mimetype" />, 
-                <mm:field name="state" id="mediastate"><mm:fieldinfo type="guivalue" /></mm:field>) 
+                <mm:field name="state"><mm:fieldinfo type="guivalue" /></mm:field>,
+                ${type}) 
                 media file of media item
                 <mm:field name="mediafragment" id="mediafragment" write="false" />
                 <mm:node number="$mediafragment">
@@ -57,6 +69,7 @@
                 </mm:node>
               </p>
             
+              <!-- get source of this node (if it's cache)  -->
               <c:choose>
                 <c:when test="${fn:endsWith(type, 'caches')}">
                   <mm:import id="source"><mm:field name="id" /></mm:import>
@@ -66,7 +79,7 @@
                 </c:otherwise>
               </c:choose>
 
-              <!-- check if this source is the ultimate (parent) source node -->
+              <!-- check if found source is the ultimate (parent) source node -->
               <mm:node number="$source">
                 <mm:hasfield name="id">
                   <mm:import id="source" reset="true"><mm:field name="id" /></mm:import>
@@ -78,7 +91,6 @@
                   </mm:node>
                 </mm:hasfield>
               </mm:node>
-              
             </mm:node>
 
             <!-- streams functions are all on source -->
@@ -102,7 +114,7 @@
                   </c:choose>
                 </mm:hasfunction>
               </c:if>
-
+              
               <!-- recaching etc. -->    
               <mm:hasfunction name="triggerCaches">
                 
@@ -146,12 +158,38 @@
             </mm:node>
 
 
+            <mm:node number="$nr">
+              <c:if test="${!empty form_url and form_url ne current_url}">
+                <mm:hasfunction name="changeUrl">
+                  <mm:functioncontainer>
+                    <mm:booleanfunction name="changeUrl" referids="form_url@url">
+                      <p class="msg stay">Updated url field with changeUrl '${form_url}' (without transcoding).</p>
+                    </mm:booleanfunction>
+                  </mm:functioncontainer>
+                </mm:hasfunction>
+                <mm:hasfunction name="changeUrl" inverse="true">
+                  <mm:setfield name="url">${form_url}</mm:setfield>
+                  <p class="msg stay">Updated url field '${form_url}' (anyway).</p>
+                </mm:hasfunction>
+                <mm:import id="current_url" reset="true">${form_url}</mm:import>
+              </c:if>
+              <c:if test="${!empty form_state and form_state ne current_state}">
+                <mm:setfield name="state">${form_state}</mm:setfield>
+                <p class="msg">
+                  State is changed to ${form_state}
+                  '<mm:field name="state"><mm:fieldinfo type="guivalue" /></mm:field>'.
+                </p>
+                <mm:import id="current_state" reset="true">${form_state}</mm:import>
+              </c:if>
+            </mm:node>
 
             <!-- ### form ### -->
             <mm:url referids="p?,nr,lang?" write="false" absolute="true" escapeamps="false" id="submit_link" />
             <mm:form id="form_$nr" page="$submit_link">
               <mm:node number="$nr" commitonclose="false">
                 <mm:import id="buffer">
+
+
                   
                   <fieldset class="values">
                     <mm:fieldlist fields="mediafragment">
@@ -220,17 +258,16 @@
                     </fieldset>
                   </c:if>
 
-                  <!-- url:  kan dat bij caches ook? Waarom? -->
+                  <!-- url: TODO: possible with caches? -->
                   <fieldset>
                     <mm:fieldlist fields="url">
                       <div class="url">
-                        <label for="my_url">Edit url</label>
+                        <label for="current_url">Edit url</label>
                         <p class="info">
                           The url has to be exactly the same as on your filesystem. 
                           Excluding the media provider (that is without http://server etc.).
                         </p>
-                        <mm:import id="my_url" reset="true"><mm:field name="url" /></mm:import>
-                        <input type="text" id="mm_form_url" name="form_url" value="${my_url}" />
+                        <input type="text" id="mm_form_url" name="form_url" value="${current_url}" />
                       </div>
                     </mm:fieldlist>
 
@@ -244,7 +281,7 @@
                       </p>
                       <select name="form_state" id="my_state">
                         <c:forEach var="st" items="${enumStates}">
-                          <mm:option value="${st.value}" compare="${mediastate}">${st}</mm:option>
+                          <mm:option value="${st.value}" compare="${current_state}">${st}</mm:option>
                         </c:forEach>
                       </select>
                     </div>
@@ -262,10 +299,10 @@
                   </fieldset>
 
 
-
                   <!-- mimetype,format,codec,bitrate,length,filesize,filelastmodified,label,channels -->
+                  <mm:import id="filelastmodified" reset="true"><mm:field name="filelastmodified"><mm:fieldinfo type="guivalue" /></mm:field></mm:import>
                   <fieldset class="values">
-                    <mm:fieldlist fields="mimetype,format,codec,bitrate,length,filesize,channels">
+                    <mm:fieldlist fields="mimetype,format,codec,bitrate,length,filesize,filelastmodified,channels">
                       <c:set var="fld_name"><mm:fieldinfo type="name" /></c:set>
                       <div class="${fld_name}">
                         <mm:fieldinfo type="forid">
@@ -277,12 +314,12 @@
                           <c:when test="${fld_name eq 'mediaprovider'}"> 
                             <mm:fieldinfo type="input" />
                           </c:when>
+                          <c:when test="${fld_name eq 'filelastmodified'}"> 
+                            ${filelastmodified}
+                          </c:when>
                           <c:otherwise><mm:fieldinfo type="guivalue" /></c:otherwise>
                         </c:choose>                        
                         
-                        
-
-                        <!-- <mm:maywrite> <mm:fieldinfo type="input" /><mm:fieldinfo type="errors" /></mm:maywrite> -->
                       </div>
                     </mm:fieldlist>
                     
@@ -363,19 +400,19 @@
     </jsp:attribute>
     <jsp:attribute name="right">
       <mm:node number="$nr" notfound="skip">
-        <mm:function name="gui" escape="none" />
-<!-- pre>
-nr ${nr}
-source ${source}
-mediafragment ${mediafragment}
-</pre -->
-
         <h3>Actions</h3>
+        <mm:function name="gui" escape="none" />
         <ul>
           <li>
             <mm:link referids="p?,nr">
               <a href="${_}">Reload</a> this page
             </mm:link>
+          </li>
+          <li>
+            <mm:function name="url">
+              <a class="_blank" href="${_}">View or download</a>
+            </mm:function>
+             <oip:filesubstr filename="${_node.url}" length="32" />
           </li>
           <li>
             <mm:link referids="p?,nr,source?">
@@ -401,7 +438,7 @@ mediafragment ${mediafragment}
         
 
         <c:if test="${!empty mediafragment and nr eq source}">
-          <h3>Streams</h3>
+          <h4>Retranscode streams</h4>
           <mm:node number="$mediafragment">
             <mm:relatednodescontainer type="mediasources" role="related" searchdirs="destination">
               <ul>
@@ -411,10 +448,8 @@ mediafragment ${mediafragment}
                      <strong><mm:field name="state"><mm:fieldinfo type="guivalue" escape="lowercase" /></mm:field> </strong>
                      <mm:link referids="p?,nr,_node@triggercaches"><a href="${_}">[recache]</a></mm:link> 
                      <mm:link referids="p?,_node@nr">
-                       <a href="${_}">
-                       <mm:function name="mimetype" />
-                       <!-- <mm:field name="mimetype" /> -->
-                       (<mm:field name="format"><mm:fieldinfo type="guivalue" /></mm:field>)</a>
+                       <a href="${_}"><mm:function name="mimetype" /></a>
+                       ${_node.label}
                      </mm:link>
                   </li>
                 </mm:hasfield>

@@ -25,7 +25,8 @@
         
         <c:when test="${_ eq 'articles'}">
           <span>
-            <mm:field name="title" /> (<mm:field name="language" />)<br />
+            <mm:field name="title" /> 
+            <em><mm:field name="language"><mm:fieldinfo type="guivalue" /></mm:field></em><br />
             <mm:field name="online"><mm:time format="dd MMM yyyy" /></mm:field>
             <mm:field name="author"><mm:isnotempty> by <mm:write /></mm:isnotempty></mm:field>
           </span>
@@ -55,32 +56,30 @@
           <span>
             <mm:field name="name" /> <jsp:text> </jsp:text>
             <mm:field name="version" /> <jsp:text> </jsp:text>
-            (<mm:field name="language" />)
+            <em><mm:field name="language"><mm:fieldinfo type="guivalue" /></mm:field></em>
           </span>
         </c:when>
         
         <c:when test="${_ eq 'licenses_translations'}">
           <strong><mm:field name="language"><mm:fieldinfo type="guivalue" /></mm:field> : </strong> 
-          <span>
-            <mm:field name="name" /> <jsp:text> </jsp:text>
-          </span>
+          <span><mm:field name="name" /></span> <mm:field name="licensekey" />
         </c:when>
 
         <c:when test="${_ eq 'pages'}">
           <span>
-            <mm:field name="title" /> (<mm:field name="language" />)
+            <mm:field name="title" /> 
+            <em><mm:field name="language"><mm:fieldinfo type="guivalue" /></mm:field></em>
           </span>
         </c:when>
 
         <c:when test="${_ eq 'pages_translations'}">
           <strong><mm:field name="language"><mm:fieldinfo type="guivalue" /></mm:field> : </strong> 
-          <span> <mm:field name="title" /> </span>
+          <span><mm:field name="title" /></span>
         </c:when>
 
         <c:when test="${_ eq 'pools_translations'}">
-          <span>
-            <mm:field name="name" /> (<mm:field name="language" />)
-          </span>
+          <strong><mm:field name="language"><mm:fieldinfo type="guivalue" /></mm:field> : </strong> 
+          <span><mm:field name="name" /></span>
         </c:when>
 
         <c:when test="${_ eq 'mediafragments' or _ eq 'imagefragments' or _ eq 'audiofragments' or _ eq 'videofragments'}">

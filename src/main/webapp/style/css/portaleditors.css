@@ -90,6 +90,10 @@ body.editor ol ol {
 	margin-bottom: 0;
 	margin-left: auto;
 }
+body.editor ul { margin-bottom: 1em; }
+body.editor ul ul { margin-bottom: 0; }
+
+
 
 #portalform
 {
