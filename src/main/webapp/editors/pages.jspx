@@ -50,27 +50,7 @@
               <mm:param name="maydelete">false</mm:param>
             </mm:include>
  
-            <mm:import id="posrel_pos" reset="true">1</mm:import>
-            <mm:relatedcontainer path="posrel,pages" searchdirs="destination"
-              fields="posrel.pos">
-              <mm:sortorder field="posrel.pos" direction="UP" />
-              <mm:related>
-                <mm:last>
-                  <mm:import id="posrel_pos" reset="true"><mm:field name="posrel.pos" /></mm:import>
-                </mm:last>
-              </mm:related>
-            </mm:relatedcontainer>
- 
-            <mm:link page="editor-pages.jspx" referids="p,posrel_pos@pos">
-              <p class="add">
-                <a href="${_}">
-                  <fmt:message key="editors.add_type">
-                    <fmt:param><mm:nodeinfo type="guitype" nodetype="pages" escape="lowercase" /></fmt:param>
-                  </fmt:message>
-                </a>
-              </p>
-            </mm:link>
-          </mm:hasrelationmanager>
+          </mm:hasrelationmanager> 
         
           
           <!-- only default portal can add pages to footer -->
@@ -104,7 +84,31 @@
                   <mm:param name="startnode">${p}</mm:param>
 
                 </mm:include>
-              </mm:hasrelationmanager>           
+
+                <mm:import id="pos" reset="true">0</mm:import>
+                <mm:relatedcontainer path="footerrel,pages" searchdirs="destination"
+                  fields="posrel.pos">
+                  <mm:sortorder field="footerrel.pos" direction="UP" />
+                  <mm:related>
+                    <mm:last>
+                      <mm:import id="pos" reset="true"><mm:field name="footerrel.pos" /></mm:import>
+                    </mm:last>
+                  </mm:related>
+                </mm:relatedcontainer>
+     
+                <mm:link page="editor-pages.jspx" referids="p">
+                  <mm:param name="pos">${pos == 0 ? 1 : pos + 1}</mm:param>
+                  <p class="add">
+                    <a href="${_}">
+                      <fmt:message key="editors.add_type">
+                        <fmt:param><mm:nodeinfo type="guitype" nodetype="pages" escape="lowercase" /></fmt:param>
+                      </fmt:message>
+                    </a>
+                  </p>
+                </mm:link>
+              </mm:hasrelationmanager>
+
+
               
             </div>
           <!-- /c:if -->

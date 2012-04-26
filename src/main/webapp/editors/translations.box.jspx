@@ -114,7 +114,7 @@
                   <mm:import id="buffer">
                   
                     <fieldset class="description">
-                       <p>Vertaling ${translationtype}.</p>
+                       <p>Vertaling <mm:nodeinfo type="guitype" nodetype="$type" escape="lowercase" /></p>
                        <mm:fieldlist type="edit">
                          <c:set var="fld_name"><mm:fieldinfo type="name" /></c:set>
                          <div class="${fld_name}">

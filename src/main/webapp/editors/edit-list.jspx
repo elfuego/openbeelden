@@ -67,7 +67,8 @@
       </c:if>
 
       <mm:size id="sizeinbetween" write="false" />
-      <c:if test="${!empty maxnumber}"><mm:maxnumber value="$maxnumber" /></c:if>
+      <!-- c:if test="${!empty maxnumber}"><mm:maxnumber value="$maxnumber" /></c:if -->
+      <mm:maxnumber value="$max" />
       <mm:offset value="$offset" />
       <mm:size id="size" write="false" />
       

@@ -119,7 +119,7 @@
                 <mm:import id="saved">
                   <mm:node number="$p" id="portal" />
                   <mm:createrelation source="portal" destination="new_node" role="related" />
-                  <mm:createrelation source="portal" destination="new_node" role="posrel">
+                  <mm:createrelation source="portal" destination="new_node" role="footerrel">
                     <mm:setfield name="pos">${pos}</mm:setfield>
                   </mm:createrelation>
                   <p class="msg">De nieuwe pagina is bewaard.</p>

@@ -78,16 +78,25 @@
               </mm:link>
             </mm:maydelete>
           </c:if>
-          <mm:link page="$editor"
-            referids="p?,_node@nr,relation?,fields?,parent?,role?,lang?,showform?,show?,editor?,maydelete?,unpublish?">
-            <a class="${fn:indexOf(editor,'editor-') lt 0 ? 'editme' : 'edit'}" 
-               href="${_}#node_${_node}"><fmt:message key="editors.edit" /></a>
-          </mm:link>
+          <mm:maywrite>
+            <mm:link page="$editor"
+              referids="p?,_node@nr,relation?,fields?,parent?,role?,lang?,showform?,show?,editor?,maydelete?,unpublish?">
+              <a class="${fn:indexOf(editor,'editor-') lt 0 ? 'editme' : 'edit'}" 
+                 href="${_}#node_${_node}"><fmt:message key="editors.edit" /></a>
+            </mm:link>
+          </mm:maywrite>
         </div>
         
         <mm:link page="relate.jspx"
           referids="p?,_node@nr,relation?,fields?,parent?,role?,lang?,showform?,show?,editor?,maydelete?,unpublish?">
           <div class="actionrelate">
+            <mm:maywrite>
+              <mm:link page="$editor"
+                referids="p?,_node@nr,relation?,fields?,parent?,role?,lang?,showform?,show?,editor?,maydelete?,unpublish?">
+                <a class="${fn:indexOf(editor,'editor-') lt 0 ? 'editme' : 'edit'}" 
+                   href="${_}#node_${_node}"><fmt:message key="editors.edit" /></a>
+              </mm:link>
+            </mm:maywrite>
             <a class="relate" href="${_}#node_${_node.number}">voeg toe aan selectie</a>
           </div>
         </mm:link>

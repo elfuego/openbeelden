@@ -23,6 +23,7 @@ body.editor #header img {
     margin: 28px 0 10px 0; 
 	overflow: hidden;
 }
+body.editor #header div.emptyimage { margin: 28px 0 10px 0; }
 body.editor div#footer
 {
 	clear: both;
@@ -134,9 +135,11 @@ div.actionrelate {
 }
 div.actions > div.actions { margin: 0; }
 div.actions a, 
-div.actionsrelate a { margin-left: 6px; }
+div.actionrelate a { margin-left: 6px; }
 div.actions a.editme { text-transform: lowercase; }
 div.node_created div.actions { margin-top: 0; }
+
+div.actionrelate a { text-transform: lowercase; }
 
 
 /* forms */
@@ -300,35 +303,44 @@ th.pager a,
 th.pager strong { margin: 0 2px; }
 
 
-li.empty div#edit-picture div.emptyimage {
+div.emptyimage {
 	border: 1px solid #ccc;
-	height: 89px;
-	width: 157px;
-	float: left;
-	margin-bottom: 1em;
+	height: 90px;
+	width: 160px;
 	background-image: url(images/cross16x9.png);
 	background-repeat: no-repeat;
 	background-position: 50% 50%;
 }
+li.empty div#edit-picture div.emptyimage {
+	height: 89px;
+	width: 157px;
+	float: left;
+	margin-bottom: 1em;
+}
 li.empty div.emptyimage {
 	margin-right: 8px;
-	border: 1px solid #ccc;
 	height: 60px;
 	width: 81px;
 	float: left;
 	margin-top: 2px;
 	margin-bottom: 2px;
 	background-image: url(images/cross4x3.png);
-	background-repeat: no-repeat;
-	background-position: 50% 50%;
 }
-
 li.empty div.show-media div.emptyimage
 {
 	background-image: url(images/cross4x3.png);
 	margin: 4px 8px 0 0;
 	height: 60px;
 	width: 81px; 
+}
+body.portal div#edit-picture div.emptyimage {
+	float: left;
+	height: 89px;
+	width: 157px;
+	margin-bottom: 1em;
+}
+body.portal form#form_portal {
+	padding-top: 1em;
 }
 
 div.show-media { height: 68px; }

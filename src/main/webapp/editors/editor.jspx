@@ -135,16 +135,6 @@
                   </mm:include>
               </mm:hasrelationmanager>
 
-              <mm:hasrelationmanager sourcemanager="mediafragments" destinationmanager="$type" role="related">
-                <h3>Media</h3>
-                <mm:include page="/editors/edit-list.jspx" referids="p?,_node@nr">
-                  <mm:param name="type">mediafragments</mm:param>
-                  <mm:param name="role">related</mm:param>
-                  <mm:param name="dir">source</mm:param>
-                  <mm:param name="editor">/editors/editor.jspx</mm:param>
-                  <mm:param name="unpublish">true</mm:param>
-                </mm:include>
-              </mm:hasrelationmanager>
             </div><!-- /.wrap -->
 
             

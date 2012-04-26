@@ -25,8 +25,9 @@
         
         <c:when test="${_ eq 'articles'}">
           <span>
-            <mm:field name="title" /> 
-            <em><mm:field name="language"><mm:fieldinfo type="guivalue" /></mm:field></em><br />
+            <mm:field name="title" /><br /> 
+            <em><mm:field name="language"><mm:fieldinfo type="guivalue" /></mm:field></em>
+            <jsp:text> </jsp:text>
             <mm:field name="online"><mm:time format="dd MMM yyyy" /></mm:field>
             <mm:field name="author"><mm:isnotempty> by <mm:write /></mm:isnotempty></mm:field>
           </span>
@@ -56,13 +57,14 @@
           <span>
             <mm:field name="name" /> <jsp:text> </jsp:text>
             <mm:field name="version" /> <jsp:text> </jsp:text>
+            <mm:field name="licensekey" /> <jsp:text> </jsp:text>
             <em><mm:field name="language"><mm:fieldinfo type="guivalue" /></mm:field></em>
           </span>
         </c:when>
         
         <c:when test="${_ eq 'licenses_translations'}">
           <strong><mm:field name="language"><mm:fieldinfo type="guivalue" /></mm:field> : </strong> 
-          <span><mm:field name="name" /></span> <mm:field name="licensekey" />
+          <span><mm:field name="name" /></span> 
         </c:when>
 
         <c:when test="${_ eq 'pages'}">
