@@ -148,9 +148,9 @@ public class CreatorName {
                     sb.append(lastname);
                 } else {                // Vliet, Paul van
                     sb.append(lastname);
-                    if (sb.length() > 0) sb.append(", ");
+                    if (sb.length() > 0 && !"".equals(firstname)) sb.append(", ");
                     sb.append(firstname);
-                    if (sb.length() > 0) sb.append(" ");
+                    if (sb.length() > 0 && !"".equals(suffix)) sb.append(" ");
                     sb.append(suffix);
                 }
             }
