@@ -43,7 +43,7 @@
     <c:when test="${empty startnode}">
       <!-- just search in list with nodes of this -->
       <mm:listnodescontainer type="$type">
-        <jsp:directive.include file="includes/search-node.query.jspx" />
+        <jsp:directive.include file="search-node.query.jspx" />
         <mm:listnodes id="${list_id}" />
       </mm:listnodescontainer>
     </c:when>
@@ -51,7 +51,7 @@
       <!-- use a startnode, f.e. a pools/site node (always role=related) -->
       <mm:node number="$startnode">
         <mm:relatednodescontainer type="$type" role="related" searchdirs="destination">
-          <jsp:directive.include file="includes/search-node.query.jspx" />
+          <jsp:directive.include file="search-node.query.jspx" />
           <mm:relatednodes id="${list_id}" />
         </mm:relatednodescontainer>
       </mm:node>
