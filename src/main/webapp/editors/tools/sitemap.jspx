@@ -21,18 +21,29 @@
       
       <c:set var="isdefault" value="false" />
       
-      <div class="main-column">
+      <mm:import externid="commit">false</mm:import>
+      <mm:import externid="ok" />
 
+       
+      <div class="main-column">
+        
         <mm:node id="p" number="$_node.number">
           <mm:hasalias name="pool_oip"><c:set var="isdefault" value="true" /></mm:hasalias>
   
           <h2>Sitemap '<mm:field name="name" />'</h2>
           <p>
-            Update sitemap by clicking move. 
+            Overview of the sitemap of this portal.
+            Two conversion options: move footer pages to new relation (footerrel) 
+            and relate all pages to with new relation to pool (to help search in pool only).
           </p>
+          <mm:transaction name="mytrans" commitonclose="$commit">
+          <mm:node number="$p" id="site" />
+
           <h3>Header</h3>
           <p>
-          posrel between 0 and 10, (0 = homepage not visible in header, 1 = homepage link in header)
+          Relation type posrel (between 0 and 10?):<br />
+          0 = homepage not visible in header, <br />
+          1 = homepage link in header.
           </p> 
           <mm:relatedcontainer path="posrel,pages" searchdirs="destination"
             fields="posrel.pos,pages.title,pages.number">
@@ -42,6 +53,7 @@
             <mm:related>
               <li>
                 <mm:import id="pos" reset="true"><mm:field name="posrel.pos" /></mm:import>
+                pos <mm:field name="posrel.pos" /> :
                 <c:choose>
                   <c:when test="${pos == 0}"><strong>homepage not in header </strong> </c:when>
                   <c:otherwise>
@@ -50,15 +62,95 @@
                 </c:choose>
                 
                 <mm:field name="pages.title" />
-                [<mm:field name="pages.number" />, pos: <mm:field name="posrel.pos" />]
+                [<mm:field name="pages.number" />]
+                
+                <mm:node element="pages">
+                  
+                  <mm:import id="pagenr" reset="true"><mm:field name="number" /></mm:import>      
+                  <mm:node id="pagenode" number="$pagenr" />
+                  <mm:countrelations type="pools" role="related" searchdir="source">
+                    (related to pool: ${_})
+                    <mm:compare value="0">
+                      <c:if test="${ok eq 'OK'}">
+                        <mm:createrelation source="site" destination="pagenode" role="related" />
+                        <span class="msg">relation created</span>
+                      </c:if>
+                    </mm:compare>
+                  </mm:countrelations>
+                  
+                  <mm:relatednodescontainer type="pages" role="posrel" searchdirs="destination">
+                    <mm:sortorder field="posrel.pos" direction="UP" />
+                    <ol>
+                    <mm:relatednodes>
+                      <li style="margin-left:20px;">
+                        <mm:field name="number" /> - <mm:field name="title" />
+                        <mm:import id="pagenr" reset="true"><mm:field name="number" /></mm:import>      
+                        <mm:node id="pagenodee" number="$pagenr" />
+                        
+                        <mm:countrelations type="pools" role="related" searchdir="source">
+                          (related to pool: ${_})
+                          <mm:compare value="0">
+                            <c:if test="${ok eq 'OK'}">
+                              <mm:createrelation source="site" destination="pagenodee" role="related" />
+                              <span class="msg">relation created</span>
+                            </c:if>
+                          </mm:compare>
+                        </mm:countrelations>
+                        
+
+                        <mm:relatednodescontainer type="pages" role="posrel" searchdirs="destination">
+                          <mm:sortorder field="posrel.pos" direction="UP" />
+                          <ol>
+                          <mm:relatednodes>
+                            <li style="margin-left:20px;">
+
+                              <mm:field name="number" /> - <mm:field name="title" />
+                              <mm:import id="pagenr" reset="true"><mm:field name="number" /></mm:import>      
+                              <mm:node id="pagenodeee" number="$pagenr" />
+
+                              <mm:countrelations type="pools" role="related" searchdir="source">
+                                (related to pool: ${_})
+                                <mm:compare value="0">
+                                  <c:if test="${ok eq 'OK'}">
+                                    <mm:createrelation source="site" destination="pagenodeee" role="related" />
+                                    <span class="msg">relation created</span>
+                                  </c:if>
+                                </mm:compare>
+                              </mm:countrelations>
+
+                            </li>
+                          </mm:relatednodes>
+                          </ol>
+                        </mm:relatednodescontainer>
+                      
+                      </li>
+                    
+                    </mm:relatednodes>
+                    </ol>
+                  </mm:relatednodescontainer>
+                </mm:node>
 
               </li>
             </mm:related>
             </ol>
           </mm:relatedcontainer>
+          </mm:transaction>
+
+          <p>
+            Click 'commit' to relate all pages in the site to the pool via 'related'.
+            This is to be able to search in just one pool.<br /> 
+            <mm:link referids="p?">
+              <mm:param name="commit">true</mm:param>
+              <mm:param name="ok">OK</mm:param>
+              <a href="${_}">[commit]</a>
+            </mm:link>
+          </p>
+
 
          <h3>Footer</h3>
-         <p>posrel between 11 and 100</p>
+         <p>Relation type posrel between 11 and 100.
+         Update sitemap by clicking move.
+         </p>
 
           <!-- option to move/update sitemap to footerrel -->
           <mm:import externid="move" />
@@ -106,8 +198,7 @@
             </ol>
           </mm:relatedcontainer>
 
-          <h3>Footer</h3>
-          <p>With footerrel.</p>
+          <p>New: ordered with footerrel.</p>
           <mm:relatedcontainer path="footerrel,pages" searchdirs="destination"
             fields="footerrel.pos,pages.title,pages.number">
             <mm:sortorder field="footerrel.pos" direction="UP" />
@@ -121,7 +212,22 @@
             </ol>
           </mm:relatedcontainer>
 
-        
+
+          <div class="wrap">
+            <h3>All pages</h3>
+            <p>All pages in this portal (relation type: related).</p>
+  
+            <mm:relatednodescontainer type="pages" role="related" searchdirs="destination">
+              <mm:sortorder field="number" direction="UP" />
+              <ul>
+              <mm:relatednodes>
+                <li>
+                  <mm:field name="number" /> - <mm:field name="title" />
+                </li>
+              </mm:relatednodes>
+              </ul>
+            </mm:relatednodescontainer>        
+          </div>
         </mm:node>
       </div><!-- /.main-column -->
       <div class="right-column">

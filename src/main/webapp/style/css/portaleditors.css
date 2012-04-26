@@ -12,10 +12,11 @@ body.editor #topbar ul.meta li {
 body.editor #topbar ul.meta li.you { 
     background-image: url(icons/dot-white.png);
     background-repeat: no-repeat;
-    background-position: right 8px;
-    padding-right: 18px;
+    background-position: right 12px;
+    padding-right: 12px;
 	margin-left: 8px;
 }
+body.editor #topbar ul.meta li.logout { margin-left: 0; }
  
 body.editor #header { margin: 0; }
 body.editor #header img { 
@@ -77,6 +78,17 @@ h1, h2
 h3, h4 {
 	color: #707070;
 	font-weight: 200;
+}
+
+body.editor ol {
+	margin-top: 1em;
+	margin-bottom: 1em;
+	margin-left: 2em;
+}
+body.editor ol ol {
+	margin-top: 0;
+	margin-bottom: 0;
+	margin-left: auto;
 }
 
 #portalform

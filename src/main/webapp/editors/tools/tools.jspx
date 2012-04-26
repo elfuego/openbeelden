@@ -23,7 +23,7 @@
         <ul>
           <li>
             <a href="${mm:link('/editors/tools/sitemap.jspx')}">Sitemap</a><br />
-            pages in header and footer
+            conversion tools and overview of pages in header and footer
           </li>
           <li>
             <a href="${mm:link('/editors/tools/portalcontent.jspx')}">Portal content</a><br />

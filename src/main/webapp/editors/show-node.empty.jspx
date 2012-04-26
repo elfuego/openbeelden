@@ -62,7 +62,7 @@
 
     <c:when test="${type eq 'pages'}">
       <span>
-        Titel pagina
+        Titel lege pagina
       </span>
     </c:when>
 

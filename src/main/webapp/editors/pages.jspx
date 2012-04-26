@@ -74,10 +74,14 @@
         
           
           <!-- only default portal can add pages to footer -->
-          <c:if test="${isdefault}">
+          <!-- c:if test="${isdefault}" -->
             <div class="wrap">
               <h3>Pages in footer</h3>
-              <p>Pages in footer, drag and drop to reorder them.</p>
+              <p>
+                Pages in footer, drag and drop to reorder them.<br />
+                With the search option all pages belonging to this portal 
+                can be found, also the unrelated.
+              </p>
    
               <mm:hasrelationmanager sourcemanager="pools" destinationmanager="pages" role="footerrel">
                 <mm:include page="/editors/edit-list.jspx" referids="p?,_node@nr">
@@ -96,12 +100,14 @@
                   <mm:param name="unpublish">true</mm:param>
                   <mm:param name="maycreate">false</mm:param>
                   <mm:param name="maydelete">false</mm:param>
+                  
+                  <mm:param name="startnode">${p}</mm:param>
 
                 </mm:include>
               </mm:hasrelationmanager>           
               
             </div>
-          </c:if>
+          <!-- /c:if -->
 
       </div><!-- /.main-column -->
     </jsp:attribute>

@@ -13,82 +13,54 @@
 
 <mm:cloud method="asis">
 
-<fmt:setBundle basename="eu.openimages.messages" scope="request" />
-
-<mm:import externid="p" /><!-- portal -->
-<mm:import externid="q" id="search" /><!-- search with ... -->
-<mm:import externid="nr" />
-<mm:import externid="parent" />
-<mm:import externid="fields" />
-<mm:import externid="lang" />
-
-<mm:import externid="type" />
-<mm:import externid="role">related</mm:import>
-<mm:import externid="dir">destination</mm:import>
-
-<mm:import externid="showform" />
-<mm:import externid="editme">false</mm:import>
-<mm:import externid="show">/editors/show-node.jspx</mm:import>
-<mm:import externid="editor">/editors/edit-node.jspx</mm:import>
-<mm:import externid="maydelete">true</mm:import>
-<mm:import externid="unpublish">true</mm:import>
-<mm:import externid="maycreate">true</mm:import>
-
-<mm:import externid="max">25</mm:import>
-<mm:import externid="offset">0</mm:import>
-
-
-<mm:listnodescontainer type="$type">
+  <fmt:setBundle basename="eu.openimages.messages" scope="request" />
   
-  <c:if test="${!empty type and !empty search}">
-    <mm:composite operator="OR">
-      <mm:fieldlist nodetype="$type" type="search" varStatus="field">
-        <mm:write value="${field.current.dataType.class.name}">
-          <mm:compare regexp="org\.mmbase\.datatypes\.(.*StringDataType|XmlDataType)">
-            <mm:constraint field="${field.current.name}" operator="LIKE" value="%${search}%" casesensitive="false" />
-          </mm:compare>
-        </mm:write>
-      </mm:fieldlist>
-      <mm:compare regexp="[0-9]+" referid="search">
-        <mm:constraint field="number" value="${search}" />
-      </mm:compare>
-    </mm:composite>
-  </c:if>
-
-  <mm:import externid="so">down</mm:import>
-  <mm:import externid="sortby">number</mm:import>
-  <!-- mm:fieldlist nodetype="$type" type="${empty fields ? 'edit' : ''}" fields="${fields}">
-    <mm:first>
-      <mm:notpresent referid="sortby"><mm:import externid="sortby"><mm:fieldinfo type="name" /></mm:import></mm:notpresent>
-    </mm:first>
-  </mm:fieldlist -->
+  <mm:import externid="p" /><!-- portal -->
+  <mm:import externid="q" id="search" /><!-- search with ... -->
+  <mm:import externid="nr" />
+  <mm:import externid="parent" />
+  <mm:import externid="fields" />
+  <mm:import externid="lang" />
   
-  <mm:size id="total" write="false" />
+  <mm:import externid="type" />
+  <mm:import externid="startnode" />
+  <mm:import externid="role">related</mm:import>
+  <mm:import externid="dir">destination</mm:import>
+  
+  <mm:import externid="showform" />
+  <mm:import externid="editme">false</mm:import>
+  <mm:import externid="show">/editors/show-node.jspx</mm:import>
+  <mm:import externid="editor">/editors/edit-node.jspx</mm:import>
+  <mm:import externid="maydelete">true</mm:import>
+  <mm:import externid="unpublish">true</mm:import>
+  <mm:import externid="maycreate">true</mm:import>
+  
+  <mm:import externid="max">25</mm:import>
+  <mm:import externid="offset">0</mm:import>
+
 
   <c:choose>
-    <c:when test="${!empty sortby and sortby ne 'handle'}">
-      <mm:sortorder field="$sortby" direction="$so" /> <!-- TODO: error with field 'handle' -->
+    <c:when test="${empty startnode}">
+      <!-- just search in list with nodes of this -->
+      <mm:listnodescontainer type="$type">
+        <jsp:directive.include file="includes/search-node.query.jspx" />
+        <mm:listnodes id="${list_id}" />
+      </mm:listnodescontainer>
     </c:when>
     <c:otherwise>
-      <mm:sortorder field="number" direction="$so" /> <!-- TODO: error with field 'handle' -->
+      <!-- use a startnode, f.e. a pools/site node (always role=related) -->
+      <mm:node number="$startnode">
+        <mm:relatednodescontainer type="$type" role="related" searchdirs="destination">
+          <jsp:directive.include file="includes/search-node.query.jspx" />
+          <mm:relatednodes id="${list_id}" />
+        </mm:relatednodescontainer>
+      </mm:node>
     </c:otherwise>
-  </c:choose>
-  <mm:maxnumber value="$max" />
-  <mm:offset value="$offset" />
+  </c:choose>  
 
-  <c:if test="${editme}">
-    <a class="cancel" href="#cancel">close</a>
-  </c:if>
-  <strong>
-    Found ${total} <mm:nodeinfo type="plural_guitype" nodetype="$type" escape="lowercase" />
-    <c:if test="${!empty search}"> with '${search}' </c:if>
-    ${sortdir}
-  </strong>
-
-  <mm:import id="list_id" reset="true">found_${role}_${type}</mm:import>
   <ul class="sortable connected foundnodes ${type} ${empty parent ? 'sortcancel' : ''}" id="${list_id}">
     
-    <mm:listnodes varStatus="status" id="${list_id}">
+    <mm:listnodes varStatus="status" referid="$list_id">
       <c:choose>
         <c:when test="${status.index % 2 == 0}"><c:set var="oddeven" value="even" /></c:when>
         <c:otherwise><c:set var="oddeven" value="odd" /></c:otherwise>
@@ -134,8 +106,6 @@
     </li>
   
   </ul>
-
-</mm:listnodescontainer>
 
 
 </mm:cloud>

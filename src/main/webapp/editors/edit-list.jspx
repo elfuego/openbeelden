@@ -22,6 +22,7 @@
   <mm:import externid="lang">${requestScope['javax.servlet.jsp.jstl.fmt.locale.request']}</mm:import>
  
   <mm:import externid="type" required="true" />
+  <mm:import externid="startnode" />
   <mm:import externid="role">related</mm:import>
   <mm:import externid="dir">destination</mm:import>
 
@@ -123,7 +124,7 @@
     <c:if test="${search}">
       <div class="searchme">
         <mm:link page="/editors/search-node.jspx" id="searchlink" escapeamps="false" 
-          referids="p?,nr,type,role?,dir?,parent,fields?,unpublish?,maydelete?,maycreate?,editor?,sortable?,lang?,show?,showform?">
+          referids="p?,nr,type,startnode?,role?,dir?,parent,fields?,unpublish?,maydelete?,maycreate?,editor?,sortable?,lang?,show?,showform?">
           <mm:param name="max">10</mm:param>
           <mm:param name="editme">true</mm:param>
         </mm:link>

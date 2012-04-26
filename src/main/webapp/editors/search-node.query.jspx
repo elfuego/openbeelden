@@ -1,0 +1,57 @@
+<jsp:root 
+    xmlns:jsp="http://java.sun.com/JSP/Page"
+    xmlns:c="http://java.sun.com/jsp/jstl/core"
+    xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+    xmlns:mm="http://www.mmbase.org/mmbase-taglib-2.0"
+    version="2.0">
+
+    
+    <!-- piece with constraints etc. to include in query container -->
+    
+    <c:if test="${!empty type and !empty search}">
+      <mm:composite operator="OR">
+        <mm:fieldlist nodetype="$type" type="search" varStatus="field">
+          <mm:write value="${field.current.dataType.class.name}">
+            <mm:compare regexp="org\.mmbase\.datatypes\.(.*StringDataType|XmlDataType)">
+              <mm:constraint field="${field.current.name}" operator="LIKE" value="%${search}%" casesensitive="false" />
+            </mm:compare>
+          </mm:write>
+        </mm:fieldlist>
+        <mm:compare regexp="[0-9]+" referid="search">
+          <mm:constraint field="number" value="${search}" />
+        </mm:compare>
+      </mm:composite>
+    </c:if>
+  
+    <mm:import externid="so">down</mm:import>
+    <mm:import externid="sortby">number</mm:import>
+    <!-- mm:fieldlist nodetype="$type" type="${empty fields ? 'edit' : ''}" fields="${fields}">
+      <mm:first>
+        <mm:notpresent referid="sortby"><mm:import externid="sortby"><mm:fieldinfo type="name" /></mm:import></mm:notpresent>
+      </mm:first>
+    </mm:fieldlist -->
+    
+    <mm:size id="total" write="false" />
+  
+    <c:choose>
+      <c:when test="${!empty sortby and sortby ne 'handle'}">
+        <mm:sortorder field="$sortby" direction="$so" /> <!-- TODO: error with field 'handle' -->
+      </c:when>
+      <c:otherwise>
+        <mm:sortorder field="number" direction="$so" /> <!-- TODO: error with field 'handle' -->
+      </c:otherwise>
+    </c:choose>
+    <mm:maxnumber value="$max" />
+    <mm:offset value="$offset" />
+  
+    <c:if test="${editme}">
+      <a class="cancel" href="#cancel">close</a>
+    </c:if>
+    <strong>
+      Found ${total} <mm:nodeinfo type="plural_guitype" nodetype="$type" escape="lowercase" />
+      <c:if test="${!empty search}"> with '${search}' </c:if>
+      ${sortdir}
+    </strong>
+    <mm:import id="list_id" reset="true">found_${role}_${type}</mm:import>
+
+</jsp:root>
