@@ -229,23 +229,20 @@ public class RelatedByTags {
      * Filter map with nodes and remove the ones that do not belong to portal.
      * A portal consists of the nodes uploaded by the related portal manager, plus
      * the ones that have a tag, keyword or username in the related filters node.
-     * TODO: exclude media with excluded relation.
      *
      * @param map       nodes to filter
      * @param portal    portal (pools) node
      */
     private static Map<Integer, Integer> filterNodes(Map<Integer, Integer> map, Node portal) {
         //Node portal = cloud.getNode("pool_oip");
+        final Cloud cloud = portal.getCloud();
         final Map<Integer,Integer> filteredMap = new HashMap<Integer, Integer>();
         final Node filterNode = SearchUtil.findRelatedNode(portal, "filters", "portalrel");
-        final Cloud cloud = portal.getCloud();
-
-        // TODO: this has to be the related portal manager!
-        String ownerNr = portal.getStringValue("owner");
+        final Node ownerNode  = SearchUtil.findRelatedNode(portal, "mmbaseusers", "portalrel");
 
         Collection<String> tgs = Collections.emptyList();
         Iterable<String> kws   = Collections.emptyList();
-        final Collection<String> urs = new ArrayList<String>();
+        Collection<String> urs = new ArrayList<String>();
         if (filterNode != null) {
             String tags = filterNode.getStringValue("tags");
             String keywords = filterNode.getStringValue("keywords");
@@ -255,21 +252,17 @@ public class RelatedByTags {
             tgs = Arrays.asList(tags.split(";"));
             urs.addAll(Arrays.asList(users.split(";")));
         }
-        String ownername = null;
-        if (cloud.hasNode(ownerNr)) {
-            ownername = cloud.getNode(ownerNr).getStringValue("username");
+        if (ownerNode != null) {
+            urs.add(ownerNode.getStringValue("username"));
         }
-        if (ownername != null) urs.add(ownername);
 
         for (Map.Entry<Integer, Integer> entry : map.entrySet()) {
             boolean hit = false;
-            Integer hits = entry.getValue();    // hits for key (node)
             Integer nodenr = entry.getKey();
-            // TODO: iterator over entrySet
-
             Node n = cloud.getNode(nodenr);
+            Integer hits = entry.getValue();    // hits for key (node)
 
-            // TODO: check excluded from portal
+            // TODO: check excluded media from portal (related with role excluded to portal, still unused though)
 
             // users
             String owner = n.getStringValue("owner");
@@ -313,7 +306,6 @@ public class RelatedByTags {
                     break;
                 }
             }
-
             if (hit) {
                 filteredMap.put(nodenr, hits);
                 log.debug("added t #" + nodenr + " [" + hits + "]");

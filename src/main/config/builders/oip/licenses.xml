@@ -100,6 +100,10 @@
           <description xml:lang="nl">Dit is een verplicht veld</description>
           <description xml:lang="en">This is a required field</description>
         </required>
+        <minLength value="3" enforce="onvalidate">
+          <description xml:lang="en">This is a required field.</description>        
+          <description xml:lang="nl">Dit is een verplicht veld.</description>
+        </minLength>
         <maxLength value="512" />
       </datatype>
     </field>

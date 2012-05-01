@@ -51,12 +51,7 @@
   <authenticate class=".*\.action\.stats_jspx">
     <property name="username" value="foo" />
   </authenticate>
-  <!-- tags are owned by their creator, 
-       their relations with media not (or owners can not delete their own media) -->
-  <authenticate class=".*\.action\.tagsubmit_relate_jspx">
-    <property name="username" value="foo" />
-  </authenticate>
-  
+ 
   <authenticate class=".*\.contact_jspx">
     <property name="username" value="foo" />
   </authenticate>

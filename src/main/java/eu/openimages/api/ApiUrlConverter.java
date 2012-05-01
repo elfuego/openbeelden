@@ -161,7 +161,7 @@ public class ApiUrlConverter extends DirectoryUrlConverter {
             }
             result.append("/api/block.xml.jspx?type=" + type);
 
-            if (pa.size() == 1) {
+            if (pa.size() == 1) {       /* the first part should contain node type */
                 if (reqMethod.equals("POST")) {
                     if (type.equals("mediafragments")
                             || type.equals("videofragments")
@@ -176,18 +176,15 @@ public class ApiUrlConverter extends DirectoryUrlConverter {
                     result.append("&block=list");
                 }
 
-            } else if (pa.size() == 2) {
+            } else if (pa.size() == 2) {    /* the second part should always be a node number */
+
                 String nr = pa.get(1);
                 if (!cloud.hasNode(nr)) {
                     log.warn("Node not found: " + nr);
                     return Url.NOT;
                 }
-                /*  TODO: check if node belongs to type, should include parent nodemanagers (nm.getParent())
-                } else if (!cloud.getNode(nr).getNodeManager().equals(cloud.getNodeManager(type))) {
-                    log.warn("Node #" + nr + " not of type: " + type);
-                    return Url.NOT; } */
 
-
+                /* With POST we suspect new values are posted and we update */
                 if (reqMethod.equals("POST")) {
                     result.append("&block=update");
                 } else {

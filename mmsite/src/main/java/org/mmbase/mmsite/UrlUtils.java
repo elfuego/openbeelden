@@ -199,7 +199,7 @@ public final class UrlUtils {
         }
         return section;
     }
-    /* Gets portal node from request */
+    /* Get portal node from request, currently used only in Open Images */
     private static Node getPortal(HttpServletRequest req) {
         Node portal = (Node) req.getAttribute("portal");
         return portal;

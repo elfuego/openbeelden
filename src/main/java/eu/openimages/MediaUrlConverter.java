@@ -93,7 +93,7 @@ public class MediaUrlConverter extends DirectoryUrlConverter {
             if (n == null) throw new IllegalStateException("No media parameter used in " + frameworkParameters);
             b.append(n.getNumber());
             if (useTitle) {
-                b.append("/").append(trans.transform(n.getStringValue("title")));
+                b.append("/").append(transformTitle(n.getStringValue("title")));
             }
             localeUtil.appendLanguage(b, frameworkParameters);
 
@@ -177,6 +177,19 @@ public class MediaUrlConverter extends DirectoryUrlConverter {
 
         if (log.isDebugEnabled()) log.debug("returning: " + result.toString());
         return new BasicUrl(this, result.toString());
+    }
+
+    /*
+    * Transform, replaces whitespace etc. with underscores, and beautify title.
+    * @param title Title string to transform
+    * @return transformed string
+    */
+    private static String transformTitle(String title) {
+        String transformed = trans.transform(title);
+        transformed = transformed.replaceAll("__", "_");
+        if (transformed.startsWith("_")) transformed = transformed.substring(1, transformed.length());
+        if (transformed.endsWith("_")) transformed = transformed.substring(0, transformed.length() - 1);
+        return transformed;
     }
 
 }
