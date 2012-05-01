@@ -21,27 +21,23 @@
       <mmsq:field name="intro" />
       <mmsq:field name="body" />
       <mmsq:field name="source" />
-      <mmsq:field name="source"     alias="source"    keyword="true" escape="lowercase" />
-      <mmsq:field name="hasformat"  alias="hasformat" keyword="true" escape="lowercase" />
-      <mmsq:field name="dc_creator" />
-      <mmsq:field name="publisher" />
+      <mmsq:field name="source" />
+      <mmsq:field name="hasformat" />
+      <mmsq:field name="dc_creator" boost="3" />
+      <mmsq:field name="publisher" boost="3" />
+      <mmsq:field name="creator" boost="3" />
       <mmsq:field name="show"    alias="show"   keyword="true" store="true" />
       <mmsq:field name="online"  alias="online" />
       <mmsq:field name="offline" alias="offline" />
-      <mmsq:field name="length"  alias="length" keyword="true" store="true" />
-      <mmsq:field name="creator" alias="user"   keyword="true" boost="4" />
-      <mmsq:field name="creator" alias="username" boost="4" />
-      <mmsq:field name="created" alias="created" />
-      <mmsq:field name="date"    alias="date" />
-      <mmsq:field name="lastmodified" alias="lastmodified" />
+      <mmsq:field name="created"        alias="created" />
+      <mmsq:field name="date"           alias="date" />
+      <mmsq:field name="lastmodified"   alias="lastmodified" />
       <mmsq:field name="identifier" />
       <mmsq:field name="relation" />
-      <mmsq:field name="keywords" boost="4" />
+      <mmsq:field name="keywords" keyword="true" split=";" boost="4" />
       <mmsq:field name="keywords" alias="pkeywords" keyword="true" split=";" /><!-- portal q -->
-      <mmsq:field name="coverage" />
-      <mmsq:field name="coverage" keyword="true" split=";" boost="4" />
-      <mmsq:field name="contributor" />
-      <mmsq:field name="contributor" keyword="true" split=";" boost="4" />
+      <mmsq:field name="coverage" keyword="true" split=";" boost="2" />
+      <mmsq:field name="contributor" keyword="true" split=";" boost="2" />
       <!-- node may be excluded from this portal -->
       <mmsq:related path="excluded,pools" element="pools">
         <mmsq:field name="number" alias="excludedportal" keyword="true" />
@@ -62,8 +58,6 @@
       </mmsq:relatednodes>
       <mmsq:relatednodes type="licenses">
         <mmsq:field name="number" alias="licensenr" store="true" />
-        <mmsq:field name="name" />
-        <mmsq:field name="url" />
       </mmsq:relatednodes>
       <mmsq:relatednodes type="mediafragments_translations">
         <mmsq:field name="language" alias="translation" keyword="true" store="true" />
@@ -72,7 +66,6 @@
         <mmsq:field name="intro" />
         <mmsq:field name="body" />
         <mmsq:field name="source" />
-        <mmsq:field name="keywords" />
         <mmsq:field name="keywords" keyword="true" split=";" boost="4" />
       </mmsq:relatednodes>
     </list>
