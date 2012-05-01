@@ -47,7 +47,7 @@
               <mm:param name="unpublish">true</mm:param>
               <mm:param name="search">false</mm:param>
               <mm:param name="maycreate">false</mm:param>
-              <mm:param name="maydelete">false</mm:param>
+              <mm:param name="maydelete">true</mm:param>
             </mm:include>
  
           </mm:hasrelationmanager> 
@@ -79,7 +79,7 @@
 
                   <mm:param name="unpublish">true</mm:param>
                   <mm:param name="maycreate">false</mm:param>
-                  <mm:param name="maydelete">false</mm:param>
+                  <mm:param name="maydelete">true</mm:param>
                   
                   <mm:param name="startnode">${p}</mm:param>
 
