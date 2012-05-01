@@ -78,7 +78,7 @@
                   <mm:hasrank value="anonymous" inverse="true">
                     <c:set var="iscontribute" value="false" />
                     <mm:field name="template">
-                      <mm:node number="$_">
+                      <mm:node number="$_" notfound="skip">
                         <mm:hasalias name="template_contribute">
                           <c:set var="iscontribute" value="true" />
                         </mm:hasalias>
