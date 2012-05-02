@@ -57,7 +57,7 @@
                   </div>
                 </mm:fieldlist>
 
-                <mm:hasrank minvalue="project manager">
+                <mm:hasrank minvalue="portal manager">
                   <mm:fieldlist fields="show">
                     <c:set var="fld_name"><mm:fieldinfo type="name" /></c:set>
                     <div class="${fld_name}">
