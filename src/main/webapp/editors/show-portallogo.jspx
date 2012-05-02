@@ -9,7 +9,7 @@
     language="${empty param.lang ? 'client' : param.lang}" 
     postprocessor="none">
 
-<jsp:output omit-xml-declaration="false" />
+<jsp:output omit-xml-declaration="true" />
 
 
 <mm:cloud method="asis">

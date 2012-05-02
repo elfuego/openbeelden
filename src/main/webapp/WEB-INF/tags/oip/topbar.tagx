@@ -17,6 +17,7 @@
         <mm:import id="locale">${requestScope['org.mmbase.mmsite.language']}</mm:import>
       </c:if>
       
+     
       <mm:node number="$pool" id="portal">
         <c:choose>
           <c:when test="${!isdefaultportal}"><!-- check portal property 'login' -->
@@ -33,16 +34,6 @@
         </c:choose>
       </mm:node>
           
-      <!-- c:if test="${enablelogin}">
-        <c:set var="query_str" value="${requestScope['javax.servlet.forward.query_string']}" />
-        <script type="text/javascript">
-          <mm:link page="/action/you.jspx" escapeamps="false" referids="locale?">
-            <mm:param name="referrer">${requestScope['javax.servlet.forward.request_uri']}<c:if test="{!empty query_string}">?${query_string}</c:if></mm:param>
-            <jsp:text>//$(document).ready(function() { $("#topbar li.you").load("${_}"); });</jsp:text>
-          </mm:link>
-        </script>
-      </c:if -->
-  
       <ul class="meta">
       
         <c:if test="${enablelogin}">
@@ -87,22 +78,30 @@
                     <select name="choose_portal" id="choose_portal">
                       <mm:listnodescontainer type="pools">
                         <mm:listnodes id="p">
-                          <mm:nodefunction name="translation">
-                            <c:set var="p_name"><mm:field name="name" /></c:set>
-                          </mm:nodefunction>
-                          <mm:relatednodescontainer type="urls" role="portalrel" searchdirs="destination">
-                            <mm:maxnumber value="1" />
-                            <mm:relatednodes>
-                              <c:choose>
-                                <c:when test="${portal.number eq p.number}">
-                                  <option label="${p_name}" value="${_node.url}" selected="selected">${p_name}</option>
-                                </c:when>
-                                <c:otherwise>
-                                  <option label="${p_name}" value="${_node.url}">${p_name}</option>
-                                </c:otherwise>
-                              </c:choose>
-                            </mm:relatednodes>
-                          </mm:relatednodescontainer>
+                          <c:set var="hideportal">
+                            <mm:functioncontainer>
+                              <mm:param name="key">hideportal</mm:param>
+                              <mm:function referids="_node@node" nodemanager="properties" name="get" />
+                            </mm:functioncontainer>
+                          </c:set>
+                          <c:if test="${hideportal ne 'true'}">
+                            <mm:nodefunction name="translation">
+                              <c:set var="p_name"><mm:field name="name" /></c:set>
+                            </mm:nodefunction>
+                            <mm:relatednodescontainer type="urls" role="portalrel" searchdirs="destination">
+                              <mm:maxnumber value="1" />
+                              <mm:relatednodes>
+                                <c:choose>
+                                  <c:when test="${portal.number eq p.number}">
+                                    <option label="${p_name}" value="${_node.url}" selected="selected">${p_name}</option>
+                                  </c:when>
+                                  <c:otherwise>
+                                    <option label="${p_name}" value="${_node.url}">${p_name}</option>
+                                  </c:otherwise>
+                                </c:choose>
+                              </mm:relatednodes>
+                            </mm:relatednodescontainer>
+                          </c:if>
                         </mm:listnodes>
                       </mm:listnodescontainer>
                     </select>

@@ -7,7 +7,7 @@
     expires="0" type="text/html" 
     language="${empty param.lang ? 'client' : param.lang}">
 
-<jsp:output omit-xml-declaration="true" />
+  <jsp:output omit-xml-declaration="true" />
 
   <mm:cloud method="asis">
 

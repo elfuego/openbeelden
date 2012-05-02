@@ -37,19 +37,6 @@
     
     <ul class="main">
       <mm:node number="$pool" id="portal">
-        <c:choose>
-          <c:when test="${!isdefaultportal}"><!-- check portal property 'login' -->
-            <c:set var="enablelogin">
-              <mm:functioncontainer>
-                <mm:param name="key">login</mm:param>
-                <mm:function referids="_node@node" nodemanager="properties" name="get" />
-              </mm:functioncontainer>
-            </c:set>
-          </c:when>
-          <c:otherwise>
-            <c:set var="enablelogin">true</c:set>
-          </c:otherwise>
-        </c:choose>
       
         <mm:relatednodescontainer type="pages" role="posrel" searchdirs="destination">
           <mm:constraint field="posrel.pos" value="0" operator="GREATER" />

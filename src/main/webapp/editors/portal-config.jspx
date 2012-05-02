@@ -48,7 +48,7 @@
             </c:if>
           </c:if>
 
-          <div class="">
+          <div class="wrap noborder">
             <h3>Portal properties</h3>
             <p>
               Settings or properties of this portal. Possible are:<br />

@@ -133,7 +133,9 @@ div.actionrelate {
 	float: right;
 	margin: 4px 6px 0 0;
 }
-div.actions > div.actions { margin: 0; }
+div.node { min-height: 24px; }
+div.node div.node { margin: 0; }
+div.actions div.actions { margin: 0; }
 div.actions a, 
 div.actionrelate a { margin-left: 6px; }
 div.actions a.editme { text-transform: lowercase; }
@@ -301,7 +303,6 @@ li.pager a,
 li.pager strong,
 th.pager a,
 th.pager strong { margin: 0 2px; }
-
 
 div.emptyimage {
 	border: 1px solid #ccc;

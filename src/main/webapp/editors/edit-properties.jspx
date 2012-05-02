@@ -8,7 +8,7 @@
     language="${empty param.lang ? 'client' : param.lang}" 
     postprocessor="none">
 
-<jsp:output omit-xml-declaration="false" />
+<jsp:output omit-xml-declaration="true" />
 
 <mm:cloud method="asis">
 
@@ -38,12 +38,12 @@
       </c:if>
     </mm:present>
         
-    <div class="log" id="properties_${nr}_log"><!-- is empty --></div>
+    <div class="log" id="properties_${nr}_log"> <!-- is empty --> </div>
     <ul id="properties_${nr}" class="relatednodes">
       <mm:nodelistfunction nodemanager="properties" name="list" referids="_node@node">
         
         <mm:import id="propnr" reset="true"><mm:field name="number" /></mm:import>
-        <li id="node_${propnr}">
+        <li id="node_${propnr}" class="property">
           <div class="actions">
             <mm:maydelete>
               <mm:link page="/editors/delete-node.jspx" referids="p?,propnr@nr">
