@@ -162,9 +162,7 @@ ul.sortable { min-height: 32px; }
 ul.relatednodes li.empty { display: none; }
 
 /* show empty list item when list is empty */
-ul.relatednodes.empty li.empty {
-	display: block;
-}
+ul.relatednodes.empty li.empty { display: block; }
 
 ul.relatednodes div.actionrelate { display: none; }
 ul.foundnodes div.actions { display: none; }

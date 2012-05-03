@@ -4,6 +4,7 @@
 %><%@ taglib uri="http://www.opensymphony.com/oscache" prefix="os"
 %><jsp:directive.page session="false" />
 *///<mm:content type="text/javascript" expires="0" postprocessor="none"><os:cache time="0"><mm:escape escape="none">
+
 <fmt:setBundle basename="eu.openimages.messages" scope="request" />
 <mm:import id="any_lang"><fmt:message key="search.any_language" /></mm:import>
 <mm:import id="textarea_classes">textarea.mm_f_body, textarea.mm_f_intro, textarea.mm_nm_mmbaseusers, textarea.mm_nm_users_translations, textarea.mm_nm_pages, textarea.mm_nm_pages_translations, textarea.mm_nm_pools, textarea.mm_nm_pools_translations, textarea.mm_nm_licenses, textarea.mm_nm_licenses_translations</mm:import>
@@ -398,13 +399,13 @@ function afterSubmit(response, status, xhr, $form) {
     }
     
     var len = $('#' + parentId).find('li:not(.notsortable)').length;
-    showAddme($('#' + parentId));
     if (len < 1) {
         $('#' + parentId).addClass('empty');
     } else if ($('#' + parentId).hasClass('empty')) {
         $('#' + parentId).removeClass('empty');
     }
-
+    showAddme($('#' + parentId));
+    
     clearMsg(this);
 }
 
@@ -633,25 +634,34 @@ function initSortable(listEl) {
                 var editId = $(ui.item).attr('id');
                 var listId = $(this).attr('id');
                 var senderId = $(ui.sender).attr('id');
-                //console.log('edit: ' + editId + ' list: ' + listId + ' sender: ' + senderId)
+                // console.log('edit: ' + editId + ' list: ' + listId + ' sender: ' + senderId)
                 // are we updating related?
                 // and its the sender
                 /* if (listId.indexOf('related_') > -1 
                     && senderId != undefined && senderId.indexOf('related_') > -1) { */
                 if (senderId != undefined) {
                     if ( $('#' + listId).hasClass("sortcancel") ) {
-                        $('#' + listId).sortable("cancel");
+                        //console.log('not sorting because of class');
+                        //$('#' + listId).sortable("cancel");
                     } else {
                         sortSortable(this, true);
                     }
                 } else {
                     if ( $('#' + listId).hasClass("sortcancel") ) {
                         //console.log('not sorting because of class');
-                        $('#' + senderId).sortable("cancel");
+                        //$('#' + senderId).sortable("cancel");
                     } else {
                         sortSortable(this);
                     }
-
+                }
+                
+                var len = $('#' + listId).find('li:not(.notsortable)').length;
+                if (len == 0) {
+                    $('#' + listId).addClass('empty');
+                } else {
+                    if ($('#' + listId).is('.empty')) {
+                        $('#' + listId).removeClass('empty');
+                    }
                 }
 
             }
@@ -711,13 +721,13 @@ function sortSortable(list, updated) {
         }, ms);
     }
     
-    if (total == 0) {
+    /* if (total == 0) {
         $(list).addClass('empty');
     } else {
         if ($(list).is('.empty')) {
             $(list).removeClass('empty');
         }
-    }
+    } */
     
 }
 

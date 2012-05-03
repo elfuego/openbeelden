@@ -59,7 +59,7 @@
           <c:when test="${empty nr}">
             <h2>New portal</h2>
             <p>Make and configure a new portal. You need to: 
-              1. create and describe a portal; and 2. assign a portal manager (if needed).
+              1. create a portal and give it a description; and 2. assign a portal manager (if needed).
             </p>
             <mm:include page="/editors/add-node.jspx">
               <mm:param name="type">pools</mm:param>

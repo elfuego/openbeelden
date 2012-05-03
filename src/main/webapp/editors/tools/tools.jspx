@@ -23,27 +23,27 @@
         <ul>
           <li>
             <a href="${mm:link('/editors/tools/sitemap.jspx')}">Sitemap</a><br />
-            conversion tools and overview of pages in header and footer
+            conversion tools and overview of pages in header and footer.
           </li>
           <li>
             <a href="${mm:link('/editors/tools/portalcontent.jspx')}">Portal content</a><br />
-            from portal filter resulting Lucene query
+            from portal filter resulting Lucene query.
           </li>
           <li>
             <a href="${mm:link('/editors/tools/stats.jspx')}">Stats</a><br />
-            tabel met aantal maal media items zijn afgespeeld
+            statistics or number of plays of media items.
           </li>
           <li>
-            <a href="${mm:link('/editors/tools/createportal.jspx')}">Make a new portal</a><br />
-            add and configure a new portal
+            <a href="${mm:link('/editors/tools/createportal.jspx')}">Manage portals</a><br />
+            create and configure new portals and manage current ones.
           </li>
           <li>
             <a href="${mm:link('/editors/tools/email.jspx')}">Email addresses</a><br />
-            all user info in a spreadsheet
+            all user info in a spreadsheet.
           </li>
           <li>
             <a href="${mm:link('/editors/tools/sourcesurls.jspx')}">Edit urls of streams</a><br />
-            change stream url to match it with (new) location on filesystem
+            change stream url to match it with (new) location on filesystem.
           </li>
           <li>
             <a href="keywords.jspx">Convert keywords</a><br />
