@@ -56,6 +56,14 @@
 
         <h3 class="mediatitle">
           <mm:nodefunction name="translation"><mm:field name="title" /></mm:nodefunction>
+          <mm:maywrite>
+            <mm:link referids="_node@media">
+              <mm:frameworkparam name="component">oip</mm:frameworkparam>
+              <mm:frameworkparam name="block">user-media</mm:frameworkparam>
+              <mm:frameworkparam name="user">${iam}</mm:frameworkparam>
+              <a class="edit" href="${_}"><fmt:message key="media.edit" /></a>
+            </mm:link>
+          </mm:maywrite>
         </h3>
 
         <!--
@@ -70,7 +78,6 @@
             </mm:relatednodes>
           </mm:relatednodescontainer>
         </p> -->
-
 
         <!-- toolbar -->
         <mm:import id="orderkey" reset="true">media.order</mm:import>
@@ -100,16 +107,6 @@
                 </mm:link>
               </li>
             </mm:maycreate>
-            <mm:maywrite>
-              <li class="edit">
-                <mm:link referids="_node@media">
-                  <mm:frameworkparam name="component">oip</mm:frameworkparam>
-                  <mm:frameworkparam name="block">user-media</mm:frameworkparam>
-                  <mm:frameworkparam name="user">${iam}</mm:frameworkparam>
-                  <a href="${_}"><fmt:message key="media.edit" /></a>
-                </mm:link>
-              </li>
-            </mm:maywrite>
           </ul>
         </div>
 
