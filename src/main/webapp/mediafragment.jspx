@@ -51,6 +51,7 @@
 
       <div class="main-column">
         <oip:h2><fmt:message key="media.item" /></oip:h2>
+        <mm:field name="owner" id="owner" write="false" />
 
         <oip:media width="512" height="288" />
 
@@ -79,21 +80,40 @@
           </mm:relatednodescontainer>
         </p> -->
 
-        <!-- toolbar -->
-        <mm:import id="orderkey" reset="true">media.order</mm:import>
-        <mm:import id="mediaorder"><mm:function referids="_node@node,orderkey@key" nodemanager="properties" name="get" /></mm:import>
 
+        <!-- toolbar -->
         <div class="toolbar">
           <ul class="toolbar">
             <li class="license"><a href="#license"><fmt:message key="media.license" /></a></li>
             <li class="download"><a href="#download"><fmt:message key="media.download" /></a></li>
             <li class="share"><a href="#share"><fmt:message key="media.share" /></a></li>
-            <c:if test="${!empty mediaorder}">
-              <li class="order _blank">
-                <fmt:message key="media.order_text" var="mediaordertext" />
-                <a title="${mediaordertext}" href="${mediaorder}"><fmt:message key="media.order" /></a>
-              </li>
-            </c:if>
+            
+            <mm:import id="orderkey" reset="true">media.order</mm:import>
+            <mm:import id="mediaorder"><mm:function referids="_node@node,orderkey@key" nodemanager="properties" name="get" /></mm:import>
+            <c:choose>
+              <c:when test="${!empty mediaorder}">
+                <li class="order _blank">
+                  <fmt:message key="media.order_text" var="mediaordertext" />
+                  <a title="${mediaordertext}" href="${mediaorder}"><fmt:message key="media.order" /></a>
+                </li>
+              </c:when>
+              <c:otherwise>
+                <mm:hasnode number="$owner">
+                  <mm:node number="$owner">
+                    <c:if test="${_node.username eq 'beeldengeluid'}">
+                      <li class="order _blank">
+                        <fmt:message key="media.order_text" var="mediaordertext" />
+                        <a title="${mediaordertext}" 
+                           href="http://beeldengeluid.nl/zakelijk/verkoop-beeld-en-geluidsfragmenten">
+                          <fmt:message key="media.order" />
+                        </a>
+                      </li>
+                    </c:if>
+                  </mm:node>
+                </mm:hasnode>
+              </c:otherwise>
+            </c:choose>
+            
             <mm:maycreate type="ratingrel">
               <li class="favorite">
                 <mm:listrelationscontainer type="mmbaseusers" role="ratingrel" searchdir="source">
@@ -364,7 +384,6 @@
             </dd>
             <dt><fmt:message key="media.user" />:</dt>
             <dd>
-              <mm:field name="owner" id="owner" write="false" />
               <mm:hasnode number="$owner">
                 <mm:node number="$owner">
                   <oip:user />
