@@ -1,0 +1,214 @@
+<?xml version="1.0"?>
+<jsp:root
+    version="2.0"
+    xmlns:jsp="http://java.sun.com/JSP/Page"
+    xmlns:c="http://java.sun.com/jsp/jstl/core"
+    xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+    xmlns:fmt="http://java.sun.com/jsp/jstl/fmt"
+    xmlns:mm="http://www.mmbase.org/mmbase-taglib-2.0"
+    xmlns:oip="urn:jsptagdir:/WEB-INF/tags/oip">
+
+  <oip:editor styleClass="portal">
+    <jsp:attribute name="head">
+
+    </jsp:attribute>
+    <jsp:attribute name="left">
+      
+
+    </jsp:attribute>
+    <jsp:attribute name="body">
+    
+     <div class="main-column wide"> 
+
+<mm:import externid="msg" />
+<mm:import externid="type" />
+
+<mm:import externid="convert" />
+<mm:import externid="commit">false</mm:import>
+
+<mm:import externid="offset">0</mm:import>
+<mm:import externid="max">100</mm:import>
+
+<h2>
+  Convert labels in mediasources:
+  <mm:link referids="offset?,max?">
+    <mm:param name="convert">ok</mm:param>
+    <a href="${_}">[ok]</a>
+  </mm:link>
+-
+  <mm:link referids="offset?,max?,convert?">
+    <mm:param name="commit">true</mm:param>
+    <a href="${_}">[commit]</a>
+  </mm:link>
+
+</h2>
+
+
+<mm:transaction name="mytrans" commitonclose="$commit">
+<mm:url id="baseurl" absolute="true" escapeamps="false" referids="sf?,so?,convert?" write="false" />
+
+<mm:listnodescontainer type="mediasources">
+  
+  <mm:sortorder field="number" direction="DOWN" />
+  <mm:size id="total" write="false" />
+  <mm:offset value="$offset" />
+  <mm:maxnumber value="$max" />
+
+  <table summary="Convert labels" border="0" cellspacing="0" cellpadding="3" class="stats">
+    <thead>
+      <tr>
+        <th>#</th>
+        <th>type</th>
+        <th>state</th>
+        <th>gui</th>
+        <th>label</th>
+        <th>new</th>
+      </tr>
+    </thead>
+    <tfoot>
+      <tr>
+        <th colspan="99" class="pager">
+          <oip:pager total="${total}" offset="${offset}" max="${max}" baseurl="${baseurl}" />
+        </th>
+      </tr>
+    </tfoot>
+
+    <mm:listnodes>
+      <mm:import id="type" reset="true"><mm:nodeinfo type="type" /></mm:import>
+      <mm:index write="false">
+        <c:choose>
+          <c:when test="${(_ mod 2) eq 0}"><c:set var="oddeven" value="even" /></c:when>
+          <c:otherwise><c:set var="oddeven" value="odd" /></c:otherwise>
+        </c:choose>
+      </mm:index>
+      
+      <tr class="${oddeven}">
+        <td><mm:index offset="${offset + 1}" /></td>
+        <td>
+          <c:choose>
+            <c:when test="${fn:indexOf(type, 'image') > -1}">
+              image
+            </c:when>
+            <c:when test="${fn:indexOf(type, 'audio') > -1}">
+              audio
+            </c:when>
+            <c:when test="${fn:indexOf(type, 'video') > -1}">
+              video
+            </c:when>
+            <c:otherwise>
+              ${type}
+            </c:otherwise>
+          </c:choose>
+        </td>
+        <td> 
+          <mm:field name="state"><mm:fieldinfo type="guivalue" /></mm:field>
+          (<mm:field name="state" />)
+        </td>
+        <td> 
+          <mm:link page="/mmbase/edit/my_editors/edit_object.jsp" referids="_node@nr">
+            <a href="${_}">
+              <mm:hasfield name="title">
+                <mm:field name="title" />
+              </mm:hasfield>
+              <mm:hasfield name="title" inverse="true">
+                <mm:field name="number" />
+              </mm:hasfield>
+            </a><br />
+            <mm:field name="format">
+              <mm:fieldinfo type="guivalue" />
+            </mm:field>
+             / 
+            <mm:field name="codec">
+              <mm:fieldinfo type="guivalue" />
+            </mm:field>
+            (<mm:field name="format" />)
+          </mm:link>
+        </td>
+        <td>
+          <mm:field name="label" />
+        </td>
+        <td>
+
+          <!-- ### ### converting label starts here ### ### -->
+          
+          <mm:compare referid="convert" value="ok">
+            <!-- 1: label empty: source  -->
+            <mm:field name="label">
+              
+              <mm:isempty>
+                
+                <c:choose>
+                  <c:when test="${_node.state eq 4 and _node.label ne 'source'}" >
+                    source
+                    <mm:setfield name="label">source</mm:setfield>
+                  </c:when>
+                  <c:when test="${fn:indexOf(type, 'image') > -1 and _node.label ne 'image'}">
+                    image
+                    <mm:setfield name="label">image</mm:setfield>
+                  </c:when>
+                  <c:when test="${fn:indexOf(type, 'audio') > -1 and _node.label ne 'sd'}">
+                    sd
+                    <mm:setfield name="label">sd</mm:setfield>
+                  </c:when>
+                  <c:otherwise>
+                    ? 1 ?
+                  </c:otherwise>
+                </c:choose>
+                
+              </mm:isempty>
+              
+              <mm:isnotempty>
+                <c:choose>
+                  <c:when test="${_node.format eq 62 and _node.label ne 'mobile-sd'}">
+                    mobile-sd
+                    <mm:setfield name="label">mobile-sd</mm:setfield>
+                  </c:when>
+                  <c:when test="${_node.format eq 502 and _node.label ne 'playlist-sd'}">
+                    playlist-sd
+                    <mm:setfield name="label">playlist-sd</mm:setfield>
+                  </c:when>
+                  <c:when test="${fn:indexOf(_node.label, 'intermediate') gt -1 and _node.label ne 'intermediate'}">
+                    intermediate
+                    <mm:setfield name="label">intermediate</mm:setfield>
+                  </c:when>
+                  <c:when test="${_node.label eq 'hi' and _node.label ne 'hd'}">
+                    hd
+                    <mm:setfield name="label">hd</mm:setfield>
+                  </c:when>
+                  <c:when test="${_node.label eq 'lo' and _node.label ne 'sd'}">
+                    sd
+                    <mm:setfield name="label">sd</mm:setfield>
+                  </c:when>
+                  <c:when test="${_node.label eq 'frame' and _node.label ne 'thumbnail'}">
+                    thumbnail
+                    <mm:setfield name="label">thumbnail</mm:setfield>
+                  </c:when>
+                  <c:when test="${_node.label eq 'sd'}">
+                    [do nothing]
+                  </c:when>
+                  <c:when test="${_node.label eq 'hd'}">
+                    [do nothing]
+                  </c:when>
+                  <c:otherwise>
+                    ? 2 ?
+                  </c:otherwise>
+                </c:choose>
+  
+              </mm:isnotempty>
+            </mm:field>
+
+          </mm:compare>
+
+        </td>
+      </tr>
+      
+    </mm:listnodes>
+  </table>
+</mm:listnodescontainer>
+</mm:transaction>    
+          
+          
+      </div><!-- /.main-column -->
+    </jsp:attribute>
+  </oip:editor>
+</jsp:root>
