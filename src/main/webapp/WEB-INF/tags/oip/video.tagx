@@ -41,8 +41,14 @@
       <mm:param name="format">WEBM,OGV,MP4,OGG,M3U8</mm:param>
       <mm:listfunction name="filteredurls" varStatus="status">
         <c:choose>
+          <c:when test="${!empty _.codec and fn:indexOf(_.codec,'H264') gt -1}">
+            <c:set var="codecs">; codecs=avc1.42E01E,mp4a.40.2</c:set>
+          </c:when>
           <c:when test="${!empty _.codec and _.codec ne 'UNKNOWN'}">
             <c:set var="codecs">; codecs=${mm:escape('lowercase', _.codec)}</c:set>
+            <c:if test="${!empty _.acodec and _.acodec ne 'UNKNOWN'}">
+              <c:set var="codecs">${codecs},${mm:escape('lowercase', _.acodec)}</c:set>
+            </c:if>
           </c:when>
           <c:otherwise><c:set var="codecs" value="" /></c:otherwise>
         </c:choose>
@@ -112,8 +118,14 @@
                                         or _.state eq 'SOURCE')
                                 }">
                 <c:choose>
+                  <c:when test="${!empty _.codec and fn:indexOf(_.codec,'H264') gt -1}">
+                    <c:set var="codecs">; codecs=avc1.42E01E,mp4a.40.2</c:set>
+                  </c:when>
                   <c:when test="${!empty _.codec and _.codec ne 'UNKNOWN'}">
                     <c:set var="codecs">; codecs=${mm:escape('lowercase', _.codec)}</c:set>
+                    <c:if test="${!empty _.acodec and _.acodec ne 'UNKNOWN'}">
+                      <c:set var="codecs">${codecs},${mm:escape('lowercase', _.acodec)}</c:set>
+                    </c:if>
                   </c:when>
                   <c:otherwise><c:set var="codecs" value="" /></c:otherwise>
                 </c:choose>
