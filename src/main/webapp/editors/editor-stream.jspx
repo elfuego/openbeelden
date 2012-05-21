@@ -332,7 +332,7 @@
                             <label for="${_}" class="${fld_name}"><mm:fieldinfo type="guiname" /></label>
                           </mm:fieldinfo>
                           <p class="info"><mm:fieldinfo type="description" escape="inline" /></p>
-                          <mm:fieldinfo type="guivalue" />
+                          <mm:fieldinfo type="guivalue" /> 
                           <!-- <mm:maywrite><mm:fieldinfo type="input" /><mm:fieldinfo type="errors" /></mm:maywrite> -->
                         </div>
                       </mm:fieldlist>
@@ -356,12 +356,17 @@
                   </mm:valid>
                   <mm:valid>
                     <p class="msg">Je veranderingen aan '<mm:function name="gui" escape="none" />' zijn bewaard.</p>
+                    <mm:commit />
                   </mm:valid>
                   <mm:write referid="buffer" escape="none" />
                 </mm:present>
                 <mm:notpresent referid="submit">
                   <mm:write referid="buffer" escape="none" />
                 </mm:notpresent>
+                
+                <c:if test="${streaminfo eq 'update'}">
+                  <mm:commit />
+                </c:if>
                 
               </mm:node>
             </mm:form>
