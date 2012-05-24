@@ -34,25 +34,10 @@
         </c:choose>
       </mm:node>
           
+      
       <ul class="meta">
       
         <c:if test="${enablelogin}">
-          <li class="you">
-            <mm:hasrank value="anonymous" inverse="true">
-              <mm:cloudinfo type="usernode" id="youare" write="false" />
-              <mm:node number="$youare"><oip:user /></mm:node>
-              <mm:link page="/logout.jspx" referids="locale?">
-                <a href="${_}" class="logout"><fmt:message key="login.logout" /></a>
-              </mm:link>
-            </mm:hasrank>
-            <mm:hasrank value="anonymous">
-              <mm:node number="page_login">
-                <mm:link page="${_node.path}" referids="referrer?">
-                  <a class="login" href="${_}"><mm:field name="title" /></a>
-                </mm:link>
-              </mm:node>
-            </mm:hasrank>
-          </li>
           
           <mm:hasrank value="anonymous">
             <!-- if not logged in: replace li.you with contents of you.jspx which checks cookie -->
@@ -64,6 +49,24 @@
               </mm:link>
             </script>
           </mm:hasrank>
+          
+          <li class="you">
+            <mm:hasrank value="anonymous" inverse="true">
+              <mm:cloudinfo type="usernode" id="youare" write="false" />
+              <mm:node number="$youare"><oip:user /></mm:node>
+              <mm:link page="/logout.jspx" referids="locale?">
+                <a href="${_}" class="logout"><fmt:message key="login.logout" /></a>
+              </mm:link>
+            </mm:hasrank>
+            <mm:hasrank value="anonymous">
+              <mm:node number="page_login">
+                <mm:link page="${_node.path}">
+                  <mm:param name="referrer">${requestScope['javax.servlet.forward.request_uri']}<c:if test="{!empty query_str}">?${query_str}</c:if></mm:param>
+                  <a class="login" href="${_}"><mm:field name="title" /></a>
+                </mm:link>
+              </mm:node>
+            </mm:hasrank>
+          </li>
           
         </c:if>
   

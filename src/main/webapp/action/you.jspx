@@ -8,6 +8,7 @@
     xmlns:oip="urn:jsptagdir:/WEB-INF/tags/oip">
   
   <mm:import externid="locale">client</mm:import>
+  <mm:import externid="referrer" />
   <mm:content
       type="application/xml"
       postprocessor="none"

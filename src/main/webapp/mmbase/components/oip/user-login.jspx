@@ -17,6 +17,7 @@
       <mm:import externid="submit_login" />
       <mm:import externid="keepme" />
       <mm:import externid="referrer" />
+      <mm:import externid="rank" />
       
       <c:choose>
         <c:when test="${! empty submit_login and empty password}">
@@ -24,14 +25,9 @@
         </c:when>
         <c:otherwise>
           <c:catch var="error">
+            
             <mm:present referid="submit_login">
               <mm:cloud username="${username}" password="${password}">
-                
-                <mm:url id="userpage" write="false">
-                  <mm:frameworkparam name="component">oip</mm:frameworkparam>
-                  <mm:frameworkparam name="block">user</mm:frameworkparam>
-                  <mm:frameworkparam name="user"><mm:cloudinfo type="usernode" /></mm:frameworkparam>
-                </mm:url>
                 
                 <c:if test="${keepme eq 'please'}">
                   <!-- put username and password in cookie eu.openimages.rememberme -->
@@ -52,8 +48,10 @@
                 </p>
                 <c:if test="${!empty referrer}">
                   <script type="text/javascript">
-                    $(document).ready(function() {
-                       document.location = "${referrer}";
+                    $(document).ready(function(){
+                        setTimeout(function(){
+                            document.location = "${referrer}";
+                        }, 1000);
                     });
                   </script>                  
                   <noscript>
@@ -63,6 +61,7 @@
                 
               </mm:cloud>
             </mm:present>
+            
           </c:catch>
         </c:otherwise>
       </c:choose>
@@ -75,13 +74,35 @@
 
         <oip:usercookie /><!-- gives us youareloggedin -->
         
+        <!-- check if a minimal rank is needed -->
+        <c:if test="${!empty rank and !empty youareloggedin}">
+          <mm:cloud method="asis">
+            <mm:cloudinfo type="rankint" write="false" id="rankint" />
+            <c:if test="${rank gt rankint}">
+              <mm:remove referid="youareloggedin" />
+              <p class="err">
+                Sorry. You are not allowed to enter here.
+                <br />Proceed to your 
+                <mm:link>
+                  <mm:frameworkparam name="component">oip</mm:frameworkparam>
+                  <mm:frameworkparam name="block">user</mm:frameworkparam>
+                  <mm:frameworkparam name="user"><mm:cloudinfo type="usernode" /></mm:frameworkparam>
+                  <a href="${_}">userpage</a>.
+                </mm:link>
+              </p>
+            </c:if>
+          </mm:cloud>
+        </c:if>
+        
         <c:choose>
           <c:when test="${!empty youareloggedin}">
             <c:if test="${!empty referrer}">
               <script type="text/javascript">
-                $(document).ready(function() {
-                   document.location = "${referrer}";
-                });
+                  $(document).ready(function(){
+                      setTimeout(function(){
+                          document.location = "${referrer}";
+                      }, 1000);
+                  });
               </script>                  
               <noscript>
                 <p>Continue to <a href="${referrer}">${referrer}</a>.</p>
@@ -89,19 +110,16 @@
             </c:if>
           </c:when>          
           <c:otherwise>
+            
             <mm:url id="link" write="false" />
             <form method="post" action="${link}" id="loginform">
               <fieldset class="labelininput">
                 <div>
-                  <label for="username">
-                    <span><fmt:message key="login.account_name" /></span>
-                  </label>
+                  <label for="username"><fmt:message key="login.account_name" /></label>
                   <input id="username" name="username" value="${username}" type="text" />
                 </div>
                 <div>
-                  <label for="password">
-                    <span><fmt:message key="login.password" /></span>
-                  </label>
+                  <label for="password"><fmt:message key="login.password" /></label>
                   <input id="password" name="password" value="${password}" type="password" />
                 </div>
                 <div class="keepme">
@@ -123,6 +141,7 @@
                 </div>
               </fieldset>
             </form>
+            
           </c:otherwise>
         </c:choose>
       </c:if>
