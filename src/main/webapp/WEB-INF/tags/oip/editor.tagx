@@ -42,7 +42,7 @@
     
     <mm:import id="rank">portal manager</mm:import>
     <mm:import id="rankint">500</mm:import>
-    <mm:url page="/editors/login.jspx" id="loginpage" referids="rankint@rank">
+    <mm:url page="/editors/login.jspx" id="loginpage" referids="rankint@rank" write="false">
       <mm:param name="referrer"><mm:url id="editor" /></mm:param>
     </mm:url>
     <mm:cloud loginpage="$loginpage" rank="$rank" jspvar="cloud">
