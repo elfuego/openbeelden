@@ -377,7 +377,7 @@
                 <div class="wrap">
                   <h3>Media files</h3>
                   <p> 
-                    Resulting (transcoded) streams, files made from this media item.
+                    Resulting (transcoded) streams, files made from this media source.
                   </p>
                   <mm:include page="/editors/edit-list.jspx" referids="p?,_node@nr">
                     <mm:param name="type">${fn:startsWith(type, 'audio') ? 'audiostreamsourcescaches' : 'videostreamsourcescaches' }</mm:param>
@@ -405,8 +405,8 @@
     </jsp:attribute>
     <jsp:attribute name="right">
       <mm:node number="$nr" notfound="skip">
-        <h3>Actions</h3>
         <mm:function name="gui" escape="none" />
+        <h3>Actions</h3>
         <ul>
           <li>
             <mm:link referids="p?,nr">

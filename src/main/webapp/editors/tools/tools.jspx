@@ -53,6 +53,10 @@
             <a href="labels.jspx">Convert labels</a><br />
             convert labels in mediasources from 'lo' to 'sd' etc.
           </li>
+          <li>
+            <a href="download.jspx">Download</a><br />
+            Provide an url to a file on another server and download it.
+          </li>
         </ul>
       </div>
 
