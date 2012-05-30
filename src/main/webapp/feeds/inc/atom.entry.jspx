@@ -37,6 +37,23 @@
     <published>
       <mm:field name="date"><mm:time format="yyyy-MM-dd" time="${_}" />T<mm:time format="HH:mm:ss" time="${_}" />Z</mm:field>
     </published> 
+    <author>
+      <name><mm:field name="dc_creator" /></name>
+      <mm:field name="owner" write="false">
+        <mm:hasnode number="$_">
+          <uri>
+            <mm:node number="$_">
+              <mm:link>
+                <mm:frameworkparam name="component">oip</mm:frameworkparam>
+                <mm:frameworkparam name="block">user</mm:frameworkparam>
+                <mm:frameworkparam name="user">${_node}</mm:frameworkparam>
+                <mm:url page="${_}" absolute="true" />
+              </mm:link>
+            </mm:node>
+          </uri>
+        </mm:hasnode>
+      </mm:field>
+    </author>
     <summary type="html">
       <mm:field name="subtitle" escape="text/html" />
       <mm:field name="intro" escape="text/html" />
