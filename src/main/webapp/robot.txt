@@ -2,3 +2,4 @@
 
 User-agent: *
 Disallow: /oip-test/
+Crawl-delay: 10         # is in seconds
