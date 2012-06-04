@@ -328,7 +328,7 @@ div.wrap > div.main-column
 body.home div#main div.wrap div.right-column { display: none; }
 
 body.media > div#main > div.left-column { top: 236px; }
-body.media > div#main > div.right-column { margin-top: 182px; }
+body.media > div#main > div.right-column { margin-top: 158px; }
 body.media > div#main { min-height: 700px; }
 body.media > div#main div#header p { display: none; }
 
@@ -339,7 +339,8 @@ body.media div.main-column div.text
 	left: 281px;
 }
 
-body.media div#tabs
+body.media div#tabs,
+body.media div#ajaxtabs
 {
     position: relative;
 	top: 108px;
