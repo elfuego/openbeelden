@@ -81,6 +81,7 @@
             <mm:createnode type="$type" id="new_node" commitonclose="false">
               <!-- set language to preferred one -->
               <mm:hasfield name="language">
+                <c:set var="lang">${fn:indexOf(lang, '_') > 0 ? fn:substringBefore(lang, '_') : lang}</c:set>
                 <mm:setfield name="language">${empty language ? lang : language}</mm:setfield>
               </mm:hasfield>
               
@@ -221,8 +222,7 @@
             <c:otherwise> 
               <!-- redirect to editor -->
 
-              <mm:url page="$editor" referids="p?,nr" id="editor_link" escapeamps="false" />
-              
+              <mm:url page="$editor" referids="p?,new_node@nr" id="editor_link" escapeamps="false" />
               <script type="text/javascript">
                 $(document).ready(function() {
                    document.location = "${editor_link}";
