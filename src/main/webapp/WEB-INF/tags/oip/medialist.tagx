@@ -109,6 +109,7 @@
                 </a>
               </dd>
               <dd>
+                
                 <mm:nodefunction name="translation">
                   <mm:field name="subtitle">
                     <mm:isnotempty><strong><mm:write escape="wrap_subtitle" /></strong></mm:isnotempty>
@@ -116,27 +117,31 @@
                   <mm:field name="intro">
                     <mm:isnotempty><em><mm:write escape="wrap_intro" /></em></mm:isnotempty>
                   </mm:field>
-                  <mm:hasfield name="length">
-                    <mm:field name="length">
-                      <mm:isnotempty>
-                        <c:choose>
-                          <c:when test="${_ lt 3600000}">
-                            (<mm:time inputformat="S" format="mm:ss" />)
-                          </c:when>
-                          <c:otherwise>
-                            (<mm:time inputformat="S" format="hh:mm:ss" />)
-                          </c:otherwise>
-                        </c:choose>
-                      </mm:isnotempty>
-                    </mm:field>
-                  </mm:hasfield>
-                  <mm:field name="date">
-                    <mm:isnotempty><mm:time format="dd MMM yyyy" /></mm:isnotempty>
-                  </mm:field>
-                  <mm:field name="show" write="false">
-                    <c:if test="${_ ne 'true'}"><strong> show : <mm:write /> </strong></c:if>
-                  </mm:field>
                 </mm:nodefunction>
+                
+                <mm:hasfield name="length">
+                  <mm:field name="length">
+                    <mm:isnotempty>
+                      <c:choose>
+                        <c:when test="${_ lt 3600000}">
+                          (<mm:time inputformat="S" format="mm:ss" />)
+                        </c:when>
+                        <c:otherwise>
+                          (<mm:time inputformat="S" format="hh:mm:ss" />)
+                        </c:otherwise>
+                      </c:choose>
+                    </mm:isnotempty>
+                  </mm:field>
+                </mm:hasfield>
+                <mm:field name="date">
+                  <mm:isnotempty><mm:time format="dd MMM yyyy" /></mm:isnotempty>
+                </mm:field>
+                
+                <mm:field name="show" write="false">
+                  <c:if test="${_ ne 'true'}">
+                    <strong class="show"><mm:fieldinfo type="guiname" escape="lowercase" /> : <mm:fieldinfo type="guivalue" /> </strong>
+                  </c:if>
+                </mm:field>
                 
                 <!--
                 user: <mm:field name="owner" />, keywords: <mm:field name="keywords" />,
