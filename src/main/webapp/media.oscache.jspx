@@ -48,7 +48,7 @@
 
       <div class="main-column">
 
-        <c:set var="params">${!empty date ? ':' : ''}${date}${!empty uploaded ? ':' : ''}${uploaded}${!empty _searchlang ? ':' : ''}${_searchlang}${!empty license ? ':' : ''}${license}</c:set>
+        <c:set var="params">${!empty q ? ':' : ''}${q}${!empty date ? ':' : ''}${date}${!empty uploaded ? ':' : ''}${uploaded}${!empty _searchlang ? ':' : ''}${_searchlang}${!empty license ? ':' : ''}${license}</c:set>
         <c:set var="cachekey">oip.media.${_node.number}:${p}:${offset}:${sf}:${so}${!empty params ? ':' : ''}${params}.${requestScope['javax.servlet.jsp.jstl.fmt.locale.request'].language}</c:set>
 
         <mm:log level="info">media.oscache key: ${cachekey} </mm:log>
