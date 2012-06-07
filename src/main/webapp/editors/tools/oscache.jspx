@@ -1,0 +1,60 @@
+<?xml version="1.0"?>
+<jsp:root
+    version="2.0"
+    xmlns:jsp="http://java.sun.com/JSP/Page"
+    xmlns:c="http://java.sun.com/jsp/jstl/core"
+    xmlns:fmt="http://java.sun.com/jsp/jstl/fmt"
+    xmlns:os="http://www.opensymphony.com/oscache"
+    xmlns:mm="http://www.mmbase.org/mmbase-taglib-2.0"
+    xmlns:oip="urn:jsptagdir:/WEB-INF/tags/oip">
+
+  <oip:editor styleClass="portal">
+    <jsp:attribute name="head">
+
+    </jsp:attribute>
+    <jsp:attribute name="left">
+      
+
+    </jsp:attribute>
+    <jsp:attribute name="body">
+    
+      <mm:import externid="group" />
+      
+      <div class="main-column">      
+        
+        <h2>OSCache</h2>
+        
+        <p>
+          Flush one of these pages or pieces of content. 
+        </p>
+
+        <c:if test="${!empty group}">
+          <os:flush scope="application" group="${group}" />
+          <p class="msg stay">
+            Cache group '${group}' flushed.
+          </p>
+        </c:if>
+
+        <ul>
+          <mm:link>
+            <mm:param name="group">media</mm:param>
+            <li>Media page : <a href="${_}">flush</a></li>
+          </mm:link>
+          <mm:link>
+            <mm:param name="group">home</mm:param>
+            <li>Home page - New media : <a href="${_}">flush</a></li>
+          </mm:link>
+          <mm:link>
+            <mm:param name="group">homenews</mm:param>
+            <li>Home page - News : <a href="${_}">flush</a></li>
+          </mm:link>
+          <mm:link>
+            <mm:param name="group">site</mm:param>
+            <li>Site wide : <a href="${_}">flush</a></li>
+          </mm:link>
+        </ul>  
+        
+      </div><!-- /.main-column -->
+    </jsp:attribute>
+  </oip:editor>
+</jsp:root>
