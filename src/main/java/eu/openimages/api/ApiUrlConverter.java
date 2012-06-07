@@ -45,7 +45,7 @@ import org.mmbase.util.logging.Logging;
  * /api/media/123 POST calls block update and updates that specific item.
  *
  * @author André van Toly
- * @version $Id: MediaUrlConverter.java 45828 2011-07-05 11:07:14Z andre $
+ * @version $Id$
  */
 public class ApiUrlConverter extends DirectoryUrlConverter {
     private static final long serialVersionUID = 0L;
