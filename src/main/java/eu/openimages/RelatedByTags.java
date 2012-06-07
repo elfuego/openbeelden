@@ -268,10 +268,10 @@ public class RelatedByTags {
             String owner = n.getStringValue("owner");
             if (cloud.hasNode(owner)) {
                 String n_userName = cloud.getNode(owner).getStringValue("username");
-                log.debug("username " + n_userName + " : " + urs);
+                if (log.isDebugEnabled()) log.debug("username " + n_userName + " : " + urs);
                 if (urs.contains(n_userName)) {
                     filteredMap.put(nodenr, hits);
-                    log.debug("added u #" + nodenr + " [" + hits + "]");
+                    if (log.isDebugEnabled()) log.debug("added u #" + nodenr + " [" + hits + "]");
                     continue;
                 }
             }
@@ -280,11 +280,11 @@ public class RelatedByTags {
             String keywords = n.getStringValue("keywords");
             String[] n_kws = keywords.split(";");
             for (String it : kws){
-                log.debug("it: " + it);
+                if (log.isDebugEnabled()) log.debug("it: " + it);
                 for (String itt : n_kws) {
-                    log.debug("itt: " + itt);
+                    if (log.isDebugEnabled()) log.debug("itt: " + itt);
                     if (it.equals(itt)) {
-                        log.debug("hitt: " + itt);
+                        if (log.isDebugEnabled()) log.debug("hitt: " + itt);
                         hit = true;
                         break;
                     }
@@ -293,14 +293,14 @@ public class RelatedByTags {
             }
             if (hit) {
                 filteredMap.put(nodenr, hits);
-                log.debug("added kw #" + nodenr + " [" + hits + "]");
+                if (log.isDebugEnabled()) log.debug("added kw #" + nodenr + " [" + hits + "]");
                 continue;
             }
 
             // tags
             for (Node relatedTag : relatedTags(n, 99)) {
                 String tagName = relatedTag.getStringValue("name");
-                log.debug("tagname " + tagName + " : " + tgs);
+                if (log.isDebugEnabled()) log.debug("tagname " + tagName + " : " + tgs);
                 if (tgs.contains(tagName)) {
                     hit = true;
                     break;

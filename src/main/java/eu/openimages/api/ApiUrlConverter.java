@@ -51,6 +51,14 @@ public class ApiUrlConverter extends DirectoryUrlConverter {
     private static final long serialVersionUID = 0L;
     private static final Logger log = Logging.getLoggerInstance(ApiUrlConverter.class);
 
+
+    /* From API excluded nodetypes (builders) */
+    private String[] ebuilders = { "cronjobs", "daymarks", "email", "filters", "mmbaseusers", "mmbasegroups",
+                                   "mmbaseranks", "mmbaseusers", "mmservers", "oalias", "object", "properties",
+                                   "rightsrel", "syncnodes", "systemproperties", "typedef", "typerel", "versions"
+                                 };
+    private List<String> disallowedBuilders = new ArrayList<String>(Arrays.asList(ebuilders));
+
     public ApiUrlConverter(BasicFramework fw) {
         super(fw);
         setDirectory("/api/");
@@ -60,6 +68,12 @@ public class ApiUrlConverter extends DirectoryUrlConverter {
         addBlock(oipapi.getBlock("list"));
         addBlock(oipapi.getBlock("get"));
         addBlock(oipapi.getBlock("update"));
+    }
+
+    public void setDisallowedBuilders(String s) {
+        disallowedBuilders.clear();
+        disallowedBuilders.addAll(Arrays.asList(ebuilders));
+        disallowedBuilders.addAll(Arrays.asList(s.split(",")));
     }
 
     @Override
@@ -145,10 +159,15 @@ public class ApiUrlConverter extends DirectoryUrlConverter {
                 log.debug("type: " + type + ", reqMethod: " + reqMethod);
             }
 
+            if (disallowedBuilders.contains(type)) {
+                log.warn("Excluded from api, nodetype: " + type);
+                return Url.NOT;
+            }
+
             if ("media".equals(type)) { // reverse shortening of url
                 type = "mediafragments";
             } else if ("video".equals(type)) {
-                type= "videofragments";
+                type = "videofragments";
             } else if ("audio".equals(type)) {
                 type = "audiofragments";
             }

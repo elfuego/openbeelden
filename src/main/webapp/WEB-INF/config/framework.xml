@@ -42,6 +42,7 @@
       The urlconverter for the API.
     </description>
     <param name="directory">/api/</param>
+    <param name="disallowedBuilders">filters</param>
   </urlconverter>
 
   <urlconverter class="org.mmbase.mmsite.SiteUrlConverter">
