@@ -52,7 +52,7 @@
         <c:set var="cachekey">oip.media.${_node.number}:${p}:${offset}:${sf}:${so}${!empty params ? ':' : ''}${params}.${requestScope['javax.servlet.jsp.jstl.fmt.locale.request'].language}</c:set>
 
         <mm:log level="info">media.oscache key: ${cachekey} </mm:log>
-        <os:cache key="${cachekey}" time="120">
+        <os:cache key="${cachekey}" time="1800" groups="site,media">
         <c:catch var="ex1">
 
         <c:choose>
