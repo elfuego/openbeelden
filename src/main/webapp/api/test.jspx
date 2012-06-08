@@ -9,7 +9,7 @@
  <jsp:output omit-xml-declaration="true" />
  <jsp:output doctype-root-element="HTML" 
     doctype-system="about:legacy-compat" />
-<mm:cloud> 
+<mm:cloud rank="basic user" method="http"> 
 <html lang="en">
 <head>
   <meta charset="utf-8" />
@@ -32,10 +32,12 @@
   </style>
 </head>
 <body>
-<p>
-  <a href="api2.jspx">api2</a>
-</p>
 <h2>POST media to Download API etc.</h2>
+<p>
+  <a href="test.jspx">api2</a> - 
+  <a href="test2.jspx">api2</a> - 
+  <a href="test3.jspx">api3</a> - you are: <mm:cloudinfo type="user" /> (<mm:cloudinfo type="rank" />)
+</p>
 <p>
   Form to test Download API. It posts to <a href="${mm:link('/api/media/')}">/api/media/</a>.
 <mm:listnodescontainer type="mediafragments">
@@ -115,6 +117,13 @@
       <select id="language" name="language">
         <option value="en">English</option>
         <option selected="selected" value="nl">Nederlands</option>
+      </select>      
+	</p>
+	<p>
+      <label for="show">Show</label>
+      <select id="show" name="show">
+        <option value="false">Off</option>
+        <option selected="selected" value="true">On</option>
       </select>      
 	</p>
 	<p>

@@ -1,0 +1,119 @@
+<jsp:root 
+ xmlns:jsp="http://java.sun.com/JSP/Page"
+ xmlns:c="http://java.sun.com/jsp/jstl/core"
+ xmlns="http://www.w3.org/1999/xhtml"
+ xmlns:mm="http://www.mmbase.org/mmbase-taglib-2.0"
+ version="2.0">
+ 
+ <jsp:directive.page contentType="text/html" pageEncoding="UTF-8" />
+ <jsp:output omit-xml-declaration="true" />
+ <jsp:output doctype-root-element="HTML" 
+    doctype-system="about:legacy-compat" />
+<mm:cloud rank="basic user" method="http"> 
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>API test</title>
+  <style type="text/css">
+  body {
+  	font-family: Helvetica, sans-serif;
+  	font-size: small;
+  }
+  label {
+  	display: block;
+  	font-weight: bold;
+  }
+  form p { margin: 2px 0; }
+  fieldset {
+  	border: none;
+  	margin: 4px 0;
+  	padding: 0;
+  }
+  </style>
+</head>
+<body>
+<mm:import externid="type">tags</mm:import>
+
+
+<h2>API 2 - create ${type}</h2>
+<p>
+  <a href="test.jspx">api2</a> - 
+  <a href="test2.jspx">api2</a> - 
+  <a href="test3.jspx">api3</a> - you are: <mm:cloudinfo type="user" /> (<mm:cloudinfo type="rank" />)
+</p>
+
+
+<mm:link>
+  <form method="get" action="${_}">
+    <fieldset>
+      <label for="mediatype">Type</label>
+      <select name="type">
+        <mm:option value="articles" compare="${type}">Articles</mm:option>
+        <mm:option value="mediafragments" compare="${type}">Media</mm:option>
+        <mm:option value="urls" compare="${type}">Url</mm:option>
+        <mm:option value="tags" compare="${type}">Tag</mm:option>
+      </select>
+      <input type="submit" value="Change" />
+    </fieldset>
+  </form>
+</mm:link>
+
+<p>
+  link: <mm:url page="/api/${type}" absolute="true" escapeamps="false" id="submit_link" />
+</p>
+
+<mm:form page="$submit_link">
+
+<mm:import id="buffer">
+  <mm:createnode type="$type" commitonclose="false">
+    
+    <fieldset>
+      <label for="apikey">API key</label>
+      <input type="text" name="apikey" value="" id="apikey" size="80" />
+    </fieldset>
+
+    <fieldset>
+      <mm:fieldlist type="${empty fields ? 'edit' : ''}" fields="${fields}" varStatus="field">
+        <c:set var="fld_name"><mm:fieldinfo type="name" /></c:set>
+        <c:choose>
+          <c:when test="${field.current.state eq 2}">
+            <div class="${fld_name}">
+              <mm:fieldinfo type="forid">
+                <label for="${_}" class="${fld_name}"><mm:fieldinfo type="guiname" /></label>
+              </mm:fieldinfo>
+              <mm:maywrite>
+                <!-- mm:fieldinfo type="input" / -->
+                <input type="text" name="${fld_name}" value="" id="${fld_name}" size="42" />
+              </mm:maywrite>
+            </div>
+          </c:when>
+          <c:otherwise>
+            <div class="${fld_name}">
+              <mm:fieldinfo type="forid">
+                <label for="${_}" class="${fld_name}">${fld_name} <mm:fieldinfo type="guiname" /></label>
+              </mm:fieldinfo>
+            </div>
+          </c:otherwise>
+        </c:choose>
+      </mm:fieldlist>
+
+    </fieldset>
+
+    <fieldset class="buttons">
+      <input name="submit${type}" type="hidden" value="submit" />
+      <input type="submit" name="action" value="Save" class="submit" />
+    </fieldset>
+  </mm:createnode>
+</mm:import><!-- /buffer -->
+
+<mm:write referid="buffer" />
+</mm:form>
+
+
+
+
+
+</body>
+</html>
+</mm:cloud>
+</jsp:root>
