@@ -53,7 +53,7 @@ public class ApiUrlConverter extends DirectoryUrlConverter {
 
 
     /* From API excluded nodetypes (builders) */
-    private String[] ebuilders = { "cronjobs", "daymarks", "email", "filters", "mmbaseusers", "mmbasegroups",
+    private static String[] ebuilders = { "cronjobs", "daymarks", "email", "filters", "mmbaseusers", "mmbasegroups",
                                    "mmbaseranks", "mmbaseusers", "mmservers", "oalias", "object", "properties",
                                    "rightsrel", "syncnodes", "systemproperties", "typedef", "typerel", "versions"
                                  };
@@ -200,6 +200,9 @@ public class ApiUrlConverter extends DirectoryUrlConverter {
                 String nr = pa.get(1);
                 if (!cloud.hasNode(nr)) {
                     log.warn("Node not found: " + nr);
+                    return Url.NOT;
+                } else if (disallowedBuilders.contains( cloud.getNode(nr).getNodeManager().getName() )) {
+                    log.warn("This nodes nodetype is excluded from api: " + nr);
                     return Url.NOT;
                 }
 

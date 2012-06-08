@@ -4,14 +4,20 @@
 
 UPGRADING 1.1.1 -> 1.2
 ======================
+Main new features are the API token and API, used to login and post data into Open Images.
 Version 1.2 of Open Images includes a Download API which enables users to download media from other
-sources. 
+sources. Authentication is done with an API token, an encrypted string that contains username and 
+password. The key or password to encrypt all API tokens is a property of 'mmbaseusers'. The builder 
+'mmbaseusers' (normally in config/builders/mmbaseusers.xml) has a default value 'pindakaas'.
+The same API key is also used as value for a browser cookie to stay logged in if you choose to
+check this option in the login box.
 
-The relation between pages in the footer of the main portal have changed from posrel to footerrel.
-This is doen to make pages easier sortable in the editors. In the tools sections is an editor to
-replace all posrel relations in the footer by footerrel relations.
+Pages in portal footer are placed there with a new relation type named footerrel. This is done to 
+make pages easier to sort in the editors and to be able to move them from footer to header with 
+jQuery Sortable. In the tools sections is an editor to replace all posrel relations in the footer 
+by footerrel relations.
 
-Change owner of 'properties' builder in typedef to 'siteusers'. (TODO: make script?) 
+You have to change the owner of 'properties' builder in typedef to 'siteusers'. (TODO: make script?) 
 Properties is used by the Download API to keep track of the status of a download.
 
 
