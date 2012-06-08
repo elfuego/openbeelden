@@ -1,42 +1,37 @@
 <mm:cloud
           xmlns:jsp="http://java.sun.com/JSP/Page"
-          xmlns:mm="http://www.mmbase.org/mmbase-taglib-2.0"
-          >
+          xmlns:c="http://java.sun.com/jsp/jstl/core"
+          xmlns:mm="http://www.mmbase.org/mmbase-taglib-2.0">
   <jsp:output omit-xml-declaration="true" />
 
     <mm:import externid="n" />
     <mm:import externid="type" />
     
+    <!-- does not happen? urlconverter catches this -->
     <mm:notpresent referid="n">
-      <!-- does not happen? urlconverter should catch this -->
-      <dl>
-        <dt>No node found</dt>
-        <dd>Should have a node number.</dd>
-      </dl>
+      <meta status="404">No node found. Should have a node number.</meta>
+      <response />
     </mm:notpresent>
     
     <mm:present referid="n">
+      
+      <!-- does not happen? urlconverter catches this -->
+      <mm:hasnode number="$n" inverse="true">
+        <meta status="404">Node not found. No node with number: ${n} </meta>
+        <response />
+      </mm:hasnode>
+      
       <mm:hasnode number="$n">
+        <meta status="200">OK</meta>
         <mm:node number="$n">
-          <dl class="number">
-            <dt>number</dt>
-            <dd><mm:field name="number" /></dd>
-          </dl>
-          <dl class="edit">
-            <mm:fieldlist type="edit">
-              <dt><mm:fieldinfo type="name" /></dt>
-              <dd><mm:fieldinfo type="value" /></dd>
-            </mm:fieldlist>
-          </dl>
+          <response>
+            <mm:node number="$n">
+              <jsp:include page="include.node.jspx" />
+            </mm:node>
+          </response>
         </mm:node>
       </mm:hasnode>
-      <mm:hasnode number="$n" inverse="true">
-        <!-- does not happen? urlconverter should catch this -->
-        <dl class="err">
-          <dt>Node not found</dt>
-          <dd>No node with number: ${n}</dd>
-        </dl>
-      </mm:hasnode>
+
     </mm:present>
 
 </mm:cloud>

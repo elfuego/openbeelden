@@ -10,84 +10,95 @@
     <mm:import externid="apikey" />
     <mm:import externid="type" required="true" />
 
+    <mm:escaper type="tagstripper" id="striptags">
+      <mm:param name="tags">none</mm:param>
+    </mm:escaper>
 
-<oip-api>
     <c:choose>
       <c:when test="${empty apikey}">
-        
-        <meta status="error">
-          Error: no apikey.
-        </meta>
-        
+        <!-- jsp:scriptlet> response.setStatus(400); </jsp:scriptlet -->
+        <meta status="400">Bad request - No apikey.</meta>
+        <response />
       </c:when>
       <c:otherwise>
+        
         <mm:write referid="apikey" request="apikey" />
 
-        <c:catch var="error">
+        <c:catch var="exc">
           <mm:cloud method="delegate" authenticate="apikey">
+
+            <mm:maycreate type="$type" inverse="true">
+              <meta status="401">Unauthorized - You are not allowed to create this type (${type}) of node.</meta>
+            </mm:maycreate>
 
             <mm:maycreate type="$type">
               <mm:form mode="validate">
                 
                 <mm:import id="buffer">
                   <mm:createnode type="$type" commitonclose="false" id="new_node">
-                    <mm:fieldlist type="edit" varStatus="field">
-                      <mm:fieldinfo type="name" id="fldname" write="false" />
-                      <mm:import externid="$fldname" />
+                    
+                    <mm:import id="err">
+                      <meta status="400">Bad request - Field validation error</meta>
+                      <response>
+                        <mm:fieldlist type="edit" varStatus="field">
+                          <c:if test="${field.current.state eq 2}">
+                            <!-- state persistent 
+                              public int getState()
+                              Returns this field's state identifier (virtual, persistent, system, systemvirtual).
+                              http://www.mmbase.org/development/api/1.9/constant-values.html#org.mmbase.bridge.Field.STATE_VIRTUAL
+                            -->
 
-                      <c:if test="${field.current.state eq 2}">
-                        <mm:setfield name="$fldname"><mm:write referid="$fldname" /></mm:setfield>
-                        <mm:fieldinfo type="check" />
-                      </c:if>
-                    </mm:fieldlist>
+                            <mm:fieldinfo type="name" id="fldname" write="false" />
+                            <mm:import externid="$fldname" />
+                            <mm:write referid="$fldname">
+                              <mm:isnotempty><mm:setfield name="$fldname"><mm:write referid="$fldname" /></mm:setfield></mm:isnotempty>
+                            </mm:write>
+                            <field name="${fldname}"><mm:fieldinfo type="errors" escape="striptags" /></field>
+                          </c:if>
+                        </mm:fieldlist>
+                      </response>
+                    </mm:import>
+                  
                   </mm:createnode>
                 
                   <mm:valid>
                     <mm:commit />
-                    <meta status="OK"> 200?
-                      Node created
-                    </meta>
+                    <meta status="200">OK</meta>
                     <response>
-                      <div class="name">number</div>
-                      <div class="value">${new_node}</div>
-                    </response>>
+                      <mm:node referid="new_node">
+                        <jsp:include page="include.node.jspx" />
+                      </mm:node>
+                    </response>
                   </mm:valid>
                   <mm:valid inverse="true">
                     <!-- jsp:scriptlet>response.setStatus(500); </jsp:scriptlet -->
-                    <meta status="error">
-                      Error: form is invalid for type ${type}
-                    </meta>
+                    <mm:write referid="err" escape="none" />
                   </mm:valid>
                 
                 </mm:import>
               </mm:form>
             </mm:maycreate>
             
-            <mm:maycreate type="$type" inverse="true">
-              <meta status="error">
-                Not allowed: You are not allowed to create this type (${type}) of node.
-              </meta>
-            </mm:maycreate>
-            
           </mm:cloud>
         </c:catch>
 
         <c:choose>
-          <c:when test="${!empty error}">
+          <c:when test="${!empty exc}">
             <!-- jsp:scriptlet>response.setStatus(500); </jsp:scriptlet -->
-            <meta status="error">Error 500 - Unknown apikey? ${error}</meta>
+            <meta status="500">Error</meta>
+            <response>${error}</response>
           </c:when>
           <c:when test="${!empty buffer}">
-            <meta status="error">'${buffer}'</meta>
+            <mm:write referid="buffer" escape="none" />
           </c:when>
           <c:otherwise>
             <!-- jsp:scriptlet>response.setStatus(401); </jsp:scriptlet -->
-            <meta status="error">401 Unauthorized - Failed to login ${error}</meta>
+            <meta status="401">Unauthorized - Failed to login.</meta>
+            <response>${error}</response>
           </c:otherwise>
         </c:choose><!-- end checking for errors -->
 
       </c:otherwise>
     </c:choose>
-</oip-api>
     
 </mm:content>

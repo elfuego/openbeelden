@@ -7,35 +7,39 @@
     
     <!-- POST : creates media nodes with url -->
 
+    
+    <mm:import externid="apikey" />
+    <mm:import externid="url" />
+    <mm:import externid="type" />
+    <mm:import externid="license">cc-by-sa</mm:import>
+    <!-- possible keys and their licenses in Open Images: 
+    cc-by-sa     Creative Commons - Naamsvermelding-Gelijk delen
+    cc-by        Creative Commons - Naamsvermelding
+    cc-by-nc     Creative Commons – Naamsvermelding-Niet-commercieel
+    cc-by-nc-sa  Creative Commons – Naamsvermelding-Niet-commercieel-Gelijk delen
+    cc-by-nd     Creative Commons – Naamsvermelding-Geen Afgeleide werken
+    cc-by-nc-nd  Creative Commons – Naamsvermelding-Niet-commercieel-Geen Afgeleide werken
+    cc0          Publiek Domein        -->
+    <!-- mm:log level="info">lic: ${license} </mm:log -->
+
     <mm:escaper type="tagstripper" id="striptags">
       <mm:param name="tags">none</mm:param>
     </mm:escaper>
-  
-    <mm:import externid="apikey" required="true" />
-    <mm:import externid="url" required="true" />
-    <mm:import externid="type" required="true" />
     
-    <!-- requires besides the above: 
-    license
-    cc-by-sa     Creative Commons - Naamsvermelding-Gelijk delen
-    cc-by         Creative Commons - Naamsvermelding
-    cc-by-nc     Creative Commons – Naamsvermelding-Niet-commercieel
-    cc-by-nc-sa Creative Commons – Naamsvermelding-Niet-commercieel-Gelijk delen
-    cc-by-nd     Creative Commons – Naamsvermelding-Geen Afgeleide werken
-    cc-by-nc-nd Creative Commons – Naamsvermelding-Niet-commercieel-Geen Afgeleide werken
-    cc0              Publiek Domein    
-    -->
-    <mm:import externid="license">cc-by-sa</mm:import>
-    <mm:log level="info">lic: ${license} </mm:log>
 
     <c:choose>
       <c:when test="${empty apikey}">
-        <div>Error: no apikey.</div>
+        <!-- jsp:scriptlet> response.setStatus(400); </jsp:scriptlet -->
+        <meta status="400">Bad request - No apikey.</meta>
+        <response />
       </c:when>
       <c:when test="${empty url}">
-        <div>Error: no url.</div>
+        <!-- jsp:scriptlet> response.setStatus(400); </jsp:scriptlet -->
+        <meta status="400">Bad request - No url.</meta>
+        <response />
       </c:when>
       <c:otherwise>
+        
         <!-- write apikey to request from where it's picked up by eu.openimages.Autenthication -->
         <mm:write referid="apikey" request="apikey" />
 
@@ -44,99 +48,90 @@
           <mm:cloud method="delegate" authenticate="apikey">
 
             <mm:maycreate type="$type" inverse="true">
-              <dl class="error">
-                <dt>Not allowed</dt>
-                <dd>You are not allowed to create this type of node.</dd>
-              </dl>
+              <meta status="401">Unauthorized - You are not allowed to create this type (${type}) of node.</meta>
             </mm:maycreate>
 
             <mm:maycreate type="$type">
               <mm:form mode="validate">
-                <mm:import id="buffer">
-                  <c:set var="fieldlist" value="" />
-                  <c:set var="errorlist" value="" />
+                  
                   <mm:createnode type="$type" commitonclose="false" id="new_node">
-                    <mm:fieldlist type="edit" varStatus="field">
-
-                      <c:if test="${field.current.state eq 2}"><!-- state persistent 
-                        public int getState()
-                        Returns this field's state identifier (virtual, persistent, system, systemvirtual).
-                        http://www.mmbase.org/development/api/1.9/constant-values.html#org.mmbase.bridge.Field.STATE_VIRTUAL
-                      -->
-                        <mm:fieldinfo type="name" id="name" write="false" />
-                        <c:if test="${name ne 'title' 
-                                  and name ne 'intro'}">
-                          <c:set var="fieldlist">${name}${empty fieldlist ? '' : ','}${fieldlist}</c:set>
+                    
+                    <mm:import id="err">
+                      <mm:fieldlist type="edit" varStatus="field">
+                        <c:if test="${field.current.state eq 2}">
+                          <!-- state persistent 
+                            public int getState()
+                            Returns this field's state identifier (virtual, persistent, system, systemvirtual).
+                            http://www.mmbase.org/development/api/1.9/constant-values.html#org.mmbase.bridge.Field.STATE_VIRTUAL
+                          -->
+                          <mm:fieldinfo type="name" id="fldname" write="false" />
+                          <mm:import externid="$fldname" />
+                          <mm:write referid="$fldname">
+                            <mm:isnotempty><mm:setfield name="$fldname"><mm:write referid="$fldname" /></mm:setfield></mm:isnotempty>
+                          </mm:write>
+                          <field name="${fldname}"><mm:fieldinfo type="errors" escape="striptags" /></field>
                         </c:if>
-                      </c:if>
-                      
-                    </mm:fieldlist>
-                    <mm:fieldlist fields="title,intro">
-                      <mm:fieldinfo type="name" id="name2" write="false" />
-                      <mm:import externid="$name2" />
-                      <mm:setfield name="$name2" valueid="$name2" />
-                      <!-- <mm:fieldinfo type="check" /> -->
-                      <c:set var="errorlist"> <mm:fieldinfo type="errors" escape="striptags" />${empty errorlist ? '' : ','} ${errorlist}</c:set>
-                    </mm:fieldlist>
-
-                    <mm:fieldlist fields="${fieldlist}">
-                      <mm:fieldinfo type="name" id="name3" write="false" />
-                      <mm:import externid="$name3" />
-                      <mm:write referid="$name3">
-                        <mm:isnotempty>
-                          <mm:setfield name="$name3" valueid="$name3" />
-                        </mm:isnotempty>
-                      </mm:write>
-                    </mm:fieldlist>
-
+                      </mm:fieldlist>
+                    </mm:import>
+                    
                   </mm:createnode>
                 
-                  <c:set var="saved" value="no" />
+                  <!-- mm:valid inverse="true">
+                    <mm:cancel />
+                  </mm:valid -->
                   <mm:valid>
-                    <mm:listnodescontainer type="licenses">
-                      <mm:constraint field="licensekey" value="$license" operator="EQUAL" />
-                      <mm:maxnumber value="1" />
-                      <mm:listnodes>
-                        <mm:node number="$_node" id="licensenode" />
-                      </mm:listnodes>
-                    </mm:listnodescontainer>
-                    <mm:notpresent referid="licensenode">
-                      <mm:node number="licenses_attributionsharealike" id="licensenode" />
-                    </mm:notpresent>
-                    <mm:createrelation source="new_node" destination="licensenode" role="related" />
-                    
                     <mm:commit />
-                    <c:set var="saved" value="yes" />
-                    
-                    <dl>
-                      <dt>number</dt>
-                      <dd>${new_node}</dd>
-                    </dl>
+                    <mm:import id="committed" />
+                  </mm:valid>
 
-                  </mm:valid>
-                  <mm:valid inverse="true">
-                    <!-- jsp:scriptlet>response.setStatus(400); </jsp:scriptlet -->
-                    <dl>
-                      <dt>400 - Bad request</dt>
-                      <dd>form is invalid (type: ${type})
-                      ${errorlist}
-                      </dd>
-                    </dl>
-                  </mm:valid>
-                
-                </mm:import>
               </mm:form>
-
-              <c:if test="${saved eq 'yes'}">
-                <!-- media meta data saved : download (with) function -->
-                <mm:node number="$new_node">
-                  <mm:functioncontainer>
-                    <mm:param name="url">${url}</mm:param>
-                    <mm:function name="downloadmedia" />
-                  </mm:functioncontainer> 
+                                
+              <!-- 2nd part -->
+              <mm:present referid="committed">
+                
+                <mm:node number="$new_node" id="mediafr" />
+                
+                <mm:listnodescontainer type="licenses">
+                  <mm:constraint field="licensekey" value="$license" operator="EQUAL" />
+                  <mm:maxnumber value="1" />
+                  <mm:listnodes>
+                    <mm:node number="$_node" id="licensenode" />
+                  </mm:listnodes>
+                </mm:listnodescontainer>
+                <mm:notpresent referid="licensenode">
+                  <mm:node number="licenses_attributionsharealike" id="licensenode" />
+                </mm:notpresent>
+                <mm:createrelation source="mediafr" destination="licensenode" role="related" />
+                
+                <!-- download media from url -->
+                <mm:node number="$mediafr">
+                  <mm:import id="source_url">
+                    <mm:functioncontainer>
+                      <mm:param name="url">${url}</mm:param>
+                      <mm:function name="downloadmedia" />
+                    </mm:functioncontainer>
+                  </mm:import>
                 </mm:node>
-              </c:if>
-  
+                
+                <mm:import id="buffer">
+                  <!-- the actual OK response -->
+                  <meta status="200">OK</meta>
+                  <response>
+                    <mm:node number="$mediafr">
+                      <type><mm:nodeinfo type="type" /></type>
+                      <number><mm:field name="number" /></number>
+                      <source_url>${source_url}</source_url>
+                      <node number="${_node.number}">
+                        <mm:fieldlist type="edit">
+                          <c:set var="fieldname"><mm:fieldinfo type="name" /></c:set>
+                          <field name="${fieldname}"><mm:fieldinfo type="value" /></field>
+                        </mm:fieldlist>
+                      </node>
+                    </mm:node>
+                  </response>
+                </mm:import>
+              </mm:present><!-- /committed -->
+ 
             </mm:maycreate>
           </mm:cloud>
         </c:catch>
@@ -144,19 +139,28 @@
         <c:choose>
           <c:when test="${!empty exc}"> <!-- apperently an exception, show message if possible -->
             <!-- jsp:scriptlet>response.setStatus(500); </jsp:scriptlet -->
-            <content>Error 500 - Unknown apikey? ${exc}</content>
+            <meta status="500">Error</meta>
+            <response>${exc} ${err} ${buffer}</response>
           </c:when>
           <c:when test="${!empty buffer}">
-            <content class="buffer">'${buffer}'</content>
+            <mm:write referid="buffer" escape="none" />
+          </c:when>
+          <c:when test="${!empty err}">
+            <meta status="400">Bad request - Field validation error</meta>
+            <response>
+              <mm:write referid="err" escape="none" /> 
+              <c:if test="${!empty exc}"><exc>${exc}</exc></c:if>
+            </response>
           </c:when>
           <c:otherwise>
             <!-- jsp:scriptlet>response.setStatus(401); </jsp:scriptlet -->
-            <content>401 Unauthorized - Failed to login ${exc}</content>
+            <meta status="401">Unauthorized - Failed to login.</meta>
+            <response>${exc}</response>
           </c:otherwise>
         </c:choose><!-- end checking for errors -->
 
       </c:otherwise>
-    </c:choose>
+    </c:choose><!-- /apikey, url -->
 
 
 </mm:content>

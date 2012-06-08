@@ -1,36 +1,50 @@
 <mm:cloud
           xmlns:jsp="http://java.sun.com/JSP/Page"
-          xmlns:mm="http://www.mmbase.org/mmbase-taglib-2.0"
-          >
+          xmlns:c="http://java.sun.com/jsp/jstl/core"
+          xmlns:mm="http://www.mmbase.org/mmbase-taglib-2.0">
   <jsp:output omit-xml-declaration="true" />
     
     <mm:import externid="type" />
     
+    <!-- probably already handled by framework/urlconverter -->
     <mm:notpresent referid="type">
-      <h4>No type found.</h4>
+      <meta status="404">No type found.</meta>
+      <response />
     </mm:notpresent>
     
     <mm:present referid="type">
+      
+      <!-- probably already handled by framework/urlconverter -->
+      <mm:hasnodemanager name="$type" inverse="true">
+        <meta status="404">No such nodemanager '${type}'</meta>
+        <response />
+      </mm:hasnodemanager>
+      
       <mm:hasnodemanager name="$type">
+        <meta status="200">OK</meta>
         <mm:listnodescontainer type="$type">
           <mm:maxnumber value="99" />
-          <ol class="${type}">
+          <response>
+            <type>${type}</type>
+            <count><mm:size /></count>
+            <nodes>
             <mm:listnodes>
-              <li>
-                <dl class="list">
-                  <mm:fieldlist type="list">
-                    <dt><mm:fieldinfo type="name" /></dt>
-                    <dd><mm:fieldinfo type="value" /></dd>
-                  </mm:fieldlist>
-                </dl>
-              </li>
+              <node number="${_node.number}">
+                <mm:fieldlist type="list">
+                  <c:set var="fieldname"><mm:fieldinfo type="name" /></c:set>
+                  <c:if test="${fieldname ne 'handle'}">
+                    <field name="${fieldname}">
+                      <mm:fieldinfo type="guivalue" />
+                    </field>
+                  </c:if>
+                </mm:fieldlist>
+              </node>
             </mm:listnodes>
-          </ol>
+            </nodes>
+          </response>
         </mm:listnodescontainer>
       </mm:hasnodemanager>
-      <mm:hasnodemanager name="$type" inverse="true">
-        <h4>No such nodemanager '${type}'</h4>
-      </mm:hasnodemanager>
+      
     </mm:present>
 
 </mm:cloud>

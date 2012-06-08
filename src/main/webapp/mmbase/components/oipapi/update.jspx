@@ -1,27 +1,105 @@
-<mm:cloud
+<mm:content
           xmlns:jsp="http://java.sun.com/JSP/Page"
+          xmlns:c="http://java.sun.com/jsp/jstl/core"
           xmlns:mm="http://www.mmbase.org/mmbase-taglib-2.0"
           >
   <jsp:output omit-xml-declaration="true" />
     
     <!-- TODO: just displays, no update yet! -->
+    <!-- UPDATE: update node with number ..  -->
     
-    <mm:import externid="n" />
+    <mm:import externid="apikey" />
+    <mm:import externid="n" required="true" />
     <mm:import externid="type" />
 
-    <mm:present referid="n">
-      <mm:hasnode number="$n">
-        <mm:node number="$n">
-          <dl class="edit">
-            <dt>TODO!! number</dt>
-            <dd><mm:field name="number" /></dd>
-            <mm:fieldlist type="edit">
-              <dt><mm:fieldinfo type="name" /></dt>
-              <dd><mm:fieldinfo type="value" /></dd>
-            </mm:fieldlist>
-          </dl>
-        </mm:node>
-      </mm:hasnode>
-    </mm:present>
+    <mm:escaper type="tagstripper" id="striptags">
+      <mm:param name="tags">none</mm:param>
+    </mm:escaper>
 
-</mm:cloud>
+    <c:choose>
+      <c:when test="${empty apikey}">
+        <!-- jsp:scriptlet> response.setStatus(400); </jsp:scriptlet -->
+        <meta status="400">Bad request - No apikey.</meta>
+        <response />
+      </c:when>
+      <c:otherwise>
+        
+        <mm:write referid="apikey" request="apikey" />
+
+        <c:catch var="exc">
+          <mm:cloud method="delegate" authenticate="apikey">
+            <mm:hasnode number="$n">
+
+              <mm:maywrite number="$n" inverse="true">
+                <meta status="401">Unauthorized - You are not allowed to edit this node #${n}.</meta>
+              </mm:maywrite>
+  
+              <mm:maywrite number="$n">
+                <mm:form mode="validate">
+                  <mm:node number="$n">
+                    <mm:import id="err">
+                      <mm:fieldlist type="edit" varStatus="field">
+                        <c:if test="${field.current.state eq 2}">
+                          <!-- state persistent 
+                            public int getState()
+                            Returns this field's state identifier (virtual, persistent, system, systemvirtual).
+                            http://www.mmbase.org/development/api/1.9/constant-values.html#org.mmbase.bridge.Field.STATE_VIRTUAL
+                          -->
+                          <mm:fieldinfo type="name" id="fldname" write="false" />
+                          <mm:import externid="$fldname" />
+                          <mm:setfield name="$fldname"><mm:write referid="$fldname" /></mm:setfield>
+                          <field name="${fldname}"><mm:fieldinfo type="errors" escape="striptags" /></field>
+                        </c:if>
+                      </mm:fieldlist>
+                    </mm:import>            
+                  </mm:node>
+  
+                  <mm:valid>
+                    <mm:commit />
+                    <mm:import id="committed" />
+                  </mm:valid>
+    
+                </mm:form>
+              </mm:maywrite>
+
+              <mm:present referid="committed">
+                <mm:import id="buffer">
+                  <meta status="200">OK</meta>
+                  <response>
+                    <mm:node number="$n">
+                      <jsp:include page="include.node.jspx" />
+                    </mm:node>
+                  </response>
+                </mm:import><!-- /buffer -->
+              </mm:present>
+            </mm:hasnode>
+          </mm:cloud>
+        </c:catch>
+        
+        <c:choose>
+          <c:when test="${!empty buffer}">
+            <mm:write referid="buffer" escape="none" />
+          </c:when>
+          <c:when test="${!empty err}">
+            <meta status="400">Bad request - Field validation error</meta>
+            <response>
+              <mm:write referid="err" escape="none" /> 
+              <c:if test="${!empty exc}"><exc>${exc}</exc></c:if>
+            </response>
+          </c:when>
+          <c:when test="${!empty exc}">
+            <!-- jsp:scriptlet>response.setStatus(500); </jsp:scriptlet -->
+            <meta status="500">Error</meta>
+            <response>${err} ${exc}</response>
+          </c:when>
+          <c:otherwise>
+            <!-- jsp:scriptlet>response.setStatus(401); </jsp:scriptlet -->
+            <meta status="401">Unauthorized - Failed to login.</meta>
+            <response>${err} ${exc}</response>
+          </c:otherwise>
+        </c:choose><!-- end checking for errors -->
+        
+      </c:otherwise>
+    </c:choose><!-- /apikey -->
+
+</mm:content>
