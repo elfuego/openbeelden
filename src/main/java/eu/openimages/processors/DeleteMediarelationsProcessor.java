@@ -54,7 +54,8 @@ public class DeleteMediarelationsProcessor implements CommitProcessor {
             return;
         }
 
-        if (node.getNumber() > 0) {
+        if (node.getNumber() > 0
+                && !"mediafragments_translations".equals(node.getNodeManager().getName())) {
 
             Cloud cloud = ContextProvider.getDefaultCloudContext().getCloud("mmbase", "class", null); // using class security
             Node media = cloud.getNode(node.getNumber());
