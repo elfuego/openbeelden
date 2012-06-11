@@ -162,13 +162,14 @@
                   <!-- image links -->
                   <mm:listfunction name="filteredurls">
                     <mm:node number="${_.source.number}">
-                      <li class="${_.state}" title="${fn:toLowerCase(_.state)}: ${_.mimeType}">
+                      <li class="${_.state}" 
+                          title="${fn:toLowerCase(_.state)}: ${_.state eq 'SOURCE' ? 'source' : 'image'} ${_.dimension} ${_.mimeType}">
                         <strong>${_.format}</strong>
-                        <jsp:text> ${_.state eq 'SOURCE' ? '(source ' :'('}${_.dimension}, </jsp:text>
+                        <jsp:text> (${_.state eq 'SOURCE' ? 'source' : 'image'} ${_.dimension}, </jsp:text>
                         <c:if test="${_.filesize > 0}">${mm:escape('myfilesize',_.filesize)}</c:if>
                         <jsp:text>): </jsp:text>
                         <mm:import id="filename" reset="true">${_.filename}</mm:import>
-                        <a title="${_.state eq 'SOURCE' ? 'source' : _node.label} ${_.dimension} ${_.mimeType}"
+                        <a title="${_.state eq 'SOURCE' ? 'source' : 'image'} ${_.mimeType}"
                            href="${mm:escape('text/xml', _.URL)}">
                            <oip:filesubstr filename="${filename}" length="44" />
                         </a>
@@ -185,13 +186,13 @@
                     <mm:listfunction name="filteredurls">
                       <mm:node number="${_.source.number}">
                         <c:if test="${_.state ne 'SOURCE'}">
-                          <li class="${_.state}" title="${fn:toLowerCase(_.state)}: ${_.mimeType}">
+                          <li class="${_.state}" title="${fn:toLowerCase(_.state)}: ${_node.label} ${_node.bitrate} ${_.mimeType}">
                             <strong>${_.format}</strong>
-                            <jsp:text> (</jsp:text>
+                            <jsp:text> </jsp:text>(${_node.label}
                             <c:if test="${_.filesize > 0}">${mm:escape('myfilesize',_.filesize)}</c:if>
                             <jsp:text>): </jsp:text>
                             <mm:import id="filename" reset="true">${_.filename}</mm:import>
-                            <a title="${_node.label} ${_node.bitrate} ${_.mimeType}"
+                            <a title="${_node.label} ${_.mimeType}"
                                href="${mm:escape('text/xml', _.URL)}">
                                <oip:filesubstr filename="${filename}" length="44" />
                             </a>
@@ -205,14 +206,14 @@
                   <mm:listfunction name="filteredurls">
                     <mm:node number="${_.source.number}">
                     <c:if test="${_.state eq 'SOURCE'}">
-                      <li class="${_.state}" title="${fn:toLowerCase(_.state)}: ${_.mimeType}">
+                      <li class="${_.state}" title="${fn:toLowerCase(_.state)}: ${_node.label} ${_node.bitrate} ${_.mimeType}">
                          <strong>${_.format}</strong>
                          <jsp:text> (source </jsp:text>
                          <c:if test="${!empty _.dimension}">${_.dimension}, </c:if>
                          <c:if test="${_.filesize > 0}">${mm:escape('myfilesize',_.filesize)}</c:if>
                          <jsp:text>): </jsp:text>
                          <mm:import id="filename" reset="true">${_.filename}</mm:import>
-                         <a title="source ${_node.bitrate} ${_.mimeType}"
+                         <a title="${_node.label} ${_.mimeType}"
                             href="${mm:escape('text/xml', _.URL)}">
                             <oip:filesubstr filename="${filename}" length="44" />
                          </a>
@@ -230,7 +231,7 @@
                     <mm:listfunction name="filteredurls">
                       <mm:node number="${_.source.number}">
                         <c:if test="${_.state ne 'SOURCE'}">
-                          <li class="${_.state}" title="${fn:toLowerCase(_.state)}: ${_.mimeType}">
+                          <li class="${_.state}" title="${fn:toLowerCase(_.state)}: ${_node.label} ${_.dimension} ${_.mimeType}">
                             <strong>${_.format}</strong>
                             <jsp:text> (</jsp:text>
                             <c:if test="${!empty _.dimension}">${_.dimension}, </c:if>
@@ -240,7 +241,7 @@
                             <mm:import id="filename" reset="true">${_.filename}</mm:import>
                             <c:choose>
                               <c:when test="${_.available}">
-                                <a title="${_node.label} ${_.dimension} ${_.mimeType}"
+                                <a title="${_node.label} ${_.mimeType}"
                                    href="${mm:escape('text/xml', _.URL)}">
                                    <oip:filesubstr filename="${filename}" length="44" />
                                 </a>
@@ -259,7 +260,7 @@
                   <mm:listfunction name="filteredurls">
                     <mm:node number="${_.source.number}">
                     <c:if test="${_.state eq 'SOURCE'}">
-                      <li class="${_.state}" title="${fn:toLowerCase(_.state)}: ${_.mimeType}">
+                      <li class="${_.state}" title="${fn:toLowerCase(_.state)}: ${_node.label} ${_.dimension} ${_.mimeType}">
                          <strong>${_.format}</strong>
                          <jsp:text> (</jsp:text>
                          <c:if test="${!empty _.dimension}">${_.dimension}, </c:if>
@@ -267,7 +268,7 @@
                          <c:if test="${_.filesize > 0}">${mm:escape('myfilesize',_.filesize)}</c:if>
                          <jsp:text>): </jsp:text>
                          <mm:import id="filename" reset="true">${_.filename}</mm:import>
-                         <a title="source ${_.dimension} ${_.mimeType}"
+                         <a title="${_node.label} ${_.mimeType}"
                             href="${mm:escape('text/xml', _.URL)}">
                             <oip:filesubstr filename="${filename}" length="44" />
                          </a>
@@ -398,7 +399,7 @@
         </div><!-- /.more -->
 
         <dl class="media-info tags">
-          <dt>Tags:</dt>
+          <dt><fmt:message key="media.tags" />:</dt>
           <dd><oip:tag /></dd>
         </dl>
 
