@@ -35,15 +35,15 @@ Open Images for MySQL with views (the default setup of OIP) the commands are:
   DROP VIEW oi_audiofragments;
   DROP VIEW oi_imagefragments;
 
-A new field 'licensekey' has been added to licenses. 
-It can keep short references to licenses with values like 'cc-by-sa' etc.
+A new field 'licensekey' has been added to licenses. It can keep short references to licenses 
+with values like 'cc-by-sa' etc.
 
   ALTER TABLE oi_licenses_table ADD licensekey VARCHAR(24);
   DROP VIEW oi_licenses;
  
 Less important but also database related: we decided to convert our MySQL tables to InnoDB 
-to fully support transaction. If you have a previous installation of Open Images and are using a 
-MySQL version lower then 5.5 you probably have ISAM tables. Since MySQL 5.5 InnoDB is default. 
+to fully support transactions. If you have a previous installation of Open Images and are using 
+a MySQL version lower then 5.5 you probably have ISAM tables. Since MySQL 5.5 InnoDB is default. 
 You can convert your tables with f.fe. 'ALTER TABLE oi_mediafragments_table ENGINE=InnoDB;'.
 To have MMBase know it is running on MySQL with transaction support you need the following
 settings for 'mmbaseroot' (see '/WEB-INF/config/mmbaseroot.xml' or your 'context.xml').
@@ -62,6 +62,38 @@ basic editors or my_editors and need to get aliases, respectievely
 'cloudcontextsecurity_rank_portal_manager' and 
 'cloudcontextsecurity_group_projectmanagers'. 
 These aliases are used in a new editor to create portals and assign portal managers to them.
+
+
+Release Notes - Open Images Platform - Version OIP 1.2
+http://www.mmbase.org/jira/secure/ReleaseNote.jspa?&version=10234&projectId=10030
+
+** Bug
+    * [OIP-178] - Some images in <oi:medium /> lack a proper file extension
+    * [OIP-181] - Error when flipping through pages
+    * [OIP-185] - Large videos (> 500 MB) don't upload correctly
+    * [OIP-188] - Pages editor removed links to created pages
+    * [OIP-193] - Inloggen werkt soms niet
+    * [OIP-194] - Licentie PD moet CC0 zijn
+    * [OIP-196] - attributionURL can only contain procent encoded characters
+    * [OIP-200] - Sequence of images in footer does not work
+    * [OIP-202] - Videos are still visible on frontend when they are hidden
+    * [OIP-204] - Server 500 upon deleting of file
+
+** Improvement
+    * [OIP-96] - Automatic login
+    * [OIP-190] - Make TinyMCE listen to changes and notify MMBase validator
+    * [OIP-191] - Extra field 'hasformat' for media
+    * [OIP-192] - API key per user
+    * [OIP-197] - Making acceptation of the Terms of Use more explicit
+    * [OIP-198] - Relate licenses to portal to be able to configure different sets per portal
+    * [OIP-199] - Paths of pages should not be unique but to be used in every portal
+    * [OIP-203] - Search language of media source file, not description
+
+** New Feature
+    * [OIP-195] - Download API
+    * [OIP-201] - Make possible to use any template has home
+    * [OIP-205] - oi:medium gets new attribute format
+
 
 
 UPGRADING 1.1 -> 1.1.1
