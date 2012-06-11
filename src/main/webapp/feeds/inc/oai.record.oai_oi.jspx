@@ -158,10 +158,12 @@
         <mm:listfunction name="filteredurls">
           <c:if test="${!empty _.URL and _.available}">
             <mm:node number="${_.source.number}">
-              <c:set var="format"><mm:field name="label" /></c:set>
               <c:choose>
-                <c:when test="${!empty format}">
-                  <oi:medium format="${format}"><mm:url page="${_.URL}" absolute="true" /></oi:medium>
+                <c:when test="${fn:startsWith(type,'image')}">
+                  <oi:medium format="${_.state eq 'SOURCE' ? 'source' : 'image'}"><mm:url page="${_.URL}" absolute="true" /></oi:medium>
+                </c:when>
+                <c:when test="${!empty _node.label}">
+                  <oi:medium format="${_node.label}"><mm:url page="${_.URL}" absolute="true" /></oi:medium>
                 </c:when>
                 <c:otherwise>
                   <oi:medium format="unknown"><mm:url page="${_.URL}" absolute="true" /></oi:medium>
