@@ -20,7 +20,7 @@
      <div class="main-column">      
         <h2>Download</h2>
         
-        <mm:component name="streams" block="download" />
+        <mm:component name="oip" block="user-mediadownload" />
         
       </div><!-- /.main-column -->
     </jsp:attribute>
