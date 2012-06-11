@@ -37,7 +37,7 @@
 
 <h2>API 2 - create ${type}</h2>
 <p>
-  <a href="test.jspx">api2</a> - 
+  <a href="test.jspx">api</a> - 
   <a href="test2.jspx">api2</a> - 
   <a href="test3.jspx">api3</a> - you are: <mm:cloudinfo type="user" /> (<mm:cloudinfo type="rank" />)
 </p>

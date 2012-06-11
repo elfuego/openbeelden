@@ -34,7 +34,7 @@
 <body>
 <h2>POST media to Download API etc.</h2>
 <p>
-  <a href="test.jspx">api2</a> - 
+  <a href="test.jspx">api</a> - 
   <a href="test2.jspx">api2</a> - 
   <a href="test3.jspx">api3</a> - you are: <mm:cloudinfo type="user" /> (<mm:cloudinfo type="rank" />)
 </p>
@@ -107,7 +107,7 @@
   </li>
 </ul>
 </code>
-<form method="post" action="/api/media/">
+<form method="post" action="${mm:link('/api/media/')}">
 	<p>
       <label for="title">Title</label>
       <input type="text" value="Een testtitel" id="title" name="title" size="80" />
