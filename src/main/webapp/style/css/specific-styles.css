@@ -197,6 +197,7 @@ dl.list dd strong
     font-size: 1.1em;
     font-weight: normal;
 }
+dl.list dd strong.show { color: #c00; }
 
 dl.list dd.img img {
     border: 1px solid #efefef;
@@ -422,8 +423,13 @@ body.media-item dl.media-info {
 body.media-item dl.media-info.tags { display: block; }
 body.media-item dl.media-info dt {
 	width: 160px;
+	margin-right: 0;
 	font-weight: bold;
 	color: #707070;
+}
+body.media-item dl.media-info dd {
+	width: 350px;
+	margin-left: 166px;
 }
 
 body.media-item div.notshown, 
