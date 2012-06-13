@@ -55,7 +55,8 @@
 
         <oip:media width="512" height="288" />
 
-        <h3 class="mediatitle">
+        <mm:maywrite><c:set var="maywriteclass" value="maywrite" /></mm:maywrite><!-- for Firefox: whitespace nowrap -->
+        <h3 class="mediatitle ${maywriteclass}">
           <mm:nodefunction name="translation"><mm:field name="title" /></mm:nodefunction>
           <mm:maywrite>
             <mm:link referids="_node@media">

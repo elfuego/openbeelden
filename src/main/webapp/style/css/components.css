@@ -111,7 +111,8 @@ div.b_user-picture a.cancel
 }
 div.b_user-translations a.cancel,
 div.b_user-mediapreview a.cancel { float: right; }
-
+/* show/hide emptynode */
+div.b_user-translations ul.relatednodes li > div.emptynode { display: none; }
 
 div.progressInfo
 {

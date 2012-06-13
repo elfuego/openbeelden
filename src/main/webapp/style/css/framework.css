@@ -328,7 +328,7 @@ div.wrap > div.main-column
 body.home div#main div.wrap div.right-column { display: none; }
 
 body.media > div#main > div.left-column { top: 236px; }
-body.media > div#main > div.right-column { margin-top: 158px; }
+body.media > div#main > div.right-column { margin-top: 157px; }
 body.media > div#main { min-height: 700px; }
 body.media > div#main div#header p { display: none; }
 
