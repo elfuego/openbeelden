@@ -1,6 +1,7 @@
 <jsp:root 
   xmlns:jsp="http://java.sun.com/JSP/Page"
   xmlns:c="http://java.sun.com/jsp/jstl/core"
+  xmlns:fmt="http://java.sun.com/jsp/jstl/fmt"
   xmlns:mm="http://www.mmbase.org/mmbase-taglib-2.0"
   version="2.0">
 
@@ -22,22 +23,22 @@
       <mm:link referid="baseurl">
         <mm:param name="offset">0</mm:param>
         <mm:param name="max">${max}</mm:param>
-        <a href="${_}${empty fragment ? '' : fragment}" class="first">«« first</a>
+        <a href="${_}${empty fragment ? '' : fragment}" class="first">«« <fmt:message key="media.pager.first" /></a>
       </mm:link>
       <mm:link referid="baseurl">
         <mm:param name="offset">${offset - max}</mm:param>
         <mm:param name="max">${max}</mm:param>
-        <a href="${_}${empty fragment ? '' : fragment}" class="previous">« previous</a>
+        <a href="${_}${empty fragment ? '' : fragment}" class="previous">« <fmt:message key="media.pager.previous" /></a>
       </mm:link>
     </c:if>
     
 
-    <c:set var="maxnrs" value="${empty maxpages ? '16' : maxpages}" />
-    <c:set var="pages" value="${(total / max)}" />
-    <c:set var="maxpages" value="${(maxnrs / 2)}" />
+    <c:set var="maxnrs"   value="${empty maxpages ? '16' : maxpages}" />
+    <c:set var="pages"    value="${total / max}" />
+    <c:set var="maxpages" value="${maxnrs / 2}" />
 
-    <c:set var="begin" value="0" />
-    <c:set var="end"   value="${pages}" />
+    <c:set var="begin"    value="0" />
+    <c:set var="end"      value="${(total - 1) / max}" />
     
     <c:if test="${pages gt maxnrs}">
       <c:choose>
@@ -60,7 +61,6 @@
     </c:if>
 
     
-    
     <c:forEach var="index" begin="${begin}" end="${end}">
       <c:choose>
         <c:when test="${(index * max) == offset}">
@@ -78,20 +78,20 @@
       </c:choose>
     </c:forEach>
     
-
     
     <c:if test="${(total - offset) > max}">
       <mm:link referid="baseurl">
         <mm:param name="offset">${offset + max}</mm:param>
         <mm:param name="max">${max}</mm:param>
-        <a href="${_}${empty fragment ? '' : fragment}" class="next">next »</a>
+        <a href="${_}${empty fragment ? '' : fragment}" class="next"><fmt:message key="media.pager.next" /> »</a>
       </mm:link>
       <mm:link referid="baseurl">
-        <mm:param name="offset">${total - (total mod max)}</mm:param>
+        <mm:param name="offset">${total - (total mod max) ge total ? total - max : total - (total mod max)}</mm:param>
         <mm:param name="max">${max}</mm:param>
-        <a href="${_}${empty fragment ? '' : fragment}" class="last">last »»</a>
+        <a href="${_}${empty fragment ? '' : fragment}" class="last"><fmt:message key="media.pager.last" /> »»</a>
       </mm:link>
     </c:if>
   </c:if>
+  
 
 </jsp:root>

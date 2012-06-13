@@ -229,10 +229,10 @@ dl.list a.edit:active
     color: #c00;
 }
 
-p.pager
-{
+p.pager {
     text-align: center;
     padding-top: 1em;
+    text-transform: lowercase;
     clear: both;
 }
 p.pager a,
@@ -240,7 +240,6 @@ p.pager strong {
 	margin: 0 2px;
 	font-weight: normal;
 }
-
 
 ul.sortby a { padding-left: 18px; }
 ul.sortby a.up
@@ -299,6 +298,7 @@ h3.subtitle, h3.mediatitle {
 	text-overflow: ellipsis;
 	white-space: nowrap;
 }
+h3.mediatitle.maywrite { white-space: normal; } /* for Firefox */
 body.media-item h3.mediatitle {
 	margin-top: 8px;
 }
@@ -431,6 +431,11 @@ body.media-item dl.media-info dd {
 	width: 350px;
 	margin-left: 166px;
 }
+body.media-item dl.media-info.tags dd {
+	width: auto;
+	margin-left: 0;
+}
+
 
 body.media-item div.notshown, 
 body.media-item dl.notshown { display: none; }
