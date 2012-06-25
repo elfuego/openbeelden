@@ -21,7 +21,6 @@
       <mmsq:field name="intro" />
       <mmsq:field name="body" />
       <mmsq:field name="source" />
-      <mmsq:field name="source" />
       <mmsq:field name="hasformat" />
       <mmsq:field name="dc_creator" boost="3" />
       <mmsq:field name="publisher" boost="3" />
