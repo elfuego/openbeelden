@@ -28,6 +28,7 @@
         <mm:import id="ttype"><mm:property nodemanager="$type" name="translations.builder" /></mm:import>
         <mm:isempty referid="ttype"><mm:import id="ttype" reset="true">${type}_translations</mm:import></mm:isempty>
         <mm:import id="editor">/editors/edit-node.jspx</mm:import>
+        <!-- <mm:import id="show">/editors/show-node.jspx</mm:import> -->
         <mm:import id="maydelete">true</mm:import>
         
         <mm:hasnodemanager name="$ttype">
@@ -41,12 +42,12 @@
                   class="relatednodes max_${fn:length(locales) - 1} size_${size} ${size == 0 ? 'empty' : ''}">
                 
                 <mm:relatednodes>
-                  <mm:relation to="${nr}" from="${_node}" role="langrel">
+                  <mm:relation to="${node}" from="${_node}" role="langrel">
                     <c:set var="relation_class">relation_${role}_${_node}</c:set>
                     <c:set var="relation">${_node}</c:set>
                   </mm:relation>
                   <li id="relation_${relation}" class="relation_${relation} node_${_node}">
-                    <jsp:directive.include file="/editors/actions.div.jspx" />
+                    <jsp:directive.include file="/editors/includes/actions.div.jspx" />
                     <div class="node">
                       <mm:include page="/editors/show-node.jspx" referids="p?,_node@nr,fields?">
                         <mm:param name="lang">${requestScope['javax.servlet.jsp.jstl.fmt.locale.request']}</mm:param>

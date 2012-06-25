@@ -41,20 +41,19 @@
     <mm:import externid="cancel" />
 
     <mm:import externid="editme" />
+    <mm:import externid="show">show-node.jspx</mm:import>
     <mm:import externid="showform">${editme ? '' : 'true'}</mm:import><!-- show form (true) again after save (default false) -->
-    <mm:import externid="show">/editors/show-node.jspx</mm:import>
-    <mm:import externid="editor">/editors/edit-node.jspx</mm:import>
+    <mm:import externid="editor">edit-node.jspx</mm:import>
     <mm:import externid="maydelete">true</mm:import>
     <mm:import externid="unpublish" />
     <mm:import externid="maycancel">true</mm:import>
 
     <c:choose>
       <c:when test="${cancel eq 'Cancel'}">
-        <!-- c:if test="${fn:indexOf(show, 'thumb') > -1}">
-          <mm:include page="$show" referids="p?,nr,show">
-            <mm:param name="fields">${fields}</mm:param>
-          </mm:include>
-        </c:if -->
+        
+        <!-- recreate previous state of target .empty -->
+        <mm:include page="show-node.empty.jspx" referids="p?,nr,show" />
+        
         <c:if test="${showform}">
           <mm:include page="$show" 
             referids="nr">
@@ -73,8 +72,8 @@
         </c:if>
 
         <mm:url write="false" absolute="true" escapeamps="false" id="submit_link"
-          referids="nr,type,defaultstr?,p?,relation?,fields?,lang?,parent?,role?,dir?,pos?,editme?,showform?,show?,editor?,maydelete?,unpublish?" />
-        
+          referids="nr,type,p?" />
+          <!-- referids="nr,type,defaultstr?,p?,relation?,fields?,lang?,parent?,role?,dir?,pos?,editme?,showform?,show?,editor?,maydelete?,unpublish?" -->
         <mm:form styleClass="mm_form_editme" id="form_$type" page="$submit_link">
           <mm:import id="buffer">
 
@@ -116,13 +115,29 @@
 
 
               <fieldset class="buttons">
+
+                <!-- input type="hidden" name="p"         value="${p}" / -->
+                <input type="hidden" name="fields"    value="${fields}" />
+                <input type="hidden" name="lang"      value="${lang}" />
+                <input type="hidden" name="parent"    value="${parent}" />
+                <input type="hidden" name="role"      value="${role}" />
+                <input type="hidden" name="defaultstr" value="${defaultstr}" />
+                <input type="hidden" name="editme"    value="${editme}" />
+                <input type="hidden" name="editor"    value="${editor}" />
+                <input type="hidden" name="show"      value="${show}" />
+                <input type="hidden" name="showform"  value="${showform}" />
+                <input type="hidden" name="maydelete" value="${maydelete}" />
+                <input type="hidden" name="unpublish" value="${unpublish}" />
+                <input type="hidden" name="maycancel" value="${maycancel}" />
+                
                 <input name="submit${type}" type="hidden" value="submit" />
-                <fmt:message key="users.cancel" var="button_cancel" />
-                <fmt:message key="users.form.save" var="button_save" />
                 <c:if test="${editme and maycancel}">
+                  <fmt:message key="users.cancel" var="button_cancel" />
                   <input type="button" name="cancel" value="${button_cancel}" class="cancel" />
                 </c:if>
+                <fmt:message key="users.form.save" var="button_save" />
                 <input type="submit" name="action" value="${button_save}" class="submit" />
+                
               </fieldset>
             </mm:createnode>
           </mm:import><!-- /buffer -->
@@ -203,8 +218,11 @@
                   <mm:import id="parent" reset="true">${nr}</mm:import>
                 </c:if>
                 
+                <!-- restore target .empty to previous state -->
+                <mm:include page="show-node.empty.jspx" referids="p?,nr,show" />
+                
                 <div class="node_created edit_${_node} relation_${relation}">
-                  <jsp:directive.include file="actions.div.jspx" />
+                  <jsp:directive.include file="includes/actions.div.jspx" />
                   <div class="node">
                     <mm:include page="$show" referids="_node@nr">
                       <mm:param name="fields">${fields}</mm:param>
@@ -214,14 +232,14 @@
               
               </mm:node>
             </c:when>
-            <c:when test="${showform and editme and fn:indexOf(editor, 'edit-') gt -1}">
+            <c:when test="${showform and fn:indexOf(editor, 'edit-') gt -1}">
+               <!-- showform and editme and fn:indexOf(editor, 'edit-') gt -1 -->
               <div class="node_created edit_${_node} relation_${relation}">
-                <mm:include page="$editor" referids="new_node@nr,parent?" />
+                <mm:include page="$editor" referids="new_node@nr,p?,parent?" />
               </div>
             </c:when>
             <c:otherwise> 
               <!-- redirect to editor -->
-
               <mm:url page="$editor" referids="p?,new_node@nr" id="editor_link" escapeamps="false" />
               <script type="text/javascript">
                 $(document).ready(function() {
@@ -231,7 +249,6 @@
               <noscript>
                 <p>Continue to <a href="${editor_link}">${editor_link}</a>.</p>
               </noscript>
-              
             </c:otherwise>
           </c:choose>
 

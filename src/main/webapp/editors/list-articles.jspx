@@ -30,7 +30,7 @@
 
             <mm:param name="editor">/editors/editor-articles.jspx</mm:param>
             
-            <mm:param name="maydelete">true</mm:param>
+            <mm:param name="maydelete">false</mm:param>
             <mm:param name="unpublish">true</mm:param>
             <mm:param name="maycreate">false</mm:param>
           </mm:include>

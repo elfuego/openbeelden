@@ -156,13 +156,25 @@ form.properties {
 
 /* ### sortable lists ### */
 
-ul.sortable { min-height: 32px; }
+ul.sortable {
+	min-height: 32px;
+	list-style: none;
+}
+body.editor ul.relatednodes { margin-bottom: 0; }
 
-/* hide empty list item */
-ul.relatednodes li.empty { display: none; }
+/* show/hide empty list item */
+ul.relatednodes li > div.emptynode { display: none; }
+ul.relatednodes > li.empty { height: auto; }
 
 /* show empty list item when list is empty */
-ul.relatednodes.empty li.empty { display: block; }
+ul.relatednodes.empty li > div.emptynode { 
+    display: block; 
+	border: 1px dotted #ccc;
+	padding: 4px 0 4px 8px;
+}
+ul.relatednodes.empty.incoming li > div.emptynode { display: none; }
+ul.relatednodes.empty > li.empty { height: auto; }
+
 
 ul.relatednodes div.actionrelate { display: none; }
 ul.foundnodes div.actions { display: none; }
@@ -177,6 +189,8 @@ ul.sortable li
 	clear: both;
 	overflow: hidden;
 }
+ul.relatednodes li.empty { border: none; /* border is with div.emptyitem */ }
+
 ul.sortable li.ui-state-highlight {
 	height: 32px;
 	border: 1px dotted #ccc;
@@ -193,10 +207,10 @@ ul.sortable.activated {
 	background-color: #efefef; */
 }
 
-ul.foundnodes.empty {
+/* ul.foundnodes.empty {
 	border: 1px dotted #ccc;
 	height: 68px;
-}
+} */
 ul.foundnodes.empty.pages { height: 28px; }
 ul.foundnodes.empty li.ui-state-highlight { border: none; }
 ul.foundnodes li,
@@ -205,17 +219,12 @@ ul.relatednodes li {
 	overflow: hidden;
 }
 ul.notsortable li.even { background: #efefef; }
-
 ul.notsortable li > div.node { margin: 4px; }
 
 ul li.notsortable,
 ul.sortable li.notsortable {
 	border: none;
 	margin: 0;
-}
-ul.sortable li.empty {
-	padding: 4px 0 4px 8px;
-	border: 1px dotted #ccc;
 }
 
 ul.sortable li div.node {
@@ -237,8 +246,8 @@ ul.sortable li.add { text-align: right; }
 p.add {
 	text-align: right;
 	text-transform: lowercase;
-	margin: 8px 0 0 0;
-	padding: 6px;
+	margin-top: 6px;
+	padding: 0 6px;
 }
 
 span.removed, span.deleted { color: #C33; }
@@ -297,11 +306,19 @@ ul.notsortable li.pager
 	margin: 8px 0;
 	text-align: center;
 }
+p.pager a,
+p.pager strong,
 li.pager a,
 li.pager strong,
 th.pager a,
-th.pager strong { margin: 0 2px; }
+th.pager strong {
+	margin: 0 2px;
+	text-transform: lowercase;
+}
+p.pager { text-align: center; }
+p.pager a { color: #555; }
 
+div.emptynode div.images { height: 66px; }
 div.emptyimage {
 	border: 1px solid #ccc;
 	height: 90px;
@@ -359,9 +376,9 @@ div#edit-picture span.links {
 }
 
 /* show-node.jspx */
-div.node span > img {
+div.node > div.images img {
 	float: left;
-	margin-right: 8px;
+	margin-right: 4px;
 	margin-bottom: 4px;
 }
 
@@ -380,6 +397,15 @@ form.mm_form_editme {
 	background-color: #f9f9f9;  /* #e3e2de;   f9f9f9 */
 	padding: 4px 6px;
 }
+body.portal form#form_filters.mm_form_editme,
+body.portal-config form#form_urls.mm_form_editme {
+	border: none;
+	background-color: transparent;  /* #e3e2de;   f9f9f9 */
+	padding: 0;
+}
+body.portal form#form_filters.mm_form_editme input[type="text"],
+body.portal-config form#form_urls.mm_form_editme input[type="text"] { width: 358px; }
+
 ul.sortable form.mm_form_editme,
 div.box form.mm_form_editme {
 	border: none;
@@ -415,6 +441,7 @@ form.mm_form_editme div.you_allow p.info,
 form.mm_form_editme div.relation p.info 
 { width: 490px; }
 
+input.mm_datetime_year,
 form.mm_form_editme input.mm_datetime_year,
 form.mm_form_editme input[type="submit"],
 form.mm_form_editme input[type="button"] 
@@ -458,40 +485,30 @@ div.box div.intro p.info,
 div.box div.body p.info 
 { width: 490px; }
 
-/* table statistics */
+
+/* ### ### table statistics ### ### */
+
 table.stats td,
 table.stats th { padding: 1px 4px; }
 table.stats {
-	border-left: 1px #ccc solid;
-	border-right: 1px #ccc solid;
-	border-bottom: 1px #ccc solid;
-	font-size: 0.9em;
 	width: 100%;
-	margin-bottom: 1em;
+	margin: 1em 0;
 }
-table.stats caption
-{
-	border-left: 1px #CCC solid;
-	border-right: 1px #CCC solid;
+table.stats caption {
 	padding: 1px 3px;
 	background-color:#E6E9DD;
 }
-table.stats th, table.stats td { border-top: 1px solid #ccc; }
 table.stats th { background-color: #E8E8E8; }
-table.stats tr.even { background-color:#E6E9DD; }
-
-table.stats td {
-	vertical-align: top;
-}
+table.stats tr.even { background-color:#efefef; }
+table.stats td { vertical-align: top; }
 table.stats th.number,
-table.stats td.number {
-	text-align: right;
-}
+table.stats td.number { text-align: right; }
 table.stats td.created {
 	text-align: center;
 	white-space: nowrap;
 }
 table.stats td.total { text-align: center; }
+table.stats th a { color: #222; }
 
 div.log pre {
     color: #fff;

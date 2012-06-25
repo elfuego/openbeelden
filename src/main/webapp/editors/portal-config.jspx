@@ -7,7 +7,7 @@
     xmlns:mm="http://www.mmbase.org/mmbase-taglib-2.0"
     xmlns:oip="urn:jsptagdir:/WEB-INF/tags/oip">
 
-  <oip:editor styleClass="portal">
+  <oip:editor styleClass="portal portal-config">
     <jsp:attribute name="head">
 
     </jsp:attribute>
@@ -28,43 +28,47 @@
             <p>Portal url: the specific location on which this portal can be found.</p>
             <mm:relatednodescontainer type="urls" role="portalrel" searchdirs="destination">
               <mm:relatednodes>
-                <mm:include page="edit-node.jspx" referids="p?,_node@nr">
-                  <mm:param name="fields">name,url</mm:param>
+                <mm:include page="edit-node.jspx" referids="_node@nr,p?">
+                  <mm:param name="fields">url</mm:param>
                 </mm:include>
                 <mm:node id="url_node" />
               </mm:relatednodes>
             </mm:relatednodescontainer>
             
             <c:if test="${empty url_node}">
-              <div id="add_url"> <jsp:text>  </jsp:text> </div>
-              <p class="add">
-                <mm:link page="/editors/add-node.jspx" referids="p?,_node@nr">
-                  <mm:param name="type">urls</mm:param>
-                  <mm:param name="fields">name,url,description</mm:param>
-                  <mm:param name="role">portalrel</mm:param>
-                  <a class="editme" href="${_}#add_url">add url</a>
-                </mm:link>
-              </p>
+
+              <mm:import externid="submiturls" />
+              <c:if test="${empty submiturls}">
+                <p class="msg stay grey">
+                  This portal has currently <strong>no url</strong> configured.
+                </p>
+                <p>Ad an url below.</p>
+              </c:if>
+
+              <mm:include page="add-node.jspx" referids="_node@nr,p?">
+                <mm:param name="type">urls</mm:param>
+                <mm:param name="role">portalrel</mm:param>
+                <mm:param name="fields">url</mm:param>
+                <mm:param name="defaultstr">name=Portal url of ${_node.name}</mm:param>
+              </mm:include>
+
             </c:if>
           </c:if>
 
-          <div class="wrap noborder">
-            <h3>Portal properties</h3>
-            <p>
-              Settings or properties of this portal. Possible are:<br />
-              <strong>oai-set</strong> name of the OAI-PMH set, f.e. 'subcollection' (portal only),<br />
-              <strong>rss</strong> url of a feed (rss!) with news to show on your the homepage,<br />
-              <strong>css</strong> link, f.e. '/style/css/subcollection.css' of a stylesheet (portal only),<br />
-              <strong>partnertext</strong> text above the partner logos, or<br />
-              <strong>hideportal</strong> if you want to hide the portal in navigation, enter f.e. 'true' (default is 'false')<br />
-              <strong>gacode</strong> Google Analytics code, f.e. 'UA-830296-1'<br />
-              <strong>login</strong> if you want to login on the portal frontend.
-            </p>
-            <mm:include page="edit-properties.jspx" referids="p?,_node@nr,lang?">
-              <mm:param name="property_keys">oai-set;rss;css;partnertext;login;hideportal;gacode</mm:param>
-            </mm:include>
-
-          </div>
+          <h3>Portal properties</h3>
+          <p>
+            Settings or properties of this portal. Possible are:<br />
+            <strong>oai-set</strong> name of the OAI-PMH set, f.e. 'subcollection' (portal only),<br />
+            <strong>rss</strong> url of a feed (rss!) with news to show on your the homepage,<br />
+            <strong>css</strong> link, f.e. '/style/css/subcollection.css' of a stylesheet (portal only),<br />
+            <strong>partnertext</strong> text above the partner logos, or<br />
+            <strong>hideportal</strong> if you want to hide the portal in navigation, enter f.e. 'true' (default is 'false')<br />
+            <strong>gacode</strong> Google Analytics code, f.e. 'UA-830296-1'<br />
+            <strong>login</strong> if you want to login on the portal frontend.
+          </p>
+          <mm:include page="edit-properties.jspx" referids="p?,_node@nr,lang?">
+            <mm:param name="property_keys">oai-set;rss;css;partnertext;login;hideportal;gacode</mm:param>
+          </mm:include>
           
           <div class="wrap">
             <h3>Licenses</h3>
@@ -79,7 +83,123 @@
               <mm:param name="unpublish">true</mm:param>
             </mm:include>
           </div>
-          
+
+              
+          <!-- add portal managers -->
+          <div class="wrap" id="pms">
+            <h3>Portal manager</h3>
+            <!-- check if already has manager -->                
+            <mm:relatednodescontainer type="mmbaseusers" role="portalrel" searchdirs="source">
+              <p>
+              <mm:relatednodes varStatus="status">
+                <mm:first> Current portal manager(s): </mm:first>
+                <br /><strong><mm:field name="username" /></strong>
+                <c:set var="hasportalmanager" value="yes" />
+              </mm:relatednodes>
+              </p>
+            </mm:relatednodescontainer>
+            
+            <c:if test="${empty hasportalmanager}">
+              <p class="msg stay grey">
+                This portal currently has <strong>no portal manager</strong>.
+              </p>
+            </c:if>
+            
+            <p>Find a user and make it portal manager of this portal.</p>
+            
+            <mm:import externid="username" />
+            <mm:import externid="set" />
+            <mm:link id="searchlink" escapeamps="false" write="false" referids="p?">
+            </mm:link>
+            <form class="searchform" method="post" action="${searchlink}#pms">
+              <fieldset class="first">
+                <div>
+                  <label for="search">Enter username</label>
+                  <input type="text" name="username" value="${username}" id="search" size="42" />
+                </div>
+                <input type="submit" name="submit_username" value="Search" class="submit" />
+              </fieldset>
+            </form>
+           
+            <c:if test="${!empty username}">
+              <mm:listnodescontainer type="mmbaseusers">
+                <mm:constraint field="username" value="$username" operator="EQUAL" />
+                <mm:maxnumber value="1" />
+                <mm:listnodes>
+                  <p>
+                    Found <strong><mm:field name="username" /></strong> 
+                    (#<mm:field name="number" id="found_user" />,
+                    <mm:node number="$found_user" id="usernode" />
+                    <mm:field name="rank" id="ranknode" write="false" />
+                    <mm:node number="$ranknode">
+                      rank: <c:set var="rank"><mm:field name="rank" /></c:set>
+                      <mm:field name="name" />
+                    </mm:node>)
+                    
+                    <mm:relatednodescontainer type="mmbasegroups" role="contains" searchdirs="source">
+                      <!-- alias group: cloudcontextsecurity_group_projectmanagers -->
+                      <mm:constraint field="number" value="cloudcontextsecurity_group_projectmanagers" operator="EQUAL" />
+                      <mm:relatednodes>
+                        <c:set var="isinpmgroup" value="yes" />
+                      </mm:relatednodes>
+                    </mm:relatednodescontainer>
+                    
+                    <mm:link referids="p,username">
+                      <mm:param name="set">ok</mm:param>
+                      <br /><a href="${_}#pms">Make <strong><mm:field name="username" /></strong> portal manager</a>  of this portal.
+                    </mm:link>
+                    
+                    <!-- process... -->
+                    <c:if test="${set eq 'ok'}">
+                      
+                      <!-- 1: set rank 'portal manager' -->
+                      <c:choose>
+                        <c:when test="${rank lt 400}">
+                          <mm:setfield name="rank">cloudcontextsecurity_rank_portal_manager</mm:setfield>
+                          rank set
+                        </c:when>
+                        <c:otherwise>
+                          rank (already) allright
+                        </c:otherwise>
+                      </c:choose>
+                      
+                      <!-- 2: put user in group 'project managers' -->
+                      <c:choose>
+                      <c:when test="${empty isinpmgroup}">
+                        <mm:node number="cloudcontextsecurity_group_projectmanagers" id="pmgroupnode" />
+                        <mm:createrelation source="pmgroupnode" destination="usernode" role="contains" />
+                        , added to group 'project managers'
+                      </c:when>
+                      <c:otherwise>, already in group 'project managers' </c:otherwise>
+                      </c:choose>
+                      
+                      <!-- 3: set owner field portal -->
+                      <mm:node number="$p" id="portalnode">
+                        <mm:setfield name="owner">${found_user}</mm:setfield>
+                      </mm:node>
+                      
+                      <!-- 4: create portalrel with portal -->
+                      <mm:relatednodescontainer type="pools" role="portalrel" searchdirs="destination">
+                        <mm:constraint field="number" value="$p" operator="EQUAL" />
+                        <mm:size id="alreadyrelated" write="false" />
+                      </mm:relatednodescontainer>
+                      <c:if test="${alreadyrelated eq 0}">
+                        <mm:createrelation source="usernode" destination="portalnode" role="portalrel" />
+                        and related to portal.
+                      </c:if>
+                      
+                    </c:if>
+                  </p>
+                </mm:listnodes>
+              </mm:listnodescontainer>               
+             
+              <c:if test="${empty found_user}">
+                <p class="msg grey stay">No user found with username '${username}'.</p>
+              </c:if>
+            </c:if>
+            
+          </div>
+          <!-- /portal managers -->
           
         </mm:node>
       </div><!-- /.main-column -->

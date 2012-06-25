@@ -16,8 +16,10 @@
 
 <fmt:setBundle basename="eu.openimages.messages" scope="request" />
 
-<mm:import externid="type" />
-<mm:import externid="fields"  />
+  <mm:import externid="type" />
+  <mm:import externid="fields"  />
+  
+  <div class="emptynode">
   
   <c:choose>
     
@@ -42,7 +44,7 @@
     </c:when>
     
     <c:when test="${type eq 'images'}">
-      <div>
+      <div class="images">
         <div class="emptyimage"><!-- empty --></div> 
         <span>Title example</span> 
       </div>
@@ -74,7 +76,7 @@
 
     <c:when test="${type eq 'pools_translations'}">
       <span>
-        Translation site or portal
+        Translation example of site or portal
       </span>
     </c:when>
 
@@ -96,13 +98,13 @@
 
     <c:when test="${type eq 'properties'}">
       <span>
-        <strong>key : </strong> value
+        <strong>key : </strong> example value
       </span>
     </c:when>
 
     <c:when test="${type eq 'tags'}">
       <span>
-        tag : 0
+        Tag example : 0
       </span>
     </c:when>
     
@@ -136,7 +138,8 @@
       </span>
     </c:otherwise>
   </c:choose>
-
+  
+  </div>
 
 </mm:cloud>
 </mm:content>

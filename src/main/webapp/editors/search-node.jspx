@@ -29,21 +29,24 @@
   
   <mm:import externid="showform" />
   <mm:import externid="editme">false</mm:import>
-  <mm:import externid="show">/editors/show-node.jspx</mm:import>
-  <mm:import externid="editor">/editors/edit-node.jspx</mm:import>
+  <mm:import externid="show">show-node.jspx</mm:import>
+  <mm:import externid="editor">editor.jspx</mm:import><!-- prefer not to inline edit in search  -->
   <mm:import externid="maydelete">true</mm:import>
   <mm:import externid="unpublish">true</mm:import>
   <mm:import externid="maycreate">true</mm:import>
   
   <mm:import externid="max">25</mm:import>
   <mm:import externid="offset">0</mm:import>
+  <mm:import externid="sortby">number</mm:import>
+  <mm:import externid="so">down</mm:import>
 
+  <mm:import id="list_id" reset="true">found_${role}_${type}</mm:import>
 
   <c:choose>
     <c:when test="${empty startnode}">
       <!-- just search in list with nodes of this -->
       <mm:listnodescontainer type="$type">
-        <jsp:directive.include file="search-node.query.jspx" />
+        <jsp:directive.include file="includes/search.query.jspx" />
         <mm:listnodes id="${list_id}" />
       </mm:listnodescontainer>
     </c:when>
@@ -51,7 +54,7 @@
       <!-- use a startnode, f.e. a pools/site node (always role=related) -->
       <mm:node number="$startnode">
         <mm:relatednodescontainer type="$type" role="related" searchdirs="destination">
-          <jsp:directive.include file="search-node.query.jspx" />
+          <jsp:directive.include file="includes/search.query.jspx" />
           <mm:relatednodes id="${list_id}" />
         </mm:relatednodescontainer>
       </mm:node>
@@ -67,39 +70,53 @@
       </c:choose>
       <li class="${oddeven} node_${_node}" id="node_${_node}">
 
-        <!-- <jsp:directive.include file="actions.div.jspx" /> --> <!-- hide div.actions on search, to be used when related -->
-
         <div class="actions">
           <c:if test="${maydelete}">
             <mm:maydelete>
-              <mm:link page="/editors/delete-node.jspx" 
+              <mm:link page="delete-node.jspx" 
                 referids="p?,_node@nr,relation?,fields?,parent?,role?,lang?,show?,showform?,editor?,maydelete?,unpublish?">
                 <a class="editme delete" href="${_}#node_${_node}"><fmt:message key="editors.delete" /></a>
               </mm:link>
             </mm:maydelete>
           </c:if>
           <mm:maywrite>
-            <mm:link page="$editor"
-              referids="p?,_node@nr,relation?,fields?,parent?,role?,lang?,showform?,show?,editor?,maydelete?,unpublish?">
-              <a class="${fn:indexOf(editor,'editor-') lt 0 ? 'editme' : 'edit'}" 
-                 href="${_}#node_${_node}"><fmt:message key="editors.edit" /></a>
-            </mm:link>
+            <c:choose>
+              <c:when test="${fn:indexOf(editor,'edit-') gt -1}"> <!-- editme -->
+                <mm:link page="$editor"
+                  referids="p?,_node@nr,relation?,fields?,parent?,role?,lang?,showform?,show?,editor?,maydelete?,unpublish?">
+                  <a class="editme" href="${_}#node_${_node}"><fmt:message key="editors.edit" /></a>
+                </mm:link>
+              </c:when>
+              <c:otherwise>
+                <mm:link page="$editor" referids="_node@nr,p?,fields?">
+                  <a class="edit" href="${_}"><fmt:message key="editors.edit" /></a>
+                </mm:link>
+              </c:otherwise>
+            </c:choose>
           </mm:maywrite>
         </div>
         
-        <mm:link page="relate.jspx"
-          referids="p?,_node@nr,relation?,fields?,parent?,role?,lang?,showform?,show?,editor?,maydelete?,unpublish?">
-          <div class="actionrelate">
-            <mm:maywrite>
-              <mm:link page="$editor"
-                referids="p?,_node@nr,relation?,fields?,parent?,role?,lang?,showform?,show?,editor?,maydelete?,unpublish?">
-                <a class="${fn:indexOf(editor,'editor-') lt 0 ? 'editme' : 'edit'}" 
-                   href="${_}#node_${_node}"><fmt:message key="editors.edit" /></a>
-              </mm:link>
-            </mm:maywrite>
+        <div class="actionrelate">
+          <mm:maywrite>
+            <c:choose>
+              <c:when test="${fn:indexOf(editor,'edit-') gt -1}"> <!-- editme -->
+                <mm:link page="$editor"
+                  referids="p?,_node@nr,relation?,fields?,parent?,role?,lang?,showform?,show?,editor?,maydelete?,unpublish?">
+                  <a class="editme" href="${_}#node_${_node}"><fmt:message key="editors.edit" /></a>
+                </mm:link>
+              </c:when>
+              <c:otherwise>
+                <mm:link page="$editor" referids="_node@nr,p?,fields?">
+                  <a class="edit" href="${_}"><fmt:message key="editors.edit" /></a>
+                </mm:link>
+              </c:otherwise>
+            </c:choose>
+          </mm:maywrite>
+          <mm:link page="relate.jspx"
+            referids="p?,_node@nr,relation?,fields?,parent?,role?,lang?,showform?,show?,editor?,maydelete?,unpublish?">
             <a class="relate" href="${_}#node_${_node.number}">voeg toe aan selectie</a>
-          </div>
-        </mm:link>
+          </mm:link>
+        </div>
 
         <div class="node">
           <mm:include page="$show" referids="p?,_node@nr,fields?" />

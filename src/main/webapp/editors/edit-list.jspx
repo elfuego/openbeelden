@@ -18,7 +18,7 @@
   
   <mm:import externid="p" /><!-- portal -->
   <mm:import externid="nr" required="true" /><!-- 'parent' node with relations -->
-  <mm:import externid="fields" />
+  <!-- <mm:import externid="fields" /> -->
   <mm:import externid="lang">${requestScope['javax.servlet.jsp.jstl.fmt.locale.request']}</mm:import>
  
   <mm:import externid="type" required="true" />
@@ -36,19 +36,21 @@
   <mm:import externid="maydelete">true</mm:import>
   <mm:import externid="search">true</mm:import>
   
-  <mm:import externid="offset">0</mm:import>
-  <mm:import externid="max">10</mm:import>
-  <mm:import externid="maxnumber" /><!-- max number of allowed nodes in list -->
-  
-  <mm:import externid="startpos">0</mm:import>
-  <mm:import externid="endpos" />
-  
   <mm:import from="session" externid="useid" />
   <mm:import id="idseed" reset="true">${role}_${type}</mm:import>
   <mm:import from="request" id="seq" externid="${idseed}_sequence" vartype="integer">0</mm:import>
   <mm:write session="${idseed}_sequence" value="${seq + 1}" />
   <mm:write request="${idseed}_sequence" value="${seq + 1}" />
   <mm:import id="myid" reset="true">${idseed}_${seq}</mm:import>
+
+  <mm:import externid="max">10</mm:import>
+  <mm:import externid="maxnumber" /><!-- max number of allowed nodes in list -->
+  <mm:import externid="offset">0</mm:import>
+  <mm:import externid="listid" /><!-- used for pager -->
+  <c:if test="${offset ne 0 and myid ne listid}"><mm:import id="offset" reset="true">0</mm:import></c:if>
+  <mm:import externid="startpos">0</mm:import>
+  <mm:import externid="endpos" />
+
   
   <mm:node number="$nr">
     <mm:import id="parent" reset="true">${nr}</mm:import><!-- parent: relation may be other way round but just for further reference -->
@@ -66,20 +68,18 @@
         <mm:sortorder field="footerrel.pos" direction="UP" />
       </c:if>
 
-      <mm:size id="sizeinbetween" write="false" />
-      <!-- c:if test="${!empty maxnumber}"><mm:maxnumber value="$maxnumber" /></c:if -->
       <mm:maxnumber value="$max" />
       <mm:offset value="$offset" />
       <mm:size id="size" write="false" />
       
+      <c:if test="${total gt max}">
+        <p>Total ${total}</p>
+      </c:if>
+      
       <div id="related_${myid}_log" class="log"><jsp:text> <!-- empty --> </jsp:text></div>
       <ul id="related_${myid}"
           class="relatednodes ${type} sortable connected ${role eq 'related' ? 'sortcancel' : role} size_${size} ${size == 0 ? 'empty' : ''} max_${maxnumber} parent_${_node} role_${role} ${maydelete ? 'maydelete' : ''} ${unpublish ? 'unpublish' : ''} ">
-        
-        <!-- c:if test="${total eq 0}">
-          <li class="empty notsortable"> <mm:include page="show-node.empty.jspx" referids="type" /> </li>
-        </c:if -->
-        
+                
         <mm:relatednodes>
           <c:set var="nodeid">node_${_node.number}</c:set>
           <c:set var="relationid" value="" />
@@ -89,24 +89,33 @@
             <c:set var="relationid">relation_${_node}</c:set>
           </mm:relation>
           <li id="${empty relationid ? nodeid : relationid}" class="${relationid} ${nodeid} ">
-            <jsp:directive.include file="actions.div.jspx" />
+            <jsp:directive.include file="includes/actions.div.jspx" />
             <div class="node">
               <mm:include page="$show" referids="p?,_node@nr,fields?" />
             </div>
           </li>
         </mm:relatednodes>
-        <li id="new_${type}" class="new notsortable">
-          <jsp:text><!-- empty list item as target for a.relate or other functions --></jsp:text> 
-        </li>
-        <li class="notsortable empty last">
+        
+        <li id="new_${type}" class="notsortable empty">
           <mm:include page="show-node.empty.jspx" referids="type" />
         </li>
       </ul>
+      
     </mm:relatednodescontainer>
+
+    <!-- pager -->
+    <c:if test="${size gt max}">
+      <mm:url id="pageurl" absolute="true" escapeamps="false" write="false"
+        referids="nr,p?,listid?" />
+      <p class="pager">
+        <oip:pager total="${total}" offset="${offset}" max="${max}" baseurl="${pageurl}" />
+      </p>
+    </c:if>
+
     
     <c:if test="${maycreate}">
       <p class="add" id="related_${myid}_add">
-        <mm:link escapeamps="true" page="/editors/add-node.jspx" 
+        <mm:link escapeamps="true" page="add-node.jspx" 
           referids="nr,p?,type,fields?,role,dir,show,showform?,editor,maydelete,maycreate,unpublish">
           <a class="editme add" href="${_}#new_${type}">
             <fmt:message key="editors.add_type">
@@ -124,7 +133,7 @@
     
     <c:if test="${search}">
       <div class="searchme">
-        <mm:link page="/editors/search-node.jspx" id="searchlink" escapeamps="false" 
+        <mm:link page="search-node.jspx" id="searchlink" escapeamps="false" 
           referids="p?,nr,type,startnode?,role?,dir?,parent,fields?,unpublish?,maydelete?,maycreate?,editor?,sortable?,lang?,show?,showform?">
           <mm:param name="max">10</mm:param>
           <mm:param name="editme">true</mm:param>

@@ -38,6 +38,17 @@ var tinyMceConfig = {
     mode : "specific_textareas",
     gecko_spellcheck : true,
     //editor_selector : /(mm_f_intro|mm_f_body)/,
+    extended_valid_elements : ""
+    + "video[src|poster|preload|autoplay|loop|controls|width|height],"
+    + "audio[src|preload|autoplay|loop|controls],"
+    + "source[src|type|media],"
+    + "embed[src|width|height|quality|pluginspace|type,"
+    + "object[archive|border|class|classid"
+    + "|codebase|codetype|data|declare|dir<ltr?rtl|height|id|lang|name"
+    + "|onclick|ondblclick|onkeydown|onkeypress|onkeyup|onmousedown|onmousemove"
+    + "|onmouseout|onmouseover|onmouseup|standby|tabindex|title|type|usemap"
+    + "|width],"
+    + "param[id|name|type|value|valuetype<DATA?OBJECT?REF]",
     plugins : "fullscreen,xhtmlxtras",
     content_css : "${mm:link('/style/css/tiny_mce.css')}",
     entity_encoding : "raw",
@@ -140,7 +151,7 @@ function initMMBasevalidatorForTiny(el) {
 function initEditme(el) {
     $(el).find('a.editme').click(function(ev){
         var link = ev.target.href.substring(0, ev.target.href.indexOf("?"));
-        if (link.indexOf('editors/editor.jspx') < 0) {
+        if (link.indexOf('/editor.jspx') < 0) {
             ev.preventDefault();
             //editMe(ev);
             
@@ -260,7 +271,7 @@ function bindMe(id, link, params) {
        beforeSubmit: beforeSubmit,
        success: afterSubmit,
        error: function(res, st){ 
-          $('#' + id).prepend('<p class="err">' + st + ' ' + res.status + ' : ' + res.statusText + '</p>'); 
+          $('#' + id).prepend('<p class="err">' + st.toUpperCase() + ' ' + res.status + ' : ' + res.statusText + '</p>'); 
        },
        data: { editme: 'true', target: id } // TODO: these still needed here? 
    };
@@ -316,9 +327,6 @@ function afterSubmit(response, status, xhr, $form) {
         var link = xhr.responseXML.URL;
         var query = link.substring(link.indexOf("?") + 1, link.length);
         var params = getParams(query);
-        
-        /* make sure tag 'new' is shown again */
-        //$(this).next().find('a.editme').show();
         
         var newContent = $(this).find('div.node_created');
         var classes = $(newContent).attr('class').split(' ');
@@ -425,7 +433,7 @@ function initSortable(listEl) {
         $('a.relate').click(function(ev){   /* link to click to add li elements to list */
             ev.preventDefault();
             var link = ev.target.href;
-            var query = link.substring(link.indexOf("?") + 1, link.indexOf('#'));
+            var query = link.substring(link.indexOf("?") + 1, (link.indexOf('#') > 0 ? link.indexOf('#') : link.length));
             var params = getParams(query);
             //console.log(params);
             
@@ -435,7 +443,7 @@ function initSortable(listEl) {
             var destListId = "related_" + $('#' + thisListId).closest('div.searchme').find("input:hidden[name=destinationlist]").val();
             var nodenr = params['nr'];
             
-            $("#" + destListId + " > li.new").before(listItem);
+            $("#" + destListId + " > li.empty").before(listItem);
             $(listItem).attr('id', 'node_' + nodenr);   // give it a new id
             
             var relParams = { 
@@ -454,8 +462,6 @@ function initSortable(listEl) {
                     
                     if (response.indexOf('number') > -1) {
                         var result = response.match(/\s+number='(\d+)'/);
-                        //console.log('found: ' + result);
-                        
                         var newrel = result[1];
                         $(listItem).attr('id', "relation_" + newrel);   // give it new id
                     }
@@ -472,8 +478,8 @@ function initSortable(listEl) {
 
                     clearMsg('#' + destListId + '_log');
                 },
-                error: function(data) {
-                    $('#' + destListId + '_log').html(data.responseText);
+                error: function(res, st) {
+                    $('#' + destListId + '_log').prepend('<p class="err">' + st.toUpperCase() + ' ' + res.status + ' : ' + res.statusText + '</p>'); 
                 }
             }); 
         }); /* end relate function by clicking a.relate */
@@ -498,6 +504,8 @@ function initSortable(listEl) {
                    $(this).tinymce(tinyMceConfig);
                });                
             },
+            over: function(ev, ui) { $(this).addClass('incoming'); },
+            out: function(ev, ui) { $(this).removeClass('incoming'); },
             remove: function(ev, ui) {
                 var editId = $(ui.item).attr('id');    // list item id
                 //var relnr = editId.match(/relation_\d+/);
@@ -542,14 +550,13 @@ function initSortable(listEl) {
                             type: "GET",
                             datatype: "xml",
                             data: params,
-                            complete: function(data) {
+                            success: function(data) {
                                 $('#' + listId + '_log').html(data.responseText);
                                 clearMsg('#' + listId + '_log');
                             },
-                            error: function(data) {
-                                $('#' + listId + '_log').html(data.responseText);
+                            error: function(res, st) {
+                                $('#' + listId + '_log').prepend('<p class="err">' + st.toUpperCase() + ' ' + res.status + ' : ' + res.statusText + '</p>');
                             }
-                            
                         });
                 }
             },
@@ -573,7 +580,7 @@ function initSortable(listEl) {
                 // add to list (and remove from?)
                 if (listId.indexOf('found_') < 0) {
                     //console.log('receive - listId ' + listId + ', senderId ' + senderId + ', nr ' + nodenr);
-                    var params = { 
+                    var relParams = { 
                         id: listId, 
                         related: '' + nodenr, 
                         unrelated: ''
@@ -582,7 +589,7 @@ function initSortable(listEl) {
                             url: "${mm:link('/editors/relate.jspx')}",
                             type: "GET",
                             datatype: "xml",
-                            data: params,
+                            data: relParams,
                             complete: function(data) {
 
                                 var response = data.responseText;
@@ -590,40 +597,40 @@ function initSortable(listEl) {
                                 
                                 if (response.indexOf('number') > -1) {
                                     var result = response.match(/\s+number='(\d+)'/);
+                                    //console.log('found: ' + result);
                                     var newrel = result[1];
                                     $(ui.item).attr('id', "relation_" + newrel);   // give it new id
                                     
-                                    // update action links
-                                    // nr, parent, role, relation
-                                    var listclasses = $('#' + listId).attr('class');
-                                    var newparams = new Object();
-                                    newparams['nr'] = nodenr;
-                                    newparams['relation'] = newrel;
-                                    
-                                    var p_result = listclasses.match(/parent_(\d+)/);
-                                    if (p_result != null) newparams['parent'] = p_result[1];
-                                    
-                                    var r_result = listclasses.match(/role_(\w+)/);
-                                    if (r_result != null) newparams['role'] = r_result[1];
-
-                                    newparams['maydelete'] = $('#' + listId).hasClass("maydelete") ? "true" : "false";
-                                    newparams['unpublish'] = $('#' + listId).hasClass("unpublish") ? "true" : "false";
-
+                                    // just get the link with all the parameters already
+                                    var link = $(ui.item).find('a.relate').attr('href');
+                                    if (link != undefined) {
+                                        var query = link.substring(link.indexOf("?") + 1, (link.indexOf('#') > 0 ? link.indexOf('#') : link.length));
+                                        var params = getParams(query);
+                                    } else {
+                                        var params = new Object();
+                                        params['nr'] = nodenr;
+                                        var listclasses = $('#' + listId).attr('class');
+                                        var p_result = listclasses.match(/parent_(\d+)/);
+                                        if (p_result != null) params['parent'] = p_result[1];
+                                        var r_result = listclasses.match(/role_(\w+)/);
+                                        if (r_result != null) params['role'] = r_result[1];
+                                        params['maydelete'] = $('#' + listId).hasClass("maydelete") ? "true" : "false";
+                                        params['unpublish'] = $('#' + listId).hasClass("unpublish") ? "true" : "false";
+                                    }
+                                    params['relation'] = newrel;
                                     $(ui.item).find('div.actions').load("${mm:link('/editors/actions.div.params.jspx')}", 
-                                        newparams, 
+                                        params, 
                                         function(){ 
                                             initEditme(this); 
                                         }
                                     );
-
-
                                 }
 
                                 $('#' + listId + '_log').html(data.responseText);
                                 clearMsg('#' + listId + '_log');
                             },
-                            error: function(data) {
-                                $('#' + listId + '_log').html(data.responseText);
+                            error: function(res, st) {
+                                $('#' + listId + '_log').prepend('<p class="err">' + st.toUpperCase() + ' ' + res.status + ' : ' + res.statusText + '</p>');
                             }
 
                         });

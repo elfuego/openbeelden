@@ -107,7 +107,6 @@
                   <mm:param name="maycreate">false</mm:param>
                   <mm:param name="unpublish">false</mm:param>
                   <mm:param name="search">false</mm:param>
-                  <!-- <mm:param name="sortable">false</mm:param> -->
                 </mm:include>
               </div>
 

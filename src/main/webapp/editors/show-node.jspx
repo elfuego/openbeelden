@@ -18,6 +18,16 @@
   <mm:import externid="nr" />
   <mm:import externid="fields"  />
 
+
+  <mm:escaper type="tagstripper" id="stripper">
+    <mm:param name="escapeamps" value="false" />
+  </mm:escaper>
+  <mm:escaper id="wrapper" type="substring">
+    <mm:param name="from" value="0" />
+    <mm:param name="to" value="48" />
+    <mm:param name="ellipsis" value="..." />
+  </mm:escaper>
+
   <mm:node number="$nr">
     <mm:nodeinfo type="type">
       <c:choose>
@@ -30,6 +40,13 @@
             <jsp:text> </jsp:text>
             <mm:field name="online"><mm:time format="dd MMM yyyy" /></mm:field>
             <mm:field name="author"><mm:isnotempty> by <mm:write /></mm:isnotempty></mm:field>
+             
+            <mm:hasnode number="${_node.owner}">
+              user: <mm:node number="${_node.owner}"><mm:field name="username" /></mm:node>
+            </mm:hasnode>
+            <mm:hasnode number="${_node.owner}" inverse="true">
+              user: ${_node.owner}
+            </mm:hasnode>
           </span>
         </c:when>
         
@@ -47,10 +64,10 @@
         </c:when>
         
         <c:when test="${_ eq 'images'}">
-          <span>
-            <c:set var="title"><mm:field name="title" /></c:set>
-            <oip:thumb alt="${title}" /> ${title}
-          </span>
+          <div class="images">
+            <oip:thumb alt="${_node.title}" /> 
+            <span><mm:field name="title" /></span>
+          </div>
         </c:when>
         
         <c:when test="${_ eq 'licenses'}">
@@ -88,7 +105,14 @@
           <div class="show-media">
             <c:set var="title"><mm:field name="title" /></c:set>
             <oip:thumb alt="${title}" /> ${title} (<mm:field name="language" />)<br />
-            <em>${fn:substringBefore(_, 'fragments')}</em>
+            <em>${fn:substringBefore(_, 'fragments')}</em> 
+            <br />user: 
+            <mm:hasnode number="${_node.owner}">
+              <mm:node number="${_node.owner}"><mm:field name="username" /></mm:node>
+            </mm:hasnode>
+            <mm:hasnode number="${_node.owner}" inverse="true">
+              ${_node.owner}
+            </mm:hasnode>
           </div>
         </c:when>
         
@@ -145,7 +169,7 @@
        
         <c:otherwise>
           <span> 
-            <mm:fieldlist type="${empty fields ? 'list' : ''}" fields="${fields}">
+            <mm:fieldlist type="list">
               <mm:fieldinfo type="value" /><jsp:text> </jsp:text>
             </mm:fieldlist>
           </span>

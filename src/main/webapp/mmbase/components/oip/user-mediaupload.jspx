@@ -54,7 +54,7 @@
               </fieldset>
               <fieldset class="hidden">
                 <mm:field name="mediaprovider">
-                  <mm:fieldinfo type="input" />
+                  <mm:fieldinfo type="input" /> 
                 </mm:field>
               </fieldset>
             </mm:createnode>

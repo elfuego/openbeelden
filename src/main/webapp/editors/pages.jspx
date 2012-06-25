@@ -22,96 +22,97 @@
       <mm:node id="p" number="$_node.number">
         <mm:hasalias name="pool_oip"><c:set var="isdefault" value="true" /></mm:hasalias>
       </mm:node>
-      
-      <div class="main-column">
-       <h2>Editor pages '<mm:field name="name" />'</h2>
-       <p>Pages in top navigation, drag and drop to reorder them.</p>
+      <mm:import id="minrank">${isdefault ? 'project manager' : 'portal manager'}</mm:import>
 
-        <!-- main pools node: the portal -->
-        <!-- <mm:include page="edit-node.jspx" referids="p?,_node@nr">
-          <mm:param name="fields">name,language,description</mm:param>
-        </mm:include> -->
-        
-          <h3>Pages in header</h3>
-          <mm:hasrelationmanager sourcemanager="pools" destinationmanager="pages" role="posrel">
-            <mm:include page="/editors/edit-list.jspx" referids="p?,_node@nr">
-              <mm:param name="editor">/editors/editor-pages.jspx</mm:param>
-              
-              <mm:param name="offset">0</mm:param>
-              <mm:param name="max">10</mm:param>
-              
-              <mm:param name="type">pages</mm:param>
-              <mm:param name="role">posrel</mm:param>
-              <mm:param name="dir">destination</mm:param>
-              
-              <mm:param name="unpublish">true</mm:param>
-              <mm:param name="search">false</mm:param>
-              <mm:param name="maycreate">false</mm:param>
-              <mm:param name="maydelete">true</mm:param>
-            </mm:include>
+      <div class="main-column">
+        <h2>Editor pages '<mm:field name="name" />'</h2>
  
-          </mm:hasrelationmanager> 
+        <mm:hasrank minvalue="$minrank" inverse="true">
+          <p class="msg grey">You're not allowed to edit this portal.</p>
+        </mm:hasrank>
+        <mm:hasrank minvalue="$minrank">
+        <p>Pages in top navigation, drag and drop to reorder them.</p>
+      
+        <h3>Pages in header</h3>
+        <mm:hasrelationmanager sourcemanager="pools" destinationmanager="pages" role="posrel">
+          <mm:include page="/editors/edit-list.jspx" referids="p?,_node@nr">
+            <mm:param name="editor">/editors/editor-pages.jspx</mm:param>
+            
+            <mm:param name="offset">0</mm:param>
+            <mm:param name="max">10</mm:param>
+            
+            <mm:param name="type">pages</mm:param>
+            <mm:param name="role">posrel</mm:param>
+            <mm:param name="dir">destination</mm:param>
+            
+            <mm:param name="unpublish">true</mm:param>
+            <mm:param name="search">false</mm:param>
+            <mm:param name="maycreate">false</mm:param>
+            <mm:param name="maydelete">false</mm:param>
+          </mm:include>
+  
+        </mm:hasrelationmanager> 
         
           
-          <!-- only default portal can add pages to footer -->
-          <!-- c:if test="${isdefault}" -->
-            <div class="wrap">
-              <h3>Pages in footer</h3>
-              <p>
-                Pages in footer, drag and drop to reorder them.<br />
-                With the search option all pages belonging to this portal 
-                can be found, also the unrelated.
-              </p>
+         <!-- only default portal can add pages to footer -->
+         <!-- c:if test="${isdefault}" -->
+           <div class="wrap">
+            <h3>Pages in footer</h3>
+            <p>
+              Pages in footer, drag and drop to reorder them.<br />
+              With the search option all pages belonging to this portal 
+              can be found, also the unrelated.
+            </p>
+ 
+            <mm:hasrelationmanager sourcemanager="pools" destinationmanager="pages" role="footerrel">
+              <mm:include page="/editors/edit-list.jspx" referids="p?,_node@nr">
+                <mm:param name="editor">/editors/editor-pages.jspx</mm:param>
+                
+                <!-- mm:param name="startpos">10</mm:param>
+                <mm:param name="endpos">100</mm:param -->
+                
+                <mm:param name="offset">0</mm:param>
+                <mm:param name="max">10</mm:param>
+                
+                <mm:param name="type">pages</mm:param>
+                <mm:param name="role">footerrel</mm:param>
+                <mm:param name="dir">destination</mm:param>
+
+                <mm:param name="unpublish">true</mm:param>
+                <mm:param name="maycreate">false</mm:param>
+                <mm:param name="maydelete">false</mm:param>
+                
+                <mm:param name="startnode">${p}</mm:param>
+
+              </mm:include>
+
+              <mm:import id="pos" reset="true">0</mm:import>
+              <mm:relatedcontainer path="footerrel,pages" searchdirs="destination"
+                fields="posrel.pos">
+                <mm:sortorder field="footerrel.pos" direction="UP" />
+                <mm:related>
+                  <mm:last>
+                    <mm:import id="pos" reset="true"><mm:field name="footerrel.pos" /></mm:import>
+                  </mm:last>
+                </mm:related>
+              </mm:relatedcontainer>
    
-              <mm:hasrelationmanager sourcemanager="pools" destinationmanager="pages" role="footerrel">
-                <mm:include page="/editors/edit-list.jspx" referids="p?,_node@nr">
-                  <mm:param name="editor">/editors/editor-pages.jspx</mm:param>
-                  
-                  <!-- mm:param name="startpos">10</mm:param>
-                  <mm:param name="endpos">100</mm:param -->
-                  
-                  <mm:param name="offset">0</mm:param>
-                  <mm:param name="max">10</mm:param>
-                  
-                  <mm:param name="type">pages</mm:param>
-                  <mm:param name="role">footerrel</mm:param>
-                  <mm:param name="dir">destination</mm:param>
+              <mm:link page="editor-pages.jspx" referids="p">
+                <mm:param name="pos">${pos == 0 ? 1 : pos + 1}</mm:param>
+                <p class="add">
+                  <a href="${_}">
+                    <fmt:message key="editors.add_type">
+                      <fmt:param><mm:nodeinfo type="guitype" nodetype="pages" escape="lowercase" /></fmt:param>
+                    </fmt:message>
+                  </a>
+                </p>
+              </mm:link>
+            </mm:hasrelationmanager>
 
-                  <mm:param name="unpublish">true</mm:param>
-                  <mm:param name="maycreate">false</mm:param>
-                  <mm:param name="maydelete">true</mm:param>
-                  
-                  <mm:param name="startnode">${p}</mm:param>
-
-                </mm:include>
-
-                <mm:import id="pos" reset="true">0</mm:import>
-                <mm:relatedcontainer path="footerrel,pages" searchdirs="destination"
-                  fields="posrel.pos">
-                  <mm:sortorder field="footerrel.pos" direction="UP" />
-                  <mm:related>
-                    <mm:last>
-                      <mm:import id="pos" reset="true"><mm:field name="footerrel.pos" /></mm:import>
-                    </mm:last>
-                  </mm:related>
-                </mm:relatedcontainer>
-     
-                <mm:link page="editor-pages.jspx" referids="p">
-                  <mm:param name="pos">${pos == 0 ? 1 : pos + 1}</mm:param>
-                  <p class="add">
-                    <a href="${_}">
-                      <fmt:message key="editors.add_type">
-                        <fmt:param><mm:nodeinfo type="guitype" nodetype="pages" escape="lowercase" /></fmt:param>
-                      </fmt:message>
-                    </a>
-                  </p>
-                </mm:link>
-              </mm:hasrelationmanager>
-
-
-              
-            </div>
+          </div>
           <!-- /c:if -->
+
+        </mm:hasrank>
 
       </div><!-- /.main-column -->
     </jsp:attribute>

@@ -46,8 +46,14 @@
 
               <mm:include page="edit-node.jspx" referids="p?,_node@nr" />
               
-              <h3>Taalversies</h3>
-              <mm:include page="/mmbase/components/oip/user-translations.jspx" referids="_node@n" />
+              <mm:import id="ttype"><mm:property nodemanager="$type" name="translations.builder" /></mm:import>
+              <mm:isempty referid="ttype"><mm:import id="ttype" reset="true">${type}_translations</mm:import></mm:isempty>
+              <mm:hasnodemanager name="$ttype">
+                <mm:hasrelationmanager sourcemanager="$type" destinationmanager="$ttype" role="langrel">
+                  <h3>Taalversies</h3>
+                  <mm:include page="/mmbase/components/oip/user-translations.jspx" referids="_node@n" />
+                </mm:hasrelationmanager>
+              </mm:hasnodemanager>
 
                 
               <mm:hasrelationmanager sourcemanager="$type" destinationmanager="articles" role="posrel">

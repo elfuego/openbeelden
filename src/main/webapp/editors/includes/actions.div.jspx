@@ -1,0 +1,70 @@
+﻿<div 
+    xmlns:jsp="http://java.sun.com/JSP/Page"
+    xmlns:c="http://java.sun.com/jsp/jstl/core"
+    xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+    xmlns:fmt="http://java.sun.com/jsp/jstl/fmt"
+    xmlns:mm="http://www.mmbase.org/mmbase-taglib-2.0"
+    class="actions">
+
+  
+  <!-- minimal: _node, parent, role, (relation) -->
+  
+  <c:choose>
+    <c:when test="${!empty relation}">
+      <c:set var="hash">#relation_${relation}</c:set>
+    </c:when>
+    <c:otherwise>
+      <c:set var="hash">#node_${_node}</c:set>
+    </c:otherwise>
+  </c:choose>
+  
+  <c:if test="${maydelete}">
+    <mm:maydelete>
+      <mm:link page="/editors/delete-node.jspx" 
+        referids="p?,_node@nr,relation?,fields?,parent?,role?,dir?,lang?,showform?,show?,editor?,maydelete?,unpublish?">
+        <a class="editme delete ${_node.owner}" title="delete ${_node.owner}" href="${_}${hash}"><fmt:message key="editors.delete" /></a>
+      </mm:link>
+    </mm:maydelete>
+  </c:if>
+  
+  <c:if test="${unpublish and !empty parent}">
+  
+    <mm:import id="mynode" reset="true">${_node}</mm:import>
+    <mm:listrelationscontainer role="${role}" type="object" searchdir="${dir eq 'source' ? 'destination' : 'source'}" >
+      <mm:addnode element="object" number="${parent}" />
+      <mm:sortorder field="${empty role ? 'insrel' : ''}${role}.number" direction="UP" />
+      <mm:listrelations>
+        <mm:node id="therel" />
+      </mm:listrelations>
+    </mm:listrelationscontainer>
+    <mm:node number="${therel}">
+      <mm:maydelete>
+        <c:set var="hash">#relation_${_node}</c:set>
+        <mm:link page="delete-relation.jspx" 
+          referids="p?,mynode@nr,_node@relation,fields?,parent,role,dir?,lang?,showform?,show?,editor?,maydelete?,unpublish?">
+          <a class="editme unrelate ${_node.owner}" 
+             title="unrelate ${_node.owner}" href="${_}${hash}">remove from list</a>
+        </mm:link>
+      </mm:maydelete>
+    </mm:node>
+
+  </c:if>
+  
+  <mm:maywrite>
+    <c:choose>
+      <c:when test="${fn:indexOf(editor, 'edit-') gt -1}"> <!-- editme -->
+        <mm:link page="$editor" 
+          referids="p?,_node@nr,relation?,fields?,parent?,role?,dir?,lang?,showform?,show?,editor?,maydelete?,unpublish?">
+          <a class="editme ${_node.owner}" title="edit ${_node.owner}" href="${_}${hash}"><fmt:message key="editors.edit" /></a>
+        </mm:link>
+      </c:when>
+      <c:otherwise>
+        <mm:link page="$editor" 
+          referids="p?,_node@nr,fields?,lang?">
+          <a class="edit" title="edit ${_node.owner}" href="${_}"><fmt:message key="editors.edit" /></a>
+        </mm:link>
+      </c:otherwise>
+    </c:choose>
+  </mm:maywrite>
+  
+</div>

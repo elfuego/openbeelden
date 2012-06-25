@@ -94,7 +94,7 @@
   <mm:offset value="$offset" />
   <mm:maxnumber value="$max" />
 
-  <table summary="Play statistics" border="0" cellspacing="0" cellpadding="3" class="stats">
+  <table summary="Play statistics" class="stats">
     <thead>
       <tr>
         <th class="number">#</th>
@@ -117,7 +117,7 @@
     </thead>
     <tfoot>
       <tr>
-        <th colspan="4">
+        <th colspan="99" class="pager">
           <oip:pager total="${total}" offset="${offset}" max="${max}" baseurl="${baseurl}" />
         </th>
       </tr>

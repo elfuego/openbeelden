@@ -19,35 +19,40 @@
     <jsp:attribute name="left" />
     <jsp:attribute name="body">
 
-  
+      <mm:import id="minrank">${isdefault ? 'project manager' : 'portal manager'}</mm:import>
+      
       <mm:node number="$p">
         <div class="main-column">
-          <h2>Uitgelicht : <mm:field name="name" id="portalName" /></h2>
+          
+          <mm:hasrank minvalue="$minrank">
     
-          <mm:relatednodescontainer type="pages" role="posrel" searchdirs="destination">
-            <mm:sortorder field="posrel.pos" direction="UP" />
-            <mm:maxnumber value="1" />
-            <mm:relatednodes>
-              
-              <h3>Homepage: <mm:field name="title" /></h3>
-              <p>
-                Zoek media items die op de portal startpagina uitgelicht moeten worden
-                en voeg ze toe aan de selectie hieronder.
-              </p>
-    
-              <mm:include page="/editors/edit-list.jspx" referids="p,_node@nr">
-                <mm:param name="lang">${requestScope['javax.servlet.jsp.jstl.fmt.locale.request']}</mm:param>
-                <mm:param name="type">mediafragments</mm:param>
-                <mm:param name="role">posrel</mm:param>
-                <mm:param name="editor">/editors/editor-media.jspx</mm:param>
-                <mm:param name="max">1</mm:param>
-                <mm:param name="maydelete">false</mm:param>
-                <mm:param name="unpublish">true</mm:param>
-                <mm:param name="maycreate">false</mm:param>
-              </mm:include>
-              
-            </mm:relatednodes>
-          </mm:relatednodescontainer> 
+            <h2>Uitgelicht : <mm:field name="name" id="portalName" /></h2>
+            <mm:relatednodescontainer type="pages" role="posrel" searchdirs="destination">
+              <mm:sortorder field="posrel.pos" direction="UP" />
+              <mm:maxnumber value="1" />
+              <mm:relatednodes>
+                
+                <mm:maywrite>
+                  <h3>Homepage: <mm:field name="title" /></h3>
+                  <p>
+                    Zoek media items die op de portal startpagina uitgelicht moeten worden
+                    en voeg ze toe aan de selectie hieronder.
+                  </p>
+                  <mm:include page="/editors/edit-list.jspx" referids="p,_node@nr">
+                    <mm:param name="lang">${requestScope['javax.servlet.jsp.jstl.fmt.locale.request']}</mm:param>
+                    <mm:param name="type">mediafragments</mm:param>
+                    <mm:param name="role">posrel</mm:param>
+                    <mm:param name="editor">/editors/editor-media.jspx</mm:param>
+                    <mm:param name="max">1</mm:param>
+                    <mm:param name="maydelete">false</mm:param>
+                    <mm:param name="unpublish">true</mm:param>
+                    <mm:param name="maycreate">false</mm:param>
+                  </mm:include>
+                </mm:maywrite>
+                
+              </mm:relatednodes>
+            </mm:relatednodescontainer>
+          </mm:hasrank>
     
         </div><!-- /.main-column -->
       </mm:node>

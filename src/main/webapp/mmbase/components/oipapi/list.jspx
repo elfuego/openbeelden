@@ -23,6 +23,10 @@
       <mm:hasnodemanager name="$type">
         <meta status="200">OK</meta>
         <mm:listnodescontainer type="$type">
+          <mm:sortorder field="number" direction="DOWN" />
+          <mm:hasfield name="show" nodetype="$type">
+            <mm:constraint field="show" value="true" operator="EQUAL" />
+          </mm:hasfield>
           <mm:maxnumber value="99" />
           <response>
             <type>${type}</type>
@@ -34,7 +38,7 @@
                   <c:set var="fieldname"><mm:fieldinfo type="name" /></c:set>
                   <c:if test="${fieldname ne 'handle'}">
                     <field name="${fieldname}">
-                      <mm:fieldinfo type="guivalue" />
+                      <mm:fieldinfo type="value" />
                     </field>
                   </c:if>
                 </mm:fieldlist>

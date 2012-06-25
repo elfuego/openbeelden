@@ -8,7 +8,6 @@
     language="${empty param.lang ? 'client' : param.lang}" 
     postprocessor="none">
 
-<jsp:directive.page buffer="64kb" />
 <jsp:output omit-xml-declaration="true" />
 
 <mm:cloud method="asis">
@@ -31,8 +30,8 @@
   <!-- show form after succesfull submit. default false while inline editing -->
   <mm:import externid="showform">${editme ? 'false' : 'true'}</mm:import>
   <mm:import externid="list">true</mm:import>
-  <mm:import externid="show">/editors/show-node.jspx</mm:import>
-  <mm:import externid="editor">/editors/edit-node.jspx</mm:import>
+  <mm:import externid="show">show-node.jspx</mm:import>
+  <mm:import externid="editor">edit-node.jspx</mm:import>
   <mm:import externid="maydelete">true</mm:import>
   <mm:import externid="unpublish">false</mm:import>
   <mm:import externid="maycancel">true</mm:import>
@@ -48,20 +47,17 @@
       <c:when test="${cancel eq 'Cancel'}">
         
         <mm:node number="$nr">
-          <jsp:directive.include file="actions.div.jspx" />
+          <jsp:directive.include file="includes/actions.div.jspx" />
         </mm:node>
         <div class="node">
-          <mm:include page="$show" referids="nr">
-            <mm:param name="fields">${fields}</mm:param>
-          </mm:include>
+          <mm:include page="$show" referids="nr,fields?" />
         </div>
         
       </c:when>
       <c:otherwise>
         
         <!-- contains all paramaters to be picked up again in javascript -->
-        <mm:url absolute="true" escapeamps="false" id="submit_link" write="false"
-          referids="nr,p?,relation?,fields?,lang?,parent?,role?,editme?,showform?,show?,editor?,maydelete?,unpublish?,maycancel?" />
+        <mm:url absolute="true" escapeamps="false" id="submit_link" write="false" referids="nr,p?" />
         <c:set var="formclass">${editme ? 'mm_form_editme' : ''}</c:set>
         <mm:form id="form_$nr" styleClass="$formclass" page="$submit_link">
         
@@ -91,11 +87,25 @@
               
               <mm:maywrite>
                 <fieldset class="buttons">
-                  <fmt:message key="users.form.save" var="button_save" />
-                  <fmt:message key="users.cancel" var="button_cancel" />
+          <!-- p?,relation?,fields?,lang?,parent?,role?,editme?,showform?,show?,editor?,maydelete?,unpublish?,maycancel?" --> 
+                  <input type="hidden" name="relation"  value="${relation}" />
+                  <input type="hidden" name="fields"    value="${fields}" />
+                  <input type="hidden" name="lang"      value="${lang}" />
+                  <input type="hidden" name="parent"    value="${parent}" />
+                  <input type="hidden" name="role"      value="${role}" />
+                  <input type="hidden" name="editme"    value="${editme}" />
+                  <input type="hidden" name="showform"  value="${showform}" />
+                  <input type="hidden" name="show"      value="${show}" />
+                  <input type="hidden" name="editor"    value="${editor}" />
+                  <input type="hidden" name="maydelete" value="${maydelete}" />
+                  <input type="hidden" name="unpublish" value="${unpublish}" />
+                  <input type="hidden" name="maycancel" value="${maycancel}" />
+
                   <c:if test="${editme and maycancel}">
+                    <fmt:message key="users.cancel" var="button_cancel" />
                     <input type="button" name="cancel" value="${button_cancel}" class="cancel" /> 
                   </c:if>
+                  <fmt:message key="users.form.save" var="button_save" />
                   <input type="submit" name="submit${nr}" value="${button_save}" class="submit" id="submit${nr}" />
                 </fieldset>
               </mm:maywrite>
@@ -104,20 +114,19 @@
             <mm:present referid="submit$nr">
               
               <mm:valid>
-                <mm:commit />
                 <c:choose>
                   <c:when test="${showform}">
+                    <mm:commit />
                     <p class="msg">Your changes to '<mm:function name="gui" escape="none" />' are saved.</p>
                     <mm:write referid="buffer" escape="none" />
                   </c:when>
                   <c:otherwise>
                     <mm:import id="saved">
                       <p class="msg">Your changes to '<mm:function name="gui" escape="none" />' are saved.</p>
-                      <jsp:directive.include file="actions.div.jspx" />
+                      <jsp:directive.include file="includes/actions.div.jspx" />
+                      <mm:commit />
                       <div class="node">
-                        <mm:include page="$show" referids="nr">
-                          <mm:param name="fields">${fields}</mm:param>
-                        </mm:include>
+                        <mm:include page="$show" referids="nr,fields?" />
                       </div>
                     </mm:import>
                   </c:otherwise>

@@ -5,17 +5,19 @@
     xmlns:mm="http://www.mmbase.org/mmbase-taglib-2.0"
     version="2.0">
 
-    
+
     <!-- piece with constraints etc. to include in query container -->
-    
     <c:if test="${!empty type and !empty search}">
       <mm:composite operator="OR">
         <mm:fieldlist nodetype="$type" type="search" varStatus="field">
-          <mm:write value="${field.current.dataType.class.name}">
+          <c:if test="${fn:indexOf(field.current.dataType.typeAsClass, 'java.lang.String') gt 0}">
+            <mm:constraint field="${field.current.name}" operator="LIKE" value="%${search}%" casesensitive="false" />
+          </c:if>
+          <!-- mm:write value="${field.current.dataType.class.name}">
             <mm:compare regexp="org\.mmbase\.datatypes\.(.*StringDataType|XmlDataType)">
               <mm:constraint field="${field.current.name}" operator="LIKE" value="%${search}%" casesensitive="false" />
             </mm:compare>
-          </mm:write>
+          </mm:write -->
         </mm:fieldlist>
         <mm:compare regexp="[0-9]+" referid="search">
           <mm:constraint field="number" value="${search}" />
@@ -23,8 +25,6 @@
       </mm:composite>
     </c:if>
   
-    <mm:import externid="so">down</mm:import>
-    <mm:import externid="sortby">number</mm:import>
     <!-- mm:fieldlist nodetype="$type" type="${empty fields ? 'edit' : ''}" fields="${fields}">
       <mm:first>
         <mm:notpresent referid="sortby"><mm:import externid="sortby"><mm:fieldinfo type="name" /></mm:import></mm:notpresent>
@@ -50,8 +50,7 @@
     <strong>
       Found ${total} <mm:nodeinfo type="plural_guitype" nodetype="$type" escape="lowercase" />
       <c:if test="${!empty search}"> with '${search}' </c:if>
-      ${sortdir}
     </strong>
-    <mm:import id="list_id" reset="true">found_${role}_${type}</mm:import>
+
 
 </jsp:root>

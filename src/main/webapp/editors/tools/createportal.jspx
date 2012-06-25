@@ -53,18 +53,34 @@
     
       <div class="main-column">
 
-        <!-- new portal node nr -->
         
+        <mm:hasrank minvalue="project manager">
+          <h2>Current portals</h2>
+          <ul>
+            <mm:listnodescontainer type="pools">
+              <mm:sortorder field="number" direction="UP" />
+              <mm:listnodes>
+                <li>
+                  <mm:link referids="_node@nr"><a href="${_}"><mm:field name="name" /></a></mm:link>
+                </li>
+              </mm:listnodes>
+            </mm:listnodescontainer>     
+          </ul>
+        
+          <p><a href="${mm:link('/editors/tools/createportal.jspx')}">Create new portal</a></p>
+        </mm:hasrank>
+        
+        <!-- new portal node nr -->
         <c:choose>
           <c:when test="${empty nr}">
-            <h2>New portal</h2>
+            <h3>New portal</h3>
             <p>Make and configure a new portal. You need to: 
               1. create a portal and give it a description; and 2. assign a portal manager (if needed).
             </p>
             <mm:include page="/editors/add-node.jspx">
               <mm:param name="type">pools</mm:param>
               <mm:param name="editor">/editors/tools/createportal.jspx</mm:param><!-- redirect back to this template with param nr -->
-              <mm:param name="fields">name,description</mm:param>
+              <mm:param name="fields">name</mm:param>
             </mm:include>
           </c:when>
           <c:otherwise>
@@ -87,9 +103,9 @@
                 <!-- check if already has manager -->                
                 <mm:relatednodescontainer type="mmbaseusers" role="portalrel" searchdirs="source">
                   <p>
-                  <mm:relatednodes>
-                    Current portal manager: <strong><mm:field name="username" /></strong>
-                    <mm:first inverse="true"><br /></mm:first>
+                  <mm:relatednodes varStatus="status">
+                    <mm:first> Current portal manager(s): </mm:first>
+                    <br /><strong><mm:field name="username" /></strong>
                     <c:set var="hasportalmanager" value="yes" />
                   </mm:relatednodes>
                   </p>

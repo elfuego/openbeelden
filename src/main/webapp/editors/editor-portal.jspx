@@ -23,6 +23,7 @@
       <mm:node id="p" number="$_node.number">
         <mm:hasalias name="pool_oip"><c:set var="isdefault" value="true" /></mm:hasalias>
       </mm:node>
+      <mm:import id="minrank">${isdefault ? 'project manager' : 'portal manager'}</mm:import>
 
     </jsp:attribute>
     <jsp:attribute name="body">
@@ -34,233 +35,243 @@
       <div class="main-column">
         <h2>Editor portal : <mm:field name="name" id="portalName" /></h2>
 
-        <c:if test="${! isdefault}">
-          <mm:relatednodescontainer type="images" role="portalrel" searchdirs="destination">
-            <mm:maxnumber value="1" />
-            <mm:relatednodes>
-              <mm:node id="portalimg" />
-              <mm:relation to="${p}" role="portalrel">
-                <mm:import id="relation">${_node}</mm:import>
-              </mm:relation>
-            </mm:relatednodes>
-          </mm:relatednodescontainer>
-
-          <div class="targetme" id="edit-picture">
-            <c:choose>
-              <c:when test="${empty portalimg}">
-                <div class="emptyimage"> <!-- empty --> </div>
-                <mm:link page="/editors/add-thumb.jspx" referids="p,_node@nr,relation?">
-                  <mm:param name="lang">${requestScope['javax.servlet.jsp.jstl.fmt.locale.request']}</mm:param>
-                  <mm:param name="role">portalrel</mm:param>
-                  <mm:param name="type">images</mm:param>
-                  <mm:param name="fields">handle</mm:param>
-                  <mm:param name="show">/editors/show-portallogo.jspx</mm:param>
-                  <mm:param name="editor">/editors/edit-thumb.jspx</mm:param>
-                  <mm:param name="defaultstr">title=Portal logo ${portalName}</mm:param>
-                  <mm:param name="maydelete">false</mm:param>
-                  <span class="links">
-                    <a class="editme add" href="${_}#edit-picture"><fmt:message key="users.add_image" /></a>
-                  </span>
-                </mm:link>
-              </c:when>
-              <c:otherwise>
-                <div id="relation_${relation}">
-                  <mm:include page="/editors/show-portallogo.jspx" referids="p,portalimg@nr" />
-                  
-                  <mm:node number="$portalimg">
-                    <mm:maywrite>
-                      <mm:link page="/editors/edit-thumb.jspx" referids="p,_node@nr,relation?">
-                        <mm:param name="lang">${requestScope['javax.servlet.jsp.jstl.fmt.locale.request']}</mm:param>
-                        <mm:param name="fields">handle</mm:param>
-                        <mm:param name="show">/editors/show-portallogo.jspx</mm:param>
-                        <mm:param name="editor">/editors/edit-thumb.jspx</mm:param>
-                        <mm:param name="maydelete">false</mm:param>
-                        <span class="links">
-                          <a class="editme" href="${_}#relation_${relation}"><fmt:message key="users.edit_image" /></a>
-                        </span>
-                      </mm:link>
-                    </mm:maywrite>
-                    <mm:maywrite inverse="true">
-                      <span class="links">Not allowed to edit image #${portalimg}.</span>
-                    </mm:maywrite>
-                  </mm:node>
-                </div>
-              </c:otherwise>
-            </c:choose>
-            
-          </div>
-        </c:if>
-        
-        <mm:import externid="submit_portal" />
-        <mm:url referids="p,lang?" write="false" absolute="true" escapeamps="false" id="submit_link" />
-
-        <mm:form id="form_portal" page="$submit_link">
-          <mm:node number="$p" commitonclose="false">
-            <mm:import id="editbuffer">
-              <fieldset>
-                <mm:fieldlist fields="name">
-                  <c:set var="fld_name"><mm:fieldinfo type="name" /></c:set>
-                  <div class="${fld_name}">
-                    <mm:fieldinfo type="forid">
-                      <label for="${_}" class="${fld_name}"><mm:fieldinfo type="guiname" /></label>
-                    </mm:fieldinfo>
-                    <p class="info">
-                      Naam of titel van dit portal. 
-                      <!-- <mm:fieldinfo type="description" escape="inline" /> -->
-                    </p>
-                    <mm:maywrite><mm:fieldinfo type="input" /><mm:fieldinfo type="errors" /></mm:maywrite>
-                  </div>
-                </mm:fieldlist>
-              </fieldset>
-              <fieldset class="buttons">
-                <fmt:message key="users.form.save" var="button_save" />
-                <input type="submit" name="submit_portal" value="${button_save}" class="submit" id="submit_portal" />
-              </fieldset>
-              
-              <div class="wrap languages">
-                <h3>Taalversies</h3>
-                <ul id="related_translations" class="relatednodes max_${fn:length(locales) - 1}">
-                  <li class="notsortable ${empty translation ? 'selected' : 'not'}">
-                    <mm:link referids="p">
-                      <a href="${_}"><mm:field name="language"><mm:fieldinfo type="guivalue" /></mm:field></a>
-                      : <mm:field name="name" />
-                    </mm:link>
-                  </li>
-                  <mm:relatednodescontainer type="pools_translations" role="langrel" searchdirs="destination">
-                    <mm:size id="total_trans" write="false" />
-                    <mm:relatednodes>
-                      <li class="${translation eq _node ? 'selected' : 'not'}">
-                        <mm:link referids="p,_node@translation">
-                          <a href="${_}">
-                            <mm:field name="language"><mm:fieldinfo type="guivalue" /></mm:field>
-                          </a> : <mm:field name="name" />
-                        </mm:link>
-                      </li>
-                    </mm:relatednodes>
-                  </mm:relatednodescontainer>
-                  <c:if test="${fn:length(locales) - 1 gt total_trans}">
-                    <li>
-                      <mm:link referids="p">
-                        <mm:param name="translation">${locales[0] eq _node.language ? locales[1] : locales[0]}</mm:param>
-                        <a href="${_}">Voeg vertaling toe</a>
-                      </mm:link>
-                    </li>
-                  </c:if>
-                </ul>
-              </div>        
-              <c:if test="${empty translation}">
-                <div class="box">
-                  <fieldset class="description">
-                    <p>Vul de gegevens van het portal in.</p>
-                    <mm:fieldlist fields="language,description">
-                      <c:set var="fld_name"><mm:fieldinfo type="name" /></c:set>
-                      <div class="${fld_name}">
-                        <mm:fieldinfo type="forid">
-                          <label for="${_}" class="${fld_name}"><mm:fieldinfo type="guiname" /></label>
-                        </mm:fieldinfo>
-                        <p class="info"><mm:fieldinfo type="description" escape="inline" /></p>
-                        <mm:maywrite><mm:fieldinfo type="input" /><mm:fieldinfo type="errors" /></mm:maywrite>
-                      </div>
-                    </mm:fieldlist>
-                  </fieldset>
-                  <fieldset class="buttons">
-                    <fmt:message key="users.form.save" var="button_save" />
-                    <input type="submit" name="submit_portal" value="${button_save}" class="submit" id="submit2_portal" />
-                  </fieldset>
-                </div><!-- /.box-->
-              </c:if>              
-            </mm:import>
-
-            <mm:present referid="submit_portal">
-              <mm:valid inverse="true">
-                <mm:cancel />
-                <p class="err">Er zit een fout in het formulier.</p>
-              </mm:valid>
-              <mm:valid>
-                <mm:commit />
-                <p class="msg">Je veranderingen aan '<mm:function name="gui" escape="none" />' zijn bewaard.</p>
-              </mm:valid>
-              <mm:write referid="editbuffer" escape="none" />
-            </mm:present>
-            <mm:notpresent referid="submit_portal">
-              <mm:write referid="editbuffer" escape="none" />
-            </mm:notpresent>  
-            
-          </mm:node>
-        </mm:form>
-
-        <mm:present referid="translation">
-          <mm:include page="translations.box.jspx" referids="p@nr,translation" />
-        </mm:present>
-
-        
-
-        <!-- homepage is very first one : contains partner logo's for footer -->
-        <mm:relatednodescontainer type="pages" role="posrel" searchdirs="destination">
-          <mm:sortorder field="posrel.pos" direction="UP" />
-          <mm:maxnumber value="1" />
-          <mm:relatednodes>
-            <mm:import id="homepage" reset="true"><mm:field name="number" /></mm:import>
-
-            <div class="wrap">
-              <h3>Logo's partners</h3>
-              <mm:include page="/editors/edit-list.jspx" referids="p,_node@nr">
-                <mm:param name="type">images</mm:param>
-                <mm:param name="role">posrel</mm:param>
-                <mm:param name="dir">destination</mm:param>
-                <mm:param name="fields">handle,title</mm:param>
-                <mm:param name="maydelete">true</mm:param>
-                <mm:param name="unpublish">false</mm:param>
-                <mm:param name="maycreate">false</mm:param>
-                <mm:param name="search">false</mm:param>
-                <mm:param name="editor">/editors/edit-partnerlogo.jspx</mm:param>
-                <mm:param name="show">/editors/show-partnerlogo.jspx</mm:param>
-              </mm:include>
-              <p class="add">
-                <mm:link page="/editors/edit-partnerlogo.jspx" referids="p">
-                  <mm:param name="pos">1</mm:param>
-                  <mm:param name="editor">/editors/edit-partnerlogo.jspx</mm:param>
-                  <mm:param name="show">/editors/show-partnerlogo.jspx</mm:param>
-                  <mm:param name="defaultstr">title=Portal logo ${portalName}</mm:param>
-                  <mm:param name="maydelete">true</mm:param>
-                  <a class="editme add" href="${_}#new_images">Add partnerlogo</a>
-                </mm:link>
-              </p>
-            </div>
-
-          </mm:relatednodes>
-        </mm:relatednodescontainer> 
-
-        
-        <!-- the default portal has no specific url nor a content filter -->
-        <c:if test="${!isdefault}">
-          <div class="wrap">
-            <h2>Filter : ${portalName}</h2>
-            <p>Portal filter with tags, keywords and users. Separate values with ;</p>
-            <mm:relatednodescontainer type="filters" role="portalrel" searchdirs="destination">
+        <mm:hasrank minvalue="$minrank" inverse="true">
+          <p class="msg grey">You're not allowed to edit this portal.</p>
+        </mm:hasrank>
+        <mm:hasrank minvalue="$minrank">
+          <c:if test="${! isdefault}">
+            <mm:relatednodescontainer type="images" role="portalrel" searchdirs="destination">
               <mm:maxnumber value="1" />
               <mm:relatednodes>
-                <c:set var="hasfilter" value="yes" />
-                <mm:include page="edit-node.jspx" referids="p?,_node@nr">
-                  <mm:param name="fields">users,tags,keywords</mm:param>
-                </mm:include>
+                <mm:node id="portalimg" />
+                <mm:relation to="${p}" role="portalrel">
+                  <mm:import id="relation">${_node}</mm:import>
+                </mm:relation>
               </mm:relatednodes>
             </mm:relatednodescontainer>
-            <c:if test="${empty hasfilter}">
-              <div id="add_filter"> <jsp:text> <!-- empty --> </jsp:text> </div>
-              <p class="add">
-                <mm:link page="/editors/add-node.jspx" referids="p?,_node@nr">
+  
+            <div class="targetme" id="edit-picture">
+              <c:choose>
+                <c:when test="${empty portalimg}">
+                  <div class="emptyimage"> <!-- empty --> </div>
+                  <mm:link page="/editors/add-thumb.jspx" referids="p,_node@nr,relation?">
+                    <mm:param name="lang">${requestScope['javax.servlet.jsp.jstl.fmt.locale.request']}</mm:param>
+                    <mm:param name="role">portalrel</mm:param>
+                    <mm:param name="type">images</mm:param>
+                    <mm:param name="fields">handle</mm:param>
+                    <mm:param name="show">/editors/show-portallogo.jspx</mm:param>
+                    <mm:param name="editor">/editors/edit-thumb.jspx</mm:param>
+                    <mm:param name="defaultstr">title=Portal logo ${portalName}</mm:param>
+                    <mm:param name="maydelete">false</mm:param>
+                    <span class="links">
+                      <a class="editme add" href="${_}#edit-picture"><fmt:message key="users.add_image" /></a>
+                    </span>
+                  </mm:link>
+                </c:when>
+                <c:otherwise>
+                  <div id="relation_${relation}">
+                    <mm:include page="/editors/show-portallogo.jspx" referids="p,portalimg@nr" />
+                    
+                    <mm:node number="$portalimg">
+                      <mm:maywrite>
+                        <mm:link page="/editors/edit-thumb.jspx" referids="p,_node@nr,relation?">
+                          <mm:param name="lang">${requestScope['javax.servlet.jsp.jstl.fmt.locale.request']}</mm:param>
+                          <mm:param name="fields">handle</mm:param>
+                          <mm:param name="show">/editors/show-portallogo.jspx</mm:param>
+                          <mm:param name="editor">/editors/edit-thumb.jspx</mm:param>
+                          <mm:param name="maydelete">false</mm:param>
+                          <span class="links">
+                            <a class="editme" href="${_}#relation_${relation}"><fmt:message key="users.edit_image" /></a>
+                          </span>
+                        </mm:link>
+                      </mm:maywrite>
+                      <mm:maywrite inverse="true">
+                        <span class="links">Not allowed to edit image #${portalimg}.</span>
+                      </mm:maywrite>
+                    </mm:node>
+                  </div>
+                </c:otherwise>
+              </c:choose>
+              
+            </div>
+          </c:if>
+          
+          <mm:import externid="submit_portal" />
+          <mm:url referids="p,lang?" write="false" absolute="true" escapeamps="false" id="submit_link" />
+  
+          <mm:form id="form_portal" page="$submit_link">
+            <mm:node number="$p" commitonclose="false">
+              <mm:import id="editbuffer">
+                <fieldset>
+                  <mm:fieldlist fields="name">
+                    <c:set var="fld_name"><mm:fieldinfo type="name" /></c:set>
+                    <div class="${fld_name}">
+                      <mm:fieldinfo type="forid">
+                        <label for="${_}" class="${fld_name}"><mm:fieldinfo type="guiname" /></label>
+                      </mm:fieldinfo>
+                      <p class="info">
+                        Naam of titel van dit portal. 
+                        <!-- <mm:fieldinfo type="description" escape="inline" /> -->
+                      </p>
+                      <mm:maywrite><mm:fieldinfo type="input" /><mm:fieldinfo type="errors" /></mm:maywrite>
+                    </div>
+                  </mm:fieldlist>
+                </fieldset>
+                <fieldset class="buttons">
+                  <fmt:message key="users.form.save" var="button_save" />
+                  <input type="submit" name="submit_portal" value="${button_save}" class="submit" id="submit_portal" />
+                </fieldset>
+                
+                <div class="wrap languages">
+                  <h3>Taalversies</h3>
+                  <ul id="related_translations" class="relatednodes max_${fn:length(locales) - 1}">
+                    <li class="notsortable ${empty translation ? 'selected' : 'not'}">
+                      <mm:link referids="p">
+                        <a href="${_}"><mm:field name="language"><mm:fieldinfo type="guivalue" /></mm:field></a>
+                        : <mm:field name="name" />
+                      </mm:link>
+                    </li>
+                    <mm:relatednodescontainer type="pools_translations" role="langrel" searchdirs="destination">
+                      <mm:size id="total_trans" write="false" />
+                      <mm:relatednodes>
+                        <li class="${translation eq _node ? 'selected' : 'not'}">
+                          <mm:link referids="p,_node@translation">
+                            <a href="${_}">
+                              <mm:field name="language"><mm:fieldinfo type="guivalue" /></mm:field>
+                            </a> : <mm:field name="name" />
+                          </mm:link>
+                        </li>
+                      </mm:relatednodes>
+                    </mm:relatednodescontainer>
+                    <c:if test="${fn:length(locales) - 1 gt total_trans}">
+                      <li>
+                        <mm:link referids="p">
+                          <mm:param name="translation">${locales[0] eq _node.language ? locales[1] : locales[0]}</mm:param>
+                          <a href="${_}">Voeg vertaling toe</a>
+                        </mm:link>
+                      </li>
+                    </c:if>
+                  </ul>
+                </div>        
+                <c:if test="${empty translation}">
+                  <div class="box">
+                    <fieldset class="description">
+                      <p>Vul de gegevens van het portal in.</p>
+                      <mm:fieldlist fields="language,description">
+                        <c:set var="fld_name"><mm:fieldinfo type="name" /></c:set>
+                        <div class="${fld_name}">
+                          <mm:fieldinfo type="forid">
+                            <label for="${_}" class="${fld_name}"><mm:fieldinfo type="guiname" /></label>
+                          </mm:fieldinfo>
+                          <p class="info"><mm:fieldinfo type="description" escape="inline" /></p>
+                          <mm:maywrite><mm:fieldinfo type="input" /><mm:fieldinfo type="errors" /></mm:maywrite>
+                        </div>
+                      </mm:fieldlist>
+                    </fieldset>
+                    <fieldset class="buttons">
+                      <fmt:message key="users.form.save" var="button_save" />
+                      <input type="submit" name="submit_portal" value="${button_save}" class="submit" id="submit2_portal" />
+                    </fieldset>
+                  </div><!-- /.box-->
+                </c:if>              
+              </mm:import>
+  
+              <mm:present referid="submit_portal">
+                <mm:valid inverse="true">
+                  <mm:cancel />
+                  <p class="err">Er zit een fout in het formulier.</p>
+                </mm:valid>
+                <mm:valid>
+                  <mm:commit />
+                  <p class="msg">Je veranderingen aan '<mm:function name="gui" escape="none" />' zijn bewaard.</p>
+                </mm:valid>
+                <mm:write referid="editbuffer" escape="none" />
+              </mm:present>
+              <mm:notpresent referid="submit_portal">
+                <mm:write referid="editbuffer" escape="none" />
+              </mm:notpresent>  
+              
+            </mm:node>
+          </mm:form>
+  
+          <mm:present referid="translation">
+            <mm:include page="translations.box.jspx" referids="p@nr,translation" />
+          </mm:present>
+  
+          
+  
+          <!-- homepage is very first one : contains partner logo's for footer -->
+          <mm:relatednodescontainer type="pages" role="posrel" searchdirs="destination">
+            <mm:sortorder field="posrel.pos" direction="UP" />
+            <mm:maxnumber value="1" />
+            <mm:relatednodes>
+              <mm:import id="homepage" reset="true"><mm:field name="number" /></mm:import>
+  
+              <div class="wrap">
+                <h3>Logo's partners</h3>
+                <mm:include page="/editors/edit-list.jspx" referids="p,_node@nr">
+                  <mm:param name="type">images</mm:param>
+                  <mm:param name="role">posrel</mm:param>
+                  <mm:param name="dir">destination</mm:param>
+                  <mm:param name="fields">handle,title</mm:param>
+                  <mm:param name="maydelete">true</mm:param>
+                  <mm:param name="unpublish">false</mm:param>
+                  <mm:param name="maycreate">false</mm:param>
+                  <mm:param name="search">false</mm:param>
+                  <mm:param name="editor">/editors/edit-partnerlogo.jspx</mm:param>
+                  <mm:param name="show">/editors/show-partnerlogo.jspx</mm:param>
+                </mm:include>
+                <p class="add">
+                  <mm:link page="/editors/edit-partnerlogo.jspx" referids="p">
+                    <mm:param name="pos">1</mm:param>
+                    <mm:param name="editor">/editors/edit-partnerlogo.jspx</mm:param>
+                    <mm:param name="show">/editors/show-partnerlogo.jspx</mm:param>
+                    <mm:param name="defaultstr">title=Portal logo ${portalName}</mm:param>
+                    <mm:param name="maydelete">true</mm:param>
+                    <a class="editme add" href="${_}#new_images">Add partnerlogo</a>
+                  </mm:link>
+                </p>
+              </div>
+  
+            </mm:relatednodes>
+          </mm:relatednodescontainer> 
+  
+          
+          <!-- the default portal has no specific url nor a content filter -->
+          <c:if test="${!isdefault}">
+            <div class="wrap">
+              <h3>Filter : ${portalName}</h3>
+              <p>Portal filter with tags, keywords and users. Separate values with ;</p>
+              <mm:relatednodescontainer type="filters" role="portalrel" searchdirs="destination">
+                <mm:maxnumber value="1" />
+                <mm:relatednodes>
+                  <c:set var="hasfilter" value="yes" />
+                  <mm:include page="edit-node.jspx" referids="_node@nr,p?">
+                    <mm:param name="fields">users,tags,keywords</mm:param>
+                  </mm:include>
+                </mm:relatednodes>
+              </mm:relatednodescontainer>
+              <c:if test="${empty hasfilter}">
+                
+                <mm:import externid="submitfilters" />
+                <c:if test="${empty submitfilters}">
+                  <p class="msg stay grey">
+                    This portal has currently <strong>no filter</strong> configured.
+                  </p>
+                  <p>Add a filter with the fields below.</p>
+                </c:if>
+  
+                <mm:include page="add-node.jspx" referids="_node@nr,p?">
                   <mm:param name="type">filters</mm:param>
                   <mm:param name="role">portalrel</mm:param>
                   <mm:param name="fields">users,tags,keywords</mm:param>
                   <mm:param name="defaultstr">name=Portal filter ${portalName}</mm:param>
-                  <a class="editme" href="${_}#add_filter">add filter</a>
-                </mm:link>
-              </p>
-            </c:if>
-          </div>
-        </c:if>
-        
+                </mm:include>
+  
+              </c:if>
+            </div>
+          </c:if>
+        </mm:hasrank>
 
       </div><!-- /.main-column -->
       <div class="right-column">

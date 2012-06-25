@@ -30,12 +30,16 @@
             from portal filter resulting Lucene query.
           </li>
           <li>
+            <a href="${mm:link('/editors/tools/createportal.jspx')}">Create and manage portals</a><br />
+            create and configure new portals and manage current ones.
+          </li>
+          <li>
             <a href="${mm:link('/editors/tools/stats.jspx')}">Stats</a><br />
             statistics or number of plays of media items.
           </li>
           <li>
-            <a href="${mm:link('/editors/tools/createportal.jspx')}">Manage portals</a><br />
-            create and configure new portals and manage current ones.
+            <a href="${mm:link('oscache.jspx')}">Cache</a><br />
+            flush cached content on home (or media search page if template media.oscache.jspx is used).
           </li>
           <li>
             <a href="${mm:link('/editors/tools/email.jspx')}">Email addresses</a><br />

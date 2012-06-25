@@ -54,7 +54,7 @@
 
 
               <mm:nodeinfo type="type" id="type" write="false" />   
-              <h2>Edit ${fn:endsWith(type, 'cache') ? 'transcoded' : 'source' }</h2>
+              <h2>Edit ${fn:endsWith(type, 'caches') ? 'transcoded' : 'source' } file</h2>
               <p>
                 The ${fn:endsWith(type, 'caches') ? 'transcoded' : 'source' } 
                 (<mm:function name="mimetype" />, 
@@ -286,7 +286,7 @@
                       </select>
                     </div>
 
-                    <mm:fieldlist fields="label,mediaprovider">
+                    <mm:fieldlist fields="label">
                       <c:set var="fld_name"><mm:fieldinfo type="name" /></c:set>
                       <div class="${fld_name}">
                         <mm:fieldinfo type="forid">
@@ -296,13 +296,34 @@
                         <mm:maywrite> <mm:fieldinfo type="input" /><mm:fieldinfo type="errors" /></mm:maywrite>
                       </div>
                     </mm:fieldlist>
+
+                    <mm:hasfield name="mediaprovider">
+                      <mm:fieldlist fields="mediaprovider">
+                        <c:set var="fld_name"><mm:fieldinfo type="name" /></c:set>
+                        <div class="${fld_name}">
+                          <mm:fieldinfo type="forid">
+                            <label for="${_}" class="${fld_name}"><mm:fieldinfo type="guiname" /></label>
+                          </mm:fieldinfo>
+                          <p class="info"><mm:fieldinfo type="description" escape="inline" /></p>
+                          <mm:maywrite> <mm:fieldinfo type="input" /><mm:fieldinfo type="errors" /></mm:maywrite>
+                        </div>
+                      </mm:fieldlist>
+                    </mm:hasfield>
+                  
                   </fieldset>
 
 
                   <!-- mimetype,format,codec,bitrate,length,filesize,filelastmodified,label,channels -->
                   <mm:import id="filelastmodified" reset="true"><mm:field name="filelastmodified"><mm:fieldinfo type="guivalue" /></mm:field></mm:import>
+                  
+                  <mm:hasfield name="mimetype">
+                    <mm:import id="valuesfields">mimetype,format,codec,bitrate,length,filesize,filelastmodified,channels</mm:import>
+                  </mm:hasfield>
+                  <mm:hasfield name="mimetype" inverse="true">
+                    <mm:import id="valuesfields">format,codec,bitrate,length,filesize,filelastmodified,channels</mm:import>
+                  </mm:hasfield>
                   <fieldset class="values">
-                    <mm:fieldlist fields="mimetype,format,codec,bitrate,length,filesize,filelastmodified,channels">
+                    <mm:fieldlist fields="$valuesfields">
                       <c:set var="fld_name"><mm:fieldinfo type="name" /></c:set>
                       <div class="${fld_name}">
                         <mm:fieldinfo type="forid">
@@ -415,53 +436,60 @@
           </li>
           <li>
             <mm:function name="url">
-              <a class="_blank" href="${_}">View or download</a>
-            </mm:function>
-             <oip:filesubstr filename="${_node.url}" length="32" />
+              <a class="_blank" href="${_}">View or download</a> 
+            </mm:function> 
+            <oip:filesubstr filename="${_node.url}" length="32" />
           </li>
-          <li>
-            <mm:link referids="p?,nr,source?">
-              <mm:param name="streaminfo">update</mm:param>
-              <a href="${_}">Update</a> stream info
-            </mm:link>
-          </li>
-          <c:choose>
-            <c:when test="${fn:endsWith(type, 'caches')}">
-              <mm:link referids="p?,nr,_node@triggercaches">
-                <li><a href="${_}">Retrigger</a> this cache</li>
-              </mm:link>
-            </c:when>
-            <c:otherwise>
-              <mm:link referids="p?,nr">
-                <mm:param name="triggercaches">all</mm:param>
-                <li><a href="${_}">Retrigger</a> all caches</li>
-              </mm:link>
-            </c:otherwise>
-          </c:choose>
           <li><mm:link page="list.jspx" referids="type"><a href="${_}">List</a></mm:link></li>
         </ul>
         
+        <c:if test="${fn:indexOf(type, 'stream') gt -1}">
+          <h4>Transcoding</h4>
 
-        <c:if test="${!empty mediafragment and nr eq source}">
-          <h4>Retranscode streams</h4>
-          <mm:node number="$mediafragment">
-            <mm:relatednodescontainer type="mediasources" role="related" searchdirs="destination">
-              <ul>
-              <mm:relatednodes>
-                <mm:hasfield name="title" inverse="true">
-                  <li>
-                     <strong><mm:field name="state"><mm:fieldinfo type="guivalue" escape="lowercase" /></mm:field> </strong>
-                     <mm:link referids="p?,nr,_node@triggercaches"><a href="${_}">[recache]</a></mm:link> 
-                     <mm:link referids="p?,_node@nr">
-                       <a href="${_}"><mm:function name="mimetype" /></a>
-                       ${_node.label}
-                     </mm:link>
-                  </li>
-                </mm:hasfield>
-              </mm:relatednodes>
-              </ul>
-            </mm:relatednodescontainer>
-          </mm:node>
+          <ul>
+            <li>
+              <mm:link referids="p?,nr,source?">
+                <mm:param name="streaminfo">update</mm:param>
+                <a href="${_}">Update</a> stream info
+              </mm:link>
+            </li>
+            <c:choose>
+              <c:when test="${fn:endsWith(type, 'caches')}">
+                <mm:link referids="p?,nr,_node@triggercaches">
+                  <li><a href="${_}">Retrigger</a> this cache</li>
+                </mm:link>
+              </c:when>
+              <c:otherwise>
+                
+                <li>
+                  <mm:link referids="p?,nr">
+                    <mm:param name="triggercaches">all</mm:param>
+                    <a href="${_}">Retrigger</a> all caches
+                  </mm:link>
+                  
+                  <mm:node number="$mediafragment">
+                    <mm:relatednodescontainer type="mediasources" role="related" searchdirs="destination">
+                      <ul>
+                      <mm:relatednodes>
+                        <mm:hasfield name="title" inverse="true">
+                          <li>
+                            <strong><mm:field name="state"><mm:fieldinfo type="guivalue" escape="lowercase" /></mm:field> </strong>
+                            <mm:link referids="p?,nr,_node@triggercaches"><a href="${_}">[recache]</a></mm:link> 
+                            <mm:link referids="p?,_node@nr">
+                              <a href="${_}"><mm:function name="mimetype" /></a>
+                              ${_node.label}
+                            </mm:link>
+                          </li>
+                        </mm:hasfield>
+                      </mm:relatednodes>
+                      </ul>
+                    </mm:relatednodescontainer>
+                  </mm:node>
+                </li>
+              </c:otherwise>
+            </c:choose>
+
+          </ul>
         </c:if>
                 
       

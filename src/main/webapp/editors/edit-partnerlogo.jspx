@@ -129,7 +129,7 @@
               <mm:import id="relation" reset="true">${_node}</mm:import>
             </mm:relation>
             <div class="node_created edit_${_node} relation_${relation}">
-              <jsp:directive.include file="actions.div.jspx" />
+              <jsp:directive.include file="includes/actions.div.jspx" />
               <div class="node">
                 <mm:include page="$show" referids="_node@nr">
                   <mm:param name="fields">${fields}</mm:param>
@@ -151,7 +151,7 @@
           <mm:relation to="${homepage}" role="posrel" from="${_node}">
             <mm:import id="relation" reset="true">${_node}</mm:import>
           </mm:relation>
-          <jsp:directive.include file="actions.div.jspx" /> 
+          <jsp:directive.include file="includes/actions.div.jspx" /> 
           <div class="node">
             <mm:include page="$show" referids="nr" />
           </div>
@@ -219,7 +219,7 @@
                   <mm:relation to="${homepage}" role="${posrel}" from="${_node}">
                     <mm:import id="relation" reset="true">${_node}</mm:import>
                   </mm:relation>
-                  <jsp:directive.include file="actions.div.jspx" /> 
+                  <jsp:directive.include file="includes/actions.div.jspx" /> 
                   <div class="node">
                     <mm:include page="$show" referids="nr" />
                   </div>

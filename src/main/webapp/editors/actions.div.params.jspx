@@ -23,8 +23,8 @@
   <mm:import externid="parent" />
   <mm:import externid="role">related</mm:import>
   
-  <mm:import externid="show">/editors/show-node.jspx</mm:import>
-  <mm:import externid="editor">/editors/edit-node.jspx</mm:import>
+  <mm:import externid="show">show-node.jspx</mm:import>
+  <mm:import externid="editor">edit-node.jspx</mm:import>
   <mm:import externid="maydelete">true</mm:import>
   <mm:import externid="unpublish">false</mm:import>
     
@@ -34,7 +34,7 @@
   
   <mm:node number="$nr">
     <!-- parent: ${parent} role : ${role} up: ${unpublish} -->
-    <jsp:directive.include file="actions.div.jspx" />
+    <jsp:directive.include file="includes/actions.div.jspx" />
   </mm:node>
   
 

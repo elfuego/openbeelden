@@ -7,7 +7,7 @@
     expires="0" type="text/html" 
     language="${empty param.lang ? 'client' : param.lang}">
 
-<jsp:output omit-xml-declaration="true" />
+  <jsp:output omit-xml-declaration="true" />
 
   <mm:cloud method="asis">
 
@@ -16,7 +16,10 @@
     <mm:import externid="p" /><!-- portal -->
     <mm:import externid="type" required="true" /><!-- type of new node to create -->
     <mm:import externid="fields" />
-    <mm:import externid="lang" />
+    <!-- user interface language -->
+    <mm:import externid="lang">${requestScope['javax.servlet.jsp.jstl.fmt.locale.request']}</mm:import>
+    <!-- preferred value for field language -->
+    <mm:import externid="language" />
 
     <!-- if we have nr and role, a relation will be made with nr -->
     <mm:import externid="nr" /><!-- node to create relation with -->
@@ -24,8 +27,7 @@
     <mm:import externid="dir">destination</mm:import>
     <mm:import externid="pos" />
 
-    <!-- supports one default (string) value f.e. 'name=Test value', 
-         with name being the fieldname your -->
+    <!-- supports one default (string) value f.e. 'name=Test value' -->
     <mm:import externid="defaultstr" />
     <mm:escaper referid="urlparam" inverse="true" id="undo" />
     <c:if test="${!empty defaultstr}">
@@ -38,18 +40,19 @@
     <mm:import externid="cancel" />
 
     <mm:import externid="editme">false</mm:import>
-    <mm:import externid="show">/editors/show-thumb.jspx</mm:import>
-    <mm:import externid="showform" /><!-- show form (true) again after save (default false) -->
-    <mm:import externid="editor">/editors/edit-thumb.jspx</mm:import>
+    <mm:import externid="show">show-thumb.jspx</mm:import>
+    <mm:import externid="showform">${editme ? '' : 'true'}</mm:import><!-- show form (true) again after save (default false) -->
+    <mm:import externid="editor">edit-thumb.jspx</mm:import>
     <mm:import externid="maydelete">true</mm:import>
     <mm:import externid="unpublish">false</mm:import>
+    <mm:import externid="maycancel">true</mm:import>
 
     <c:choose>
       <c:when test="${cancel eq 'Cancel'}">
         
         <mm:include page="$show" referids="nr,fields?" />
         <mm:node number="$nr">
-          <mm:link page="/editors/add-thumb.jspx" 
+          <mm:link page="add-thumb.jspx" 
             referids="p?,_node@nr,role,dir,pos?,type,show,editor,fields,defaultstr,maydelete,unpublish">
             <mm:param name="lang">${requestScope['javax.servlet.jsp.jstl.fmt.locale.request']}</mm:param>
             <span class="links">
@@ -68,8 +71,8 @@
         </c:if>
 
         <mm:url write="false" absolute="true" escapeamps="false" id="submit_link"
-          referids="nr,type,p?,lang?,relation?,role?,dir?,pos?,fields?,show?,showform?,maydelete?,unpublish?,editor?"></mm:url>
-        <mm:form id="form_$type" styleClass="mm_form_editme" page="$submit_link">
+          referids="nr,type,defaultstr?,p?,relation?,fields?,lang?,parent?,role?,dir?,pos?,editme?,showform?,show?,editor?,maydelete?,unpublish?" />
+        <mm:form styleClass="mm_form_editme" id="form_$type" page="$submit_link">
           <mm:import id="buffer">
 
             <mm:createnode type="$type" id="new_node" commitonclose="false">
@@ -78,8 +81,8 @@
 
               <fieldset>
                 <mm:fieldlist type="${empty fields ? 'edit' : ''}" fields="${fields}">
-                  <div>
-                    <c:set var="fld_name"><mm:fieldinfo type="name" /></c:set>
+                  <c:set var="fld_name"><mm:fieldinfo type="name" /></c:set>
+                  <div class="${fld_name}">
                     <mm:fieldinfo type="forid">
                       <label for="${_}" class="${fld_name}"><mm:fieldinfo type="guiname" /></label>
                     </mm:fieldinfo>
@@ -98,15 +101,15 @@
               <fieldset class="buttons">
                 <input name="defaultstr" type="hidden" value="${defaultstr}" />
                 <input name="submit${type}" type="hidden" value="submit" />
-                <fmt:message key="users.cancel" var="button_cancel" />
-                <fmt:message key="users.form.save" var="button_save" />
-                <c:if test="${editme eq 'true'}">
+                <c:if test="${editme and maycancel}">
+                  <fmt:message key="users.cancel" var="button_cancel" />
                   <input type="button" name="cancel" value="${button_cancel}" class="cancel" />
                 </c:if>
+                <fmt:message key="users.form.save" var="button_save" />
                 <input type="submit" name="action" value="${button_save}" class="submit" />
               </fieldset>
             </mm:createnode>
-          </mm:import>
+          </mm:import><!-- /buffer -->
 
           <mm:present referid="submit$type">
 
