@@ -156,6 +156,7 @@
               <mm:node number="$p" notfound="skip">
                 <mm:hasalias name="pool_oip"><c:set var="isdefault" value="true" /></mm:hasalias>
               </mm:node>
+              <mm:import id="minrank">${isdefault ? 'project manager' : 'portal manager'}</mm:import>
 
               <c:set var="img"><div class="emptyimage"><!-- empty --></div></c:set>
               <mm:relatednodes role="portalrel" type="images" max="1">
@@ -171,15 +172,22 @@
             <div id="menu">
               <ul class="main">
 
-                <li>
-                  <mm:link page="/editors/" referids="p?"><a href="${_}">Uitgelicht</a></mm:link>
-                </li>
-                <li>
-                  <mm:link page="/editors/pages.jspx" referids="p"><a href="${_}">Pagina's</a></mm:link>
-                </li>
-                <li>
-                  <mm:link page="/editors/editor-portal.jspx" referids="p"><a href="${_}">Portal</a></mm:link>
-                </li>
+                <mm:hasrank minvalue="$minrank">
+                  <mm:node number="$p">
+                    <mm:maywrite>
+                      <li>
+                        <mm:link page="/editors/" referids="p?"><a href="${_}">Uitgelicht</a></mm:link>
+                      </li>
+                      <li>
+                        <mm:link page="/editors/pages.jspx" referids="p"><a href="${_}">Pagina's</a></mm:link>
+                      </li>
+                      <li>
+                        <mm:link page="/editors/editor-portal.jspx" referids="p"><a href="${_}">Portal</a></mm:link>
+                      </li>
+                    </mm:maywrite>
+                  </mm:node>
+                </mm:hasrank>
+                
                 <li>
                   <mm:link page="/editors/list.jspx" referids="p?"><a href="${_}">Media</a></mm:link>
                 </li>
@@ -188,12 +196,6 @@
                   <li>
                     <mm:link page="/editors/portal-config.jspx" referids="p?"><a href="${_}">Instellingen</a></mm:link>
                   </li>
-                  <!-- <li>
-                    <mm:link page="/editors/list.jspx" referids="p?">
-                      <mm:param name="type">mmbaseusers</mm:param>
-                      <a href="${_}">Users</a>
-                    </mm:link>
-                  </li> -->
                   <li>
                     <a href="${mm:link('/editors/tools/tools.jspx')}">Tools</a>
                   </li>
@@ -203,137 +205,26 @@
             </div>
   
             <div class="left-column">
-
-              <!-- <mm:hasrank minvalue="project manager">
-                <mm:listcontainer path="pools,portalrel,urls" searchdirs="destination" fields="pools.number,urls.url">
-                  <h2>Portals</h2>
-                  <ul class="portals">
-                    <mm:listnodescontainer type="pools">
-                      <mm:listnodes>
-                        <li>
-                          <mm:link page="/editors/index.jspx" referids="_node@p">
-                            <a href="${_}"><mm:field name="name" /></a>
-                          </mm:link>
-                        </li>
-                      </mm:listnodes>
-                    </mm:listnodescontainer>
-                  </ul>
-                </mm:listcontainer>
-              </mm:hasrank> -->
-              <!-- <mm:hasrank minvalue="project manager" inverse="true">
-                <ul class="portals">
-                  <li>
-                    <mm:link page="/editors/index.jspx" referids="_node@p">
-                      <a href="${_}"><mm:field name="name" /></a>
-                    </mm:link>
-                  </li>
-                </ul>
-              </mm:hasrank> -->
-
-              <!-- news page related to template 'template_news' -->
-              <!-- <mm:relatednodescontainer type="pages" role="posrel" searchdirs="destination">
-                <mm:constraint field="template" value="template_news" operator="EQUAL" />
-                <mm:relatednodes>
-                  <h3>News</h3>
-                  <ul>
-                    <li>
-                      <mm:link referids="_node@nr,p" page="/editors/pages.jspx">
-                        <a href="${_}"><mm:field name="title" /></a>
-                      </mm:link>
-                    </li>
-                  </ul>
-                </mm:relatednodes>
-              </mm:relatednodescontainer>
-
-              <h2>Pages</h2>
-              <mm:relatednodescontainer type="pages" role="posrel" searchdirs="destination">
-                <mm:sortorder field="posrel.pos" direction="UP" />
-                <ul>
-                  <mm:relatednodes>
-                    <mm:link referids="_node@nr,p" page="/editors/pages.jspx">
-                      <li><a href="${_}"><mm:field name="title" /></a></li>
-                    </mm:link>
-                  </mm:relatednodes>
-                </ul>
-              </mm:relatednodescontainer> -->
-                
               <jsp:invoke fragment="left" />
-              
             </div>
-
   
             <jsp:invoke fragment="body"  />
 
             <div class="right-column">
-              <!-- mm:hasrank minvalue="project manager">
-                <ul>
-                  <li>
-                    <mm:link page="/editors/pages.jspx" referids="p">
-                      <a href="${_}">Pages</a>
-                    </mm:link>
-                  </li>
-                  <li>
-                    <mm:link page="/editors/list.jspx">
-                      <a href="${_}">Media</a>
-                    </mm:link>
-                  </li>
-                  <li>
-                    <mm:link page="/editors/list.jspx">
-                      <mm:param name="type">mmbaseusers</mm:param>
-                      <a href="${_}">Users</a>
-                    </mm:link>
-                  </li>
-                  <li>
-                    <mm:link page="/editors/list.jspx">
-                      <mm:param name="type">tags</mm:param>
-                      <a href="${_}">Tags</a>
-                    </mm:link>
-                  </li>
-                  <li>
-                    <mm:link page="/editors/list.jspx">
-                      <mm:param name="type">licenses</mm:param>
-                      <a href="${_}">Licenses</a>
-                    </mm:link>
-                  </li>
-                  <li>
-                    <mm:link page="/editors/list.jspx">
-                      <mm:param name="type">articles</mm:param>
-                      <a href="${_}">Articles</a>
-                    </mm:link>
-                  </li>
-                  <li>
-                    <mm:link page="/editors/list.jspx">
-                      <mm:param name="type">images</mm:param>
-                      <a href="${_}">Images</a>
-                    </mm:link>
-                  </li>
-                  <li>
-                    <mm:link page="/editors/list.jspx">
-                      <mm:param name="type">urls</mm:param>
-                      <a href="${_}">Links</a>
-                    </mm:link>
-                  </li>
-                  <li>
-                    <mm:link page="/editors/list.jspx">
-                      <mm:param name="type">attachments</mm:param>
-                      <a href="${_}">Files</a>
-                    </mm:link>
-                  </li>
-
-                </ul>
-              </mm:hasrank -->
-
               <jsp:invoke fragment="right" />
             </div>
               
           </div>
           <div id="footer">
             <div>
-            <ul>
-              <li>
-                <mm:link page="/editors/" referids="p?"><a href="${_}">editors home</a></mm:link>
-              </li>
-            </ul>
+              <ul>
+                <li>
+                  <mm:link page="/editors/" referids="p?"><a href="${_}">home</a></mm:link>
+                </li>
+                <li>
+                  <mm:link page="/editors/list.jspx" referids="p?"><a href="${_}">media</a></mm:link>
+                </li>
+              </ul>
             </div>
           </div>
 
