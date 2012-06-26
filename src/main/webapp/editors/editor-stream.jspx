@@ -185,8 +185,8 @@
 
             <!-- ### form ### -->
             <mm:url referids="p?,nr,lang?" write="false" absolute="true" escapeamps="false" id="submit_link" />
-            <mm:form id="form_$nr" page="$submit_link">
-              <mm:node number="$nr" commitonclose="false">
+            <mm:node number="$nr">
+              <mm:form id="form_$nr" page="$submit_link">
                 <mm:import id="buffer">
 
 
@@ -389,8 +389,8 @@
                   <mm:commit />
                 </c:if>
                 
-              </mm:node>
-            </mm:form>
+              </mm:form>
+            </mm:node>
 
   
             <c:if test="${! fn:endsWith(type, 'caches')}">

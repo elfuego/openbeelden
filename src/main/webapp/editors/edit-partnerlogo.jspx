@@ -159,8 +159,8 @@
       </c:when>
       <c:otherwise>
     
-        <mm:form id="form_$nr" styleClass="${editme ? 'mm_form_editme' : ''}" page="$submit_link">
-          <mm:node number="$nr" commitonclose="false">
+          <mm:node number="$nr">
+          <mm:form id="form_$nr" styleClass="${editme ? 'mm_form_editme' : ''}" page="$submit_link">
             <mm:import id="editbuffer">
               <a class="cancel" href="#close"><fmt:message key="users.cancel" /></a>
               <strong>Partner logo <mm:field name="title" /></strong>
@@ -233,8 +233,8 @@
 
             </mm:present>
             
-          </mm:node>
-        </mm:form>
+          </mm:form>
+        </mm:node>
         
         <c:if test="${!empty saved}">
           <mm:write referid="saved" escape="none" />

@@ -47,30 +47,58 @@ translates to: +(someField:bar someField:baz) +anotherField:foo
       <mm:relatednodes>
         <mm:field name="users" escape="none">
           <mm:isnotempty>
-            <c:forTokens items="${_}" delims=";" var="usr">
-              <mm:listnodescontainer type="mmbaseusers">
-                <mm:constraint field="number"   value="${managernr}"    operator="EQUAL" inverse="true" />
-                <mm:constraint field="username" value="${fn:trim(usr)}" operator="EQUAL" />
-                <mm:maxnumber value="1" />
-                <mm:listnodes>
-                  <c:set var="p_users">${p_users}<jsp:text> </jsp:text>powner:"<mm:field name="number" />"</c:set>
-                </mm:listnodes>
-              </mm:listnodescontainer>              
-            </c:forTokens>
+            <c:choose>
+              <c:when test="${fn:indexOf(_, ';') gt -1}">
+                <c:forTokens items="${_}" delims=";" var="usr">
+                  <mm:listnodescontainer type="mmbaseusers">
+                    <mm:constraint field="number"   value="${managernr}"    operator="EQUAL" inverse="true" />
+                    <mm:constraint field="username" value="${fn:trim(usr)}" operator="EQUAL" />
+                    <mm:maxnumber value="1" />
+                    <mm:listnodes>
+                      <c:set var="p_users">${p_users}<jsp:text> </jsp:text>powner:"<mm:field name="number" />"</c:set>
+                    </mm:listnodes>
+                  </mm:listnodescontainer>              
+                </c:forTokens>
+              </c:when>
+              <c:otherwise>
+                <mm:listnodescontainer type="mmbaseusers">
+                  <mm:constraint field="number"   value="${managernr}"  operator="EQUAL" inverse="true" />
+                  <mm:constraint field="username" value="${fn:trim(_)}" operator="EQUAL" />
+                  <mm:maxnumber value="1" />
+                  <mm:listnodes>
+                    <c:set var="p_users">${p_users}<jsp:text> </jsp:text>powner:"<mm:field name="number" />"</c:set>
+                  </mm:listnodes>
+                </mm:listnodescontainer>              
+              </c:otherwise>
+            </c:choose>
           </mm:isnotempty>
         </mm:field>
         <mm:field name="keywords" escape="none">
           <mm:isnotempty>
-            <c:forTokens items="${_}" delims=";" var="kw">
-              <c:set var="p_keywords">${p_keywords}<jsp:text> </jsp:text>pkeywords:"<c:out value="${fn:trim(kw)}" />"</c:set>
-            </c:forTokens>
+            <c:choose>
+              <c:when test="${fn:indexOf(_, ';') gt -1}">
+                <c:forTokens items="${_}" delims=";" var="kw">
+                  <c:set var="p_keywords">${p_keywords}<jsp:text> </jsp:text>pkeywords:"<c:out value="${fn:trim(kw)}" />"</c:set>
+                </c:forTokens>
+              </c:when>
+              <c:otherwise>
+                <c:set var="p_keywords"><jsp:text> </jsp:text>pkeywords:"<c:out value="${fn:trim(_)}" />"</c:set>
+              </c:otherwise>
+            </c:choose>
           </mm:isnotempty>
         </mm:field>
         <mm:field name="tags" escape="none">
           <mm:isnotempty>
-            <c:forTokens items="${_}" delims=";" var="tag">
-              <c:set var="p_tags">${p_tags}<jsp:text> </jsp:text>ptags:"<c:out value="${fn:trim(tag)}" />"</c:set>
-            </c:forTokens>
+            <c:choose>
+              <c:when test="${fn:indexOf(_, ';') gt -1}">
+                <c:forTokens items="${_}" delims=";" var="tag">
+                  <c:set var="p_tags">${p_tags}<jsp:text> </jsp:text>ptags:"<c:out value="${fn:trim(tag)}" />"</c:set>
+                </c:forTokens>
+              </c:when>
+              <c:otherwise>
+                <c:set var="p_tags"><jsp:text> </jsp:text>ptags:"<c:out value="${fn:trim(_)}" />"</c:set>
+              </c:otherwise>
+            </c:choose>           
           </mm:isnotempty>
         </mm:field>
     

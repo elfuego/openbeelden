@@ -155,8 +155,8 @@
         
           <mm:url referids="p?,nr,lang?" write="false" absolute="true" escapeamps="false" id="submit_link"></mm:url>
 
-          <mm:form id="form_article" page="$submit_link">
-            <mm:node number="$nr" commitonclose="false">
+          <mm:node number="$nr">
+            <mm:form id="form_article" page="$submit_link">
               <mm:import id="editbuffer">
                 <fieldset>
                   <mm:fieldlist fields="title">
@@ -252,9 +252,9 @@
               <mm:notpresent referid="submit$nr">
                 <mm:write referid="editbuffer" escape="none" />
               </mm:notpresent>
-            </mm:node>
 
-          </mm:form>
+            </mm:form>
+          </mm:node>
 
           <mm:present referid="translation">
             <mm:include page="translations.box.jspx" referids="p?,nr,translation" />

@@ -107,49 +107,49 @@
                 <p class="err">Node not found.</p>
               </mm:hasnode>
               <mm:hasnode number="$translation">
-              <mm:url referids="p?,nr,lang?,translation" write="false" absolute="true" escapeamps="false" id="submit_linkt"></mm:url>
+                <mm:url referids="p?,nr,lang?,translation" write="false" absolute="true" escapeamps="false" id="submit_linkt"></mm:url>
 
-              <mm:form id="form_$translationtype" page="$submit_linkt">
-                <mm:node number="$translation" commitonclose="false">
-                  <mm:import id="buffer">
-                  
-                    <fieldset class="description">
-                       <p>Vertaling <mm:nodeinfo type="guitype" nodetype="$type" escape="lowercase" /></p>
-                       <mm:fieldlist type="edit">
-                         <c:set var="fld_name"><mm:fieldinfo type="name" /></c:set>
-                         <div class="${fld_name}">
-                           <mm:fieldinfo type="forid">
-                             <label for="${_}" class="${fld_name}"><mm:fieldinfo type="guiname" /></label>
-                           </mm:fieldinfo>
-                           <p class="info"><mm:fieldinfo type="description" escape="inline" /></p>
-                           <mm:maywrite><mm:fieldinfo type="input" /><mm:fieldinfo type="errors" /></mm:maywrite>
-                         </div>
-                       </mm:fieldlist>
-                     </fieldset>
-                     <fieldset class="buttons">
-                       <fmt:message key="users.form.save" var="button_save" />
-                       <input type="submit" name="submit_${translationtype}" value="${button_save}" class="submit" id="submit_${translationtype}" />
-                     </fieldset>                  
-                  
-                  </mm:import>
+                <mm:node number="$translation">
+                  <mm:form id="form_$translationtype" page="$submit_linkt">
+                    <mm:import id="buffer">
+                    
+                      <fieldset class="description">
+                         <p>Vertaling <mm:nodeinfo type="guitype" nodetype="$type" escape="lowercase" /></p>
+                         <mm:fieldlist type="edit">
+                           <c:set var="fld_name"><mm:fieldinfo type="name" /></c:set>
+                           <div class="${fld_name}">
+                             <mm:fieldinfo type="forid">
+                               <label for="${_}" class="${fld_name}"><mm:fieldinfo type="guiname" /></label>
+                             </mm:fieldinfo>
+                             <p class="info"><mm:fieldinfo type="description" escape="inline" /></p>
+                             <mm:maywrite><mm:fieldinfo type="input" /><mm:fieldinfo type="errors" /></mm:maywrite>
+                           </div>
+                         </mm:fieldlist>
+                       </fieldset>
+                       <fieldset class="buttons">
+                         <fmt:message key="users.form.save" var="button_save" />
+                         <input type="submit" name="submit_${translationtype}" value="${button_save}" class="submit" id="submit_${translationtype}" />
+                       </fieldset>                  
+                    
+                    </mm:import>
+    
+                    <mm:present referid="submit_$translationtype">
+                      <mm:valid inverse="true">
+                        <mm:cancel />
+                        <p class="err">Het formulier bevat een fout.</p>
+                      </mm:valid>
+                      <mm:valid>
+                        <mm:commit />
+                        <p class="msg">Je veranderingen aan '<mm:function name="gui" escape="none" />' zijn bewaard.</p>
+                      </mm:valid>
+                      <mm:write referid="buffer" escape="none" />
+                    </mm:present>
+                    <mm:notpresent referid="submit_$translationtype">
+                      <mm:write referid="buffer" escape="none" />
+                    </mm:notpresent>
   
-                  <mm:present referid="submit_$translationtype">
-                    <mm:valid inverse="true">
-                      <mm:cancel />
-                      <p class="err">Het formulier bevat een fout.</p>
-                    </mm:valid>
-                    <mm:valid>
-                      <mm:commit />
-                      <p class="msg">Je veranderingen aan '<mm:function name="gui" escape="none" />' zijn bewaard.</p>
-                    </mm:valid>
-                    <mm:write referid="buffer" escape="none" />
-                  </mm:present>
-                  <mm:notpresent referid="submit_$translationtype">
-                    <mm:write referid="buffer" escape="none" />
-                  </mm:notpresent>
+                  </mm:form>
                 </mm:node>
-
-              </mm:form>
               </mm:hasnode>
               
             </div>

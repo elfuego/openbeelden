@@ -78,9 +78,9 @@
           referids="nr,p?,relation?,fields?,lang?,parent?,role?,editme?,showform?,show?,editor?,maydelete?,unpublish?,maycancel?" />
 
         <c:set var="formclass">${editme ? 'mm_form_editme' : ''}</c:set>
-        <mm:form id="form_$nr" styleClass="$formclass" page="$submit_link">
+          <mm:node number="$nr">
+            <mm:form id="form_$nr" styleClass="$formclass" page="$submit_link">
         
-          <mm:node number="$nr" commitonclose="false">
             
             <mm:import id="buffer">
               <c:if test="${editme}">
@@ -121,14 +121,14 @@
               <mm:valid>
                 <mm:commit />
               
-                <p class="msg">Your changes are saved.</p>
-                
                 <c:choose>
                   <c:when test="${showform}">
+                    <p class="msg">Your changes are saved.</p>
                     <mm:write referid="buffer" escape="none" />
                   </c:when>
                   <c:otherwise>
                     <mm:import id="saved">
+                      <p class="msg">Your changes are saved.</p>
                       <span class="content">
                         <mm:include page="$show" referids="p?,nr">
                           <mm:param name="fields">${fields}</mm:param>
@@ -167,13 +167,12 @@
               
             </mm:present>
       
-          </mm:node>
-
-          <mm:notpresent referid="submit$nr">
-            <mm:write referid="buffer" escape="none" />
-          </mm:notpresent>
+            <mm:notpresent referid="submit$nr">
+              <mm:write referid="buffer" escape="none" />
+            </mm:notpresent>
       
-        </mm:form>
+          </mm:form>
+        </mm:node>
         
         <c:if test="${!empty saved}">
           <mm:write referid="saved" escape="none" />

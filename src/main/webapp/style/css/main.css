@@ -110,18 +110,15 @@ p { margin-bottom: 1em; }
 	color: #000;
 	clear: both;
 }
-
 .err em, 
 .msg em {
 	font-size: 0.8em;
 	display: block;
 }
-
 .msg {
 	border: 2px solid #679911;
 	background-color: #CEFFCD;
 }
-
 .err {
 	border: 2px #F93537 solid;
 	background-color: #FDD3C7;
@@ -139,10 +136,8 @@ div.err {
 	margin: 4px 0 4px 0;
 	padding: 0.5em;
 }
-
-div#error.err {
-	text-align: left;
-}
+p.msg.grey { margin-bottom: 12px; }
+div#error.err {	text-align: left; }
 div#error.err p {
 	font-family: Monaco, Courier, monospaced;
 	font-size: 0.9em;

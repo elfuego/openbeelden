@@ -17,6 +17,9 @@
                            description="Url with needed parameters" />
   <jsp:directive.attribute name="fragment"
                            description="Fragment part of the url, to switch to the right tab" />
+
+  <fmt:setBundle basename="eu.openimages.messages" scope="request" />
+  <c:if test="${empty baseurl}"><mm:url id="baseurl" write="false" /></c:if>
   
   <c:if test="${total > max}">
     <c:if test="${offset != 0}">

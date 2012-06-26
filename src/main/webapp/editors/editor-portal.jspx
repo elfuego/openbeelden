@@ -99,100 +99,100 @@
           <mm:import externid="submit_portal" />
           <mm:url referids="p,lang?" write="false" absolute="true" escapeamps="false" id="submit_link" />
   
-          <mm:form id="form_portal" page="$submit_link">
-            <mm:node number="$p" commitonclose="false">
-              <mm:import id="editbuffer">
-                <fieldset>
-                  <mm:fieldlist fields="name">
-                    <c:set var="fld_name"><mm:fieldinfo type="name" /></c:set>
-                    <div class="${fld_name}">
-                      <mm:fieldinfo type="forid">
-                        <label for="${_}" class="${fld_name}"><mm:fieldinfo type="guiname" /></label>
-                      </mm:fieldinfo>
-                      <p class="info">
-                        Naam of titel van dit portal. 
-                        <!-- <mm:fieldinfo type="description" escape="inline" /> -->
-                      </p>
-                      <mm:maywrite><mm:fieldinfo type="input" /><mm:fieldinfo type="errors" /></mm:maywrite>
-                    </div>
-                  </mm:fieldlist>
-                </fieldset>
-                <fieldset class="buttons">
-                  <fmt:message key="users.form.save" var="button_save" />
-                  <input type="submit" name="submit_portal" value="${button_save}" class="submit" id="submit_portal" />
-                </fieldset>
-                
-                <div class="wrap languages">
-                  <h3>Taalversies</h3>
-                  <ul id="related_translations" class="relatednodes max_${fn:length(locales) - 1}">
-                    <li class="notsortable ${empty translation ? 'selected' : 'not'}">
-                      <mm:link referids="p">
-                        <a href="${_}"><mm:field name="language"><mm:fieldinfo type="guivalue" /></mm:field></a>
-                        : <mm:field name="name" />
-                      </mm:link>
-                    </li>
-                    <mm:relatednodescontainer type="pools_translations" role="langrel" searchdirs="destination">
-                      <mm:size id="total_trans" write="false" />
-                      <mm:relatednodes>
-                        <li class="${translation eq _node ? 'selected' : 'not'}">
-                          <mm:link referids="p,_node@translation">
-                            <a href="${_}">
-                              <mm:field name="language"><mm:fieldinfo type="guivalue" /></mm:field>
-                            </a> : <mm:field name="name" />
-                          </mm:link>
-                        </li>
-                      </mm:relatednodes>
-                    </mm:relatednodescontainer>
-                    <c:if test="${fn:length(locales) - 1 gt total_trans}">
-                      <li>
+            <mm:node number="$p" >
+              <mm:form id="form_portal" page="$submit_link">
+                <mm:import id="editbuffer">
+                  <fieldset>
+                    <mm:fieldlist fields="name">
+                      <c:set var="fld_name"><mm:fieldinfo type="name" /></c:set>
+                      <div class="${fld_name}">
+                        <mm:fieldinfo type="forid">
+                          <label for="${_}" class="${fld_name}"><mm:fieldinfo type="guiname" /></label>
+                        </mm:fieldinfo>
+                        <p class="info">
+                          Naam of titel van dit portal. 
+                          <!-- <mm:fieldinfo type="description" escape="inline" /> -->
+                        </p>
+                        <mm:maywrite><mm:fieldinfo type="input" /><mm:fieldinfo type="errors" /></mm:maywrite>
+                      </div>
+                    </mm:fieldlist>
+                  </fieldset>
+                  <fieldset class="buttons">
+                    <fmt:message key="users.form.save" var="button_save" />
+                    <input type="submit" name="submit_portal" value="${button_save}" class="submit" id="submit_portal" />
+                  </fieldset>
+                  
+                  <div class="wrap languages">
+                    <h3>Taalversies</h3>
+                    <ul id="related_translations" class="relatednodes max_${fn:length(locales) - 1}">
+                      <li class="notsortable ${empty translation ? 'selected' : 'not'}">
                         <mm:link referids="p">
-                          <mm:param name="translation">${locales[0] eq _node.language ? locales[1] : locales[0]}</mm:param>
-                          <a href="${_}">Voeg vertaling toe</a>
+                          <a href="${_}"><mm:field name="language"><mm:fieldinfo type="guivalue" /></mm:field></a>
+                          : <mm:field name="name" />
                         </mm:link>
                       </li>
-                    </c:if>
-                  </ul>
-                </div>        
-                <c:if test="${empty translation}">
-                  <div class="box">
-                    <fieldset class="description">
-                      <p>Vul de gegevens van het portal in.</p>
-                      <mm:fieldlist fields="language,description">
-                        <c:set var="fld_name"><mm:fieldinfo type="name" /></c:set>
-                        <div class="${fld_name}">
-                          <mm:fieldinfo type="forid">
-                            <label for="${_}" class="${fld_name}"><mm:fieldinfo type="guiname" /></label>
-                          </mm:fieldinfo>
-                          <p class="info"><mm:fieldinfo type="description" escape="inline" /></p>
-                          <mm:maywrite><mm:fieldinfo type="input" /><mm:fieldinfo type="errors" /></mm:maywrite>
-                        </div>
-                      </mm:fieldlist>
-                    </fieldset>
-                    <fieldset class="buttons">
-                      <fmt:message key="users.form.save" var="button_save" />
-                      <input type="submit" name="submit_portal" value="${button_save}" class="submit" id="submit2_portal" />
-                    </fieldset>
-                  </div><!-- /.box-->
-                </c:if>              
-              </mm:import>
-  
-              <mm:present referid="submit_portal">
-                <mm:valid inverse="true">
-                  <mm:cancel />
-                  <p class="err">Er zit een fout in het formulier.</p>
-                </mm:valid>
-                <mm:valid>
-                  <mm:commit />
-                  <p class="msg">Je veranderingen aan '<mm:function name="gui" escape="none" />' zijn bewaard.</p>
-                </mm:valid>
-                <mm:write referid="editbuffer" escape="none" />
-              </mm:present>
-              <mm:notpresent referid="submit_portal">
-                <mm:write referid="editbuffer" escape="none" />
-              </mm:notpresent>  
-              
-            </mm:node>
-          </mm:form>
+                      <mm:relatednodescontainer type="pools_translations" role="langrel" searchdirs="destination">
+                        <mm:size id="total_trans" write="false" />
+                        <mm:relatednodes>
+                          <li class="${translation eq _node ? 'selected' : 'not'}">
+                            <mm:link referids="p,_node@translation">
+                              <a href="${_}">
+                                <mm:field name="language"><mm:fieldinfo type="guivalue" /></mm:field>
+                              </a> : <mm:field name="name" />
+                            </mm:link>
+                          </li>
+                        </mm:relatednodes>
+                      </mm:relatednodescontainer>
+                      <c:if test="${fn:length(locales) - 1 gt total_trans}">
+                        <li>
+                          <mm:link referids="p">
+                            <mm:param name="translation">${locales[0] eq _node.language ? locales[1] : locales[0]}</mm:param>
+                            <a href="${_}">Voeg vertaling toe</a>
+                          </mm:link>
+                        </li>
+                      </c:if>
+                    </ul>
+                  </div>        
+                  <c:if test="${empty translation}">
+                    <div class="box">
+                      <fieldset class="description">
+                        <p>Vul de gegevens van het portal in.</p>
+                        <mm:fieldlist fields="language,description">
+                          <c:set var="fld_name"><mm:fieldinfo type="name" /></c:set>
+                          <div class="${fld_name}">
+                            <mm:fieldinfo type="forid">
+                              <label for="${_}" class="${fld_name}"><mm:fieldinfo type="guiname" /></label>
+                            </mm:fieldinfo>
+                            <p class="info"><mm:fieldinfo type="description" escape="inline" /></p>
+                            <mm:maywrite><mm:fieldinfo type="input" /><mm:fieldinfo type="errors" /></mm:maywrite>
+                          </div>
+                        </mm:fieldlist>
+                      </fieldset>
+                      <fieldset class="buttons">
+                        <fmt:message key="users.form.save" var="button_save" />
+                        <input type="submit" name="submit_portal" value="${button_save}" class="submit" id="submit2_portal" />
+                      </fieldset>
+                    </div><!-- /.box-->
+                  </c:if>              
+                </mm:import>
+    
+                <mm:present referid="submit_portal">
+                  <mm:valid inverse="true">
+                    <mm:cancel />
+                    <p class="err">Er zit een fout in het formulier.</p>
+                  </mm:valid>
+                  <mm:valid>
+                    <mm:commit />
+                    <p class="msg">Je veranderingen aan '<mm:function name="gui" escape="none" />' zijn bewaard.</p>
+                  </mm:valid>
+                  <mm:write referid="editbuffer" escape="none" />
+                </mm:present>
+                <mm:notpresent referid="submit_portal">
+                  <mm:write referid="editbuffer" escape="none" />
+                </mm:notpresent>  
+                
+            </mm:form>
+          </mm:node>
   
           <mm:present referid="translation">
             <mm:include page="translations.box.jspx" referids="p@nr,translation" />

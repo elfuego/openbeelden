@@ -129,6 +129,7 @@
             <mm:function name="gui" escape="none" />
             <mm:function name="mimetype" />
             <br /><strong><mm:field name="state"><mm:fieldinfo type="guivalue" escape="lowercase" /></mm:field> </strong>
+            <mm:field name="label" /> <mm:field name="filesize"><mm:fieldinfo type="guivalue" /></mm:field>
             <br /><oip:filesubstr filename="${_node.url}" length="48" />
           </div>
         </c:when>

@@ -59,10 +59,10 @@
         <!-- contains all paramaters to be picked up again in javascript -->
         <mm:url absolute="true" escapeamps="false" id="submit_link" write="false" referids="nr,p?" />
         <c:set var="formclass">${editme ? 'mm_form_editme' : ''}</c:set>
-        <mm:form id="form_$nr" styleClass="$formclass" page="$submit_link">
         
-          <mm:node number="$nr" commitonclose="false">
+          <mm:node number="$nr">
             
+            <mm:form id="form_$nr" styleClass="$formclass" page="$submit_link">
             <mm:import id="buffer">
               <c:if test="${editme}">
                 <c:if test="${maycancel}">
@@ -88,6 +88,8 @@
               <mm:maywrite>
                 <fieldset class="buttons">
           <!-- p?,relation?,fields?,lang?,parent?,role?,editme?,showform?,show?,editor?,maydelete?,unpublish?,maycancel?" --> 
+                  <input type="hidden" name="nr"  value="${nr}" />
+                  <input type="hidden" name="p"  value="${p}" />
                   <input type="hidden" name="relation"  value="${relation}" />
                   <input type="hidden" name="fields"    value="${fields}" />
                   <input type="hidden" name="lang"      value="${lang}" />
@@ -117,7 +119,10 @@
                 <c:choose>
                   <c:when test="${showform}">
                     <mm:commit />
-                    <p class="msg">Your changes to '<mm:function name="gui" escape="none" />' are saved.</p>
+                    <p class="msg">
+                      Your changes to '<mm:function name="gui" escape="none" />' are saved!  
+                      <mm:time time="now" />
+                    </p>
                     <mm:write referid="buffer" escape="none" />
                   </c:when>
                   <c:otherwise>
@@ -140,14 +145,15 @@
               </mm:valid>
               
             </mm:present>
-      
-          </mm:node>
-          
+
           <mm:notpresent referid="submit$nr">
             <mm:write referid="buffer" escape="none" />
           </mm:notpresent>
+
+          </mm:form>
+        </mm:node>
           
-        </mm:form>
+          
         
         <c:if test="${!empty saved}">
           <mm:write referid="saved" escape="none" />

@@ -56,6 +56,23 @@
             </div>
           </c:if>
 
+          <h2>Portal manager : <mm:field name="name" /></h2>
+          <mm:relatednodescontainer type="mmbaseusers" role="portalrel" searchdirs="source">
+            <p>
+            <mm:relatednodes varStatus="status">
+              <mm:first>Current portal manager(s): </mm:first>
+              <br /><strong><mm:field name="username" /></strong>
+              <c:set var="hasportalmanager" value="yes" />
+            </mm:relatednodes>
+            </p>
+          </mm:relatednodescontainer>
+          
+          <c:if test="${empty hasportalmanager}">
+            <p class="msg stay grey">
+              This portal currently has <strong>no portal manager</strong>.
+            </p>
+          </c:if>
+
           <h2>Content : <mm:field name="name" /></h2>
 
 <!--
@@ -94,9 +111,9 @@ translates to: +(someField:bar someField:baz) +anotherField:foo
 <pre>value:  <mm:write referid="value" escape="none" />
 extraconstraints: ${extraconstraints} filter: ${filter} </pre>
           <h3>total ${total}</h3>
+            
           <p>
-            A sample of max ${max} nodes. portal: ${p} portalmanager: ${portalmanager}
-            <br />Lucene query:
+            A sample of max ${max} nodes.
           </p>
 
 
