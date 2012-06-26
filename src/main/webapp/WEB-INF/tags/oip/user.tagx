@@ -5,6 +5,10 @@
     xmlns:fn="http://java.sun.com/jsp/jstl/functions"
     xmlns:mm="http://www.mmbase.org/mmbase-taglib-2.0"
     >
+  <jsp:directive.tag
+      display-name="user"
+      description="Displays a user with full username and link to userpage."
+      />
   <jsp:directive.attribute name="html" type="java.lang.String" />
   <mm:nodefunction name="translation">
     <c:set var="user"><mm:field name="firstname" /></c:set>

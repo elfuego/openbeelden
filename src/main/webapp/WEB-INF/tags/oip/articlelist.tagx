@@ -8,10 +8,10 @@
     >
  
   <jsp:directive.attribute name="list" type="org.mmbase.bridge.NodeList"
-        description="List with articles to show"  />
+        description="List with articles to show and their proper links."  />
   
     <ul>
-      <mm:listnodes referid="list" varStatus="status" id="mediafragment">
+      <mm:listnodes referid="list" varStatus="status">
             
         <li>
           <mm:field name="online"><mm:time format="dd-MM-yyyy" /></mm:field> - 

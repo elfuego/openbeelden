@@ -6,6 +6,10 @@
     xmlns:oip="urn:jsptagdir:/WEB-INF/tags/oip"
     xmlns:mm="http://www.mmbase.org/mmbase-taglib-2.0"
     >
+  <jsp:directive.tag
+      display-name="type"
+      description="Reports type of media."
+      />
   <mm:nodeinfo type="type">
     <c:choose>
       <c:when test="${_ eq 'audiofragments'}">audio</c:when>

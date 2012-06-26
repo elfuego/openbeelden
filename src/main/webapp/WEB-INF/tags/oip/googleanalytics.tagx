@@ -5,6 +5,11 @@
     xmlns:mm="http://www.mmbase.org/mmbase-taglib-2.0"
     >
   
+  <jsp:directive.tag
+      display-name="googleanalytics"
+      description="Tag to include all that is needed to track visitors with Google Analytics."
+      />
+
     <!-- properties for google analytics -->
     <mm:import externid="portal" from="request">pool_oip</mm:import>
     <mm:node number="$portal">

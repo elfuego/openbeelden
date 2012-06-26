@@ -6,7 +6,10 @@
     xmlns:fmt="http://java.sun.com/jsp/jstl/fmt"
     xmlns:oip="urn:jsptagdir:/WEB-INF/tags/oip"
     xmlns:mm="http://www.mmbase.org/mmbase-taglib-2.0">
-  
+  <jsp:directive.tag
+      display-name="topbar"
+      description="Topbar of site including portal, language and user information."
+      />  
   <div id="topbar">
     <div>
 

@@ -8,6 +8,10 @@
     xmlns:oip="urn:jsptagdir:/WEB-INF/tags/oip"
     >
 
+  <jsp:directive.tag
+      display-name="audio"
+      description="The audio tag defines a basic audio tag in this site."
+      />
   <jsp:directive.attribute name="width"  description="Width of player" />
   <jsp:directive.attribute name="height" description="Height of player" />
   <jsp:directive.attribute name="length" description="Length of audio fragment in milliseconds" />

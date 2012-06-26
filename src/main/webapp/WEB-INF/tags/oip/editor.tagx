@@ -9,7 +9,7 @@
     >
   <jsp:directive.tag
       display-name="Editor"
-      description="The editor tag defines the basic HTML structure of an editor"
+      description="The editor tag defines the basic HTML structure of an editor."
       />
   <jsp:directive.attribute
       name="title"

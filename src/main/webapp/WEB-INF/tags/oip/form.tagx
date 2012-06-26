@@ -6,6 +6,10 @@
     xmlns:fmt="http://java.sun.com/jsp/jstl/fmt"
     xmlns:mm="http://www.mmbase.org/mmbase-taglib-2.0"
     >
+  <jsp:directive.tag
+      display-name="form"
+      description="Basic (not recently tested) form tag for nodes with validation etc."
+      />
   <jsp:directive.attribute name="action"
                            description="Link for form" />
   <jsp:directive.attribute name="create"

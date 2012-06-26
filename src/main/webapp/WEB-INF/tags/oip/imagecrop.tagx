@@ -7,8 +7,8 @@
     xmlns:mm="http://www.mmbase.org/mmbase-taglib-2.0"
     >
   <jsp:directive.tag
-      display-name="image crop"
-      description="image cropping for a player"
+      display-name="imagecrop"
+      description="Image cropping for a player or preview icon to a certain width and height."
       />
   <jsp:directive.attribute name="width"   description="Desired width in pixels" type="java.lang.Integer" />
   <jsp:directive.attribute name="height"  description="Desired height in pixels" type="java.lang.Integer" />

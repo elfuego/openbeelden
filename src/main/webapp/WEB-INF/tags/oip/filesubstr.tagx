@@ -6,6 +6,10 @@
     xmlns:mm="http://www.mmbase.org/mmbase-taglib-2.0"
     >
 
+  <jsp:directive.tag
+      display-name="filsesubstr"
+      description="Substring a filename but keep its extension."
+      />
   <jsp:directive.attribute name="filename" description="Text to use substring" />
   <jsp:directive.attribute name="length"   
     description="Maximum length in characters including extension" type="java.lang.Integer" />

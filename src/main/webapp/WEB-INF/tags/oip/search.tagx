@@ -7,6 +7,10 @@
     xmlns:jsp="http://java.sun.com/JSP/Page"
     xmlns:mm="http://www.mmbase.org/mmbase-taglib-2.0"
     >
+  <jsp:directive.tag
+      display-name="search"
+      description="Simple or advanced search form."
+      />
   <jsp:directive.attribute name="advanced" type="java.lang.Boolean"
           description="If this is an advanced search or not">false</jsp:directive.attribute>
   <jsp:directive.attribute name="language"

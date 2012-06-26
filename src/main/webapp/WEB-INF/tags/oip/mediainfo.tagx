@@ -6,6 +6,10 @@
     xmlns:oip="urn:jsptagdir:/WEB-INF/tags/oip"
     xmlns:mm="http://www.mmbase.org/mmbase-taglib-2.0">
 
+  <jsp:directive.tag
+      display-name="mediainfo"
+      description="Information about a media item"
+      />
   <dl class="media-info">
     <dt><fmt:message key="media.type" />:</dt>
     <dd>

@@ -7,6 +7,11 @@
     xmlns:oip="urn:jsptagdir:/WEB-INF/tags/oip"
     >
  
+  <jsp:directive.tag
+      display-name="medialist"
+      description="To display media lists media of different kinds"
+      />
+
   <jsp:directive.attribute name="list" type="org.mmbase.bridge.NodeList"
         description="The list with mediafragments to show"  />
   

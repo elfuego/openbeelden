@@ -5,6 +5,11 @@
   xmlns:mm="http://www.mmbase.org/mmbase-taglib-2.0"
   version="2.0">
 
+  <jsp:directive.tag
+      display-name="pager"
+      description="Tag to page in a list."
+      />
+      
   <jsp:directive.attribute name="total"  type="java.lang.Integer"
                            description="Total number of results in list" />
   <jsp:directive.attribute name="max"    type="java.lang.Integer"
@@ -19,7 +24,7 @@
                            description="Fragment part of the url, to switch to the right tab" />
 
   <fmt:setBundle basename="eu.openimages.messages" scope="request" />
-  <c:if test="${empty baseurl}"><mm:url id="baseurl" write="false" /></c:if>
+  <c:if test="${empty baseurl}"><mm:url id="baseurl" absolute="context" write="false" /></c:if>
   
   <c:if test="${total > max}">
     <c:if test="${offset != 0}">

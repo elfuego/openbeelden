@@ -5,6 +5,11 @@
   xmlns:mm="http://www.mmbase.org/mmbase-taglib-2.0"
   version="2.0">
   
+  <jsp:directive.tag
+      display-name="footer"
+      description="Footer of this site."
+      />
+  
   <div id="footer">
     
     <div class="logos">

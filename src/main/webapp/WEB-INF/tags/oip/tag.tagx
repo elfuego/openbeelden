@@ -7,6 +7,10 @@
     xmlns:mm="http://www.mmbase.org/mmbase-taglib-2.0"
     >
   
+  <jsp:directive.tag
+      display-name="tag"
+      description="Tag to tag media."
+      />
     <fmt:setBundle basename="eu.openimages.messages" scope="request" />
         
     <ul id="tags">

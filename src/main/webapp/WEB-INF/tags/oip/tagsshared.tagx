@@ -6,6 +6,11 @@
     xmlns:mm="http://www.mmbase.org/mmbase-taglib-2.0"
     xmlns:oip="urn:jsptagdir:/WEB-INF/tags/oip">
  
+  <jsp:directive.tag
+      display-name="tagsshared"
+      description="Number of tags shared between nodes in a list."
+      />
+      
   <jsp:directive.attribute name="list" type="org.mmbase.bridge.NodeList"
         description="The list with mediafragments to show"  />
   

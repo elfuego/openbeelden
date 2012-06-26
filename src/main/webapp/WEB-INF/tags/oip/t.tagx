@@ -6,6 +6,10 @@
     xmlns:oip="urn:jsptagdir:/WEB-INF/tags/oip"
     xmlns:mm="http://www.mmbase.org/mmbase-taglib-2.0"
     >
+  <jsp:directive.tag
+      display-name="t"
+      description="To create headers with ImageMagick and a specific font."
+      />
   <jsp:directive.attribute name="imageescape" />
   <mm:import id="text"><jsp:doBody /></mm:import>
 

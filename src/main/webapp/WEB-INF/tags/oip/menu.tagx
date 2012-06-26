@@ -6,7 +6,11 @@
     xmlns:fmt="http://java.sun.com/jsp/jstl/fmt"
     xmlns:oip="urn:jsptagdir:/WEB-INF/tags/oip"
     xmlns:mm="http://www.mmbase.org/mmbase-taglib-2.0">
-  
+
+  <jsp:directive.tag
+      display-name="menu"
+      description="Includes the navigation menu in a page."
+      />  
   <div id="menu">
 
     <mm:import externid="portal" id="pool" from="request">pool_oip</mm:import>

@@ -7,6 +7,9 @@
     xmlns:oip="urn:jsptagdir:/WEB-INF/tags/oip"
     >
 
+    <jsp:directive.tag display-name="article"
+        description="A basic article with related images, links and files."
+        />
     <jsp:directive.attribute name="showauthor"
             description="Show the author of the article or not">false</jsp:directive.attribute>
     <jsp:directive.attribute name="showdate"

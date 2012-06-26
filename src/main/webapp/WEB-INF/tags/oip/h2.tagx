@@ -6,6 +6,11 @@
     xmlns:oip="urn:jsptagdir:/WEB-INF/tags/oip"
     xmlns:mm="http://www.mmbase.org/mmbase-taglib-2.0"
     >
+  <jsp:directive.tag
+      display-name="h2"
+      description="Header made with ImageMagick for a specific font"
+      />
+
   <jsp:directive.attribute name="styleClass" />
   <jsp:directive.attribute name="block" />
   <h2 class="${styleClass}">

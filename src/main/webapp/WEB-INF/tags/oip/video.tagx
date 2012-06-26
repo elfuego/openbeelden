@@ -8,6 +8,10 @@
     xmlns:oip="urn:jsptagdir:/WEB-INF/tags/oip"
     >
 
+  <jsp:directive.tag
+      display-name="video"
+      description="The video tag defines a basic video tag in this site."
+      />
   <jsp:directive.attribute name="width"  description="Width of player" />
   <jsp:directive.attribute name="height" description="Height of player" />
   <jsp:directive.attribute name="length" description="Length of video fragment in milliseconds" />

@@ -5,6 +5,10 @@
     xmlns:fmt="http://java.sun.com/jsp/jstl/fmt"
     xmlns:mm="http://www.mmbase.org/mmbase-taglib-2.0"
     >
+  <jsp:directive.tag
+      display-name="wikipedia"
+      description="A tag to upload media to wikimedia."
+      />
   <script type="text/javascript">
     var updateDiv = function() {
       $("div.wikipedia div.busy").each(function() {
