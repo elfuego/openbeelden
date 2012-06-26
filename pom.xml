@@ -10,8 +10,14 @@
   <version>1.2-SNAPSHOT</version>
   <packaging>war</packaging>
   <name>Open Images Platform</name>
+  <url>http://www.openimages.eu</url>
   <inceptionYear>2009</inceptionYear>
-  <description>Sound and Vision - Open Images Platform Web Application</description>
+  <description>
+    Open Images Platform Web Application - Nederlands Instituut voor Beeld &amp; Geluid / The Netherlands Institute for Sound and Vision.
+    Open Images is a platform to upload, edit and publish video, audio and images. It transcodes every media format it recognizes to an open format like OGG or PNG. 
+    Based on MMBase it aims to offer online access to a selection of archive material to stimulate creative reuse, including remixing of archive material in new works. Open Images also supports interlinking with other data sources (like Wikipedia), allowing the easy creation of mash ups. Access to the content is based on the Creative Commons model. The projects 'open' nature is underscored by adapting open formats and using open source software for its infrastructure.
+    Its first release dates January 20, 2010  
+  </description>
 
   <organization>
     <name>Nederlands Instituut voor Beeld &amp; Geluid</name>
@@ -81,8 +87,8 @@
      <!-- MMBase 1.9 -->
      <mmbase.version.number>1.9</mmbase.version.number>
      <mmbase.version.postfix>-SNAPSHOT</mmbase.version.postfix>
-     <base.version>${mmbase.version.number}-servlet25${mmbase.version.postfix}</base.version>
      <mmbase.version>${mmbase.version.number}${mmbase.version.postfix}</mmbase.version>
+     <base.version>${mmbase.version.number}-servlet25${mmbase.version.postfix}</base.version>
      <mmbase.core>mmbase</mmbase.core>
     <!-- MMBase 2.0 -->
     <!--
@@ -297,7 +303,7 @@
     <dependency>
       <groupId>org.mmbase</groupId>
       <artifactId>base-webapp</artifactId>
-      <version>${base.version}</version>
+      <version>${mmbase.version}</version>
       <type>war</type>
     </dependency>
     <dependency>
