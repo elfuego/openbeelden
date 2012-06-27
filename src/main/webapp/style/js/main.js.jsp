@@ -86,10 +86,12 @@ function initToolbar() {
         var loc = document.location.href;   // will include #bla when changed below
         var box = link.substring(link.indexOf("#"));
         var stateObj = { fragment: "bar" };
-        if ($(box).is(':visible')) {
-            history.pushState(stateObj, "fragment", loc.substring(0, link.indexOf("#")));
-        } else {
-            history.pushState(stateObj, "fragment", link);
+        if (typeof history.pushState != "undefined") {
+            if ($(box).is(':visible')) {
+                history.pushState(stateObj, "fragment", loc.substring(0, link.indexOf("#")));
+            } else {
+                history.pushState(stateObj, "fragment", link);
+            }
         }
         $(link.substring(link.indexOf("#"))).slideToggle('fast');
     });
