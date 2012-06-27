@@ -3,6 +3,7 @@
     version="2.0"
     xmlns:jsp="http://java.sun.com/JSP/Page"
     xmlns:c="http://java.sun.com/jsp/jstl/core"
+    xmlns:fn="http://java.sun.com/jsp/jstl/functions"
     xmlns:fmt="http://java.sun.com/jsp/jstl/fmt"
     xmlns:mm="http://www.mmbase.org/mmbase-taglib-2.0"
     xmlns:oip="urn:jsptagdir:/WEB-INF/tags/oip">
@@ -61,28 +62,103 @@
               <mm:sortorder field="number" direction="UP" />
               <mm:listnodes>
                 <li>
-                  <mm:link referids="_node@nr"><a href="${_}"><mm:field name="name" /></a></mm:link>
+                  <mm:link referids="_node@nr"><a href="${_}"><mm:field name="name" /></a></mm:link><br />
+                  <mm:field name="description">
+                    <mm:isnotempty><mm:write escape="tagstripper" /> </mm:isnotempty>
+                  </mm:field>
+                  <mm:field name="language" />,
+                  <mm:relatednodescontainer type="urls" role="portalrel" searchdirs="destination">
+                    <mm:relatednodes>
+                      <mm:field name="url" /> 
+                    </mm:relatednodes>
+                  </mm:relatednodescontainer>
+                  <!-- <mm:link page="/editors/portal-config.jspx" referids="_node@p"><a href="${_}">configuration</a></mm:link> -->
                 </li>
               </mm:listnodes>
             </mm:listnodescontainer>     
           </ul>
-        
-          <p><a href="${mm:link('/editors/tools/createportal.jspx')}">Create new portal</a></p>
         </mm:hasrank>
         
         <!-- new portal node nr -->
         <c:choose>
           <c:when test="${empty nr}">
+            
             <h3>New portal</h3>
-            <p>Make and configure a new portal. You need to: 
-              1. create a portal and give it a description; and 
-              2. assign a portal manager (if needed) via portal config.
-            </p>
-            <mm:include page="/editors/add-node.jspx">
-              <mm:param name="type">pools</mm:param>
-              <mm:param name="editor">/editors/tools/createportal.jspx</mm:param><!-- redirect back to this template with param nr -->
-              <mm:param name="fields">name</mm:param>
-            </mm:include>
+            <p>Make and configure a new portal.</p>
+            <mm:import externid="submit_pools" />
+            <mm:form id="form_pools">
+              <mm:import id="buffer">
+    
+                <mm:createnode type="pools" id="new_node" commitonclose="false">
+                  <!-- set language to preferred one -->
+                  <mm:hasfield name="language">
+                    <c:set var="lang">${fn:indexOf(lang, '_') > 0 ? fn:substringBefore(lang, '_') : lang}</c:set>
+                    <mm:setfield name="language">${empty language ? lang : language}</mm:setfield>
+                  </mm:hasfield>
+    
+                  <fieldset>
+                    <mm:fieldlist fields="name,language,description">
+                      <c:set var="fld_name"><mm:fieldinfo type="name" /></c:set>
+                      <div class="${fld_name}">
+                        <mm:fieldinfo type="forid">
+                          <label for="${_}" class="${fld_name}"><mm:fieldinfo type="guiname" /></label>
+                        </mm:fieldinfo>
+                        <p class="info"><mm:fieldinfo type="description" escape="inline" /></p>
+                        <mm:maywrite><mm:fieldinfo type="input" /><mm:fieldinfo type="errors" /></mm:maywrite>
+                      </div>
+                    </mm:fieldlist>
+                  </fieldset>
+                  <fieldset class="buttons">
+                    <input name="submit_pools" type="hidden" value="submit" />
+                    <fmt:message key="users.form.save" var="button_save" />
+                    <input type="submit" name="action" value="${button_save}" class="submit" />
+                  </fieldset>
+                
+                </mm:createnode>
+              </mm:import><!-- /buffer -->
+    
+              <mm:present referid="submit_pools">
+    
+                <mm:valid>
+                  <mm:commit />
+                  <mm:import id="saved">
+                    <p class="msg">Your new portal 
+                    <mm:node referid="new_node">
+                      '<strong><mm:field name="name" /></strong>'
+                      <mm:import id="new_nr" reset="true">${new_node}</mm:import>
+                    </mm:node>
+                    is saved. <br />
+                    Edit <mm:link page="/editors/portal-config.jspx" referids="new_nr@p">
+                    <a href="${_}">portal configuration</a></mm:link>.
+                    </p>
+                  </mm:import>
+                </mm:valid>
+    
+                <mm:valid inverse="true">
+                  <p class="err">The form contains an error.</p>
+                  <mm:write referid="buffer" escape="none" />
+                  <mm:cancel />
+                </mm:valid>
+    
+              </mm:present>
+    
+              <mm:notpresent referid="submit_pools">
+                <mm:write referid="buffer" escape="none" />
+                <mm:cancel />
+              </mm:notpresent>
+    
+            </mm:form>
+            
+            <mm:present referid="saved">
+              <mm:write referid="saved" escape="none"/>
+              <mm:node number="$new_nr">
+                <mm:import id="property_key"   reset="true">hideportal</mm:import>
+                <mm:import id="property_value" reset="true">true</mm:import>
+                <mm:function nodemanager="properties" name="set" 
+                    referids="_node@node,property_key@key,property_value@value" write="false" />
+              </mm:node>
+            </mm:present>
+            
           </c:when>
           <c:otherwise>
             
@@ -96,7 +172,7 @@
               
               <p>
                 <mm:link page="/editors/portal-config.jspx" referids="nr@p">
-                  Go to <a href="${_}">portal config of <mm:field name="name" /></a>.
+                  Go to <a href="${_}">portal configuration</a> of <mm:field name="name" />.
                 </mm:link>
               </p>
    

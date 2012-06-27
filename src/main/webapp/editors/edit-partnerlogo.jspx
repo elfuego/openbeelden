@@ -159,7 +159,7 @@
       </c:when>
       <c:otherwise>
     
-          <mm:node number="$nr">
+        <mm:node number="$nr">
           <mm:form id="form_$nr" styleClass="${editme ? 'mm_form_editme' : ''}" page="$submit_link">
             <mm:import id="editbuffer">
               <a class="cancel" href="#close"><fmt:message key="users.cancel" /></a>
