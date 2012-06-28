@@ -173,6 +173,7 @@ label.intro,
 label.body,
 label.description,
 label.you_allow,
+label.contributor,
 label.relation { float: none; }
 
 input
@@ -237,6 +238,7 @@ form div.intro p.info,
 form div.body p.info,
 form div.description p.info,
 form div.you_allow p.info,
+form div.contributor p.info,
 form div.relation p.info
 {
 	margin-left: 0;
