@@ -21,14 +21,20 @@ You have to change the owner of 'properties' builder in typedef to 'siteusers'. 
 Properties is used by the Download API to keep track of the status of a download.
 
 
-Update database: new fields and InnoDB
---------------------------------------
+Database updates: new and changed fields and InnoDB
+---------------------------------------------------
 A new field 'hasformat' has been added to media items (builder: mediafragments). It describes 
 the original format the media was published in. This means you have to update your database. 
 Stop you applicationserver and run the following commands before installing the new version of 
 Open Images for MySQL with views (the default setup of OIP) the commands are: 
 
   ALTER TABLE oi_mediafragments_table ADD hasformat VARCHAR(255);
+
+The field 'contributor' has been enlarged:
+
+  ALTER TABLE oi_mediafragments_table MODIFY contributor TEXT;
+  
+To effectuate the changes above on MySQL with views you must do:
   
   DROP VIEW oi_mediafragments;
   DROP VIEW oi_videofragments;

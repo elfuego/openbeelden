@@ -172,8 +172,8 @@
         <search>28</search>
       </positions>
     </editor>
-    <datatype base="eline" xmlns="http://www.mmbase.org/xmlns/datatypes">
-      <maxLength value="255" />
+    <datatype base="field" xmlns="http://www.mmbase.org/xmlns/datatypes">
+      <maxLength value="2048" enforce="never" />
     </datatype>
   </field>
 
@@ -193,7 +193,7 @@
       </positions>
     </editor>
     <datatype base="field" xmlns="http://www.mmbase.org/xmlns/datatypes">
-      <maxLength value="1024" />
+      <maxLength value="2048" enforce="never" />
     </datatype>
   </field>
   
