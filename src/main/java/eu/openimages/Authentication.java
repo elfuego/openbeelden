@@ -38,7 +38,7 @@ import eu.openimages.api.ApiToken;
 
 /**
  * Authentication of users in Open Images, only users with an activated
- * status {@link org.mmbase.security.implementation.cloudcontext.UserStatus.INUSE} have access.
+ * status {@link org.mmbase.security.implementation.cloudcontext.UserStatus#INUSE} have access.
  * The user node (own account) is the default context of nodes (see owner field) this user creates.
  * Users get their own {@link eu.openimages.api.ApiToken} to authenticate them to write
  * items from other locations.
