@@ -116,14 +116,17 @@
               <fieldset class="labelininput">
                 <div>
                   <label for="username"><fmt:message key="login.account_name" /></label>
+                  <p class="info txt"><fmt:message key="login.account_name.info" /></p>
                   <input id="username" name="username" value="${username}" type="text" />
                 </div>
                 <div>
                   <label for="password"><fmt:message key="login.password" /></label>
+                  <p class="info txt"><fmt:message key="login.password.info" /></p>
                   <input id="password" name="password" value="${password}" type="password" />
                 </div>
                 <div class="keepme">
-                  <label for="keepme">Remember me</label>
+                  <label for="keepme"><fmt:message key="login.rememberme" /></label>
+                  <p class="info txt"><fmt:message key="login.rememberme.info" /></p>
                   <input type="checkbox" name="keepme" value="please" id="keepme" />
                 </div>
               </fieldset>
@@ -135,7 +138,7 @@
                   <mm:node number="page_resetpassword">
                     <mm:link page="page" referids="_node@n">
                       <mm:frameworkparam name="component">mmsite</mm:frameworkparam>
-                      <a href="${_}"><fmt:message key="login.forgot_password" /></a>
+                      <a class="forgot_password" href="${_}"><fmt:message key="login.forgot_password" /></a>
                     </mm:link>
                   </mm:node>
                 </div>
