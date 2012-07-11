@@ -126,8 +126,8 @@
                      or _ eq 'audiostreamsources' 
                      or _ eq 'audiostreamsourcescaches'}">
           <div class="show-media">
-            <mm:function name="gui" escape="none" />
-            <mm:function name="mimetype" />
+            <mm:function name="gui" escape="none" /><jsp:text> </jsp:text>
+            <mm:function name="mimetype" />; <mm:field name="codec"><mm:fieldinfo type="guivalue" escape="lowercase" /></mm:field>
             <br /><strong><mm:field name="state"><mm:fieldinfo type="guivalue" escape="lowercase" /></mm:field> </strong>
             <mm:field name="label" /> <mm:field name="filesize"><mm:fieldinfo type="guivalue" /></mm:field>
             <br /><oip:filesubstr filename="${_node.url}" length="48" />
