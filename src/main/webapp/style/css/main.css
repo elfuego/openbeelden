@@ -214,7 +214,8 @@ div.b_user-media textarea.small
 
 /* I thought we left the Dark Ages of browser sniffing */
 @media screen and (-webkit-min-device-pixel-ratio:0) { 
-    input { padding: 2px; width: 358px; } 
+    input { padding: 2px; width: 358px; }
+    textarea { width: 500px; } 
     div.b_user-media textarea.big, div.b_user-media textarea.small { padding: 2px; width: 506px; } 
 }
 

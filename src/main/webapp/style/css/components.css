@@ -114,6 +114,32 @@ div.b_user-mediapreview a.cancel { float: right; }
 /* show/hide emptynode */
 div.b_user-translations ul.relatednodes li > div.emptynode { display: none; }
 
+/* styles of inline (editme) forms */
+form.mm_form_editme {
+	background-color: #f9f9f9;
+	padding: 4px 6px;
+    border: 1px solid #dfdfdf;
+    margin-bottom: 1em;
+}
+form.mm_form_editme > strong {
+    font-size: 1.2em;
+    color: #555;
+    font-weight: 400;
+}
+form.mm_form_editme > a.cancel { color: #666; }
+form.mm_form_editme label { color: #666; }
+form.mm_form_editme fieldset { 
+    width: auto; 
+	padding-top: 4px;
+	margin-bottom: 0;
+}
+form.mm_form_editme input[type="text"] { width: 338px; }
+form.mm_form_editme textarea { width: 486px; }
+@media screen and (-webkit-min-device-pixel-ratio:0) { 
+    form.mm_form_editme input[type="text"] { padding: 2px; width: 344px; } 
+}
+
+/* upload form and progress */
 div.progressInfo
 {
 	width: auto;
@@ -125,8 +151,6 @@ div.progressInfo
 	height: 22px;
 	margin: 0 0 1em 0;
 }
-
-
 div.PROGRESS, div.DONE
 {
 	background-image: url(../images/progress.png);
@@ -137,7 +161,6 @@ div.PROGRESS, div.DONE
 	top: 0;
 	left: 0;
 }
-
 div.progressInfo span.percentage
 {
 	position: relative;
@@ -145,7 +168,6 @@ div.progressInfo span.percentage
 	left: 2px;
 	color: #555;
 }
-
 div.progressInfo span.speed
 {
 	position: relative;

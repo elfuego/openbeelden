@@ -56,7 +56,7 @@
                   </li>
                 </mm:relatednodes>
                 
-                <mm:maycreate type="$type">
+                <mm:maycreate type="$ttype">
                   <!-- c:if test="${fn:length(locales) - 1 gt total}" -->
                     <li id="new_${ttype}" class="new notsortable">
                       <jsp:text> <!-- empty, cause nothing exists here yet, this will be cloned to represent new nodes --> </jsp:text>
@@ -68,7 +68,7 @@
 
             </mm:relatednodescontainer>
 
-            <mm:maycreate type="$type">
+            <mm:maycreate type="$ttype">
               <!-- c:if test="${fn:length(locales) - 1 gt total}" -->
                 
                 <p class="add" id="related_${ttype}_add">
@@ -85,6 +85,7 @@
                 
               <!-- /c:if -->
             </mm:maycreate>
+            <mm:maycreate type="$ttype" inverse="true">not allowed to create ${ttype}</mm:maycreate>
 
           </mm:hasrelationmanager>
         </mm:hasnodemanager>

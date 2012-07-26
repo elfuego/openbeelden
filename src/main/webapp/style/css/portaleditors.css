@@ -510,12 +510,13 @@ table.stats td.created {
 table.stats td.total { text-align: center; }
 table.stats th a { color: #222; }
 
+div.log { margin-bottom: 1em; }
 div.log pre {
     color: #fff;
     background-color: #111;
     height: 240px;
     overflow: auto;
-    border: 2px solid #E6E9DD;
-    padding: 6px;
+    border: 1px solid #E6E9DD;
+    padding: 3px;
     margin: 0;
 }

@@ -3,7 +3,7 @@
 %><%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"
 %><%@ taglib uri="http://www.opensymphony.com/oscache" prefix="os"
 %><jsp:directive.page session="false" />
-*///<mm:content type="text/javascript" expires="0" postprocessor="none"><os:cache time="0"><mm:escape escape="none">
+*///<mm:content type="text/javascript" expires="3600" postprocessor="none"><os:cache time="3600"><mm:escape escape="javascript-compress">
 
 <fmt:setBundle basename="eu.openimages.messages" scope="request" />
 <mm:import id="any_lang"><fmt:message key="search.any_language" /></mm:import>
@@ -161,7 +161,7 @@ function initEditme(el) {
             link = link.substring(0, link.indexOf("?"));
             var params = getParams(query);
             params['editme'] = 'true';  /* inform form about being editme ajax editor */
-            $('#' + id).load(link, params, function(){ bindMe(id, link, params); }).hide().fadeIn("fast");
+            $('#' + id).load(link, params, function(){ bindMe(id, link, params); }).hide().fadeIn();
         }
     });
     

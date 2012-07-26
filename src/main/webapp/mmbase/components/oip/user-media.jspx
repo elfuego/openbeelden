@@ -137,7 +137,7 @@
 
               <fieldset class="plus">
                 <!-- keywords,source,identifier,contributor,relation,coverage,created,lastmodified -->
-                <mm:fieldlist fields="keywords,source,identifier,contributor,relation,coverage,hasformat,created,lastmodified">
+                <mm:fieldlist fields="keywords,source,identifier,contributor,relation,coverage,hasformat">
                   <c:set var="fld_name"><mm:fieldinfo type="name" /></c:set>
                   <div class="${fld_name}">
                     <mm:fieldinfo type="forid">
