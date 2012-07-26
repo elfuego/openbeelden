@@ -96,7 +96,8 @@ http://www.mmbase.org/jira/secure/ReleaseNote.jspa?&version=10234&projectId=1003
     * [OIP-199] - Paths of pages should not be unique but to be used in every portal
     * [OIP-203] - Search language of media source file, not description
     * [OIP-206] - Enlarge field contributor of mediafragments
-
+    * [OIP-207] - Project managers need to be able to edit other project managers nodes
+    
 ** New Feature
     * [OIP-195] - Download API
     * [OIP-201] - Make possible to use any template has home
