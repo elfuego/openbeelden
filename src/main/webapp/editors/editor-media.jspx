@@ -13,6 +13,7 @@
     <jsp:attribute name="head">
       
       <mm:import externid="nr" />
+      <mm:import externid="p" />
       <mm:hasnode number="$nr">
         <mm:node number="$nr"><mm:nodeinfo type="type" id="builder" write="false" /></mm:node>
       </mm:hasnode>
@@ -34,7 +35,7 @@
             <h2>Not found</h2>
             <p class="err">
               Node not found:
-              <mm:link page="/editors/list.jspx"><a href="${_}">media list</a></mm:link>
+              <mm:link page="/editors/list.jspx" referids="p?"><a href="${_}">media list</a></mm:link>
             </p>
           </c:when>
           <c:otherwise>
@@ -45,7 +46,7 @@
               <p>De belangrijkste content velden van het media item.</p>
 
               <mm:include page="edit-node.jspx" referids="p?,_node@nr" >
-                <mm:param name="fields">title,language,show,subtitle,intro,body,hasformat,date,dc_creator,publisher</mm:param>
+                <mm:param name="fields">title,language,show,subtitle,intro,body,hasformat,date,dc_creator,publisher,keywords,source,identifier,contributor,relation,coverage</mm:param>
               </mm:include>
               
               <h3>Taalversies</h3>
@@ -122,6 +123,23 @@
       <c:if test="${!empty nr and (type eq 'videofragments' or type eq 'audiofragments' or type eq 'imagefragments') }">
         <mm:node number="$nr">
           <oip:thumb />
+
+            <mm:relatednodescontainer type="mediasources" role="related" searchdirs="destination">
+              <h3>Source</h3>
+              <ul>
+              <mm:relatednodes>
+                  <c:if test="${_node.state == 4}">
+                    <mm:link page="editor-stream.jspx" referids="_node@nr,p?">
+                      <li>
+                        <a href="${_}"><mm:field name="url" /></a>
+                      </li>
+                    </mm:link>
+                  </c:if>
+              </mm:relatednodes>
+              </ul>
+            </mm:relatednodescontainer>
+          
+        
         </mm:node>
         <mm:cloudinfo type="usernode" id="iam" write="false" />
         <h3>Info</h3>

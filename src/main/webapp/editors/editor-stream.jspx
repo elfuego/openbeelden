@@ -14,6 +14,7 @@
   <oip:editor styleClass="portal">
     <jsp:attribute name="head">
       
+      <mm:import externid="p" />
       <mm:import externid="nr" />
       <mm:hasnode number="$nr">
         <mm:node number="$nr"><mm:nodeinfo type="type" id="builder" write="false" /></mm:node>
@@ -37,7 +38,7 @@
              <h2>Not found</h2>
              <p class="err">
                Node not found: 
-               <mm:link page="/editors/list.jspx" referids="type?">
+               <mm:link page="/editors/list.jspx" referids="type?,p?">
                  <a href="${_}">go to list</a>
                </mm:link>
              </p>
@@ -119,6 +120,7 @@
               <mm:hasfunction name="triggerCaches">
                 
                 <mm:import externid="triggercaches" />
+                <mm:import externid="interrupt" vartype="integer" />
                 
                 <mm:compare referid="triggercaches" value="all">
                   <mm:import id="all" vartype="boolean">true</mm:import> 
@@ -129,6 +131,12 @@
                   <mm:voidfunction name="triggerCaches" referids="triggercaches@cache" />
                 </mm:compare>
                 
+                <c:if test="${interrupt eq _node.number}">
+                  <p class="msg">
+                    <mm:function set="streams" name="cancelJob" referids="interrupt@node" />
+                  </p>
+                </c:if>
+
                 <mm:listfunction set="streams" name="runningJobs" id="job">
                   
                   <mm:first>
@@ -139,12 +147,18 @@
       
                   <c:if test="${_.node.number eq nr or _.node.number eq source}">
                     <p>
-                      <strong>Transcoding</strong><br />
-                      <strong>progress:</strong> ${_.progress} <br />
+                      <strong>Transcoding information of this source node's job</strong><br />
+                      <strong>progress:</strong> ${_.progress} 
+                      <mm:link referids="_node@interrupt,nr,p?">
+                        <a href="${_}">interrupt transcoding</a>
+                      </mm:link>
+                      <br />
                       <strong>stage:</strong> ${_.stage} <br /> 
                       <strong>in:</strong> ${_.current.in} <br /> 
-                      <strong>out:</strong> ${_.current.out} 
+                      <strong>out:</strong> ${_.current.out} <br />
                     </p>
+
+
                     <div class="log">
                       <pre>
                         <jsp:text>${mm:escape('text/xml', _.logger.debugList)}</jsp:text>
@@ -188,8 +202,6 @@
             <mm:node number="$nr">
               <mm:form id="form_$nr" page="$submit_link">
                 <mm:import id="buffer">
-
-
                   
                   <fieldset class="values">
                     <mm:fieldlist fields="mediafragment">
@@ -234,7 +246,7 @@
                         <div class="${fld_name}">
                           <mm:fieldinfo type="forid">
                             <label for="${_}" class="${fld_name}">
-                              <mm:fieldinfo type="guiname" /> source node
+                              Source node <mm:fieldinfo type="guiname" /> 
                             </label>
                           </mm:fieldinfo>
                           <p class="info"><mm:fieldinfo type="description" escape="inline" /></p>
@@ -253,22 +265,41 @@
                           </mm:fieldinfo>
                           <p class="info"><mm:fieldinfo type="description" escape="inline" /></p>
                           <mm:maywrite><mm:fieldinfo type="input" /><mm:fieldinfo type="errors" /></mm:maywrite>
+                          <mm:maywrite inverse="true"><mm:fieldinfo type="guivalue" /></mm:maywrite>
                         </div>
                       </mm:fieldlist>
                     </fieldset>
                   </c:if>
 
-                  <!-- url: TODO: possible with caches? -->
                   <fieldset>
+
+                    <!-- url: change or upload new -->
                     <mm:fieldlist fields="url">
-                      <div class="url">
-                        <label for="current_url">Edit url</label>
-                        <p class="info">
-                          The url has to be exactly the same as on your filesystem. 
-                          Excluding the media provider (that is without http://server etc.).
-                        </p>
-                        <input type="text" id="mm_form_url" name="form_url" value="${current_url}" />
-                      </div>
+                      
+                      <mm:hasfunction name="triggerCaches">
+                        <div class="url">
+                          <label for="current_url">Edit url</label>
+                          <p class="info"><mm:fieldinfo type="description" escape="inline" /></p>
+                          <input type="text" id="mm_form_url" name="form_url" value="${current_url}" />
+                        </div>
+                        <div class="url">
+                          <mm:fieldinfo type="forid"><label for="${_}">Upload new</label></mm:fieldinfo>
+                          <p class="info">It is also possible to upload a new file.</p>
+                          <mm:maywrite><mm:fieldinfo type="input" /><mm:fieldinfo type="errors" /></mm:maywrite>
+                        </div>
+                      </mm:hasfunction>
+
+                      <mm:hasfunction name="triggerCaches" inverse="true">
+                        <div class="url">
+                          <mm:fieldinfo type="forid">
+                            <label for="${_}" class="${fld_name}"><mm:fieldinfo type="guiname" /></label>
+                          </mm:fieldinfo>
+                          <p class="info"><mm:fieldinfo type="description" escape="inline" /></p>
+                          <mm:maywrite><mm:fieldinfo type="input" /><mm:fieldinfo type="errors" /></mm:maywrite>
+                          <mm:maywrite inverse="true"><mm:fieldinfo type="guivalue" /></mm:maywrite>
+                        </div>
+                      </mm:hasfunction>
+                      
                     </mm:fieldlist>
 
                     <div class="state">
@@ -312,8 +343,6 @@
                   
                   </fieldset>
 
-
-                  <!-- mimetype,format,codec,bitrate,length,filesize,filelastmodified,label,channels -->
                   <mm:import id="filelastmodified" reset="true"><mm:field name="filelastmodified"><mm:fieldinfo type="guivalue" /></mm:field></mm:import>
                   
                   <mm:hasfield name="mimetype">
@@ -376,8 +405,13 @@
                     <p class="err">Het formulier bevat een fout.</p>
                   </mm:valid>
                   <mm:valid>
-                    <p class="msg">Je veranderingen aan '<mm:function name="gui" escape="none" />' zijn bewaard.</p>
                     <mm:commit />
+                    <p class="msg stay">
+                      Your changes are saved.<br />
+                      Sometimes you need to 
+                      <strong><mm:link referids="nr,p?"><a href="${_}">reload this page</a></mm:link></strong>
+                      to be able to see your changes, especially when you've just uploaded a new file.
+                    </p>
                   </mm:valid>
                   <mm:write referid="buffer" escape="none" />
                 </mm:present>
@@ -392,8 +426,7 @@
               </mm:form>
             </mm:node>
 
-  
-            <c:if test="${! fn:endsWith(type, 'caches')}">
+            <c:if test="${! fn:endsWith(type, 'caches') and fn:indexOf(type, 'stream') gt -1}">
               <mm:node number="$mediafragment">
                 <div class="wrap">
                   <h3>Media files</h3>
@@ -440,7 +473,7 @@
             </mm:function> 
             <oip:filesubstr filename="${_node.url}" length="32" />
           </li>
-          <li><mm:link page="list.jspx" referids="type"><a href="${_}">List</a></mm:link></li>
+          <li><mm:link page="list.jspx" referids="type,p?"><a href="${_}">List</a></mm:link></li>
         </ul>
         
         <c:if test="${fn:indexOf(type, 'stream') gt -1}">

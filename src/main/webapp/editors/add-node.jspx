@@ -85,11 +85,7 @@
               </mm:hasfield>
               
               <c:if test="${editme}">
-                <strong>
-                  <fmt:message key="users.new" />
-                  <jsp:text> </jsp:text>
-                  <mm:nodeinfo type="guitype" nodetype="$type" escape="lowercase" />
-                </strong>
+                <strong><mm:nodeinfo type="guitype" nodetype="$type" /></strong>
                 <c:if test="${maycancel}">
                   <a class="editme cancel" href="#close"><fmt:message key="users.cancel" /></a>
                 </c:if>

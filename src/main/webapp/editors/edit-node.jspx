@@ -68,7 +68,7 @@
                 <c:if test="${maycancel}">
                   <a class="cancel" href="#close"><fmt:message key="users.cancel" /></a>
                 </c:if>
-                <strong>Edit <mm:nodeinfo type="guitype" escape="lowercase" /></strong>
+                <strong><mm:nodeinfo type="guitype" /></strong>
               </c:if>
               
               <fieldset>
@@ -121,7 +121,6 @@
                     <mm:commit />
                     <p class="msg">
                       Your changes to '<mm:function name="gui" escape="none" />' are saved!  
-                      <mm:time time="now" />
                     </p>
                     <mm:write referid="buffer" escape="none" />
                   </c:when>
