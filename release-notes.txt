@@ -1,10 +1,11 @@
 ﻿Release Notes - Open Images Platform - Version OIP 1.2
 ------------------------------------------------------
+version $Id$
 
 
 UPGRADING 1.1.1 -> 1.2
 ======================
-Main new features are the API token and API, used to login and post data into Open Images.
+Main new features are the API token and API, which are used to login and post data into Open Images.
 Version 1.2 of Open Images includes a Download API which enables users to download media from other
 sources. Authentication is done with an API token, an encrypted string that contains username and 
 password. The key or password to encrypt all API tokens is a property of 'mmbaseusers'. The builder 
@@ -74,7 +75,7 @@ Release Notes - Open Images Platform - Version OIP 1.2
 http://www.mmbase.org/jira/secure/ReleaseNote.jspa?&version=10234&projectId=10030
 
 ** Bug
-    * [OIP-178] - Some images in <oi:medium /> lack a proper file extension
+    * [OIP-178] - Some images in <oi:medium> lack a proper file extension
     * [OIP-181] - Error when flipping through pages
     * [OIP-185] - Large videos (> 500 MB) don't upload correctly
     * [OIP-188] - Pages editor removed links to created pages
@@ -94,6 +95,7 @@ http://www.mmbase.org/jira/secure/ReleaseNote.jspa?&version=10234&projectId=1003
     * [OIP-198] - Relate licenses to portal to be able to configure different sets per portal
     * [OIP-199] - Paths of pages should not be unique but to be used in every portal
     * [OIP-203] - Search language of media source file, not description
+    * [OIP-206] - Enlarge field contributor of mediafragments
 
 ** New Feature
     * [OIP-195] - Download API
