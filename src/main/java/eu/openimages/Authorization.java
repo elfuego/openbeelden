@@ -20,24 +20,31 @@ along with The Open Images Platform.  If not, see <http://www.gnu.org/licenses/>
 
 package eu.openimages;
 
-import java.util.regex.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
-import org.mmbase.security.implementation.cloudcontext.*;
+import org.mmbase.security.implementation.cloudcontext.Authenticate;
+import org.mmbase.security.implementation.cloudcontext.ContextProvider;
+import org.mmbase.security.implementation.cloudcontext.User;
+import org.mmbase.security.implementation.cloudcontext.UserProvider;
+import org.mmbase.security.implementation.cloudcontext.Verify;
 import org.mmbase.security.implementation.cloudcontext.workflow.WorkFlowContextProvider;
 import org.mmbase.security.Operation;
 import org.mmbase.security.Rank;
 import org.mmbase.module.core.MMObjectNode;
+
 import org.mmbase.util.logging.Logger;
 import org.mmbase.util.logging.Logging;
 
 /**
  * Authorizes actions by Open Images users. In short: each user has access to their own created nodes,
  * users with rank 'portal manager' or 'project manager' have access to all nodes of users with a
- * lower rank, including the user account nodes.
- * A project manager previals over portal manager, can edit their nodes and nodes of other project
- * managers - to share the project management burden.
- * A portal manager manager can edit its own nodes and those of site users, but not from other portal
+ * lower rank, including user account nodes (mmbaseusers).
+ * A portal manager can edit its own nodes and those of site users, but not from other portal
  * managers and thus not from other portals.
+ * A project manager prevails over portal manager, can edit portal manager nodes and nodes of other project
+ * managers - to share the project management burden. A project manager can not edit user account nodes
+ * of other project managers, only its own.
  *
  * @author Michiel Meeuwissen
  * @author André van Toly
@@ -47,8 +54,9 @@ public class Authorization extends Verify {
 
     private static final Logger log = Logging.getLoggerInstance(Authorization.class);
 
-    /** int value for the portal manager rank */
+    /** int value for portal manager rank */
     public final static int PORTALMANAGER_INT  = 400;
+    /** int value for project manager rank */
     public final static int PROJECTMANAGER_INT = 500;
 
     @Override
@@ -108,14 +116,14 @@ public class Authorization extends Verify {
                                 log.debug("owner node #" + owner + " has username: " + username);
                             }
 
-                            /* if user rank > portal man
-                               && user rank > node owner's rank
+                            /* if user rank > portal man (higher then portal manager)
+                               && user rank >= node owner's rank (node rank higher or equal then own rank)
                                && proj. man rank >= node owner's rank (thus not admin's nodes) */
                             if (user.getRank().getInt() > PORTALMANAGER_INT &&
-                                    user.getRank().getInt() > up.getRank(up.getUser(username)).getInt() &&
+                                    user.getRank().getInt() >= up.getRank(up.getUser(username)).getInt() &&
                                     PROJECTMANAGER_INT >= up.getRank(up.getUser(username)).getInt() ) {
                                 if (log.isDebugEnabled()) {
-                                    log.debug("Higher or equal rank so may do on node #" + node.getNumber() + " (node owner rank " + up.getRank(node).getInt() + ")");
+                                    log.debug("Higher or equal rank (then owner) so may do on node #" + node.getNumber() + " (node owner rank " + up.getRank(node).getInt() + ")");
                                 }
                                 switch(operation.getInt()) {
                                     case Operation.READ_INT:   return true;
@@ -158,7 +166,7 @@ public class Authorization extends Verify {
                             up.getRank(userNode).getInt() > up.getRank(node).getInt()) {
 
                         if (log.isDebugEnabled()) {
-                            log.debug("Higher or equal rank so may do on node #" + node.getNumber());
+                            log.debug("Higher rank (then owner) so may do on node #" + node.getNumber());
                         }
                         switch(operation.getInt()) {
                             case Operation.READ_INT:   return true;
