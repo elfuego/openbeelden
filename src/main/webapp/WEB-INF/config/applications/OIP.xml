@@ -51,6 +51,7 @@
     <relation from="pools"    to="templates"   type="related" />
     <relation from="pools"    to="pages"       type="posrel" /><!-- pages in header -->
     <relation from="pools"    to="pages"       type="footerrel" /><!-- pages in footer -->
+    <relation from="pools"    to="pages"       type="related" /><!-- pages belonging to a portal for use in editor -->
     <relation from="pools"    to="licenses"    type="posrel" />
     <relation from="pages"    to="pages"       type="posrel" />
     <relation from="pages"    to="articles"    type="posrel" />
