@@ -7,7 +7,7 @@
 
   <groupId>eu.openimages</groupId>
   <artifactId>oip</artifactId>
-  <version>1.2-SNAPSHOT</version>
+  <version>1.2</version>
   <packaging>war</packaging>
   <name>Open Images Platform</name>
   <url>http://www.openimages.eu</url>
@@ -85,9 +85,9 @@
   <properties>
 
      <!-- MMBase 1.9 -->
-     <mmbase.version.number>1.9</mmbase.version.number>
+     <mmbase.version.number>1.9.6</mmbase.version.number>
      <mmbase.version.postfix>-SNAPSHOT</mmbase.version.postfix>
-     <mmbase.version>${mmbase.version.number}${mmbase.version.postfix}</mmbase.version>
+     <mmbase.version>${mmbase.version.number}</mmbase.version>
      <base.version>${mmbase.version.number}-servlet25${mmbase.version.postfix}</base.version>
      <mmbase.core>mmbase</mmbase.core>
     <!-- MMBase 2.0 -->
@@ -99,7 +99,7 @@
      <mmbase.repos>scp://mmbase.org/home/tomcat/downloads/</mmbase.repos>
 
      <saxon.version>9.1.0.6</saxon.version>
-     <mmsite.version>1.9-SNAPSHOT</mmsite.version>
+     <mmsite.version>1.9.6</mmsite.version>
      <netbeans.hint.deploy.server>Tomcat60</netbeans.hint.deploy.server>
      <netbeans.hint.jdkPlatform>JDK_1.6</netbeans.hint.jdkPlatform>
      <org-netbeans-modules-editor-indent.CodeStyle.usedProfile>project</org-netbeans-modules-editor-indent.CodeStyle.usedProfile>
