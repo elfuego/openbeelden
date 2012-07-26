@@ -149,9 +149,12 @@
               referids="index,value2@value,fields?,filter,analyzer?,extraconstraints" />
         </c:if>
 
-        <!-- sorting -->
+        <!-- sorting : sorttitle, date, created -->
         <mm:import externid="sf" />
         <c:if test="${empty q and empty sf}"><mm:import id="sf" reset="true">created</mm:import></c:if>
+        <c:if test="${!empty sf and sf ne 'sorttitle' and sf ne 'date' and sf ne 'created'}">
+          <mm:import id="sf" reset="true">created</mm:import>
+        </c:if>
         <mm:import externid="so">down</mm:import>
         <c:if test="${!empty sf}">
           <mm:import id="sortfields"> ${so eq 'down' ? 'REVERSE:' : ''}${sf} </mm:import>

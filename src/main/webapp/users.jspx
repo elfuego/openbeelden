@@ -55,13 +55,13 @@
         <mm:import externid="t">down</mm:import>
         <!-- sf: ${sf} d: ${d} t: ${t} -->
         <mm:functioncontainer>
-          <c:if test="${!empty sf}">
+          <c:if test="${!empty sf}"><!-- only possible: name, date -->
             <c:choose>
               <c:when test="${sf eq 'name'}">
-                <mm:param name="sortfields">${t eq 'down'  ? 'REVERSE:' : ''}${sf}</mm:param>
+                <mm:param name="sortfields">${t eq 'down'  ? 'REVERSE:' : ''}name</mm:param>
               </c:when>
               <c:otherwise>
-                <mm:param name="sortfields">${d eq 'down'  ? 'REVERSE:' : ''}${sf}</mm:param>
+                <mm:param name="sortfields">${d eq 'down'  ? 'REVERSE:' : ''}date</mm:param>
               </c:otherwise>
             </c:choose>
           </c:if>
@@ -69,7 +69,6 @@
               id="results"
               module="lucene" name="search"
               referids="index,value,offset,max,fields?,extraconstraints" />
-
         </mm:functioncontainer>
 
         <c:if test="${empty emptysearch}">
