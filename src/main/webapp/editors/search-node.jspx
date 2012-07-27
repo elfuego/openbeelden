@@ -127,7 +127,7 @@
     
     <li class="pager notsortable">
       <mm:url id="baseurl" absolute="true" escapeamps="false" write="false"
-        referids="type,search@q,p?,nr?,relation?,fields?,parent?,role?,lang?,showform?,show?,editor?,maydelete?,unpublish?" />
+        referids="type,search@q,p?,nr?,startnode?,relation?,fields?,parent?,role?,lang?,showform?,show?,editor?,maydelete?,unpublish?" />
       <oip:pager total="${total}" offset="${offset}" max="${max}" baseurl="${baseurl}" />
     </li>
   
