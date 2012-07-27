@@ -87,9 +87,7 @@
               
               <mm:maywrite>
                 <fieldset class="buttons">
-          <!-- p?,relation?,fields?,lang?,parent?,role?,editme?,showform?,show?,editor?,maydelete?,unpublish?,maycancel?" --> 
-                  <input type="hidden" name="nr"  value="${nr}" />
-                  <input type="hidden" name="p"  value="${p}" />
+                  <!-- p?,relation?,fields?,lang?,parent?,role?,editme?,showform?,show?,editor?,maydelete?,unpublish?,maycancel?" --> 
                   <input type="hidden" name="relation"  value="${relation}" />
                   <input type="hidden" name="fields"    value="${fields}" />
                   <input type="hidden" name="lang"      value="${lang}" />
