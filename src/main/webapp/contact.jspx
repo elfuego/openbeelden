@@ -65,12 +65,15 @@
             <mm:createnode type="email" id="email" commitonclose="false">
               <mm:setfield name="to">${property_to_email}</mm:setfield>
               <fieldset class="labelininput">
+                <!-- kind of protection against SPAM bots: this field hidden with javascript -->
+                <div class="mm_contactform_to_address">
+                  <label for="mm_contactform_to_address">To</label>
+                  <input type="text" id="mm_contactform_to_address" name="mm_contactform_to_address" value="" />
+                </div>
                 <mm:fieldlist fields="from,subject,body">
                   <div>
                     <mm:fieldinfo type="forid">
-                      <label for="${_}">
-                        <span><mm:fieldinfo type="guiname" /></span>
-                      </label>
+                      <label for="${_}"><mm:fieldinfo type="guiname" /></label>
                     </mm:fieldinfo>
                     <mm:fieldinfo type="input" /><mm:fieldinfo type="errors" />
                   </div>
@@ -88,21 +91,31 @@
           </mm:notpresent>
 
           <mm:present referid="submit">
+            <mm:import externid="mm_contactform_to_address" />
             <mm:valid inverse="true">
               <p class="err">Form not valid.</p>
               <mm:cancel />
               <mm:write referid="buffer" escape="none" />
             </mm:valid>
             <mm:valid>
-              <mm:commit />
-              <mm:node referid="email">
-                <mm:functioncontainer>
-                  <mm:param name="type" value="oneshot" />
-                  <mm:function name="startmail">
-                    <p class="msg stay">Your message has been send.</p>
-                  </mm:function>
-                </mm:functioncontainer>
-              </mm:node>
+              <c:choose>
+                <!-- kind of SPAM protection: check if bot filled hidden field -->
+                <c:when test="${empty mm_contactform_to_address}">
+                  <mm:commit />
+                  <mm:node referid="email">
+                    <mm:functioncontainer>
+                      <mm:param name="type" value="oneshot" />
+                      <mm:function name="startmail">
+                        <p class="msg stay">Your message has been send.</p>
+                      </mm:function>
+                    </mm:functioncontainer>
+                  </mm:node>
+                </c:when>
+                <c:otherwise>
+                  <p class="msg stay">Your message has been send.</p>
+                  <!-- but not really -->
+                </c:otherwise>
+              </c:choose>
             </mm:valid>
           </mm:present>
         </mm:form>

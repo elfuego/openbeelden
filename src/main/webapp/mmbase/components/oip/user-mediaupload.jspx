@@ -33,6 +33,11 @@
               <mm:setfield name="language">${fn:indexOf(lang, '_') > -1 ? fn:substringBefore(lang, '_') : lang}</mm:setfield>
               <mm:setfield name="label">source</mm:setfield>
               <fieldset>
+                <!-- kind of protection against SPAM bots: this field hidden with javascript -->
+                <div class="mm_upload_form_to_address">
+                  <label for="mm_upload_form_to_address">To</label>
+                  <input type="text" id="mm_upload_form_to_address" name="mm_upload_form_to_address" value="" />
+                </div>
                 <mm:fieldlist fields="url" id="urlfield">
                   <div>
                     <mm:fieldinfo type="forid">
@@ -118,10 +123,14 @@
             </fieldset>
 
             <mm:import externid="submit_upload" />
+            <mm:import externid="mm_upload_form_to_address" />
             <mm:present referid="submit_upload">
               <mm:valid>
-                <mm:commit />
-                <mm:import id="committed" />
+                <!-- kind of SPAM protection: check if bot filled hidden field -->
+                <c:if test="${empty mm_upload_form_to_address}">
+                  <mm:commit />
+                  <mm:import id="committed" />
+                </c:if>
               </mm:valid>
             </mm:present>
             <mm:notpresent referid="committed">

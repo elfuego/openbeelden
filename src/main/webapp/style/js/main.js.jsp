@@ -133,6 +133,7 @@ function initMoreinfo() {
             }
         });
     }
+    $('div.mm_contactform_to_address,div.mm_upload_form_to_address').hide();    // against bots
 }
 
 /* Selects input type contents, makes it easier to copy */
