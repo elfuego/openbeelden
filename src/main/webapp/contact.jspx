@@ -112,6 +112,7 @@
                   </mm:node>
                 </c:when>
                 <c:otherwise>
+                  <mm:cancel />
                   <p class="msg stay">Your message has been send.</p>
                   <!-- but not really -->
                 </c:otherwise>
