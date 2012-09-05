@@ -5,7 +5,9 @@
     xmlns:c="http://java.sun.com/jsp/jstl/core"
     xmlns:fn="http://java.sun.com/jsp/jstl/functions"
     xmlns:jsp="http://java.sun.com/JSP/Page"
-    xmlns:mm="http://www.mmbase.org/mmbase-taglib-2.0">
+    xmlns:mm="http://www.mmbase.org/mmbase-taglib-2.0" 
+    xmlns:oip="urn:jsptagdir:/WEB-INF/tags/oip">
+
   <jsp:directive.page session="false" />
   <!--
   examples of use:
@@ -118,7 +120,7 @@
     <c:choose>
       <c:when test="${!empty resumptionToken}">
         
-        <c:if test="${!empty from or !empty until or !empty set}">
+        <c:if test="${!empty from or !empty until}">
           <c:set var="error" value="badArgument" />
           <c:set var="kind" value="have resumptionToken but from not empty or until not empty or set not empty" />
         </c:if>
@@ -374,49 +376,8 @@
             </mm:listnodes>
           </mm:listnodescontainer>
 
-          <mm:hasnode number="$portal">
-            <mm:node number="$portal">
-  
-              <!-- set portal manager as default user -->
-              <mm:relatednodescontainer type="mmbaseusers" role="portalrel" searchdirs="source">
-                <mm:maxnumber value="1" />
-                <mm:relatednodes>
-                  <c:set var="p_users">user:"<mm:field name="username" />"</c:set>
-                </mm:relatednodes>
-              </mm:relatednodescontainer>
-  
-              <!-- portal filter: users, tags, keywords -->
-              <mm:relatednodescontainer type="filters" role="portalrel" searchdirs="destination">
-                <mm:relatednodes>
-                  <mm:field name="users" escape="none">
-                    <mm:isnotempty>
-                      <c:forTokens items="${_}" delims=";" var="usr">
-                        <c:set var="p_users">${p_users}<jsp:text> </jsp:text>user:"<c:out value="${fn:trim(usr)}" />"</c:set>
-                      </c:forTokens>
-                    </mm:isnotempty>
-                  </mm:field>
-                  <mm:field name="keywords" escape="none">
-                    <mm:isnotempty>
-                      <c:forTokens items="${_}" delims=";" var="kw">
-                        <c:set var="p_keywords">${p_keywords}<jsp:text> </jsp:text>keywords:"<c:out value="${fn:trim(kw)}" />"</c:set>
-                      </c:forTokens>
-                    </mm:isnotempty>
-                  </mm:field>
-                  <mm:field name="tags" escape="none">
-                    <mm:isnotempty>
-                      <c:forTokens items="${_}" delims=";" var="tag">
-                        <c:set var="p_tags">${p_tags}<jsp:text> </jsp:text>tags:"<c:out value="${fn:trim(tag)}" />"</c:set>
-                      </c:forTokens>
-                    </mm:isnotempty>
-                  </mm:field>
-                </mm:relatednodes>
-              </mm:relatednodescontainer>
-            </mm:node>
-          </mm:hasnode>
-
-          <mm:import id="value">
-            <c:if test="${!empty p_keywords or !empty p_tags or !empty p_users}">+(${p_keywords} ${p_tags} ${p_users}) -excludedportal:${portal} </c:if>
-          </mm:import>
+          <mm:import id="analyzer" reset="true">org.apache.lucene.analysis.KeywordAnalyzer</mm:import>
+          <mm:import id="value"><oip:portalquery portal="${portal}" /></mm:import>
 
         </c:when>
         <c:otherwise>
@@ -438,14 +399,14 @@
           module="lucene"
           id="list"
           name="search"
-          referids="index,value,offset,max,fields?,sortfields?,filter?,extraconstraints" />
+          referids="index,value,offset,max,fields?,sortfields?,filter?,analyzer?,extraconstraints" />
 
       <mm:function
           module="lucene"
           id="total"
           name="searchsize"
           write="false"
-          referids="index,value,fields?,filter?,extraconstraints" />          
+          referids="index,value,fields?,filter?,analyzer?,extraconstraints" />          
           
           <!--
           <mm:listnodescontainer type="mediafragments">
@@ -619,7 +580,11 @@
       
       </c:choose>
   
-      
     </OAI-PMH>
+    
+    <mm:present referid="value">
+      <mm:log level="info">value: <mm:write referid="value" escape="none" /></mm:log>
+    </mm:present>
+    
   </mm:cloud>
 </mm:content>
