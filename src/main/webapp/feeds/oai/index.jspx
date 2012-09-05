@@ -583,7 +583,7 @@
     </OAI-PMH>
     
     <mm:present referid="value">
-      <mm:log level="info">value: <mm:write referid="value" escape="none" /></mm:log>
+      <mm:log>value: <mm:write referid="value" escape="none" /></mm:log>
     </mm:present>
     
   </mm:cloud>
