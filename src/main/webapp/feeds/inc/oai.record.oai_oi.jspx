@@ -211,10 +211,13 @@
           <c:if test="${_.main and count lt 1}"><!-- only one possible, but imported streams can have multiple sources -->
             <c:set var="count" value="1" />
             <mm:node number="${_.source.number}">
-              <mm:field name="language">
-                <mm:isempty>nl</mm:isempty>
-                <mm:isnotempty>${_}</mm:isnotempty>
-              </mm:field>
+              <mm:hasfield name="language">
+                <mm:field name="language">
+                  <mm:isempty>nl</mm:isempty>
+                  <mm:isnotempty>${_}</mm:isnotempty>
+                </mm:field>
+              </mm:hasfield>
+              <mm:hasfield name="language" inverse="true">nl</mm:hasfield>
             </mm:node>
           </c:if>
         </mm:listfunction>
