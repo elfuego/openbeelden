@@ -62,6 +62,24 @@
               <a href="${_}">OAI-PMH ListSets oai_oi</a>
             </mm:link>
           </li>
+          <li>
+            OAI-PMH sets:
+            <ul>
+              <mm:listnodescontainer type="properties">
+                <mm:constraint field="key" value="oai-set" operator="EQUAL" />
+                <mm:listnodes>
+                  <li>
+                    <mm:link page="/feeds/oai">
+                      <mm:param name="verb">ListRecords</mm:param>
+                      <mm:param name="metadataPrefix">oai_oi</mm:param>
+                      <mm:param name="set"><mm:field name="value" /></mm:param>
+                      <a href="${_}"><mm:field name="value" /></a>
+                    </mm:link>
+                  </li>
+                </mm:listnodes>
+              </mm:listnodescontainer>
+            </ul>
+          </li>
           
           <mm:listnodescontainer type="mediafragments">
           <mm:constraint field="show" value="true" operator="EQUAL" />
