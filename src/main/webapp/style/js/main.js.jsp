@@ -22,6 +22,7 @@ function initMultiLang() {
     $("select[id='mm_org.mmbase.mmsite.language']").change(function() {
         var form = $(this).parents('form');
         var action = form.attr("action").split('/');
+        if ("" == action[action.length - 1]) action.pop();
         var last = action[action.length - 1].split('.');
         if ($(this).val() == '') {
             action[action.length - 1] = last[0];
@@ -318,10 +319,7 @@ function hideUser0() {
     if ($('#mm_username').length) {
         var username = $('#mm_username').val();
         var user = /^user\d+/;   // user0
-        if (username.match(user)) {
-            //console.log('hiding user0 :' + username);
-            $('#mm_username').val("");
-        }
+        if (username.match(user)) { $('#mm_username').val("");}
     }
 }
 
