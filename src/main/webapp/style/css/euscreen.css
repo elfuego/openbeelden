@@ -1,0 +1,235 @@
+/**
+* @author   Open Images Platform
+* @since    September 2012
+* @name     Stylesheet for EUscreen portal
+* @version  '$Id: login.css 42718 2010-06-28 07:58:07Z andre $'
+*/
+
+body {
+	background-color: #ECECEC;
+	font-family: "Helvetica Neue", Helvetica, sans-serif;
+	color: #000;
+	background-image: url(images/euscreen_bg.png);
+	background-repeat: repeat;
+}
+
+h1, h2, h3 {
+    font-family: "Helvetica Neue", Helvetica, sans-serif;
+	font-weight: 200;
+	text-transform: none;
+	color: #222;
+}
+
+p {
+	font-size: 1em;
+	line-height: 18pt;
+}
+label {	color: #333; }
+
+a:link, 
+a:visited { color: #333; }
+a:hover, 
+a:active { color: #000; }
+
+/* ### main page items ### */
+#header h1 {
+	margin-top: 30px;
+	margin-bottom: 34px;
+}
+#header p { font-style: normal; }
+
+div#menu { top: 24px; }
+div#menu ul.main {
+	border-bottom: 3px solid #333;
+	width: 512px;
+}
+div#menu ul.main li,
+div#menu ul.main li.last {
+	margin-top: -16px;
+	padding: 8px 16px 8px 16px;
+	border-bottom: 3px solid #333;
+    text-shadow: #fff 0px 1px 0px;
+}
+div#menu ul.main li.active {
+	background-color: #333;
+}
+div#menu ul.main li.active a { color: #4DC6F4; 
+    text-shadow: none;
+}
+
+div#menu ul.main li a {
+	color: #333;
+}
+div#menu ul.main li a:hover {
+	text-decoration: none;
+	color: #4DC6F4;
+}
+
+body.home > div#main > div.wrap { top: 470px; }
+body.home > div#main > div.wrap > div.main-column { margin-top: 0; }
+
+div#footer { background-image: url(images/euscreen_line.png); }
+
+
+/* ### specific per page items ### */
+h2,
+div.related h2 {
+	padding: 2px 0 2px 0;
+	color: #000;
+	text-shadow: #fff 0px 1px 0px;
+}
+div.related h2 {
+	color: #4DC6F4;
+}
+div.main-column h2 {
+	color: #4DC6F4;
+}
+body.home div.wrap > div.main-column h2 { color: #e45e9d; }
+
+div#searchwrap h2 {
+	/* color: #a6db69; */
+}
+form#search label { font-style: normal; }
+form#search input {
+	/* width: 184px; */
+	border-top: 1px solid #5d5d5d;
+	border-left: 1px solid #5d5d5d;
+	border-right: 1px solid #5d5d5d;
+	border-bottom: 1px solid #5d5d5d;
+	background-image: none;
+}
+form#search p a:link, 
+form#search p a:visited {
+	color: #a6db69;
+	text-decoration: underline;
+}
+input.submit, input.cancel, input.info {
+	color: #333;
+	border-color: #333;
+}
+
+dl.preview dd {
+	color: #333;
+	font-size: 0.85em;
+}
+.more a:link, .more a:visited { color: #333; }
+
+div.left-column, div.wrap {	background-image: none; } 
+ul.list-tabs {
+	border-bottom: 3px solid #333;
+	height: auto;
+}
+ul.list-tabs li {
+	font-weight: normal;
+}
+
+ul.list-tabs a:link,
+ul.list-tabs a:visited,
+ul.list-tabs a {
+	padding: 8px 12px;
+	background-image: none;
+	color: #333;
+	text-shadow: #fff 0px 1px 0px;
+}
+ul.list-tabs li.ui-state-active a:link,
+ul.list-tabs li.ui-state-active a:visited,
+ul.list-tabs li.ui-state-active a {
+	background-color: #333;
+	font-weight: normal;
+	color: #a6db69;
+	text-shadow: none;
+}
+ul.list-tabs li.ui-state-hover a {
+	color: #a6db69;
+	/* background-color: #CCCCCC; */
+	text-shadow: none;
+}
+
+dl.list a:link, 
+dl.list a:visited {
+    text-decoration: none;
+    color: #333;
+	text-shadow: #fff 0px 1px 0px;
+	font-weight: normal;
+	font-size: 11pt;
+}
+dl.list a:hover, 
+dl.list a:active {
+	text-decoration: underline;
+}
+
+div.related-grey { background-image: none; }
+div.related-grey-border { background-image: none; }
+
+h3.subtitle a, 
+h3.mediatitle a, 
+h3.subtitle, 
+h3.mediatitle {
+	color: #333;
+	font-weight: 500;
+	font-size: 1.1em;
+    text-shadow: #fff 0px 1px 0px;
+}
+
+/* homepage */
+body.home > div#main > div.main-column { margin-top: 25px; }
+body.home > div#main > div.right-column { margin-top: 25px; }
+div.related p.more { font-size: 0.9em; }
+div.blog h3 {
+	font-weight: 500;
+	font-size: 1.2em;
+	color: #333;
+    text-shadow: #fff 0px 1px 0px;
+
+}
+div.blog a:link, 
+div.blog a:visited { color: #333; }
+
+/* media/search page */
+body.media div.main-column div.text { top: 128px; }
+body.media div#tabs { top: 166px;}
+
+body.media div.wrap {
+	background-image: none;
+	padding-top: 60px;
+}
+body.media div.wrap h4 {
+	color: #333;
+	font-weight: 400;
+	text-shadow: #fff 0px 1px 0px;
+	border-bottom: 2px solid #333;
+}
+
+body.media-item div.more {
+	border-bottom: none;
+	background-image: url(images/euscreen_line.png);
+	background-position: 0 bottom;
+	background-repeat: repeat-x;
+	min-height: 28px;
+}
+body.media-item div.more dl { padding-bottom: 8px; }
+body.media-item dl.media-info dt {
+    font-weight: normal;
+    color: #333;
+}
+ul.toolbar a:link,
+ul.toolbar a:visited {
+    font-weight: normal;
+    color: #333;
+}
+ul.toolbar li.license a {
+    border-left: 1px #aaa solid;
+}
+ul.toolbar li a {
+    border-top: 1px #aaa solid;
+    border-bottom: 1px #aaa solid;
+    border-right: 1px #aaa solid;
+}
+div.main-column div.popup, div.right-column div.popup {
+    border: 1px solid #aaa;
+    background-color: #fff;
+    margin: 8px 0;
+}
+
+
+/* div.oiplayer { background-color: transparent; } */
