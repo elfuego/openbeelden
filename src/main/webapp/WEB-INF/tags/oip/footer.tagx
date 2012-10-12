@@ -95,6 +95,25 @@
             </mm:relatednodes>
           </ul>
         </mm:relatednodescontainer>
+
+        <c:if test="${!isdefaultportal}">
+          <mm:relatednodescontainer type="pages" role="footerrel" searchdirs="destination">
+            <mm:sortorder field="posrel.pos" direction="UP" />
+            <ul class="footer">
+              <mm:relatednodes>
+                <mm:link page="page" referids="_node@n">
+                  <mm:frameworkparam name="component">mmsite</mm:frameworkparam>
+                  <li>
+                    <a href="${_}">
+                      <mm:nodefunction name="translation"><mm:field name="title" /></mm:nodefunction>
+                    </a>
+                  </li>
+                </mm:link>
+              </mm:relatednodes>
+            </ul>
+          </mm:relatednodescontainer>
+        </c:if>
+
       </mm:node>
     </div>
 

@@ -260,7 +260,7 @@ div.left-column
 }
 
 #footer ul { list-style: none; }
-
+#footer ul.footer { margin-top: 12px; }
 #footer li
 {
 	margin-top: 2px;
