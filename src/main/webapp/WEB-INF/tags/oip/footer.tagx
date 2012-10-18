@@ -31,27 +31,18 @@
       
       </mm:node>
 
-
-
-      <mm:node number="$homepage" notfound="skip">
+      <mm:node number="${requestScope.portal.number}" notfound="skip">
         <!-- partner logo's -->
-        <mm:relatednodescontainer type="images" role="posrel" searchdirs="destination">
-          <mm:sortorder field="posrel.pos" direction="UP" />
+        <mm:relatednodescontainer type="images" role="footerrel" searchdirs="destination">
+          <mm:sortorder field="footerrel.pos" direction="UP" />
           <p> 
             <mm:relatednodes>
               <mm:first><c:if test="${!empty prop_logos}">${prop_logos}<br /></c:if></mm:first>
               
-              <c:set var="partner_url" value="" />
-              <c:set var="partner_url_title" value="" />
-              <mm:relatednodescontainer type="urls" searchdirs="destination">
-                <mm:relatednodes>
-                  <c:set var="partner_url"><mm:field name="url" /></c:set>
-                  <c:set var="partner_url_title"><mm:field name="name" /></c:set>
-                </mm:relatednodes>
-              </mm:relatednodescontainer>
+              <c:set var="partner_url"><mm:field name="description" /></c:set>
               <c:choose>
                 <c:when test="${!empty partner_url}">
-                  <a title="${partner_url_title}" href="${partner_url}"><mm:image width="81" mode="img" /></a>
+                  <a title="${_node.title}" href="${partner_url}"><mm:image width="81" mode="img" /></a>
                 </c:when>
                 <c:otherwise><mm:image width="81" mode="img" /></c:otherwise>
               </c:choose>

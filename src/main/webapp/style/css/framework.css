@@ -250,7 +250,9 @@ div.left-column
 	font-size: 0.9em;
 	color: #777;
 }
-#footer div.logos img { margin-top: 8px; }
+#footer div.logos img {
+	margin: 8px 4px 0 0;
+}
 
 #footer div.initiative
 {

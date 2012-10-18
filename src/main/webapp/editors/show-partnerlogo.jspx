@@ -7,12 +7,10 @@
     expires="0" type="text/html" 
     language="${empty param.lang ? 'client' : param.lang}" 
     postprocessor="none">
-<jsp:output doctype-root-element="html"
-      doctype-public="-//W3C//DTD XHTML 1.0 Strict//EN"
-      doctype-system="http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd" />
-<mm:cloud loginpage="/editors/login.jspx" rank="site user">
 
-  <fmt:setBundle basename="eu.openimages.messages" scope="request" />
+<jsp:output omit-xml-declaration="false" />
+
+<mm:cloud method="asis">
 
   <mm:import externid="nr" />
   
@@ -23,13 +21,9 @@
       <oip:thumb alt="${title}" />
     </div>
     
-    <mm:relatednodescontainer type="urls" role="related" searchdirs="destination">
-      <mm:relatednodes>
-        <mm:field name="name" /><br />
-        <mm:field name="url" /><br style="clear:both;" />
-      </mm:relatednodes>
-    </mm:relatednodescontainer>
-  
+    <strong>${title}</strong><br />
+    <mm:field name="description" escape="inline" />
+ 
   </mm:node>
   
 

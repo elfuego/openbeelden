@@ -394,8 +394,10 @@ form.mm_form_editme > a.cancel {
 /* ### mm_form_editme form ### */
 form.mm_form_editme {
 	border: 1px solid #d4d4d4;
-	background-color: #f9f9f9;  /* #e3e2de;   f9f9f9 */
+	background-color: #f9f9f9;
+	/* #e3e2de;   f9f9f9 */
 	padding: 4px 6px;
+	margin: 0;
 }
 body.portal form#form_filters.mm_form_editme,
 body.portal-config form#form_urls.mm_form_editme {
@@ -511,6 +513,9 @@ table.stats td.total { text-align: center; }
 table.stats th a { color: #222; }
 
 div.log { margin-bottom: 1em; }
+ul.relatednodes div.log {
+	margin: 0;
+}
 div.log pre {
     color: #fff;
     background-color: #111;

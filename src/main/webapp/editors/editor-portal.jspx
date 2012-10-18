@@ -200,41 +200,30 @@
   
           
   
-          <!-- homepage is very first one : contains partner logo's for footer -->
-          <mm:relatednodescontainer type="pages" role="posrel" searchdirs="destination">
-            <mm:sortorder field="posrel.pos" direction="UP" />
-            <mm:maxnumber value="1" />
-            <mm:relatednodes>
-              <mm:import id="homepage" reset="true"><mm:field name="number" /></mm:import>
-  
-              <div class="wrap">
-                <h3>Logo's partners</h3>
-                <mm:include page="/editors/edit-list.jspx" referids="p,_node@nr">
-                  <mm:param name="type">images</mm:param>
-                  <mm:param name="role">posrel</mm:param>
-                  <mm:param name="dir">destination</mm:param>
-                  <mm:param name="fields">handle,title</mm:param>
-                  <mm:param name="maydelete">true</mm:param>
-                  <mm:param name="unpublish">false</mm:param>
-                  <mm:param name="maycreate">false</mm:param>
-                  <mm:param name="search">false</mm:param>
-                  <mm:param name="editor">/editors/edit-partnerlogo.jspx</mm:param>
-                  <mm:param name="show">/editors/show-partnerlogo.jspx</mm:param>
-                </mm:include>
-                <p class="add">
-                  <mm:link page="/editors/edit-partnerlogo.jspx" referids="p">
-                    <mm:param name="pos">1</mm:param>
-                    <mm:param name="editor">/editors/edit-partnerlogo.jspx</mm:param>
-                    <mm:param name="show">/editors/show-partnerlogo.jspx</mm:param>
-                    <mm:param name="defaultstr">title=Portal logo ${portalName}</mm:param>
-                    <mm:param name="maydelete">true</mm:param>
-                    <a class="editme add" href="${_}#new_images">Add partnerlogo</a>
-                  </mm:link>
-                </p>
-              </div>
-  
-            </mm:relatednodes>
-          </mm:relatednodescontainer> 
+          <div class="wrap">
+            <h3>Logo's partners</h3>
+            <mm:include page="/editors/edit-list.jspx" referids="p,_node@nr">
+              <mm:param name="type">images</mm:param>
+              <mm:param name="role">footerrel</mm:param>
+              <mm:param name="dir">destination</mm:param>
+              <mm:param name="maydelete">true</mm:param>
+              <mm:param name="unpublish">false</mm:param>
+              <mm:param name="maycreate">false</mm:param>
+              <mm:param name="search">false</mm:param>
+              <mm:param name="editor">/editors/edit-partnerlogo.jspx</mm:param>
+              <mm:param name="show">/editors/show-partnerlogo.jspx</mm:param>
+            </mm:include>
+            <p class="add">
+              <mm:link page="/editors/edit-partnerlogo.jspx" referids="p">
+                <mm:param name="pos">3</mm:param>
+                <mm:param name="editor">/editors/edit-partnerlogo.jspx</mm:param>
+                <mm:param name="show">/editors/show-partnerlogo.jspx</mm:param>
+                <mm:param name="defaultstr">title=Portal logo ${portalName}</mm:param>
+                <mm:param name="maydelete">true</mm:param>
+                <a class="editme add" href="${_}#new_images">Add partnerlogo</a>
+              </mm:link>
+            </p>
+          </div>
   
           
           <!-- the default portal has no specific url nor a content filter -->

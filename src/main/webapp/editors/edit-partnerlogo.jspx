@@ -16,33 +16,29 @@
   
   <mm:import externid="p" /><!-- portal -->
   <mm:import externid="nr" />
+  <mm:import externid="relation" /><!-- node nr relation -->
+  <mm:import externid="fields" />
+  <mm:import externid="lang" />
+
+  <mm:import externid="parent" />
+  <mm:import externid="role">footerrel</mm:import>
   <mm:import externid="pos">3</mm:import>
   
   <mm:import externid="submitlogo" />
   <mm:import externid="submit$nr" />
   <mm:import externid="cancel" />
-  <mm:import externid="editme" />
-
-  <mm:import externid="editor" />
-  <mm:import externid="showform" />
-  <mm:import externid="show" />
-  <mm:import externid="maydelete" />
-
-
-  <!-- partnerimages are related to homepage: get homepage of this portal, is very first one -->
-  <mm:node number="$p">
-    <mm:field name="name" id="portaltitle" write="false" />
-    
-    <mm:relatednodescontainer type="pages" role="posrel" searchdirs="destination">
-      <mm:sortorder field="posrel.pos" direction="UP" />
-      <mm:maxnumber value="1" />
-      <mm:relatednodes>
-        <mm:import id="homepage" reset="true"><mm:field name="number" /></mm:import>
-      </mm:relatednodes>
-    </mm:relatednodescontainer> 
-  </mm:node>
   
-  <mm:url referids="p,nr?,lang?,relation?,editor,show,maydelete?" write="false" absolute="true" escapeamps="false" id="submit_link"></mm:url>
+  <mm:import externid="editme">false</mm:import>
+  <!-- show form after succesfull submit. default false while inline editing -->
+  <mm:import externid="showform">${editme ? 'false' : 'true'}</mm:import>
+  <mm:import externid="list">true</mm:import>
+  <mm:import externid="show">show-node.jspx</mm:import>
+  <mm:import externid="editor">edit-node.jspx</mm:import>
+  <mm:import externid="maydelete">true</mm:import>
+  <mm:import externid="unpublish">false</mm:import>
+  <mm:import externid="maycancel">true</mm:import>
+
+  
  
   <mm:notpresent referid="nr">
 
@@ -52,6 +48,7 @@
       </c:when>
       <c:otherwise>
       
+        <mm:url referids="p?" write="false" absolute="true" escapeamps="false" id="submit_link" />
 
         <mm:form id="form_logo" styleClass="${editme ? 'mm_form_editme' : ''}" page="$submit_link">
           <mm:import id="buffer">
@@ -60,8 +57,7 @@
     
             <fieldset>
              <mm:createnode type="images" id="imgnode">
-               <mm:setfield name="title">Partnerlogo for ${portaltitle}</mm:setfield>
-               <mm:fieldlist fields="handle">
+               <mm:fieldlist fields="title,handle">
                  <c:set var="fld_name"><mm:fieldinfo type="name" /></c:set>
                  <div class="${fld_name}">
                    <mm:fieldinfo type="forid">
@@ -71,25 +67,34 @@
                    <mm:maywrite><mm:fieldinfo type="input" /><mm:fieldinfo type="errors" /></mm:maywrite>
                  </div>
                </mm:fieldlist>
+               <mm:fieldlist fields="description">
+                 <c:set var="fld_name"><mm:fieldinfo type="name" /></c:set>
+                 <div class="${fld_name}">
+                   <mm:fieldinfo type="forid">
+                     <label for="${_}" class="${fld_name}">URL</label>
+                   </mm:fieldinfo>
+                   <p class="info">An URL (link) value for the partner.</p>
+                   <mm:maywrite><mm:fieldinfo type="input" /><mm:fieldinfo type="errors" /></mm:maywrite>
+                 </div>
+               </mm:fieldlist>
              </mm:createnode>
             </fieldset>
-            <fieldset class="link">
-              <mm:createnode type="urls" id="urlnode">
-                <mm:fieldlist fields="name,url">
-                  <c:set var="fld_name"><mm:fieldinfo type="name" /></c:set>
-                  <div class="${fld_name}">
-                    <mm:fieldinfo type="forid">
-                      <label for="${_}" class="${fld_name}"><mm:fieldinfo type="guiname" /></label>
-                    </mm:fieldinfo>
-                    <p class="info"><mm:fieldinfo type="description" escape="inline" /></p>
-                    <mm:maywrite><mm:fieldinfo type="input" /><mm:fieldinfo type="errors" /></mm:maywrite>
-                  </div>
-                </mm:fieldlist>
-              </mm:createnode>
-            </fieldset>
+            
             <fieldset class="buttons">
-              <input name="p" type="hidden" value="${p}" />
-              <!-- <input name="submitlogo" type="hidden" value="submit" /> -->
+              <!-- input type="hidden" name="p"         value="${p}" / -->
+              <input type="hidden" name="fields"    value="${fields}" />
+              <input type="hidden" name="lang"      value="${lang}" />
+              <input type="hidden" name="parent"    value="${parent}" />
+              <input type="hidden" name="role"      value="${role}" />
+              <input type="hidden" name="defaultstr" value="${defaultstr}" />
+              <input type="hidden" name="editme"    value="${editme}" />
+              <input type="hidden" name="editor"    value="${editor}" />
+              <input type="hidden" name="show"      value="${show}" />
+              <input type="hidden" name="showform"  value="${showform}" />
+              <input type="hidden" name="maydelete" value="${maydelete}" />
+              <input type="hidden" name="unpublish" value="${unpublish}" />
+              <input type="hidden" name="maycancel" value="${maycancel}" />
+              
               <fmt:message key="users.form.save" var="button_save" />
               <input type="submit" name="submitlogo" value="${button_save}" class="submit" />
             </fieldset>
@@ -100,16 +105,15 @@
             <mm:valid>
               <mm:import id="saved">
                 <mm:node number="$p" id="portal" />
-                <mm:createrelation source="homepage" destination="imgnode" role="posrel">
+                <mm:createrelation source="portal" destination="imgnode" role="footerrel">
                   <mm:setfield name="pos">${pos}</mm:setfield>
                 </mm:createrelation>
-                <mm:createrelation source="imgnode" destination="urlnode" role="related" />
-                <p class="msg">Nieuwe logo is bewaard.</p>
+                <p class="msg">New logo is saved.</p>
               </mm:import>
               <mm:commit />
             </mm:valid>
             <mm:valid inverse="true">
-              <p class="err">Er zit een fout in het formulier.</p>
+              <p class="err">Error in form.</p>
               <mm:write referid="buffer" escape="none" />
               <mm:cancel />
             </mm:valid>
@@ -124,10 +128,15 @@
         <!-- saved -->
         <mm:present referid="saved">
           <mm:write referid="saved" escape="none" />
-          <mm:node referid="imgnode">
-            <mm:relation to="${homepage}" role="posrel" from="${_node}">
-              <mm:import id="relation" reset="true">${_node}</mm:import>
-            </mm:relation>
+          <mm:node number="$imgnode">
+
+            <c:if test="${!empty role}">
+              <mm:relation to="${p}" role="${role}">
+                <mm:import id="relation" reset="true">${_node}</mm:import>
+              </mm:relation>
+              <mm:import id="parent" reset="true">${p}</mm:import>
+            </c:if>
+                
             <div class="node_created edit_${_node} relation_${relation}">
               <jsp:directive.include file="includes/actions.div.jspx" />
               <div class="node">
@@ -145,27 +154,29 @@
   
   <!-- we have nr: we have node to edit -->
   <mm:present referid="nr">
+    
     <c:choose>
       <c:when test="${cancel eq 'Cancel'}">
+        
         <mm:node number="$nr">
-          <mm:relation to="${homepage}" role="posrel" from="${_node}">
-            <mm:import id="relation" reset="true">${_node}</mm:import>
-          </mm:relation>
           <jsp:directive.include file="includes/actions.div.jspx" /> 
           <div class="node">
             <mm:include page="$show" referids="nr" />
           </div>
         </mm:node>
+      
       </c:when>
       <c:otherwise>
-    
-        <mm:node number="$nr">
-          <mm:form id="form_$nr" styleClass="${editme ? 'mm_form_editme' : ''}" page="$submit_link">
+        
+        <mm:node number="$nr" notfound="skip">
+          <mm:url referids="nr,p?" write="false" absolute="true" escapeamps="false" id="submitnode_link" />
+
+          <mm:form id="form_$nr" styleClass="${editme ? 'mm_form_editme' : ''}" page="$submitnode_link">
             <mm:import id="editbuffer">
               <a class="cancel" href="#close"><fmt:message key="users.cancel" /></a>
               <strong>Partner logo <mm:field name="title" /></strong>
               <fieldset>
-                <mm:fieldlist fields="handle">
+                <mm:fieldlist fields="title,handle">
                   <c:set var="fld_name"><mm:fieldinfo type="name" /></c:set>
                   <div class="${fld_name}">
                     <mm:fieldinfo type="forid">
@@ -173,65 +184,69 @@
                     </mm:fieldinfo>
                     <p class="info"><mm:fieldinfo type="description" escape="inline" /></p>
                     <mm:maywrite><mm:fieldinfo type="input" /><mm:fieldinfo type="errors" /></mm:maywrite>
+                    <mm:maywrite inverse="true"><mm:fieldinfo type="guivalue" escape="none" /></mm:maywrite>
+                  </div>
+                </mm:fieldlist>
+                <mm:fieldlist fields="description">
+                  <c:set var="fld_name"><mm:fieldinfo type="name" /></c:set>
+                  <div class="${fld_name}">
+                    <mm:fieldinfo type="forid">
+                      <label for="${_}" class="${fld_name}">URL</label>
+                    </mm:fieldinfo>
+                    <p class="info">An URL (link) value for the partner.</p>
+                    <mm:maywrite><mm:fieldinfo type="input" /><mm:fieldinfo type="errors" /></mm:maywrite>
+                    <mm:maywrite inverse="true"><mm:fieldinfo type="guivalue" escape="none" /></mm:maywrite>
                   </div>
                 </mm:fieldlist>
               </fieldset>
     
-              <mm:relatednodescontainer type="urls" role="related" searchdirs="destination">
-                <mm:maxnumber value="1" />
-                <mm:relatednodes>
-                  <fieldset>
-                    <mm:fieldlist fields="name,url">
-                      <c:set var="fld_name"><mm:fieldinfo type="name" /></c:set>
-                      <div class="${fld_name}">
-                        <mm:fieldinfo type="forid">
-                          <label for="${_}" class="${fld_name}"><mm:fieldinfo type="guiname" /></label>
-                        </mm:fieldinfo>
-                        <p class="info"><mm:fieldinfo type="description" escape="inline" /></p>
-                        <mm:maywrite><mm:fieldinfo type="input" /><mm:fieldinfo type="errors" /></mm:maywrite>
-                      </div>
-                    </mm:fieldlist>
-                  </fieldset>
+              <mm:maywrite>
+                <fieldset class="buttons">
+                  <!-- p?,relation?,fields?,lang?,parent?,role?,editme?,showform?,show?,editor?,maydelete?,unpublish?,maycancel?" --> 
+                  <input type="hidden" name="relation"  value="${relation}" />
+                  <input type="hidden" name="fields"    value="${fields}" />
+                  <input type="hidden" name="lang"      value="${lang}" />
+                  <input type="hidden" name="parent"    value="${parent}" />
+                  <input type="hidden" name="role"      value="${role}" />
+                  <input type="hidden" name="editme"    value="${editme}" />
+                  <input type="hidden" name="showform"  value="${showform}" />
+                  <input type="hidden" name="show"      value="${show}" />
+                  <input type="hidden" name="editor"    value="${editor}" />
+                  <input type="hidden" name="maydelete" value="${maydelete}" />
+                  <input type="hidden" name="unpublish" value="${unpublish}" />
+                  <input type="hidden" name="maycancel" value="${maycancel}" />
                   
-                </mm:relatednodes>
-              </mm:relatednodescontainer>          
-              
-              <fieldset class="buttons">
-                <input name="p" type="hidden" value="${p}" />
-                <input name="nr" type="hidden" value="${nr}" />
-                <input name="submit${nr}" type="hidden" value="submit${nr}" />
-                <fmt:message key="users.form.save" var="button_save" />
-                <fmt:message key="users.cancel" var="button_cancel" />
-                <input type="button" name="cancel" value="${button_cancel}" class="cancel" /> 
-                <input type="submit" name="action" value="${button_save}" class="submit" />
-              </fieldset>
+                  <fmt:message key="users.form.save" var="button_save" />
+                  <fmt:message key="users.cancel" var="button_cancel" />
+                  <input type="button" name="cancel" value="${button_cancel}" class="cancel" /> 
+                  <input type="submit" name="submit${nr}" value="${button_save}" class="submit" />
+                </fieldset>
+              </mm:maywrite>
               
             </mm:import>
+            
+            <mm:present referid="submit$nr">
+              <mm:valid>
+                <mm:import id="saved">
+                  <p class="msg">Your changes to '<mm:function name="gui" escape="none" />' are saved.</p>
+                  <jsp:directive.include file="includes/actions.div.jspx" /> 
+                  <mm:commit />
+                  <div class="node">
+                    <mm:include page="$show" referids="nr,fields?" />
+                  </div>
+                </mm:import>
+              </mm:valid>
+              
+              <mm:valid inverse="true">
+                <p class="err">The form contains an error.</p>
+                <mm:cancel />
+                <mm:write referid="editbuffer" escape="none" />
+              </mm:valid>
+            </mm:present>
             
             <mm:notpresent referid="submit$nr">
               <mm:write referid="editbuffer" escape="none" />
             </mm:notpresent>
-            <mm:present referid="submit$nr">
-              <mm:valid>
-                <mm:import id="saved">
-                  <p class="msg">Je veranderingen aan '<mm:function name="gui" escape="none" />' zijn bewaard.</p>
-                  
-                  <mm:relation to="${homepage}" role="${posrel}" from="${_node}">
-                    <mm:import id="relation" reset="true">${_node}</mm:import>
-                  </mm:relation>
-                  <jsp:directive.include file="includes/actions.div.jspx" /> 
-                  <div class="node">
-                    <mm:include page="$show" referids="nr" />
-                  </div>
-                </mm:import>
-                <mm:commit />
-              </mm:valid>
-              <mm:valid inverse="true">
-                <mm:cancel />
-                <p class="err">Er zit een fout in het formulier.</p>
-              </mm:valid>
-
-            </mm:present>
             
           </mm:form>
         </mm:node>
