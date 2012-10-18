@@ -105,14 +105,15 @@
           <div class="show-media">
             <c:set var="title"><mm:field name="title" /></c:set>
             <oip:thumb alt="${title}" /> ${title} (<mm:field name="language" />)<br />
-            <em>${fn:substringBefore(_, 'fragments')}</em> 
-            <br />user: 
-            <mm:hasnode number="${_node.owner}">
-              <mm:node number="${_node.owner}"><mm:field name="username" /></mm:node>
-            </mm:hasnode>
-            <mm:hasnode number="${_node.owner}" inverse="true">
-              ${_node.owner}
-            </mm:hasnode>
+            <em>
+              ${fn:substringBefore(_, 'fragments')}, user: 
+              <mm:hasnode number="${_node.owner}">
+                <mm:node number="${_node.owner}"><mm:field name="username" /></mm:node>
+              </mm:hasnode>
+              <mm:hasnode number="${_node.owner}" inverse="true">
+                ${_node.owner}
+              </mm:hasnode>
+            </em>
           </div>
         </c:when>
         
