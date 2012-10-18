@@ -54,14 +54,15 @@
                   <a title="${partner_url_title}" href="${partner_url}"><mm:image width="81" mode="img" /></a>
                 </c:when>
                 <c:otherwise><mm:image width="81" mode="img" /></c:otherwise>
-              </c:choose>              
+              </c:choose>
+              <c:set var="partner_logos" value="YES" />
             
             </mm:relatednodes>
           </p>
         </mm:relatednodescontainer>        
       </mm:node>
       
-      <c:if test="${empty partner_url}">
+      <c:if test="${empty partner_logos}">
         <p>
           <fmt:message key="head.initiative">
              <fmt:param>
@@ -183,7 +184,7 @@
       </div>
     </mm:node>
     
-    <c:if test="${!empty partner_url}">
+    <c:if test="${!empty partner_logos}">
       <div class="initiative">
         <p>
           <fmt:message key="head.initiative">
