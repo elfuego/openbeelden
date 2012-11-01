@@ -4,7 +4,7 @@
     xsi:schemaLocation="http://www.mmbase.org/xmlns/createcaches http://www.mmbase.org/xmlns/createcaches.xsd"
     >
   <!-- minimal config, works on most hosts -->
-  <localhost max_simultaneous_transcoders="2" stage="recognizer"  />
+  <localhost max_simultaneous_transcoders="1" stage="recognizer"  />
   <localhost max_simultaneous_transcoders="1" stage="transcoder" />
 
   <!--
@@ -47,7 +47,6 @@
   </transcoder>
 
   <!-- ogv low -->
-<!-- 
   <transcoder label="sd"
       mimetype="video/*" in="v1" id="v2">
     <class name="org.mmbase.streams.transcoders.FFMpeg2TheoraTranscoder">
@@ -56,10 +55,8 @@
     </class>
     <loganalyzer name="org.mmbase.streams.transcoders.FFMpeg2TheoraAnalyzer" />
   </transcoder>
- -->
 
   <!-- ogv high -->
-<!-- 
   <transcoder label="hd"
       mimetype="video/*" in="v1" id="v3">
     <class name="org.mmbase.streams.transcoders.FFMpeg2TheoraTranscoder">
@@ -67,7 +64,6 @@
     </class>
     <loganalyzer name="org.mmbase.streams.transcoders.FFMpeg2TheoraAnalyzer" />
   </transcoder>
- -->
 
   <!-- mp4 low -->
   <transcoder label="sd"

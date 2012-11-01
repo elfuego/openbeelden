@@ -230,7 +230,7 @@
               </mm:node>
             </c:when>
             <c:otherwise>
-              <os:cache time="0" groups="site,homenews" key="oip.rss.${portal}.${requestScope['javax.servlet.jsp.jstl.fmt.locale.request']}">
+              <os:cache time="3600" groups="site,homenews" key="oip.rss.${portal}.${requestScope['javax.servlet.jsp.jstl.fmt.locale.request']}">
                 <c:catch var="ex2">
                   <mm:import id="rss"><mm:include page="${rsslink}" timeout="10000" /></mm:import>
                   <!-- just displaying the rss items with some xsl and java magic -->
