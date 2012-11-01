@@ -25,15 +25,15 @@
     <mm:escaper id="myfilesize" type="filesize">
       <mm:param name="binaryPrefixes">${empty initParam['mmbase.filesize.binaryPrefixes'] ? true : initParam['mmbase.filesize.binaryPrefixes']}</mm:param>
     </mm:escaper>
+    <fmt:formatNumber value="${sessionScope['org.mmbase.uploadInfo'].fraction * length}"
+                      maxFractionDigits="0"
+                      var="roundedLength" />
+    <c:if test="${sessionScope['org.mmbase.uploadInfo'].elapsedTime lt 3000}">
+      <mm:log level="info">Uploading ${roundedLength}% <mm:escape escape="myfilesize">${sessionScope['org.mmbase.uploadInfo'].totalSize}</mm:escape></mm:log>
+    </c:if>
     <c:choose>
       <c:when test="${sessionScope['org.mmbase.uploadInfo'].elapsedTime gt 100}">
-        <fmt:formatNumber value="${sessionScope['org.mmbase.uploadInfo'].fraction * length}"
-                          maxFractionDigits="0"
-                          var="roundedLength" />
-        <c:if test="${sessionScope['org.mmbase.uploadInfo'].elapsedTime lt 3000}">
-          <mm:log level="info">Uploading ${roundedLength} % <mm:escape escape="myfilesize">${sessionScope['org.mmbase.uploadInfo'].totalSize}</mm:escape></mm:log>
-        </c:if>
-        <div>
+        <div id="uploadinfo">
           <div class="${sessionScope['org.mmbase.uploadInfo'].status}" style="width: ${roundedLength}${unit};">
             <jsp:text> <!-- empty --> </jsp:text>
           </div>
@@ -54,7 +54,22 @@
         </div>
       </c:when>
       <c:otherwise>
-        <div><fmt:message key="media.uploading"  /></div>
+        <div id="uploadinfo">
+          <div class="${sessionScope['org.mmbase.uploadInfo'].status}" style="width: ${roundedLength}${unit};">
+            <jsp:text> <!-- empty --> </jsp:text>
+          </div>
+          <span class="percentage">
+            <fmt:message key="media.uploading" /><jsp:text> <!-- empty --> </jsp:text>
+            <fmt:formatNumber
+                value="${sessionScope['org.mmbase.uploadInfo'].fraction}"
+                type="percent" />
+          </span>
+          <span class="speed">
+            (<mm:escape escape="myfilesize">${sessionScope['org.mmbase.uploadInfo'].bytesRead}</mm:escape>
+            <jsp:text> / </jsp:text>
+            <mm:escape escape="myfilesize">${sessionScope['org.mmbase.uploadInfo'].totalSize}</mm:escape>)
+          </span>
+        </div>
       </c:otherwise>
     </c:choose>
 

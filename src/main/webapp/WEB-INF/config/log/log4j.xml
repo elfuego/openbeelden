@@ -78,7 +78,7 @@
     <level class="&mmlevel;" value="info" />
   </logger>
   
-  <logger name="org.mmbase.streams" >
+  <logger name="org.mmbase.streams.createcaches.Executors" >
     <level class="&mmlevel;" value="service" />
   </logger>
 
@@ -89,14 +89,12 @@
  -->
   
 
-<!-- 
   <logger name="org.mmbase.util.externalprocess.CommandExecutor" >
     <level class="&mmlevel;" value="debug" />
   </logger>
   <logger name="org.mmbase.util.externalprocess.CommandLauncher" >
     <level class="&mmlevel;" value="debug" />
   </logger>
- -->
 
 <!-- 
   <logger name="org.mmbase.util.externalprocess.CommandLauncher" >
@@ -118,7 +116,7 @@
  -->
 
 <!-- 
-  <logger name="org.mmbase.module.lucene" >
+  <logger name="org.mmbase.module.lucene.Lucene" >
     <level class="&mmlevel;" value="debug" />
   </logger>
  -->
