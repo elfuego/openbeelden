@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <mediafragments exportsource="mmbase://grgrijze.toly.net/oip/oi" timestamp="20090610233953">
-	<node number="303" owner="201">
+	<node number="303" owner="414">
 		<lastmodified>1268058374</lastmodified>
 		<show>true</show>
 		<date>1267437060</date>
 		<offline>4423071600</offline>
 		<online>1267398000</online>
 		<creator>foofoo</creator>
+		<dc_creator>Test Foo</dc_creator>
 		<publisher>Foo</publisher>
 		<start>0</start>
 		<title>The man with the glasses</title>
@@ -27,6 +28,7 @@
 		<offline>4423071600</offline>
 		<online>1267398000</online>
 		<creator>foofoo</creator>
+		<dc_creator>Test Foo</dc_creator>
 		<publisher>Foo</publisher>
 		<start>0</start>
 		<title>Test</title>
