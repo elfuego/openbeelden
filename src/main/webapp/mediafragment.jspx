@@ -377,6 +377,17 @@
         <div class="more">
           <p class="more"><a class="media-info" href="#more-info">Meer</a></p>
           <dl id="more-info" class="media-info notshown">
+            <mm:field name="contributor">
+              <mm:isnotempty>
+                <dt><fmt:message key="media.contributions" />:</dt>
+                <dd>
+                  <c:forTokens items="${_}" delims=";" var="key" varStatus="vst">
+                    <c:out value="${fn:trim(key)}" />
+                    <c:if test="${!vst.last}"><br /></c:if>
+                  </c:forTokens>
+                </dd>
+              </mm:isnotempty>
+            </mm:field>
             <dt><fmt:message key="media.type" />:</dt>
             <dd> <oip:type /> <mm:nodeinfo type="type" id="nodetype" write="false" /> </dd>
             <dt><fmt:message key="media.hasformat" />:</dt>
