@@ -1,0 +1,118 @@
+<jsp:root
+    version="2.0"
+    xmlns:jsp="http://java.sun.com/JSP/Page"
+    xmlns:c="http://java.sun.com/jsp/jstl/core"
+    xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+    xmlns:fmt="http://java.sun.com/jsp/jstl/fmt"
+    xmlns:os="http://www.opensymphony.com/oscache"
+    xmlns:mm="http://www.mmbase.org/mmbase-taglib-2.0"
+    xmlns:oip="urn:jsptagdir:/WEB-INF/tags/oip">
+  <oip:html styleClass="home">
+    <jsp:attribute name="head">
+
+      <mm:import externid="portal" from="request">pool_oip</mm:import>
+      <mm:import id="page" externid="n">page_home</mm:import>
+
+      <mm:node number="$portal" notfound="skip">
+        <!-- page/homepage = very first page in portal! -->
+        <mm:relatednodescontainer type="pages" role="posrel" searchdirs="destination">
+          <mm:sortorder field="posrel.pos" direction="UP" />
+          <mm:maxnumber value="1" />
+          <mm:relatednodes>
+            <mm:import id="page" reset="true"><mm:field name="number" /></mm:import>
+          </mm:relatednodes>
+        </mm:relatednodescontainer>
+      </mm:node>
+
+      <mm:node number="$page">
+        <mm:relatednodescontainer type="mediafragments" role="posrel" searchdirs="destination">
+          <mm:constraint field="show" value="true" operator="EQUAL" />
+          <mm:sortorder field="posrel.pos" direction="UP" />
+          <mm:maxnumber value="1" />
+          <mm:relatednodes id="featured_node">
+            <mm:nodeinfo type="nodemanager" id="nmtype">
+              <c:choose>
+                <c:when test="${_ eq 'imagefragments'}">
+                  <!-- lightbox for images -->
+                  <link href="${mm:link('/style/css/jquery.lightbox-0.5.css')}" rel="stylesheet" type="text/css" media="screen" />
+                  <script src="${mm:link('/style/js/jquery.lightbox-0.5.pack.js')}" type="text/javascript"><jsp:text><!-- help ie --></jsp:text></script>
+                </c:when>
+                <c:otherwise>
+                  <!-- oiplayer stuff -->
+                  <link href="${mm:link('/oiplayer/css/oiplayer.css')}" rel="stylesheet" type="text/css" />
+                  <script src="${mm:link('/oiplayer/plugins/flowplayer-3.2.6.min.js')}" type="text/javascript"><jsp:text><!-- help ie --></jsp:text></script>
+                  <script src="${mm:link('/oiplayer/js/jquery.oiplayer.js')}" type="text/javascript"><jsp:text><!-- help ie --></jsp:text></script>
+                </c:otherwise>
+              </c:choose>
+            </mm:nodeinfo>
+          </mm:relatednodes>
+        </mm:relatednodescontainer>
+      </mm:node>
+
+      <link href="${mm:link('/feeds/atom/')}" rel="alternate" type="application/atom+xml" title="Open Image Platform latest uploads" />
+      <style type="text/css">
+        body { background-image: url('http://test.kl.nl/test/background_platform.jpg') !important; }
+      </style>
+    </jsp:attribute>
+    <jsp:attribute name="left"><jsp:text>  </jsp:text></jsp:attribute>
+
+    <jsp:attribute name="body">
+
+      <mm:time time="now" id="today" precision="hours" write="false" />
+      <mm:escaper id="wrap_title" type="substring">
+        <mm:param name="from" value="0" />
+        <mm:param name="to" value="70" />
+        <mm:param name="ellipsis" value="..." />
+      </mm:escaper>
+
+      <mm:import id="langpostfix">
+        <!-- a bit of a hack, should use fw-parmas -->
+        <c:if test="${! empty requestScope['org.mmbase.mmsite.language']}">
+          <jsp:text>.${requestScope['org.mmbase.mmsite.language']}</jsp:text>
+        </c:if>
+      </mm:import>
+
+      <div class="main-column">
+        <h2>Celluloid Remix 2: <span style="color:#47C3D4:">Found Footage</span></h2>
+        <p>
+          Op 24 mei werd in EYE Dániel Szöllosi uitgeroepen tot winnaar van Celluloid Remix 2: Found Footage. 
+          EYE en Beelden voor de Toekomst organiseerden deze videoremix-wedstrijd met historische fragmenten uit 
+          de filmcollectie van EYE. Creatieven remixten dit bijzondere filmmateriaal tot in totaal 75 nieuwe, korte films. 
+          Een professionele jury onder leiding van Victor Ponten (Habbekrats) beoordeelde de inzendingen. 
+          In de winnende film <strong><a href="http://celluloidremix.openbeelden.nl/media/125755/Untitled">'Untitled'</a></strong> 
+          zijn de filmfragmenten verwerkt tot een compositie op meerdere smartphones. De winnende inzending is hieronder te zien.
+        </p>
+        <mm:present referid="featured_node">
+          <mm:node referid="featured_node">
+            <oip:media width="512" height="288" />
+            <h3 class="subtitle">
+              <mm:link>
+                <mm:frameworkparam name="component">oip</mm:frameworkparam>
+                <mm:frameworkparam name="block">mediafragment</mm:frameworkparam>
+                <mm:frameworkparam name="media">${_node}</mm:frameworkparam>
+                <a href="${_}">
+                  <mm:nodefunction name="translation">
+                    <mm:import id="f_title" reset="true"><mm:field name="title" /></mm:import>
+                  </mm:nodefunction>
+                  <mm:write referid="f_title" escape="wrap_title" />
+                </a>
+              </mm:link>
+            </h3>
+          </mm:node>
+        </mm:present>
+        <p style="padding-top:2em;">
+          De 2e prijs ging naar <a href="http://celluloidremix.openbeelden.nl/media/126272/EYE_de_souffle">'EYE de Souffle'</a> 
+          van Arash Tagarian.
+        </p>
+        <p>
+          De gedeelde 3e plaats is voor 
+          <a href="http://celluloidremix.openbeelden.nl/media/125003/Lydia_in_Bits_and_in_Pieces">'Lydia (in Bits and in Pieces)'</a> 
+          van Claudio Tapia en <a href="http://celluloidremix.openbeelden.nl/media/126148/Untitled">'Untitled'</a> van Duncan Tullis.
+        </p>
+      </div>
+
+      <div class="right-column"><!-- empty --></div>
+
+    </jsp:attribute>
+  </oip:html>
+</jsp:root>
