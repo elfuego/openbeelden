@@ -75,7 +75,7 @@ Release Notes - Open Images Platform - Version OIP 1.2
 http://www.mmbase.org/jira/secure/ReleaseNote.jspa?&version=10234&projectId=10030
 
 ** Bug
-    * [OIP-178] - Some images in <oi:medium> lack a proper file extension
+    * [OIP-178] - Some images in <oi:medium /> lack a proper file extension
     * [OIP-181] - Error when flipping through pages
     * [OIP-185] - Large videos (> 500 MB) don't upload correctly
     * [OIP-188] - Pages editor removed links to created pages
