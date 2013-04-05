@@ -41,19 +41,30 @@
             </mm:relatednodescontainer>            
           </h3>
           <p>
-            Overview of the sitemap of this portal.<br />
+            This is the sitemap of this portal showing the owners of all pages.
+            A page (or relation) has 'ok' next to it if the owner is the portalmanager, 
+            'NOT' means not the same.
+            Hit 'Reset' to make the current portalmanager the owner of all pages.
+            <br />
             
             <mm:link referids="p">
               <mm:param name="ok">OK</mm:param>
               <strong><a href="${_}">Reset</a></strong> 
             </mm:link>
             
-            all user account info to current portal manager : ${pmusername}.
+            all user account info to current portal manager : <strong>${pmusername}</strong>.
             
           </p>
+          <c:if test="${empty portalmanager}">
+            <p class="msg stay grey">
+              This portal currently has <strong>no portal manager</strong>.
+            </p>
+          </c:if>
+
         <mm:transaction name="mytrans" commitonclose="$commit">
           <mm:node number="$p" >
 
+          <h4>Header</h4>
           <!-- posrel -->
           <mm:relatedcontainer path="posrel,pages" searchdirs="destination"
              fields="posrel.pos,posrel.number,pages.title,pages.number">
@@ -168,6 +179,8 @@
              </mm:related>
              </ol>
            </mm:relatedcontainer>
+
+           <h4>Footer</h4>
                     
            <!-- footerrel -->
            <mm:relatedcontainer path="footerrel,pages" searchdirs="destination"
@@ -274,7 +287,7 @@
 
 
                       <mm:node element="pages">
-                        <mm:field name="title" /> [<mm:field name="number" />]
+                        <mm:field name="language" /> : <mm:field name="title" /> [<mm:field name="number" />]
                   
                         <mm:import id="ownernr" reset="true"><mm:field name="owner" /></mm:import>
                         <mm:compare referid="ownernr" regexp="(?i)[0-9]*">
@@ -322,7 +335,7 @@
                             </mm:node>
 
                             <mm:node element="pages_translations">
-                              <mm:field name="title" /> [<mm:field name="number" />]
+                              <mm:field name="language" /> : <mm:field name="title" /> [<mm:field name="number" />]
                   
                               <mm:import id="ownernr" reset="true"><mm:field name="owner" /></mm:import>
                               <mm:compare referid="ownernr" regexp="(?i)[0-9]*">
