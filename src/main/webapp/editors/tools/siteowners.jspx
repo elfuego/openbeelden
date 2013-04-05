@@ -1,0 +1,380 @@
+<?xml version="1.0"?>
+<jsp:root
+    version="2.0"
+    xmlns:jsp="http://java.sun.com/JSP/Page"
+    xmlns:c="http://java.sun.com/jsp/jstl/core"
+    xmlns:fmt="http://java.sun.com/jsp/jstl/fmt"
+    xmlns:mm="http://www.mmbase.org/mmbase-taglib-2.0"
+    xmlns:oip="urn:jsptagdir:/WEB-INF/tags/oip">
+
+  <oip:editor styleClass="portal">
+    <jsp:attribute name="head">
+      <mm:import externid="nr" />
+    </jsp:attribute>
+    <jsp:attribute name="left">
+      
+
+    </jsp:attribute>
+    <jsp:attribute name="body">
+      
+      
+      
+      <c:set var="isdefault" value="false" />
+      
+      <mm:import externid="commit">false</mm:import>
+      <mm:import externid="ok" />
+
+       
+      <div class="main-column">
+        
+        <mm:node id="p" number="$_node.number">
+          <mm:hasalias name="pool_oip"><c:set var="isdefault" value="true" /></mm:hasalias>
+  
+          <h2>Sitemap '<mm:field name="name" />'</h2>
+          <h3>Portal manager : 
+            <mm:relatednodescontainer type="mmbaseusers" role="portalrel" searchdirs="source">
+              <mm:relatednodes varStatus="status">
+                <mm:field name="username" />
+                <mm:import id="portalmanager" reset="true"><mm:field name="number" /></mm:import>
+                <mm:import id="pmusername" reset="true"><mm:field name="username" /></mm:import>
+              </mm:relatednodes>
+            </mm:relatednodescontainer>            
+          </h3>
+          <p>
+            Overview of the sitemap of this portal.<br />
+            
+            <mm:link referids="p">
+              <mm:param name="ok">OK</mm:param>
+              <strong><a href="${_}">Reset</a></strong> 
+            </mm:link>
+            
+            all user account info to current portal manager : ${pmusername}.
+            
+          </p>
+        <mm:transaction name="mytrans" commitonclose="$commit">
+          <mm:node number="$p" >
+
+          <!-- posrel -->
+          <mm:relatedcontainer path="posrel,pages" searchdirs="destination"
+             fields="posrel.pos,posrel.number,pages.title,pages.number">
+             <mm:sortorder field="posrel.pos" direction="UP" />
+             <ol>
+             <mm:related>
+               <li>
+                 
+                 <mm:import id="pos" reset="true"><mm:field name="posrel.pos" /></mm:import>
+                 <mm:import id="posrelnr" reset="true"><mm:field name="posrel.number" /></mm:import>
+                 <mm:node number="$posrelnr">
+                   posrel ${pos} [${posrelnr}] 
+                   <mm:import id="ownernr" reset="true"><mm:field name="owner" /></mm:import>
+                   <mm:compare referid="ownernr" regexp="(?i)[0-9]*">
+                     <mm:node number="$ownernr"><mm:field name="username" /></mm:node>
+                   </mm:compare>
+                   <mm:compare referid="ownernr" regexp="(?i)[0-9]*" inverse="true">
+                     <mm:field name="owner" />
+                   </mm:compare>
+
+                   <c:choose>
+                     <c:when test="${!empty portalmanager and ownernr ne portalmanager}">
+                       NOT <c:if test="${ok eq 'OK'}"><mm:setfield name="owner">${portalmanager}</mm:setfield></c:if>
+                     </c:when>
+                     <c:otherwise>
+                       ok
+                     </c:otherwise>
+                   </c:choose>
+                   <br />
+                 </mm:node>
+                 
+                 <mm:node element="pages">
+                   <mm:field name="title" /> [<mm:field name="number" />]
+                  
+                   <mm:import id="ownernr" reset="true"><mm:field name="owner" /></mm:import>
+                   <mm:compare referid="ownernr" regexp="(?i)[0-9]*">
+                     <mm:node number="$ownernr"><mm:field name="username" /></mm:node>
+                   </mm:compare>
+                   <mm:compare referid="ownernr" regexp="(?i)[0-9]*" inverse="true">
+                     <mm:field name="owner" />
+                   </mm:compare>
+
+                   <c:choose>
+                     <c:when test="${!empty portalmanager and ownernr ne portalmanager}">
+                       NOT <c:if test="${ok eq 'OK'}"><mm:setfield name="owner">${portalmanager}</mm:setfield></c:if>
+                     </c:when>
+                     <c:otherwise>
+                       ok
+                     </c:otherwise>
+                   </c:choose>
+                   
+                   <mm:relatedcontainer path="posrel,pages" searchdirs="destination"
+                     fields="posrel.pos,posrel.number,pages.title,pages.number">
+                     <mm:sortorder field="posrel.pos" direction="UP" />
+                     <ol>
+                     <mm:related>
+                       <li style="margin-left:20px;">
+                         <mm:import id="pos" reset="true"><mm:field name="posrel.pos" /></mm:import>
+                         <mm:import id="posrelnr" reset="true"><mm:field name="posrel.number" /></mm:import>
+                         <mm:node number="$posrelnr">
+                           posrel ${pos} [${posrelnr}] 
+                           <mm:import id="ownernr" reset="true"><mm:field name="owner" /></mm:import>
+                           <mm:compare referid="ownernr" regexp="(?i)[0-9]*">
+                             <mm:node number="$ownernr"><mm:field name="username" /></mm:node>
+                           </mm:compare>
+                           <mm:compare referid="ownernr" regexp="(?i)[0-9]*" inverse="true">
+                             <mm:field name="owner" />
+                           </mm:compare>
+
+                           <c:choose>
+                             <c:when test="${!empty portalmanager and ownernr ne portalmanager}">
+                               NOT <c:if test="${ok eq 'OK'}"><mm:setfield name="owner">${portalmanager}</mm:setfield></c:if>
+                             </c:when>
+                             <c:otherwise>
+                               ok
+                             </c:otherwise>
+                           </c:choose>
+
+                           <br />
+                         </mm:node>
+
+
+                         <mm:node element="pages">
+                           <mm:field name="title" /> [<mm:field name="number" />]
+                
+                           <mm:import id="ownernr" reset="true"><mm:field name="owner" /></mm:import>
+                           <mm:compare referid="ownernr" regexp="(?i)[0-9]*">
+                             <mm:node number="$ownernr"><mm:field name="username" /></mm:node>
+                           </mm:compare>
+                           <mm:compare referid="ownernr" regexp="(?i)[0-9]*" inverse="true">
+                             <mm:field name="owner" />
+                           </mm:compare>
+
+                           <c:choose>
+                             <c:when test="${!empty portalmanager and ownernr ne portalmanager}">
+                               NOT <c:if test="${ok eq 'OK'}"><mm:setfield name="owner">${portalmanager}</mm:setfield></c:if>
+                             </c:when>
+                             <c:otherwise>
+                               ok
+                             </c:otherwise>
+                           </c:choose>
+                         
+                         </mm:node>
+
+                       </li>
+                     </mm:related>
+                     </ol>
+                   </mm:relatedcontainer>
+                 </mm:node>
+                
+               </li>
+             </mm:related>
+             </ol>
+           </mm:relatedcontainer>
+                    
+           <!-- footerrel -->
+           <mm:relatedcontainer path="footerrel,pages" searchdirs="destination"
+              fields="footerrel.pos,pages.title,pages.number">
+              <mm:sortorder field="footerrel.pos" direction="UP" />
+              <ol>
+              <mm:related>
+                <li>
+                 <mm:import id="pos" reset="true"><mm:field name="footerrel.pos" /></mm:import>
+                 <mm:import id="posrelnr" reset="true"><mm:field name="footerrel.number" /></mm:import>
+                 <mm:node number="$posrelnr">
+                   footerrel ${pos} [${posrelnr}] 
+                   <mm:import id="ownernr" reset="true"><mm:field name="owner" /></mm:import>
+                   <mm:compare referid="ownernr" regexp="(?i)[0-9]*">
+                     <mm:node number="$ownernr"><mm:field name="username" /></mm:node>
+                   </mm:compare>
+                   <mm:compare referid="ownernr" regexp="(?i)[0-9]*" inverse="true">
+                     <mm:field name="owner" />
+                   </mm:compare>
+                    
+                   <c:choose>
+                     <c:when test="${!empty portalmanager and ownernr ne portalmanager}">
+                       NOT <c:if test="${ok eq 'OK'}"><mm:setfield name="owner">${portalmanager}</mm:setfield></c:if>
+                     </c:when>
+                     <c:otherwise>
+                       ok
+                     </c:otherwise>
+                   </c:choose>
+                   <br />
+                   
+                 </mm:node>
+                 
+                 <mm:node element="pages">
+                   <mm:field name="title" /> [<mm:field name="number" />]
+                  
+                   <mm:import id="ownernr" reset="true"><mm:field name="owner" /></mm:import>
+                   <mm:compare referid="ownernr" regexp="(?i)[0-9]*">
+                     <mm:node number="$ownernr"><mm:field name="username" /></mm:node>
+                   </mm:compare>
+                   <mm:compare referid="ownernr" regexp="(?i)[0-9]*" inverse="true">
+                     <mm:field name="owner" />
+                   </mm:compare>
+
+                   <c:choose>
+                     <c:when test="${!empty portalmanager and ownernr ne portalmanager}">
+                       NOT <c:if test="${ok eq 'OK'}"><mm:setfield name="owner">${portalmanager}</mm:setfield></c:if>
+                     </c:when>
+                     <c:otherwise>
+                       ok
+                     </c:otherwise>
+                   </c:choose>
+
+                   <mm:relatednodescontainer type="pages" role="posrel" searchdirs="destination">
+                     <mm:sortorder field="posrel.pos" direction="UP" />
+                     <ol>
+                     <mm:relatednodes>
+                       <li style="margin-left:20px;">
+                         <mm:field name="title" />
+                       </li>
+                     </mm:relatednodes>
+                     </ol>
+                   </mm:relatednodescontainer>
+                 </mm:node>
+                
+               </li>
+              </mm:related>
+              </ol>
+            </mm:relatedcontainer>          
+          
+
+
+              <div class="wrap">
+                <h3>All pages</h3>
+                <p>All pages in this portal (relation type: related).</p>
+                <mm:relatedcontainer path="related,pages" searchdirs="destination"
+                  fields="related.number,pages.number,pages.title">
+                  <mm:sortorder field="related.number" direction="UP" />
+                  <ul>
+                  <mm:related>
+                    <li>
+
+                     <mm:import id="rel" reset="true"><mm:field name="related.number" /></mm:import>
+                     <mm:node number="$rel">
+                       related [${rel}] 
+                       <mm:import id="ownernr" reset="true"><mm:field name="owner" /></mm:import>
+                       <mm:compare referid="ownernr" regexp="(?i)[0-9]*">
+                         <mm:node number="$ownernr"><mm:field name="username" /></mm:node>
+                       </mm:compare>
+                       <mm:compare referid="ownernr" regexp="(?i)[0-9]*" inverse="true">
+                         <mm:field name="owner" />
+                       </mm:compare>
+                    
+                       <c:choose>
+                         <c:when test="${!empty portalmanager and ownernr ne portalmanager}">
+                           NOT <c:if test="${ok eq 'OK'}"><mm:setfield name="owner">${portalmanager}</mm:setfield></c:if>
+                         </c:when>
+                         <c:otherwise>
+                           ok
+                         </c:otherwise>
+                       </c:choose>
+                       <br />
+                   
+                     </mm:node>
+
+
+                      <mm:node element="pages">
+                        <mm:field name="title" /> [<mm:field name="number" />]
+                  
+                        <mm:import id="ownernr" reset="true"><mm:field name="owner" /></mm:import>
+                        <mm:compare referid="ownernr" regexp="(?i)[0-9]*">
+                          <mm:node number="$ownernr"><mm:field name="username" /></mm:node>
+                        </mm:compare>
+                        <mm:compare referid="ownernr" regexp="(?i)[0-9]*" inverse="true">
+                          <mm:field name="owner" />
+                        </mm:compare>
+
+                        <c:choose>
+                          <c:when test="${!empty portalmanager and ownernr ne portalmanager}">
+                            NOT <c:if test="${ok eq 'OK'}"><mm:setfield name="owner">${portalmanager}</mm:setfield></c:if>
+                          </c:when>
+                          <c:otherwise>
+                            ok
+                          </c:otherwise>
+                        </c:choose>
+                        
+                        <mm:relatedcontainer path="langrel,pages_translations" searchdirs="destination"
+                          fields="langrel.number,pages_translations.number,pages_translations.title">
+                          <mm:sortorder field="langrel.number" direction="UP" />
+                          <ul>
+                          <mm:related>
+                            <mm:import id="rel" reset="true"><mm:field name="langrel.number" /></mm:import>
+                            <mm:node number="$rel">
+                              related [${rel}] 
+                              <mm:import id="ownernr" reset="true"><mm:field name="owner" /></mm:import>
+                              <mm:compare referid="ownernr" regexp="(?i)[0-9]*">
+                                <mm:node number="$ownernr"><mm:field name="username" /></mm:node>
+                              </mm:compare>
+                              <mm:compare referid="ownernr" regexp="(?i)[0-9]*" inverse="true">
+                                <mm:field name="owner" />
+                              </mm:compare>
+                    
+                              <c:choose>
+                                <c:when test="${!empty portalmanager and ownernr ne portalmanager}">
+                                  NOT <c:if test="${ok eq 'OK'}"><mm:setfield name="owner">${portalmanager}</mm:setfield></c:if>
+                                </c:when>
+                                <c:otherwise>
+                                  ok
+                                </c:otherwise>
+                              </c:choose>
+                              <br />
+                   
+                            </mm:node>
+
+                            <mm:node element="pages_translations">
+                              <mm:field name="title" /> [<mm:field name="number" />]
+                  
+                              <mm:import id="ownernr" reset="true"><mm:field name="owner" /></mm:import>
+                              <mm:compare referid="ownernr" regexp="(?i)[0-9]*">
+                                <mm:node number="$ownernr"><mm:field name="username" /></mm:node>
+                              </mm:compare>
+                              <mm:compare referid="ownernr" regexp="(?i)[0-9]*" inverse="true">
+                                <mm:field name="owner" />
+                              </mm:compare>
+
+                              <c:choose>
+                                <c:when test="${!empty portalmanager and ownernr ne portalmanager}">
+                                  NOT <c:if test="${ok eq 'OK'}"><mm:setfield name="owner">${portalmanager}</mm:setfield></c:if>
+                                </c:when>
+                                <c:otherwise>
+                                  ok
+                                </c:otherwise>
+                              </c:choose>
+                            </mm:node>
+
+
+                          </mm:related>
+                          </ul>
+                        </mm:relatedcontainer>
+                        
+                        
+                      </mm:node>
+                    </li>
+                  </mm:related>
+                  </ul>
+                </mm:relatedcontainer>        
+              </div>
+          
+            </mm:node>
+          </mm:transaction>
+
+          
+        </mm:node>
+      </div><!-- /.main-column -->
+      <div class="right-column">
+        <mm:hasrank minvalue="project manager">
+          <h3>Portals</h3>
+          <mm:listnodescontainer type="pools">
+            <ul>
+            <mm:listnodes>
+              <li>
+                <mm:link referids="_node@p"><a href="${_}"><mm:field name="name" /></a></mm:link>
+              </li>
+            </mm:listnodes>
+            </ul>
+          </mm:listnodescontainer>     
+        </mm:hasrank>
+      </div>
+    </jsp:attribute>
+  </oip:editor>
+</jsp:root>
