@@ -1,10 +1,11 @@
 <mm:content
     type="application/xml"
     postprocessor="none"
-    expires="120"
+    expires="1800"
     xmlns:c="http://java.sun.com/jsp/jstl/core"
     xmlns:fn="http://java.sun.com/jsp/jstl/functions"
     xmlns:jsp="http://java.sun.com/JSP/Page"
+    xmlns:os="http://www.opensymphony.com/oscache"
     xmlns:mm="http://www.mmbase.org/mmbase-taglib-2.0" 
     xmlns:oip="urn:jsptagdir:/WEB-INF/tags/oip">
 
@@ -116,7 +117,12 @@
       </c:otherwise>
     </c:choose>
 
-    <!-- resumptionToken, looks like: !f1969-07-21!u2003-08-18!oai_dc!200 (index starts at 0) -->
+    <!-- resumptionToken format: !f1969-07-21!u2003-08-18!s-openbeelden!oai_dc!200 
+            - f1969-07-21 : from
+            - u2003-08-18 : untill
+            - s-openbeelden : set name
+            - oai_dc : metadataPrefix (oai_dc or oai_oi)
+            - 200 : offset   -->
     <c:choose>
       <c:when test="${!empty resumptionToken}">
         
@@ -124,14 +130,32 @@
           <c:set var="error" value="badArgument" />
           <c:set var="kind" value="have resumptionToken but from not empty or until not empty or set not empty" />
         </c:if>
+        
+        <!-- previous regex: "(?i)!f([0-9]{4}-[0-9]{2}-[0-9]{2})?!u([0-9]{4}-[0-9]{2}-[0-9]{2})?!(oai_dc|oai_oi)?![0-9]+" -->
         <mm:compare referid="resumptionToken" inverse="true"
-            regexp="(?i)!f([0-9]{4}-[0-9]{2}-[0-9]{2})?!u([0-9]{4}-[0-9]{2}-[0-9]{2})?!(oai_dc|oai_oi)?![0-9]+">
+            regexp="(?i)!f([0-9]{4}-[0-9]{2}-[0-9]{2})?!u([0-9]{4}-[0-9]{2}-[0-9]{2})?!s-([A-Z0-9_-]*)?!(oai_dc|oai_oi)?![0-9]+">
           <c:set var="error" value="badResumptionToken" />
           <c:set var="kind" value="no match with regexp" />
         </mm:compare>
         
         <c:set var="tokens" value="${fn:split(resumptionToken, '!')}" />
         <c:choose>
+          <!-- 5 tokens: from, untill, set, prefix, offset-->
+          <c:when test="${fn:length(tokens) eq 5}">
+            <c:set var="tfrom"  value="${fn:substringAfter(tokens[0], 'f')}" />
+            <c:set var="tuntil" value="${fn:substringAfter(tokens[1], 'u')}" />
+            <c:if test="${!empty tfrom}">
+              <mm:import id="start" reset="true"><mm:time inputformat="yyyy-MM-dd" time="${tfrom}" precision="days" /></mm:import>
+            </c:if>
+            <c:if test="${!empty tuntil}">
+              <mm:import id="end" reset="true"><mm:time inputformat="yyyy-MM-dd" time="${tuntil}" precision="days" /></mm:import>
+            </c:if>
+            <mm:import id="set" reset="true">${fn:substringAfter(tokens[2], 's-')}</mm:import><!-- starts with s: -->
+            <mm:import id="metadataPrefix" reset="true">${tokens[3]}</mm:import>
+            <mm:import id="offset" reset="true">${tokens[4]}</mm:import>
+          </c:when>
+          
+          <!-- 4 tokens: from, untill, set/prefix, offset-->
           <c:when test="${fn:length(tokens) eq 4}">
             <c:set var="tfrom"  value="${fn:substringAfter(tokens[0], 'f')}" />
             <c:set var="tuntil" value="${fn:substringAfter(tokens[1], 'u')}" />
@@ -141,10 +165,17 @@
             <c:if test="${!empty tuntil}">
               <mm:import id="end" reset="true"><mm:time inputformat="yyyy-MM-dd" time="${tuntil}" precision="days" /></mm:import>
             </c:if>
-            <mm:import id="metadataPrefix" reset="true">${tokens[2]}</mm:import>
+            <c:choose>
+              <c:when test="${fn:indexOf('s:', tokens[2]) gt -1}">
+                <mm:import id="set" reset="true">${fn:substringAfter(tokens[2], 's-')}</mm:import>
+              </c:when>
+              <c:otherwise>
+                <mm:import id="metadataPrefix" reset="true">${tokens[2]}</mm:import>
+              </c:otherwise>
+            </c:choose>
             <mm:import id="offset" reset="true">${tokens[3]}</mm:import>
           </c:when>
-          <c:when test="${fn:length(tokens) eq 3}">
+          <c:when test="${fn:length(tokens) eq 3}"><!-- 3 tokens: from, untill, offset-->
             <c:set var="tfrom"  value="${fn:substringAfter(tokens[0], 'f')}" />
             <c:set var="tuntil" value="${fn:substringAfter(tokens[1], 'u')}" />
             <c:if test="${!empty tfrom}">
@@ -194,6 +225,21 @@
     <!-- default verb -->
     <c:if test="${empty verb}"><c:set var="verb">Identify</c:set></c:if>
 
+    
+    
+    
+    
+    
+    
+    
+    <!-- ### ### start os:caching ### ### -->
+    
+    <c:set var="cachetime">1800</c:set>
+    <c:set var="cacheetimeexpires"><mm:time format="yyyy-MM-dd" time="now" offset="${cachetime}" />T<mm:time format="HH:mm:ss" time="now" offset="${cachetime}" />Z</c:set>
+    
+    <c:set var="cachekey">oai-pmh.v${verb}:i${identifier}:m${metadataPrefix}:s${set}:r${resumptionToken}:f${from}:u${untill}</c:set>
+    <os:cache key="${cachekey}" time="${cachetime}">
+    
     <OAI-PMH 
       xmlns="http://www.openarchives.org/OAI/2.0/" 
       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
@@ -426,7 +472,8 @@
           </mm:listnodescontainer>
           -->
           
-          
+          <c:set var="setToken">!s-${set}</c:set>
+
           <!-- ListIdentifiers, ListRecords and GetRecord -->
           <c:choose>
             <c:when test="${total gt 0 and verb eq 'ListIdentifiers'}">
@@ -437,8 +484,9 @@
                 <c:choose>
                   <c:when test="${(offset + max) lt total}">
                     <resumptionToken
+                        expirationDate="${cacheetimeexpires}"
                         completeListSize="${total}" 
-                        cursor="${offset}">!f${from}!u${until}!${metadataPrefix}!${offset + max}</resumptionToken>
+                        cursor="${offset}">!f${from}!u${until}${empty set ? '' : setToken}!${metadataPrefix}!${offset + max}</resumptionToken>
                   </c:when>
                   <c:otherwise>
                     <resumptionToken
@@ -469,8 +517,9 @@
                 <c:choose>
                   <c:when test="${(offset + max) lt total}">
                     <resumptionToken
+                        expirationDate="${cacheetimeexpires}"
                         completeListSize="${total}" 
-                        cursor="${offset}">!f${from}!u${until}!${metadataPrefix}!${offset + max}</resumptionToken>
+                        cursor="${offset}">!f${from}!u${until}${empty set ? '' : setToken}!${metadataPrefix}!${offset + max}</resumptionToken>
                   </c:when>
                   <c:otherwise>
                     <resumptionToken
@@ -581,6 +630,7 @@
       </c:choose>
   
     </OAI-PMH>
+    </os:cache>
     
     <mm:present referid="value">
       <mm:log>value: <mm:write referid="value" escape="none" /></mm:log>
