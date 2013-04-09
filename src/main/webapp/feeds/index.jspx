@@ -78,6 +78,26 @@
                   </li>
                 </mm:listnodes>
               </mm:listnodescontainer>
+              
+            </ul>
+          </li>
+          <li>resumptionTokens:
+            <ul>
+              <li>
+                <!-- http://www.openbeelden.nl/oip-test/feeds/oai/?verb=ListRecords&metadataPrefix=oai_oi&set=beeldengeluid&resumptionToken=!f!u!s-beeldengeluid!oai_oi!100 -->
+                <mm:link page="/feeds/oai">
+                  <mm:param name="verb">ListRecords</mm:param>
+                  <mm:param name="resumptionToken">!f!u!s-beeldengeluid!oai_oi!100</mm:param>
+                  <a href="${_}">resumptionToken with openbeelden set, oai_oi and offset 100</a>
+                </mm:link>
+              </li>
+              <li>
+                <mm:link page="/feeds/oai">
+                  <mm:param name="verb">ListRecords</mm:param>
+                  <mm:param name="resumptionToken">!f1969-07-21!u2011-12-31!s-beeldengeluid!oai_dc!100</mm:param>
+                  <a href="${_}">resumptionToken with from 1969-07-21, untill 2011-12-31, openbeelden set, oai_dc and offset 100</a>
+                </mm:link>
+              </li>
             </ul>
           </li>
           
