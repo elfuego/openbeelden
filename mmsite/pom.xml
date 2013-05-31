@@ -11,25 +11,21 @@
   <packaging>war</packaging>
   <name>MMBase MMSite webapp</name>
 
-  <build>
-    <defaultGoal>install</defaultGoal>
-    <extensions>
-      <extension>
-        <groupId>org.apache.maven.wagon</groupId>
-        <artifactId>wagon-ssh</artifactId>
-      </extension>
-    </extensions>
-  </build>
-  <dependencies>
+    <description>
+        This application can help build a basic site with nice url's etc.
+     </description>
 
-  </dependencies>
-  <repositories>
-
-    <repository>
-      <id>mmbase_snapshots</id>
-      <url>http://www.mmbase.org/snapshots/</url>
-    </repository>
-
-  </repositories>
+    <repositories>
+      <repository>
+        <id>mmbase</id>
+        <name>MMBase Maven2 repository</name>
+        <url>http://www.mmbase.org/maven2</url>
+      </repository>
+      <repository>
+        <id>mmbase-snapshots</id>
+        <name>MMBase Maven2 snapshots repository</name>
+        <url>http://www.mmbase.org/snapshots</url>
+      </repository>
+    </repositories>
 
 </project>

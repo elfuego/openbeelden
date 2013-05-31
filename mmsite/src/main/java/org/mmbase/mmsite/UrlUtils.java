@@ -170,8 +170,10 @@ public final class UrlUtils {
 
             }
         }
-        if(log.isDebugEnabled()) {
+        if (log.isDebugEnabled() && node != null) {
             log.debug("returning #" + node.getNumber());
+        } else {
+            log.debug("nothing found: returning node null");
         }
         return node;
     }
