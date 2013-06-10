@@ -7,7 +7,7 @@
     xmlns:oip="urn:jsptagdir:/WEB-INF/tags/oip"
     xmlns:mm="http://www.mmbase.org/mmbase-taglib-2.0">
 
-  <mm:import externid="q" />
+  <mm:import externid="q" escape="trimmer" />
   <oip:html cacheable="false" styleClass="media">
     <jsp:attribute name="head">
       <link type="text/css" href="${mm:link('/style/css/jquery.ui.tabs.css')}" rel="stylesheet" />
