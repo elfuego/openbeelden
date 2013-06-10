@@ -114,7 +114,7 @@ translates to: +(someField:bar someField:baz) +anotherField:foo
       <c:otherwise>
         <c:if test="${!empty p_keywords 
                      or !empty p_tags 
-                     or !empty p_users}">+(${p_keywords} ${p_tags} ${p_users}) -excludedportal:${portal}</c:if>
+                     or !empty p_users}"> AND (${p_keywords} ${p_tags} ${p_users}) -excludedportal:${portal}</c:if>
       </c:otherwise>
     </c:choose>
   
