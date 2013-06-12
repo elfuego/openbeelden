@@ -36,7 +36,8 @@
       <mmsq:field name="keywords" keyword="true" split=";" boost="4" />
       <mmsq:field name="keywords" alias="pkeywords" keyword="true" split=";" /><!-- portal q -->
       <mmsq:field name="coverage" keyword="true" split=";" boost="2" />
-      <mmsq:field name="contributor" keyword="true" split=";" boost="2" />
+      <mmsq:field name="contributor" keyword="true" split=";" />
+      <mmsq:field name="contributor" split=";" boost="2" />
       <!-- node may be excluded from this portal -->
       <mmsq:related path="excluded,pools" element="pools">
         <mmsq:field name="number" alias="excludedportal" keyword="true" />
