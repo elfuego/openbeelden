@@ -49,26 +49,23 @@
         </mm:relatednodescontainer>
       </mm:node>
 
+      <!-- Lucene query config -->
+      <mm:import id="index">media</mm:import>
+      <mm:import id="max">4</mm:import>
+      <mm:import id="offset">0</mm:import>
+      <mm:import id="sortfields">REVERSE:created</mm:import>
+      
       <c:choose>
         <c:when test="${!isdefaultportal}">
-
           <mm:import id="analyzer" reset="true">org.apache.lucene.analysis.KeywordAnalyzer</mm:import>
-          <mm:import id="value"><oip:portalquery portal="${portal}" /></mm:import>
-
+          <mm:import id="value">${index}* <oip:portalquery portal="${portal}" /></mm:import>
+          <mm:import id="fields">indexId</mm:import>
         </c:when>
-        <c:otherwise>
-          <!-- default portal, display latest -->
-          <mm:import id="value">media*</mm:import>
+        <c:otherwise> <!-- default portal, display latest -->
+          <mm:import id="value">${index}*</mm:import>
           <mm:import id="fields">indexId</mm:import>
         </c:otherwise>
       </c:choose>
-
-      <!-- lucene query config -->
-      <mm:import id="index">media</mm:import>
-      <mm:import id="extraconstraints"></mm:import>
-      <mm:import id="offset">0</mm:import>
-      <mm:import id="max">4</mm:import>
-      <mm:import id="sortfields">REVERSE:created</mm:import>
 
       <link href="${mm:link('/feeds/atom/')}" rel="alternate" type="application/atom+xml" title="Open Image Platform latest uploads" />
     </jsp:attribute>
@@ -128,7 +125,7 @@
             <c:catch var="ex1">
                <mm:nodelistfunction
                   module="lucene" name="search" id="results"
-                  referids="index,value,offset,max,fields?,sortfields?,filter?,extraconstraints,analyzer?" />
+                  referids="index,value,offset,max,fields?,sortfields?,filter?,extraconstraints?,analyzer?" />
 
                <mm:listnodes referid="results">
                  <mm:link encode="false">
