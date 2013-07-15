@@ -77,8 +77,10 @@
             </c:if>
             <c:if test="${! fn:contains(setlist, portal)}">
               <mm:import id="oaikey" reset="true">oai-set</mm:import><!-- property key -->
-              <c:set var="setspec"><mm:function referids="_node@node,oaikey@key" nodemanager="properties" name="get" /></c:set>
-              <c:set var="setlist" value="${setlist}${setspec}" />
+              <c:set var="setname"><mm:function referids="_node@node,oaikey@key" nodemanager="properties" name="get" /></c:set>
+              <c:if test="${fn:indexOf(setlist, setname) lt 0}">
+                <c:set var="setlist" value="${setlist}${setname}" />
+              </c:if>
             </c:if>
           </c:if>
         </mm:node>
@@ -108,8 +110,10 @@
             </c:if>
             <c:if test="${! fn:contains(setlist, portal)}">
               <mm:import id="oaikey" reset="true">oai-set</mm:import><!-- property key -->
-              <c:set var="setspec"><mm:function referids="_node@node,oaikey@key" nodemanager="properties" name="get" /></c:set>
-              <c:set var="setlist" value="${setlist}${setspec}" />
+              <c:set var="setname"><mm:function referids="_node@node,oaikey@key" nodemanager="properties" name="get" /></c:set>
+              <c:if test="${fn:indexOf(setlist, setname) lt 0}">
+                <c:set var="setlist" value="${setlist}${setname}" />
+              </c:if>
             </c:if>
           </c:if>
         </mm:node>
