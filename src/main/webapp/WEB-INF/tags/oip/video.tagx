@@ -39,29 +39,44 @@
   </c:if>
 
 
-
+  <!-- urls for source elements in video tag -->
   <mm:import id="mediaurls">
     <mm:functioncontainer>
       <mm:param name="format">WEBM,OGV,MP4,OGG,M3U8</mm:param>
       <mm:listfunction name="filteredurls" varStatus="status">
-        <c:choose>
-          <c:when test="${!empty _.codec and fn:indexOf(_.codec,'H264') gt -1}">
-            <c:set var="codecs">; codecs=avc1.42E01E,mp4a.40.2</c:set>
-          </c:when>
-          <c:when test="${!empty _.codec and _.codec ne 'UNKNOWN'}">
-            <c:set var="codecs">; codecs=${mm:escape('lowercase', _.codec)}</c:set>
-            <c:if test="${!empty _.acodec and _.acodec ne 'UNKNOWN'}">
-              <c:set var="codecs">${codecs},${mm:escape('lowercase', _.acodec)}</c:set>
-            </c:if>
-          </c:when>
-          <c:otherwise><c:set var="codecs" value="" /></c:otherwise>
-        </c:choose>
-        <c:if test="${!empty _.URL and _.available}">
-          <source src="${mm:escape('text/xml', _.URL)}" type="${_.mimeType}${codecs}" />
-        </c:if>
-        <c:if test="${!empty _.URL and status.index eq 1}">
-          <c:set var="first_source">${mm:escape('text/xml', _.URL)}</c:set>
-        </c:if>
+        <mm:first><mm:size id="nr_of_streams" write="false" /></mm:first>
+        <mm:node number="${_.source.number}">
+          <c:choose>
+            <c:when test="${!empty _.codec and fn:indexOf(_.codec,'H264') gt -1}">
+              <c:set var="codecs">; codecs=avc1.42E01E,mp4a.40.2</c:set>
+            </c:when>
+            <c:when test="${!empty _.codec and _.codec ne 'UNKNOWN'}">
+              <c:set var="codecs">; codecs=${mm:escape('lowercase', _.codec)}</c:set>
+              <c:if test="${!empty _.acodec and _.acodec ne 'UNKNOWN'}">
+                <c:set var="codecs">${codecs},${mm:escape('lowercase', _.acodec)}</c:set>
+              </c:if>
+            </c:when>
+            <c:otherwise><c:set var="codecs" value="" /></c:otherwise>
+          </c:choose>
+          <c:if test="${!empty _.URL and _.available}">
+            <c:choose>
+              <!-- only media attr. if more then one stream -->
+              <c:when test="${nr_of_streams gt 1}">
+                <source src="${mm:escape('text/xml', _.URL)}" 
+                        media="${_node.label eq 'sd' 
+                              or _node.label eq 'playlist-sd' 
+                              or _node.label eq 'lo' ? '(max-device-width: 640px)' : '(min-device-width: 641px)'}"
+                        type="${_.mimeType}${codecs}" />
+              </c:when>
+              <c:otherwise>
+                <source src="${mm:escape('text/xml', _.URL)}" type="${_.mimeType}${codecs}" />
+              </c:otherwise>
+            </c:choose>
+          </c:if>
+          <c:if test="${!empty _.URL and status.index eq 1}">
+            <c:set var="first_source">${mm:escape('text/xml', _.URL)}</c:set>
+          </c:if>
+        </mm:node>
       </mm:listfunction>
     </mm:functioncontainer>
   </mm:import>
