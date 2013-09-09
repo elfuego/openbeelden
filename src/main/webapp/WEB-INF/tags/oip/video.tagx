@@ -38,13 +38,54 @@
     </mm:nodefunction>
   </c:if>
 
+  <!-- these are to test if there are a sd and a hd version of each: if so use '(min-device-width: 641px)' etc. -->
+  <c:set var="count_webm" value="" />
+  <c:set var="count_ogv" value="" />
+  <c:set var="count_mp4" value="" />
+  <mm:functioncontainer>
+    <mm:param name="format">WEBM,OGV,MP4</mm:param>
+    <mm:listfunction name="filteredurls">
+    <mm:node number="${_.source.number}">
+    
+      <c:choose>
+        <c:when test="${mm:escape('lowercase', _.format) eq 'webm'}">
+          <c:if test="${_node.label eq 'sd' or _node.label eq 'lo'}">
+            <c:set var="count_webm" value="${count_webm}${empty count_webm ? 'sd' : ',sd'}" />
+          </c:if>
+          <c:if test="${_node.label eq 'hd' or _node.label eq 'hi'}">
+            <c:set var="count_webm" value="${count_webm}${empty count_webm ? 'hd' : ',hd'}" />
+          </c:if>
+        </c:when>
+        <c:when test="${mm:escape('lowercase', _.format) eq 'ogv'}">
+          <c:if test="${_node.label eq 'sd' or _node.label eq 'lo'}">
+            <c:set var="count_ogv" value="${count_ogv}${empty count_ogv ? 'sd' : ',sd'}" />
+          </c:if>
+          <c:if test="${_node.label eq 'hd' or _node.label eq 'hi'}">
+            <c:set var="count_ogv" value="${count_ogv}${empty count_ogv ? 'hd' : ',hd'}" />
+          </c:if>
+        </c:when>
+        <c:when test="${mm:escape('lowercase', _.format) eq 'mp4'}">
+          <c:if test="${_node.label eq 'sd' or _node.label eq 'lo'}">
+            <c:set var="count_mp4" value="${count_mp4}${empty count_mp4 ? 'sd' : ',sd'}" />
+          </c:if>
+          <c:if test="${_node.label eq 'hd' or _node.label eq 'hi'}">
+            <c:set var="count_mp4" value="${count_mp4}${empty count_mp4 ? 'hd' : ',hd'}" />
+          </c:if>
+        </c:when>
+        <c:otherwise>
+        </c:otherwise>
+      </c:choose>
+    
+    </mm:node>
+    </mm:listfunction>
+  </mm:functioncontainer>
 
   <!-- urls for source elements in video tag -->
   <mm:import id="mediaurls">
     <mm:functioncontainer>
       <mm:param name="format">WEBM,OGV,MP4,OGG,M3U8</mm:param>
       <mm:listfunction name="filteredurls" varStatus="status">
-        <mm:first><mm:size id="nr_of_streams" write="false" /></mm:first>
+        <c:set var="str_format">${mm:escape('lowercase', _.format)}</c:set>
         <mm:node number="${_.source.number}">
           <c:choose>
             <c:when test="${!empty _.codec and fn:indexOf(_.codec,'H264') gt -1}">
@@ -60,8 +101,22 @@
           </c:choose>
           <c:if test="${!empty _.URL and _.available}">
             <c:choose>
-              <!-- only media attr. if more then one stream -->
-              <c:when test="${nr_of_streams gt 1}">
+              <!-- test for both a sd and hd version -->
+              <c:when test="${str_format eq 'webm' and fn:indexOf(count_webm, 'sd') gt -1 and fn:indexOf(count_webm, 'hd') gt -1}">
+                <source src="${mm:escape('text/xml', _.URL)}" 
+                        media="${_node.label eq 'sd' 
+                              or _node.label eq 'playlist-sd' 
+                              or _node.label eq 'lo' ? '(max-device-width: 640px)' : '(min-device-width: 641px)'}"
+                        type="${_.mimeType}${codecs}" />
+              </c:when>
+              <c:when test="${str_format eq 'ogv' and fn:indexOf(count_ogv, 'sd') gt -1 and fn:indexOf(count_ogv, 'hd') gt -1}">
+                <source src="${mm:escape('text/xml', _.URL)}" 
+                        media="${_node.label eq 'sd' 
+                              or _node.label eq 'playlist-sd' 
+                              or _node.label eq 'lo' ? '(max-device-width: 640px)' : '(min-device-width: 641px)'}"
+                        type="${_.mimeType}${codecs}" />
+              </c:when>
+              <c:when test="${str_format eq 'mp4' and fn:indexOf(count_mp4, 'sd') gt -1 and fn:indexOf(count_mp4, 'hd') gt -1}">
                 <source src="${mm:escape('text/xml', _.URL)}" 
                         media="${_node.label eq 'sd' 
                               or _node.label eq 'playlist-sd' 
@@ -73,7 +128,7 @@
               </c:otherwise>
             </c:choose>
           </c:if>
-          <c:if test="${!empty _.URL and status.index eq 1}">
+          <c:if test="${!empty _.URL and status.index eq 1}"><!-- save first one for embed tag -->
             <c:set var="first_source">${mm:escape('text/xml', _.URL)}</c:set>
           </c:if>
         </mm:node>
@@ -95,7 +150,7 @@
     <c:otherwise>
       <div class="video inavailable" style="background-image: url(${poster});">
         <p>
-          <jsp:text>No video sources available (yet, they may still be transcoding).</jsp:text>
+          <jsp:text>No video sources available (yet, probably still transcoding).</jsp:text>
           <c:if test="${!empty unsupported}">
             <jsp:text> Unsupported original media file.</jsp:text>
           </c:if>
