@@ -227,6 +227,11 @@ div.oipcontrols a
 {
 	padding: 25px 0 0 0;
 	overflow: hidden;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -o-user-select: none;
+    user-select: none;
 	height: 0 !important;
     height /**/: 25px;  /* for IE5/Win */
 }
