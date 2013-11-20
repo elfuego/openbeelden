@@ -265,7 +265,7 @@
       </mm:relatednodescontainer>
 
       <!-- oi:location -->
-      <mm:relatednodescontainer type="locations" role="related" searchdirs="destination">
+      <mm:relatednodescontainer type="locations" role="posrel" searchdirs="destination">
         <mm:relatednodes>
           <oi:location><fmt:formatNumber 
                             value="${_node.latitude}" pattern="+#.####;-#.####" /><fmt:formatNumber 
