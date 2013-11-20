@@ -38,9 +38,16 @@
             <jsp:text> <!-- empty --> </jsp:text>
           </div>
           <span class="percentage">
-            <fmt:formatNumber
-                value="${sessionScope['org.mmbase.uploadInfo'].fraction}"
-                type="percent" />
+            <c:choose>
+              <c:when test="${sessionScope['org.mmbase.uploadInfo'].fraction eq 1.0}">
+                99%
+              </c:when>
+              <c:otherwise>
+                <fmt:formatNumber
+                    value="${sessionScope['org.mmbase.uploadInfo'].fraction}"
+                    type="percent" />
+              </c:otherwise>
+            </c:choose>
           </span>
           <span class="speed">
             <jsp:text> (</jsp:text>
@@ -60,9 +67,16 @@
           </div>
           <span class="percentage">
             <fmt:message key="media.uploading" /><jsp:text> <!-- empty --> </jsp:text>
-            <fmt:formatNumber
-                value="${sessionScope['org.mmbase.uploadInfo'].fraction}"
-                type="percent" />
+            <c:choose>
+              <c:when test="${sessionScope['org.mmbase.uploadInfo'].fraction eq 1.0}">
+                99%
+              </c:when>
+              <c:otherwise>
+                <fmt:formatNumber
+                    value="${sessionScope['org.mmbase.uploadInfo'].fraction}"
+                    type="percent" />
+              </c:otherwise>
+            </c:choose>
           </span>
           <span class="speed">
             (<mm:escape escape="myfilesize">${sessionScope['org.mmbase.uploadInfo'].bytesRead}</mm:escape>

@@ -175,15 +175,13 @@
 
             </mm:present>
 
-
-
           </mm:form>
+        
         </mm:maywrite>
         <mm:maywrite inverse="true">
           <p class="err">not allowed</p>
         </mm:maywrite>
-
-
+      
       </mm:node>
 
     </div>

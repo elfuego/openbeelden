@@ -1,0 +1,17 @@
+<mm:content
+    type="application/xml"
+    xmlns:c="http://java.sun.com/jsp/jstl/core"
+    xmlns:jsp="http://java.sun.com/JSP/Page"
+    xmlns:fmt="http://java.sun.com/jsp/jstl/fmt"
+    xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+    xmlns:mm="http://www.mmbase.org/mmbase-taglib-2.0"
+    xmlns:oip="urn:jsptagdir:/WEB-INF/tags/oip"
+    >
+  <jsp:output omit-xml-declaration="true" />
+    <mm:cloud method="asis">
+      
+      <script src="${mm:link('/style/js/OpenLayers-2.13.1/OpenLayers.js')}" type="text/javascript"><jsp:text><!-- help ie --></jsp:text></script>
+      <script src="${mm:link('/style/js/openlayers.map.js')}" type="text/javascript"><jsp:text><!-- help ie --></jsp:text></script>
+      
+    </mm:cloud>
+</mm:content>
