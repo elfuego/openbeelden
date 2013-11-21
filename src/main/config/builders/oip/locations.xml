@@ -28,8 +28,8 @@
 
     <field name="name">
       <descriptions>
-        <description xml:lang="en">Name of location</description>
-        <description xml:lang="nl">Naam van lokatie</description>
+        <description xml:lang="en">Name or short description of location.</description>
+        <description xml:lang="nl">Naam of korte beschrijving van de lokatie.</description>
       </descriptions>
       <gui>
         <guiname xml:lang="en">Name</guiname>
@@ -59,7 +59,7 @@
       <editor>
         <positions>
           <input>2</input>
-          <list>2</list>
+          <list>-1</list>
           <search>2</search>
         </positions>
       </editor>
@@ -81,8 +81,8 @@
 
     <field name="longitude">
       <descriptions>
-        <description xml:lang="en">Longitude</description>
-        <description xml:lang="nl">Longitude</description>
+        <description xml:lang="en">Longitude, with a maximum of 6 decimals (precision 9 and scale 6, f.e. 51.507743).</description>
+        <description xml:lang="nl">Longitude (lengtegraad), met een maximum van 6 cijfers achter de komma (precisie 9 en schaal 6, bijv. 51.507743).</description>
       </descriptions>
       <gui>
         <guiname xml:lang="en">Longitude</guiname>
@@ -103,8 +103,8 @@
 
     <field name="latitude">
       <descriptions>
-        <description xml:lang="en">Latitude</description>
-        <description xml:lang="nl">Latitude</description>
+        <description xml:lang="en">Latitude with a maximum of 6 decimals (precision 9 and scale 6, f.e. -0.127931).</description>
+        <description xml:lang="nl">Latitude (breedtegraad) met een maximum van 6 cijfers achter de komma (precisie 9 en schaal 6, bijv. -0.127931).</description>
       </descriptions>
       <gui>
         <guiname xml:lang="en">Latitude</guiname>
@@ -125,8 +125,8 @@
 
     <field name="altitude">
       <descriptions>
-        <description xml:lang="en">Altitude or height</description>
-        <description xml:lang="nl">Altitude of hoogte</description>
+        <description xml:lang="en">Altitude or height (precision 24 and scale 3)</description>
+        <description xml:lang="nl">Altitude of hoogte (precisie 24 and schaal 3)</description>
       </descriptions>
       <gui>
         <guiname xml:lang="en">Altitude</guiname>
@@ -147,8 +147,8 @@
 
     <field name="heading">
       <descriptions>
-        <description xml:lang="en">Heading</description>
-        <description xml:lang="nl">Richting of 'heading'</description>
+        <description xml:lang="en">Heading (precision 9 and scale 6)</description>
+        <description xml:lang="nl">Richting of 'heading' (precisie 9 en schaal 6)</description>
       </descriptions>
       <gui>
         <guiname xml:lang="en">Heading</guiname>
@@ -169,8 +169,8 @@
 
     <field name="tilt">
       <descriptions>
-        <description xml:lang="en">Tilt in degrees</description>
-        <description xml:lang="nl">Tilt in graden t.o.v. de horizon</description>
+        <description xml:lang="en">Tilt in degrees (precision 9 and scale 6)</description>
+        <description xml:lang="nl">Tilt in graden t.o.v. de horizon (precisie 9 en schaal 6)</description>
       </descriptions>
       <gui>
         <guiname xml:lang="en">Tilt</guiname>
