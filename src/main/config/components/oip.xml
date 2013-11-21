@@ -273,13 +273,36 @@
     </body>
   </block>
 
+  <block name="user-medialocation"
+         classification="oip"
+         mimetype="text/html">
+    <title xml:lang="en">Locations</title>
+    <title xml:lang="nl">Lokaties</title>
+    <description xml:lang="en">Geographical locations of an item. Recording location or places that apear in this item. Click in the map to place a marker. Chooce 'Save' to save it as a new location. </description>
+    <description xml:lang="nl">Geografische locaties, plaats of plaatsen op de kaart waar het item is gemaakt of die er in voorkomen. Klik op de kaart om een marker te plaatsen. Kies 'Bewaar' om het als nieuwe locatie te bewaren. </description>
+    <head jsp="user-medialocation.head.jspx" />
+    <head>
+      <class name="org.mmbase.framework.StringRenderer">
+        <param name="string"><![CDATA[
+          <script src="{REQUEST.getContextPath}/mmbase/jquery/jquery.form.js" type="text/javascript"> </script>
+        ]]></param>
+      </class>
+    </head>
+    <body jsp="user-medialocation.jspx">
+      <param name="n" type="org.mmbase.bridge.Node" />
+      <param name="media" type="String" />
+      <param name="edit"  type="String" />
+      <param name="delete" type="String" />
+    </body>
+  </block>
+  
   <block name="user-mediadelete"
          classification="oip"
          mimetype="text/html">
     <title xml:lang="en">Delete media item</title>
     <title xml:lang="nl">Verwijder media item</title>
-    <description xml:lang="en">Remove a media item and all its related content</description>
-    <description xml:lang="nl">Verwijder een mediaitem en alle gerelateerde content</description>
+    <description xml:lang="en">Remove a media item and all its related content.</description>
+    <description xml:lang="nl">Verwijder een mediaitem en alle gerelateerde content.</description>
     <body jsp="user-mediadelete.jspx">
       <param name="n" type="org.mmbase.bridge.Node" />
       <param name="media"  type="String" />
