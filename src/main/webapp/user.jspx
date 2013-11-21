@@ -39,6 +39,7 @@
           <c:when test="${block eq 'user-media'}">
             <mm:component name="oip" block="user-mediapreview" render="head" />
             <mm:component name="oip" block="user-translations" render="head" />
+            <mm:component name="oip" block="user-medialocation" render="head" />
           </c:when>
           <c:when test="${block eq 'user-edit'}">
             <mm:component name="oip" block="user-picture" render="head" />
@@ -81,7 +82,16 @@
             <mm:component name="oip" block="user-translations" />
           </c:if>
   
-          <mm:component name="oip" block="${block}" />
+          <c:choose>
+            <c:when test="${block eq 'user-medialocation'}">
+              <mm:component name="oip" block="user-medialocation">
+                <mm:param name="edit">true</mm:param>
+              </mm:component>
+            </c:when>
+            <c:otherwise>
+              <mm:component name="oip" block="${block}" />
+            </c:otherwise>
+          </c:choose>
   
           <c:if test="${block eq 'user-media'}">
             <mm:component name="oip" block="user-mediadelete" />
@@ -162,8 +172,11 @@
 
               <c:if test="${block eq 'user-media'}">
                 <div class="related-grey-border">
-                  <oip:h2>Info</oip:h2>                
+                  <oip:h2>Info</oip:h2>
                   <mm:component name="oip" block="user-mediainfo" />
+                </div>
+                <div class="related-grey">
+                  <mm:component name="oip" block="user-medialocation" />
                 </div>
               </c:if>
 
