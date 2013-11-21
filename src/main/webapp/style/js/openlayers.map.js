@@ -8,6 +8,8 @@ $(document).ready(function(){
     if ($('#openstreetmap').length) {
         var editSize = true;
         if ($('#openstreetmap').is('.small')) editSize = false;;
+        var context = "/";
+        if ($("meta[name='ContextRoot']").length) context = $("meta[name='ContextRoot']").attr("content");
 		map = new OpenLayers.Map("openstreetmap");
         var markerArray = [];
 		var markers, marker, pos, newMarkerPos;
@@ -50,7 +52,7 @@ $(document).ready(function(){
         markers = new OpenLayers.Layer.Markers("Markers");
         map.addLayer(markers);
 
-        var blueIcon = new OpenLayers.Icon('/style/images/loc-blue-32.png', size, offset);
+        var blueIcon = new OpenLayers.Icon(context + 'style/images/loc-blue-32.png', size, offset);
         function blueMarker(p) {
 			//console.log('new blue: ' + p);
 			newMarkerPos = p;
@@ -67,7 +69,7 @@ $(document).ready(function(){
 			pos = p; // for just one location on map
 			//console.log('new red: ' + p);
             
-            var icon = new OpenLayers.Icon('/style/images/loc-red-32.png', size, offset);
+            var icon = new OpenLayers.Icon(context + 'style/images/loc-red-32.png', size, offset);
             var mark = new OpenLayers.Marker(p, icon);
             var myID = lonlatToId(p);
 			mark.myId = myID;
