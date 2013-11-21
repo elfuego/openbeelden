@@ -31,12 +31,13 @@
               
               <mm:relatednodescontainer type="locations" role="posrel" searchdirs="destination">
                 <mm:sortorder field="posrel.pos" direction="UP" />
-                <ul style="margin-top: 1em;">
+                <ul class="small" id="geolist">
                   <mm:relatednodes>
                     <li class="geolonlat">
-                      <span class="lon"><mm:field name="longitude" /></span> /
-                      <span class="lat"><mm:field name="latitude" /></span> 
-                      <mm:field name="name"><mm:isnotempty> (<mm:write />)</mm:isnotempty></mm:field>
+                      <strong><span class="lon"><mm:field name="longitude" /></span> /
+                      <span class="lat"><mm:field name="latitude" /></span></strong>
+                      <jsp:text> </jsp:text>
+                      <mm:field name="name"><mm:isnotempty><span class="name"><mm:write /></span></mm:isnotempty></mm:field>
                     </li>
                   </mm:relatednodes>
                 </ul>
@@ -55,34 +56,8 @@
             
             <mm:present referid="edit">
               
-              <h4>Geographical locations</h4>
               <p>${mm:string(requestScope['org.mmbase.framework.state'].renderer.block.description)}</p>
 
-              <!-- <mm:import externid="submit" />
-              <mm:import externid="lon" />
-              <mm:import externid="lat" />
-              <mm:import externid="name" />
-              
-              <mm:present referid="submit">
-                <p class="msg">We did submit something ${lon} / ${lat}.</p>
-
-                <c:choose>
-                  <c:when test="${!empty lon and !empty lat}">
-                    <mm:createnode type="locations" id="locnode">
-                      <mm:setfield name="name">${name}</mm:setfield>
-                      <mm:setfield name="longitude">${lon}</mm:setfield>
-                      <mm:setfield name="latitude">${lat}</mm:setfield>
-                    </mm:createnode>
-                    <mm:createrelation source="medianode" destination="locnode" role="posrel" />
-                    Node made 
-                  </c:when>
-                  <c:otherwise>
-                    <p class="err">No longitude and/or latitude. </p>
-                  </c:otherwise>
-                </c:choose>
-    
-              </mm:present> -->
-                            
               <div class="map">
                 <div id="openstreetmap"><!-- empty --></div>
               </div>
@@ -110,7 +85,7 @@
               <p id="geofeedback"><!-- empty --></p>
               <mm:relatednodescontainer type="locations" role="posrel" searchdirs="destination">
                 <mm:sortorder field="posrel.pos" direction="UP" />
-                <ul style="margin-top: 1em;" id="geolist">
+                <ul id="geolist">
                   <mm:relatednodes>
                     <li class="geolonlat">
                       <mm:maydelete>
@@ -118,13 +93,15 @@
                           <mm:frameworkparam name="media">${media}</mm:frameworkparam>
                           <mm:frameworkparam name="block">user-medialocation</mm:frameworkparam>
                           <mm:frameworkparam name="component">oip</mm:frameworkparam>
-                          <a class="delete" href="${_}"><fmt:message key="users.delete" /></a> : 
+                          <a class="delete" href="${_}"><fmt:message key="users.delete" /></a> 
                         </mm:link>
+                        <jsp:text> </jsp:text>
                         <!-- a class="delete" href="#loc${_node}"><fmt:message key="users.delete" /></a -->
                       </mm:maydelete>
-                      <span class="lon"><mm:field name="longitude" /></span> /
-                      <span class="lat"><mm:field name="latitude" /></span> 
-                      <mm:field name="name"><mm:isnotempty> (<span class="name"><mm:write /></span>)</mm:isnotempty></mm:field>
+                      <strong><span class="lon"><mm:field name="longitude" /></span> /
+                      <span class="lat"><mm:field name="latitude" /></span></strong>
+                      <jsp:text> </jsp:text>
+                      <mm:field name="name"><mm:isnotempty><span class="name"><mm:write /></span></mm:isnotempty></mm:field>
                       
                     </li>
                   </mm:relatednodes>
@@ -140,16 +117,26 @@
 
               <form action="${mm:link('/action/submit-locations.jspx')}" id="geoform" method="post">
                 <fieldset>
-                  <div class="geolocname">
-                    <label for="geolocname" class="">Name</label>
-                    <p class="info">A descriptive name for the new location, not required.</p>
-                    <input type="text" name="name" value="" />
-                  </div>
+
+                  <mm:fieldlist nodetype="locations" fields="name">
+                    <c:set var="fld_name"><mm:fieldinfo type="name" /></c:set>
+                    <div class="${fld_name}">
+                      <mm:fieldinfo type="forid">
+                        <label for="${_}" class="${fld_name}"><mm:fieldinfo type="guiname" /></label>
+                      </mm:fieldinfo>
+                      <p class="info"><mm:fieldinfo type="description" escape="inline" /></p>
+                      <input type="text" name="name" value="" />
+                    </div>
+                  </mm:fieldlist>
+                  
                   <input type="hidden" name="nr"  value="${media}" />
                   <input type="hidden" name="usr" value="${n}" />
                   <input type="hidden" name="lon" value="" id="geolongitude" />
                   <input type="hidden" name="lat" value="" id="geolatitude" />
-                  <input type="submit" name="submit" value="Bewaar nieuwe locatie" class="submit" />
+                  
+                  <c:set var="button_save"><fmt:message key="users.form.save" /></c:set>
+                  <input name="submit" type="submit" value="${button_save}" class="submit" />
+                
                 </fieldset>
               </form>
              

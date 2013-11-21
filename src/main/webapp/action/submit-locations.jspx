@@ -31,28 +31,37 @@
       <mm:createrelation source="source" destination="locnode" role="posrel">
         <mm:setfield name="pos">1</mm:setfield>
       </mm:createrelation>
-      <p class="msg">Location added.</p>
+      <p class="msg">Added location ${lon} / ${lat}.</p>
       
       <span class="result">
-        <li class="geolonlat" id="">
+        <li class="geolonlat" >
 
           <mm:link referids="locnode@delete">
             <mm:frameworkparam name="user">${usr}</mm:frameworkparam>
             <mm:frameworkparam name="media">${nr}</mm:frameworkparam>
             <mm:frameworkparam name="component">oip</mm:frameworkparam>
             <mm:frameworkparam name="block">user-medialocation</mm:frameworkparam>
-            <a class="delete" href="${_}"><fmt:message key="users.delete" /></a> : 
+            <a class="delete" href="${_}"><fmt:message key="users.delete" /></a>
           </mm:link>
-             loc: ${locnode}
-          <span class="lon">${lon}</span> / <span class="lat">${lat}</span> 
-          <c:if test="${!empty name}"> (<span class="name">${name}</span>)</c:if>
+          <jsp:text> </jsp:text>
+          <strong><span class="lon">${lon}</span> / <span class="lat">${lat}</span></strong> 
+          <jsp:text> </jsp:text>
+          <c:if test="${!empty name}"><span class="name">${name}</span></c:if>
         
         </li>
       </span>
     
     </c:when>
     <c:otherwise>
-      <p class="err">Not the correct data. <!-- [lon: ${lon} lat: ${lat} nr: ${nr}] --></p>
+      <c:choose>
+        <c:when test="${empty lon or empty lat}">
+          <p class="err">No longitude and/or latitude.</p>
+        </c:when>
+        <c:otherwise>
+          <p class="err">Incorrect data. <!-- [lon: ${lon} lat: ${lat} nr: ${nr}] --></p>
+        </c:otherwise>
+      </c:choose>
+
     </c:otherwise>
   </c:choose>
 

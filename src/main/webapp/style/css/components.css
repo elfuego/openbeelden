@@ -303,3 +303,17 @@ div.b_user-delete input.cancel
 }
 
 .b_user-medialocation form#geoform { margin-top: 10px; }
+
+.b_user-medialocation ul#geolist.small strong { display: none; }
+.b_user-medialocation ul#geolist { margin-top: 10px; }
+.b_user-medialocation ul#geolist span { cursor: pointer; }
+.b_user-medialocation ul#geolist strong { font-weight: normal; }
+.b_user-medialocation ul#geolist a.delete { margin-right: 4px; }
+.b_user-medialocation ul#geolist span.lon,
+.b_user-medialocation ul#geolist span.lat
+{
+    display: inline-block;
+    min-width: 70px;
+    margin-right: 4px;
+    font-family: "Courier New", Courier, monospaced;
+}

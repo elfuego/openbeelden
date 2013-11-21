@@ -6,6 +6,8 @@
  */
 $(document).ready(function(){
     if ($('#openstreetmap').length) {
+        var editSize = true;
+        if ($('#openstreetmap').is('.small')) editSize = false;;
 		map = new OpenLayers.Map("openstreetmap");
         var markerArray = [];
 		var markers, marker, pos, newMarkerPos;
@@ -20,27 +22,29 @@ $(document).ready(function(){
         var offset = new OpenLayers.Pixel(-(size.w/2), -size.h);
 
         // adapt default click behaviour to enable placing of pins
-        OpenLayers.Control.Click = OpenLayers.Class(OpenLayers.Control, {                
-            defaultHandlerOptions: {
-                'single': true,
-                'double': false,
-                'pixelTolerance': 4,
-                'stopSingle': false,
-                'stopDouble': false
-            },
+        if (editSize) {
+            OpenLayers.Control.Click = OpenLayers.Class(OpenLayers.Control, {                
+                defaultHandlerOptions: {
+                    'single': true,
+                    'double': false,
+                    'pixelTolerance': 4,
+                    'stopSingle': false,
+                    'stopDouble': false
+                },
   
-            initialize: function(options) {
-                this.handlerOptions = OpenLayers.Util.extend({}, this.defaultHandlerOptions);
-                OpenLayers.Control.prototype.initialize.apply(this, arguments); 
-                this.handler = new OpenLayers.Handler.Click(this, {'click': this.trigger }, this.handlerOptions);
-            }, 
+                initialize: function(options) {
+                    this.handlerOptions = OpenLayers.Util.extend({}, this.defaultHandlerOptions);
+                    OpenLayers.Control.prototype.initialize.apply(this, arguments); 
+                    this.handler = new OpenLayers.Handler.Click(this, {'click': this.trigger }, this.handlerOptions);
+                }, 
   
-            trigger: function(ev) {
-                var lonlat = map.getLonLatFromPixel(ev.xy);
-                //console.log("New marker near " + lonlat.lat + " N, " + lonlat.lon + " E - " + ev.xy.x + "/" + ev.xy.y );
-                marker = blueMarker(lonlat);
-            }  
-        });
+                trigger: function(ev) {
+                    var lonlat = map.getLonLatFromPixel(ev.xy);
+                    //console.log("New marker near " + lonlat.lat + " N, " + lonlat.lon + " E - " + ev.xy.x + "/" + ev.xy.y );
+                    marker = blueMarker(lonlat);
+                }  
+            });
+        }
         
         map.addLayer(new OpenLayers.Layer.OSM());
         markers = new OpenLayers.Layer.Markers("Markers");
@@ -48,7 +52,7 @@ $(document).ready(function(){
 
         var blueIcon = new OpenLayers.Icon('/style/images/loc-blue-32.png', size, offset);
         function blueMarker(p) {
-			console.log('new blue: ' + p);
+			//console.log('new blue: ' + p);
 			newMarkerPos = p;
             
 			m = new OpenLayers.Marker(p, blueIcon);
@@ -61,7 +65,7 @@ $(document).ready(function(){
         
         function redMarker(p) {
 			pos = p; // for just one location on map
-			console.log('new red: ' + p);
+			//console.log('new red: ' + p);
             
             var icon = new OpenLayers.Icon('/style/images/loc-red-32.png', size, offset);
             var mark = new OpenLayers.Marker(p, icon);
@@ -72,15 +76,17 @@ $(document).ready(function(){
 			markerArray.push(mark);
 
             mark.events.register('mousedown', mark, function(ev) {
-                console.log('You clicked : ' + this.myId);
-				$('#geolist li').css('font-weight', 'normal');
-				$('#' + this.myId).css('font-weight', 'bold');
-				this.popup = new OpenLayers.Popup.FramedCloud("Popup",
-                    this.lonlat,
-                    new OpenLayers.Size(80,80),
-                    '<div>' + this.myName + '<br>' + this.lonlat.lat + ' N,<br />' + this.lonlat.lon + ' E</div>',
-                    null, false);
-                map.addPopup(this.popup);
+                //console.log('You clicked : ' + this.myId);
+				$('#geolist li span.name').css('font-weight', 'normal');
+				$('#' + this.myId + ' span.name').css('font-weight', 'bold');
+				if (editSize) {
+                    this.popup = new OpenLayers.Popup.FramedCloud("Popup",
+                        this.lonlat,
+                        new OpenLayers.Size(80,80),
+                        '<div>' + this.myName + '<br>' + this.lonlat.lat + ' N,<br />' + this.lonlat.lon + ' E</div>',
+                        null, false);
+                    map.addPopup(this.popup);
+                }
             }, true);
             mark.events.register('mouseout', mark, function(ev) { 
                 if (this.popup) { 
@@ -105,7 +111,15 @@ $(document).ready(function(){
             );
             var myId = lonlatToId(p);
 			$(this).attr('id', myId);
-            redMarker(p);			
+            redMarker(p);
+            
+            // cool marker bounce effect when clicked
+            $(this).find('span').click(function(ev){
+                ev.preventDefault();
+                var id = $(ev.target).closest('li').attr('id');
+                var mrk = getMyMarker(id);
+                $(mrk.icon.imageDiv).effect("bounce", { times: 3 }, 400);
+            });
             /* pinred = new OpenLayers.Icon('/style/images/loc-red-32.png', size, offset);
             marker = new OpenLayers.Marker(pos, pinred);
 			marker.myId = myId;
@@ -115,7 +129,7 @@ $(document).ready(function(){
         });
         
         // not all functions in small map
-        if (! $('#openstreetmap').is('.small')) {
+        if (editSize) {
             var click = new OpenLayers.Control.Click();
             map.addControl(click);
             click.activate();
@@ -184,8 +198,8 @@ $(document).ready(function(){
                     });
                 }
 			    for (var i in markerArray) {
-		            console.log('add: ' + i + ' : ' + markerArray[i]);
-		            console.log(markerArray[i]);
+		            //console.log('add: ' + i + ' : ' + markerArray[i]);
+		            //console.log(markerArray[i]);
 					markers.addMarker(markerArray[i]);
 				}				
 		}
@@ -233,7 +247,7 @@ function lonlatToId(lonlat) {	// 28.609315, -17.923079
 	newlon = newlon + lon.replace(regex, "$1d$2");
 	newlat = (lat.indexOf('-') > -1 ? 'W' : 'E'); 
 	newlat = newlat + lat.replace(regex, "$1d$2");
-	console.log("id: " + newlon + newlat);
+	//console.log("id: " + newlon + newlat);
 	return newlon+newlat;
 }
 
@@ -247,7 +261,7 @@ function idToLonlat(id) {  // W72d363554S16d035956
     }
     if (id.toLowerCase().indexOf('w') > -1) lon = "-" + lon;
     if (id.toLowerCase().indexOf('s') > -1) lat = "-" + lat;
-	console.log("lon/lat: " + lon + "/" + lat);
+	//console.log("lon/lat: " + lon + "/" + lat);
 	return { 'lon': lon, 'lat': lat };
 }
 
