@@ -65,6 +65,7 @@ public class UsersUrlConverter extends DirectoryUrlConverter {
         addBlock(oip.getBlock("user-mediaupload"));
         addBlock(oip.getBlock("user-mediadownload"));
         addBlock(oip.getBlock("user-mediapreview"));
+        addBlock(oip.getBlock("user-medialocation"));
         addBlock(oip.getBlock("user-streams"));
         addBlock(oip.getBlock("user-delete"));
     }
@@ -196,6 +197,22 @@ public class UsersUrlConverter extends DirectoryUrlConverter {
                         b.append("/edit");
                     }
                 }
+            } else if (blockName.equals("user-medialocation")) {
+
+                // TODO: media node should in other if's probably also be used liked this
+                Node mediaNode = frameworkParameters.get(new Parameter<Node>("media", Node.class));
+
+                if (cloud.hasNode(mediaNode.getNumber())) {
+                    b.append("/").append(editpath).append("/media/").append(mediaNode.getNumber());
+                    b.append("/").append(trans.transform(mediaNode.getStringValue("title")));
+                    b.append("/location");
+
+                    String delete = (String) parameters.get("delete");
+                    if (delete != null && !"".equals(delete)) {
+                        b.append("/delete/").append(delete);    // append nr of locations node to delete
+                    }
+                }
+                
             } else if (blockName.equals("user-streams")) {
                 String media = (String) parameters.get("media");
                 parameters.set("media", null);
@@ -362,7 +379,15 @@ public class UsersUrlConverter extends DirectoryUrlConverter {
                                     if (log.isDebugEnabled()) log.debug("edit: " + edit);
                                     result.append("&edit=").append(edit);
                                 }
-
+                            /* /user/[username]/dashboard/media/[234]/my_title/location */
+                            } else if (path.size() > 5 && path.get(5).equals("location")) {
+                                result.append("&block=user-medialocation");
+                                if (path.size() > 6) {
+                                    /* /user/[username]/dashboard/media/[234]/my_title/location/delete/[567] */
+                                    String delete = path.get(7);
+                                    if (log.isDebugEnabled()) log.debug("delete: " + delete);
+                                    result.append("&delete=").append(delete);
+                                }
                             /* /user/[username]/dashboard/media/[234]/my_title/delete */
                             } else if (path.size() > 5 && path.get(5).equals("delete")) {
                                 result.append("&block=user-mediadelete");
