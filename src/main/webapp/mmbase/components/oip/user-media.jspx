@@ -179,7 +179,7 @@
         
         </mm:maywrite>
         <mm:maywrite inverse="true">
-          <p class="err">not allowed</p>
+          <p class="err">Please login.</p>
         </mm:maywrite>
       
       </mm:node>
