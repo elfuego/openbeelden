@@ -57,7 +57,7 @@
             <mm:present referid="edit">
               
               <p>${mm:string(requestScope['org.mmbase.framework.state'].renderer.block.description)}</p>
-
+              
               <div class="map">
                 <div id="openstreetmap"><!-- empty --></div>
               </div>
@@ -70,7 +70,11 @@
                       <c:choose>
                         <c:when test="${_ eq 'locations'}">
                           <mm:deletenode number="$delete" deleterelations="true" />
-                          <p class="msg">Node #${delete} deleted.</p>
+                          <p class="msg">
+                            <fmt:message key="editors.is_deleted" >
+                              <fmt:param><mm:nodeinfo nodetype="locations" type="guitype" escape="lowercase" /></fmt:param>
+                            </fmt:message>
+                          </p>
                         </c:when>
                         <c:otherwise>
                           <p class="err">Node #${delete} is not a location.</p>
