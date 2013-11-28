@@ -7,7 +7,7 @@
 $(document).ready(function() {
     
     if ($('div#cookie-bar').length) {
-        var cookieName = "OpenImages_cookieallow";
+        var cookieName = "eu.openimages.cookieallow";
         var koekje = getCookie(cookieName);
         //console.log("cookie: " + koekje);
         if (koekje == undefined && cookiesEnabled()) {
@@ -20,6 +20,7 @@ $(document).ready(function() {
         $('button.allow-cookies').click(function(){
             setCookie(cookieName, "ALLOW_COOKIES", 365 * 10);
             $('div#cookie-bar').remove();
+            location.reload(true);
         });
         $('button.disallow-cookies').click(function(){
             setCookie(cookieName, "DISALLOW_COOKIES", 365 * 10);

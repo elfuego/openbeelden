@@ -5,7 +5,7 @@
     version="2.0">  
   
   <!-- include just at the end of html header -->
-  <mm:import id="allowcookies" externid="OpenImages_cookieallow" from="cookie" />
+  <mm:import id="allowcookies" externid="eu.openimages.cookieallow" from="cookie" />
   <c:if test="${empty allowcookies}">
     <script src="${mm:link('/style/js/cookies.js')}" type="text/javascript"><!-- empty --></script>
     <link href="${mm:link('/style/css/cookies.css')}" rel="stylesheet" type="text/css" />

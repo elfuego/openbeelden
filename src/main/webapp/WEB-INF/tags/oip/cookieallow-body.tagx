@@ -9,7 +9,7 @@
   
   <!-- include in top of html body -->
   <c:if test="${empty allowcookies}">
-    <mm:import id="allowcookies" externid="OpenImages_cookieallow" from="cookie" />
+    <mm:import id="allowcookies" externid="eu.openimages.cookieallow" from="cookie" />
     <!-- check if cookies are enabled -->
     <mm:import id="testcookiecontent">test</mm:import>
     <mm:write cookie="testcookie" referid="testcookiecontent" />
