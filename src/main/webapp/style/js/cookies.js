@@ -13,27 +13,23 @@ $(document).ready(function() {
         if (koekje == undefined && cookiesEnabled()) {
             //console.log("no cookie");
         } else {
-            $('div#cookie-bar').hide();
-            $('div#cookie-bar').remove();
+            $('div#cookie-bar').hide().remove();
         }
         
         $('button.allow-cookies').click(function(){
             setCookie(cookieName, "ALLOW_COOKIES", 365 * 10);
             $('div#cookie-bar').slideUp(500, function() {
-                    $('div#cookie-bar').remove();
+                    $('div#cookie-bar').hide().remove();
                     location.reload(true);
                 });
         });
         $('button.disallow-cookies').click(function(){
             setCookie(cookieName, "DISALLOW_COOKIES", 365 * 10);
             $('div#cookie-bar').slideUp(500, function() { 
-                $('div#cookie-bar').remove(); 
+                $('div#cookie-bar').remove();   // reload not needed here 
             });
         });
-    } else {
-        //console.log('nothing to do');
     }
-    
 });
 
 function cookiesEnabled() {
