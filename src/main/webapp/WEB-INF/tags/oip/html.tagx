@@ -93,10 +93,12 @@
               </mm:node>
             </c:otherwise>
           </c:choose>
+          <oip:cookieallow-head />
         </oip:head>
 
         <body class="${styleClass}">
           
+          <oip:cookieallow-body />
           <oip:topbar />
           
           <div id="main">

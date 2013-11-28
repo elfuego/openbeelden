@@ -10,14 +10,18 @@
       description="Tag to include all that is needed to track visitors with Google Analytics."
       />
 
+    <c:if test="${empty allowcookies}">
+      <mm:import id="allowcookies" externid="OpenImages_cookieallow" from="cookie" />
+    </c:if>
+
     <!-- properties for google analytics -->
     <mm:import externid="portal" from="request">pool_oip</mm:import>
     <mm:node number="$portal">
 
       <mm:import id="key">gacode</mm:import>
       <mm:import id="property_gacode"><mm:function referids="_node@node,key@key" nodemanager="properties" name="get" /></mm:import>
-
-      <c:if test="${!empty property_gacode}">
+      
+      <c:if test="${!empty property_gacode and allowcookies ne 'DISALLOW_COOKIES'}">
         
         <script type="text/javascript" src="http://www.google-analytics.com/ga.js"><jsp:text><!-- help ie --></jsp:text></script>
         <script src="${mm:link('/style/js/analytics.js')}" type="text/javascript"><jsp:text><!-- help ie --></jsp:text></script>

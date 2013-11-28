@@ -1,0 +1,30 @@
+<jsp:root 
+    xmlns:jsp="http://java.sun.com/JSP/Page"
+    xmlns:c="http://java.sun.com/jsp/jstl/core"
+    xmlns:mm="http://www.mmbase.org/mmbase-taglib-2.0"
+    version="2.0">  
+  
+  <!-- include just at the end of html header -->
+  <mm:import id="allowcookies" externid="OpenImages_cookieallow" from="cookie" />
+  <c:if test="${empty allowcookies}">
+    <script src="${mm:link('/style/js/cookies.js')}" type="text/javascript"><!-- empty --></script>
+    <link href="${mm:link('/style/css/cookies.css')}" rel="stylesheet" type="text/css" />
+  </c:if>
+  
+  <!-- BleuConic scripts for user tracking -->
+  <c:if test="${allowcookies eq 'ALLOW_COOKIES'}">
+    <script type="text/javascript">
+      (function() {
+        // Change
+        this.bcHostname = 'beeldengeluid.blueconic.net';
+
+        // Do not change
+        var protocol = (("https:" == document.location.protocol) ? "https://" : "http://");
+        var bcScript = document.createElement('script');bcScript.async = true;
+        bcScript.src = protocol + this.bcHostname + '/frontend/static/javascript/blueconic/blueconic.min.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(bcScript);
+      })();
+    </script>
+  </c:if>
+  
+</jsp:root>
