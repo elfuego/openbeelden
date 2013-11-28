@@ -4,30 +4,27 @@
   @version: '$Id$'
 */
 
-div#cookie-bar {
-    position: absolute;
-    top: 0;
+div#cookie-bar
+{
+    z-index: 1999;
+    position: fixed;
+    bottom: 0;
     left: 0;
     right: 0;
-    z-index: 1999;
     padding: 10px 20px 10px 20px;
-    border-bottom: 1px solid #B8B8B8;
-    border-left: 1px solid #B8B8B8;
-    border-right: 1px solid #B8B8B8;
-    box-shadow: 0 1px 5px rgba(0,0,0,0.3);
+    height: 49px !important;
+    /* + 10 + 10 + 1 = 70px */
+    border-top: 1px solid #B8B8B8;
+    /* border-left: 1px solid #B8B8B8;
+    border-right: 1px solid #B8B8B8; */
+    box-shadow: 0 -1px 5px rgba(0,0,0,0.3);
     line-height: 16pt;
     font-size: 11pt;
     font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
     font-weight: normal;
     font-style: normal;
     color: black;
-    min-height: 44px;
     background-color: #efefef;
-    background-image: -webkit-gradient( linear, left top, left bottom, color-stop(0, #efefef), color-stop(1, #B8B8B8) );
-    background-image: -o-linear-gradient(top, #efefef 0%, #B8B8B8 100%);
-    background-image: -moz-linear-gradient(top, #efefef 0%, #B8B8B8 100%);
-    background-image: -webkit-linear-gradient(top, #efefef 0%, #B8B8B8 100%);
-    background-image: -ms-linear-gradient(top, #efefef 0%, #B8B8B8 100%);
     background-image: linear-gradient(top, #efefef 0%, #B8B8B8 100%);
 }
 div#cookie-bar p {

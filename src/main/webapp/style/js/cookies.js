@@ -19,12 +19,16 @@ $(document).ready(function() {
         
         $('button.allow-cookies').click(function(){
             setCookie(cookieName, "ALLOW_COOKIES", 365 * 10);
-            $('div#cookie-bar').remove();
-            location.reload(true);
+            $('div#cookie-bar').slideUp(500, function() {
+                    $('div#cookie-bar').remove();
+                    location.reload(true);
+                });
         });
         $('button.disallow-cookies').click(function(){
             setCookie(cookieName, "DISALLOW_COOKIES", 365 * 10);
-            $('div#cookie-bar').remove();
+            $('div#cookie-bar').slideUp(500, function() { 
+                $('div#cookie-bar').remove(); 
+            });
         });
     } else {
         //console.log('nothing to do');
