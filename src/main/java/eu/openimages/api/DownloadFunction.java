@@ -34,8 +34,11 @@ import org.mmbase.util.logging.Logging;
 import eu.openimages.PortalFilter;
 
 /**
- * Nodefunction on mmbaseusers to generate an API token for a specific user,
- * uses {@link eu.openimages.api.ApiToken}.
+ * Nodefunction to create media and download a file from an external source 'url', mails a
+ * message about it to user at 'email'. Reflects and uses functionality in
+ * Streams application {@link org.mmbase.streams.download.DownloadFunction}.
+ * See also block 'create-media.jspx' in component 'oipapi', where it
+ * uses {@link eu.openimages.api.ApiToken} to authenticate.
  *
  * @author Andr&eacute; van Toly
  * @version $Id: DownloadFunction.java 46039 2011-11-22 09:44:50Z andre $
@@ -78,7 +81,7 @@ public final class DownloadFunction extends NodeFunction<String> {
 
         parameters.set("email", email);
         result = new StringBuilder( (String) node.getFunctionValue("download", parameters).get() );
-        log.info("Download result: " + result.toString());
+        log.info("Download: " + result.toString());
 
         Node source = CreateSourcesWithoutProcessFunction.getMediaSource(node);
 
