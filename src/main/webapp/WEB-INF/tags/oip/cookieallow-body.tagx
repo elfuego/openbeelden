@@ -15,7 +15,7 @@
     <mm:write cookie="testcookie" referid="testcookiecontent" />
     <mm:import id="testcookie" externid="testcookie" from="cookie" />
   </c:if>
-  allowcookies : ${allowcookies} testcookie: ${testcookie}
+
   <c:if test="${empty allowcookies and !empty testcookie}">
     <div id="cookie-bar">
       <p>
