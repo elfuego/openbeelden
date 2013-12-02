@@ -12,14 +12,11 @@ div#cookie-bar
     left: 0;
     right: 0;
     padding: 10px 20px 10px 20px;
-    height: 49px !important;
-    /* + 10 + 10 + 1 = 70px */
+    height: auto;
     border-top: 1px solid #B8B8B8;
-    /* border-left: 1px solid #B8B8B8;
-    border-right: 1px solid #B8B8B8; */
     box-shadow: 0 -1px 5px rgba(0,0,0,0.3);
     line-height: 16pt;
-    font-size: 11pt;
+    font-size: 10pt;
     font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
     font-weight: normal;
     font-style: normal;
@@ -29,15 +26,14 @@ div#cookie-bar
 }
 div#cookie-bar p {
 	float: left;
-	width: 60%;
+	width: 90%;
 	margin: 0;
 } 
 div#cookie-bar div {
 	float: left;
-	width: 40%;
+	width: 10%;
 	text-align: right;
 }
-
 div#cookie-bar button {
 	width: auto;
 	margin-left: 12px;
@@ -58,4 +54,16 @@ div#cookie-bar button {
     background-image: -o-linear-gradient(top, #f9f9f9, #efefef);
     background-image: -ms-linear-gradient(top, #f9f9f9, #efefef);
     background-image: linear-gradient(top, #f9f9f9, #efefef);	
+}
+/* close cross in stead of 2 buttons */
+a.cookies-textread {
+    margin-top: 4px;
+    display: inline-block;
+    background: url(icons/close2.png) no-repeat;
+    height: 17px;
+    width: 17px;
+    text-indent: 100%;
+    white-space: nowrap;
+    overflow: hidden;
+    cursor: pointer;
 }

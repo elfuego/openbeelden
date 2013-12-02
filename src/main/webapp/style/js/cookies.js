@@ -13,13 +13,18 @@ $(document).ready(function() {
         if (koekje == undefined && cookiesEnabled()) {
             //console.log("no cookie");
         } else {
-            $('div#cookie-bar').hide().remove();
+            $('div#cookie-bar').remove();
         }
         
-        $('button.allow-cookies').click(function(){
+        $('.cookies-textread').click(function(){
+            setCookie(cookieName, "TEXTREAD_COOKIES", 365 * 10);
+            $('div#cookie-bar').slideUp(500, function() { $('div#cookie-bar').remove(); });
+        });
+        
+        $('button.cookies-textread, button.allow-cookies').click(function(){
             setCookie(cookieName, "ALLOW_COOKIES", 365 * 10);
             $('div#cookie-bar').slideUp(500, function() {
-                    $('div#cookie-bar').hide().remove();
+                    $('div#cookie-bar').remove();
                     location.reload(true);
                 });
         });

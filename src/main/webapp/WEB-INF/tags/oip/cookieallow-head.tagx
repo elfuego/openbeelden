@@ -5,26 +5,21 @@
     version="2.0">  
   
   <!-- include just at the end of html header -->
-  <mm:import id="allowcookies" externid="eu.openimages.cookieallow" from="cookie" />
-  <c:if test="${empty allowcookies}">
-    <script src="${mm:link('/style/js/cookies.js')}" type="text/javascript"><!-- empty --></script>
-    <link href="${mm:link('/style/css/cookies.css')}" rel="stylesheet" type="text/css" />
-  </c:if>
+  <script src="${mm:link('/style/js/cookies.js')}" type="text/javascript"><!-- empty --></script>
+  <link href="${mm:link('/style/css/cookies.css')}" rel="stylesheet" type="text/css" />
   
   <!-- BleuConic scripts for user tracking -->
-  <c:if test="${allowcookies eq 'ALLOW_COOKIES'}">
-    <script type="text/javascript">
-      (function() {
-        // Change
-        this.bcHostname = 'beeldengeluid.blueconic.net';
+  <script type="text/javascript">
+    (function() {
+      // Change
+      this.bcHostname = 'beeldengeluid.blueconic.net';
 
-        // Do not change
-        var protocol = (("https:" == document.location.protocol) ? "https://" : "http://");
-        var bcScript = document.createElement('script');bcScript.async = true;
-        bcScript.src = protocol + this.bcHostname + '/frontend/static/javascript/blueconic/blueconic.min.js';
-        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(bcScript);
-      })();
-    </script>
-  </c:if>
+      // Do not change
+      var protocol = (("https:" == document.location.protocol) ? "https://" : "http://");
+      var bcScript = document.createElement('script');bcScript.async = true;
+      bcScript.src = protocol + this.bcHostname + '/frontend/static/javascript/blueconic/blueconic.min.js';
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(bcScript);
+    })();
+  </script>
   
 </jsp:root>

@@ -15,6 +15,7 @@
     <mm:write cookie="testcookie" referid="testcookiecontent" />
     <mm:import id="testcookie" externid="testcookie" from="cookie" />
   </c:if>
+  allowcookies : ${allowcookies} testcookie: ${testcookie}
   <c:if test="${empty allowcookies and !empty testcookie}">
     <div id="cookie-bar">
       <p>
@@ -24,8 +25,9 @@
         </fmt:message>
       </p>
       <div class="cookie-buttons">
-        <button class="allow-cookies"><fmt:message key="cookie.allow-cookies" /></button>
-        <button class="disallow-cookies"><fmt:message key="cookie.disallow-cookies" /></button>
+        <a class="cookies-textread"><fmt:message key="users.close" /></a>
+        <!-- <button class="allow-cookies"><fmt:message key="cookie.allow-cookies" /></button>
+        <button class="disallow-cookies"><fmt:message key="cookie.disallow-cookies" /></button> -->
       </div>
     </div>
   </c:if>
