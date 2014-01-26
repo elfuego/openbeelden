@@ -237,7 +237,7 @@
     <c:set var="cachetime">1800</c:set>
     <c:set var="cacheetimeexpires"><mm:time format="yyyy-MM-dd" time="now" offset="${cachetime}" />T<mm:time format="HH:mm:ss" time="now" offset="${cachetime}" />Z</c:set>
     
-    <c:set var="cachekey">oai-pmh.v${verb}:i${identifier}:m${metadataPrefix}:s${set}:r${resumptionToken}:f${from}:u${untill}</c:set>
+    <c:set var="cachekey">oai-pmh.v${param.verb}i${param.identifier}m${param.metadataPrefix}s${param.set}r${param.resumptionToken}f${param.from}u${param.untill}</c:set>
     <os:cache key="${cachekey}" time="${cachetime}">
     
     <OAI-PMH 
@@ -632,7 +632,6 @@
   
     </OAI-PMH>
     </os:cache>
-    
     <mm:present referid="value">
       <mm:log level="info">value: <mm:write referid="value" escape="none" /></mm:log>
     </mm:present>
