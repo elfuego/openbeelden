@@ -218,7 +218,7 @@
         </mm:compare>
       </c:when>
       <c:otherwise>
-        <!-- <c:set var="set" value="openimages" /> -->
+        <c:set var="set" value="openimages" />
       </c:otherwise>
     </c:choose>
   
@@ -234,7 +234,7 @@
     
     <!-- ### ### start os:caching ### ### -->
     
-    <c:set var="cachetime">1800</c:set>
+    <c:set var="cachetime">120</c:set>
     <c:set var="cacheetimeexpires"><mm:time format="yyyy-MM-dd" time="now" offset="${cachetime}" />T<mm:time format="HH:mm:ss" time="now" offset="${cachetime}" />Z</c:set>
     
     <c:set var="cachekey">oai-pmh.v${param.verb}i${param.identifier}m${param.metadataPrefix}s${param.set}r${param.resumptionToken}f${param.from}u${param.untill}</c:set>
@@ -411,7 +411,7 @@
       <!-- Lucene query configuration to create list based on set -->
       <c:choose>
         <c:when test="${!empty set}">
-
+          
           <!-- get this set's portal -->
           <mm:listnodescontainer type="properties">
             <mm:constraint field="key" value="oai-set" operator="EQUAL" />
@@ -423,7 +423,7 @@
           </mm:listnodescontainer>
 
           <mm:import id="analyzer" reset="true">org.apache.lucene.analysis.KeywordAnalyzer</mm:import>
-          <mm:import id="value">media* <oip:portalquery portal="${portal}" /></mm:import>
+          <mm:import id="value">media* <oip:portalquery portal="${set eq 'openimages' ? 'pool_oip' : portal}" /></mm:import>
           <mm:import id="fields" reset="true">indexId</mm:import>
 
         </c:when>
