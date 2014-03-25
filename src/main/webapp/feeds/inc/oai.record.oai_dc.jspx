@@ -42,18 +42,18 @@
        <!-- dc:subject -->
        <mm:field name="keywords" escape="none">
          <mm:isnotempty>
-           <c:forTokens items="${_}" delims=";" var="subject">
+           <c:forEach items="${fn:split(_, ';')}" var="subject">
              <dc:subject xml:lang="${_node.language}"><c:out value="${fn:trim(subject)}" /></dc:subject>
-           </c:forTokens>
+           </c:forEach>
          </mm:isnotempty>
        </mm:field>
        <mm:relatednodescontainer type="mediafragments_translations" role="langrel" searchdirs="destination">
          <mm:relatednodes>
            <mm:field name="keywords" escape="none">
              <mm:isnotempty>
-               <c:forTokens items="${_}" delims=";" var="subject">
+               <c:forEach items="${fn:split(_, ';')}" var="subject">
                  <dc:subject xml:lang="${_node.language}"><c:out value="${fn:trim(subject)}" /></dc:subject>
-               </c:forTokens>
+               </c:forEach>
              </mm:isnotempty>
            </mm:field>
          </mm:relatednodes>
@@ -101,9 +101,9 @@
       <!-- dc:contributor -->
       <mm:field name="contributor" escape="none">
         <mm:isnotempty>
-          <c:forTokens items="${_}" delims=";" var="key">
+          <c:forEach items="${fn:split(_,';')}" var="key">
             <dc:contributor><c:out value="${fn:trim(key)}" /></dc:contributor>
-          </c:forTokens>
+          </c:forEach>
         </mm:isnotempty>
       </mm:field>
 
@@ -182,18 +182,18 @@
        <!-- dc:coverage -->
        <mm:field name="coverage" escape="none">
          <mm:isnotempty>
-           <c:forTokens items="${_}" delims=";" var="coverage">
+           <c:forEach items="${fn:split(_,';')}" delims=";" var="coverage">
              <dc:coverage xml:lang="${_node.language}"><c:out value="${fn:trim(coverage)}" /></dc:coverage>
-           </c:forTokens>
+           </c:forEach>
          </mm:isnotempty>
        </mm:field>
        <mm:relatednodescontainer type="mediafragments_translations" role="langrel" searchdirs="destination">
          <mm:relatednodes>
            <mm:field name="coverage" escape="none">
              <mm:isnotempty>
-               <c:forTokens items="${_}" delims=";" var="coverage_translated">
+               <c:forEach items="${fn:split(_,';')}" var="coverage_translated">
                  <dc:coverage xml:lang="${_node.language}"><c:out value="${fn:trim(coverage_translated)}" /></dc:coverage>
-               </c:forTokens>
+               </c:forEach>
              </mm:isnotempty>
            </mm:field>
          </mm:relatednodes>

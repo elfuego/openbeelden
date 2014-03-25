@@ -381,10 +381,10 @@
               <mm:isnotempty>
                 <dt><fmt:message key="media.contributions" />:</dt>
                 <dd>
-                  <c:forTokens items="${_}" delims=";" var="key" varStatus="vst">
+                  <c:forEach items="${fn:split(_, ';')}" var="key" varStatus="vst">
                     <c:out value="${fn:trim(key)}" />
                     <c:if test="${!vst.last}"><br /></c:if>
-                  </c:forTokens>
+                  </c:forEach>
                 </dd>
               </mm:isnotempty>
             </mm:field>

@@ -101,10 +101,10 @@
               <mm:isnotempty>
                 <c:if test="${fn:indexOf(_, ',') > -1}">
                   <mm:import id="new" reset="true">
-                    <c:forTokens items="${_}" delims="," var="item" varStatus="status">
+                    <c:forEach items="${fn:split(_, ',')}" var="item" varStatus="status">
                       <c:out value="${fn:trim(item)}" />
                       <c:if test="${! status.last}"><jsp:text>; </jsp:text></c:if>
-                    </c:forTokens>
+                    </c:forEach>
                   </mm:import>
                  <strong><em>converted: </em></strong>  
                  <mm:setfield name="keywords"><mm:write referid="new" /></mm:setfield>
