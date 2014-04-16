@@ -44,7 +44,7 @@ import org.mmbase.util.logging.Logging;
  * /api/media/123 GET calls block get showing that specific media item,
  * /api/media/123 POST calls block update and updates that specific item.
  *
- * @author André van Toly
+ * @author Andr&eacute; van Toly
  * @version $Id$
  */
 public class ApiUrlConverter extends DirectoryUrlConverter {

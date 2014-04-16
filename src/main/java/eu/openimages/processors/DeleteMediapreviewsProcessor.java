@@ -31,7 +31,7 @@ import org.mmbase.util.logging.*;
  * This commit-processor is used on related images of mediafragments nodes. 
  * While deleting the original node it also deletes the related thumbs.
  *
- * @author André van Toly
+ * @author Andr&eacute; van Toly
  * @version $Id$
  */
 

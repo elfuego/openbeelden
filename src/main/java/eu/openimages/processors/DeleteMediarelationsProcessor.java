@@ -37,7 +37,7 @@ import org.mmbase.util.logging.Logging;
  * by other users. You do not want to delete the tags, but relations with it, which can be of another security context.
  * It uses a cloud from class security to do so.
  *
- * @author André van Toly
+ * @author Andr&eacute; van Toly
  * @version $Id$
  */
 

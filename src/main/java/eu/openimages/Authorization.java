@@ -47,7 +47,7 @@ import org.mmbase.util.logging.Logging;
  * of other project managers, only its own.
  *
  * @author Michiel Meeuwissen
- * @author André van Toly
+ * @author Andr&eacute; van Toly
  * @version $Id$
  */
 public class Authorization extends Verify {
