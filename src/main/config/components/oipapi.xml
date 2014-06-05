@@ -65,4 +65,13 @@
     </body>
   </block>
 
+  <block name="media-status"
+         mimetype="text/html">
+    <title xml:lang="en">Transcoding status</title>
+    <title xml:lang="nl">Transcoding status</title>
+    <!-- just: /api/media/status -->
+    <body jsp="media-status.jspx">
+    </body>
+  </block>
+
 </component>

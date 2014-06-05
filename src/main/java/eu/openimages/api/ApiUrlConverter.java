@@ -119,10 +119,14 @@ public class ApiUrlConverter extends DirectoryUrlConverter {
             if (log.isDebugEnabled()) {
                 log.debug("b now: " + b.toString());
             }
+        // url: /api/media/status
+        } else if (block.getName().equals("media-status")) {
+            b.append("/media/status");
+
         // url: /api/media/123
         } else if (block.getName().equals("get") || block.getName().equals("update") ) {
             Node node = frameworkParameters.get(ID);
-            if (node == null) throw new IllegalStateException("No type parameter used in " + frameworkParameters);
+            if (node == null) throw new IllegalStateException("No node parameter used in " + frameworkParameters);
             String type = node.getNodeManager().getName();
             if (type.equals("mediafragments") || type.equals("videofragments")) {
                 type = "media";
@@ -180,7 +184,7 @@ public class ApiUrlConverter extends DirectoryUrlConverter {
             }
             result.append("/api/block.xml.jspx?type=" + type);
 
-            if (pa.size() == 1) {       /* the first part should contain node type */
+            if (pa.size() == 1) {       /* first part should contain node type */
                 if (reqMethod.equals("POST")) {
                     if (type.equals("mediafragments")
                             || type.equals("videofragments")
@@ -195,18 +199,29 @@ public class ApiUrlConverter extends DirectoryUrlConverter {
                     result.append("&block=list");
                 }
 
-            } else if (pa.size() == 2) {    /* the second part should always be a node number */
+            } else if (pa.size() == 2) {    /* second part could be 'status' or a node number */
 
                 String nr = pa.get(1);
-                if (!cloud.hasNode(nr)) {
+
+                if ("status".equals(nr)) {  /* shortcut to get nr of transcoding jobs with /media/status */
+                    result.append("&block=media-status");
+
+                    if (log.isDebugEnabled()) {
+                        log.debug("returning: " + result.toString());
+                    }
+                    return new BasicUrl(this, result.toString());
+
+
+                } else if (!cloud.hasNode(nr)) {
                     log.warn("Node not found: " + nr);
                     return Url.NOT;
+
                 } else if (disallowedBuilders.contains( cloud.getNode(nr).getNodeManager().getName() )) {
                     log.warn("This nodes nodetype is excluded from api: " + nr);
                     return Url.NOT;
                 }
 
-                /* With POST we suspect new values are posted and we update */
+                /* POST : suspect new values are posted and update */
                 if (reqMethod.equals("POST")) {
                     result.append("&block=update");
                 } else {
