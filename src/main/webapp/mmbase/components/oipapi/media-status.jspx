@@ -1,0 +1,35 @@
+<mm:cloud
+          xmlns:jsp="http://java.sun.com/JSP/Page"
+          xmlns:c="http://java.sun.com/jsp/jstl/core"
+          xmlns:mm="http://www.mmbase.org/mmbase-taglib-2.0">
+  <jsp:output omit-xml-declaration="true" />
+
+  <meta status="200">OK</meta>
+  <response>
+    
+    <mm:listfunction set="streams" name="runningJobs" id="job">
+      <mm:first><jobs><mm:size id="total" /></jobs></mm:first>
+      <nodes>
+        <mm:import id="nodenr" reset="true">${_.node.number}</mm:import>
+        <mm:hasnode number="$nodenr">
+          <mm:node number="$nodenr">
+            <node number="${nodenr}">
+              <field name="url"><mm:field name="url" /></field>
+              <field name="mimetype"><mm:field name="mimetype" /></field>
+              <field name="progress">${_.progress}</field>
+              <field name="stage">${_.stage}</field>
+              <field name="in">${_.current.in}</field>
+              <field name="out">${_.current.out}</field>
+            </node>
+          </mm:node>
+        </mm:hasnode>
+      </nodes>
+    
+    </mm:listfunction>
+    
+    <mm:notpresent referid="total">
+      <jobs>0</jobs>
+    </mm:notpresent>
+    
+  </response>
+</mm:cloud>
