@@ -547,30 +547,30 @@
           
           <mm:hasnode number="${record}">
             <mm:node number="${record}">
-              <c:set var="show"><mm:field name="show" /></c:set>
               <mm:nodeinfo type="type" id="nodetype" write="false" />
-              <c:if test="${show eq 'true' 
-                    and (nodetype eq 'mediafragments'
+              <c:if test="${nodetype eq 'mediafragments'
                     or nodetype eq 'audiofragments' 
                     or nodetype eq 'videofragments'
                     or nodetype eq 'imagefragments' 
-                    or nodetype eq 'images')
-                    }">
-                <GetRecord>
-                  <c:choose>
-                    <c:when test="${metadataPrefix eq 'oai_oi'}">
-                      <jsp:include page="/feeds/inc/oai.record.oai_oi.jspx">
-                        <jsp:param name="set" value="${set}" />
-                      </jsp:include>
-                    </c:when>
-                    <c:otherwise>
-                      <jsp:include page="/feeds/inc/oai.record.oai_dc.jspx">
-                    	<jsp:param name="set" value="${set}" />
-                      </jsp:include>
-                    </c:otherwise>
-                  </c:choose>
-                </GetRecord>
-                <c:set var="foundone" value="yes" />
+                    or nodetype eq 'images'
+                    }"><!-- check if it's media -->
+                <c:if test="${_node.show eq 'true'}"><!-- check if it may be shown -->
+                  <GetRecord>
+                    <c:choose>
+                      <c:when test="${metadataPrefix eq 'oai_oi'}">
+                        <jsp:include page="/feeds/inc/oai.record.oai_oi.jspx">
+                          <jsp:param name="set" value="${set}" />
+                        </jsp:include>
+                      </c:when>
+                      <c:otherwise>
+                        <jsp:include page="/feeds/inc/oai.record.oai_dc.jspx">
+                          <jsp:param name="set" value="${set}" />
+                        </jsp:include>
+                      </c:otherwise>
+                    </c:choose>
+                  </GetRecord>
+                  <c:set var="foundone" value="yes" />
+                </c:if>
               </c:if>
             </mm:node>
           </mm:hasnode>
