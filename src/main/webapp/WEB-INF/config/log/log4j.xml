@@ -98,11 +98,9 @@
   </logger>
  -->
 
-<!-- 
   <logger name="org.mmbase.util.externalprocess.CommandLauncher" >
     <level class="&mmlevel;" value="debug" />
   </logger>
- -->
   
   
 <!-- 
