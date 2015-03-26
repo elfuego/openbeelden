@@ -17,8 +17,8 @@
     <mm:import externid="set">openimages</mm:import>
     <mm:import externid="lang">nl</mm:import>
     
-    <mm:import id="max">100</mm:import>
-    <mm:import id="offset">0</mm:import>
+    <mm:import externid="max">100</mm:import>
+    <mm:import externid="offset">0</mm:import>
     
     
     <mm:escaper type="tagstripper" id="tagstripper" />
