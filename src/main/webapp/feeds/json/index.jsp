@@ -131,13 +131,13 @@
         </mm:functioncontainer>
         ],
         <c:if test="${fn:startsWith(type, 'video')}"><mm:nodefunction name="thumbnail">
-        "thumb" : "<mm:image template="s(512x288)+size(512x288&gt;)" absolute="true" />",
+        "thumb" : "<mm:image template="s(512x288)+size(512x288>)" absolute="true" />",
         </mm:nodefunction></c:if>
         <c:if test="${fn:startsWith(type, 'audio')}">
           <mm:relatednodescontainer type="images" role="related" searchdirs="destination">
             <mm:maxnumber value="1" />
             <mm:relatednodes>
-              "thumb" : "<mm:image template="s(512x288)+size(512x288&gt;)" absolute="true" />",
+              "thumb" : "<mm:image template="s(512x288)+size(512x288>)" absolute="true" />",
             </mm:relatednodes>
           </mm:relatednodescontainer>
         </c:if>
