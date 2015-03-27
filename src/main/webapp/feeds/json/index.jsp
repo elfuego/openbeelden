@@ -105,21 +105,40 @@
           <mm:listfunction name="filteredurls" varStatus="st">
           <%-- c:if test="${!empty _.URL and _.available}" --%>
             <mm:node number="${_.source.number}">
+            
+            <c:choose>
+              <c:when test="${!empty _.codec and fn:indexOf(_.codec,'H264') gt -1}">
+                <c:set var="codecs">avc1.42E01E,mp4a.40.2</c:set>
+              </c:when>
+              <c:when test="${!empty _.codec and _.codec ne 'UNKNOWN'}">
+                <c:set var="codecs">${mm:escape('lowercase', _.codec)}</c:set>
+                <c:if test="${!empty _.acodec and _.acodec ne 'UNKNOWN'}">
+                  <c:set var="codecs">${codecs},${mm:escape('lowercase', _.acodec)}</c:set>
+                </c:if>
+              </c:when>
+              <c:otherwise><c:set var="codecs" value="" /></c:otherwise>
+            </c:choose>
+            
             <c:choose>
               <c:when test="${fn:startsWith(type,'image')}">
                 {
+                  "mimetype" : "${_.mimeType}",
                   "format" : "${_.state eq 'SOURCE' ? 'source' : 'image'}",
                   "url" : "<mm:url page="${_.URL}" absolute="true" />"
                 }<c:if test="${st.last ne true}">,</c:if>
               </c:when>
               <c:when test="${!empty _node.label}">
                 {
+                  "mimetype" : "${_.mimeType}",
+                  "codecs" : "${codecs}",
                   "format" : "${_node.label}",
                   "url" : "<mm:url page="${_.URL}" absolute="true" />"
                 }<c:if test="${st.last ne true}">,</c:if>
               </c:when>
               <c:otherwise>
                 {
+                  "mimetype" : "${_.mimeType}",
+                  "codecs" : "${codecs}",
                   "format" : "unknown",
                   "url" : "<mm:url page="${_.URL}" absolute="true" />"
                 }<c:if test="${st.last ne true}">,</c:if>
@@ -131,13 +150,18 @@
         </mm:functioncontainer>
         ],
         <c:if test="${fn:startsWith(type, 'video')}"><mm:nodefunction name="thumbnail">
-        "thumb" : "<mm:image template="s(512x288)+size(512x288>)" absolute="true" />",
+        "thumb" : "<mm:image width="512" height="288" crop="middle" absolute="true" />",
         </mm:nodefunction></c:if>
+        <c:if test="${fn:startsWith(type, 'image')}">
+          <mm:relatednodes type="imagesources" max="1">
+            "thumb" : "<mm:image width="512" height="288" crop="middle" absolute="true" />",
+          </mm:relatednodes>
+        </c:if>
         <c:if test="${fn:startsWith(type, 'audio')}">
           <mm:relatednodescontainer type="images" role="related" searchdirs="destination">
             <mm:maxnumber value="1" />
             <mm:relatednodes>
-              "thumb" : "<mm:image template="s(512x288)+size(512x288>)" absolute="true" />",
+              "thumb" : "<mm:image width="512" height="288" crop="middle" absolute="true" />",
             </mm:relatednodes>
           </mm:relatednodescontainer>
         </c:if>
