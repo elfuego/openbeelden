@@ -7,13 +7,14 @@
 %><%@ taglib uri="http://www.opensymphony.com/oscache" prefix="os"
 %><%@ taglib tagdir="/WEB-INF/tags/oip" prefix="oip"
 %><mm:content 
-    type="application/json" expires="0" postprocessor="reducespace" language="${param.locale}">
+    type="application/json" expires="1800" postprocessor="reducespace" language="${param.locale}">
   <%-- version: '$Id$' --%>
   <jsp:directive.page session="false" />
   <jsp:directive.page import="org.mmbase.bridge.*" />
   <% response.setHeader("Access-Control-Allow-Origin", "*"); %>
   <mm:cloud>  
 
+    <mm:import externid="type" />
     <mm:import externid="set">openimages</mm:import>
     <mm:import externid="lang">nl</mm:import>
     
@@ -48,7 +49,14 @@
     </c:choose>
 
     <mm:import id="index">media</mm:import>
-    <mm:import id="extraconstraints"></mm:import>
+    
+    
+    <c:choose>
+      <c:when test="${type eq 'video'}"><mm:import id="extraconstraints"> otype:EQ:<mm:nodeinfo type="number" nodetype="videofragments" /></mm:import></c:when>
+      <c:when test="${type eq 'audio'}"><mm:import id="extraconstraints"> otype:EQ:<mm:nodeinfo type="number" nodetype="audiofragments" /></mm:import></c:when>
+      <c:when test="${type eq 'image'}"><mm:import id="extraconstraints"> otype:EQ:<mm:nodeinfo type="number" nodetype="imagefragments" /></mm:import></c:when>
+      <c:otherwise><mm:import id="extraconstraints"></mm:import></c:otherwise>
+    </c:choose>
     <mm:import id="sortfields">REVERSE:lastmodified</mm:import>
     <mm:import id="filter">
       <c:if test="${!empty start}">lastmodified:GTE:<mm:time format="yyyyMMddHHmm" time="$start" />00</c:if>
@@ -75,7 +83,7 @@
   "size" : ${total}, 
   "media" : [
     <mm:listnodes referid="list">
-      <mm:nodeinfo type="type" id="type" write="false" />
+      <mm:nodeinfo type="type" id="ntype" write="false" />
       {
         "number" : "${_node.number}",
         "identifier" : "oai:openimages.eu:${_node.number}",
@@ -97,7 +105,7 @@
           </c:forEach>
         </mm:isnotempty></mm:field>],
         "date" : "<mm:field name="date"><mm:time format="yyyy-MM-dd" /></mm:field>",
-        "type" : "<c:choose><c:when test="${fn:startsWith(type,'image')}">image</c:when><c:when test="${fn:startsWith(type,'audio')}">audio</c:when><c:otherwise>video</c:otherwise></c:choose>",
+        "type" : "<c:choose><c:when test="${fn:startsWith(ntype,'image')}">image</c:when><c:when test="${fn:startsWith(ntype,'audio')}">audio</c:when><c:otherwise>video</c:otherwise></c:choose>",
         "length" : "${_node.length}",
         "urls" : [
         <mm:functioncontainer>
@@ -120,7 +128,7 @@
             </c:choose>
             
             <c:choose>
-              <c:when test="${fn:startsWith(type,'image')}">
+              <c:when test="${fn:startsWith(ntype,'image')}">
                 {
                   "mimetype" : "${_.mimeType}",
                   "format" : "${_.state eq 'SOURCE' ? 'source' : 'image'}",
@@ -149,15 +157,15 @@
           </mm:listfunction>
         </mm:functioncontainer>
         ],
-        <c:if test="${fn:startsWith(type, 'video')}"><mm:nodefunction name="thumbnail">
+        <c:if test="${fn:startsWith(ntype, 'video')}"><mm:nodefunction name="thumbnail">
         "thumb" : "<mm:image width="512" height="288" crop="middle" absolute="true" />",
         </mm:nodefunction></c:if>
-        <c:if test="${fn:startsWith(type, 'image')}">
+        <c:if test="${fn:startsWith(ntype, 'image')}">
           <mm:relatednodes type="imagesources" max="1">
             "thumb" : "<mm:image width="512" height="288" crop="middle" absolute="true" />",
           </mm:relatednodes>
         </c:if>
-        <c:if test="${fn:startsWith(type, 'audio')}">
+        <c:if test="${fn:startsWith(ntype, 'audio')}">
           <mm:relatednodescontainer type="images" role="related" searchdirs="destination">
             <mm:maxnumber value="1" />
             <mm:relatednodes>
