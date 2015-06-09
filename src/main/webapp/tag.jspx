@@ -20,6 +20,13 @@
     </jsp:attribute>
 
     <jsp:attribute name="head">
+      <mm:node referid="n">
+        <mm:nodeinfo type="type">
+          <c:if test="${_ ne 'tags'}">
+            <c:redirect url="/errorpages/404.jsp" />
+          </c:if>
+        </mm:nodeinfo>
+      </mm:node>
         <!-- nothing here yet -->
     </jsp:attribute>
 

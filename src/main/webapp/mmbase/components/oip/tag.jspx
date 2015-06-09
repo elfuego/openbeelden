@@ -19,7 +19,8 @@
     
       <oip:h2>Tags / <mm:field name="name" /></oip:h2>
 
-      <mm:import externid="offset">0</mm:import>
+      <mm:import externid="offset" vartype="integer">0</mm:import>
+      <c:if test="${offset lt 0}"><mm:import id="offset" reset="true">0</mm:import></c:if>
       <mm:import id="max">25</mm:import>
       
       <mm:relatednodescontainer type="mediafragments" role="related" searchdirs="source">
