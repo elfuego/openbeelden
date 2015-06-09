@@ -18,7 +18,7 @@
 
       <mm:import externid="n" />
       <mm:import id="max">10</mm:import>
-      <mm:import externid="offset">0</mm:import>
+      <mm:import externid="offset" vartype="integer">0</mm:import>
       <c:if test="${offset lt 0}"><mm:import id="offset" reset="true">0</mm:import></c:if>
       <mm:cloudinfo type="usernode" id="youare" write="false" />
 
