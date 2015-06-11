@@ -22,11 +22,12 @@
 
 <mm:import externid="msg" />
 <mm:import externid="type" />
+<mm:import externid="ntype">mediafragments</mm:import>
 
 <mm:import externid="convert" />
 
 <mm:import externid="offset">0</mm:import>
-<mm:import id="max">50</mm:import>
+<mm:import externid="max">50</mm:import>
 
 <!-- sortorder and field to sort on -->
 <mm:import externid="sf">number</mm:import>
@@ -44,11 +45,22 @@
   </mm:link>
 </h2>
 
+<p>Switch: 
+  <mm:link referids="offset?,max?">
+    <mm:param name="ntype">mediafragments</mm:param>
+    <a href="${_}">mediafragments</a>
+  </mm:link> -
+  <mm:link referids="offset?,max?">
+    <mm:param name="ntype">mediafragments_translations</mm:param>
+    <a href="${_}">mediafragments_translations</a>
+  </mm:link>
+</p>
 
-
+<mm:import externid="commit">false</mm:import>
+<mm:transaction commitonclose="${commit}">
 <mm:url id="baseurl" absolute="true" escapeamps="false" referids="sf?,so?" write="false" />
 
-<mm:listnodescontainer type="mediafragments">
+<mm:listnodescontainer type="$ntype">
   
   <mm:sortorder field="$sf" direction="$so" />
   <mm:size id="total" write="false" />
@@ -92,8 +104,8 @@
         </td>
         <td>
           
-          <mm:import id="cr" reset="true"><mm:field name="dc_creator" /></mm:import>
-          <mm:import id="pu" reset="true"><mm:field name="publisher" /></mm:import>
+          <!-- <mm:import id="cr" reset="true"><mm:field name="dc_creator" /></mm:import>
+          <mm:import id="pu" reset="true"><mm:field name="publisher" /></mm:import> -->
           
           <mm:compare referid="convert" value="ok">
 
@@ -112,8 +124,8 @@
               </mm:isnotempty>
             </mm:field>
             
-            <mm:setfield name="dc_creator">${cr}</mm:setfield>
-            <mm:setfield name="publisher">${pu}</mm:setfield>
+            <!-- <mm:setfield name="dc_creator">${cr}</mm:setfield>
+            <mm:setfield name="publisher">${pu}</mm:setfield> -->
           
           </mm:compare>
 
@@ -125,7 +137,7 @@
     </mm:listnodes>
   </table>
 </mm:listnodescontainer>
-    
+</mm:transaction>    
           
           
       </div><!-- /.main-column -->
