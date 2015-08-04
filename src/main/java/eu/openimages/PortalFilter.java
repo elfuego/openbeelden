@@ -65,7 +65,6 @@ public class PortalFilter implements Filter, SystemEventListener {
     protected boolean luceneUp = false;
     protected boolean up = false;
 
-    @Override
     public void notify(SystemEvent se) {
         if (se instanceof org.mmbase.module.tools.ApplicationsInstalledEvent) {
             appUp = true;
@@ -76,7 +75,7 @@ public class PortalFilter implements Filter, SystemEventListener {
             up = appUp && luceneUp;
         }
     }
-    @Override
+
     public int getWeight() {
         return 0;
     }
@@ -84,7 +83,6 @@ public class PortalFilter implements Filter, SystemEventListener {
     /**
      * Initializes filter
      */
-    @Override
     public void init(javax.servlet.FilterConfig config) throws ServletException {
         LOG.info("Starting PortalFilter with " + config);
         ctx = config.getServletContext();
