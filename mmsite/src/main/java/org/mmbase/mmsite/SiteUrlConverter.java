@@ -21,16 +21,25 @@ along with MMBase. If not, see <http://www.gnu.org/licenses/>.
 
 package org.mmbase.mmsite;
 
-import java.util.*;
-import javax.servlet.http.HttpServletRequest;
-import org.mmbase.bridge.*;
+import org.mmbase.bridge.Cloud;
+import org.mmbase.bridge.ContextProvider;
+import org.mmbase.bridge.Node;
+import org.mmbase.bridge.NotFoundException;
 import org.mmbase.framework.*;
-import org.mmbase.framework.basic.DirectoryUrlConverter;
 import org.mmbase.framework.basic.BasicFramework;
-import org.mmbase.framework.basic.Url;
 import org.mmbase.framework.basic.BasicUrl;
-import org.mmbase.util.functions.*;
-import org.mmbase.util.logging.*;
+import org.mmbase.framework.basic.DirectoryUrlConverter;
+import org.mmbase.framework.basic.Url;
+import org.mmbase.util.functions.Parameter;
+import org.mmbase.util.functions.Parameters;
+import org.mmbase.util.logging.Logger;
+import org.mmbase.util.logging.Logging;
+
+import javax.servlet.http.HttpServletRequest;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Map;
 
 /**
  * The UrlConverter that can filter and create urls for pages in the site application.
@@ -202,7 +211,7 @@ public class SiteUrlConverter extends DirectoryUrlConverter {
         }
 
         if (useExtension && path.indexOf(extension) > -1) {
-            path = path.substring(0, path.lastIndexOf(extension));
+            path = path.substring(0, path.lastIndexOf(extension) - 1);
         }
 
         Node node = UrlUtils.getPagebyPath(request, cloud, cloud.getNodeManager("pages"), path);

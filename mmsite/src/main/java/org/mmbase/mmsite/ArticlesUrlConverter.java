@@ -21,21 +21,26 @@ along with MMBase. If not, see <http://www.gnu.org/licenses/>.
 
 package org.mmbase.mmsite;
 
-import java.util.*;
-import javax.servlet.http.HttpServletRequest;
-
-import org.mmbase.util.transformers.CharTransformer;
-import org.mmbase.util.transformers.Identifier;
-import org.mmbase.bridge.*;
+import org.mmbase.bridge.Cloud;
+import org.mmbase.bridge.Node;
+import org.mmbase.bridge.NodeList;
+import org.mmbase.bridge.Query;
 import org.mmbase.bridge.util.Queries;
 import org.mmbase.framework.*;
-import org.mmbase.framework.basic.DirectoryUrlConverter;
 import org.mmbase.framework.basic.BasicFramework;
-import org.mmbase.framework.basic.Url;
 import org.mmbase.framework.basic.BasicUrl;
-import org.mmbase.util.functions.*;
-import org.mmbase.util.logging.*;
-import org.mmbase.mmsite.LocaleUtil;
+import org.mmbase.framework.basic.DirectoryUrlConverter;
+import org.mmbase.framework.basic.Url;
+import org.mmbase.util.functions.Parameter;
+import org.mmbase.util.functions.Parameters;
+import org.mmbase.util.logging.Logger;
+import org.mmbase.util.logging.Logging;
+import org.mmbase.util.transformers.CharTransformer;
+import org.mmbase.util.transformers.Identifier;
+
+import javax.servlet.http.HttpServletRequest;
+import java.util.List;
+import java.util.Map;
 
 /**
  * UrlConverter that can filter and create urls for articles, f.e. '/articles/2345/article_title'
@@ -195,7 +200,7 @@ public class ArticlesUrlConverter extends DirectoryUrlConverter {
             String last = path.get(path.size() - 1); 
             last = localeUtil.setLanguage(last, request);
             if (SiteUrlConverter.getInstance().useExtension && last.indexOf(SiteUrlConverter.getInstance().extension) > -1) {
-                last = last.substring(0, last.lastIndexOf(SiteUrlConverter.getInstance().extension));
+                last = last.substring(0, last.lastIndexOf(SiteUrlConverter.getInstance().extension) - 1);
             }
             path.set(path.size() - 1, last);    // put it back
             
