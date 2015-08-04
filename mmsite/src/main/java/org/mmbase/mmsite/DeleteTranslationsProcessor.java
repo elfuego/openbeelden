@@ -52,9 +52,10 @@ public class DeleteTranslationsProcessor implements CommitProcessor {
         }
         String builder = node.getNodeManager().getProperty("translations.builder");
         if (node.getNumber() > 0 && builder != null && !"".equals(builder)) {
+
             // test for 'langrel'
             try {
-                RelationManager relman = node.getCloud().getRelationManager("langrel");
+                node.getCloud().getRelationManager("langrel");
             } catch (NotFoundException nfe) {
                 LOG.warn("RelationManager 'langrel' not found: " + nfe);
                 return;
