@@ -154,12 +154,25 @@
          </mm:relatednodes>
        </mm:relatednodescontainer>
 
+       <!-- dc:relation -->
        <dc:relation xml:lang="${_node.language}"><mm:field name="relation" /></dc:relation>
        <mm:relatednodescontainer type="mediafragments_translations" role="langrel" searchdirs="destination">
          <mm:relatednodes>
            <mm:field name="relation">
              <mm:isnotempty>
                <dc:relation xml:lang="${_node.language}"><mm:write /></dc:relation>
+             </mm:isnotempty>
+           </mm:field>
+         </mm:relatednodes>
+       </mm:relatednodescontainer>
+
+       <!-- dc:mediator -->
+       <dc:mediator xml:lang="${_node.language}"><mm:field name="mediator" /></dc:mediator>
+       <mm:relatednodescontainer type="mediafragments_translations" role="langrel" searchdirs="destination">
+         <mm:relatednodes>
+           <mm:field name="mediator">
+             <mm:isnotempty>
+               <dc:mediator xml:lang="${_node.language}"><mm:write /></dc:mediator>
              </mm:isnotempty>
            </mm:field>
          </mm:relatednodes>
@@ -182,7 +195,7 @@
        <!-- dc:coverage -->
        <mm:field name="coverage" escape="none">
          <mm:isnotempty>
-           <c:forEach items="${fn:split(_,';')}" delims=";" var="coverage">
+           <c:forEach items="${fn:split(_,';')}" var="coverage">
              <dc:coverage xml:lang="${_node.language}"><c:out value="${fn:trim(coverage)}" /></dc:coverage>
            </c:forEach>
          </mm:isnotempty>
