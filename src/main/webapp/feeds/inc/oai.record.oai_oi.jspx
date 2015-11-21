@@ -233,7 +233,19 @@
           </mm:field>
         </mm:relatednodes>
       </mm:relatednodescontainer>
-      
+
+      <!-- oi:mediator -->
+      <oi:mediator xml:lang="${_node.language}"><mm:field name="mediator" /></oi:mediator>
+      <mm:relatednodescontainer type="mediafragments_translations" role="langrel" searchdirs="destination">
+        <mm:relatednodes>
+          <mm:field name="mediator">
+            <mm:isnotempty>
+              <oi:mediator xml:lang="${_node.language}"><mm:write /></oi:mediator>
+            </mm:isnotempty>
+          </mm:field>
+        </mm:relatednodes>
+      </mm:relatednodescontainer>
+             
       <!-- oi:spatial -->
       <mm:field name="coverage" escape="none">
         <mm:isnotempty>
