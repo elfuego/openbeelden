@@ -1,6 +1,34 @@
-﻿Release Notes - Open Images Platform - Version OIP 1.2
-------------------------------------------------------
+﻿Release Notes - Open Images Platform - Version OIP 1.2.1
+--------------------------------------------------------
 version $Id$
+
+
+UPGRADING 1.2 -> 1.2.1
+======================
+
+We have added a new field mediator to our media nodes. This is done to keep track of for example
+media in used on Wikimedia.
+
+If you install OIP for the very first time, you don't have to do anything. All tables and fields
+are created automatically. For a MySQL database with views that is, other databases have in general
+quite similar commands to add fields:
+
+ALTER TABLE oi_mediafragments_table ADD mediator TEXT;
+DROP VIEW oi_mediafragments;
+DROP VIEW oi_videofragments;
+DROP VIEW oi_audiofragments;
+DROP VIEW oi_imagefragments;
+
+ALTER TABLE oi_mediafragments_translations_table ADD mediator TEXT;
+DROP VIEW oi_mediafragments_translations;
+
+Or if you are on a more standard MySQL database without views:
+
+ALTER TABLE oi_mediafragments ADD mediator TEXT;
+ALTER TABLE oi_imagefragments ADD mediator TEXT;
+ALTER TABLE oi_audiofragments ADD mediator TEXT;
+ALTER TABLE oi_videofragments ADD mediator TEXT;
+ALTER TABLE oi_mediafragments_translations ADD mediator TEXT;
 
 
 UPGRADING 1.1.1 -> 1.2
