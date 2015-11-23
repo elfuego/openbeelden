@@ -46,7 +46,7 @@
               <p>De belangrijkste content velden van het media item.</p>
 
               <mm:include page="edit-node.jspx" referids="p?,_node@nr" >
-                <mm:param name="fields">title,language,show,subtitle,intro,body,hasformat,date,dc_creator,publisher,keywords,source,identifier,contributor,relation,coverage</mm:param>
+                <mm:param name="fields">title,language,show,subtitle,intro,body,hasformat,date,dc_creator,publisher,keywords,source,identifier,contributor,relation,mediator,coverage</mm:param>
               </mm:include>
               
               <h3>Taalversies</h3>
