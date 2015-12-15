@@ -5,7 +5,6 @@
           >
   <jsp:output omit-xml-declaration="true" />
     
-    <!-- TODO: just displays, no update yet! -->
     <!-- UPDATE: update node with number ..  -->
     
     <mm:import externid="apikey" />
@@ -47,7 +46,9 @@
                           -->
                           <mm:fieldinfo type="name" id="fldname" write="false" />
                           <mm:import externid="$fldname" />
-                          <mm:setfield name="$fldname"><mm:write referid="$fldname" /></mm:setfield>
+                          <mm:isnotempty referid="$fldname">
+                            <mm:setfield name="$fldname"><mm:write referid="$fldname" /></mm:setfield>
+                          </mm:isnotempty>
                           <field name="${fldname}"><mm:fieldinfo type="errors" escape="striptags" /></field>
                         </c:if>
                       </mm:fieldlist>
