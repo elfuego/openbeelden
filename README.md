@@ -1,12 +1,16 @@
 Open Images Platform
 ====================
  
-The Open Images Platform is a Java webapplication to manage and publish open media. 
-http://www.openimages.eu
-http://www.openbeelden.nl
+Open Images Platform Web Application - Nederlands Instituut voor Beeld &amp; Geluid / The Netherlands Institute for Sound and Vision. The Open Images Platform is a Java webapplication to manage and publish open media.  
+http://www.openimages.eu  
+http://www.openbeelden.nl  
 
 Installation instructions can be found in INSTALL in this same directory.
 
+Open Images is a platform to upload, edit and publish video, audio and images. It transcodes every media format it recognizes to an open format like OGG or PNG. 
+Based on MMBase it aims to offer online access to a selection of archive material to stimulate creative reuse, including remixing of archive material in new works. Open Images also supports interlinking with other data sources (like Wikipedia), allowing the easy creation of mash ups. Access to the content is based on the Creative Commons model. The projects 'open' nature is underscored by adapting open formats and using open source software for its infrastructure.
+Its first release dates January 20, 2010
+    
 
 CHECKOUT SOURCES FROM GIT
 -------------------------
