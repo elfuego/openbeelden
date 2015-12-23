@@ -32,19 +32,19 @@
 		<pos>1</pos>
 	</node>
 
-	<node number="400" owner="admin" snumber="335" dnumber="322" rtype="posrel" dir="bidirectional">
+	<node number="400" owner="admin" snumber="335" dnumber="322" rtype="footerrel" dir="bidirectional">
 		<pos>11</pos>
 	</node>
 
-	<node number="404" owner="admin" snumber="335" dnumber="326" rtype="posrel" dir="bidirectional">
+	<node number="404" owner="admin" snumber="335" dnumber="326" rtype="footerrel" dir="bidirectional">
 		<pos>12</pos>
 	</node>
 
-	<node number="406" owner="admin" snumber="335" dnumber="328" rtype="posrel" dir="bidirectional">
+	<node number="406" owner="admin" snumber="335" dnumber="328" rtype="footerrel" dir="bidirectional">
 		<pos>13</pos>
 	</node>
 
-	<node number="408" owner="admin" snumber="335" dnumber="330" rtype="posrel" dir="bidirectional">
+	<node number="408" owner="admin" snumber="335" dnumber="330" rtype="footerrel" dir="bidirectional">
 		<pos>14</pos>
 	</node>
 
@@ -52,15 +52,15 @@
 		<pos>1</pos>
 	</node>
 	
-	<node number="804" owner="default" snumber="335" dnumber="803" rtype="posrel" dir="bidirectional">
+	<node number="804" owner="default" snumber="335" dnumber="803" rtype="footerrel" dir="bidirectional">
 		<pos>15</pos>
 	</node>
 	
-	<node number="810" owner="default" snumber="335" dnumber="809" rtype="posrel" dir="bidirectional">
+	<node number="810" owner="default" snumber="335" dnumber="809" rtype="footerrel" dir="bidirectional">
 		<pos>16</pos>
 	</node>
 	
-	<node number="811" owner="default" snumber="335" dnumber="819" rtype="posrel" dir="bidirectional">
+	<node number="811" owner="default" snumber="335" dnumber="819" rtype="footerrel" dir="bidirectional">
 		<pos>17</pos>
 	</node>
 
