@@ -30,6 +30,7 @@
       <mm:import externid="submit_registration" />
       <mm:import externid="confirm" />
       <mm:import externid="eu.openimages.legaltext" from="request" id="legaltext" />
+      <mm:import externid="mm_upload_form_to_address" /><!-- sort of SPAM protect -->
 
 
       <mm:form styleClass="${empty submit_registration ? 'notsubmitted' : 'submitted'}">
@@ -46,6 +47,11 @@
                   <mm:fieldinfo type="input" /><mm:fieldinfo type="errors" />
                 </div>
               </mm:fieldlist>
+              <!-- sort of protection against SPAM bots: field hidden with javascript -->
+              <div class="mm_upload_form_to_address">
+                <label for="mm_upload_form_to_address">To</label>
+                <input type="text" id="mm_upload_form_to_address" name="mm_upload_form_to_address" value="" />
+              </div>
             </fieldset>
             <fieldset class="confirm-registration">
               <div class="legaltext"><mm:write referid="legaltext" escape="none" /></div>
@@ -99,7 +105,7 @@
           </mm:valid>
 
           <c:choose>
-            <c:when test="${empty errortext}">
+            <c:when test="${empty errortext and empty mm_upload_form_to_address}"><!-- and check for empty SPAM address -->
               <mm:valid>
                 <mm:commit />
                 <mm:node cloud="cloud" number="defaultusergroup" id="defaultusergroup" />
