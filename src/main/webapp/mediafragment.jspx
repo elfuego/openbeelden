@@ -58,14 +58,16 @@
         <mm:maywrite><c:set var="maywriteclass" value="maywrite" /></mm:maywrite><!-- for Firefox: whitespace nowrap -->
         <h3 class="mediatitle ${maywriteclass}">
           <mm:nodefunction name="translation"><mm:field name="title" /></mm:nodefunction>
-          <mm:maywrite>
-            <mm:link referids="_node@media">
-              <mm:frameworkparam name="component">oip</mm:frameworkparam>
-              <mm:frameworkparam name="block">user-media</mm:frameworkparam>
-              <mm:frameworkparam name="user">${iam}</mm:frameworkparam>
-              <a class="edit" href="${_}"><fmt:message key="media.edit" /></a>
-            </mm:link>
-          </mm:maywrite>
+          <mm:isnotempty referid="iam">
+            <mm:maywrite>
+              <mm:link referids="_node@media">
+                <mm:frameworkparam name="component">oip</mm:frameworkparam>
+                <mm:frameworkparam name="block">user-media</mm:frameworkparam>
+                <mm:frameworkparam name="user">${iam}</mm:frameworkparam>
+                <a class="edit" href="${_}"><fmt:message key="media.edit" /></a>
+              </mm:link>
+            </mm:maywrite>
+          </mm:isnotempty>
         </h3>
 
         <!--
