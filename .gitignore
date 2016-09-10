@@ -1,3 +1,7 @@
 # build stuff
 data/
 target/
+
+*.idea
+*.iml
+
