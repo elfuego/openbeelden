@@ -7,18 +7,16 @@
   <localhost max_simultaneous_transcoders="1" stage="recognizer"  />
   <localhost max_simultaneous_transcoders="1" stage="transcoder" />
 
-  <!--
-  <server max_simultaneous_transcoders="2" host="localhost" port="1679" />
-  <server max_simultaneous_transcoders="2" host="192.168.1.13" port="1679" />
-  -->
+  <!-- external server running mmbase commandserver which transfers calls to ffmpeg, ffmpeg2theora etc.
+       a way to configure an dedicated audio and video transcoding server.  -->
+  <!-- <server max_simultaneous_transcoders="2" host="localhost" port="1679" />
+  <server max_simultaneous_transcoders="2" host="192.168.1.13" port="1679" /> -->
 
-  <!-- for testing only -->
-  <!-- 
-  <transcoder>
+  <!-- for testing only, creates and "infite" running transcoder to test cancels, interrupts etc. -->
+  <!-- <transcoder>
     <class name="org.mmbase.streams.transcoders.InfiniteTranscoder">
     </class>
-  </transcoder>
-  -->
+  </transcoder>  -->
 
   <!-- recognizer: uses ffmpeg -i to recognize uploaded video, audio or image -->
   <recognizer label="source"
@@ -30,52 +28,16 @@
     </loganalyzer>
   </recognizer>
 
-  <!-- intermediate mpeg2: input for all other video files -->
-  <transcoder label="intermediate"
-              mimetype="video/*" id="v1" in="recognizer">
-    <class name="org.mmbase.streams.transcoders.FFMpegTranscoder">
-      <param name="format">mpeg</param>
-      <param name="vcodec">mpeg2video</param>
-      <param name="bitrate">1024k</param>
-      <param name="r">25</param>
-      <param name="acodec">libmp3lame</param>
-      <param name="abitrate">128k</param>
-      <param name="audioChannels">2</param>
-      <param name="async">1</param>
-    </class>
-    <loganalyzer name="org.mmbase.streams.transcoders.FFMpegAnalyzer" />
-  </transcoder>
-
-  <!-- ogv low -->
-  <transcoder label="sd"
-      mimetype="video/*" in="v1" id="v2">
-    <class name="org.mmbase.streams.transcoders.FFMpeg2TheoraTranscoder">
-      <param name="videoQuality">5</param>
-      <param name="height">288</param>
-    </class>
-    <loganalyzer name="org.mmbase.streams.transcoders.FFMpeg2TheoraAnalyzer" />
-  </transcoder>
-
-  <!-- ogv high -->
-  <transcoder label="hd"
-      mimetype="video/*" in="v1" id="v3">
-    <class name="org.mmbase.streams.transcoders.FFMpeg2TheoraTranscoder">
-      <param name="videoQuality">8</param>
-    </class>
-    <loganalyzer name="org.mmbase.streams.transcoders.FFMpeg2TheoraAnalyzer" />
-  </transcoder>
-
   <!-- mp4 low -->
   <transcoder label="sd"
-      mimetype="video/*" in="v1" id="v4">
+      mimetype="video/*" in="recognizer" id="v4">
     <class name="org.mmbase.streams.transcoders.FFMpegTranscoder">
       <param name="format">mp4</param>
-      <param name="vcodec">libx264</param>
-      <param name="vpre">default</param>
+      <param name="-c:v">libx264</param>
       <param name="framesPerSecond">25</param>
-      <param name="bitrate">1024k</param>
-      <param name="acodec">libfaac</param>
-      <param name="abitrate">128k</param>
+      <param name="-b:v">1024k</param>
+      <param name="-c:a">aac</param>
+      <param name="-b:a">128k</param>
       <param name="audioChannels">2</param>
       <param name="async">1</param>
       <param name="-vf">scale=-1:288</param>
@@ -83,20 +45,49 @@
     <loganalyzer name="org.mmbase.streams.transcoders.FFMpegAnalyzer" />
   </transcoder>
 
-  <!-- webm low
+  <!-- ogv low -->
+  <transcoder label="sd"
+      mimetype="video/*" in="recognizer" id="v2">
+    <class name="org.mmbase.streams.transcoders.FFMpeg2TheoraTranscoder">
+      <param name="videoQuality">5</param>
+      <param name="height">288</param>
+    </class>
+    <loganalyzer name="org.mmbase.streams.transcoders.FFMpeg2TheoraAnalyzer" />
+  </transcoder>
+
+  <!-- m3u8: create segments with ffmpeg, uses mp4 low (id v4) for input -->
+  <transcoder
+      label="playlist-sd"
+      mimetype="video/*" in="v4" id="v10">
+    <class name="org.mmbase.streams.transcoders.FFMpegSegmenterTranscoder">
+      <param name="-c:v">libx264</param>
+      <param name="-b:v">128k</param>
+      <param name="format">m3u8</param>
+      <param name="-flags">-global_header</param>
+      <param name="-map">0</param>
+      <!-- segment part: 
+        -segment_list is filled by streams application,  
+        -segment_list_entry_prefix is httpPrefix + path made by streams application -->
+      <param name="-f">ssegment</param>
+      <param name="-segment_time">10</param>
+      <param name="-segment_format">mpegts</param>
+      <param name="httpPrefix">http://localhost:8080/files/</param>
+    </class>
+    <loganalyzer name="org.mmbase.streams.transcoders.FFMpegAnalyzer" />
+  </transcoder>
+
+  <!-- webm low:
        config for webm/vp8, can maybe done better with vpre:
        ffmpeg -i video.mpg -vpre libvpx_vp8-360p -b 1700k -pass 2 
-       -acodec libvorbis -ab 128k -ar 44100 -threads 0 video.webm
-  -->
-  <!--
+       -acodec libvorbis -ab 128k -ar 44100 -threads 0 video.webm -->
   <transcoder label="sd" 
-      mimetype="video/*" in="v1" id="v8">
+      mimetype="video/*" in="recognizer" id="v8">
     <class name="org.mmbase.streams.transcoders.FFMpegTranscoder">
       <param name="format">webm</param>
-      <param name="vcodec">libvpx</param>
-      <param name="bitrate">1024k</param>
-      <param name="acodec">libvorbis</param>
-      <param name="abitrate">128k</param>
+      <param name="-c:v">libvpx</param>
+      <param name="-b:v">1024k</param>
+      <param name="-c:a">libvorbis</param>
+      <param name="-b:a">128k</param>
       <param name="-ar">44100</param>
       <param name="-threads">0</param>
       <param name="audioChannels">2</param>
@@ -105,102 +96,7 @@
     </class>
     <loganalyzer name="org.mmbase.streams.transcoders.FFMpegAnalyzer" />
   </transcoder>
-  -->
-  
-  <!-- config for ts streams over cellular networks (for iPhone etc.) -->
-  <!--
-  <transcoder label="mobile-sd"
-      mimetype="video/*" in="v1" id="v5">
-    <class name="org.mmbase.streams.transcoders.FFMpegTranscoder">
-      
-      <param name="format">ts</param>
-      <param name="forceFormat">mpegts</param>
-      <param name="vcodec">libx264</param>
-      <param name="framesPerSecond">25</param>
-      <param name="bitrate">256k</param>
-      <param name="acodec">libmp3lame</param>
-      <param name="abitrate">64000</param>
-      <param name="audioChannels">2</param>
-      <param name="async">2</param>
-      <param name="width">320</param>
-      <param name="height">240</param>
-
-      <param name="-flags">+loop</param>
-      <param name="-cmp">+chroma</param>
-      <param name="-partitions">+parti4x4+partp8x8+partb8x8</param>
-      <param name="-subq">5</param>
-      <param name="-trellis">1</param>
-      <param name="-refs">1</param>
-      <param name="-coder">0</param>
-      <param name="-me_range">16</param>
-      <param name="-keyint_min">25</param>
-      <param name="-sc_threshold">40</param>
-      <param name="-i_qfactor">0.71</param>
-      <param name="-bt">200k</param>
-      <param name="-maxrate">256k</param>
-      <param name="-bufsize">256k</param>
-      <param name="-rc_eq">'blurCplx^(1-qComp)'</param>
-      <param name="-qcomp">0.6</param>
-      <param name="-qmin">10</param>
-      <param name="-qmax">51</param>
-      <param name="-qdiff">4</param>
-      <param name="-level">30</param>
-      <param name="-aspect">320:240</param>
-      <param name="-g">30</param>
-      
-    </class>
-    <loganalyzer name="org.mmbase.streams.transcoders.FFMpegAnalyzer" />
-  </transcoder>
-  
-  <transcoder label="playlist-sd"
-      mimetype="video/*" in="v5" id="v6">
-    <class name="org.mmbase.streams.transcoders.SegmenterTranscoder">
-      <param name="format">m3u8</param>
-      <param name="duration">10</param>
-      <param name="httpPrefix">http://www.openimages.eu/</param>
-    </class>
-    <loganalyzer name="org.mmbase.streams.transcoders.SegmenterAnalyzer" />
-  </transcoder>
-  -->
-
-  <!-- mp4 iPad configuration -->
-  <!--
-  <transcoder label="sd"
-      mimetype="video/*" in="v1" id="v7">
-    <class name="org.mmbase.streams.transcoders.FFMpegTranscoder">
-      <param name="format">mp4</param>
-      <param name="vcodec">libx264</param>
-      <param name="bitrate">512k</param>
-      <param name="acodec">libfaac</param>
-      <param name="abitrate">96k</param>
-      <param name="audioChannels">2</param>
-      <param name="async">1</param>
-      <param name="width">320</param>
-      <param name="height">240</param>
-      
-      <param name="-flags">+loop+mv4</param>
-      <param name="-cmp">256</param>
-      <param name="-partitions">+parti4x4+parti8x8+partp4x4+partp8x8+partb8x8</param>
-      <param name="-me_method">hex</param>
-      <param name="-subq">7</param>
-      <param name="-trellis">1</param>
-      <param name="-refs">5</param>
-      <param name="-bf">0</param>
-      <param name="-flags2">+mixed_refs</param>
-      <param name="-coder">0</param>
-      <param name="-me_range">16</param>
-      <param name="-g">250</param>
-      <param name="-keyint_min">25</param>
-      <param name="-sc_threshold">40</param>
-      <param name="-i_qfactor">0.71</param>
-      <param name="-qmin">10</param>
-      <param name="-qmax">51</param>
-      <param name="-qdiff">4</param>
-    </class>
-    <loganalyzer name="org.mmbase.streams.transcoders.FFMpegAnalyzer" />
-  </transcoder>
- -->
- 
+    
   <!-- audio ogg: ffmpeg -i audio.wav -acodec libvorbis -aq 32 -ab 192k audio.ogg -->
   <transcoder label="sd"
       mimetype="audio/*" id="a1" in="recognizer">
