@@ -138,9 +138,7 @@
             <c:otherwise>
               <p class="err">${errortext}</p>
               <mm:write referid="buffer" escape="none" />
-              <mm:valid inverse="true">
-                <mm:cancel />
-              </mm:valid>
+              <mm:cancel />
             </c:otherwise>
           </c:choose>
 
