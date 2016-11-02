@@ -107,7 +107,7 @@
                       <li class="order _blank">
                         <fmt:message key="media.order_text" var="mediaordertext" />
                         <a title="${mediaordertext}" 
-                           href="http://beeldengeluid.nl/zakelijk/verkoop-beeld-en-geluidsfragmenten">
+                           href="http://www.beeldengeluid.nl/zoeken-en-bestellen">
                           <fmt:message key="media.order" />
                         </a>
                       </li>
