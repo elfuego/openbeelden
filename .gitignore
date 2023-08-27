@@ -1,4 +1,8 @@
-.idea
-overlays
-target
+# build stuff
+data/
+target/
+overlays/
+
+*.idea
 *.iml
+*.bbprojectd
